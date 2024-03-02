@@ -107,7 +107,7 @@ final class BlogPostResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.blog');
+        return __('navigation.blog_management');
     }
 
     public static function getDefaultTranslatableLocale(): string
@@ -127,7 +127,7 @@ final class BlogPostResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.blog');
+        return __('navigation.blog_management');
     }
 
     public static function getNavigationLabel(): string
@@ -147,7 +147,7 @@ final class BlogPostResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.blog_post');
+        return __('navigation.blog_post');
     }
 
     public static function table(Table $table): Table

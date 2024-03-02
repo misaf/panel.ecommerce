@@ -101,7 +101,7 @@ final class UserResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('model.user');
+        return __('navigation.user');
     }
 
     public static function getNavigationBadge(): ?string

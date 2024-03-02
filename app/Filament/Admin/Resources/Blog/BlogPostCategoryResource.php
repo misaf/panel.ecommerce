@@ -77,7 +77,7 @@ final class BlogPostCategoryResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.blog');
+        return __('navigation.blog_management');
     }
 
     public static function getDefaultTranslatableLocale(): string
@@ -87,17 +87,17 @@ final class BlogPostCategoryResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('model.blog_post_category');
+        return __('navigation.blog_post_category');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.blog');
+        return __('navigation.blog_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('model.blog_post_category');
+        return __('navigation.blog_post_category');
     }
 
     public static function getPages(): array
@@ -112,7 +112,7 @@ final class BlogPostCategoryResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.blog_post_category');
+        return __('navigation.blog_post_category');
     }
 
     public static function table(Table $table): Table

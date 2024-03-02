@@ -125,7 +125,7 @@ final class UserProfileResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('model.user_profile');
+        return __('navigation.user_profile');
     }
 
     public static function getNavigationGroup(): ?string

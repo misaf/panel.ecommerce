@@ -7,7 +7,6 @@ namespace App\Observers\Product;
 use App\Models\Product\ProductCategory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Carbon;
 
 final class ProductCategoryObserver implements ShouldQueue
 {

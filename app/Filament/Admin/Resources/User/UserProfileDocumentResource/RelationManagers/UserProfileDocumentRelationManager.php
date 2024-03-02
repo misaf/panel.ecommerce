@@ -22,7 +22,7 @@ final class UserProfileDocumentRelationManager extends RelationManager
 
     public static function getModelLabel(): string
     {
-        return __('model.user_profile_document');
+        return __('navigation.user_profile_document');
     }
 
     public static function getpluralModelLabel(): string
@@ -32,7 +32,7 @@ final class UserProfileDocumentRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('model.user_profile_document');
+        return __('navigation.user_profile_document');
     }
 
     public function form(Form $form): Form

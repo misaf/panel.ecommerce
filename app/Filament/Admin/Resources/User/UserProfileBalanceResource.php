@@ -81,7 +81,7 @@ final class UserProfileBalanceResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('model.user_profile_balance');
+        return __('navigation.user_profile_balance');
     }
 
     public static function getNavigationGroup(): ?string

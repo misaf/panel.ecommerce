@@ -49,19 +49,19 @@ final class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.product'))
+                    ->label(fn(): string => __('navigation.product_management'))
                     // ->icon('heroicon-o-building-storefront')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.blog'))
+                    ->label(fn(): string => __('navigation.blog_management'))
                     // ->icon('heroicon-o-presentation-chart-line')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.currency'))
+                    ->label(fn(): string => __('navigation.currency_management'))
                     // ->icon('heroicon-o-currency-dollar')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.faq'))
+                    ->label(fn(): string => __('navigation.faq_management'))
                     // ->icon('heroicon-o-question-mark-circle')
                     ->collapsed(),
                 NavigationGroup::make()
@@ -69,15 +69,15 @@ final class AdminPanelProvider extends PanelProvider
                     // ->icon('heroicon-o-users')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.geographical'))
+                    ->label(fn(): string => __('navigation.geographical_management'))
                     // ->icon('heroicon-o-globe-europe-africa')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.reports'))
+                    ->label(fn(): string => __('navigation.report_management'))
                     // ->icon('heroicon-o-bug-ant')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label(fn(): string => __('navigation.setting'))
+                    ->label(fn(): string => __('navigation.setting_management'))
                     // ->icon('heroicon-o-cog-6-tooth')
                     ->collapsed(),
             ])

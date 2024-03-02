@@ -135,22 +135,22 @@ final class GeographicalNeighborhoodResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.geographical');
+        return __('navigation.geographical_management');
     }
 
     public static function getModelLabel(): string
     {
-        return __('model.geographical_neighborhood');
+        return __('navigation.geographical_neighborhood');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.geographical');
+        return __('navigation.geographical_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('model.geographical_neighborhood');
+        return __('navigation.geographical_neighborhood');
     }
 
     public static function getPages(): array
@@ -165,7 +165,7 @@ final class GeographicalNeighborhoodResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.geographical_neighborhood');
+        return __('navigation.geographical_neighborhood');
     }
 
     public static function table(Table $table): Table

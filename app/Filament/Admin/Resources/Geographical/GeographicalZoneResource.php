@@ -73,22 +73,22 @@ final class GeographicalZoneResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.geographical');
+        return __('navigation.geographical_management');
     }
 
     public static function getModelLabel(): string
     {
-        return __('model.geographical_zone');
+        return __('navigation.geographical_zone');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.geographical');
+        return __('navigation.geographical_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('model.geographical_zone');
+        return __('navigation.geographical_zone');
     }
 
     public static function getPages(): array
@@ -103,7 +103,7 @@ final class GeographicalZoneResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.geographical_zone');
+        return __('navigation.geographical_zone');
     }
 
     public static function table(Table $table): Table

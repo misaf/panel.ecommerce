@@ -14,7 +14,7 @@ final class Setting extends Cluster
 
     public static function getNavigationGroup(): ?string
     {
-        return __('model.setting');
+        return __('navigation.setting_management');
     }
 
     public static function getNavigationLabel(): string

@@ -118,22 +118,22 @@ final class CurrencyResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.currency');
+        return __('navigation.currency_management');
     }
 
     public static function getModelLabel(): string
     {
-        return __('model.currency');
+        return __('navigation.currency');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.currency');
+        return __('navigation.currency_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('model.currency');
+        return __('navigation.currency');
     }
 
     public static function getPages(): array
@@ -148,7 +148,7 @@ final class CurrencyResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.currency');
+        return __('navigation.currency');
     }
 
     public static function table(Table $table): Table

@@ -66,7 +66,7 @@ final class UserProfileDocumentResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('model.user_profile_document');
+        return __('navigation.user_profile_document');
     }
 
     public static function getNavigationGroup(): ?string

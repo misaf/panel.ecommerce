@@ -106,22 +106,22 @@ final class GeographicalStateResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.geographical');
+        return __('navigation.geographical_management');
     }
 
     public static function getModelLabel(): string
     {
-        return __('model.geographical_state');
+        return __('navigation.geographical_state');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.geographical');
+        return __('navigation.geographical_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('model.geographical_state');
+        return __('navigation.geographical_state');
     }
 
     public static function getPages(): array
@@ -136,7 +136,7 @@ final class GeographicalStateResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.geographical_state');
+        return __('navigation.geographical_state');
     }
 
     public static function table(Table $table): Table

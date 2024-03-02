@@ -46,17 +46,17 @@ final class PermissionResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.setting');
+        return __('navigation.setting_management');
     }
 
     public static function getModelLabel(): string
     {
-        return __('model.permission');
+        return __('navigation.permission');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.setting');
+        return __('navigation.setting_management');
     }
 
     public static function getNavigationLabel(): string
@@ -76,7 +76,7 @@ final class PermissionResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.permission');
+        return __('navigation.permission');
     }
 
     public static function table(Table $table): Table

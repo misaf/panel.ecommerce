@@ -84,17 +84,17 @@ final class LanguageResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.setting');
+        return __('navigation.setting_management');
     }
 
     public static function getModelLabel(): string
     {
-        return __('model.language');
+        return __('navigation.language');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('navigation.setting');
+        return __('navigation.setting_management');
     }
 
     public static function getNavigationLabel(): string
@@ -114,7 +114,7 @@ final class LanguageResource extends Resource
 
     public static function getpluralModelLabel(): string
     {
-        return __('model.language');
+        return __('navigation.language');
     }
 
     public static function table(Table $table): Table
