@@ -1,0 +1,21 @@
+@import "/vendor/filament/filament/resources/css/theme.css";
+
+@config 'tailwind.config.js';
+
+.fi-sidebar,
+.fi-topbar,
+.fi-sidebar-header,
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat,
+.fi-section {
+    @apply dark:bg-gray-800 !important;
+}
+
+.fi-body {
+    @apply dark:bg-gray-900 !important;
+}
+
+.fi-fo-tabs,
+.fi-fo-tabs-tab {
+    @apply dark:bg-gray-800 !important;
+}

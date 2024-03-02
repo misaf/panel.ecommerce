@@ -1,0 +1,340 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Admin\Resources\Product;
+
+use App\Actions\Product\InStockAction;
+use App\Actions\Product\OutOfStockAction;
+use App\Filament\Admin\Resources\Product\ProductResource\Pages;
+use App\Models\Product\Product;
+use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductPrice;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Support\Enums\FontFamily;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Number;
+use Illuminate\Support\Str;
+
+final class ProductResource extends Resource
+{
+    use Translatable;
+
+    protected static ?string $model = Product::class;
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $slug = 'products/products';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Tabs::make('Tabs')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('general')
+                            ->label(__('tab.general'))
+                            ->icon('heroicon-o-cog')
+                            ->schema([
+                                Forms\Components\Select::make('product_category_id')
+                                    ->columnSpanFull()
+                                    ->getOptionLabelFromRecordUsing(fn(ProductCategory $record, $livewire) => $record->getTranslation('name', $livewire->activeLocale))
+                                    ->label(__('model.product_category'))
+                                    ->native(false)
+                                    ->preload()
+                                    ->relationship('productCategory', 'name')
+                                    ->required()
+                                    ->searchable(),
+
+                                Forms\Components\TextInput::make('name')
+                                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                                        if (($get('slug') ?? '') !== Str::slug($old)) {
+                                            return;
+                                        }
+
+                                        $set('slug', Str::slug($state));
+                                    })
+                                    ->autofocus()
+                                    ->columnSpanFull()
+                                    ->label(__('form.name'))
+                                    ->live(onBlur: true)
+                                    ->required()
+                                    ->unique(ignoreRecord: true, column: fn($livewire) => 'name->' . $livewire->activeLocale)
+                                    ->translatable(),
+
+                                Forms\Components\RichEditor::make('description')
+                                    ->columnSpanFull()
+                                    ->label(__('form.description'))
+                                    ->toolbarButtons([
+                                        'blockquote',
+                                        'bold',
+                                        'bulletList',
+                                        'codeBlock',
+                                        'h2',
+                                        'h3',
+                                        'italic',
+                                        'link',
+                                        'orderedList',
+                                        'redo',
+                                        'strike',
+                                        'underline',
+                                        'undo',
+                                    ])
+                                    ->translatable(),
+
+                                Forms\Components\Group::make()
+                                    ->columns(2)
+                                    ->columnSpanFull()
+                                    ->relationship(
+                                        name:'productPrice',
+                                        condition: fn(?array $state): bool => filled($state['price'])
+                                    )
+                                    ->schema([
+                                        Forms\Components\TextInput::make('price')
+                                            ->autocomplete(false)
+                                            ->columnSpanFull()
+                                            ->extraInputAttributes(['dir' => 'ltr'])
+                                            ->formatStateUsing(fn(?ProductPrice $record) => $record?->price->getAmount()->__toString())
+                                            ->label(__('form.price'))
+                                            ->numeric(),
+                                    ]),
+
+                                Forms\Components\TextInput::make('quantity')
+                                    ->autocomplete(false)
+                                    ->columnSpan([
+                                        'lg' => 1,
+                                    ])
+                                    ->extraInputAttributes(['dir' => 'ltr'])
+                                    ->label(__('form.quantity'))
+                                    ->numeric(),
+
+                                Forms\Components\TextInput::make('stock_threshold')
+                                    ->autocomplete(false)
+                                    ->columnSpan([
+                                        'lg' => 1,
+                                    ])
+                                    ->extraInputAttributes(['dir' => 'ltr'])
+                                    ->label(__('form.stock_threshold'))
+                                    ->numeric(),
+
+                                Forms\Components\DateTimePicker::make('availability_date')
+                                    ->closeOnDateSelection()
+                                    ->columnSpanFull()
+                                    ->displayFormat('Y-m-d H:i:s')
+                                    ->extraAttributes(['dir' => 'ltr'])
+                                    ->firstDayOfWeek(6)
+                                    ->jalali()
+                                    ->label(__('form.availability_date'))
+                                    ->minDate(now())
+                                    ->native(false),
+
+                                Forms\Components\Toggle::make('in_stock')
+                                    ->columnSpanFull()
+                                    ->inline()
+                                    ->label(__('form.in_stock')),
+
+                                Forms\Components\Toggle::make('available_soon')
+                                    ->columnSpanFull()
+                                    ->inline()
+                                    ->label(__('form.available_soon'))
+                                    ->required(),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('image')
+                            ->icon('heroicon-o-photo')
+                            ->label(__('tab.image'))
+                            ->schema([
+                                Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                                    ->columnSpanFull()
+                                    ->image()
+                                    ->label(__('form.image'))
+                                    ->multiple()
+                                    ->reorderable()
+                                    ->responsiveImages(),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('seo')
+                            ->icon('heroicon-o-rocket-launch')
+                            ->label(__('tab.seo'))
+                            ->schema([
+                                Forms\Components\TextInput::make('slug')
+                                    ->columnSpanFull()
+                                    ->label(__('form.slug'))
+                                    ->unique(ignoreRecord: true, column: fn($livewire) => 'slug->' . $livewire->activeLocale),
+
+                                // Forms\Components\SpatieTagsInput::make('tags')
+                                //     ->columnSpanFull()
+                                //     ->label(__('form.tag'))
+                                //     ->nestedRecursiveRules([
+                                //         'min:3',
+                                //         'max:20',
+                                //     ])
+                                //     ->reorderable()
+                                //     ->splitKeys(['Tab', ' '])
+                                //     ->translatable()
+                            ]),
+                    ])
+                    ->persistTabInQueryString()
+            ]);
+    }
+
+    public static function getBreadcrumb(): string
+    {
+        return __('navigation.product');
+    }
+
+    public static function getDefaultTranslatableLocale(): string
+    {
+        return app()->getLocale();
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('model.product');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return Cache::rememberForever('product_row_count', fn() => (string) Number::format(static::getModel()::count()));
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('navigation.product');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('model.product');
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index'  => Pages\ListProduct::route('/'),
+            'create' => Pages\CreateProduct::route('/create'),
+            'view'   => Pages\ViewProduct::route('/{record}'),
+            'edit'   => Pages\EditProduct::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getpluralModelLabel(): string
+    {
+        return __('model.product');
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
+                    ->circular()
+                    ->conversion('thumb-table')
+                    ->defaultImageUrl(url('coin-payment/images/default.png'))
+                    ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
+                    ->label(__('form.image'))
+                    ->limit(3)
+                    ->limitedRemainingText()
+                    ->limitedRemainingText(isSeparate: true, size: 'xs')
+                    ->stacked(),
+                // ->responsiveImages()
+
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('form.name'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('token')
+                    ->copyable()
+                    ->copyMessage(__('Token copied to clipboard'))
+                    ->copyMessageDuration(1500)
+                    ->label(__('form.token'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('stock_threshold')
+                    ->badge()
+                    ->formatStateUsing(fn(int $state) => number_format($state))
+                    ->label(__('form.stock_threshold')),
+
+                Tables\Columns\TextColumn::make('quantity')
+                    ->badge()
+                    ->formatStateUsing(fn(int $state) => number_format($state))
+                    ->label(__('form.quantity')),
+
+                Tables\Columns\TextColumn::make('productPrice.price')
+                    ->alignCenter()
+                    ->copyable()
+                    ->copyableState(fn($state) => $state->getAmount())
+                    ->copyMessage(__('Price copied to clipboard'))
+                    ->copyMessageDuration(1500)
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->fontFamily(FontFamily::Mono)
+                    ->formatStateUsing(fn(Product $record) => $record->productPrice->getFormattedPrice())
+                    ->label(__('form.price'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\ToggleColumn::make('in_stock')
+                    ->onIcon('heroicon-m-bolt')
+                    ->label(__('form.in_stock')),
+
+                Tables\Columns\ToggleColumn::make('available_soon')
+                    ->onIcon('heroicon-m-bolt')
+                    ->label(__('form.available_soon')),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label(__('form.created_at'))
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label(__('form.created_at'))
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->label(__('form.updated_at'))
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+                    InStockAction::make(),
+                    OutOfStockAction::make(),
+                ]),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('productCategory.name')
+                    ->collapsible()
+                    ->label(__('model.product_category')),
+            ])
+            ->defaultGroup('productCategory.name')
+            ->defaultSort('id', 'desc')
+            ->reorderable('position')
+            ->paginatedWhileReordering();
+        // ->poll()
+    }
+}

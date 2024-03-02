@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: yekan;
+    }
+}
+
+@layer components {
+    .bg {
+        @apply bg-[#181A20];
+    }
+    .bg-1 {
+        @apply bg-[#0B0E11];
+    }
+    .bg-2 {
+        @apply bg-[#2F3139];
+    }
+    .bg-3 {
+        @apply bg-[#5E6673];
+    }
+    .bg-4 {
+        @apply bg-[#202630];
+    }
+    .bg-5 {
+        @apply bg-[#191A1F];
+    }
+
+    .text-primary {
+        @apply text-[#FCD535];
+    }
+
+    .text-primary:hover {
+        @apply text-[#F0B90B];
+    }
+}

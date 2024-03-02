@@ -1,0 +1,88 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models\User;
+
+use App\Models\User;
+use App\Services\UserProfilePhoneService;
+use App\Support\Enums\UserProfileDocumentStatusEnum;
+use App\Support\Enums\UserProfilePhoneStatusEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Propaganistas\LaravelPhone\Casts\RawPhoneNumberCast;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\ModelStatus\HasStatuses;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
+
+final class UserProfilePhone extends Model
+{
+    use HasFactory;
+
+    use HasStatuses;
+
+    use LogsActivity;
+
+    use SoftDeletes;
+
+    use TraitsBelongsToThrough;
+
+    protected $casts = [
+        'id'               => 'integer',
+        'user_profile_id'  => 'integer',
+        'country'          => 'string',
+        'phone'            => RawPhoneNumberCast::class . ':country',
+        'phone_normalized' => 'string',
+        'phone_national'   => 'string',
+        'phone_e164'       => 'string',
+        'status'           => UserProfileDocumentStatusEnum::class,
+        'verified_at'      => 'datetime'
+    ];
+
+    protected $fillable = [
+        'user_profile_id',
+        'country',
+        'phone',
+        'phone_normalized',
+        'phone_national',
+        'phone_e164',
+        'status',
+        'verified_at'
+    ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::saving(function (UserProfilePhone $userProfilePhone): void {
+            if ($userProfilePhone->isDirty('phone') && $userProfilePhone->phone) {
+                $userProfilePhone->phone_normalized = UserProfilePhoneService::phoneNormalized($userProfilePhone->phone);
+                $userProfilePhone->phone_national = UserProfilePhoneService::phoneNational($userProfilePhone->country, $userProfilePhone->phone);
+                $userProfilePhone->phone_e164 = UserProfilePhoneService::phoneE164($userProfilePhone->country, $userProfilePhone->phone);
+            }
+
+            if ($userProfilePhone->isDirty('status') === UserProfilePhoneStatusEnum::Approved->value) {
+                $userProfilePhone->verified_at = now();
+            }
+        });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logExcept(['id']);
+    }
+
+    public function user(): BelongsToThrough
+    {
+        return $this->belongsToThrough(User::class, UserProfile::class);
+    }
+
+    public function userProfile(): BelongsTo
+    {
+        return $this->belongsTo(UserProfile::class);
+    }
+}

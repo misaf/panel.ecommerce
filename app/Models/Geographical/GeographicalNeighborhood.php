@@ -1,0 +1,75 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models\Geographical;
+
+use App\Traits\ThumbnailTableRecord;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
+
+final class GeographicalNeighborhood extends Model implements HasMedia
+{
+    use HasFactory;
+
+    use InteractsWithMedia, ThumbnailTableRecord {
+        ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
+        ThumbnailTableRecord::registerMediaConversions insteadof InteractsWithMedia;
+    }
+
+    use LogsActivity;
+
+    use SoftDeletes;
+
+    use TraitsBelongsToThrough;
+
+    protected $casts = [
+        'id'                    => 'integer',
+        'geographical_city_id'  => 'integer',
+        'name'                  => 'string',
+        'description'           => 'string',
+        'slug'                  => 'string',
+        'status'                => 'boolean',
+    ];
+
+    protected $fillable = [
+        'geographical_city_id',
+        'name',
+        'description',
+        'slug',
+        'status',
+    ];
+
+    public function geographicalCity(): BelongsTo
+    {
+        return $this->belongsTo(GeographicalCity::class);
+    }
+
+    public function geographicalCountry(): BelongsToThrough
+    {
+        return $this->belongsToThrough(GeographicalCountry::class, [GeographicalState::class, GeographicalCity::class]);
+    }
+
+    public function geographicalState(): BelongsToThrough
+    {
+        return $this->belongsToThrough(GeographicalState::class, GeographicalCity::class);
+    }
+
+    public function geographicalZone(): BelongsToThrough
+    {
+        return $this->belongsToThrough(GeographicalZone::class, [GeographicalCountry::class, GeographicalState::class, GeographicalCity::class]);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logExcept(['id']);
+    }
+}

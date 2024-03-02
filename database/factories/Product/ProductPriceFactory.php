@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Factories\Product;
+
+use App\Models\Currency\Currency;
+use App\Models\Product\Product;
+use App\Models\Product\ProductPrice;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+final class ProductPriceFactory extends Factory
+{
+    protected $model = ProductPrice::class;
+
+    public function definition(): array
+    {
+        return [
+            'product_id'  => Product::factory(),
+            'currency_id' => Currency::factory(),
+            'price'       => $this->faker->numberBetween(50, 100),
+        ];
+    }
+}
