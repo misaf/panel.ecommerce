@@ -70,7 +70,8 @@ final class UserProfileBalanceResource extends Resource
                 Forms\Components\Toggle::make('status')
                     ->columnSpanFull()
                     ->label(__('form.status'))
-                    ->rules('required'),
+                    ->rules('required')
+                    ->default(true),
             ]);
     }
 

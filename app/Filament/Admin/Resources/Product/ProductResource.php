@@ -22,6 +22,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Unique;
 
 final class ProductResource extends Resource
 {
@@ -68,7 +69,7 @@ final class ProductResource extends Resource
                                     ->label(__('form.name'))
                                     ->live(onBlur: true)
                                     ->required()
-                                    ->unique(ignoreRecord: true, column: fn($livewire) => 'name->' . $livewire->activeLocale)
+                                    ->unique(ignoreRecord: true, column: fn($livewire) => 'name->' . $livewire->activeLocale, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at'))
                                     ->translatable(),
 
                                 Forms\Components\RichEditor::make('description')
@@ -168,8 +169,7 @@ final class ProductResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('slug')
                                     ->columnSpanFull()
-                                    ->label(__('form.slug'))
-                                    ->unique(ignoreRecord: true, column: fn($livewire) => 'slug->' . $livewire->activeLocale),
+                                    ->label(__('form.slug')),
 
                                 // Forms\Components\SpatieTagsInput::make('tags')
                                 //     ->columnSpanFull()

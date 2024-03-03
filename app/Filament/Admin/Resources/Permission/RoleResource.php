@@ -8,11 +8,14 @@ use App\Filament\Admin\Resources\Permission\RoleResource\Pages;
 use App\Models\Permission\Role;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 
 final class RoleResource extends Resource
@@ -28,11 +31,19 @@ final class RoleResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                        if (($get('guard_name') ?? '') !== Str::slug($old)) {
+                            return;
+                        }
+
+                        $set('guard_name', Str::slug($state));
+                    })
                     ->autofocus()
                     ->columnSpan([
                         'lg' => 1,
                     ])
                     ->label(__('form.name'))
+                    ->live(onBlur: true)
                     ->required()
                     ->unique(ignoreRecord: true, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at')),
 

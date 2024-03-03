@@ -70,4 +70,11 @@ final class ProductCategory extends Model implements HasMedia, Sortable
     {
         return $this->hasMany(Product::class);
     }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if (in_array($field, $this->translatable)) {
+            return $this->where($field . '->' . app()->getLocale(), $value)->first();
+        }
+    }
 }

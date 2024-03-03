@@ -69,10 +69,7 @@ final class BlogPostResource extends Resource
                     ->columnSpan([
                         'lg' => 1,
                     ])
-                    ->label(__('form.slug'))
-                    ->required()
-                    ->unique(ignoreRecord: true, column: fn($livewire) => 'slug->' . $livewire->activeLocale, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at'))
-                    ->translatable(),
+                    ->label(__('form.slug')),
 
                 Forms\Components\RichEditor::make('description')
                     ->columnSpanFull()
@@ -92,7 +89,6 @@ final class BlogPostResource extends Resource
                         'underline',
                         'undo',
                     ])
-                    ->unique(ignoreRecord: true, column: fn($livewire) => 'description->' . $livewire->activeLocale, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at'))
                     ->translatable(),
 
                 Forms\Components\SpatieMediaLibraryFileUpload::make('image')
@@ -103,7 +99,8 @@ final class BlogPostResource extends Resource
                 Forms\Components\Toggle::make('status')
                     ->columnSpanFull()
                     ->label(__('form.status'))
-                    ->rules('required'),
+                    ->rules('required')
+                    ->default(true),
             ]);
     }
 

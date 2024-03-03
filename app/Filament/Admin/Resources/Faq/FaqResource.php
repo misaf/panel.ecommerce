@@ -58,16 +58,14 @@ final class FaqResource extends Resource
                     ->label(__('form.name'))
                     ->live(onBlur: true)
                     ->required()
-                    ->translatable()
-                    ->unique(ignoreRecord: true, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at')),
+                    ->unique(ignoreRecord: true, column: fn($livewire) => 'name->' . $livewire->activeLocale, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at'))
+                    ->translatable(),
 
                 Forms\Components\TextInput::make('slug')
                     ->columnSpan([
                         'lg' => 1,
                     ])
-                    ->label(__('form.slug'))
-                    ->required()
-                    ->unique(ignoreRecord: true, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at')),
+                    ->label(__('form.slug')),
 
                 Forms\Components\RichEditor::make('description')
                     ->columnSpanFull()
@@ -97,7 +95,8 @@ final class FaqResource extends Resource
                 Forms\Components\Toggle::make('status')
                     ->columnSpanFull()
                     ->label(__('form.status'))
-                    ->rules('required'),
+                    ->rules('required')
+                    ->default(true),
             ]);
     }
 

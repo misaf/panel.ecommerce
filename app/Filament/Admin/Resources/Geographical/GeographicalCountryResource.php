@@ -58,9 +58,7 @@ final class GeographicalCountryResource extends Resource
                     ->columnSpan([
                         'lg' => 1,
                     ])
-                    ->label(__('form.slug'))
-                    ->required()
-                    ->unique(ignoreRecord: true, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at')),
+                    ->label(__('form.slug')),
 
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull()
@@ -76,7 +74,8 @@ final class GeographicalCountryResource extends Resource
                 Forms\Components\Toggle::make('status')
                     ->columnSpanFull()
                     ->label(__('form.status'))
-                    ->rules('required'),
+                    ->rules('required')
+                    ->default(true),
             ]);
     }
 

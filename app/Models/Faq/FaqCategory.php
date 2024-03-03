@@ -47,4 +47,11 @@ final class FaqCategory extends Model implements HasMedia
     {
         return $this->hasMany(Faq::class);
     }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if (in_array($field, $this->translatable)) {
+            return $this->where($field . '->' . app()->getLocale(), $value)->first();
+        }
+    }
 }

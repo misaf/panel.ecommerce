@@ -53,9 +53,7 @@ final class ProductCategoryResource extends Resource
                     ->columnSpan([
                         'lg' => 1,
                     ])
-                    ->label(__('form.slug'))
-                    ->required()
-                    ->unique(ignoreRecord: true, modifyRuleUsing: fn(Unique $rule) => $rule->whereNull('deleted_at')),
+                    ->label(__('form.slug')),
 
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull()
@@ -73,6 +71,7 @@ final class ProductCategoryResource extends Resource
                     ->columnSpanFull()
                     ->label(__('form.status'))
                     ->rules('required')
+                    ->default(true)
             ]);
     }
 

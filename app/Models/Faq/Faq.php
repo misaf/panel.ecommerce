@@ -57,9 +57,11 @@ final class Faq extends Model implements HasMedia, Sortable
         return $this->belongsTo(FaqCategory::class);
     }
 
-    public function resolveRouteBindingQuery($query, $value, $field = null)
+    public function resolveRouteBinding($value, $field = null)
     {
-        return $query->whereLocale($field, app()->getLocale())->first() ?? abort(404);
+        if (in_array($field, $this->translatable)) {
+            return $this->where($field . '->' . app()->getLocale(), $value)->first();
+        }
     }
 
     public function scopeFilter(Builder $builder, array $filter): Builder
