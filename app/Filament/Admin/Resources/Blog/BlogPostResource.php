@@ -162,12 +162,6 @@ final class BlogPostResource extends Resource
                     ->stacked()
                     ->defaultImageUrl(url('coin-payment/images/default.png')),
 
-                Tables\Columns\TextColumn::make('blogPostCategory.name')
-                    ->label(__('model.blog_post_category'))
-                    ->searchable()
-                    ->sortable()
-                    ->summarize(Sum::make()),
-
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('form.name'))
                     ->searchable()
@@ -203,6 +197,12 @@ final class BlogPostResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
+            ->groups([
+                Tables\Grouping\Group::make('blogPostCategory.name')
+                    ->collapsible()
+                    ->label(__('model.blog_post_category')),
+            ])
+            ->defaultGroup('blogPostCategory.name')
             ->defaultSort('position', 'desc')
             ->reorderable('position')
             ->paginatedWhileReordering();
