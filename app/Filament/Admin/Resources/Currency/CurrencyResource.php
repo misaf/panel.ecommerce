@@ -225,6 +225,12 @@ final class CurrencyResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
+            ->groups([
+                Tables\Grouping\Group::make('currencyCategory.name')
+                    ->collapsible()
+                    ->label(__('model.currencyCategory')),
+            ])
+            ->defaultGroup('currencyCategory.name')
             ->defaultSort('position', 'desc')
             ->reorderable('position')
             ->paginatedWhileReordering();
