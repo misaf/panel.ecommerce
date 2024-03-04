@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Product;
 
-use App\Actions\Product\InStockAction;
-use App\Actions\Product\OutOfStockAction;
+use App\Actions\Tables\Product\InStockAction;
+use App\Actions\Tables\Product\OutOfStockAction;
 use App\Filament\Admin\Resources\Product\ProductResource\Pages;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductPrice;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -19,6 +20,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
@@ -319,11 +321,11 @@ final class ProductResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    InStockAction::make(),
+                    OutOfStockAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
-                    InStockAction::make(),
-                    OutOfStockAction::make(),
                 ]),
             ])
             ->groups([
