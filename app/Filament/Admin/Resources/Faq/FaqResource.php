@@ -197,6 +197,12 @@ final class FaqResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
+            ->groups([
+                Tables\Grouping\Group::make('faqCategory.name')
+                    ->collapsible()
+                    ->label(__('model.faq_category')),
+            ])
+            ->defaultGroup('faqCategory.name')
             ->defaultSort('id', 'desc')
             ->reorderable('position')
             ->paginatedWhileReordering();
