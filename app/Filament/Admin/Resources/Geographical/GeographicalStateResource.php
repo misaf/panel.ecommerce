@@ -189,7 +189,7 @@ final class GeographicalStateResource extends Resource
                 Tables\Grouping\Group::make('geographicalZone.name')
                     ->collapsible()
                     ->label(__('model.geographical_zone')),
-                    
+
                 Tables\Grouping\Group::make('geographicalCountry.name')
                     ->collapsible()
                     ->label(__('model.geographical_country')),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Geographical;
 
+use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,8 @@ final class GeographicalCountry extends Model implements HasMedia
     use HasFactory;
 
     use HasRelationships;
+
+    use HasSlugOptionsTrait;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;

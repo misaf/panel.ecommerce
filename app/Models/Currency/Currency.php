@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Currency;
 
+use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 final class Currency extends Model implements HasMedia, Sortable
 {
     use HasFactory;
+
+    use HasSlugOptionsTrait;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;

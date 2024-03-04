@@ -222,11 +222,11 @@ final class GeographicalNeighborhoodResource extends Resource
                 Tables\Grouping\Group::make('geographicalCountry.name')
                     ->collapsible()
                     ->label(__('model.geographical_country')),
-                    
+
                 Tables\Grouping\Group::make('geographicalState.name')
                     ->collapsible()
                     ->label(__('model.geographical_state')),
-                
+
                 Tables\Grouping\Group::make('geographicalCity.name')
                     ->collapsible()
                     ->label(__('model.geographical_city')),

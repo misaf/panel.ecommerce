@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Product;
 
 use App\Models\Order\OrderProduct;
+use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Translatable\HasTranslations;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
@@ -24,7 +26,9 @@ final class ProductCategory extends Model implements HasMedia, Sortable
 
     use HasRecursiveRelationships;
 
-    use HasTranslations;
+    use HasTranslatableSlug;
+
+    use HasSlugOptionsTrait;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;

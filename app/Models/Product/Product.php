@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Product;
 
 use App\Models\Order\OrderProduct;
+use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,7 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Tags\HasTags;
 use Spatie\Translatable\HasTranslations;
 
@@ -26,7 +28,9 @@ final class Product extends Model implements HasMedia, Sortable
 
     use HasTags;
 
-    use HasTranslations;
+    use HasTranslatableSlug;
+
+    use HasSlugOptionsTrait;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;

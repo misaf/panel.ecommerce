@@ -43,6 +43,7 @@
         "spatie/laravel-permission": "^6.4",
         "spatie/laravel-query-builder": "^5.8",
         "spatie/laravel-queueable-action": "^2.15.0",
+        "spatie/laravel-sluggable": "^3.6",
         "spatie/laravel-translation-loader": "^2.8.0",
         "staudenmeir/belongs-to-through": "^2.15.1",
         "staudenmeir/eloquent-has-many-deep": "^1.19.3",

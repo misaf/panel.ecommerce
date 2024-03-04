@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Language;
 
+use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 final class Language extends Model implements HasMedia, Sortable
 {
     use HasFactory;
+
+    use HasSlugOptionsTrait;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
