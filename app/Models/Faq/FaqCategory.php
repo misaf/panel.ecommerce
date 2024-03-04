@@ -19,9 +19,11 @@ final class FaqCategory extends Model implements HasMedia
 {
     use HasFactory;
 
+    use HasSlugOptionsTrait;
+
     use HasTranslatableSlug;
 
-    use HasSlugOptionsTrait;
+    use HasTranslations;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
@@ -50,12 +52,5 @@ final class FaqCategory extends Model implements HasMedia
     public function faqs(): HasMany
     {
         return $this->hasMany(Faq::class);
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        if (in_array($field, $this->translatable)) {
-            return $this->where($field . '->' . app()->getLocale(), $value)->first();
-        }
     }
 }

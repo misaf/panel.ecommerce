@@ -14,20 +14,18 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\HasTranslatableSlug;
-use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
 final class BlogPostCategory extends Model implements HasMedia, Sortable
 {
     use HasFactory;
 
-    use HasTranslations;
+    use HasSlugOptionsTrait;
 
     use HasTranslatableSlug;
 
-    use HasSlugOptionsTrait;
+    use HasTranslations;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
@@ -60,12 +58,5 @@ final class BlogPostCategory extends Model implements HasMedia, Sortable
     public function blogPosts(): HasMany
     {
         return $this->hasMany(BlogPost::class);
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        if (in_array($field, $this->translatable)) {
-            return $this->where($field . '->' . app()->getLocale(), $value)->first();
-        }
     }
 }

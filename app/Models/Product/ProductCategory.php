@@ -26,9 +26,11 @@ final class ProductCategory extends Model implements HasMedia, Sortable
 
     use HasRecursiveRelationships;
 
+    use HasSlugOptionsTrait;
+
     use HasTranslatableSlug;
 
-    use HasSlugOptionsTrait;
+    use HasTranslations;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
@@ -73,12 +75,5 @@ final class ProductCategory extends Model implements HasMedia, Sortable
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        if (in_array($field, $this->translatable)) {
-            return $this->where($field . '->' . app()->getLocale(), $value)->first();
-        }
     }
 }

@@ -26,11 +26,13 @@ final class Product extends Model implements HasMedia, Sortable
 {
     use HasFactory;
 
+    use HasSlugOptionsTrait;
+
     use HasTags;
 
     use HasTranslatableSlug;
 
-    use HasSlugOptionsTrait;
+    use HasTranslations;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
@@ -87,13 +89,6 @@ final class Product extends Model implements HasMedia, Sortable
     public function productPrices(): HasMany
     {
         return $this->hasMany(ProductPrice::class);
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        if (in_array($field, $this->translatable)) {
-            return $this->where($field . '->' . app()->getLocale(), $value)->first();
-        }
     }
 
     public function scopeFilter(Builder $builder, array $filter): Builder

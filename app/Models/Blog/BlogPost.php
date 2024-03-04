@@ -22,9 +22,11 @@ final class BlogPost extends Model implements HasMedia, Sortable
 {
     use HasFactory;
 
+    use HasSlugOptionsTrait;
+
     use HasTranslatableSlug;
 
-    use HasSlugOptionsTrait;
+    use HasTranslations;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
@@ -59,13 +61,6 @@ final class BlogPost extends Model implements HasMedia, Sortable
     public function blogPostCategory(): BelongsTo
     {
         return $this->belongsTo(BlogPostCategory::class);
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        if (in_array($field, $this->translatable)) {
-            return $this->where($field . '->' . app()->getLocale(), $value)->first();
-        }
     }
 
     public function scopeFilter(Builder $builder, array $filter): Builder
