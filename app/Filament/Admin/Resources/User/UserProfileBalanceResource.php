@@ -156,7 +156,8 @@ final class UserProfileBalanceResource extends Resource
                     ->fontFamily(FontFamily::Mono),
 
                 Tables\Columns\ToggleColumn::make('status')
-                    ->label(__('form.status')),
+                    ->label(__('form.status'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -185,7 +185,8 @@ final class GeographicalNeighborhoodResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')
-                    ->label(__('form.status')),
+                    ->label(__('form.status'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('form.created_at'))

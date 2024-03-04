@@ -79,7 +79,8 @@ final class UserProfileRelationManager extends RelationManager
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')
-                    ->label(__('form.status')),
+                    ->label(__('form.status'))
+                    ->onIcon('heroicon-m-bolt'),
             ])
             ->filters([
 

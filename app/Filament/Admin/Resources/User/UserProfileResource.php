@@ -199,7 +199,8 @@ final class UserProfileResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')
-                    ->label(__('form.status')),
+                    ->label(__('form.status'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

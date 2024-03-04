@@ -185,13 +185,15 @@ final class CurrencyResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('is_default')
-                    ->label(__('form.is_default'))
                     ->afterStateUpdated(function (Currency $record, ?string $state): void {
                         Currency::when($state, fn(Builder $query) => $query->whereKeyNot($record->id)->where('is_default', 1))->update(['is_default' => 0]);
-                    }),
+                    })
+                    ->label(__('form.is_default'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\ToggleColumn::make('status')
-                    ->label(__('form.status')),
+                    ->label(__('form.status'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

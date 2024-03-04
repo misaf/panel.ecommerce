@@ -140,10 +140,12 @@ final class LanguageResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('is_default')
-                    ->label(__('form.is_default')),
+                    ->label(__('form.is_default'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\ToggleColumn::make('status')
-                    ->label(__('form.status')),
+                    ->label(__('form.status'))
+                    ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('form.created_at'))
