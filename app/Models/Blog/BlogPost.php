@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -61,6 +62,11 @@ final class BlogPost extends Model implements HasMedia, Sortable
     public function blogPostCategory(): BelongsTo
     {
         return $this->belongsTo(BlogPostCategory::class);
+    }
+
+    public function multimedia(): MorphMany
+    {
+        return $this->media();
     }
 
     public function scopeFilter(Builder $builder, array $filter): Builder

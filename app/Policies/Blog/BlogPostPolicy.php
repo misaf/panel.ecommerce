@@ -62,13 +62,27 @@ final class BlogPostPolicy
         return $user->can('update-blog-post');
     }
 
-    public function view(User $user, BlogPost $blogPost): bool
+    public function view(?User $user, BlogPost $blogPost): bool
     {
+        return true;
+
         return $user->can('view-blog-post');
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
+        return true;
+
         return $user->can('view-any-blog-post');
+    }
+
+    public function viewBlogPostCategory(?User $user, BlogPost $blogPost)
+    {
+        return $this->view($user, $blogPost);
+    }
+
+    public function viewMultimedia(?User $user, BlogPost $blogPost)
+    {
+        return $this->view($user, $blogPost);
     }
 }

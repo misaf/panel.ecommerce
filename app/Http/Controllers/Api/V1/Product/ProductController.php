@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\V1\Product\ProductResource;
 use App\Models\Product\Product;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -27,8 +27,7 @@ final class ProductController extends Controller
             ->allowedSorts('position')
             ->defaultSort('-position');
 
-        $perPage = request()->query('per_page', 10);
-        $paginatedPosts = $query->paginate($perPage)->appends(request()->except('page'));
+        $paginatedPosts = $query->jsonPaginate()->appends(request()->all());
 
         return ProductResource::collection($paginatedPosts);
     }

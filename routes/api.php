@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\V1\Blog\BlogPostController;
-use App\Http\Controllers\Api\V1\Blog\FirstBlogPostController;
-use App\Http\Controllers\Api\V1\MediaController;
-use App\Http\Controllers\Api\V1\Product\ProductCategoryController;
-use App\Http\Controllers\Api\V1\Product\ProductController;
-use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use LaravelJsonApi\Laravel\Facades\JsonApiRoute;
+use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
+use LaravelJsonApi\Laravel\Routing\Relationships;
+use LaravelJsonApi\Laravel\Routing\ResourceRegistrar;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,14 +22,32 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', fn(Request $request) => $request->user());
 
-Route::apiResource('/v1/users', UserController::class);
+JsonApiRoute::server('v1')->prefix('v1')->resources(function (ResourceRegistrar $server): void {
+    $server->resource('product-categories', JsonApiController::class)
+        ->readOnly()
+        ->relationships(function (Relationships $relations): void {
+            $relations->hasMany('products')->readOnly();
+            $relations->hasMany('multimedia')->readOnly();
+        });
 
-Route::get('/v1/first-blog-posts', FirstBlogPostController::class);
+    $server->resource('products', JsonApiController::class)
+        ->readOnly()
+        ->relationships(function (Relationships $relations): void {
+            $relations->hasOne('productCategory')->readOnly();
+            $relations->hasMany('multimedia')->readOnly();
+        });
 
-Route::apiResource('/v1/blog-posts', BlogPostController::class);
+    $server->resource('blog-post-categories', JsonApiController::class)
+        ->readOnly()
+        ->relationships(function (Relationships $relations): void {
+            $relations->hasMany('blogPosts')->readOnly();
+            $relations->hasMany('multimedia')->readOnly();
+        });
 
-Route::apiResource('/v1/products', ProductController::class);
-
-Route::apiResource('/v1/product-categories', ProductCategoryController::class);
-
-Route::get('/v1/media', MediaController::class);
+    $server->resource('blog-posts', JsonApiController::class)
+        ->readOnly()
+        ->relationships(function (Relationships $relations): void {
+            $relations->hasOne('blogPostCategory')->readOnly();
+            $relations->hasMany('multimedia')->readOnly();
+        });
+});

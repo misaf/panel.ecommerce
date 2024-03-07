@@ -9,6 +9,7 @@ use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -58,5 +59,10 @@ final class BlogPostCategory extends Model implements HasMedia, Sortable
     public function blogPosts(): HasMany
     {
         return $this->hasMany(BlogPost::class);
+    }
+
+    public function multimedia(): MorphMany
+    {
+        return $this->media();
     }
 }

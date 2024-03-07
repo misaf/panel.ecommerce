@@ -62,13 +62,27 @@ final class ProductCategoryPolicy
         return $user->can('update-product-category');
     }
 
-    public function view(User $user, ProductCategory $productCategory): bool
+    public function view(?User $user, ProductCategory $productCategory): bool
     {
+        return true;
+
         return $user->can('view-product-category');
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
+        return true;
+
         return $user->can('view-any-product-category');
+    }
+
+    public function viewMultimedia(?User $user, ProductCategory $productCategory)
+    {
+        return $this->view($user, $productCategory);
+    }
+
+    public function viewProducts(?User $user, ProductCategory $productCategory)
+    {
+        return $this->view($user, $productCategory);
     }
 }
