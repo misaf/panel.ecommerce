@@ -40,6 +40,14 @@ class BlogPostSchema extends Schema
         ];
     }
 
+    public function includePaths(): iterable
+    {
+        return [
+            'blogPostCategory',
+            'multimedia',
+        ];
+    }
+
     public function pagination(): ?Paginator
     {
         return Pagination\PagePagination::make();
