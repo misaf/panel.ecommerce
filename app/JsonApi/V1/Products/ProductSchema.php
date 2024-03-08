@@ -15,6 +15,8 @@ class ProductSchema extends Schema
 {
     public static string $model = Models\Product\Product::class;
 
+    protected $defaultSort = ['-position'];
+
     public function fields(): array
     {
         return [

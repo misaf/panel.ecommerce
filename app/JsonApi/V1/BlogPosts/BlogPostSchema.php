@@ -15,6 +15,8 @@ class BlogPostSchema extends Schema
 {
     public static string $model = Models\Blog\BlogPost::class;
 
+    protected $defaultSort = ['-position'];
+
     public function fields(): array
     {
         return [
@@ -40,13 +42,13 @@ class BlogPostSchema extends Schema
         ];
     }
 
-    public function includePaths(): iterable
-    {
-        return [
-            'blogPostCategory',
-            'multimedia',
-        ];
-    }
+    // public function includePaths(): iterable
+    // {
+    //     return [
+    //         'blog-post-categories',
+    //         'multimedia',
+    //     ];
+    // }
 
     public function pagination(): ?Paginator
     {
