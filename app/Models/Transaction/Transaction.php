@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Transaction;
 
+use App\Casts\DateCast;
 use App\Enums\TransactionStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,9 @@ final class Transaction extends Model
         'reference_code' => 'string',
         'amount'         => 'integer',
         'status'         => TransactionStatusEnum::class,
+        'created_at'     => DateCast::class,
+        'updated_at'     => DateCast::class,
+        'deleted_at'     => DateCast::class,
     ];
 
     protected $fillable = [

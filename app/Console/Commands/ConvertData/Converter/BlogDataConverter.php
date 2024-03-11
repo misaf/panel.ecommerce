@@ -9,7 +9,9 @@ use App\Console\Commands\ConvertData\Retriever\BlogDataRetriever;
 use App\Models\Blog\BlogPost;
 use App\Models\Blog\BlogPostCategory;
 use Illuminate\Contracts\Filesystem\Filesystem as Storage;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 final class BlogDataConverter implements DataConverter
 {
@@ -17,10 +19,14 @@ final class BlogDataConverter implements DataConverter
 
     public function migrate(): void
     {
-        $this->migrateBlogPostCategories();
-        $this->migrateBlogPostCategoryImages();
-        $this->migrateBlogPosts();
-        $this->migrateBlogPostImages();
+        $this->resync();
+
+        DB::transaction(function (): void {
+            $this->migrateBlogPostCategories();
+            $this->migrateBlogPostCategoryImages();
+            $this->migrateBlogPosts();
+            $this->migrateBlogPostImages();
+        });
     }
 
     private function createNewBlogPost(mixed $oldBlogPost): BlogPost
@@ -59,70 +65,81 @@ final class BlogDataConverter implements DataConverter
         return $newBlogPostCategory;
     }
 
+    private function forceDeleteBlogPostCategories(): void
+    {
+        BlogPostCategory::chunkById(100, function (Collection $blogPostCategories): void {
+            $blogPostCategories->each(fn(BlogPostCategory $blogPostCategory): bool => $blogPostCategory->forceDelete());
+        });
+    }
+
+    private function forceDeleteBlogPosts(): void
+    {
+        BlogPost::chunkById(100, function (Collection $blogPosts): void {
+            $blogPosts->each(fn(BlogPost $blogPost): bool => $blogPost->forceDelete());
+        });
+    }
+
     private function migrateBlogPostCategories(): void
     {
-        $this->dataRetriever->getOldBlogPostCategories()
-            ->each(fn($oldBlogPostCategory): BlogPostCategory => $this->createNewBlogPostCategory($oldBlogPostCategory));
+        $getOldBlogPostCategories = $this->dataRetriever->getOldBlogPostCategories();
+
+        $getOldBlogPostCategories->each(fn($oldBlogPostCategory): BlogPostCategory => $this->createNewBlogPostCategory($oldBlogPostCategory));
     }
 
     private function migrateBlogPostCategoryImages(): void
     {
-        $this->dataRetriever->getOldBlogPostCategories()
-            ->each(function ($oldBlogPostCategoryImage): void {
-                if ($this->shouldSkipMigration($oldBlogPostCategoryImage->image)) {
-                    return;
-                }
+        $getOldBlogPostCategories = $this->dataRetriever->getOldBlogPostCategories();
 
-                BlogPostCategory::where('slug', $oldBlogPostCategoryImage->slug)->first()
-                    ->addMedia(storage_path('app/old-images/' . $oldBlogPostCategoryImage->image))
+        $getOldBlogPostCategories
+            ->reject(fn($oldBlogPostCategory): bool => $this->shouldSkipMigration($oldBlogPostCategory->image))
+            ->each(function ($oldBlogPostCategory): void {
+                BlogPostCategory::where('slug', $oldBlogPostCategory->slug)
+                    ->first()
+                    ->addMedia(storage_path('app/public/old-images/' . $oldBlogPostCategory->image))
                     ->preservingOriginal()
-                    ->withResponsiveImages()
                     ->toMediaCollection();
             });
     }
 
     private function migrateBlogPostImages(): void
     {
-        $this->dataRetriever->getOldBlogPosts()
-            ->each(function ($oldBlogPostImage): void {
-                if ($this->shouldSkipMigration($oldBlogPostImage->image)) {
-                    return;
-                }
+        $getOldBlogPosts = $this->dataRetriever->getOldBlogPosts();
 
-                BlogPost::where('slug', $oldBlogPostImage->slug)->first()
-                    ->addMedia(storage_path('app/old-images/' . $oldBlogPostImage->image))
+        $getOldBlogPosts
+            ->reject(fn($oldBlogPost): bool => $this->shouldSkipMigration($oldBlogPost->image))
+            ->each(function ($oldBlogPost): void {
+                BlogPost::where('slug', $oldBlogPost->slug)
+                    ->first()
+                    ->addMedia(storage_path('app/public/old-images/' . $oldBlogPost->image))
                     ->preservingOriginal()
-                    ->withResponsiveImages()
                     ->toMediaCollection();
             });
     }
 
     private function migrateBlogPosts(): void
     {
-        $this->dataRetriever->getOldBlogPosts()
-            ->each(fn($oldBlogPost): BlogPost => $this->createNewBlogPost($oldBlogPost));
+        $getOldBlogPosts = $this->dataRetriever->getOldBlogPosts();
+
+        $getOldBlogPosts->each(fn($oldBlogPost): BlogPost => $this->createNewBlogPost($oldBlogPost));
     }
 
     private function resync(): void
     {
-        BlogPostCategory::chunkById(100, function (Collection $blogPostCategories): void {
-            foreach ($blogPostCategories as $blogPostCategory) {
-                $blogPostCategory->delete();
-            }
-        });
-
-        BlogPost::chunkById(100, function (Collection $blogPosts): void {
-            foreach ($blogPosts as $blogPost) {
-                $blogPost->delete();
-            }
-        });
-
-        // Migrate data again from the old system
-        $this->migrate();
+        $this->forceDeleteBlogPosts();
+        $this->forceDeleteBlogPostCategories();
+        $this->truncateTables();
     }
 
     private function shouldSkipMigration(?string $image): bool
     {
         return (null === $image || ! $this->storage->exists('old-images/' . $image));
+    }
+
+    private function truncateTables(): void
+    {
+        Schema::disableForeignKeyConstraints();
+        BlogPost::truncate();
+        BlogPostCategory::truncate();
+        Schema::enableForeignKeyConstraints();
     }
 }

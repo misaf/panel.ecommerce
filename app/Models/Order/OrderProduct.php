@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Order;
 
+use App\Casts\DateCast;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyCategory;
 use App\Models\Product\Product;
@@ -32,6 +33,9 @@ final class OrderProduct extends Model
         'unit_price'      => 'integer',
         'tax_amount'      => 'integer',
         'discount_amount' => 'integer',
+        'created_at'      => DateCast::class,
+        'updated_at'      => DateCast::class,
+        'deleted_at'      => DateCast::class,
     ];
 
     protected $fillable = [

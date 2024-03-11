@@ -21,9 +21,9 @@ class BlogPostResource extends JsonApiResource
             'slug'        => $this->getLocalizedAttribute('slug', $locale) ?: null,
             'position'    => $this->position,
             'status'      => $this->status,
-            'createdAt'   => $this->resource->created_at,
-            'updatedAt'   => $this->resource->updated_at,
-            'image'       => $this->resource->getFirstMedia()->img()->toHtml()
+            'createdAt'   => $this->resource->created_at->format('Y-m-d'),
+            'updatedAt'   => $this->resource->updated_at->format('Y-m-d'),
+            // 'image'       => $this->getFirstMedia()->getSrcset(),
         ];
     }
 

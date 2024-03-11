@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Permission;
 
+use App\Casts\DateCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -22,6 +23,9 @@ final class Permission extends ModelsPermission
         'id'         => 'integer',
         'name'       => 'string',
         'guard_name' => 'string',
+        'created_at' => DateCast::class,
+        'updated_at' => DateCast::class,
+        'deleted_at' => DateCast::class,
     ];
 
     protected $fillable = [

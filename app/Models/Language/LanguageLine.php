@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Language;
 
+use App\Casts\DateCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,10 +20,13 @@ final class LanguageLine extends Model
     use SoftDeletes;
 
     protected $casts = [
-        'id'     => 'integer',
-        'group'  => 'string',
-        'key'    => 'string',
-        'text'   => 'array',
+        'id'         => 'integer',
+        'group'      => 'string',
+        'key'        => 'string',
+        'text'       => 'array',
+        'created_at' => DateCast::class,
+        'updated_at' => DateCast::class,
+        'deleted_at' => DateCast::class,
     ];
 
     protected $fillable = [

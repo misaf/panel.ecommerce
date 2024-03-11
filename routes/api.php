@@ -23,6 +23,8 @@ use LaravelJsonApi\Laravel\Routing\ResourceRegistrar;
 Route::middleware('auth:sanctum')->get('/user', fn(Request $request) => $request->user());
 
 JsonApiRoute::server('v1')->prefix('v1')->resources(function (ResourceRegistrar $server): void {
+    app()->setLocale('fa');
+
     $server->resource('product-categories', JsonApiController::class)
         ->readOnly()
         ->relationships(function (Relationships $relations): void {

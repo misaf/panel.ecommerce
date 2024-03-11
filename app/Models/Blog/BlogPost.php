@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Blog;
 
+use App\Casts\DateCast;
 use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,6 +48,9 @@ final class BlogPost extends Model implements HasMedia, Sortable
         'slug'                  => 'array',
         'position'              => 'integer',
         'status'                => 'boolean',
+        'created_at'            => DateCast::class,
+        'updated_at'            => DateCast::class,
+        'deleted_at'            => DateCast::class,
     ];
 
     protected $fillable = [
@@ -67,16 +70,5 @@ final class BlogPost extends Model implements HasMedia, Sortable
     public function multimedia(): MorphMany
     {
         return $this->media();
-    }
-
-    public function scopeFilter(Builder $builder, array $filter): Builder
-    {
-        $builder->when($filter['blog'] ?? false, fn(Builder $builder) => $builder->whereRelation('blog', 'blog_id', $filter['blog']));
-
-        $builder->when($filter['post_category'] ?? false, fn(Builder $builder) => $builder->where('blog_post_category_id', $filter['post_category']));
-
-        $builder->when($filter['user'] ?? false, fn(Builder $builder) => $builder->where('user_id', $filter['user']));
-
-        return $builder;
     }
 }

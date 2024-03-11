@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Product;
 
+use App\Casts\DateCast;
 use App\Casts\MoneyCast;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyCategory;
@@ -28,6 +29,9 @@ final class ProductPrice extends Model
         'product_id'  => 'integer',
         'currency_id' => 'integer',
         'price'       => MoneyCast::class,
+        'created_at'  => DateCast::class,
+        'updated_at'  => DateCast::class,
+        'deleted_at'  => DateCast::class,
     ];
 
     protected $fillable = [

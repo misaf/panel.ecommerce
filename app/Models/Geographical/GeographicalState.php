@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Geographical;
 
+use App\Casts\DateCast;
 use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,6 +44,9 @@ final class GeographicalState extends Model implements HasMedia
         'description'             => 'string',
         'slug'                    => 'string',
         'status'                  => 'boolean',
+        'created_at'              => DateCast::class,
+        'updated_at'              => DateCast::class,
+        'deleted_at'              => DateCast::class,
     ];
 
     protected $fillable = [

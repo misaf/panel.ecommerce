@@ -14,18 +14,7 @@ final class GeographicalCityObserver implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    //public $queue = 'listeners';
-
     public bool $afterCommit = true;
-
-    public $maxExceptions = 5;
-
-    public $tries = 5;
-
-    public function backoff(): array
-    {
-        return [1, 5, 10, 30];
-    }
 
     public function created(GeographicalCity $geographicalCity): void {}
 
@@ -46,11 +35,6 @@ final class GeographicalCityObserver implements ShouldQueue
     public function forceDeleted(GeographicalCity $geographicalCity): void {}
 
     public function restored(GeographicalCity $geographicalCity): void {}
-
-    public function retryUntil()
-    {
-        return now()->addMinutes(5);
-    }
 
     public function updated(GeographicalCity $geographicalCity): void {}
 }

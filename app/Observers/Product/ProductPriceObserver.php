@@ -7,7 +7,6 @@ namespace App\Observers\Product;
 use App\Models\Product\ProductPrice;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Carbon;
 
 final class ProductPriceObserver implements ShouldQueue
 {
@@ -57,16 +56,6 @@ final class ProductPriceObserver implements ShouldQueue
     public function restored(ProductPrice $productPrice): void
     {
         // Implement if needed
-    }
-
-    /**
-     * Determine the time at which the job should timeout.
-     *
-     * @return Carbon
-     */
-    public function retryUntil(): Carbon
-    {
-        return now()->addMinutes(5);
     }
 
     /**

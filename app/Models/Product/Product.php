@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\Product;
 
+use App\Casts\DateCast;
 use App\Models\Order\OrderProduct;
 use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -57,7 +57,9 @@ final class Product extends Model implements HasMedia, Sortable
         'stock_threshold'     => 'integer',
         'in_stock'            => 'boolean',
         'available_soon'      => 'boolean',
-        'availability_date'   => 'date',
+        'availability_date'   => DateCast::class,
+        'created_at'          => DateCast::class,
+        'updated_at'          => DateCast::class,
     ];
 
     protected $fillable = [
@@ -102,32 +104,8 @@ final class Product extends Model implements HasMedia, Sortable
         return $this->hasMany(ProductPrice::class);
     }
 
-    public function scopeFilter(Builder $builder, array $filter): Builder
-    {
-        $builder->when($filter['search'] ?? false, fn(Builder $builder) => $builder->where('name->' . app()->getLocale(), 'LIKE', '%' . $filter['search'] . '%')
-            ->orWhere('description->' . app()->getLocale(), 'LIKE', '%' . $filter['search'] . '%')->orWhere('token', 'LIKE', '%' . $filter['search'] . '%'));
-
-        $builder->when($filter['category'] ?? false, fn(Builder $builder) => $builder->where('product_category_id', $filter['category']));
-
-        $builder->when('cheapest' === $filter['sort'] ?? false, fn(Builder $builder) => $builder->latest(ProductPrice::select('price')->whereColumn('product_prices.product_id', 'products.id')->limit(1)));
-
-        $builder->when('expensivest' === $filter['sort'] ?? false, fn(Builder $builder) => $builder->oldest(ProductPrice::select('price')->whereColumn('product_prices.product_id', 'products.id')->limit(1)));
-
-        $builder->when('daily' === $filter['sort'] ?? false, fn(Builder $builder) => $builder->whereHas('productCategory', function (Builder $builder): void {
-            $builder->where('product_categories.slug->' . app()->getLocale(), 'daily')
-                ->where('product_categories.status', 'Enable');
-        }));
-
-        $builder->when('best_selling' === $filter['sort'] ?? false, fn(Builder $builder) => $builder->whereHas('productCategory', function (Builder $builder): void {
-            $builder->where('product_categories.slug->' . app()->getLocale(), 'best-selling')
-                ->where('product_categories.status', 'Enable');
-        }));
-
-        return $builder;
-    }
-
     protected static function booted(): void
     {
-        static::creating(fn(Product $product) => $product->token = fake()->randomNumber(9, true));
+        static::creating(fn(self $product): int => $product->token = fake()->randomNumber(9, true));
     }
 }

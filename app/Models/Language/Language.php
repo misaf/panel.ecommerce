@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Language;
 
+use App\Casts\DateCast;
 use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,6 +39,9 @@ final class Language extends Model implements HasMedia, Sortable
         'is_default'  => 'boolean',
         'position'    => 'integer',
         'status'      => 'boolean',
+        'created_at'  => DateCast::class,
+        'updated_at'  => DateCast::class,
+        'deleted_at'  => DateCast::class,
     ];
 
     protected $fillable = [

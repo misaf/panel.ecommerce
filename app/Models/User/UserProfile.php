@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
+use App\Casts\DateCast;
 use App\Models\User;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -39,6 +40,9 @@ final class UserProfile extends Model implements HasMedia
         'description' => 'string',
         'birthdate'   => 'datetime:Y-m-d',
         'status'      => 'boolean',
+        'created_at'  => DateCast::class,
+        'updated_at'  => DateCast::class,
+        'deleted_at'  => DateCast::class,
     ];
 
     protected $fillable = [

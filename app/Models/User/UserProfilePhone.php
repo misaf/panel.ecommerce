@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
+use App\Casts\DateCast;
 use App\Models\User;
 use App\Services\UserProfilePhoneService;
 use App\Support\Enums\UserProfileDocumentStatusEnum;
@@ -40,7 +41,10 @@ final class UserProfilePhone extends Model
         'phone_national'   => 'string',
         'phone_e164'       => 'string',
         'status'           => UserProfileDocumentStatusEnum::class,
-        'verified_at'      => 'datetime'
+        'verified_at'      => 'datetime',
+        'created_at'       => DateCast::class,
+        'updated_at'       => DateCast::class,
+        'deleted_at'       => DateCast::class,
     ];
 
     protected $fillable = [

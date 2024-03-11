@@ -5,42 +5,60 @@ declare(strict_types=1);
 namespace App\Console\Commands\ConvertData\Converter;
 
 use App\Console\Commands\ConvertData\Interfaces\DataConverter;
+use App\Console\Commands\ConvertData\Retriever\ProductDataRetriever;
 use App\Models\Currency\Currency;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductPrice;
+use Illuminate\Contracts\Filesystem\Filesystem as Storage;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 final class ProductDataConverter implements DataConverter
 {
+    public function __construct(public Storage $storage, public ProductDataRetriever $dataRetriever) {}
+
     public function migrate(): void
     {
-        $this->migrateProductCategories();
-        $this->migrateProducts();
-        $this->migrateProductImages();
-        $this->migrateProductPrices();
+        $this->resync();
+
+        DB::transaction(function (): void {
+            $this->migrateProductCategories();
+            $this->migrateProductCategoryImages();
+            $this->migrateProducts();
+            $this->migrateProductImages();
+            $this->migrateProductPrices();
+        });
     }
 
-    private function createNewProduct($oldProduct, $newProductCategory): Product
+    private function createNewProduct(mixed $oldProduct): Product
     {
+        $getOldProductCategory = $this->dataRetriever->getOldProductCategoryById($oldProduct->product_category_id);
+
+        $productCategoryId = ProductCategory::where('slug', $getOldProductCategory->slug)->value('id');
+
         $newProduct = new Product();
 
         $newProduct->setRawAttributes([
-            'product_category_id' => $newProductCategory->id,
+            'product_category_id' => $productCategoryId,
             'name'                => $oldProduct->name,
             'description'         => $oldProduct->description,
             'slug'                => $oldProduct->slug,
-            'token'               => $oldProduct->token,
             'in_stock'            => 1,
             'available_soon'      => 1,
         ]);
 
         $newProduct->save();
 
+        $newProduct->token = $oldProduct->token;
+
+        $newProduct->save();
+
         return $newProduct;
     }
 
-    private function createNewProductCategory($oldProductCategory): ProductCategory
+    private function createNewProductCategory(mixed $oldProductCategory): ProductCategory
     {
         $newProductCategory = new ProductCategory();
 
@@ -55,71 +73,100 @@ final class ProductDataConverter implements DataConverter
         return $newProductCategory;
     }
 
+    private function forceDeleteProductCategories(): void
+    {
+        ProductCategory::chunkById(100, function (Collection $productCategories): void {
+            $productCategories->each(fn(ProductCategory $productCategory): bool => $productCategory->forceDelete());
+        });
+    }
+
+    private function forceDeleteProducts(): void
+    {
+        Product::chunkById(100, function (Collection $products): void {
+            $products->each(fn(Product $product): bool => $product->forceDelete());
+        });
+    }
+
     private function migrateProductCategories(): void
     {
-        DB::connection('mysql_old')
-            ->table('product_categories')
-            ->whereNull('deleted_at')
-            ->oldest('id')
-            ->each(function ($oldProductCategory): void {
-                $newProductCategory = $this->createNewProductCategory($oldProductCategory);
+        $oldProductCategories = $this->dataRetriever->getOldProductCategories();
 
-                $this->migrateProducts($oldProductCategory, $newProductCategory);
+        $oldProductCategories->each(fn($oldProductCategory): ProductCategory => $this->createNewProductCategory($oldProductCategory));
+    }
+
+    private function migrateProductCategoryImages(): void
+    {
+        $getOldProductCategories = $this->dataRetriever->getOldProductCategories();
+
+        $getOldProductCategories
+            ->reject(fn($oldBlogPostCategory): bool => $this->shouldSkipMigration($oldBlogPostCategory->image))
+            ->each(function ($oldBlogPostCategory): void {
+                ProductCategory::where('slug', $oldBlogPostCategory->slug)->first()
+                    ->addMedia(storage_path('app/public/old-images/' . $oldBlogPostCategory->image))
+                    ->preservingOriginal()
+                    ->toMediaCollection();
             });
     }
 
-    private function migrateProductImages($oldProduct, $newProduct): void
+    private function migrateProductImages(): void
     {
-        DB::connection('mysql_old')
-            ->table('product_images')
-            ->where('product_id', $oldProduct->id)
-            ->whereNull('deleted_at')
-            ->oldest('id')
-            ->each(function ($oldProductImage) use ($newProduct): void {
-                if (Storage::exists('old-images/' . $oldProductImage->image)) {
-                    $newProduct->addMedia(storage_path('app/old-images/' . $oldProductImage->image))
-                        ->preservingOriginal()
-                        ->withResponsiveImages()
-                        ->toMediaCollection();
-                }
+        $getOldProductImages = $this->dataRetriever->getOldProductImages();
+
+        $getOldProductImages
+            ->reject(fn($oldProductImage): bool => $this->shouldSkipMigration($oldProductImage->image))
+            ->each(function ($oldProductImage): void {
+                $getOldProduct = $this->dataRetriever->getOldProductById($oldProductImage->id);
+
+                Product::where('slug', $getOldProduct->slug)->first()
+                    ->addMedia(storage_path('app/public/old-images/' . $oldProductImage->image))
+                    ->preservingOriginal()
+                    ->toMediaCollection();
             });
     }
 
-    private function migrateProductPrices($oldProduct, $newProduct): void
+    private function migrateProductPrices(): void
     {
-        DB::connection('mysql_old')
-            ->table('product_prices')
-            ->where('product_id', $oldProduct->id)
-            ->whereNull('deleted_at')
-            ->oldest('id')
-            ->each(function ($oldProductPrice) use ($newProduct): void {
-                if ($oldProductPrice->price > 0) {
-                    $newProduct->productPrices()
-                        ->create([
-                            'product_id'  => $newProduct->id,
-                            'currency_id' => Currency::value('id'),
-                            'price'       => $oldProductPrice->price / 10,
-                        ]);
+        $getOldProductPrices = $this->dataRetriever->getOldProductPrices();
 
-                    $newProduct->in_stock = 0;
+        $getOldProductPrices
+            ->reject(fn($oldProductPrice): bool => $oldProductPrice->price <= 0)
+            ->each(function ($oldProductPrice): void {
+                $getOldProduct = $this->dataRetriever->getOldProductById($oldProductPrice->product_id);
+                $productId = Product::where('slug', $getOldProduct->slug)->value('id');
 
-                    $newProduct->save();
-                }
+                ProductPrice::create([
+                    'product_id'  => $productId,
+                    'currency_id' => Currency::value('id'),
+                    'price'       => $oldProductPrice->price
+                ]);
             });
     }
 
-    private function migrateProducts($oldProductCategory, $newProductCategory): void
+    private function migrateProducts(): void
     {
-        DB::connection('mysql_old')
-            ->table('products')
-            ->where('product_category_id', $oldProductCategory->id)
-            ->whereNull('deleted_at')
-            ->oldest('id')
-            ->each(function ($oldProduct) use ($newProductCategory): void {
-                $newProduct = $this->createNewProduct($oldProduct, $newProductCategory);
+        $oldProducts = $this->dataRetriever->getOldProducts();
 
-                $this->migrateProductImages($oldProduct, $newProduct);
-                $this->migrateProductPrices($oldProduct, $newProduct);
-            });
+        $oldProducts->each(fn($oldProduct): Product => $this->createNewProduct($oldProduct));
+    }
+
+    private function resync(): void
+    {
+        $this->forceDeleteProducts();
+        $this->forceDeleteProductCategories();
+        $this->truncateTables();
+    }
+
+    private function shouldSkipMigration(?string $image): bool
+    {
+        return (null === $image || ! $this->storage->exists('old-images/' . $image));
+    }
+
+    private function truncateTables(): void
+    {
+        Schema::disableForeignKeyConstraints();
+        ProductPrice::truncate();
+        Product::truncate();
+        ProductCategory::truncate();
+        Schema::enableForeignKeyConstraints();
     }
 }

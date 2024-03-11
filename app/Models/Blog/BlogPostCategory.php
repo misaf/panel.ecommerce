@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Blog;
 
+use App\Casts\DateCast;
 use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,9 @@ final class BlogPostCategory extends Model implements HasMedia, Sortable
         'slug'        => 'array',
         'position'    => 'integer',
         'status'      => 'boolean',
+        'created_at'  => DateCast::class,
+        'updated_at'  => DateCast::class,
+        'deleted_at'  => DateCast::class,
     ];
 
     protected $fillable = [

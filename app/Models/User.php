@@ -6,6 +6,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Casts\DateCast;
 use App\Models\User\UserProfile;
 use App\Models\User\UserProfileDocument;
 use App\Models\User\UserProfilePhone;
@@ -37,6 +38,9 @@ final class User extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
+        'created_at'        => DateCast::class,
+        'updated_at'        => DateCast::class,
+        'deleted_at'        => DateCast::class,
     ];
 
     protected $fillable = [

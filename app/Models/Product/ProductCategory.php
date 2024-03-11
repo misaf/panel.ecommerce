@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Product;
 
+use App\Casts\DateCast;
 use App\Models\Order\OrderProduct;
 use App\Traits\HasSlugOptionsTrait;
 use App\Traits\ThumbnailTableRecord;
@@ -52,6 +53,9 @@ final class ProductCategory extends Model implements HasMedia, Sortable
         'slug'        => 'array',
         'position'    => 'integer',
         'status'      => 'boolean',
+        'created_at'  => DateCast::class,
+        'updated_at'  => DateCast::class,
+        'deleted_at'  => DateCast::class,
     ];
 
     protected $fillable = [

@@ -12,18 +12,7 @@ final class LanguageLineObserver implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    //public $queue = 'listeners';
-
     public bool $afterCommit = true;
-
-    public $maxExceptions = 5;
-
-    public $tries = 5;
-
-    public function backoff(): array
-    {
-        return [1, 5, 10, 30];
-    }
 
     public function created(LanguageLine $languageLine): void {}
 
@@ -32,11 +21,6 @@ final class LanguageLineObserver implements ShouldQueue
     public function forceDeleted(LanguageLine $languageLine): void {}
 
     public function restored(LanguageLine $languageLine): void {}
-
-    public function retryUntil()
-    {
-        return now()->addMinutes(5);
-    }
 
     public function updated(LanguageLine $languageLine): void {}
 }

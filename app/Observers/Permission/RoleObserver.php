@@ -12,18 +12,7 @@ final class RoleObserver implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    //public $queue = 'listeners';
-
     public bool $afterCommit = true;
-
-    public $maxExceptions = 5;
-
-    public $tries = 5;
-
-    public function backoff(): array
-    {
-        return [1, 5, 10, 30];
-    }
 
     public function created(Role $role): void {}
 
@@ -35,11 +24,6 @@ final class RoleObserver implements ShouldQueue
     public function forceDeleted(Role $role): void {}
 
     public function restored(Role $role): void {}
-
-    public function retryUntil()
-    {
-        return now()->addMinutes(5);
-    }
 
     public function updated(Role $role): void {}
 }

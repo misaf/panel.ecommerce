@@ -6,10 +6,5 @@ namespace App\Console\Commands\ConvertData\Interfaces;
 
 interface DataConverter
 {
-    /**
-     * Migrate data.
-     *
-     * @return void
-     */
     public function migrate(): void;
 }

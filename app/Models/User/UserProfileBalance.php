@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
+use App\Casts\DateCast;
 use App\Casts\MoneyCast;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyCategory;
@@ -35,7 +36,10 @@ final class UserProfileBalance extends Model
         'user_profile_id'  => 'integer',
         'currency_id'      => 'integer',
         'amount'           => MoneyCast::class,
-        'status'           => 'boolean'
+        'status'           => 'boolean',
+        'created_at'       => DateCast::class,
+        'updated_at'       => DateCast::class,
+        'deleted_at'       => DateCast::class,
     ];
 
     protected $fillable = [

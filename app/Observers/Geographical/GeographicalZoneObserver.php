@@ -18,18 +18,7 @@ final class GeographicalZoneObserver implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    //public $queue = 'listeners';
-
     public bool $afterCommit = true;
-
-    public $maxExceptions = 5;
-
-    public $tries = 5;
-
-    public function backoff(): array
-    {
-        return [1, 5, 10, 30];
-    }
 
     public function created(GeographicalZone $geographicalZone): void {}
 
@@ -67,11 +56,6 @@ final class GeographicalZoneObserver implements ShouldQueue
     public function forceDeleted(GeographicalZone $geographicalZone): void {}
 
     public function restored(GeographicalZone $geographicalZone): void {}
-
-    public function retryUntil()
-    {
-        return now()->addMinutes(5);
-    }
 
     public function updated(GeographicalZone $geographicalZone): void {}
 }
