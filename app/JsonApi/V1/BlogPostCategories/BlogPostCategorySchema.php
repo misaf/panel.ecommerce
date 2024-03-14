@@ -37,8 +37,8 @@ final class BlogPostCategorySchema extends Schema
     {
         return [
             Filters\WhereIdIn::make($this),
-            Filters\where::make('slug', 'slug->fa'),
-            Filters\where::make('status')->asBoolean(),
+            Filters\Where::make('slug', 'slug->fa'),
+            Filters\Where::make('status')->asBoolean(),
         ];
     }
 
