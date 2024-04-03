@@ -47,7 +47,7 @@ final class AppServiceProvider extends ServiceProvider
             Password::defaults(fn() => Password::min(8)->mixedCase());
         }
 
-        DB::listen(fn($query) => Log::info($query->sql, $query->bindings));
+        // DB::listen(fn($query) => Log::info($query->sql, $query->bindings));
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch): void {
             $switch->locales(['fa', 'en'])
