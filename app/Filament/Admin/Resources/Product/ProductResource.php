@@ -311,7 +311,17 @@ final class ProductResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('productCategory')
+                    ->label(__('model.product_category'))
+                    ->relationship(
+                        name: 'productCategory',
+                        titleAttribute: 'name',
+                    )
+                    ->getOptionLabelFromRecordUsing(fn(ProductCategory $record, $livewire) => $record->getTranslation('name', $livewire->activeLocale))
+                    ->searchable()
+                    ->preload()
             ])
+            ->persistFiltersInSession()
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -331,7 +341,6 @@ final class ProductResource extends Resource
                     ->collapsible()
                     ->label(__('model.product_category')),
             ])
-            // ->defaultGroup('productCategory.name')
             ->defaultSort('id', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');
