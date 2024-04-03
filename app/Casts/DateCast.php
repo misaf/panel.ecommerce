@@ -6,6 +6,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Morilog\Jalali\Jalalian;
 
 final class DateCast implements CastsAttributes
@@ -22,6 +23,10 @@ final class DateCast implements CastsAttributes
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         if (null !== $value && 'fa' === app()->getLocale()) {
+            if ($value instanceof Carbon) {
+                return Jalalian::fromCarbon($value)->__toString();
+            }
+
             return Jalalian::fromFormat('Y-m-d H:i:s', $value)->__toString();
         }
 
