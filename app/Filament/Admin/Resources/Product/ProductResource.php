@@ -331,7 +331,7 @@ final class ProductResource extends Resource
                     ->collapsible()
                     ->label(__('model.product_category')),
             ])
-            ->defaultGroup('productCategory.name')
+            // ->defaultGroup('productCategory.name')
             ->defaultSort('id', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');
