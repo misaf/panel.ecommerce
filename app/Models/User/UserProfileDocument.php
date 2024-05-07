@@ -24,7 +24,7 @@ final class UserProfileDocument extends Model implements HasMedia
 {
     use HasFactory;
 
-    use HasStatuses;
+    // use HasStatuses;
 
     use InteractsWithMedia, ThumbnailTableRecord {
         ThumbnailTableRecord::registerMediaCollections insteadof InteractsWithMedia;
@@ -50,7 +50,7 @@ final class UserProfileDocument extends Model implements HasMedia
     protected $fillable = [
         'user_profile_id',
         'status',
-        'verified_at'
+        'verified_at',
     ];
 
     public function getActivitylogOptions(): LogOptions

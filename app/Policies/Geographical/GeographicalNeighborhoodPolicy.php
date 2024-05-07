@@ -37,11 +37,6 @@ final class GeographicalNeighborhoodPolicy
         return $user->can('force-delete-any-geographical-neighborhood');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-geographical-neighborhood');
-    }
-
     public function replicate(User $user, GeographicalNeighborhood $geographicalNeighborhood): bool
     {
         return $user->can('replicate-geographical-neighborhood');

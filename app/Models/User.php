@@ -11,6 +11,7 @@ use App\Models\User\UserProfile;
 use App\Models\User\UserProfileDocument;
 use App\Models\User\UserProfilePhone;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +24,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-final class User extends Authenticatable implements FilamentUser
+final class User extends Authenticatable implements FilamentUser, HasName
 {
     use HasApiTokens;
 
@@ -58,6 +59,11 @@ final class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasAnyRole('super-admin', 'admin', 'user');
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->name ?? $this->email;
     }
 
     public function userProfile(): HasOne

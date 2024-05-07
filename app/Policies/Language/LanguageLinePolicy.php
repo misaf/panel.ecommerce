@@ -37,11 +37,6 @@ final class LanguageLinePolicy
         return $user->can('force-delete-any-language-line');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-language-line');
-    }
-
     public function replicate(User $user, LanguageLine $languageLine): bool
     {
         return $user->can('replicate-language-line');

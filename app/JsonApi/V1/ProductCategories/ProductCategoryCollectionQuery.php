@@ -9,6 +9,11 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 final class ProductCategoryCollectionQuery extends ResourceQuery
 {
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -22,7 +27,16 @@ final class ProductCategoryCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::filter(),
             ],
-            'include' => [
+            'filter.id'            => 'array',
+            'filter.id.*'          => JsonApiRule::integer(),
+            'filter.exclude'       => 'array',
+            'filter.exclude.*'     => JsonApiRule::integer(),
+            'filter.slug'          => 'string',
+            'filter.status'        => JsonApiRule::boolean(),
+            'filter.productPrices' => JsonApiRule::boolean(),
+            'filter.multimedia'    => JsonApiRule::boolean(),
+            'filter.products'      => JsonApiRule::boolean(),
+            'include'              => [
                 'nullable',
                 'string',
                 JsonApiRule::includePaths(),
@@ -32,8 +46,8 @@ final class ProductCategoryCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::page(),
             ],
-            'page.number' => ['integer', 'min:1'],
-            'page.size'   => ['integer', 'between:1,100'],
+            'page.number' => [JsonApiRule::integer(), 'min:1'],
+            'page.size'   => [JsonApiRule::integer(), 'between:1,100'],
             'sort'        => [
                 'nullable',
                 'string',

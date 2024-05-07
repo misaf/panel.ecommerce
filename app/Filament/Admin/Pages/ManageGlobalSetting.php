@@ -103,7 +103,7 @@ final class ManageGlobalSetting extends SettingsPage
                                     ->rules('required'),
                             ]),
                     ])
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 

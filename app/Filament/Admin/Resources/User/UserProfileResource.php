@@ -115,7 +115,7 @@ final class UserProfileResource extends Resource
     {
         return [
             __('form.email') => str('<span dir="ltr">' . $record->user->email . '</span>')->toHtmlString(),
-            __('form.phone') => str('<span dir="ltr">' . $record->userProfilePhone->phone . '</span>')->toHtmlString()
+            __('form.phone') => str('<span dir="ltr">' . $record->userProfilePhone->phone . '</span>')->toHtmlString(),
         ];
     }
 
@@ -158,7 +158,7 @@ final class UserProfileResource extends Resource
     {
         return [
             UserProfileDocumentRelationManager::class,
-            UserProfilePhoneRelationManager::class
+            UserProfilePhoneRelationManager::class,
         ];
     }
 

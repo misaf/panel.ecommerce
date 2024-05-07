@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\JsonApi\V1\Multimedia;
 
-use LaravelJsonApi\Eloquent\Contracts\Paginator;
 use LaravelJsonApi\Eloquent\Fields;
-use LaravelJsonApi\Eloquent\Filters\WhereIdIn;
-use LaravelJsonApi\Eloquent\Pagination\PagePagination;
+use LaravelJsonApi\Eloquent\Filters;
+use LaravelJsonApi\Eloquent\Pagination;
 use LaravelJsonApi\Eloquent\Schema;
 use Spatie\MediaLibrary\MediaCollections as Spatie;
 
 final class MultimediaSchema extends Schema
 {
+    /**
+     * The model the schema corresponds to.
+     *
+     * @var string
+     */
     public static string $model = Spatie\Models\Media::class;
+
+    protected ?array $defaultPagination = ['number' => 1];
 
     public function authorizable(): bool
     {
@@ -24,33 +30,73 @@ final class MultimediaSchema extends Schema
     {
         return [
             Fields\ID::make(),
-            Fields\Str::make('uuid')->readOnly(),
-            Fields\Str::make('collection_name')->readOnly(),
-            Fields\Str::make('name')->readOnly(),
-            Fields\Str::make('file_name')->readOnly(),
-            Fields\Str::make('mime_type')->readOnly(),
-            Fields\Str::make('disk')->readOnly(),
-            Fields\Str::make('conversions_disk')->readOnly(),
-            Fields\Number::make('size')->readOnly(),
-            Fields\Str::make('manipulations')->readOnly(),
-            Fields\Str::make('custom_properties')->readOnly(),
-            Fields\ArrayHash::make('generated_conversions')->readOnly(),
-            Fields\ArrayHash::make('responsive_images')->readOnly(),
-            Fields\Number::make('order_column')->sortable()->readOnly(),
-            Fields\DateTime::make('createdAt')->sortable()->readOnly(),
-            Fields\DateTime::make('updatedAt')->sortable()->readOnly(),
+
+            Fields\Str::make('uuid')
+                ->readOnly(),
+
+            Fields\Str::make('collection_name')
+                ->readOnly(),
+
+            Fields\Str::make('name')
+                ->readOnly(),
+
+            Fields\Str::make('file_name')
+                ->readOnly(),
+
+            Fields\Str::make('mime_type')
+                ->readOnly(),
+
+            Fields\Str::make('disk')
+                ->readOnly(),
+
+            Fields\Str::make('conversions_disk')
+                ->readOnly(),
+
+            Fields\Number::make('size')
+                ->readOnly(),
+
+            Fields\Str::make('manipulations')
+                ->readOnly(),
+
+            Fields\Str::make('custom_properties')
+                ->readOnly(),
+
+            Fields\ArrayHash::make('generated_conversions')
+                ->readOnly(),
+
+            Fields\ArrayHash::make('responsive_images')
+                ->readOnly(),
+
+            Fields\Number::make('order_column')
+                ->sortable()
+                ->readOnly(),
+
+            Fields\DateTime::make('created_at')
+                ->sortable()
+                ->readOnly(),
+
+            Fields\DateTime::make('updated_at')
+                ->sortable()
+                ->readOnly(),
         ];
     }
 
     public function filters(): array
     {
         return [
-            WhereIdIn::make($this),
+            Filters\WhereIdIn::make($this),
+
+            Filters\WhereIdNotIn::make($this, 'exclude'),
         ];
     }
 
-    public function pagination(): ?Paginator
+    /**
+     * Get the resource paginator.
+     *
+     * @return Pagination\PagePagination
+     */
+    public function pagination(): Pagination\PagePagination
     {
-        return PagePagination::make();
+        return Pagination\PagePagination::make();
     }
 }

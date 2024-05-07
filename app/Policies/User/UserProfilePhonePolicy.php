@@ -37,11 +37,6 @@ final class UserProfilePhonePolicy
         return $user->can('force-delete-any-user-profile-phone');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-user-profile-phone');
-    }
-
     public function replicate(User $user, UserProfilePhone $userProfilePhone): bool
     {
         return $user->can('replicate-user-profile-phone');

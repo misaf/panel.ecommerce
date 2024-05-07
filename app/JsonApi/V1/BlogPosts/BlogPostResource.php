@@ -11,22 +11,34 @@ final class BlogPostResource extends JsonApiResource
 {
     use LocalizableAttributesTrait;
 
+    /**
+     * Get the resource's attributes.
+     *
+     * @param Request|null $request
+     * @return iterable
+     */
     public function attributes($request): iterable
     {
         $locale = $request->query('locale');
 
         return [
-            'name'        => $this->getLocalizedAttribute('name', $locale) ?: null,
-            'description' => $this->getLocalizedAttribute('description', $locale) ?: null,
-            'slug'        => $this->getLocalizedAttribute('slug', $locale) ?: null,
-            'position'    => $this->position,
-            'status'      => $this->status,
-            'createdAt'   => $this->resource->created_at,
-            'updatedAt'   => $this->resource->updated_at,
+            'name'         => $this->getLocalizedAttribute('name', $locale) ?: null,
+            'description'  => $this->getLocalizedAttribute('description', $locale) ?: null,
+            'slug'         => $this->getLocalizedAttribute('slug', $locale) ?: null,
+            'position'     => $this->position,
+            'status'       => $this->status,
+            'created_at'   => $this->resource->created_at,
+            'updated_at'   => $this->resource->updated_at,
             // 'image'       => $this->getFirstMedia()->getSrcset(),
         ];
     }
 
+    /**
+     * Get the resource's relationships.
+     *
+     * @param Request|null $request
+     * @return iterable
+     */
     public function relationships($request): iterable
     {
         return [

@@ -24,7 +24,7 @@ final class UserProfilePhone extends Model
 {
     use HasFactory;
 
-    use HasStatuses;
+    // use HasStatuses;
 
     use LogsActivity;
 
@@ -55,7 +55,7 @@ final class UserProfilePhone extends Model
         'phone_national',
         'phone_e164',
         'status',
-        'verified_at'
+        'verified_at',
     ];
 
     public static function boot(): void

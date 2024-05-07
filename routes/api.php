@@ -28,24 +28,25 @@ JsonApiRoute::server('v1')->prefix('v1')->resources(function (ResourceRegistrar 
     $server->resource('product-categories', JsonApiController::class)
         ->readOnly()
         ->relationships(function (Relationships $relations): void {
-            $relations->hasMany('products')->readOnly();
             $relations->hasMany('multimedia')->readOnly();
+            $relations->hasMany('productPrices')->readOnly();
+            $relations->hasMany('products')->readOnly();
         });
 
     $server->resource('products', JsonApiController::class)
         ->readOnly()
         ->relationships(function (Relationships $relations): void {
-            $relations->hasOne('productCategory')->readOnly();
-            $relations->hasOne('productPrice')->readOnly();
-            $relations->hasMany('productPrices')->readOnly();
             $relations->hasMany('multimedia')->readOnly();
+            $relations->hasOne('productCategory')->readOnly();
+            $relations->hasOne('latestProductPrice')->readOnly();
+            $relations->hasMany('productPrices')->readOnly();
         });
 
     $server->resource('product-prices', JsonApiController::class)
         ->readOnly()
         ->relationships(function (Relationships $relations): void {
-            $relations->hasOne('product')->readOnly();
             $relations->hasOne('currency')->readOnly();
+            $relations->hasOne('product')->readOnly();
         });
 
     $server->resource('blog-post-categories', JsonApiController::class)
@@ -58,8 +59,8 @@ JsonApiRoute::server('v1')->prefix('v1')->resources(function (ResourceRegistrar 
     $server->resource('blog-posts', JsonApiController::class)
         ->readOnly()
         ->relationships(function (Relationships $relations): void {
-            $relations->hasOne('blogPostCategory')->readOnly();
             $relations->hasMany('multimedia')->readOnly();
+            $relations->hasOne('blogPostCategory')->readOnly();
         });
 
     $server->resource('faqs', JsonApiController::class)

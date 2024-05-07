@@ -71,7 +71,7 @@ final class ProductCategoryResource extends Resource
                     ->columnSpanFull()
                     ->label(__('form.status'))
                     ->rules('required')
-                    ->default(true)
+                    ->default(true),
             ]);
     }
 
@@ -130,14 +130,6 @@ final class ProductCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('form.name'))
                     ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('products_count')
-                    ->alignCenter()
-                    ->badge()
-                    ->counts('products')
-                    ->label(__('form.product_relationship_count'))
-                    ->numeric()
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')

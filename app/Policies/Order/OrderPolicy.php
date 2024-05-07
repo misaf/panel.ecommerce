@@ -37,11 +37,6 @@ final class OrderPolicy
         return $user->can('force-delete-any-order');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-order');
-    }
-
     public function replicate(User $user, Order $order): bool
     {
         return $user->can('replicate-order');

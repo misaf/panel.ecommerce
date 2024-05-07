@@ -37,11 +37,6 @@ final class RolePolicy
         return $user->can('force-delete-any-role');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-role');
-    }
-
     public function replicate(User $user, Role $role): bool
     {
         return $user->can('replicate-role');

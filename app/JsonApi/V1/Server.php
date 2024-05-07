@@ -10,11 +10,13 @@ final class Server extends BaseServer
 {
     protected string $baseUri = '/api/v1';
 
-    public function serving(): void
-    {
-        // no-op
-    }
+    public function serving(): void {}
 
+    /**
+     * Get the server's list of schemas.
+     *
+     * @return array
+     */
     protected function allSchemas(): array
     {
         return [

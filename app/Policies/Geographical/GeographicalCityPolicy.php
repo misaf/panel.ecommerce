@@ -37,11 +37,6 @@ final class GeographicalCityPolicy
         return $user->can('force-delete-any-geographical-city');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-geographical-city');
-    }
-
     public function replicate(User $user, GeographicalCity $geographicalCity): bool
     {
         return $user->can('replicate-geographical-city');

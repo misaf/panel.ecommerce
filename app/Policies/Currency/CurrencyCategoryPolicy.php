@@ -37,11 +37,6 @@ final class CurrencyCategoryPolicy
         return $user->can('force-delete-any-currency-category');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-currency-category');
-    }
-
     public function replicate(User $user, CurrencyCategory $currencyCategory): bool
     {
         return $user->can('replicate-currency-category');

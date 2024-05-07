@@ -81,6 +81,11 @@ final class ProductCategoryPolicy
         return $this->view($user, $productCategory);
     }
 
+    public function viewProductPrices(?User $user, ProductCategory $productCategory)
+    {
+        return $this->view($user, $productCategory);
+    }
+
     public function viewProducts(?User $user, ProductCategory $productCategory)
     {
         return $this->view($user, $productCategory);

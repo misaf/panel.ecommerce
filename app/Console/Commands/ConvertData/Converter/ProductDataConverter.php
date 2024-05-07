@@ -65,7 +65,7 @@ final class ProductDataConverter implements DataConverter
         $newProductCategory->setRawAttributes([
             'name'   => $oldProductCategory->name,
             'slug'   => $oldProductCategory->slug,
-            'status' => 1
+            'status' => 1,
         ]);
 
         $newProductCategory->save();
@@ -137,7 +137,7 @@ final class ProductDataConverter implements DataConverter
                 ProductPrice::create([
                     'product_id'  => $productId,
                     'currency_id' => Currency::value('id'),
-                    'price'       => $oldProductPrice->price
+                    'price'       => $oldProductPrice->price,
                 ]);
             });
     }

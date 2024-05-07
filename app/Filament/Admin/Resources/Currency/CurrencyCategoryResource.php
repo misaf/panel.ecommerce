@@ -66,7 +66,7 @@ final class CurrencyCategoryResource extends Resource
                     ->columnSpanFull()
                     ->default(true)
                     ->label(__('form.status'))
-                    ->rules('required')
+                    ->rules('required'),
             ]);
     }
 
@@ -120,14 +120,6 @@ final class CurrencyCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('form.name'))
                     ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('currencies_count')
-                    ->alignCenter()
-                    ->badge()
-                    ->counts('currencies')
-                    ->label(__('form.currency_relationship_count'))
-                    ->numeric()
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')

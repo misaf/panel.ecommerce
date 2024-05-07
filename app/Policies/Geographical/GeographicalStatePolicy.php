@@ -37,11 +37,6 @@ final class GeographicalStatePolicy
         return $user->can('force-delete-any-geographical-state');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-geographical-state');
-    }
-
     public function replicate(User $user, GeographicalState $geographicalState): bool
     {
         return $user->can('replicate-geographical-state');

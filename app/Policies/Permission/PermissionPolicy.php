@@ -37,11 +37,6 @@ final class PermissionPolicy
         return $user->can('force-delete-any-permission');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-permission');
-    }
-
     public function replicate(User $user, Permission $permission): bool
     {
         return $user->can('replicate-permission');

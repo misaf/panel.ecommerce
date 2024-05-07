@@ -29,7 +29,7 @@ final class Page extends Model implements HasMedia
         'name'             => 'string',
         'description'      => 'string',
         'slug'             => 'string',
-        'status'           => 'boolean'
+        'status'           => 'boolean',
     ];
 
     protected $fillable = [

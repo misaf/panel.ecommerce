@@ -48,7 +48,7 @@ final class LanguageLineResource extends Resource
                 Forms\Components\TextInput::make('text')
                     ->columnSpanFull()
                     ->label(__('form.text'))
-                    ->required()
+                    ->required(),
             ]);
     }
 

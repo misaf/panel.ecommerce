@@ -37,11 +37,6 @@ final class GeographicalCountryPolicy
         return $user->can('force-delete-any-geographical-country');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-geographical-country');
-    }
-
     public function replicate(User $user, GeographicalCountry $geographicalCountry): bool
     {
         return $user->can('replicate-geographical-country');

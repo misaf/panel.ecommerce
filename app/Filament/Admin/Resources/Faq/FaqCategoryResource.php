@@ -70,7 +70,7 @@ final class FaqCategoryResource extends Resource
                     ->columnSpanFull()
                     ->label(__('form.status'))
                     ->rules('required')
-                    ->default(true)
+                    ->default(true),
             ]);
     }
 
@@ -129,14 +129,6 @@ final class FaqCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('form.name'))
                     ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('faqs_count')
-                    ->alignCenter()
-                    ->badge()
-                    ->counts('faqs')
-                    ->label(__('form.faq_relationship_count'))
-                    ->numeric()
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')

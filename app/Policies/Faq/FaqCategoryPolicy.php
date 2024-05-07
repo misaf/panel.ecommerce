@@ -37,11 +37,6 @@ final class FaqCategoryPolicy
         return $user->can('force-delete-any-faq-category');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-faq-category');
-    }
-
     public function replicate(User $user, FaqCategory $faqCategory): bool
     {
         return $user->can('replicate-faq-category');

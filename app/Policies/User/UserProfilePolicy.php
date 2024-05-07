@@ -37,11 +37,6 @@ final class UserProfilePolicy
         return $user->can('force-delete-any-user-profile');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-user-profile');
-    }
-
     public function replicate(User $user, UserProfile $userProfile): bool
     {
         return $user->can('replicate-user-profile');

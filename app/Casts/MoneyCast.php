@@ -21,7 +21,7 @@ final class MoneyCast implements CastsAttributes
             $model->currency->iso_code,
             $model->currency->id,
             $model->currency->name,
-            $model->currency->decimal_place
+            $model->currency->decimal_place,
         ));
     }
 
@@ -33,7 +33,7 @@ final class MoneyCast implements CastsAttributes
             $currency->iso_code,
             $currency->id,
             $currency->name,
-            $currency->decimal_place
+            $currency->decimal_place,
         ));
 
         if ( ! $value instanceof Money) {

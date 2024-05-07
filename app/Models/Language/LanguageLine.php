@@ -32,7 +32,7 @@ final class LanguageLine extends Model
     protected $fillable = [
         'group',
         'key',
-        'text'
+        'text',
     ];
 
     protected $translatable = ['text'];
@@ -55,7 +55,7 @@ final class LanguageLine extends Model
         (new TranslationLoaderLanguageLine([
             'group' => $this->group,
             'key'   => $this->key,
-            'text'  => $this->getTranslations('text')
+            'text'  => $this->getTranslations('text'),
         ]))
             ->fireModelEvent('saved');
     }
@@ -65,7 +65,7 @@ final class LanguageLine extends Model
         (new TranslationLoaderLanguageLine([
             'group' => $this->getOriginal('group'),
             'key'   => $this->key,
-            'text'  => $this->getTranslations('text')
+            'text'  => $this->getTranslations('text'),
         ]))
             ->fireModelEvent('updating');
     }

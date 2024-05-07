@@ -72,7 +72,7 @@ final class BlogDataConverter implements DataConverter
         $newBlogPostCategory->setRawAttributes([
             'name'   => $oldBlogPostCategory->name,
             'slug'   => $oldBlogPostCategory->slug,
-            'status' => 1
+            'status' => 1,
         ]);
 
         $newBlogPostCategory->save();

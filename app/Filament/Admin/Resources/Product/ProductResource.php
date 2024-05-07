@@ -98,7 +98,7 @@ final class ProductResource extends Resource
                                     ->columnSpanFull()
                                     ->relationship(
                                         name:'productPrice',
-                                        condition: fn(?array $state): bool => filled($state['price'])
+                                        condition: fn(?array $state): bool => filled($state['price']),
                                     )
                                     ->schema([
                                         Forms\Components\TextInput::make('price')
@@ -158,6 +158,7 @@ final class ProductResource extends Resource
                                 Forms\Components\SpatieMediaLibraryFileUpload::make('image')
                                     ->columnSpanFull()
                                     ->image()
+                                    ->imageEditor()
                                     ->label(__('form.image'))
                                     ->multiple()
                                     ->reorderable()
@@ -184,7 +185,7 @@ final class ProductResource extends Resource
                                 //     ->translatable()
                             ]),
                     ])
-                    ->persistTabInQueryString()
+                    ->persistTabInQueryString(),
             ]);
     }
 
@@ -283,7 +284,7 @@ final class ProductResource extends Resource
                     ->formatStateUsing(fn(Product $record) => $record->productPrice->getFormattedPrice())
                     ->label(__('form.price'))
                     ->searchable()
-                    ->sortable(query: function (Builder $query, string $direction) {
+                    ->sortable(query: function (Builder $query, string $direction): void {
                         $query->withAggregate('productPrice', 'price')->orderBy("product_price_price", $direction);
                     }),
 
@@ -322,7 +323,7 @@ final class ProductResource extends Resource
                         name: 'productCategory',
                         titleAttribute: 'name',
                     )
-                    ->searchable()
+                    ->searchable(),
             ])
             ->persistFiltersInSession()
             ->actions([

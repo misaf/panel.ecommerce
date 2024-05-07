@@ -7,15 +7,15 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.7",
-        "@tailwindcss/typography": "^0.5.12",
+        "@tailwindcss/typography": "^0.5.13",
         "autoprefixer": "^10.4.19",
         "axios": "^1.6.8",
         "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0.2",
         "postcss": "^8.4.38",
-        "postcss-nesting": "^12.1.1",
+        "postcss-nesting": "^12.1.2",
         "pusher-js": "^8.4.0-rc2",
         "tailwindcss": "^3.4.3",
-        "vite": "^5.2.8"
+        "vite": "^5.2.11"
     }
 }

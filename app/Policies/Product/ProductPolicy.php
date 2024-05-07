@@ -37,11 +37,6 @@ final class ProductPolicy
         return $user->can('force-delete-any-product');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-product');
-    }
-
     public function replicate(User $user, Product $product): bool
     {
         return $user->can('replicate-product');

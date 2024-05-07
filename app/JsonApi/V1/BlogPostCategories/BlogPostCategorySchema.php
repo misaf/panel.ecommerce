@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\JsonApi\V1\BlogPostCategories;
 
 use App\Models;
-use LaravelJsonApi\Eloquent\Contracts\Paginator;
 use LaravelJsonApi\Eloquent\Fields;
 use LaravelJsonApi\Eloquent\Filters;
 use LaravelJsonApi\Eloquent\Pagination;
@@ -13,23 +12,45 @@ use LaravelJsonApi\Eloquent\Schema;
 
 final class BlogPostCategorySchema extends Schema
 {
+    /**
+     * The model the schema corresponds to.
+     *
+     * @var string
+     */
     public static string $model = Models\Blog\BlogPostCategory::class;
 
-    protected $defaultSort = ['-position'];
+    protected ?array $defaultPagination = ['number' => 1];
 
     public function fields(): array
     {
         return [
             Fields\ID::make(),
+
             Fields\ArrayHash::make('name'),
+
             Fields\ArrayHash::make('description'),
+
             Fields\ArrayHash::make('slug'),
-            Fields\Number::make('position')->sortable()->readOnly(),
+
+            Fields\Number::make('position')
+                ->sortable()
+                ->readOnly(),
+
             Fields\Boolean::make('status'),
-            Fields\DateTime::make('createdAt')->sortable()->readOnly(),
-            Fields\DateTime::make('updatedAt')->sortable()->readOnly(),
-            Fields\Relations\HasMany::make('blogPosts')->readOnly(),
-            Fields\Relations\BelongsToMany::make('multimedia')->readOnly(),
+
+            Fields\DateTime::make('created_at')
+                ->sortable()
+                ->readOnly(),
+
+            Fields\DateTime::make('updated_at')
+                ->sortable()
+                ->readOnly(),
+
+            Fields\Relations\HasMany::make('blogPosts')
+                ->readOnly(),
+
+            Fields\Relations\BelongsToMany::make('multimedia')
+                ->readOnly(),
         ];
     }
 
@@ -37,8 +58,17 @@ final class BlogPostCategorySchema extends Schema
     {
         return [
             Filters\WhereIdIn::make($this),
+
+            Filters\WhereIdNotIn::make($this, 'exclude'),
+
             Filters\Where::make('slug', 'slug->fa'),
-            Filters\Where::make('status')->asBoolean(),
+
+            Filters\Where::make('status')
+                ->asBoolean(),
+
+            Filters\Has::make($this, 'blogPosts'),
+
+            Filters\Has::make($this, 'multimedia'),
         ];
     }
 
@@ -50,7 +80,12 @@ final class BlogPostCategorySchema extends Schema
         ];
     }
 
-    public function pagination(): ?Paginator
+    /**
+     * Get the resource paginator.
+     *
+     * @return Pagination\PagePagination
+     */
+    public function pagination(): Pagination\PagePagination
     {
         return Pagination\PagePagination::make();
     }

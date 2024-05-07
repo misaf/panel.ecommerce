@@ -19,7 +19,7 @@ final class CreateUserProfileBalance extends CreateRecord
 
         $record = $this->getModel()::updateOrCreate(
             ['user_profile_id' => $data['user_profile_id'], 'currency_id' => $data['currency_id']],
-            collect($data)->except('user_profile_id', 'currency_id')->toArray()
+            collect($data)->except('user_profile_id', 'currency_id')->toArray(),
         );
 
         if (

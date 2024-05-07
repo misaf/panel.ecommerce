@@ -44,7 +44,7 @@ final class OrderProduct extends Model
         'quantity',
         'unit_price',
         'tax_amount',
-        'discount_amount'
+        'discount_amount',
     ];
 
     public function currency(): BelongsToThrough

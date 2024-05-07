@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\JsonApi\V1\FaqCategories;
+namespace App\JsonApi\V1\Multimedia;
 
 use LaravelJsonApi\Laravel\Http\Requests\ResourceQuery;
 use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
-final class FaqCategoryCollectionQuery extends ResourceQuery
+final class MultimediaCollectionQuery extends ResourceQuery
 {
     /**
      * Get the validation rules that apply to the request.
@@ -27,15 +27,11 @@ final class FaqCategoryCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::filter(),
             ],
-            'filter.id'         => 'array',
-            'filter.id.*'       => JsonApiRule::integer(),
-            'filter.exclude'    => 'array',
-            'filter.exclude.*'  => JsonApiRule::integer(),
-            'filter.slug'       => 'string',
-            'filter.status'     => JsonApiRule::boolean(),
-            'filter.faqs'       => JsonApiRule::boolean(),
-            'filter.multimedia' => JsonApiRule::boolean(),
-            'include'           => [
+            'filter.id'        => 'array',
+            'filter.id.*'      => JsonApiRule::integer(),
+            'filter.exclude'   => 'array',
+            'filter.exclude.*' => JsonApiRule::integer(),
+            'include'          => [
                 'nullable',
                 'string',
                 JsonApiRule::includePaths(),

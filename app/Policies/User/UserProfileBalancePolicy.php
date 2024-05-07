@@ -37,11 +37,6 @@ final class UserProfileBalancePolicy
         return $user->can('force-delete-any-user-profile-balance');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-user-profile-balance');
-    }
-
     public function replicate(User $user, UserProfileBalance $userProfileBalance): bool
     {
         return $user->can('replicate-user-profile-balance');

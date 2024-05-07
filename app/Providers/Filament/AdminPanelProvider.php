@@ -38,7 +38,7 @@ final class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->login()
             ->path(LaravelLocalization::setLocale() . '/admin')
-            ->profile()
+            ->profile(isSimple: false)
             ->font(
                 'yekan',
                 url: asset('css/fonts.css'),
@@ -81,9 +81,9 @@ final class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-cog-6-tooth')
                     ->collapsed(),
             ])
-            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverClusters(in: app_path('Filament/Admin/Clusters'), for: 'App\\Filament\\Admin\\Clusters')
+            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales(['fa', 'en']))
             ->pages([
                 Pages\Dashboard::class,
@@ -105,7 +105,7 @@ final class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 \App\Http\Middleware\SanitizeResponse::class,
-                \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class
+                \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -113,9 +113,10 @@ final class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             // ->databaseNotificationsPolling('30s')
             // ->authPasswordBroker('admin')
+            ->databaseTransactions()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
-            ->viteTheme('resources/css/filament/admin/theme.css')
-            ->spa();
+            ->spa()
+            ->viteTheme('resources/css/filament/admin/theme.css');
         ;
     }
 }

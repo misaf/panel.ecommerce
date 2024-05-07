@@ -11,33 +11,45 @@ final class ProductResource extends JsonApiResource
 {
     use LocalizableAttributesTrait;
 
+    /**
+     * Get the resource's attributes.
+     *
+     * @param Request|null $request
+     * @return iterable
+     */
     public function attributes($request): iterable
     {
         $locale = $request->query('locale');
 
         return [
-            'name'              => $this->getLocalizedAttribute('name', $locale) ?: null,
-            'description'       => $this->getLocalizedAttribute('description', $locale) ?: null,
-            'slug'              => $this->getLocalizedAttribute('slug', $locale) ?: null,
-            'token'             => $this->token,
-            'quantity'          => $this->quantity,
-            'stock_threshold'   => $this->stock_threshold,
-            'in_stock'          => $this->in_stock,
-            'position'          => $this->position,
-            'available_soon'    => $this->available_soon,
-            'availability_date' => $this->availability_date,
-            'createdAt'         => $this->resource->created_at,
-            'updatedAt'         => $this->resource->updated_at,
+            'name'               => $this->getLocalizedAttribute('name', $locale) ?: null,
+            'description'        => $this->getLocalizedAttribute('description', $locale) ?: null,
+            'slug'               => $this->getLocalizedAttribute('slug', $locale) ?: null,
+            'token'              => $this->token,
+            'quantity'           => $this->quantity,
+            'stock_threshold'    => $this->stock_threshold,
+            'in_stock'           => $this->in_stock,
+            'position'           => $this->position,
+            'available_soon'     => $this->available_soon,
+            'availability_date'  => $this->availability_date,
+            'created_at'         => $this->resource->created_at,
+            'updated_at'         => $this->resource->updated_at,
         ];
     }
 
+    /**
+     * Get the resource's relationships.
+     *
+     * @param Request|null $request
+     * @return iterable
+     */
     public function relationships($request): iterable
     {
         return [
-            $this->relation('productCategory'),
-            $this->relation('productPrice'),
-            $this->relation('productPrices'),
+            $this->relation('latestProductPrice'),
             $this->relation('multimedia'),
+            $this->relation('productCategory'),
+            $this->relation('productPrices'),
         ];
     }
 }

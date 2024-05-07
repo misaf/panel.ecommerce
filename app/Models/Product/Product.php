@@ -80,6 +80,12 @@ final class Product extends Model implements HasMedia, Sortable
         return $this->getFirstMedia()->toHtml();
     }
 
+    public function latestProductPrice(): HasOne
+    {
+        return $this->hasOne(ProductPrice::class)
+            ->latestOfMany();
+    }
+
     public function multimedia(): MorphMany
     {
         return $this->media();
@@ -93,11 +99,6 @@ final class Product extends Model implements HasMedia, Sortable
     public function productCategory(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class);
-    }
-
-    public function productPrice(): HasOne
-    {
-        return $this->hasOne(ProductPrice::class)->latestOfMany();
     }
 
     public function productPrices(): HasMany

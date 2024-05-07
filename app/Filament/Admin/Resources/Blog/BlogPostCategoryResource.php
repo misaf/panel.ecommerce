@@ -70,7 +70,7 @@ final class BlogPostCategoryResource extends Resource
                     ->columnSpanFull()
                     ->label(__('form.status'))
                     ->rules('required')
-                    ->default(true)
+                    ->default(true),
             ]);
     }
 
@@ -129,14 +129,6 @@ final class BlogPostCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('form.name'))
                     ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('blog_posts_count')
-                    ->alignCenter()
-                    ->badge()
-                    ->counts('blogPosts')
-                    ->label(__('form.blog_post_relationship_count'))
-                    ->numeric()
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('status')

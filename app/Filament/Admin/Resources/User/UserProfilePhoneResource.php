@@ -93,7 +93,7 @@ final class UserProfilePhoneResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('Name') => $record->userProfile->full_name
+            __('Name') => $record->userProfile->full_name,
         ];
     }
 

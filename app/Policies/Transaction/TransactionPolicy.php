@@ -37,11 +37,6 @@ final class TransactionPolicy
         return $user->can('force-delete-any-transaction');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-transaction');
-    }
-
     public function replicate(User $user, Transaction $transaction): bool
     {
         return $user->can('replicate-transaction');

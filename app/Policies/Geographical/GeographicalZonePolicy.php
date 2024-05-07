@@ -37,11 +37,6 @@ final class GeographicalZonePolicy
         return $user->can('force-delete-any-geographical-zone');
     }
 
-    public function reorder(User $user): bool
-    {
-        return $user->can('reorder-geographical-zone');
-    }
-
     public function replicate(User $user, GeographicalZone $geographicalZone): bool
     {
         return $user->can('replicate-geographical-zone');

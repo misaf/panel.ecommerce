@@ -23,7 +23,7 @@ final class UserProfileBalance extends Model
 {
     use HasFactory;
 
-    use HasStatuses;
+    // use HasStatuses;
 
     use LogsActivity;
 

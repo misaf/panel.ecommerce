@@ -22,7 +22,7 @@ final class ConvertData extends Command
         $dataType = $this->choice(
             question: 'Select the type of data to convert',
             choices: ['Blog', 'Product', 'All'],
-            attempts: 3
+            attempts: 3,
         );
 
         match($dataType) {
