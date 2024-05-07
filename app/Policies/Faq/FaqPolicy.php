@@ -14,6 +14,9 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function create(User $user): bool
     {
@@ -22,6 +25,10 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
     public function delete(User $user, Faq $faq): bool
     {
@@ -30,6 +37,9 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can delete any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function deleteAny(User $user): bool
     {
@@ -38,6 +48,10 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
     public function forceDelete(User $user, Faq $faq): bool
     {
@@ -46,6 +60,9 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can permanently delete any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function forceDeleteAny(User $user): bool
     {
@@ -54,6 +71,9 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can reorder the model.
+     *
+     * @param User $user
+     * @return bool
      */
     public function reorder(User $user): bool
     {
@@ -62,6 +82,10 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can replicate the model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
     public function replicate(User $user, Faq $faq): bool
     {
@@ -70,6 +94,10 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can restore the model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
     public function restore(User $user, Faq $faq): bool
     {
@@ -78,6 +106,9 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can restore any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function restoreAny(User $user): bool
     {
@@ -86,6 +117,10 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
     public function update(User $user, Faq $faq): bool
     {
@@ -94,6 +129,10 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can view the model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
     public function view(?User $user, Faq $faq): bool
     {
@@ -104,6 +143,9 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can view any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -114,16 +156,24 @@ final class FaqPolicy
 
     /**
      * Determine whether the user can view the faq category model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
-    public function viewFaqCategory(?User $user, Faq $faq)
+    public function viewFaqCategory(?User $user, Faq $faq): bool
     {
         return $this->view($user, $faq);
     }
 
     /**
      * Determine whether the user can view the multimedia model.
+     *
+     * @param User $user
+     * @param Faq $faq
+     * @return bool
      */
-    public function viewMultimedia(?User $user, Faq $faq)
+    public function viewMultimedia(?User $user, Faq $faq): bool
     {
         return $this->view($user, $faq);
     }

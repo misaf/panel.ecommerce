@@ -14,6 +14,9 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function create(User $user): bool
     {
@@ -22,6 +25,10 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
     public function delete(User $user, BlogPostCategory $blogPostCategory): bool
     {
@@ -30,6 +37,9 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can delete any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function deleteAny(User $user): bool
     {
@@ -38,6 +48,10 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
     public function forceDelete(User $user, BlogPostCategory $blogPostCategory): bool
     {
@@ -46,12 +60,21 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can permanently delete any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function forceDeleteAny(User $user): bool
     {
         return $user->can('force-delete-any-blog-post-category');
     }
 
+    /**
+     * Determine whether the user can reorder the model.
+     *
+     * @param User $user
+     * @return bool
+     */
     public function reorder(User $user): bool
     {
         return $user->can('reorder-blog-post-category');
@@ -59,6 +82,10 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can replicate the model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
     public function replicate(User $user, BlogPostCategory $blogPostCategory): bool
     {
@@ -67,6 +94,10 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can restore the model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
     public function restore(User $user, BlogPostCategory $blogPostCategory): bool
     {
@@ -75,6 +106,9 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can restore any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function restoreAny(User $user): bool
     {
@@ -83,6 +117,10 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
     public function update(User $user, BlogPostCategory $blogPostCategory): bool
     {
@@ -91,6 +129,10 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can view the model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
     public function view(?User $user, BlogPostCategory $blogPostCategory): bool
     {
@@ -101,6 +143,9 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can view any models.
+     *
+     * @param User $user
+     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -111,16 +156,24 @@ final class BlogPostCategoryPolicy
 
     /**
      * Determine whether the user can view the blog posts model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
-    public function viewBlogPosts(?User $user, BlogPostCategory $blogPostCategory)
+    public function viewBlogPosts(?User $user, BlogPostCategory $blogPostCategory): bool
     {
         return $this->view($user, $blogPostCategory);
     }
 
     /**
      * Determine whether the user can view the multimedia model.
+     *
+     * @param User $user
+     * @param BlogPostCategory $blogPostCategory
+     * @return bool
      */
-    public function viewMultimedia(?User $user, BlogPostCategory $blogPostCategory)
+    public function viewMultimedia(?User $user, BlogPostCategory $blogPostCategory): bool
     {
         return $this->view($user, $blogPostCategory);
     }
