@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\JsonApi\V1\Faqs;
 
 use LaravelJsonApi\Laravel\Http\Requests\ResourceQuery;
@@ -30,8 +32,8 @@ final class FaqQuery extends ResourceQuery
                 'string',
                 JsonApiRule::includePaths(),
             ],
-            'page' => JsonApiRule::notSupported(),
-            'sort' => JsonApiRule::notSupported(),
+            'page'      => JsonApiRule::notSupported(),
+            'sort'      => JsonApiRule::notSupported(),
             'withCount' => [
                 'nullable',
                 'string',

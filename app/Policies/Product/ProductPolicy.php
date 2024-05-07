@@ -12,51 +12,81 @@ final class ProductPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * Determine whether the user can create models.
+     */
     public function create(User $user): bool
     {
         return $user->can('create-product');
     }
 
+    /**
+     * Determine whether the user can delete the model.
+     */
     public function delete(User $user, Product $product): bool
     {
         return $user->can('delete-product');
     }
 
+    /**
+     * Determine whether the user can delete any models.
+     */
     public function deleteAny(User $user): bool
     {
         return $user->can('delete-any-product');
     }
 
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
     public function forceDelete(User $user, Product $product): bool
     {
         return $user->can('force-delete-product');
     }
 
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->can('force-delete-any-product');
     }
 
+    /**
+     * Determine whether the user can replicate the model.
+     */
     public function replicate(User $user, Product $product): bool
     {
         return $user->can('replicate-product');
     }
 
+    /**
+     * Determine whether the user can restore the model.
+     */
     public function restore(User $user, Product $product): bool
     {
         return $user->can('restore-product');
     }
 
+    /**
+     * Determine whether the user can restore any models.
+     */
     public function restoreAny(User $user): bool
     {
         return $user->can('restore-any-product');
     }
 
+    /**
+     * Determine whether the user can update the model.
+     */
     public function update(User $user, Product $product): bool
     {
         return $user->can('update-product');
     }
 
+    /**
+     * Determine whether the user can view the model.
+     */
     public function view(?User $user, Product $product): bool
     {
         return true;
@@ -64,6 +94,9 @@ final class ProductPolicy
         return $user->can('view-product');
     }
 
+    /**
+     * Determine whether the user can view any models.
+     */
     public function viewAny(?User $user): bool
     {
         return true;
@@ -71,21 +104,33 @@ final class ProductPolicy
         return $user->can('view-any-product');
     }
 
+    /**
+     * Determine whether the user can view the multimedia model.
+     */
     public function viewMultimedia(?User $user, Product $product)
     {
         return $this->view($user, $product);
     }
 
+    /**
+     * Determine whether the user can view the product category model.
+     */
     public function viewProductCategory(?User $user, Product $product)
     {
         return $this->view($user, $product);
     }
 
+    /**
+     * Determine whether the user can view the product price model.
+     */
     public function viewProductPrice(?User $user, Product $product)
     {
         return $this->view($user, $product);
     }
 
+    /**
+     * Determine whether the user can view the product prices model.
+     */
     public function viewProductPrices(?User $user, Product $product)
     {
         return $this->view($user, $product);
