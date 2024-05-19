@@ -9,24 +9,32 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 final class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
+    /**
+     * The path to your application's "home" route.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
     public const HOME = '/home';
 
+    /**
+     * Define your route model bindings, pattern filters, and other route configuration.
+     */
     public function boot(): void
     {
-        RateLimiter::for('api', fn(Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
+        RateLimiter::for('api', fn(Request $request) => Limit::perMinute(1000)->by($request->user()?->id ?: $request->ip()));
 
         $this->routes(function (): void {
             Route::middleware('api')
-                ->prefix('api')
+                ->prefix(LaravelLocalization::setLocale() . '/api')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::middleware(['web', 'tenant'])
                 ->group(base_path('routes/web.php'));
         });
     }

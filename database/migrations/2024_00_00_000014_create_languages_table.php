@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -27,7 +26,6 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('languages', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->longText('name');
             $table->longText('description')
@@ -46,7 +44,6 @@ return new class () extends Migration {
         });
 
         Schema::create('language_lines', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->string('group')
                 ->index();

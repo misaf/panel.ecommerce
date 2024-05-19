@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -26,7 +25,6 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('socialite_users', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('user_id');
             $table->string('provider');

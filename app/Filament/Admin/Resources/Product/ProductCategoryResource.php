@@ -163,8 +163,7 @@ final class ProductCategoryResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('id', 'desc')
-            ->deferLoading()
+            ->defaultSort('position', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');
         // ->poll()

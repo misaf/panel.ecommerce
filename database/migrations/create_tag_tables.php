@@ -6,10 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down(): void
     {
@@ -19,11 +20,12 @@ return new class () extends Migration {
 
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up(): void
     {
         Schema::create('tags', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->json('name');
             $table->json('slug');
@@ -33,9 +35,7 @@ return new class () extends Migration {
                 ->nullable();
             $table->timestamps();
         });
-
         Schema::create('taggables', function (Blueprint $table): void {
-            // Define columns
             $table->foreignId('tag_id')
                 ->constrained()
                 ->cascadeOnDelete();

@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,15 +14,11 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('user_profiles');
         Schema::dropIfExists('user_profile_phones');
         Schema::dropIfExists('user_profile_documents');
         Schema::dropIfExists('user_profile_balances');
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 
@@ -35,9 +30,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::disableForeignKeyConstraints();
-
         Schema::create('user_profiles', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('user_id')
                 ->constrained()
@@ -59,9 +52,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('user_profile_phones', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('user_profile_id')
                 ->constrained()
@@ -84,9 +75,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('user_profile_documents', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('user_profile_id')
                 ->constrained()
@@ -99,9 +88,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('user_profile_balances', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('user_profile_id')
                 ->constrained()
@@ -118,7 +105,6 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::enableForeignKeyConstraints();
     }
 };

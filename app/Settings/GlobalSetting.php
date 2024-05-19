@@ -10,9 +10,9 @@ final class GlobalSetting extends Settings
 {
     public ?string $site_description;
 
-    public ?string $site_sidebar_logo_dark;
+    // public ?string $site_sidebar_logo_dark;
 
-    public ?string $site_sidebar_logo_light;
+    // public ?string $site_sidebar_logo_light;
 
     public bool $site_status;
 

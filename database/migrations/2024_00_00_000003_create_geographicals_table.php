@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,13 +14,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints during migration rollback
         Schema::disableForeignKeyConstraints();
-
-        // Drop the geographical tables if they exist
         $this->dropGeographicalTables();
-
-        // Re-enable foreign key constraints after migration rollback
         Schema::enableForeignKeyConstraints();
     }
 
@@ -32,12 +26,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints during migration execution
         Schema::disableForeignKeyConstraints();
-
         $this->createGeographicalTables();
-
-        // Re-enable foreign key constraints after migration execution
         Schema::enableForeignKeyConstraints();
     }
 
@@ -49,7 +39,6 @@ return new class () extends Migration {
     private function createGeographicalTables(): void
     {
         Schema::create('geographical_zones', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->string('name')
                 ->index();
@@ -64,7 +53,6 @@ return new class () extends Migration {
         });
 
         Schema::create('geographical_countries', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('geographical_zone_id')
                 ->constrained()
@@ -83,7 +71,6 @@ return new class () extends Migration {
         });
 
         Schema::create('geographical_states', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('geographical_country_id')
                 ->constrained()
@@ -102,7 +89,6 @@ return new class () extends Migration {
         });
 
         Schema::create('geographical_cities', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('geographical_state_id')
                 ->constrained()
@@ -121,7 +107,6 @@ return new class () extends Migration {
         });
 
         Schema::create('geographical_neighborhoods', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('geographical_city_id')
                 ->constrained()

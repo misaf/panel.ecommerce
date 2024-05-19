@@ -33,6 +33,8 @@ final class ProductResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $slug = 'products/products';
 
     public static function form(Form $form): Form
@@ -48,14 +50,19 @@ final class ProductResource extends Resource
                             ->icon('heroicon-o-cog')
                             ->schema([
                                 Forms\Components\Select::make('product_category_id')
-                                    ->columnSpanFull()
-                                    ->getOptionLabelFromRecordUsing(fn(ProductCategory $record, $livewire) => $record->getTranslation('name', $livewire->activeLocale))
-                                    ->label(__('model.product_category'))
-                                    ->native(false)
-                                    ->preload()
-                                    ->relationship('productCategory', 'name')
-                                    ->required()
-                                    ->searchable(),
+                                    ->options([
+                                        'web' => [
+                                            'ios_mobile' => 'iOS development',
+                                        ],
+                                        'mobile' => [
+                                            'ios_mobile'     => 'iOS development',
+                                            'android_mobile' => 'Android development',
+                                        ],
+                                        'design' => [
+                                            'app_design'               => 'Panel design',
+                                            'marketing_website_design' => 'Marketing website design',
+                                        ],
+                                    ]),
 
                                 Forms\Components\TextInput::make('name')
                                     ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
@@ -97,7 +104,7 @@ final class ProductResource extends Resource
                                     ->columns(2)
                                     ->columnSpanFull()
                                     ->relationship(
-                                        name:'productPrice',
+                                        name:'latestProductPrice',
                                         condition: fn(?array $state): bool => filled($state['price']),
                                     )
                                     ->schema([
@@ -185,6 +192,8 @@ final class ProductResource extends Resource
                                 //     ->translatable()
                             ]),
                     ])
+                    ->id('product-tabs')
+                    ->persistTab()
                     ->persistTabInQueryString(),
             ]);
     }
@@ -273,7 +282,7 @@ final class ProductResource extends Resource
                     ->formatStateUsing(fn(int $state) => number_format($state))
                     ->label(__('form.quantity')),
 
-                Tables\Columns\TextColumn::make('productPrice.price')
+                Tables\Columns\TextColumn::make('latestProductPrice.price')
                     ->alignCenter()
                     ->copyable()
                     ->copyableState(fn($state) => $state->getAmount())
@@ -281,11 +290,11 @@ final class ProductResource extends Resource
                     ->copyMessageDuration(1500)
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->fontFamily(FontFamily::Mono)
-                    ->formatStateUsing(fn(Product $record) => $record->productPrice->getFormattedPrice())
+                    ->formatStateUsing(fn(Product $record) => $record->latestProductPrice->getFormattedPrice())
                     ->label(__('form.price'))
                     ->searchable()
                     ->sortable(query: function (Builder $query, string $direction): void {
-                        $query->withAggregate('productPrice', 'price')->orderBy("product_price_price", $direction);
+                        $query->withAggregate('latestProductPrice', 'price')->orderBy("latest_product_price_price", $direction);
                     }),
 
                 Tables\Columns\ToggleColumn::make('in_stock')
@@ -345,7 +354,7 @@ final class ProductResource extends Resource
                     ->collapsible()
                     ->label(__('model.product_category')),
             ])
-            ->defaultSort('id', 'desc')
+            ->defaultSort('position', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');
         // ->poll()

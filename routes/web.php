@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Livewire\Livewire;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-Route::get('/media/{media}', fn(Media $media, Request $request) => $media->toHtml());
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post('/livewire/update', $handle)
+        ->prefix(LaravelLocalization::setLocale());
+});

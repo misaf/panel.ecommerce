@@ -43,6 +43,9 @@ final class EventServiceProvider extends ServiceProvider
         \App\Models\Transaction\Transaction::class               => \App\Observers\Transaction\TransactionObserver::class,
     ];
 
+    /**
+     * Bootstrap any application services.
+     */
     public function boot(): void {}
 
     public function shouldDiscoverEvents(): bool

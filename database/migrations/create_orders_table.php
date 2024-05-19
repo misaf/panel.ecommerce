@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,13 +14,9 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('order_products');
         Schema::dropIfExists('orders');
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 
@@ -32,11 +27,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::create('orders', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('user_id')
                 ->constrained()
@@ -58,9 +50,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('order_products', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('order_id')
                 ->constrained()
@@ -81,8 +71,6 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 };

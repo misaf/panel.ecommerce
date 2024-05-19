@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,12 +14,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints during migration rollback
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('pages');
-
-        // Re-enable foreign key constraints after migration rollback
         Schema::enableForeignKeyConstraints();
     }
 
@@ -31,11 +26,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints during migration execution
         Schema::disableForeignKeyConstraints();
-
         Schema::create('page_categories', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->string('name')
                 ->index();
@@ -48,9 +40,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('pages', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('page_category_id')
                 ->constrained()
@@ -67,8 +57,6 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
-        // Re-enable foreign key constraints after migration execution
         Schema::enableForeignKeyConstraints();
     }
 };

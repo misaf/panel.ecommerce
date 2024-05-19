@@ -18,8 +18,8 @@ final class ProductPriceResource extends JsonApiResource
     {
         return [
             'price'      => $this->price,
-            'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 

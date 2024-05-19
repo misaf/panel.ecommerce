@@ -7,7 +7,7 @@ namespace App\Support;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
 
-class DefaultPathGenerator implements PathGenerator
+final class DefaultPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
@@ -24,7 +24,7 @@ class DefaultPathGenerator implements PathGenerator
         return $this->getBasePath($media) . '/responsive-images/';
     }
 
-    protected function getBasePath(Media $media): string
+    private function getBasePath(Media $media): string
     {
         $prefix = config('media-library.prefix', '');
 

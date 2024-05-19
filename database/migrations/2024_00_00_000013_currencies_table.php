@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,13 +14,9 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('currency_categories');
         Schema::dropIfExists('currencies');
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 
@@ -32,11 +27,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::create('currency_categories', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->string('name');
             $table->string('description')
@@ -48,9 +40,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('currencies', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('currency_category_id')
                 ->constrained()
@@ -74,8 +64,6 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 };

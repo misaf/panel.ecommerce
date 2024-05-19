@@ -199,7 +199,6 @@ final class FaqResource extends Resource
                     ->collapsible()
                     ->label(__('form.category')),
             ])
-            ->defaultGroup('faqCategory.name')
             ->defaultSort('id', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\V1\Products;
 
+use App\JsonApi\Sorting;
 use App\Models;
 use LaravelJsonApi\Eloquent\Fields;
 use LaravelJsonApi\Eloquent\Filters;
@@ -130,5 +131,12 @@ final class ProductSchema extends Schema
     public function pagination(): Pagination\PagePagination
     {
         return Pagination\PagePagination::make();
+    }
+
+    public function sortables(): iterable
+    {
+        return [
+            Sorting\RandomPositionSort::make('random-position'),
+        ];
     }
 }

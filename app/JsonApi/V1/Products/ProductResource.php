@@ -32,8 +32,8 @@ final class ProductResource extends JsonApiResource
             'position'           => $this->position,
             'available_soon'     => $this->available_soon,
             'availability_date'  => $this->availability_date,
-            'created_at'         => $this->resource->created_at,
-            'updated_at'         => $this->resource->updated_at,
+            'created_at'         => $this->created_at,
+            'updated_at'         => $this->updated_at,
         ];
     }
 

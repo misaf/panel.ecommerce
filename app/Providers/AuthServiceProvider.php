@@ -39,6 +39,9 @@ final class AuthServiceProvider extends ServiceProvider
         \App\Models\Transaction\Transaction::class               => \App\Policies\Transaction\TransactionPolicy::class,
     ];
 
+    /**
+     * Bootstrap any application services.
+     */
     public function boot(): void
     {
         Gate::before(function (User $user, string $ability) {

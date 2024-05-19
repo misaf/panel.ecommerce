@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,12 +14,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints to drop the 'media' table
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('media');
-
-        // Re-enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 
@@ -31,11 +26,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints to create the 'media' table
         Schema::disableForeignKeyConstraints();
-
         Schema::create('media', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->morphs('model');
             $table->uuid('uuid')
@@ -59,8 +51,6 @@ return new class () extends Migration {
                 ->index();
             $table->nullableTimestamps();
         });
-
-        // Re-enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 };

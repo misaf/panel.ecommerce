@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,16 +14,12 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints during migration rollback
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('role_has_permissions');
         Schema::dropIfExists('model_has_roles');
         Schema::dropIfExists('model_has_permissions');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('permissions');
-
-        // Re-enable foreign key constraints after migration rollback
         Schema::enableForeignKeyConstraints();
     }
 

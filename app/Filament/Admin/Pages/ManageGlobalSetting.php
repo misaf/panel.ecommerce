@@ -69,21 +69,21 @@ final class ManageGlobalSetting extends SettingsPage
                                     ->rows(5)
                                     ->rules('required'),
 
-                                Forms\Components\FileUpload::make('site_sidebar_logo_light')
-                                    ->columnSpanFull()
-                                    ->directory('logos')
-                                    ->image()
-                                    ->label(__('form.site_sidebar_logo_light'))
-                                    ->orientImagesFromExif(false)
-                                    ->visibility('private'),
+                                // Forms\Components\FileUpload::make('site_sidebar_logo_light')
+                                //     ->columnSpanFull()
+                                //     ->directory('logos')
+                                //     ->image()
+                                //     ->label(__('form.site_sidebar_logo_light'))
+                                //     ->orientImagesFromExif(false)
+                                //     ->visibility('private'),
 
-                                Forms\Components\FileUpload::make('site_sidebar_logo_dark')
-                                    ->columnSpanFull()
-                                    ->directory('logos')
-                                    ->image()
-                                    ->label(__('form.site_sidebar_logo_dark'))
-                                    ->orientImagesFromExif(false)
-                                    ->visibility('private'),
+                                // Forms\Components\FileUpload::make('site_sidebar_logo_dark')
+                                //     ->columnSpanFull()
+                                //     ->directory('logos')
+                                //     ->image()
+                                //     ->label(__('form.site_sidebar_logo_dark'))
+                                //     ->orientImagesFromExif(false)
+                                //     ->visibility('private'),
 
                                 Forms\Components\Toggle::make('site_status')
                                     ->columnSpanFull()

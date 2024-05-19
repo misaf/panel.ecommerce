@@ -30,8 +30,8 @@ final class MultimediaResource extends JsonApiResource
             'generated_conversions'  => $this->generated_conversions,
             'responsive_images'      => $this->responsive_images,
             'order_column'           => $this->order_column,
-            'created_at'             => $this->resource->created_at,
-            'updated_at'             => $this->resource->updated_at,
+            'created_at'             => $this->created_at,
+            'updated_at'             => $this->updated_at,
         ];
     }
 }

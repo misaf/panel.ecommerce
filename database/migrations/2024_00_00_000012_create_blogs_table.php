@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,13 +14,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints during migration rollback
         Schema::disableForeignKeyConstraints();
-
-        // Drop blog post tables if they exist
         $this->dropBlogPostTables();
-
-        // Re-enable foreign key constraints after migration rollback
         Schema::enableForeignKeyConstraints();
     }
 
@@ -32,12 +26,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints during migration execution
         Schema::disableForeignKeyConstraints();
-
         $this->createBlogPostTables();
-
-        // Re-enable foreign key constraints after migration execution
         Schema::enableForeignKeyConstraints();
     }
 
@@ -49,7 +39,6 @@ return new class () extends Migration {
     private function createBlogPostCategoriesTable(): void
     {
         Schema::create('blog_post_categories', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->longText('name');
             $table->longText('description')
@@ -72,7 +61,6 @@ return new class () extends Migration {
     private function createBlogPostsTable(): void
     {
         Schema::create('blog_posts', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('blog_post_category_id')
                 ->constrained()
@@ -99,7 +87,6 @@ return new class () extends Migration {
     private function createBlogPostTables(): void
     {
         $this->createBlogPostCategoriesTable();
-
         $this->createBlogPostsTable();
     }
 

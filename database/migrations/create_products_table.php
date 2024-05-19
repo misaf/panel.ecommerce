@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Define a new migration using an anonymous class
 return new class () extends Migration {
     /**
      * Reverse the migrations.
@@ -15,14 +14,10 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('product_categories');
         Schema::dropIfExists('product_prices');
         Schema::dropIfExists('products');
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 
@@ -33,11 +28,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Disable foreign key constraints
         Schema::disableForeignKeyConstraints();
-
         Schema::create('product_categories', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('parent_id')
                 ->nullable()
@@ -55,9 +47,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('products', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('product_category_id')
                 ->constrained()
@@ -88,9 +78,7 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
         Schema::create('product_prices', function (Blueprint $table): void {
-            // Define columns
             $table->id();
             $table->foreignId('product_id')
                 ->constrained()
@@ -105,8 +93,6 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
         });
-
-        // Enable foreign key constraints
         Schema::enableForeignKeyConstraints();
     }
 };

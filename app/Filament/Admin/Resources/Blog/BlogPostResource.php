@@ -185,7 +185,17 @@ final class BlogPostResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('blogPostCategory')
+                    ->getOptionLabelFromRecordUsing(fn(BlogPostCategory $record, $livewire) => $record->getTranslation('name', $livewire->activeLocale))
+                    ->label(__('model.blog_post_category'))
+                    ->preload()
+                    ->relationship(
+                        name: 'blogPostCategory',
+                        titleAttribute: 'name',
+                    )
+                    ->searchable(),
             ])
+            ->persistFiltersInSession()
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -203,7 +213,6 @@ final class BlogPostResource extends Resource
                     ->collapsible()
                     ->label(__('form.category')),
             ])
-            ->defaultGroup('blogPostCategory.name')
             ->defaultSort('position', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');

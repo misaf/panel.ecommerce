@@ -227,7 +227,6 @@ final class CurrencyResource extends Resource
                     ->collapsible()
                     ->label(__('form.category')),
             ])
-            ->defaultGroup('currencyCategory.name')
             ->defaultSort('position', 'desc')
             ->paginatedWhileReordering()
             ->reorderable('position');

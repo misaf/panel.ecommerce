@@ -26,8 +26,8 @@ final class FaqCategoryResource extends JsonApiResource
             'description'  => $this->getLocalizedAttribute('description', $locale) ?: null,
             'slug'         => $this->getLocalizedAttribute('slug', $locale) ?: null,
             'status'       => $this->status,
-            'created_at'   => $this->resource->created_at,
-            'updated_at'   => $this->resource->updated_at,
+            'created_at'   => $this->created_at,
+            'updated_at'   => $this->updated_at,
         ];
     }
 
