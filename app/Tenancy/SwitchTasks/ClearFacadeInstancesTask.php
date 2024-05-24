@@ -23,7 +23,7 @@ final class ClearFacadeInstancesTask implements SwitchTenantTask
         // Discovers all facades in the App namespace and clears their resolved instance:
         collect(get_declared_classes())
             ->filter(fn($className) => is_subclass_of($className, Facade::class))
-            ->filter(fn($className) => Str::startsWith($className, 'App') || Str::startsWith($className, 'Facades\\App'))
+            ->filter(fn($className) => Str::startsWith($className, 'App'))
             ->each(fn($className) => $className::clearResolvedInstance(
                 $className::getFacadeAccessor(),
             ));

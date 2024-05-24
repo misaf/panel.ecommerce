@@ -6,3 +6,5 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
 Livewire::setUpdateRoute(fn($handle) => Route::post('/livewire/update', $handle));
+
+Route::get('xxx', fn() => 'as')->name('xxx.index');

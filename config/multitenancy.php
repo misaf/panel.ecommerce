@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Models\Tenant\Tenant;
-use App\Services\DomainTenantFinder;
-use App\Support\SwitchTenantTasks\SetConfigurationTask;
+use App\Services\DomainTenantFinderService;
 use App\Tenancy\SwitchTasks\ClearFacadeInstancesTask;
+use App\Tenancy\SwitchTasks\SetConfigurationTask;
 use Illuminate\Broadcasting\BroadcastEvent;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
@@ -26,7 +26,7 @@ return [
      * This class should extend `Spatie\Multitenancy\TenantFinder\TenantFinder`
      *
      */
-    'tenant_finder' => DomainTenantFinder::class,
+    'tenant_finder' => DomainTenantFinderService::class,
 
     /*
      * These fields are used by tenant:artisan command to match one or more tenant.

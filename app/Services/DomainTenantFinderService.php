@@ -8,7 +8,7 @@ use App\Models\Tenant\Tenant;
 use Illuminate\Http\Request;
 use Spatie\Multitenancy\TenantFinder\TenantFinder;
 
-final class DomainTenantFinder extends TenantFinder
+final class DomainTenantFinderService extends TenantFinder
 {
     public function findForRequest(Request $request): ?Tenant
     {

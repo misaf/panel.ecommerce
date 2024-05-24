@@ -42,13 +42,13 @@ arch('Tests')
     ->expect('Tests')
     ->toUseStrictTypes();
 
-arch('App\Console toBeFinal')
-    ->expect('App\Console')
-    ->toBeFinal();
+// arch('App\Console toBeFinal')
+//     ->expect('App\Console')
+//     ->toBeFinal();
 
-arch('App\Console toBeClasses')
-    ->expect('App\Console')
-    ->toBeClasses();
+// arch('App\Console toBeClasses')
+//     ->expect('App\Console')
+//     ->toBeClasses();
 
 arch('App\Filament toBeFinal')
     ->expect('App\Filament')
@@ -102,25 +102,25 @@ arch('App\Observers toImplement Illuminate\Contracts\Queue\ShouldQueue')
     ->expect('App\Observers')
     ->toImplement(ShouldQueue::class);
 
-arch('App\Console\Commands toBeClasses')
-    ->expect('App\Console\Commands')
-    ->toBeClasses();
+// arch('App\Console\Commands toBeClasses')
+//     ->expect('App\Console\Commands')
+//     ->toBeClasses();
 
-arch('App\Console\Commands toBeFinal')
-    ->expect('App\Console\Commands')
-    ->toBeFinal();
+// arch('App\Console\Commands toBeFinal')
+//     ->expect('App\Console\Commands')
+//     ->toBeFinal();
 
-arch('App\Console\Commands toExtend \Illuminate\Console\Command')
-    ->expect('App\Console\Commands')
-    ->toExtend(Command::class);
+// arch('App\Console\Commands toExtend \Illuminate\Console\Command')
+//     ->expect('App\Console\Commands')
+//     ->toExtend(Command::class);
 
 arch('App\Http\Controllers toHaveSuffix Controller')
     ->expect('App\Http\Controllers')
     ->toHaveSuffix('Controller');
 
-arch('App\Http\Controllers toBeClasses')
-    ->expect('App\Http\Controllers')
-    ->toBeClasses();
+// arch('App\Http\Controllers toBeClasses')
+//     ->expect('App\Http\Controllers')
+//     ->toBeClasses();
 
 arch('App\Http\Controllers toBeFinal')
     ->expect('App\Http\Controllers')

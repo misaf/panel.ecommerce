@@ -10,8 +10,6 @@ use Closure;
 use Filament\Facades\Filament;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
-use Filament\Support\Assets\Css;
-use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Vite;
@@ -28,7 +26,6 @@ final class ConfigMiddleware
     {
         $this->configureFont();
         $this->configureVite();
-        $this->registerAssets();
         $this->configureLanguageSwitch();
         $this->registerTranslatablePlugin();
 
@@ -40,8 +37,7 @@ final class ConfigMiddleware
      */
     private function configureFont(): void
     {
-        Filament::getCurrentPanel()
-            ->font('yekan', 'https://cdn.font-store.ir/yekan.css', LocalFontProvider::class);
+        Filament::getCurrentPanel()->font('yekan', 'https://cdn.font-store.ir/yekan.css', LocalFontProvider::class);
     }
 
     /**
@@ -49,7 +45,7 @@ final class ConfigMiddleware
      */
     private function configureLanguageSwitch(): void
     {
-        LanguageSwitch::configureUsing(fn(LanguageSwitch $switch) => $switch->locales($this->getLocales()));
+        Filament::getCurrentPanel()->plugin(LanguageSwitch::configureUsing(fn(LanguageSwitch $switch) => $switch->locales($this->getLocales())->visible(insidePanels: true)));
     }
 
     /**
@@ -71,19 +67,10 @@ final class ConfigMiddleware
     }
 
     /**
-     * Register custom assets.
-     */
-    private function registerAssets(): void
-    {
-        FilamentAsset::register([Css::make('font-yekan', '//cdn.font-store.ir/yekan.css')]);
-    }
-
-    /**
      * Register the translatable plugin.
      */
     private function registerTranslatablePlugin(): void
     {
-        Filament::getCurrentPanel()
-            ->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($this->getLocales()));
+        Filament::getCurrentPanel()->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($this->getLocales()));
     }
 }

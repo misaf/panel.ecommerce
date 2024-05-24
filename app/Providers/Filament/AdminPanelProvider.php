@@ -6,7 +6,6 @@ namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Tenancy\EditTenantProfile;
 use App\Filament\Admin\Pages\Tenancy\RegisterTenant;
-use App\Http\Middleware\ApplyTenantScopes;
 use App\Http\Middleware\Filament\ConfigMiddleware;
 use App\Models\Tenant\Tenant;
 use Filament\Facades\Filament;
@@ -31,6 +30,10 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter;
+use Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect;
+use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
+use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
 final class AdminPanelProvider extends PanelProvider
 {
@@ -59,7 +62,7 @@ final class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2rem')
             ->colors(['primary' => Color::Amber])
             ->authMiddleware($this->getAuthMiddleware())
-            ->middleware($this->getMiddleware(), true)
+            ->middleware($this->getMiddleware())
             ->discoverClusters(app_path('Filament/Admin/Clusters'), 'App\\Filament\\Admin\\Clusters')
             ->discoverPages(app_path('Filament/Admin/Pages'), 'App\\Filament\\Admin\\Pages')
             ->discoverResources(app_path('Filament/Admin/Resources'), 'App\\Filament\\Admin\\Resources')
@@ -141,8 +144,11 @@ final class AdminPanelProvider extends PanelProvider
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
             DispatchServingFilamentEvent::class,
+            NeedsTenant::class,
+            EnsureValidTenantSession::class,
             ConfigMiddleware::class,
-            // ApplyTenantScopes::class
+            LaravelLocalizationRedirectFilter::class,
+            LocaleCookieRedirect::class,
         ];
     }
 

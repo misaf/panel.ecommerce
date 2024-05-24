@@ -7,6 +7,8 @@ namespace App\Providers;
 use App\Contract\Language as ContractLanguage;
 use App\Models\Language\Language;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
