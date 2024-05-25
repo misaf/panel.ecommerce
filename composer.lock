@@ -4636,40 +4636,39 @@
         },
         {
             "name": "league/csv",
-            "version": "9.15.0",
+            "version": "9.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "fa7e2441c0bc9b2360f4314fd6c954f7ff40d435"
+                "reference": "998280c6c34bd67d8125fdc8b45bae28d761b440"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/fa7e2441c0bc9b2360f4314fd6c954f7ff40d435",
-                "reference": "fa7e2441c0bc9b2360f4314fd6c954f7ff40d435",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/998280c6c34bd67d8125fdc8b45bae28d761b440",
+                "reference": "998280c6c34bd67d8125fdc8b45bae28d761b440",
                 "shasum": ""
             },
             "require": {
                 "ext-filter": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
                 "php": "^8.1.2"
             },
             "require-dev": {
-                "doctrine/collections": "^2.1.4",
+                "doctrine/collections": "^2.2.2",
                 "ext-dom": "*",
                 "ext-xdebug": "*",
-                "friendsofphp/php-cs-fixer": "^v3.22.0",
+                "friendsofphp/php-cs-fixer": "^3.57.1",
                 "phpbench/phpbench": "^1.2.15",
-                "phpstan/phpstan": "^1.10.57",
-                "phpstan/phpstan-deprecation-rules": "^1.1.4",
-                "phpstan/phpstan-phpunit": "^1.3.15",
-                "phpstan/phpstan-strict-rules": "^1.5.2",
-                "phpunit/phpunit": "^10.5.9",
-                "symfony/var-dumper": "^6.4.2"
+                "phpstan/phpstan": "^1.11.1",
+                "phpstan/phpstan-deprecation-rules": "^1.2.0",
+                "phpstan/phpstan-phpunit": "^1.4.0",
+                "phpstan/phpstan-strict-rules": "^1.6.0",
+                "phpunit/phpunit": "^10.5.16 || ^11.1.3",
+                "symfony/var-dumper": "^6.4.6 || ^7.0.7"
             },
             "suggest": {
                 "ext-dom": "Required to use the XMLConverter and the HTMLConverter classes",
-                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
+                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters",
+                "ext-mbstring": "Needed to ease transcoding CSV using mb stream filters"
             },
             "type": "library",
             "extra": {
@@ -4721,7 +4720,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-20T20:00:00+00:00"
+            "time": "2024-05-24T11:04:54+00:00"
         },
         {
             "name": "league/flysystem",
@@ -7734,16 +7733,16 @@
         },
         {
             "name": "spatie/image",
-            "version": "3.6.2",
+            "version": "3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image.git",
-                "reference": "dca161094b69d2a903ad143f1f0886852ebfcc06"
+                "reference": "1d4e9c536f1bf7b88e55555d0a1ae9eee6b76a99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/image/zipball/dca161094b69d2a903ad143f1f0886852ebfcc06",
-                "reference": "dca161094b69d2a903ad143f1f0886852ebfcc06",
+                "url": "https://api.github.com/repos/spatie/image/zipball/1d4e9c536f1bf7b88e55555d0a1ae9eee6b76a99",
+                "reference": "1d4e9c536f1bf7b88e55555d0a1ae9eee6b76a99",
                 "shasum": ""
             },
             "require": {
@@ -7790,7 +7789,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/image/tree/3.6.2"
+                "source": "https://github.com/spatie/image/tree/3.6.3"
             },
             "funding": [
                 {
@@ -7802,7 +7801,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-23T12:38:15+00:00"
+            "time": "2024-05-24T14:08:59+00:00"
         },
         {
             "name": "spatie/image-optimizer",
@@ -12007,16 +12006,16 @@
         },
         {
             "name": "ysfkaya/filament-phone-input",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ysfkaya/filament-phone-input.git",
-                "reference": "520c2e759e2c01c794f506317fc4ab2cbd23f9b0"
+                "reference": "32f877bff25b9f99d7c6c29bac633f802fb7ee8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ysfkaya/filament-phone-input/zipball/520c2e759e2c01c794f506317fc4ab2cbd23f9b0",
-                "reference": "520c2e759e2c01c794f506317fc4ab2cbd23f9b0",
+                "url": "https://api.github.com/repos/ysfkaya/filament-phone-input/zipball/32f877bff25b9f99d7c6c29bac633f802fb7ee8e",
+                "reference": "32f877bff25b9f99d7c6c29bac633f802fb7ee8e",
                 "shasum": ""
             },
             "require": {
@@ -12065,9 +12064,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ysfkaya/filament-phone-input/issues",
-                "source": "https://github.com/ysfkaya/filament-phone-input/tree/v2.3.5"
+                "source": "https://github.com/ysfkaya/filament-phone-input/tree/v2.3.6"
             },
-            "time": "2024-03-21T14:33:50+00:00"
+            "time": "2024-05-24T07:14:05+00:00"
         }
     ],
     "packages-dev": [

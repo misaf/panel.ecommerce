@@ -7,7 +7,7 @@ namespace App\Models\User;
 use App\Casts\DateCast;
 use App\Models\Scopes\Tenant as TenantScope;
 use App\Models\User;
-use App\Support\Enums\UserProfileDocumentStatusEnum;
+use App\Models\User\Enums\UserProfileDocumentStatusEnum;
 use App\Traits\BelongsToTenant;
 use App\Traits\ThumbnailTableRecord;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;

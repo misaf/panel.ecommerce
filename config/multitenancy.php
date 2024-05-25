@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Models\Tenant\Services\DomainTenantFinderService;
+use App\Models\Tenant\SwitchTasks\ClearFacadeInstancesTask;
+use App\Models\Tenant\SwitchTasks\SetConfigurationTask;
 use App\Models\Tenant\Tenant;
-use App\Services\DomainTenantFinderService;
-use App\Tenancy\SwitchTasks\ClearFacadeInstancesTask;
-use App\Tenancy\SwitchTasks\SetConfigurationTask;
 use Illuminate\Broadcasting\BroadcastEvent;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
