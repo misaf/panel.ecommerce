@@ -29,7 +29,7 @@ final class SwitchAppTask implements SwitchTenantTask
         $this->setLocale('fa');
         $this->setName($tenant->name);
         $this->setTimezone('Asia/Tehran');
-        $this->setUrl($tenant->url);
+        $this->setUrl('https://panel.houshang-flowers.com');
     }
 
     private function setLocale(string $locale): void
@@ -60,7 +60,7 @@ final class SwitchAppTask implements SwitchTenantTask
 
         config([
             // 'app.url' => "{$scheme}://{domain}",
-            'app.url' => request()->getHost(),
+            'app.url' => $url,
         ]);
 
         URL::forceRootUrl(config('app.url'));
