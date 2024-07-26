@@ -29,7 +29,7 @@ final class SwitchAppTask implements SwitchTenantTask
         $this->setLocale('fa');
         $this->setName($tenant->name);
         $this->setTimezone('Asia/Tehran');
-        // $this->setUrl($tenant->url);
+        $this->setUrl($tenant->url);
     }
 
     private function setLocale(string $locale): void
@@ -56,10 +56,11 @@ final class SwitchAppTask implements SwitchTenantTask
     private function setUrl(string $url): void
     {
         // We may want to look into defining whether we want to use https at the tenant level
-        $scheme = parse_url($this->original)['scheme'];
+        // $scheme = parse_url($this->original)['scheme'];
 
         config([
-            'app.url' => "{$scheme}://{domain}",
+            // 'app.url' => "{$scheme}://{domain}",
+            'app.url' => request()->getHost(),
         ]);
 
         URL::forceRootUrl(config('app.url'));
