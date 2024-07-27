@@ -6,6 +6,7 @@ namespace Termehsoft\User\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\User\Models\UserProfilePhone;
 
 final class UserProfilePhoneObserver implements ShouldQueue
@@ -15,37 +16,44 @@ final class UserProfilePhoneObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the UserProfilePhone "created" event.
-     *
-     * @param UserProfilePhone $userProfilePhone
-     */
-    public function created(UserProfilePhone $userProfilePhone): void {}
-
-    /**
      * Handle the UserProfilePhone "deleted" event.
      *
      * @param UserProfilePhone $userProfilePhone
+     * @return void
      */
-    public function deleted(UserProfilePhone $userProfilePhone): void {}
+    public function deleted(UserProfilePhone $userProfilePhone): void
+    {
+        $this->clearCaches($userProfilePhone);
+    }
 
     /**
-     * Handle the UserProfilePhone "force deleted" event.
+     * Handle the UserProfilePhone "saved" event.
      *
      * @param UserProfilePhone $userProfilePhone
+     * @return void
      */
-    public function forceDeleted(UserProfilePhone $userProfilePhone): void {}
+    public function saved(UserProfilePhone $userProfilePhone): void
+    {
+        $this->clearCaches($userProfilePhone);
+    }
 
     /**
-     * Handle the UserProfilePhone "restored" event.
+     * Clear relevant caches.
      *
      * @param UserProfilePhone $userProfilePhone
+     * @return void
      */
-    public function restored(UserProfilePhone $userProfilePhone): void {}
+    private function clearCaches(UserProfilePhone $userProfilePhone): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the UserProfilePhone "updated" event.
-     *
-     * @param UserProfilePhone $userProfilePhone
+     * Forget the user profile phone row count cache.
+     * @return void
      */
-    public function updated(UserProfilePhone $userProfilePhone): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('user-profile-phone-row-count');
+    }
 }

@@ -214,7 +214,7 @@ final class ProductResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Cache::rememberForever('product_row_count', fn() => (string) Number::format(static::getModel()::count()));
+        return Cache::rememberForever('product-row-count', fn() => (string) Number::format(static::getModel()::count()));
     }
 
     public static function getNavigationGroup(): ?string

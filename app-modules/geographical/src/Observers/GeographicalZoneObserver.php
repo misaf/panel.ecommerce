@@ -7,6 +7,7 @@ namespace Termehsoft\Geographical\Observers;
 use App\Jobs\DeleteImageJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Termehsoft\Geographical\Models\GeographicalZone;
 
@@ -17,16 +18,10 @@ final class GeographicalZoneObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the GeographicalZone "created" event.
-     *
-     * @param GeographicalZone $geographicalZone
-     */
-    public function created(GeographicalZone $geographicalZone): void {}
-
-    /**
      * Handle the GeographicalZone "deleted" event.
      *
      * @param GeographicalZone $geographicalZone
+     * @return void
      */
     public function deleted(GeographicalZone $geographicalZone): void
     {
@@ -36,12 +31,15 @@ final class GeographicalZoneObserver implements ShouldQueue
             $geographicalZone->geographicalCities()->delete();
             $geographicalZone->geographicalNeighborhoods()->delete();
         });
+
+        $this->clearCaches($geographicalZone);
     }
 
     /**
      * Handle the GeographicalZone "deleting" event.
      *
      * @param GeographicalZone $geographicalZone
+     * @return void
      */
     public function deleting(GeographicalZone $geographicalZone): void
     {
@@ -65,23 +63,34 @@ final class GeographicalZoneObserver implements ShouldQueue
     }
 
     /**
-     * Handle the GeographicalZone "force deleted" event.
+     * Handle the GeographicalZone "saved" event.
      *
      * @param GeographicalZone $geographicalZone
+     * @return void
      */
-    public function forceDeleted(GeographicalZone $geographicalZone): void {}
+    public function saved(GeographicalZone $geographicalZone): void
+    {
+        $this->clearCaches($geographicalZone);
+    }
 
     /**
-     * Handle the GeographicalZone "restored" event.
+     * Clear relevant caches.
      *
      * @param GeographicalZone $geographicalZone
+     * @return void
      */
-    public function restored(GeographicalZone $geographicalZone): void {}
+    private function clearCaches(GeographicalZone $geographicalZone): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the GeographicalZone "updated" event.
+     * Forget the geographical zone row count cache.
      *
-     * @param GeographicalZone $geographicalZone
+     * @return void
      */
-    public function updated(GeographicalZone $geographicalZone): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('geographical-zone-row-count');
+    }
 }

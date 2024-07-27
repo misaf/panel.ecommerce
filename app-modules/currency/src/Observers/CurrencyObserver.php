@@ -6,6 +6,7 @@ namespace Termehsoft\Currency\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\Currency\Models\Currency;
 
 final class CurrencyObserver implements ShouldQueue
@@ -15,37 +16,45 @@ final class CurrencyObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the Currency "created" event.
-     *
-     * @param Currency $currency
-     */
-    public function created(Currency $currency): void {}
-
-    /**
      * Handle the Currency "deleted" event.
      *
      * @param Currency $currency
+     * @return void
      */
-    public function deleted(Currency $currency): void {}
+    public function deleted(Currency $currency): void
+    {
+        $this->clearCaches($currency);
+    }
 
     /**
-     * Handle the Currency "force deleted" event.
+     * Handle the Currency "saved" event.
      *
      * @param Currency $currency
+     * @return void
      */
-    public function forceDeleted(Currency $currency): void {}
+    public function saved(Currency $currency): void
+    {
+        $this->clearCaches($currency);
+    }
 
     /**
-     * Handle the Currency "restored" event.
+     * Clear relevant caches.
      *
      * @param Currency $currency
+     * @return void
      */
-    public function restored(Currency $currency): void {}
+    private function clearCaches(Currency $currency): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the Currency "updated" event.
+     * Forget the currency row count cache.
      *
-     * @param Currency $currency
+     * @return void
      */
-    public function updated(Currency $currency): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('currency-row-count');
+    }
 }

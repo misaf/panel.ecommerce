@@ -122,7 +122,7 @@ final class FaqResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Cache::rememberForever('faq_row_count', fn() => (string) Number::format(static::getModel()::count()));
+        return Cache::rememberForever('faq-row-count', fn() => (string) Number::format(static::getModel()::count()));
     }
 
     public static function getNavigationGroup(): ?string

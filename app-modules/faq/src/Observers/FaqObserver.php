@@ -16,50 +16,45 @@ final class FaqObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the Faq "created" event.
-     *
-     * @param Faq $faq
-     */
-    public function created(Faq $faq): void {}
-
-    /**
      * Handle the Faq "deleted" event.
      *
      * @param Faq $faq
+     * @return void
      */
     public function deleted(Faq $faq): void
     {
-        Cache::forget('faq_row_count');
+        $this->clearCaches($faq);
     }
-
-    /**
-     * Handle the Faq "force deleted" event.
-     *
-     * @param Faq $faq
-     */
-    public function forceDeleted(Faq $faq): void {}
-
-    /**
-     * Handle the Faq "restored" event.
-     *
-     * @param Faq $faq
-     */
-    public function restored(Faq $faq): void {}
 
     /**
      * Handle the Faq "saved" event.
      *
      * @param Faq $faq
+     * @return void
      */
-    public function saved(Faq $product): void
+    public function saved(Faq $faq): void
     {
-        Cache::forget('faq_row_count');
+        $this->clearCaches($faq);
     }
 
     /**
-     * Handle the Faq "updated" event.
+     * Clear relevant caches.
      *
      * @param Faq $faq
+     * @return void
      */
-    public function updated(Faq $faq): void {}
+    private function clearCaches(Faq $faq): void
+    {
+        $this->forgetRowCountCache();
+    }
+
+    /**
+     * Forget the faq row count cache.
+     *
+     * @return void
+     */
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('faq-row-count');
+    }
 }

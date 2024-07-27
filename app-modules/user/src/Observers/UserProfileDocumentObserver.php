@@ -6,6 +6,7 @@ namespace Termehsoft\User\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\User\Models\UserProfileDocument;
 
 final class UserProfileDocumentObserver implements ShouldQueue
@@ -15,37 +16,44 @@ final class UserProfileDocumentObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the UserProfileDocument "created" event.
-     *
-     * @param UserProfileDocument $userProfileDocument
-     */
-    public function created(UserProfileDocument $userProfileDocument): void {}
-
-    /**
      * Handle the UserProfileDocument "deleted" event.
      *
      * @param UserProfileDocument $userProfileDocument
+     * @return void
      */
-    public function deleted(UserProfileDocument $userProfileDocument): void {}
+    public function deleted(UserProfileDocument $userProfileDocument): void
+    {
+        $this->clearCaches($userProfileDocument);
+    }
 
     /**
-     * Handle the UserProfileDocument "force deleted" event.
+     * Handle the UserProfileDocument "saved" event.
      *
      * @param UserProfileDocument $userProfileDocument
+     * @return void
      */
-    public function forceDeleted(UserProfileDocument $userProfileDocument): void {}
+    public function saved(UserProfileDocument $userProfileDocument): void
+    {
+        $this->clearCaches($userProfileDocument);
+    }
 
     /**
-     * Handle the UserProfileDocument "restored" event.
+     * Clear relevant caches.
      *
      * @param UserProfileDocument $userProfileDocument
+     * @return void
      */
-    public function restored(UserProfileDocument $userProfileDocument): void {}
+    private function clearCaches(UserProfileDocument $userProfileDocument): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the UserProfileDocument "updated" event.
-     *
-     * @param UserProfileDocument $userProfileDocument
+     * Forget the user profile document row count cache.
+     * @return void
      */
-    public function updated(UserProfileDocument $userProfileDocument): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('user-profile-document-row-count');
+    }
 }

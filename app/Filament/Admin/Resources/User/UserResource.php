@@ -7,7 +7,6 @@ namespace App\Filament\Admin\Resources\User;
 use App\Filament\Admin\Resources\User\UserProfileDocumentResource\RelationManagers\UserProfileDocumentRelationManager;
 use App\Filament\Admin\Resources\User\UserProfileResource\RelationManagers\UserProfileRelationManager;
 use App\Filament\Admin\Resources\User\UserResource\Pages;
-use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -107,7 +106,7 @@ final class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Cache::tags(Filament::getCurrentPanel()->getId())->rememberForever('user_row_count', fn() => (string) Number::format(static::getModel()::count()));
+        return Cache::rememberForever('user-row-count', fn() => (string) Number::format(static::getModel()::count()));
     }
 
     public static function getNavigationGroup(): ?string

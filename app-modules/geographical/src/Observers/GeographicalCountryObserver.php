@@ -7,6 +7,7 @@ namespace Termehsoft\Geographical\Observers;
 use App\Jobs\DeleteImageJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Termehsoft\Geographical\Models\GeographicalCountry;
 
@@ -17,16 +18,10 @@ final class GeographicalCountryObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the GeographicalCountry "created" event.
-     *
-     * @param GeographicalCountry $geographicalCountry
-     */
-    public function created(GeographicalCountry $geographicalCountry): void {}
-
-    /**
      * Handle the GeographicalCountry "deleted" event.
      *
      * @param GeographicalCountry $geographicalCountry
+     * @return void
      */
     public function deleted(GeographicalCountry $geographicalCountry): void
     {
@@ -35,12 +30,15 @@ final class GeographicalCountryObserver implements ShouldQueue
             $geographicalCountry->geographicalCities()->delete();
             $geographicalCountry->geographicalNeighborhoods()->delete();
         });
+
+        $this->clearCaches($geographicalCountry);
     }
 
     /**
      * Handle the GeographicalCountry "deleting" event.
      *
      * @param GeographicalCountry $geographicalCountry
+     * @return void
      */
     public function deleting(GeographicalCountry $geographicalCountry): void
     {
@@ -60,23 +58,34 @@ final class GeographicalCountryObserver implements ShouldQueue
     }
 
     /**
-     * Handle the GeographicalCountry "force deleted" event.
+     * Handle the GeographicalCountry "saved" event.
      *
      * @param GeographicalCountry $geographicalCountry
+     * @return void
      */
-    public function forceDeleted(GeographicalCountry $geographicalCountry): void {}
+    public function saved(GeographicalCountry $geographicalCountry): void
+    {
+        $this->clearCaches($geographicalCountry);
+    }
 
     /**
-     * Handle the GeographicalCountry "restored" event.
+     * Clear relevant caches.
      *
      * @param GeographicalCountry $geographicalCountry
+     * @return void
      */
-    public function restored(GeographicalCountry $geographicalCountry): void {}
+    private function clearCaches(GeographicalCountry $geographicalCountry): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the GeographicalCountry "updated" event.
+     * Forget the geographical country row count cache.
      *
-     * @param GeographicalCountry $geographicalCountry
+     * @return void
      */
-    public function updated(GeographicalCountry $geographicalCountry): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('geographical-country-row-count');
+    }
 }

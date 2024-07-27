@@ -126,7 +126,7 @@ final class BlogPostResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Cache::rememberForever('blog_post_row_count', fn() => (string) Number::format(static::getModel()::count()));
+        return Cache::rememberForever('blog-post-row-count', fn() => (string) Number::format(static::getModel()::count()));
     }
 
     public static function getNavigationGroup(): ?string

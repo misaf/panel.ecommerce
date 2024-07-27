@@ -16,54 +16,40 @@ final class ProductObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the Product "created" event.
-     *
-     * @param Product $product
-     */
-    public function created(Product $product): void {}
-
-    /**
      * Handle the Product "deleted" event.
      *
      * @param Product $product
+     * @return void
      */
     public function deleted(Product $product): void
     {
         $this->deleteRelatedData($product);
 
-        $this->forgetProductRowCountCache();
+        $this->clearCaches($product);
     }
-
-    /**
-     * Handle the Product "force deleted" event.
-     *
-     * @param Product $product
-     */
-    public function forceDeleted(Product $product): void {}
-
-    /**
-     * Handle the Product "restored" event.
-     *
-     * @param Product $product
-     */
-    public function restored(Product $product): void {}
 
     /**
      * Handle the Product "saved" event.
      *
      * @param Product $product
+     * @return void
      */
     public function saved(Product $product): void
     {
-        $this->forgetProductRowCountCache();
+        $this->clearCaches($product);
     }
 
     /**
-     * Handle the Product "updated" event.
+     * Clear relevant caches.
      *
      * @param Product $product
+     * @return void
      */
-    public function updated(Product $product): void {}
+    private function clearCaches(Product $product): void
+    {
+        $this->forgetRowCountCache();
+        $this->forgetShowCache($product);
+    }
 
     /**
      * Delete related data when a product is deleted or force deleted.
@@ -81,8 +67,17 @@ final class ProductObserver implements ShouldQueue
      * Forget the product row count cache.
      * @return void
      */
-    private function forgetProductRowCountCache(): void
+    private function forgetRowCountCache(): void
     {
-        Cache::forget('product_row_count');
+        Cache::forget('product-row-count');
+    }
+
+    /**
+     * Forget the product show cache.
+     * @return void
+     */
+    private function forgetShowCache(Product $product): void
+    {
+        Cache::forget('show-product-' . $product->token);
     }
 }

@@ -6,6 +6,7 @@ namespace Termehsoft\Geographical\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\Geographical\Models\GeographicalNeighborhood;
 
 final class GeographicalNeighborhoodObserver implements ShouldQueue
@@ -15,37 +16,45 @@ final class GeographicalNeighborhoodObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the GeographicalNeighborhood "created" event.
-     *
-     * @param GeographicalNeighborhood $geographicalNeighborhood
-     */
-    public function created(GeographicalNeighborhood $geographicalNeighborhood): void {}
-
-    /**
      * Handle the GeographicalNeighborhood "deleted" event.
      *
      * @param GeographicalNeighborhood $geographicalNeighborhood
+     * @return void
      */
-    public function deleted(GeographicalNeighborhood $geographicalNeighborhood): void {}
+    public function deleted(GeographicalNeighborhood $geographicalNeighborhood): void
+    {
+        $this->clearCaches($geographicalNeighborhood);
+    }
 
     /**
-     * Handle the GeographicalNeighborhood "force deleted" event.
+     * Handle the GeographicalNeighborhood "saved" event.
      *
      * @param GeographicalNeighborhood $geographicalNeighborhood
+     * @return void
      */
-    public function forceDeleted(GeographicalNeighborhood $geographicalNeighborhood): void {}
+    public function saved(GeographicalNeighborhood $geographicalNeighborhood): void
+    {
+        $this->clearCaches($geographicalNeighborhood);
+    }
 
     /**
-     * Handle the GeographicalNeighborhood "restored" event.
+     * Clear relevant caches.
      *
      * @param GeographicalNeighborhood $geographicalNeighborhood
+     * @return void
      */
-    public function restored(GeographicalNeighborhood $geographicalNeighborhood): void {}
+    private function clearCaches(GeographicalNeighborhood $geographicalNeighborhood): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the GeographicalNeighborhood "updated" event.
+     * Forget the geographical neighborhood row count cache.
      *
-     * @param GeographicalNeighborhood $geographicalNeighborhood
+     * @return void
      */
-    public function updated(GeographicalNeighborhood $geographicalNeighborhood): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('geographical-neighborhood-row-count');
+    }
 }

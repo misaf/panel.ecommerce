@@ -7,6 +7,7 @@ namespace Termehsoft\Geographical\Observers;
 use App\Jobs\DeleteImageJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\Geographical\Models\GeographicalCity;
 
 final class GeographicalCityObserver implements ShouldQueue
@@ -16,26 +17,23 @@ final class GeographicalCityObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the GeographicalCity "created" event.
-     *
-     * @param GeographicalCity $geographicalCity
-     */
-    public function created(GeographicalCity $geographicalCity): void {}
-
-    /**
      * Handle the GeographicalCity "deleted" event.
      *
      * @param GeographicalCity $geographicalCity
+     * @return void
      */
     public function deleted(GeographicalCity $geographicalCity): void
     {
         $geographicalCity->geographicalNeighborhoods()->delete();
+
+        $this->clearCaches($geographicalCity);
     }
 
     /**
      * Handle the GeographicalCity "deleting" event.
      *
      * @param GeographicalCity $geographicalCity
+     * @return void
      */
     public function deleting(GeographicalCity $geographicalCity): void
     {
@@ -47,23 +45,34 @@ final class GeographicalCityObserver implements ShouldQueue
     }
 
     /**
-     * Handle the GeographicalCity "force deleted" event.
+     * Handle the GeographicalCity "saved" event.
      *
      * @param GeographicalCity $geographicalCity
+     * @return void
      */
-    public function forceDeleted(GeographicalCity $geographicalCity): void {}
+    public function saved(GeographicalCity $geographicalCity): void
+    {
+        $this->clearCaches($geographicalCity);
+    }
 
     /**
-     * Handle the GeographicalCity "restored" event.
+     * Clear relevant caches.
      *
      * @param GeographicalCity $geographicalCity
+     * @return void
      */
-    public function restored(GeographicalCity $geographicalCity): void {}
+    private function clearCaches(GeographicalCity $geographicalCity): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the GeographicalCity "updated" event.
+     * Forget the geographical state row count cache.
      *
-     * @param GeographicalCity $geographicalCity
+     * @return void
      */
-    public function updated(GeographicalCity $geographicalCity): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('geographical-city-row-count');
+    }
 }

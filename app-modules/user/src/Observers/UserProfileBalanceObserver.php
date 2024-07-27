@@ -6,6 +6,7 @@ namespace Termehsoft\User\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\User\Models\UserProfileBalance;
 
 final class UserProfileBalanceObserver implements ShouldQueue
@@ -15,37 +16,44 @@ final class UserProfileBalanceObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the UserProfileBalance "created" event.
-     *
-     * @param UserProfileBalance $userProfileBalance
-     */
-    public function created(UserProfileBalance $userProfileBalance): void {}
-
-    /**
      * Handle the UserProfileBalance "deleted" event.
      *
      * @param UserProfileBalance $userProfileBalance
+     * @return void
      */
-    public function deleted(UserProfileBalance $userProfileBalance): void {}
+    public function deleted(UserProfileBalance $userProfileBalance): void
+    {
+        $this->clearCaches($userProfileBalance);
+    }
 
     /**
-     * Handle the UserProfileBalance "force deleted" event.
+     * Handle the UserProfileBalance "saved" event.
      *
      * @param UserProfileBalance $userProfileBalance
+     * @return void
      */
-    public function forceDeleted(UserProfileBalance $userProfileBalance): void {}
+    public function saved(UserProfileBalance $userProfileBalance): void
+    {
+        $this->clearCaches($userProfileBalance);
+    }
 
     /**
-     * Handle the restored "created" event.
+     * Clear relevant caches.
      *
      * @param UserProfileBalance $userProfileBalance
+     * @return void
      */
-    public function restored(UserProfileBalance $userProfileBalance): void {}
+    private function clearCaches(UserProfileBalance $userProfileBalance): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the updated "created" event.
-     *
-     * @param UserProfileBalance $userProfileBalance
+     * Forget the user profile balance row count cache.
+     * @return void
      */
-    public function updated(UserProfileBalance $userProfileBalance): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('user-profile-balance-row-count');
+    }
 }

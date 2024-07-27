@@ -30,8 +30,30 @@ final class SwitchAppTask implements SwitchTenantTask
         $this->setLocale('fa');
         $this->setName($tenant->name);
         $this->setTimezone('Asia/Tehran');
-        $this->setAppUrl('https://panel.houshang-flowers.com');
-        $this->setAssetUrl('https://panel.houshang-flowers.com');
+        $this->setAppUrl(request()->getHost());
+        $this->setAssetUrl(request()->getHost());
+    }
+
+    private function setAppUrl(string $url): void
+    {
+        // We may want to look into defining whether we want to use https at the tenant level
+        $originalUrl = parse_url($this->original['url']);
+
+        config([
+            'app.url' => "{$originalUrl['scheme']}://{$url}",
+        ]);
+
+        URL::forceRootUrl(config('app.url'));
+    }
+
+    private function setAssetUrl(string $url): void
+    {
+        // We may want to look into defining whether we want to use https at the tenant level
+        $originalUrl = parse_url($this->original['asset_url']);
+
+        config([
+            'app.asset_url' => "{$originalUrl['scheme']}://{$url}",
+        ]);
     }
 
     private function setLocale(string $locale): void
@@ -52,30 +74,6 @@ final class SwitchAppTask implements SwitchTenantTask
     {
         config([
             'app.timezone' => $timezone,
-        ]);
-    }
-
-    private function setAppUrl(string $url): void
-    {
-        // We may want to look into defining whether we want to use https at the tenant level
-        // $scheme = parse_url($this->original)['scheme'];
-
-        config([
-            // 'app.url' => "{$scheme}://{domain}",
-            'app.url' => $url,
-        ]);
-
-        URL::forceRootUrl(config('app.url'));
-    }
-
-    private function setAssetUrl(string $url): void
-    {
-        // We may want to look into defining whether we want to use https at the tenant level
-        // $scheme = parse_url($this->original)['scheme'];
-
-        config([
-            // 'app.url' => "{$scheme}://{domain}",
-            'app.asset_url' => $url,
         ]);
     }
 }

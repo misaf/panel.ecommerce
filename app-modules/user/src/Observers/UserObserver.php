@@ -17,16 +17,10 @@ final class UserObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the User "created" event.
-     *
-     * @param User $user
-     */
-    public function created(User $user): void {}
-
-    /**
      * Handle the User "deleted" event.
      *
      * @param User $user
+     * @return void
      */
     public function deleted(User $user): void
     {
@@ -39,37 +33,37 @@ final class UserObserver implements ShouldQueue
             });
         });
 
-        Cache::forget('user_row_count');
+        $this->clearCaches($user);
     }
-
-    /**
-     * Handle the User "force deleted" event.
-     *
-     * @param User $user
-     */
-    public function forceDeleted(User $user): void {}
-
-    /**
-     * Handle the User "restored" event.
-     *
-     * @param User $user
-     */
-    public function restored(User $user): void {}
 
     /**
      * Handle the User "saved" event.
      *
      * @param User $user
+     * @return void
      */
     public function saved(User $user): void
     {
-        Cache::forget('user_row_count');
+        $this->clearCaches($user);
     }
 
     /**
-     * Handle the User "updated" event.
+     * Clear relevant caches.
      *
      * @param User $user
+     * @return void
      */
-    public function updated(User $user): void {}
+    private function clearCaches(User $user): void
+    {
+        $this->forgetRowCountCache();
+    }
+
+    /**
+     * Forget the user row count cache.
+     * @return void
+     */
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('user-row-count');
+    }
 }

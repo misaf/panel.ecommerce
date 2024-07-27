@@ -16,42 +16,47 @@ final class BlogPostCategoryObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the BlogPostCategory "created" event.
-     *
-     * @param BlogPostCategory $blogPostCategory
-     */
-    public function created(BlogPostCategory $blogPostCategory): void {}
-
-    /**
      * Handle the BlogPostCategory "deleted" event.
      *
      * @param BlogPostCategory $blogPostCategory
+     * @return void
      */
     public function deleted(BlogPostCategory $blogPostCategory): void
     {
         $blogPostCategory->blogPosts()->delete();
 
-        Cache::forget('blog_post_row_count');
+        $this->clearCaches($blogPostCategory);
     }
 
     /**
-     * Handle the BlogPostCategory "force deleted" event.
+     * Handle the BlogPostCategory "saved" event.
      *
-     * @param BlogPostCategory $blogPostCategory
+     * @param BlogPost $blogPost
+     * @return void
      */
-    public function forceDeleted(BlogPostCategory $blogPostCategory): void {}
+    public function saved(BlogPostCategory $blogPostCategory): void
+    {
+        $this->clearCaches($blogPostCategory);
+    }
 
     /**
-     * Handle the BlogPostCategory "restored" event.
+     * Clear relevant caches.
      *
      * @param BlogPostCategory $blogPostCategory
+     * @return void
      */
-    public function restored(BlogPostCategory $blogPostCategory): void {}
+    private function clearCaches(BlogPostCategory $blogPostCategory): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the BlogPostCategory "updated" event.
+     * Forget the blog post category row count cache.
      *
-     * @param BlogPostCategory $blogPostCategory
+     * @return void
      */
-    public function updated(BlogPostCategory $blogPostCategory): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('blog-post-category-row-count');
+    }
 }

@@ -6,6 +6,7 @@ namespace Termehsoft\Product\Policies;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\Product\Models\ProductCategory;
 
 final class ProductCategoryObserver implements ShouldQueue
@@ -15,42 +16,39 @@ final class ProductCategoryObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the ProductCategory "created" event.
-     *
-     * @param ProductCategory $productCategory
-     */
-    public function created(ProductCategory $productCategory): void {}
-
-    /**
      * Handle the ProductCategory "deleted" event.
      *
      * @param ProductCategory $productCategory
+     * @return void
      */
     public function deleted(ProductCategory $productCategory): void
     {
         $this->deleteRelatedProducts($productCategory);
+
+        $this->clearCaches($productCategory);
     }
 
     /**
-     * Handle the ProductCategory "force deleted" event.
+     * Handle the ProductCategory "saved" event.
      *
      * @param ProductCategory $productCategory
+     * @return void
      */
-    public function forceDeleted(ProductCategory $productCategory): void {}
+    public function saved(ProductCategory $productCategory): void
+    {
+        $this->clearCaches($productCategory);
+    }
 
     /**
-     * Handle the ProductCategory "restored" event.
+     * Clear relevant caches.
      *
      * @param ProductCategory $productCategory
+     * @return void
      */
-    public function restored(ProductCategory $productCategory): void {}
-
-    /**
-     * Handle the ProductCategory "updated" event.
-     *
-     * @param ProductCategory $productCategory
-     */
-    public function updated(ProductCategory $productCategory): void {}
+    private function clearCaches(ProductCategory $productCategory): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
      * Delete related products when a product category is deleted or force deleted.
@@ -65,5 +63,15 @@ final class ProductCategoryObserver implements ShouldQueue
             $product->orderProducts()->delete();
             $product->delete();
         });
+    }
+
+    /**
+     * Forget the product category row count cache.
+     *
+     * @return void
+     */
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('product-category-row-count');
     }
 }

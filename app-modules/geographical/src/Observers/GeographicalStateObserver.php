@@ -7,6 +7,7 @@ namespace Termehsoft\Geographical\Observers;
 use App\Jobs\DeleteImageJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Termehsoft\Geographical\Models\GeographicalState;
 
@@ -17,16 +18,10 @@ final class GeographicalStateObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the GeographicalState "created" event.
-     *
-     * @param GeographicalState $geographicalState
-     */
-    public function created(GeographicalState $geographicalState): void {}
-
-    /**
      * Handle the GeographicalState "deleted" event.
      *
      * @param GeographicalState $geographicalState
+     * @return void
      */
     public function deleted(GeographicalState $geographicalState): void
     {
@@ -34,12 +29,15 @@ final class GeographicalStateObserver implements ShouldQueue
             $geographicalState->geographicalCities()->delete();
             $geographicalState->geographicalNeighborhoods()->delete();
         });
+
+        $this->clearCaches($geographicalState);
     }
 
     /**
      * Handle the GeographicalState "deleting" event.
      *
      * @param GeographicalState $geographicalState
+     * @return void
      */
     public function deleting(GeographicalState $geographicalState): void
     {
@@ -55,23 +53,34 @@ final class GeographicalStateObserver implements ShouldQueue
     }
 
     /**
-     * Handle the GeographicalState "force deleted" event.
+     * Handle the GeographicalState "saved" event.
      *
      * @param GeographicalState $geographicalState
+     * @return void
      */
-    public function forceDeleted(GeographicalState $geographicalState): void {}
+    public function saved(GeographicalState $geographicalState): void
+    {
+        $this->clearCaches($geographicalState);
+    }
 
     /**
-     * Handle the GeographicalState "restored" event.
+     * Clear relevant caches.
      *
      * @param GeographicalState $geographicalState
+     * @return void
      */
-    public function restored(GeographicalState $geographicalState): void {}
+    private function clearCaches(GeographicalState $geographicalState): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the GeographicalState "updated" event.
+     * Forget the geographical state row count cache.
      *
-     * @param GeographicalState $geographicalState
+     * @return void
      */
-    public function updated(GeographicalState $geographicalState): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('geographical-state-row-count');
+    }
 }

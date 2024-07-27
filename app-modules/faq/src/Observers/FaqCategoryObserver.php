@@ -6,6 +6,7 @@ namespace Termehsoft\Faq\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Termehsoft\Faq\Models\FaqCategory;
 
 final class FaqCategoryObserver implements ShouldQueue
@@ -15,40 +16,47 @@ final class FaqCategoryObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the FaqCategory "created" event.
-     *
-     * @param FaqCategory $faqCategory
-     */
-    public function created(FaqCategory $faqCategory): void {}
-
-    /**
      * Handle the FaqCategory "deleted" event.
      *
      * @param FaqCategory $faqCategory
+     * @return void
      */
     public function deleted(FaqCategory $faqCategory): void
     {
         $faqCategory->faqs()->delete();
+
+        $this->clearCaches($faqCategory);
     }
 
     /**
-     * Handle the FaqCategory "force deleted" event.
+     * Handle the FaqCategory "saved" event.
      *
      * @param FaqCategory $faqCategory
+     * @return void
      */
-    public function forceDeleted(FaqCategory $faqCategory): void {}
+    public function saved(FaqCategory $faqCategory): void
+    {
+        $this->clearCaches($faqCategory);
+    }
 
     /**
-     * Handle the FaqCategory "restored" event.
+     * Clear relevant caches.
      *
      * @param FaqCategory $faqCategory
+     * @return void
      */
-    public function restored(FaqCategory $faqCategory): void {}
+    private function clearCaches(FaqCategory $faqCategory): void
+    {
+        $this->forgetRowCountCache();
+    }
 
     /**
-     * Handle the FaqCategory "updated" event.
+     * Forget the currenncy category row count cache.
      *
-     * @param FaqCategory $faqCategory
+     * @return void
      */
-    public function updated(FaqCategory $faqCategory): void {}
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('faq-category-row-count');
+    }
 }

@@ -16,43 +16,61 @@ final class BlogPostObserver implements ShouldQueue
     public bool $afterCommit = true;
 
     /**
-     * Handle the BlogPost "created" event.
-     *
-     * @param BlogPost $blogPost
-     */
-    public function created(BlogPost $blogPost): void
-    {
-        Cache::forget('blog_post_row_count');
-    }
-
-    /**
      * Handle the BlogPost "deleted" event.
      *
      * @param BlogPost $blogPost
+     * @return void
      */
     public function deleted(BlogPost $blogPost): void
     {
-        Cache::forget('blog_post_row_count');
+        $this->clearCaches($blogPost);
     }
 
     /**
-     * Handle the BlogPost "force deleted" event.
+     * Handle the BlogPost "saved" event.
      *
      * @param BlogPost $blogPost
+     * @return void
      */
-    public function forceDeleted(BlogPost $blogPost): void {}
+    public function saved(BlogPost $blogPost): void
+    {
+        $this->clearCaches($blogPost);
+    }
 
     /**
-     * Handle the BlogPost "restored" event.
+     * Clear relevant caches.
      *
      * @param BlogPost $blogPost
+     * @return void
      */
-    public function restored(BlogPost $blogPost): void {}
+    private function clearCaches(BlogPost $blogPost): void
+    {
+        $this->forgetRowCountCache();
+        $this->forgetShowCache($blogPost);
+    }
 
     /**
-     * Handle the BlogPost "updated" event.
+     * Forget the blog post row count cache.
+     *
+     * @return void
+     */
+    private function forgetRowCountCache(): void
+    {
+        Cache::forget('blog-post-row-count');
+    }
+
+    /**
+     * Forget the blog post show cache.
      *
      * @param BlogPost $blogPost
+     * @return void
      */
-    public function updated(BlogPost $blogPost): void {}
+    private function forgetShowCache(BlogPost $blogPost): void
+    {
+        $slugs = $blogPost->getTranslations('slug');
+
+        foreach ($slugs as $slug) {
+            Cache::forget('show-blog-post-' . $slug);
+        }
+    }
 }
