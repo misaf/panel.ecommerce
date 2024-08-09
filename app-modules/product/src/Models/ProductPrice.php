@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Termehsoft\Currency\Models\Currency;
 use Termehsoft\Currency\Models\CurrencyCategory;
+use Termehsoft\Product\Observers\ProductPriceObserver;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as TraitBelongsToThrough;
 
-#[ObservedBy([ProductPrice::class])]
+#[ObservedBy([ProductPriceObserver::class])]
 final class ProductPrice extends BaseModel
 {
     use SoftDeletes;
