@@ -34,6 +34,15 @@ final class LanguageLine extends BaseModel
         'text',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     protected $translatable = ['text'];
 
     public static function boot(): void

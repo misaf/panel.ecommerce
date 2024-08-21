@@ -44,4 +44,13 @@ final class Language extends BaseModelWithMedia implements
         'position',
         'status',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
 }

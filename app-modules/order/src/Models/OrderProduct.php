@@ -50,6 +50,15 @@ final class OrderProduct extends BaseModel implements
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
+    /**
      * Get the user that owns the profile.
      *
      * @return BelongsToThrough

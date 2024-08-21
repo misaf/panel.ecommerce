@@ -112,13 +112,13 @@ final class LanguageLineResource extends Resource
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('form.created_at'))
-                    ->dateTime('Y-m-d H:i')
+                    ->jalaliDateTime(format: 'Y-m-d H:i', ignore: app()->isLocale('en'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label(__('form.updated_at'))
-                    ->dateTime('Y-m-d H:i')
+                    ->jalaliDateTime(format: 'Y-m-d H:i', ignore: app()->isLocale('en'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

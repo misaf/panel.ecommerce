@@ -38,4 +38,13 @@ final class CurrencyCategory extends BaseModelWithMedia implements
         'slug',
         'status',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
 }

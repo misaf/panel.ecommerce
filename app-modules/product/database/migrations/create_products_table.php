@@ -112,8 +112,7 @@ return new class () extends Migration {
                 ->nullable();
             $table->longText('slug');
             $table->string('token')
-                ->index()
-                ->token();
+                ->index();
             $table->tinyInteger('quantity')
                 ->nullable()
                 ->index();

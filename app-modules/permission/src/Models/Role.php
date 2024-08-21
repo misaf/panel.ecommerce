@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Role as SpatieRole;
-use Termehsoft\Permission\Policies\RoleObserver;
+use Termehsoft\Permission\Observers\RoleObserver;
 use Termehsoft\Tenant\Traits\BelongsToTenant;
 
 #[ObservedBy([RoleObserver::class])]
@@ -35,5 +35,14 @@ final class Role extends SpatieRole
     protected $fillable = [
         'name',
         'guard_name',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
     ];
 }

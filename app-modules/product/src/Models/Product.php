@@ -62,6 +62,15 @@ final class Product extends BaseModelWithMedia implements
         'availability_date',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function ggg()
     {
         return $this->getFirstMedia()->toHtml();

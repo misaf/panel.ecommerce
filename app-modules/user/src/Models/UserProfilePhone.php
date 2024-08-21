@@ -49,6 +49,15 @@ final class UserProfilePhone extends BaseModel implements
         'verified_at',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public static function boot(): void
     {
         parent::boot();

@@ -147,7 +147,7 @@ final class UserProfileDocumentResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime('Y-m-d H:i')
+                    ->jalaliDateTime(format: 'Y-m-d H:i', ignore: app()->isLocale('en'))
                     ->label(__('form.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

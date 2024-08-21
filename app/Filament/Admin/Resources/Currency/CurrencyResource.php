@@ -199,13 +199,13 @@ final class CurrencyResource extends Resource
                     ->onIcon('heroicon-m-bolt'),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime('Y-m-d H:i')
+                    ->jalaliDateTime(format: 'Y-m-d H:i', ignore: app()->isLocale('en'))
                     ->label(__('form.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime('Y-m-d H:i')
+                    ->jalaliDateTime(format: 'Y-m-d H:i', ignore: app()->isLocale('en'))
                     ->label(__('form.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

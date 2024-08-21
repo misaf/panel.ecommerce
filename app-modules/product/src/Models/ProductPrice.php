@@ -39,6 +39,15 @@ final class ProductPrice extends BaseModel
         'price',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     protected $with = ['currency'];
 
     public function currency(): BelongsTo

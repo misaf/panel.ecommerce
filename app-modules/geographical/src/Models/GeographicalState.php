@@ -40,6 +40,15 @@ final class GeographicalState extends BaseModelWithMedia
         'status',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function geographicalCities(): HasMany
     {
         return $this->hasMany(GeographicalCity::class);

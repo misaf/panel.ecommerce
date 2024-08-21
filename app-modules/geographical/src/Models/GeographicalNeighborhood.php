@@ -38,6 +38,15 @@ final class GeographicalNeighborhood extends BaseModelWithMedia
         'status',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function geographicalCity(): BelongsTo
     {
         return $this->belongsTo(GeographicalCity::class);

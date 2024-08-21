@@ -54,6 +54,15 @@ final class ProductCategory extends BaseModelWithMedia implements
         'status',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function orderProducts(): HasManyThrough
     {
         return $this->hasManyThrough(OrderProduct::class, Product::class);

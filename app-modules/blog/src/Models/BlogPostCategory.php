@@ -48,6 +48,15 @@ final class BlogPostCategory extends BaseModelWithMedia implements
         'status',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function blogPosts(): HasMany
     {
         return $this->hasMany(BlogPost::class);

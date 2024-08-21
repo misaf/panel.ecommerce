@@ -48,6 +48,15 @@ final class UserProfile extends BaseModelWithMedia implements
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
+    /**
      * Get the full name of the user.
      *
      * @return Attribute

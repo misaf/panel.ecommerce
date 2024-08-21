@@ -43,4 +43,13 @@ final class UserProfileBalance extends BaseModel implements
         'amount',
         'status',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
 }

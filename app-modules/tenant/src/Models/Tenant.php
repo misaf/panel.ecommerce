@@ -50,7 +50,7 @@ use Termehsoft\User\Traits\HasUserProfilePhone as UserProfilePhoneTrait;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as TraitBelongsToThrough;
 
-class Tenant extends SpatieTenant implements
+final class Tenant extends SpatieTenant implements
     CurrencyInterface,
     UserProfileBalanceInterface,
     UserProfileDocumentInterface,

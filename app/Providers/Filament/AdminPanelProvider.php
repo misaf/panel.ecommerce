@@ -6,6 +6,7 @@ namespace App\Providers\Filament;
 
 use App\Http\Middleware\EncryptCookies;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Filament\Facades\Filament;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -170,20 +171,24 @@ final class AdminPanelProvider extends PanelProvider
      */
     private function registerTableActions(): void
     {
-        Table::configureUsing(function (Table $table): void {
-            $table->paginationPageOptions([10, 25, 50]);
-        });
+        Filament::serving(function (): void {
+            Table::$defaultNumberLocale = 'en';
 
-        ViewAction::configureUsing(function (ViewAction $viewAction): void {
-            $viewAction->button();
-        });
+            Table::configureUsing(function (Table $table): void {
+                $table->paginationPageOptions([10, 25, 50]);
+            });
 
-        EditAction::configureUsing(function (EditAction $editAction): void {
-            $editAction->button();
-        });
+            ViewAction::configureUsing(function (ViewAction $viewAction): void {
+                $viewAction->link();
+            });
 
-        DeleteAction::configureUsing(function (DeleteAction $deleteAction): void {
-            $deleteAction->button();
+            EditAction::configureUsing(function (EditAction $editAction): void {
+                $editAction->link();
+            });
+
+            DeleteAction::configureUsing(function (DeleteAction $deleteAction): void {
+                $deleteAction->link();
+            });
         });
     }
 }

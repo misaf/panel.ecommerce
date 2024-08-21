@@ -59,6 +59,15 @@ final class Currency extends BaseModelWithMedia implements
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
+    /**
      * Get the currency category that owns the currency.
      *
      * @return BelongsTo

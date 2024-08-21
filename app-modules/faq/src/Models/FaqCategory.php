@@ -39,6 +39,15 @@ final class FaqCategory extends BaseModelWithMedia
         'status',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function faqs(): HasMany
     {
         return $this->hasMany(Faq::class);

@@ -37,4 +37,13 @@ final class UserProfileDocument extends BaseModelWithMedia implements
         'status',
         'verified_at',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
 }

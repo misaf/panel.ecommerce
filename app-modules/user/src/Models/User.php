@@ -55,6 +55,7 @@ final class User extends Authenticatable implements
     ];
 
     protected $hidden = [
+        'tenant_id',
         'password',
         'remember_token',
     ];

@@ -33,6 +33,15 @@ final class Transaction extends BaseModel
         'status',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
+    ];
+
     public function transactionable(): MorphTo
     {
         return $this->morphTo();

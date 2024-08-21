@@ -6,6 +6,8 @@ namespace Termehsoft\Order\Models;
 
 use App\Casts\DateCast;
 use App\Models\BaseModel;
+use Termehsoft\Currency;
+use Termehsoft\User;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,11 +17,9 @@ use Znck\Eloquent\Traits\BelongsToThrough as TraitBelongsToThrough;
 #[ObservedBy([OrderObserver::class])]
 final class Order extends BaseModel implements
     Currency\Contracts\BelongsToCurrency,
-    Currency\Contracts\BelongsToCurrencyCategoryThroughCurrency,
     User\Contracts\BelongsToUser
 {
     use Currency\Traits\BelongsToCurrency;
-    use Currency\Traits\BelongsToCurrencyCategoryThroughCurrency;
     use SoftDeletes;
     use TraitBelongsToThrough;
     use User\Traits\BelongsToUser;
@@ -44,6 +44,15 @@ final class Order extends BaseModel implements
         'discount_amount',
         'reference_code',
         'status',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
     ];
 
     public function transactions(): MorphMany

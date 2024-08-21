@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Permission as SpatiePermission;
-use Termehsoft\Permission\Policies\PermissionObserver;
+use Termehsoft\Permission\Observers\PermissionObserver;
 use Termehsoft\Tenant\Traits\BelongsToTenant;
 
 #[ObservedBy([PermissionObserver::class])]
@@ -35,5 +35,14 @@ final class Permission extends SpatiePermission
     protected $fillable = [
         'name',
         'guard_name',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tenant_id',
     ];
 }

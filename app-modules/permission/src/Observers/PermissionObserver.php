@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Termehsoft\Permission\Policies;
+namespace Termehsoft\Permission\Observers;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
