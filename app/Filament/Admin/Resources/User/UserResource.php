@@ -33,13 +33,6 @@ final class UserResource extends Resource
     {
         return $form
             ->schema([
-                // Forms\Components\TextInput::make('username')
-                //     ->autocomplete(false)
-                //     ->autofocus()
-                //     ->label(__('form.username'))
-                //     ->maxLength(255),
-                // ->required()
-
                 Forms\Components\TextInput::make('email')
                     ->autocomplete(false)
                     ->email()
@@ -118,14 +111,6 @@ final class UserResource extends Resource
     {
         return __('navigation.user');
     }
-
-    // public static function getRelations(): array
-    // {
-    //     return [
-    //         // UserProfileRelationManager::class,
-    //         // UserProfileDocumentRelationManager::class
-    //     ];
-    // }
 
     public static function getPages(): array
     {
