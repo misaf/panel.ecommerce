@@ -5246,7 +5246,7 @@
             "dist": {
                 "type": "path",
                 "url": "app-modules/authify-log",
-                "reference": "e157dc09634ad6bb68860533b40bd8c97e229c55"
+                "reference": "24e9e21b048203ac4526c28a07317569b11039b3"
             },
             "require": {
                 "php": "^8.3",
