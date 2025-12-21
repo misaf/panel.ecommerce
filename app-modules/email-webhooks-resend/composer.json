@@ -1,0 +1,52 @@
+{
+    "name": "misaf/email-webhooks-resend",
+    "description": "Resend email webhook integration for Laravel.",
+    "type": "library",
+    "version": "v1.0.1",
+    "license": "proprietary",
+    "keywords": [
+        "laravel",
+        "email",
+        "webhook",
+        "resend",
+        "event",
+        "integration"
+    ],
+    "authors": [
+        {
+            "name": "Misaf",
+            "email": "misaf.1990@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "misaf/email-webhooks": "^1.0.0",
+        "spatie/laravel-webhook-client": "^3.4.3"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.0",
+        "orchestra/testbench": "^9.0"
+    },
+    "scripts": {
+        "test": "pest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\EmailWebhooksResend\\": "src/",
+            "Misaf\\EmailWebhooksResend\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\EmailWebhooksResend\\Providers\\EmailWebhooksResendServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

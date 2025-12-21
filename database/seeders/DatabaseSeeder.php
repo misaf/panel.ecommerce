@@ -4,24 +4,32 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Misaf\Currency\Database\Seeders\CurrencySeeder;
+use Misaf\Newsletter\Database\Seeders\NewsletterSeeder;
+use Misaf\Permission\Database\Seeders\PermissionSeeder;
+use Misaf\Permission\Database\Seeders\RoleAssignmentSeeder;
+use Misaf\Tenant\Database\Seeders\TenantSeeder;
+use Misaf\User\Database\Seeders\UserSeeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * @return void
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name'  => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            TenantSeeder::class,
+            CurrencySeeder::class,
+            PermissionSeeder::class,
+            UserSeeder::class,
+            RoleAssignmentSeeder::class,
+            SettingsSeeder::class,
+            // NewsletterSeeder::class,
         ]);
     }
 }

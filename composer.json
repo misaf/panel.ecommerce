@@ -7,20 +7,54 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^4.0",
-        "laravel/framework": "^12.0",
-        "laravel/horizon": "^5.40",
-        "laravel/tinker": "^2.10.1"
+        "awcodes/filament-badgeable-column": "^3.0",
+        "bezhansalleh/filament-language-switch": "^4.0",
+        "bezhansalleh/filament-panel-switch": "^2.0",
+        "brick/money": ">=0.10.2",
+        "filament/filament": "^4.3.1",
+        "filament/spatie-laravel-media-library-plugin": "^4.3.1",
+        "filament/spatie-laravel-settings-plugin": "^4.3.1",
+        "filament/spatie-laravel-tags-plugin": "^4.3.1",
+        "flowframe/laravel-trend": ">=0.4",
+        "internachi/modular": "^2.3",
+        "lara-zeus/spatie-translatable": "^1.0.4",
+        "laravel/framework": "^12.43.1",
+        "laravel/horizon": "^5.41",
+        "laravel/sanctum": "^4.2.1",
+        "laravel/tinker": "^2.10.2",
+        "misaf/affiliate": "^1.0.1",
+        "misaf/authify-log": "^1.0.1",
+        "misaf/currency": "^1.0.3",
+        "misaf/email-webhooks": "^1.0.1",
+        "misaf/email-webhooks-resend": "^1.0.1",
+        "misaf/faq": "^1.0.3",
+        "misaf/geographical": "^1.0.1",
+        "misaf/language": "^1.0.4",
+        "misaf/newsletter": "^1.0.2",
+        "misaf/page": "^1.0.1",
+        "misaf/permission": "^1.0.3",
+        "misaf/tag": "^1.0.4",
+        "misaf/tenant": "^1.0.2",
+        "misaf/transaction": "^1.0.3",
+        "misaf/user": "^1.0.1",
+        "misaf/user-level": "^1.0.1",
+        "misaf/user-messenger": "^1.0.1",
+        "mokhosh/filament-jalali": "^5.1",
+        "morilog/jalali": "^3.4.2",
+        "owenvoke/blade-fontawesome": "^2.9.1",
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "stijnvanouplines/blade-country-flags": "^1.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
-        "laravel/boost": "^1.8",
-        "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.24",
-        "laravel/sail": "^1.41",
-        "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^4.1",
+        "barryvdh/laravel-debugbar": "^3.16",
+        "fakerphp/faker": "^1.24.1",
+        "laravel/boost": "^1.8.7",
+        "laravel/pail": "^1.2.4",
+        "laravel/pint": "^1.26",
+        "laravel/sail": "^1.51",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.8.3",
+        "pestphp/pest": "^4.2",
         "pestphp/pest-plugin-laravel": "^4.0"
     },
     "autoload": {
@@ -88,5 +122,14 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "app-modules/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }

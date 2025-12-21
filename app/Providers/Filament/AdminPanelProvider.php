@@ -4,49 +4,64 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Admin\Pages\Auth\EditProfile;
+use App\Filament\Admin\Pages\Auth\Login;
+use App\Settings\GeneralSettings;
+use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+use Filament\Enums\ThemeMode;
+use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
+use Filament\Support\Enums\Width;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
+use Misaf\Tenant\Models\Tenant;
+use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
+use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
-class AdminPanelProvider extends PanelProvider
+final class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
-            ->colors([
-                'primary' => Color::Amber,
-            ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
+            ->id('panel-admin')
+            ->authMiddleware([Authenticate::class])
+            ->brandLogo(fn() => app()->environment('production')
+                ? asset('images/' . Tenant::current()->slug . '.webp')
+                : null)
+            ->brandLogoHeight('10rem')
+            ->brandName(fn(GeneralSettings $generalSettings) => $generalSettings->site_title . ' Admin')
+            ->sidebarFullyCollapsibleOnDesktop()
+            ->databaseNotifications()
+            ->databaseTransactions()
+            ->defaultThemeMode(ThemeMode::Dark)
+            ->discoverClusters(app_path('Filament/Admin/Clusters'), 'App\\Filament\\Admin\\Clusters')
+            ->discoverPages(app_path('Filament/Admin/Pages'), 'App\\Filament\\Admin\\Pages')
+            ->discoverResources(app_path('Filament/Admin/Resources'), 'App\\Filament\\Admin\\Resources')
+            ->discoverWidgets(app_path('Filament/Admin/Widgets'), 'App\\Filament\\Admin\\Widgets')
+            ->font('yekan', 'https://cdn.font-store.ir/yekan.css', LocalFontProvider::class)
+            ->globalSearchFieldKeyBindingSuffix()
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->homeUrl('/')
+            ->login(Login::class)
+            ->maxContentWidth(Width::ScreenExtraLarge)
             ->middleware([
+                NeedsTenant::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
+                EnsureValidTenantSession::class,
                 AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
@@ -54,8 +69,34 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
+            ->persistentMiddleware([
+                NeedsTenant::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()->label(fn(): string => __('navigation.user_management'))->icon('heroicon-o-users')->collapsed(),
+                NavigationGroup::make()->label(fn(): string => __('navigation.transaction_management'))->icon('heroicon-o-users')->collapsed(),
+                NavigationGroup::make()->label(fn(): string => __('navigation.game_management'))->icon('heroicon-o-puzzle-piece')->collapsed(),
+                NavigationGroup::make()->label(fn(): string => __('navigation.content_management'))->icon('heroicon-o-users')->collapsed(),
+                NavigationGroup::make()->label(fn(): string => __('navigation.report_management'))->icon('heroicon-o-bug-ant')->collapsed(),
+                NavigationGroup::make()->label(fn(): string => __('navigation.setting_management'))->icon('heroicon-o-cog-6-tooth')->collapsed(),
+            ])
+            ->path('/admin')
+            ->profile(EditProfile::class, isSimple: false)
+            ->maxContentWidth(Width::Full)
+            ->spa()
+            ->unsavedChangesAlerts()
+            // ->userMenuItems([
+            //     'profile' => MenuItem::make()
+            //         ->label(fn(): string => filament()->auth()->user()->username),
+            // ])
+            ->plugins([
+                SpatieTranslatablePlugin::make()
+                    ->defaultLocales(['fa', 'en']),
+
+                // FilamentDeveloperLoginsPlugin::make()
+                //     ->enabled(app()->environment('local'))
+                //     ->users(fn() => User::query()->role(['super-admin'])->pluck('email', 'username')->toArray())
+                //     ->modelClass(User::class),
             ]);
     }
 }
