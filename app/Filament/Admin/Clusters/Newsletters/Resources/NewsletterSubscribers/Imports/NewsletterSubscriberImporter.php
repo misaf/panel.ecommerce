@@ -25,9 +25,9 @@ final class NewsletterSubscriberImporter extends Importer
         return [
             ImportColumn::make('newsletter')
                 ->array(',')
-                ->example(__('newsletter/importer.newsletter_slug.example'))
+                ->example(__('newsletter::importer.newsletter_slug.example'))
                 ->exampleHeader('newsletter')
-                ->helperText(__('newsletter/importer.newsletter_slug.helper_text'))
+                ->helperText(__('newsletter::importer.newsletter_slug.helper_text'))
                 ->label('newsletter')
                 ->requiredMapping()
                 ->rules(['bail', 'required', 'array', 'max:10'])
@@ -41,17 +41,17 @@ final class NewsletterSubscriberImporter extends Importer
                 }),
 
             ImportColumn::make('user')
-                ->example(__('newsletter/importer.user.example'))
+                ->example(__('newsletter::importer.user.example'))
                 ->exampleHeader('username')
-                ->helperText(__('newsletter/importer.user.helper_text'))
+                ->helperText(__('newsletter::importer.user.helper_text'))
                 ->label('username')
                 ->relationship(resolveUsing: 'username')
                 ->rules(['bail', 'nullable', 'string', 'max:255']),
 
             ImportColumn::make('email')
-                ->example(__('newsletter/importer.email.example'))
+                ->example(__('newsletter::importer.email.example'))
                 ->exampleHeader('email_address')
-                ->helperText(__('newsletter/importer.email.helper_text'))
+                ->helperText(__('newsletter::importer.email.helper_text'))
                 ->label('email_address')
                 ->requiredMapping()
                 ->rules(function (array $options, NewsletterSubscriber $record) {
@@ -103,12 +103,12 @@ final class NewsletterSubscriberImporter extends Importer
         return [
             Toggle::make('enable_real_email_validation')
                 ->default(true)
-                ->label(__('newsletter/importer.options.enable_real_email_validation.label'))
+                ->label(__('newsletter::importer.options.enable_real_email_validation.label'))
                 ->onIcon('heroicon-m-bolt'),
 
             Toggle::make('update_existing_records')
-                ->helperText(__('newsletter/importer.options.update_existing_records.helper_text'))
-                ->label(__('newsletter/importer.options.update_existing_records.label'))
+                ->helperText(__('newsletter::importer.options.update_existing_records.helper_text'))
+                ->label(__('newsletter::importer.options.update_existing_records.label'))
                 ->onIcon('heroicon-m-bolt'),
         ];
     }
@@ -122,14 +122,14 @@ final class NewsletterSubscriberImporter extends Importer
         $successfulCount = number_format($import->successful_rows);
         $successfulRows = str('row')->plural($import->successful_rows)->toString();
 
-        $body = __('newsletter/importer.notification.completed_body', [
+        $body = __('newsletter::importer.notification.completed_body', [
             'successful_count' => $successfulCount,
             'successful_rows'  => $successfulRows,
         ]);
 
         $failedRowsCount = $import->getFailedRowsCount();
         if ($failedRowsCount > 0) {
-            $body .= ' ' . __('newsletter/importer.notification.failed_rows', [
+            $body .= ' ' . __('newsletter::importer.notification.failed_rows', [
                 'failed_count' => number_format($failedRowsCount),
                 'failed_rows'  => str('row')->plural($failedRowsCount)->toString(),
             ]);

@@ -37,9 +37,9 @@ final class NewsletterSendHistorySentCountOverview extends StatsOverviewWidget
             Stat::make('newsletter_send_history_sent_count_stats', Number::format((int) $sentData['total']))
                 ->chart($sentData['chart'])
                 ->color('success')
-                ->description(__('newsletter/widgets.newsletter_send_history_sent_count_stats_description'))
+                ->description(__('newsletter::widgets.newsletter_send_history_sent_count_stats_description'))
                 ->descriptionIcon('heroicon-m-chart-bar', IconPosition::Before)
-                ->label(__('newsletter/widgets.newsletter_send_history_sent_count_stats')),
+                ->label(__('newsletter::widgets.newsletter_send_history_sent_count_stats')),
         ];
     }
 

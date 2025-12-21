@@ -18,12 +18,12 @@ final class NewsletterSendHistoryRelationManager extends RelationManager
 
     public static function getModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter_send_history');
+        return __('newsletter::navigation.newsletter_send_history');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('newsletter/navigation.newsletter_send_history');
+        return __('newsletter::navigation.newsletter_send_history');
     }
 
     public function isReadOnly(): bool

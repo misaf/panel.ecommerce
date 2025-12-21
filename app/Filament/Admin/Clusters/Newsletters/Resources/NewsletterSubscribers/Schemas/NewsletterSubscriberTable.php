@@ -48,7 +48,7 @@ final class NewsletterSubscriberTable
                     ->copyMessage(__('form.saved'))
                     ->copyMessageDuration(1500)
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.email'))
+                    ->label(__('newsletter::attributes.email'))
                     ->searchable()
                     ->prefixBadges([
                         Badge::make('username')
@@ -68,7 +68,7 @@ final class NewsletterSubscriberTable
                     ->badge()
                     ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.created_at'))
+                    ->label(__('newsletter::attributes.created_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->toggleable()
@@ -79,7 +79,7 @@ final class NewsletterSubscriberTable
                     ->badge()
                     ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.updated_at'))
+                    ->label(__('newsletter::attributes.updated_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -106,13 +106,13 @@ final class NewsletterSubscriberTable
                 QueryBuilder::make()
                     ->constraints([
                         TextConstraint::make('email')
-                            ->label(__('newsletter/attributes.email')),
+                            ->label(__('newsletter::attributes.email')),
 
                         DateConstraint::make('created_at')
-                            ->label(__('newsletter/attributes.created_at')),
+                            ->label(__('newsletter::attributes.created_at')),
 
                         DateConstraint::make('updated_at')
-                            ->label(__('newsletter/attributes.updated_at')),
+                            ->label(__('newsletter::attributes.updated_at')),
 
                         RelationshipConstraint::make('tags')
                             ->label(__('tag::navigation.tag'))

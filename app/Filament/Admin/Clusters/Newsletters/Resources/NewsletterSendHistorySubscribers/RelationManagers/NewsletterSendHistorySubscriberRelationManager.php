@@ -18,17 +18,17 @@ final class NewsletterSendHistorySubscriberRelationManager extends RelationManag
 
     public static function getModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter_send_history_subscriber');
+        return __('newsletter::navigation.newsletter_send_history_subscriber');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter_send_history_subscriber');
+        return __('newsletter::navigation.newsletter_send_history_subscriber');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('newsletter/navigation.newsletter_send_history_subscriber');
+        return __('newsletter::navigation.newsletter_send_history_subscriber');
     }
 
     public function isReadOnly(): bool

@@ -31,7 +31,7 @@ final class NewsletterSendHistorySubscriberTable
 
                 BadgeableColumn::make('newsletterSubscriber.email')
                     ->alignEnd()
-                    ->label(__('newsletter/attributes.email'))
+                    ->label(__('newsletter::attributes.email'))
                     ->searchable()
                     ->suffixBadges([
                         Badge::make('username')
@@ -51,7 +51,7 @@ final class NewsletterSendHistorySubscriberTable
                             ->size(Size::Small),
 
                         Badge::make('failed')
-                            ->label(__('newsletter/attributes.failed_message'))
+                            ->label(__('newsletter::attributes.failed_message'))
                             ->color('danger')
                             ->visible(fn(NewsletterSendHistorySubscriber $record) => null !== $record->failed_message)
                             ->size(Size::Small),
@@ -63,7 +63,7 @@ final class NewsletterSendHistorySubscriberTable
                             ->modalAlignment(Alignment::Center)
                             ->modalCancelAction(false)
                             ->modalDescription(fn($record) => $record->failed_message)
-                            ->modalHeading(__('newsletter/attributes.failed_message'))
+                            ->modalHeading(__('newsletter::attributes.failed_message'))
                             ->modalIcon('heroicon-o-exclamation-triangle')
                             ->modalSubmitAction(false)
                             ->modalWidth(Width::Medium)
@@ -74,7 +74,7 @@ final class NewsletterSendHistorySubscriberTable
                     ->alignCenter()
                     ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.sent_at'))
+                    ->label(__('newsletter::attributes.sent_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i:s', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i:s')),
@@ -84,14 +84,14 @@ final class NewsletterSendHistorySubscriberTable
                     ->badge()
                     ->color('danger')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.failed_at'))
+                    ->label(__('newsletter::attributes.failed_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i:s', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i:s'))
 
                 // TextColumn::make('status')
                 //     ->alignCenter()
-                //     ->label(__('newsletter/attributes.status')),
+                //     ->label(__('newsletter::attributes.status')),
             ])
             ->headerActions([
                 CreateAction::make(),

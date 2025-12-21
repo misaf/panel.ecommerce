@@ -19,7 +19,7 @@ final class NewslettersCluster extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('newsletter/navigation.newsletter');
+        return __('newsletter::navigation.newsletter');
     }
 
     public static function getClusterBreadcrumb(): string

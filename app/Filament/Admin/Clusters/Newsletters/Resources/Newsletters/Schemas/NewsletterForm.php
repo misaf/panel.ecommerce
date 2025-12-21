@@ -31,7 +31,7 @@ final class NewsletterForm
                     })
                     ->autofocus()
                     ->columnSpan(['lg' => 1])
-                    ->label(__('newsletter/attributes.name'))
+                    ->label(__('newsletter::attributes.name'))
                     ->live(onBlur: true)
                     ->required()
                     ->unique(
@@ -41,8 +41,8 @@ final class NewsletterForm
 
                 TextInput::make('slug')
                     ->columnSpan(['lg' => 1])
-                    ->helperText(__('newsletter/attributes.slug_helper_text'))
-                    ->label(__('newsletter/attributes.slug'))
+                    ->helperText(__('newsletter::attributes.slug_helper_text'))
+                    ->label(__('newsletter::attributes.slug'))
                     ->required()
                     ->unique(
                         column: fn(Livewire $livewire) => 'slug->' . $livewire->activeLocale,
@@ -52,16 +52,16 @@ final class NewsletterForm
                 RichEditor::make('description')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.description"))
                     ->columnSpanFull()
-                    ->helperText(__('newsletter/attributes.description_helper_text'))
-                    ->label(__('newsletter/attributes.description')),
+                    ->helperText(__('newsletter::attributes.description_helper_text'))
+                    ->label(__('newsletter::attributes.description')),
 
                 DateTimePicker::make('scheduled_at')
                     ->afterOrEqual(Carbon::now()->addMinutes(30)->toDateTimeString())
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.scheduled_at"))
                     ->columnSpanFull()
                     ->displayFormat('Y-m-d H:i')
-                    ->helperText(__('newsletter/attributes.scheduled_at_helper_text'))
-                    ->label(__('newsletter/attributes.scheduled_at'))
+                    ->helperText(__('newsletter::attributes.scheduled_at_helper_text'))
+                    ->label(__('newsletter::attributes.scheduled_at'))
                     ->live(onBlur: true)
                     ->minDate(Carbon::now()->toDateString())
                     ->minutesStep(30)
@@ -73,7 +73,7 @@ final class NewsletterForm
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.status"))
                     ->columnSpanFull()
                     ->default(false)
-                    ->label(__('newsletter/attributes.status'))
+                    ->label(__('newsletter::attributes.status'))
                     ->onIcon('heroicon-m-bolt')
                     ->required()
                     ->rules([

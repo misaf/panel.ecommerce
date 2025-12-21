@@ -13,6 +13,6 @@ final class ViewNewsletterSendHistory extends ViewRecord
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('newsletter/navigation.newsletter_send_history');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('newsletter::navigation.newsletter_send_history');
     }
 }

@@ -35,7 +35,7 @@ final class NewsletterSendHistoryPostTable
 
                 BadgeableColumn::make('name')
                     ->alignStart()
-                    ->label(__('newsletter/attributes.name'))
+                    ->label(__('newsletter::attributes.name'))
                     ->searchable()
                     ->suffixBadges([
                         Badge::make('status')
@@ -46,39 +46,39 @@ final class NewsletterSendHistoryPostTable
 
                 SlugTextColumn::make('slug')
                     ->alignLeft()
-                    ->label(__('newsletter/attributes.slug'))
+                    ->label(__('newsletter::attributes.slug'))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 CreatedAtTextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i')
-                    ->label(__('newsletter/attributes.created_at')),
+                    ->label(__('newsletter::attributes.created_at')),
 
                 UpdatedAtTextColumn::make('updated_at')
                     ->dateTime('Y-m-d H:i')
-                    ->label(__('newsletter/attributes.updated_at')),
+                    ->label(__('newsletter::attributes.updated_at')),
             ])
             ->filters([
                 QueryBuilder::make()
                     ->constraints([
                         TextConstraint::make('name')
-                            ->label(__('newsletter/attributes.name')),
+                            ->label(__('newsletter::attributes.name')),
 
                         TextConstraint::make('slug')
-                            ->label(__('newsletter/attributes.slug')),
+                            ->label(__('newsletter::attributes.slug')),
 
                         SelectConstraint::make('status')
-                            ->label(__('newsletter/attributes.status'))
+                            ->label(__('newsletter::attributes.status'))
                             ->multiple()
                             ->options(NewsletterPostStatusEnum::class),
 
                         DateConstraint::make('sent_at')
-                            ->label(__('newsletter/attributes.sent_at')),
+                            ->label(__('newsletter::attributes.sent_at')),
 
                         DateConstraint::make('created_at')
-                            ->label(__('newsletter/attributes.created_at')),
+                            ->label(__('newsletter::attributes.created_at')),
 
                         DateConstraint::make('updated_at')
-                            ->label(__('newsletter/attributes.updated_at')),
+                            ->label(__('newsletter::attributes.updated_at')),
                     ]),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->headerActions([

@@ -27,7 +27,7 @@ final class EditNewsletter extends EditRecord
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/edit-record.breadcrumb') . ' ' . __('newsletter/navigation.newsletter');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/edit-record.breadcrumb') . ' ' . __('newsletter::navigation.newsletter');
     }
 
     protected function getHeaderActions(): array
@@ -39,7 +39,7 @@ final class EditNewsletter extends EditRecord
 
             LocaleSwitcher::make(),
             // Action::make('retryFailed')
-            //     ->label(__('newsletter/actions.retry_failed_only'))
+            //     ->label(__('newsletter::actions.retry_failed_only'))
             //     ->color('danger')
             //     // ->visible(fn(Newsletter $record) => NewsletterStatusEnum::FAILED === $record->status)
             //     ->action(function (): void {

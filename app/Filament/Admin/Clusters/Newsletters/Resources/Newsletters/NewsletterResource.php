@@ -35,27 +35,27 @@ final class NewsletterResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('newsletter/navigation.newsletter');
+        return __('newsletter::navigation.newsletter');
     }
 
     public static function getModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter');
+        return __('newsletter::navigation.newsletter');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('newsletter/navigation.newsletter_management');
+        return __('newsletter::navigation.newsletter_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('newsletter/navigation.newsletter');
+        return __('newsletter::navigation.newsletter');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter');
+        return __('newsletter::navigation.newsletter');
     }
 
     public static function getNavigationBadge(): string

@@ -37,9 +37,9 @@ final class NewsletterSendHistoryFailedCountOverview extends StatsOverviewWidget
             Stat::make('newsletter_send_history_failed_count_stats', Number::format((int) $failedData['total']))
                 ->chart($failedData['chart'])
                 ->color('danger')
-                ->description(__('newsletter/widgets.newsletter_send_history_failed_count_stats_description'))
+                ->description(__('newsletter::widgets.newsletter_send_history_failed_count_stats_description'))
                 ->descriptionIcon('heroicon-m-chart-bar', IconPosition::Before)
-                ->label(__('newsletter/widgets.newsletter_send_history_failed_count_stats')),
+                ->label(__('newsletter::widgets.newsletter_send_history_failed_count_stats')),
         ];
     }
 

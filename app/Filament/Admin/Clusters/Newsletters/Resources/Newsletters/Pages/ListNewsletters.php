@@ -21,7 +21,7 @@ final class ListNewsletters extends ListRecords
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb') . ' ' . __('newsletter/navigation.newsletter');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb') . ' ' . __('newsletter::navigation.newsletter');
     }
 
     protected function getHeaderActions(): array

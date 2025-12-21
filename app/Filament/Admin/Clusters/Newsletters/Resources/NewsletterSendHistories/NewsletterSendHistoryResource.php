@@ -31,27 +31,27 @@ final class NewsletterSendHistoryResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return __('newsletter/navigation.newsletter_send_history');
+        return __('newsletter::navigation.newsletter_send_history');
     }
 
     public static function getModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter_send_history');
+        return __('newsletter::navigation.newsletter_send_history');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('newsletter/navigation.newsletter_management');
+        return __('newsletter::navigation.newsletter_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('newsletter/navigation.newsletter_send_history');
+        return __('newsletter::navigation.newsletter_send_history');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter_send_history');
+        return __('newsletter::navigation.newsletter_send_history');
     }
 
     public static function getNavigationBadge(): string

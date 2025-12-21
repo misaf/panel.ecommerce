@@ -25,10 +25,10 @@ final class NewsletterSendHistoryTable
                 BadgeableColumn::make('token')
                     ->alignCenter()
                     ->copyable()
-                    ->copyMessage(__('newsletter/messages.token_copied'))
+                    ->copyMessage(__('newsletter::messages.token_copied'))
                     ->copyMessageDuration(1500)
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.token'))
+                    ->label(__('newsletter::attributes.token'))
                     ->searchable()
                     ->prefixBadges([
                         Badge::make('hot1')
@@ -47,9 +47,9 @@ final class NewsletterSendHistoryTable
                     ->alignCenter()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(function () {
-                        $totalSubscribers = __('newsletter/attributes.total_subscribers');
-                        $sentCount = __('newsletter/attributes.sent_count');
-                        $failedCount = __('newsletter/attributes.failed_count');
+                        $totalSubscribers = __('newsletter::attributes.total_subscribers');
+                        $sentCount = __('newsletter::attributes.sent_count');
+                        $failedCount = __('newsletter::attributes.failed_count');
                         return $totalSubscribers . ' : ' . $sentCount . ' / ' . $failedCount;
                     })
                     ->prefixBadges([
@@ -70,7 +70,7 @@ final class NewsletterSendHistoryTable
                     ->badge()
                     ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.started_at'))
+                    ->label(__('newsletter::attributes.started_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),
@@ -80,7 +80,7 @@ final class NewsletterSendHistoryTable
                     ->badge()
                     ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.completed_at'))
+                    ->label(__('newsletter::attributes.completed_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),

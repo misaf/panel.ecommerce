@@ -24,7 +24,7 @@ final class NewsletterSendHistorySubscriberForm
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.email"))
                     ->rules(['bail', 'email:rfc,strict,spoof,filter,filter_unicode', new EmailValidation(app()->isProduction())])
                     ->extraAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.email'))
+                    ->label(__('newsletter::attributes.email'))
                     ->columnSpan(['lg' => 2]),
             ]);
     }

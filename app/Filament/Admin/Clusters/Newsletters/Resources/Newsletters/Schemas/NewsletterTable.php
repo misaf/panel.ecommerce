@@ -36,27 +36,27 @@ final class NewsletterTable
                     ->rowIndex(),
 
                 TextColumn::make('name')
-                    ->label(__('newsletter/attributes.name'))
+                    ->label(__('newsletter::attributes.name'))
                     ->searchable(),
 
                 TextColumn::make('slug')
-                    ->label(__('newsletter/attributes.slug'))
+                    ->label(__('newsletter::attributes.slug'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('newsletter_posts_count')
                     ->badge()
                     ->formatStateUsing(fn(int $state) => Number::format($state))
-                    ->label(__('newsletter/attributes.post_count'))
+                    ->label(__('newsletter::attributes.post_count'))
                     ->sortable(),
 
                 BadgeableColumn::make('newsletter_subscribers_count')
                     ->alignCenter()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(function () {
-                        $totalSubscribers = __('newsletter/attributes.total_subscribers');
-                        $subscribedCount = __('newsletter/attributes.subscribed_count');
-                        $unsubscribedCount = __('newsletter/attributes.unsubscribed_count');
+                        $totalSubscribers = __('newsletter::attributes.total_subscribers');
+                        $subscribedCount = __('newsletter::attributes.subscribed_count');
+                        $unsubscribedCount = __('newsletter::attributes.unsubscribed_count');
                         return $totalSubscribers . ' : ' . $subscribedCount . ' / ' . $unsubscribedCount;
                     })
                     ->prefixBadges([
@@ -76,7 +76,7 @@ final class NewsletterTable
                     ->alignCenter()
                     ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.scheduled_at'))
+                    ->label(__('newsletter::attributes.scheduled_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),
@@ -86,20 +86,20 @@ final class NewsletterTable
                     ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->getStateUsing(fn(Newsletter $record) => $record->newsletterSendHistories()->latest('completed_at')->value('completed_at'))
-                    ->label(__('newsletter/attributes.last_sent_at'))
+                    ->label(__('newsletter::attributes.last_sent_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),
 
                 ToggleColumn::make('status')
-                    ->label(__('newsletter/attributes.status'))
+                    ->label(__('newsletter::attributes.status'))
                     ->onIcon('heroicon-m-bolt'),
 
                 TextColumn::make('created_at')
                     ->alignCenter()
                     ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.created_at'))
+                    ->label(__('newsletter::attributes.created_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -109,7 +109,7 @@ final class NewsletterTable
                     ->alignCenter()
                     ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.updated_at'))
+                    ->label(__('newsletter::attributes.updated_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),
@@ -118,22 +118,22 @@ final class NewsletterTable
                 QueryBuilder::make()
                     ->constraints([
                         TextConstraint::make('name')
-                            ->label(__('newsletter/attributes.name')),
+                            ->label(__('newsletter::attributes.name')),
 
                         TextConstraint::make('slug')
-                            ->label(__('newsletter/attributes.slug')),
+                            ->label(__('newsletter::attributes.slug')),
 
                         DateConstraint::make('scheduled_at')
-                            ->label(__('newsletter/attributes.scheduled_at')),
+                            ->label(__('newsletter::attributes.scheduled_at')),
 
                         BooleanConstraint::make('status')
-                            ->label(__('newsletter/attributes.status')),
+                            ->label(__('newsletter::attributes.status')),
 
                         DateConstraint::make('created_at')
-                            ->label(__('newsletter/attributes.created_at')),
+                            ->label(__('newsletter::attributes.created_at')),
 
                         DateConstraint::make('updated_at')
-                            ->label(__('newsletter/attributes.updated_at')),
+                            ->label(__('newsletter::attributes.updated_at')),
                     ]),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->recordActions([

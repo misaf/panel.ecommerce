@@ -37,9 +37,9 @@ final class NewsletterUnsubscribedUsersOverview extends StatsOverviewWidget
             Stat::make('unsubscribed_users', Number::format($unsubscribedData['total']))
                 ->chart($unsubscribedData['chart'])
                 ->color('danger')
-                ->description(__('newsletter/widgets.unsubscribed_users_description'))
+                ->description(__('newsletter::widgets.unsubscribed_users_description'))
                 ->descriptionIcon('heroicon-m-chart-bar', IconPosition::Before)
-                ->label(__('newsletter/widgets.unsubscribed_users')),
+                ->label(__('newsletter::widgets.unsubscribed_users')),
         ];
     }
 

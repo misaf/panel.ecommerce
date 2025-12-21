@@ -37,9 +37,9 @@ final class NewsletterSubscribersOverview extends StatsOverviewWidget
             Stat::make('newsletter_subscriber_stats', Number::format($subscribersData['total']))
                 ->chart($subscribersData['chart'])
                 ->color('primary')
-                ->description(__('newsletter/widgets.newsletter_subscriber_stats_description'))
+                ->description(__('newsletter::widgets.newsletter_subscriber_stats_description'))
                 ->descriptionIcon('heroicon-m-chart-bar', IconPosition::Before)
-                ->label(__('newsletter/widgets.newsletter_subscriber_stats')),
+                ->label(__('newsletter::widgets.newsletter_subscriber_stats')),
         ];
     }
 

@@ -22,7 +22,7 @@ final class ViewNewsletter extends ViewRecord
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('newsletter/navigation.newsletter');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('newsletter::navigation.newsletter');
     }
 
     protected function getHeaderActions(): array

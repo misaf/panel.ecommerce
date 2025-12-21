@@ -22,7 +22,7 @@ final class NewsletterSubscriberForm
                     ->columnSpan(['lg' => 2])
                     ->email()
                     ->extraAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.email'))
+                    ->label(__('newsletter::attributes.email'))
                     ->live(onBlur: true)
                     ->maxLength(255)
                     ->required()

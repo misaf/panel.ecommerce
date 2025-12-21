@@ -23,7 +23,7 @@ final class NewsletterPostForm
             ->components([
                 Select::make('newsletter_id')
                     ->columnSpanFull()
-                    ->label(__('newsletter/navigation.newsletter'))
+                    ->label(__('newsletter::navigation.newsletter'))
                     ->native(false)
                     ->preload()
                     ->relationship('newsletter', 'name')
@@ -38,7 +38,7 @@ final class NewsletterPostForm
                     })
                     ->autofocus()
                     ->columnSpan(['lg' => 1])
-                    ->label(__('newsletter/attributes.name'))
+                    ->label(__('newsletter::attributes.name'))
                     ->live(onBlur: true)
                     ->required()
                     ->unique(
@@ -62,15 +62,15 @@ final class NewsletterPostForm
                             $rule->withoutTrashed();
                         },
                     )
-                    ->label(__('newsletter/attributes.slug')),
+                    ->label(__('newsletter::attributes.slug')),
 
                 WysiwygEditor::make('description')
-                    ->label(__('newsletter/attributes.description'))
+                    ->label(__('newsletter::attributes.description'))
                     ->required(),
 
                 Select::make('status')
                     ->columnSpanFull()
-                    ->label(__('newsletter/attributes.status'))
+                    ->label(__('newsletter::attributes.status'))
                     ->live(onBlur: true)
                     ->native(false)
                     ->options([

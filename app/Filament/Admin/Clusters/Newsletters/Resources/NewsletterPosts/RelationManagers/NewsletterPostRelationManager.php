@@ -21,12 +21,12 @@ final class NewsletterPostRelationManager extends RelationManager
 
     public static function getModelLabel(): string
     {
-        return __('newsletter/navigation.newsletter_post');
+        return __('newsletter::navigation.newsletter_post');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('newsletter/navigation.newsletter_post');
+        return __('newsletter::navigation.newsletter_post');
     }
 
     public function isReadOnly(): bool

@@ -42,7 +42,7 @@ final class NewsletterPostTable
 
                 BadgeableColumn::make('name')
                     ->alignStart()
-                    ->label(__('newsletter/attributes.name'))
+                    ->label(__('newsletter::attributes.name'))
                     ->searchable()
                     ->suffixBadges([
                         Badge::make('status')
@@ -58,7 +58,7 @@ final class NewsletterPostTable
 
                 TextColumn::make('slug')
                     ->alignLeft()
-                    ->label(__('newsletter/attributes.slug'))
+                    ->label(__('newsletter::attributes.slug'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
@@ -67,7 +67,7 @@ final class NewsletterPostTable
                     ->badge()
                     ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.created_at'))
+                    ->label(__('newsletter::attributes.created_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),
@@ -77,7 +77,7 @@ final class NewsletterPostTable
                     ->badge()
                     ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('newsletter/attributes.updated_at'))
+                    ->label(__('newsletter::attributes.updated_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', toLatin: true), fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')),
@@ -86,24 +86,24 @@ final class NewsletterPostTable
                 QueryBuilder::make()
                     ->constraints([
                         TextConstraint::make('name')
-                            ->label(__('newsletter/attributes.name')),
+                            ->label(__('newsletter::attributes.name')),
 
                         TextConstraint::make('slug')
-                            ->label(__('newsletter/attributes.slug')),
+                            ->label(__('newsletter::attributes.slug')),
 
                         SelectConstraint::make('status')
-                            ->label(__('newsletter/attributes.status'))
+                            ->label(__('newsletter::attributes.status'))
                             ->multiple()
                             ->options(NewsletterPostStatusEnum::class),
 
                         DateConstraint::make('sent_at')
-                            ->label(__('newsletter/attributes.sent_at')),
+                            ->label(__('newsletter::attributes.sent_at')),
 
                         DateConstraint::make('created_at')
-                            ->label(__('newsletter/attributes.created_at')),
+                            ->label(__('newsletter::attributes.created_at')),
 
                         DateConstraint::make('updated_at')
-                            ->label(__('newsletter/attributes.updated_at')),
+                            ->label(__('newsletter::attributes.updated_at')),
                     ]),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->recordActions([
@@ -115,7 +115,7 @@ final class NewsletterPostTable
                     DeleteAction::make(),
 
                     Action::make('send')
-                        ->label(__('newsletter/actions.send'))
+                        ->label(__('newsletter::actions.send'))
                         ->icon('heroicon-o-paper-airplane')
                         ->action(function (NewsletterPost $record): void {
                             try {
