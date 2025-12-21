@@ -5246,10 +5246,9 @@
             "dist": {
                 "type": "path",
                 "url": "app-modules/authify-log",
-                "reference": "6fc8fea91108ca14d9a580bd87fe5dc4a82a61cf"
+                "reference": "e157dc09634ad6bb68860533b40bd8c97e229c55"
             },
             "require": {
-                "misaf/user": "^1.0.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.92.4",
                 "stijnvanouplines/blade-country-flags": "^1.0.6"
