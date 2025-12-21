@@ -17,7 +17,6 @@
     ],
     "require": {
         "php": "^8.3",
-        "misaf/user": "^1.0.0",
         "stijnvanouplines/blade-country-flags": "^1.0.6",
         "spatie/laravel-package-tools": "^1.92.4"
     },

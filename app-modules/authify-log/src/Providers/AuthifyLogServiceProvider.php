@@ -8,9 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 final class AuthifyLogServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
     public function boot(): void
     {
         $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'authify-log');

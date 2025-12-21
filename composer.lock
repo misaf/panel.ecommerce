@@ -5346,7 +5346,7 @@
             "dist": {
                 "type": "path",
                 "url": "app-modules/email-webhooks",
-                "reference": "a40c13bf09bdfd25cb857be39fabaa28626bb811"
+                "reference": "361abbb2e57b9af625966b1c19218eb397375b37"
             },
             "require": {
                 "php": "^8.3"
@@ -5402,7 +5402,7 @@
             "dist": {
                 "type": "path",
                 "url": "app-modules/email-webhooks-resend",
-                "reference": "3e88c00037aa01769daa3b73ec305404c5317d96"
+                "reference": "eb80349abe7a903c76b67173907d18e1f68ca304"
             },
             "require": {
                 "misaf/email-webhooks": "^1.0.0",

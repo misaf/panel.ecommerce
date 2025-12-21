@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Misaf\Affiliate\Traits\HasAffiliate;
+use Misaf\AuthifyLog\Contracts\HasUsername;
 use Misaf\AuthifyLog\Traits\HasAuthifyLog;
 use Misaf\Tenant\Models\Tenant;
 use Misaf\Tenant\Traits\BelongsToTenant;
@@ -67,6 +68,7 @@ final class User extends Authenticatable implements
     use HasTransaction;
     use HasUserLevelHistory;
     use HasUserMessenger;
+    use HasUsername;
     use HasUserProfile;
     use LogsActivity;
     use Notifiable;
@@ -138,12 +140,14 @@ final class User extends Authenticatable implements
         };
     }
 
-    /**
-     * @return string
-     */
     public function getFilamentName(): string
     {
         return $this->username ?? $this->email;
+    }
+
+    public function getAuthifyLogUsername(): string
+    {
+        return $this->username;
     }
 
     /**

@@ -28,7 +28,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
 final class AuthifyLog extends Model
 {
     use BelongsToTenant;
-    use BelongsToUser;
     /** @use HasFactory<AuthifyLogFactory> */
     use HasFactory;
     use LogsActivity;

@@ -42,7 +42,6 @@ final class AdminPanelProvider extends PanelProvider
                 : null)
             ->brandLogoHeight('10rem')
             ->brandName(fn(GeneralSettings $generalSettings) => $generalSettings->site_title . ' Admin')
-            ->sidebarFullyCollapsibleOnDesktop()
             ->databaseNotifications()
             ->databaseTransactions()
             ->defaultThemeMode(ThemeMode::Dark)
@@ -56,6 +55,7 @@ final class AdminPanelProvider extends PanelProvider
             ->homeUrl('/')
             ->login(Login::class)
             ->maxContentWidth(Width::ScreenExtraLarge)
+            ->sidebarFullyCollapsibleOnDesktop()
             ->middleware([
                 NeedsTenant::class,
                 EncryptCookies::class,
@@ -80,9 +80,9 @@ final class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()->label(fn(): string => __('navigation.report_management'))->icon('heroicon-o-bug-ant')->collapsed(),
                 NavigationGroup::make()->label(fn(): string => __('navigation.setting_management'))->icon('heroicon-o-cog-6-tooth')->collapsed(),
             ])
+            ->maxContentWidth(Width::Full)
             ->path('/admin')
             ->profile(EditProfile::class, isSimple: false)
-            ->maxContentWidth(Width::Full)
             ->spa()
             ->unsavedChangesAlerts()
             // ->userMenuItems([

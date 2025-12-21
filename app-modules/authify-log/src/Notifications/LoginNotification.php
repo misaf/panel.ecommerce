@@ -9,7 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
-use Misaf\User\Models\User;
+use Misaf\AuthifyLog\Contracts\HasUsername;
+use RuntimeException;
 
 final class LoginNotification extends Notification implements ShouldQueue
 {
@@ -23,14 +24,20 @@ final class LoginNotification extends Notification implements ShouldQueue
     /**
      * @return array<int, string>
      */
-    public function via(User $user): array
+    public function via(object $notifiable): array
     {
         return ['mail'];
     }
 
-    public function toMail(User $user): MailMessage
+    public function toMail(object $notifiable): MailMessage
     {
-        $username = $user->username;
+        if ( ! $notifiable instanceof HasUsername) {
+            throw new RuntimeException(
+                'Notifiable must implement HasUsername to receive LoginNotification.'
+            );
+        }
+
+        $username = $notifiable->getAuthifyLogUsername();
         $resetPasswordUrl = route('filament.panel-user.auth.password-reset.request');
 
         return (new MailMessage())
