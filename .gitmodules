@@ -1,0 +1,6 @@
+[submodule "app-modules/email-webhooks"]
+	path = app-modules/email-webhooks
+	url = https://github.com/misaf/laravel-webhooks
+[submodule "app-modules/email-webhooks-resend"]
+	path = app-modules/email-webhooks-resend
+	url = https://github.com/misaf/laravel-webhooks-resend
