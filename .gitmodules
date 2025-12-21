@@ -4,3 +4,6 @@
 [submodule "app-modules/email-webhooks-resend"]
 	path = app-modules/email-webhooks-resend
 	url = https://github.com/misaf/laravel-webhooks-resend
+[submodule "app-modules/authify-log"]
+	path = app-modules/authify-log
+	url = https://github.com/misaf/laravel-authify-log
