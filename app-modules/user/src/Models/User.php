@@ -55,7 +55,8 @@ final class User extends Authenticatable implements
     FilamentUser,
     HasLocalePreference,
     HasName,
-    MustVerifyEmail
+    MustVerifyEmail,
+    HasUsername
 {
     use BelongsToTenant;
     use HasAffiliate;
@@ -68,7 +69,6 @@ final class User extends Authenticatable implements
     use HasTransaction;
     use HasUserLevelHistory;
     use HasUserMessenger;
-    use HasUsername;
     use HasUserProfile;
     use LogsActivity;
     use Notifiable;
