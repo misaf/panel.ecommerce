@@ -14,7 +14,7 @@ final class ListCurrencies extends ListRecords
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb') . ' ' . __('navigation.currency');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb') . ' ' . __('currency::navigation.currency');
     }
 
     protected function getHeaderActions(): array

@@ -14,12 +14,12 @@ final class TransactionsCluster extends Cluster
 
     public static function getNavigationGroup(): string
     {
-        return 'billing_management';
+        return __('navigation.billing_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('navigation.transaction');
+        return __('transaction::navigation.transaction');
     }
 
     public static function getClusterBreadcrumb(): string

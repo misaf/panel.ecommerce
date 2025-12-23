@@ -14,7 +14,7 @@ final class ViewCurrency extends ViewRecord
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('navigation.currency');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('currency::navigation.currency');
     }
 
     protected function getHeaderActions(): array

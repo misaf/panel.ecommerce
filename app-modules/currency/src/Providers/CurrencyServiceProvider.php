@@ -8,8 +8,8 @@ use Illuminate\Support\ServiceProvider;
 
 final class CurrencyServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
-    public function register(): void {}
+    public function boot(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'currency');
+    }
 }

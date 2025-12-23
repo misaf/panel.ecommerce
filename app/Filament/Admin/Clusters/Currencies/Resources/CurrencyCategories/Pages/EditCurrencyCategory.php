@@ -15,13 +15,14 @@ final class EditCurrencyCategory extends EditRecord
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/edit-record.breadcrumb') . ' ' . __('navigation.currency_category');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/edit-record.breadcrumb') . ' ' . __('currency::navigation.currency_category');
     }
 
     protected function getHeaderActions(): array
     {
         return [
             ViewAction::make(),
+
             DeleteAction::make(),
         ];
     }

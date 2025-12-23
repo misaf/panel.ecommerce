@@ -14,7 +14,7 @@ final class LanguagesCluster extends Cluster
 
     public static function getNavigationGroup(): string
     {
-        return 'content_management';
+        return __('navigation.content_management');
     }
 
     public static function getNavigationLabel(): string

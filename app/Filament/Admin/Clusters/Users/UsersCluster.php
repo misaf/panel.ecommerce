@@ -14,7 +14,7 @@ final class UsersCluster extends Cluster
 
     public static function getNavigationGroup(): string
     {
-        return 'user_management';
+        return __('navigation.user_management');
     }
 
     public static function getNavigationLabel(): string

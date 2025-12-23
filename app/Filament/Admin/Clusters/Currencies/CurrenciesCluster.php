@@ -14,12 +14,12 @@ final class CurrenciesCluster extends Cluster
 
     public static function getNavigationGroup(): string
     {
-        return 'billing_management';
+        return __('navigation.billing_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('navigation.currency');
+        return __('currency::navigation.currency');
     }
 
     public static function getClusterBreadcrumb(): string

@@ -13,6 +13,6 @@ final class CreateCurrencyCategory extends CreateRecord
 
     public function getBreadcrumb(): string
     {
-        return self::$breadcrumb ?? __('filament-panels::resources/pages/create-record.breadcrumb') . ' ' . __('navigation.currency_category');
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/create-record.breadcrumb') . ' ' . __('currency::navigation.currency_category');
     }
 }
