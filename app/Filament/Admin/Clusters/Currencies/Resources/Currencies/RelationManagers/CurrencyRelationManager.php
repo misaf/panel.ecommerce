@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Clusters\Currencies\Resources\Currencies\RelationManagers;
 
-use App\Filament\Admin\Clusters\Currencies\Resources\Currencies\Schemas\CurrencyForm;
-use App\Filament\Admin\Clusters\Currencies\Resources\Currencies\Schemas\CurrencyTable;
+use App\Filament\Admin\Clusters\Currencies\Resources\Currencies\CurrencyResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
@@ -39,12 +38,12 @@ final class CurrencyRelationManager extends RelationManager
 
     public function form(Schema $schema): Schema
     {
-        return CurrencyForm::configure($schema);
+        return CurrencyResource::form($schema);
     }
 
     public function table(Table $table): Table
     {
-        return CurrencyTable::configure($table)
+        return CurrencyResource::table($table)
             ->headerActions([
                 CreateAction::make(),
             ]);

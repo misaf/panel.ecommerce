@@ -6,6 +6,7 @@ namespace App\Filament\Admin\Clusters\Newsletters\Resources\NewsletterPosts\Rela
 
 use App\Filament\Admin\Clusters\Newsletters\Resources\NewsletterPosts\Schemas\NewsletterPostForm;
 use App\Filament\Admin\Clusters\Newsletters\Resources\NewsletterPosts\Schemas\NewsletterPostTable;
+use App\Filament\Admin\Clusters\Newsletters\Resources\Newsletters\NewsletterResource;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -41,11 +42,11 @@ final class NewsletterPostRelationManager extends RelationManager
 
     public function form(Schema $schema): Schema
     {
-        return NewsletterPostForm::configure($schema);
+        return NewsletterResource::form($schema);
     }
 
     public function table(Table $table): Table
     {
-        return NewsletterPostTable::configure($table);
+        return NewsletterResource::table($table);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Clusters\Newsletters\Resources\NewsletterSendHistoryPosts\RelationManagers;
 
+use App\Filament\Admin\Clusters\Newsletters\Resources\NewsletterSendHistories\NewsletterSendHistoryResource;
 use App\Filament\Admin\Clusters\Newsletters\Resources\NewsletterSendHistoryPosts\Schemas\NewsletterSendHistoryPostTable;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Table;
@@ -44,6 +45,6 @@ final class NewsletterSendHistoryPostRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
-        return NewsletterSendHistoryPostTable::configure($table);
+        return NewsletterSendHistoryResource::table($table);
     }
 }
