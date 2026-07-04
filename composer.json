@@ -14,7 +14,6 @@
 	"require": {
 		"php": "^8.3",
 		"bezhansalleh/filament-panel-switch": "^3.1",
-		"dedoc/scramble": "^0.13",
 		"filament/filament": "^5.6.6",
 		"filament/spatie-laravel-settings-plugin": "^5.6.6",
 		"flowframe/laravel-trend": ">=0.5",
@@ -33,6 +32,7 @@
 		"misaf/vendra-faq-api": "dev-master",
 		"misaf/vendra-jalali": "dev-master",
 		"misaf/vendra-language": "dev-master",
+		"misaf/vendra-localization": "v13.0.0",
 		"misaf/vendra-multimedia": "dev-master",
 		"misaf/vendra-multimedia-api": "dev-master",
 		"misaf/vendra-newsletter": "dev-master",
