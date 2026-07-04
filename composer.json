@@ -32,7 +32,7 @@
 		"misaf/vendra-faq-api": "dev-master",
 		"misaf/vendra-jalali": "dev-master",
 		"misaf/vendra-language": "dev-master",
-		"misaf/vendra-localization": "v13.0.0",
+		"misaf/vendra-localization": "^13.0.0",
 		"misaf/vendra-multimedia": "dev-master",
 		"misaf/vendra-multimedia-api": "dev-master",
 		"misaf/vendra-newsletter": "dev-master",
