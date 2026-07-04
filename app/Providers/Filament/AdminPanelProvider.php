@@ -6,10 +6,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Auth\EditProfile;
 use App\Filament\Admin\Pages\Auth\Login;
-use App\Settings\GeneralSettings;
 use Filament\Contracts\Plugin;
-use Filament\Enums\ThemeMode;
-use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -17,8 +14,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
-use Filament\Support\Enums\Width;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -29,7 +24,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
-use Misaf\VendraTenant\Models\Tenant;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 use Spatie\Permission\Contracts\Role;
@@ -41,26 +35,12 @@ final class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->id('admin')
-            ->brandLogo(function () {
-                $tenant = Tenant::current();
-
-                return app()->environment('production') && $tenant
-                    ? asset('images/' . $tenant->slug . '.webp')
-                    : null;
-            })
-            ->brandLogoHeight('10rem')
-            ->brandName(fn(GeneralSettings $generalSettings) => $generalSettings?->site_title ?? 'Default')
-            ->colors([
-                'primary' => Color::Gray
-            ])
             ->databaseNotifications()
             ->databaseTransactions()
-            ->defaultThemeMode(ThemeMode::Dark)
             ->discoverClusters(app_path('Filament/Admin/Clusters'), 'App\\Filament\\Admin\\Clusters')
             ->discoverPages(app_path('Filament/Admin/Pages'), 'App\\Filament\\Admin\\Pages')
             ->discoverResources(app_path('Filament/Admin/Resources'), 'App\\Filament\\Admin\\Resources')
             ->discoverWidgets(app_path('Filament/Admin/Widgets'), 'App\\Filament\\Admin\\Widgets')
-            ->font('yekan', 'https://cdn.font-store.ir/yekan.css', LocalFontProvider::class)
             ->globalSearchFieldKeyBindingSuffix()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->homeUrl('/')
@@ -90,12 +70,10 @@ final class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()->label(fn(): string => __('navigation.report_management'))->icon('heroicon-o-bug-ant')->collapsed(),
                 NavigationGroup::make()->label(fn(): string => __('navigation.setting_management'))->icon('heroicon-o-cog-6-tooth')->collapsed(),
             ])
-            ->maxContentWidth(Width::Full)
             ->path('/admin')
             ->profile(EditProfile::class, isSimple: false)
             ->spa(hasPrefetching: true)
             ->strictAuthorization()
-            ->tenant(Tenant::class)
             ->unsavedChangesAlerts()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins($this->plugins());
