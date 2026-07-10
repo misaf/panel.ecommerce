@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-faq",
+    "version": "0.0.1",
     "description": "Frequently Asked Questions management system with categorization",
     "keywords": [
         "laravel",

@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-currency",
+    "version": "0.0.1",
     "description": "Multi-currency support system with hierarchical currency categories",
     "keywords": [
         "laravel",

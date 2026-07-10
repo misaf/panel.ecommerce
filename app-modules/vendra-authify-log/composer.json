@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-authify-log",
+    "version": "0.0.1",
     "keywords": [
         "laravel",
         "filamentphp",

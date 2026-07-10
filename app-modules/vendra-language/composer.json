@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-language",
+    "version": "0.0.1",
     "description": "Multi-language support system with tenant-aware languages and translation lines",
     "keywords": [
         "laravel",

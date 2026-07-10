@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-localization",
+    "version": "0.0.1",
     "description": "Request locale resolution for Laravel applications.",
     "keywords": [
         "laravel",

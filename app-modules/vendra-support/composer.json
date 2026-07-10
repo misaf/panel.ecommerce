@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-support",
+    "version": "0.0.1",
     "description": "Shared support classes for Vendra modules",
     "keywords": [
         "laravel",

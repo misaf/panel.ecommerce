@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-custom-page",
+    "version": "0.0.1",
     "description": "Dynamic page management system with CMS capabilities",
     "keywords": [
         "laravel",

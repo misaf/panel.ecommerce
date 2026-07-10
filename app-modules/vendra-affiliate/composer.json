@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-affiliate",
+    "version": "0.0.1",
     "description": "Affiliate and referral management system with commission tracking and user referral capabilities",
     "keywords": [
         "laravel",

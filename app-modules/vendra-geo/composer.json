@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-geo",
+    "version": "0.0.1",
     "description": "Countries, states, provinces, and cities support for Vendra",
     "keywords": [
         "laravel",

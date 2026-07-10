@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-attribute",
+    "version": "0.0.1",
     "description": "Reusable tenant-aware attributes and polymorphic values for Vendra models",
     "license": "MIT",
     "type": "vendra-module",

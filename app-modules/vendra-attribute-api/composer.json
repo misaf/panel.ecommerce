@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-attribute-api",
+    "version": "0.0.1",
     "description": "API services for the vendra-attribute module",
     "keywords": [
         "laravel",

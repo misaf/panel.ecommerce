@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-faq-api",
+    "version": "0.0.1",
     "description": "API services for the vendra-faq module",
     "keywords": [
         "laravel",

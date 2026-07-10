@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-blog-api",
+    "version": "0.0.1",
     "description": "API services for the vendra-blog module",
     "keywords": [
         "laravel",

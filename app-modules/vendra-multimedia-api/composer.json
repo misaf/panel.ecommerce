@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-multimedia-api",
+    "version": "0.0.1",
     "description": "API services for the vendra-multimedia module",
     "keywords": [
         "laravel",

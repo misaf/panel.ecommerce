@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-user-profile",
+    "version": "0.0.1",
     "keywords": [
         "laravel",
         "filamentphp",
