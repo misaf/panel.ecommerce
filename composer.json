@@ -145,6 +145,7 @@
         ],
         "monorepo:propagate": "vendor/bin/monorepo-builder propagate",
         "monorepo:validate": "vendor/bin/monorepo-builder validate",
+        "release:sync": "composer update misaf/vendra-* --no-scripts",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
