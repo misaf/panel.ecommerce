@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-product-api",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "API services for the vendra-product module",
     "keywords": [
         "laravel",
@@ -22,9 +22,9 @@
     "require": {
         "php": "^8.3",
         "illuminate/support": "^13.0",
-        "misaf/vendra-api": "^0.0.1",
-        "misaf/vendra-multimedia-api": "^0.0.1",
-        "misaf/vendra-product": "^0.0.1",
+        "misaf/vendra-api": "^0.0.2",
+        "misaf/vendra-multimedia-api": "^0.0.2",
+        "misaf/vendra-product": "^0.0.2",
         "spatie/laravel-package-tools": "^1.0"
     },
     "require-dev": {

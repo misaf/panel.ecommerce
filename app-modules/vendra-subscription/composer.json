@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-subscription",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Tenant subscription lifecycle: plans, subscriptions, and tenant provisioning orchestration",
     "keywords": [
         "laravel",
@@ -20,10 +20,10 @@
         "php": "^8.3",
         "illuminate/console": "^13.0",
         "illuminate/support": "^13.0",
-        "misaf/vendra-permission": "^0.0.1",
-        "misaf/vendra-support": "^0.0.1",
-        "misaf/vendra-tenant": "^0.0.1",
-        "misaf/vendra-user": "^0.0.1",
+        "misaf/vendra-permission": "^0.0.2",
+        "misaf/vendra-support": "^0.0.2",
+        "misaf/vendra-tenant": "^0.0.2",
+        "misaf/vendra-user": "^0.0.2",
         "spatie/laravel-package-tools": "^1.0"
     },
     "require-dev": {

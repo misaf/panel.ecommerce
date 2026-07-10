@@ -6,6 +6,7 @@ namespace Misaf\VendraAttribute\Database\Seeders;
 
 use Misaf\VendraAttribute\AttributePlugin;
 use Misaf\VendraAttribute\Enums\AttributePolicyEnum;
+use Misaf\VendraAttribute\Enums\AttributeValuePolicyEnum;
 use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
@@ -15,6 +16,9 @@ final class PermissionPolicySeeder extends BasePermissionPolicySeeder
     /** @return list<string> */
     protected function policies(): array
     {
-        return array_column(AttributePolicyEnum::cases(), 'value');
+        return [
+            ...array_column(AttributePolicyEnum::cases(), 'value'),
+            ...array_column(AttributeValuePolicyEnum::cases(), 'value'),
+        ];
     }
 }
