@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Vendra\MonorepoBuilder;
 
 use PharIo\Version\Version;
-use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 
 final readonly class SetPackageVersionReleaseWorker implements ReleaseWorkerInterface
@@ -14,8 +14,7 @@ final readonly class SetPackageVersionReleaseWorker implements ReleaseWorkerInte
     public function __construct(
         private JsonFileManager $jsonFileManager,
         private ComposerJsonProvider $composerJsonProvider
-    ) {
-    }
+    ) {}
 
     public function work(Version $version): void
     {
