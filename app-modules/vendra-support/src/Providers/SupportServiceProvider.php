@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraSupport\Providers;
+
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
+use Misaf\VendraSupport\Contracts\AttributeResolver;
+use Misaf\VendraSupport\Contracts\CurrencyResolver;
+use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Events\TenantProvisioned;
+use Misaf\VendraSupport\Listeners\RunTenantSeeders;
+use Misaf\VendraSupport\Support\NullAttributeResolver;
+use Misaf\VendraSupport\Support\NullCurrencyResolver;
+use Misaf\VendraSupport\Support\NullTenantResolver;
+use Misaf\VendraSupport\Support\TenantSeeders;
+
+final class SupportServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/vendra-support.php', 'vendra-support');
+
+        $this->app->singletonIf(TenantResolver::class, NullTenantResolver::class);
+        $this->app->singletonIf(AttributeResolver::class, NullAttributeResolver::class);
+        $this->app->singletonIf(CurrencyResolver::class, NullCurrencyResolver::class);
+        $this->app->singleton(TenantSeeders::class);
+    }
+
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__ . '/../../config/vendra-support.php' => config_path('vendra-support.php'),
+        ], 'vendra-support-config');
+
+        Event::listen(TenantProvisioned::class, RunTenantSeeders::class);
+    }
+}

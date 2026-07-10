@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filament Panels
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the Filament panels that the blog administration UI
+    | is registered on. The blog navigation only appears within the panels
+    | listed here. You may provide a single panel ID or an array of IDs to
+    | mount the module across multiple panels.
+    |
+    | Supported: "admin" (string), ["admin", "vendor"] (array)
+    |
+    */
+
+    'panels' => ['admin'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Navigation Group
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the sidebar navigation group that the Blogs
+    | cluster is nested under. You may provide a translation key or a literal
+    | label, allowing you to file the blog UI alongside a host application's
+    | own groups. When left empty, the module's default group is used.
+    |
+    */
+
+    'navigation_group' => 'vendra-blog::navigation.content_management',
+
+];

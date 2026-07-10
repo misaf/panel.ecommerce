@@ -56,7 +56,7 @@ final class LatestTransactionTableWidget extends BaseWidget
             )
             ->columns([
                 TextColumn::make('transactionGateway.name')
-                    ->label(__('model.transaction_gateway')),
+                    ->label(__('vendra-transaction::navigation.transaction_gateway')),
 
                 TextColumn::make('transaction_type')
                     ->badge()
@@ -65,19 +65,19 @@ final class LatestTransactionTableWidget extends BaseWidget
                 TextColumn::make('token')
                     ->alignCenter()
                     ->copyable()
-                    ->copyMessage(__('form.token_saved'))
+                    ->copyMessage(__('vendra-transaction::messages.token_copied'))
                     ->copyMessageDuration(1500)
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->formatStateUsing(function (string $state): string {
                         return Str::of($state)->split(4)->implode(' ');
                     })
-                    ->label(__('transaction.token'))
+                    ->label(__('vendra-transaction::attributes.token'))
                     ->searchable(),
 
                 TextColumn::make('amount')
                     ->alignCenter()
                     ->copyable()
-                    ->copyMessage(__('Amount copied to clipboard'))
+                    ->copyMessage(__('vendra-transaction::messages.amount_copied'))
                     ->copyMessageDuration(1500)
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-transaction::attributes.amount'))
@@ -104,7 +104,7 @@ final class LatestTransactionTableWidget extends BaseWidget
                     ->button()
                     ->color('danger')
                     ->icon('heroicon-s-no-symbol')
-                    ->label('برگشت')
+                    ->label(__('billing.decline'))
                     ->requiresConfirmation()
                     ->size(Size::ExtraSmall)
                     ->visible(function (Transaction $record): bool {
@@ -125,8 +125,8 @@ final class LatestTransactionTableWidget extends BaseWidget
     private function sendRateLimitNotification(TooManyRequestsException $exception): void
     {
         Notification::make()
-            ->title(__('شما بیش از حد مجاز درخواست خرید داشته‌اید'))
-            ->body(__('لطفا :seconds ثانیه دیگر صبر نمایید.', ['seconds' => $exception->secondsUntilAvailable]))
+            ->title(__('billing.rate_limit_title'))
+            ->body(__('billing.rate_limit_body', ['seconds' => $exception->secondsUntilAvailable]))
             ->danger()
             ->send();
     }

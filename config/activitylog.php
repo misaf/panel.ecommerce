@@ -37,7 +37,7 @@ return [
      * It should implement the Spatie\Activitylog\Contracts\Activity interface
      * and extend Illuminate\Database\Eloquent\Model.
      */
-    'activity_model' => Misaf\VendraActivitylog\Models\ActivityLog::class,
+    'activity_model' => Misaf\VendraActivityLog\Models\ActivityLog::class,
 
     /*
      * This is the name of the table that will be created by the migration and

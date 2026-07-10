@@ -41,7 +41,7 @@ final class Recaptcha extends Field
             $responseData = $response->json();
 
             if ( ! $responseData['success'] || $responseData['score'] < 0.5) {
-                $fail(__('متأسفانه کد امنیتی گوگل نتونستیم شما رو شناسایی کنیم. لطفاً دوباره امتحان کنید.'));
+                $fail(__('captcha.recaptcha_failed'));
             }
         };
     }

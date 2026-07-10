@@ -11,8 +11,6 @@ use Filament\Auth\Notifications\ResetPassword;
 use Filament\Auth\Notifications\VerifyEmail;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Notifications\Notification;
-use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -22,7 +20,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Misaf\VendraUser\Models\User;
-use Throwable;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -39,13 +36,6 @@ final class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
         // DB::prohibitDestructiveCommands(app()->isProduction());
         Password::defaults(fn() => Password::min(8)->max(15));
-
-        // Page::$reportValidationErrorUsing = function (Throwable $exception): void {
-        //     Notification::make()
-        //         ->title($exception->getMessage())
-        //         ->danger()
-        //         ->send();
-        // };
 
         $this->configureTableDefaults();
         $this->configurePanelSwitch();

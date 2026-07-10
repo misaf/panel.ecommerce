@@ -83,8 +83,8 @@ final class Register extends \Filament\Auth\Pages\Register
             ->autocomplete()
             ->autofocus()
             ->extraAttributes(['dir' => 'ltr'])
-            ->hint('Letters, dashes, and underscores are allowed')
-            ->label(__('form.username'))
+            ->hint(__('form.username_hint'))
+            ->label(__('vendra-user::attributes.username'))
             ->live(onBlur: true)
             ->maxLength(12)
             ->minLength(3)
@@ -101,7 +101,7 @@ final class Register extends \Filament\Auth\Pages\Register
         return TextInput::make('email')
             ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.email'))
             ->extraAttributes(['dir' => 'ltr'])
-            ->label(__('form.email'))
+            ->label(__('vendra-user::attributes.email'))
             ->live(onBlur: true)
             ->maxLength(255)
             ->required()
@@ -122,14 +122,14 @@ final class Register extends \Filament\Auth\Pages\Register
             ->autocomplete()
             ->dehydrateStateUsing(fn($state) => Hash::make($state))
             ->extraAttributes(['dir' => 'ltr'])
-            ->label(__('filament-panels::pages/auth/register.form.password.label'))
+            ->label(__('filament-panels::auth/pages/register.form.password.label'))
             ->live(onBlur: true)
             ->password()
             ->required()
             ->revealable(filament()->arePasswordsRevealable())
             ->rule(Password::default())
             ->same('passwordConfirmation')
-            ->validationAttribute(__('filament-panels::pages/auth/register.form.password.validation_attribute'));
+            ->validationAttribute(__('filament-panels::auth/pages/register.form.password.validation_attribute'));
     }
 
     protected function getPasswordConfirmationFormComponent(): \Filament\Schemas\Components\Component
@@ -138,7 +138,7 @@ final class Register extends \Filament\Auth\Pages\Register
             ->autocomplete()
             ->dehydrated(false)
             ->extraAttributes(['dir' => 'ltr'])
-            ->label(__('filament-panels::pages/auth/register.form.password_confirmation.label'))
+            ->label(__('filament-panels::auth/pages/register.form.password_confirmation.label'))
             ->password()
             ->required()
             ->revealable(filament()->arePasswordsRevealable());
@@ -153,7 +153,7 @@ final class Register extends \Filament\Auth\Pages\Register
     {
         return Action::make('register')
             ->disabled(fn() => ! $this->isTurnstileValidated)
-            ->label(__('filament-panels::pages/auth/register.form.actions.register.label'))
+            ->label(__('filament-panels::auth/pages/register.form.actions.register.label'))
             ->submit('register');
     }
 }

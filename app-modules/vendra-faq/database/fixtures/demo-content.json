@@ -1,0 +1,442 @@
+[
+    {
+        "name": {
+            "en": "General Questions",
+            "de": "Allgemeine Fragen",
+            "fa": "سوالات عمومی"
+        },
+        "slug": {
+            "en": "general-questions",
+            "de": "allgemeine-fragen",
+            "fa": "سوالات-عمومی"
+        },
+        "description": {
+            "en": "Common questions about our platform and services",
+            "de": "Häufige Fragen zu unserer Plattform und unseren Diensten",
+            "fa": "سوالات متداول درباره پلتفرم و خدمات ما"
+        },
+        "status": true,
+        "faqs": [
+            {
+                "name": {
+                    "en": "What is Vendra and who is it for?",
+                    "de": "Was ist Vendra und für wen ist es gedacht?",
+                    "fa": "وندرَا چیست و برای چه کسانی مناسب است؟"
+                },
+                "slug": {
+                    "en": "what-is-vendra-and-who-is-it-for",
+                    "de": "was-ist-vendra-und-fuer-wen-ist-es-gedacht",
+                    "fa": "وندر-ا-چیست-و-برای-چه-کسانی-مناسب-است"
+                },
+                "description": {
+                    "en": "Vendra is a modular and multi-tenant CMS designed for startups, SaaS businesses, and enterprise projects. It allows teams to manage content, features, and tenants efficiently.",
+                    "de": "Vendra ist ein modulares mandantenfähiges CMS für Startups, SaaS-Unternehmen und Enterprise-Projekte. Teams können damit Inhalte, Funktionen und Mandanten effizient verwalten.",
+                    "fa": "وندرَا یک سیستم مدیریت محتوای ماژولار و چندمستاجری است که برای استارتاپ‌ها، کسب‌وکارهای SaaS و پروژه‌های سازمانی طراحی شده است و به تیم‌ها کمک می‌کند محتوا و قابلیت‌ها را به شکل بهینه مدیریت کنند."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Is the system multi-tenant?",
+                    "de": "Ist das System mandantenfähig?",
+                    "fa": "آیا سیستم چندمستاجری است؟"
+                },
+                "slug": {
+                    "en": "is-the-system-multi-tenant",
+                    "de": "ist-das-system-mandantenfaehig",
+                    "fa": "آیا-سیستم-چندمستاجری-است"
+                },
+                "description": {
+                    "en": "Yes. Each tenant has isolated data and configuration. You can manage multiple tenants from a single application instance.",
+                    "de": "Ja. Jeder Mandant hat isolierte Daten und eine eigene Konfiguration. Sie können mehrere Mandanten über eine einzige Anwendungsinstanz verwalten.",
+                    "fa": "بله. هر مستاجر داده‌ها و تنظیمات جداگانه خود را دارد و شما می‌توانید چندین مستاجر را از یک اپلیکیشن مدیریت کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Does the system support multiple languages?",
+                    "de": "Unterstützt das System mehrere Sprachen?",
+                    "fa": "آیا سیستم از چند زبان پشتیبانی می‌کند؟"
+                },
+                "slug": {
+                    "en": "does-the-system-support-multiple-languages",
+                    "de": "unterstuetzt-das-system-mehrere-sprachen",
+                    "fa": "آیا-سیستم-از-چند-زبان-پشتیبانی-می-کند"
+                },
+                "description": {
+                    "en": "Yes, you can configure supported locales in the application settings and store translations in JSON format for flexible multilingual support.",
+                    "de": "Ja, Sie können unterstützte Gebietsschemas in den Anwendungseinstellungen konfigurieren und Übersetzungen für flexible Mehrsprachigkeit im JSON-Format speichern.",
+                    "fa": "بله، شما می‌توانید زبان‌های پشتیبانی‌شده را در تنظیمات مشخص کنید و ترجمه‌ها را به صورت JSON ذخیره کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can I customize the dashboard for each tenant?",
+                    "de": "Kann ich das Dashboard für jeden Mandanten anpassen?",
+                    "fa": "آیا می‌توانم داشبورد هر مستاجر را سفارشی کنم؟"
+                },
+                "slug": {
+                    "en": "can-i-customize-the-dashboard-for-each-tenant",
+                    "de": "kann-ich-das-dashboard-fuer-jeden-mandanten-anpassen",
+                    "fa": "آیا-می-توانم-داشبورد-هر-مستاجر-را-سفارشی-کنم"
+                },
+                "description": {
+                    "en": "Yes, tenant-specific settings allow you to adjust branding, enabled modules, and operational preferences for each tenant.",
+                    "de": "Ja, mandantenspezifische Einstellungen ermöglichen es, Branding, aktivierte Module und operative Präferenzen für jeden Mandanten anzupassen.",
+                    "fa": "بله، تنظیمات مخصوص هر مستاجر به شما امکان می‌دهد برندینگ، ماژول‌های فعال و ترجیحات عملیاتی هر مستاجر را تنظیم کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can modules be enabled independently?",
+                    "de": "Können Module unabhängig aktiviert werden?",
+                    "fa": "آیا ماژول‌ها می‌توانند به صورت مستقل فعال شوند؟"
+                },
+                "slug": {
+                    "en": "can-modules-be-enabled-independently",
+                    "de": "koennen-module-unabhaengig-aktiviert-werden",
+                    "fa": "آیا-ماژول-ها-می-توانند-به-صورت-مستقل-فعال-شوند"
+                },
+                "description": {
+                    "en": "Yes, modules are designed to work independently so teams can enable only the features needed for a tenant or project.",
+                    "de": "Ja, Module sind so konzipiert, dass sie unabhängig funktionieren und Teams nur die benötigten Funktionen für einen Mandanten oder ein Projekt aktivieren können.",
+                    "fa": "بله، ماژول‌ها طوری طراحی شده‌اند که مستقل عمل کنند و تیم‌ها فقط قابلیت‌های مورد نیاز هر مستاجر یا پروژه را فعال کنند."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Account & Authentication",
+            "de": "Konto und Authentifizierung",
+            "fa": "حساب کاربری و احراز هویت"
+        },
+        "slug": {
+            "en": "account-authentication",
+            "de": "konto-und-authentifizierung",
+            "fa": "حساب-کاربری-و-احراز-هویت"
+        },
+        "description": {
+            "en": "Questions related to login, registration, and security",
+            "de": "Fragen zu Anmeldung, Registrierung und Sicherheit",
+            "fa": "سوالات مربوط به ورود، ثبت‌نام و امنیت"
+        },
+        "status": true,
+        "faqs": [
+            {
+                "name": {
+                    "en": "How can I reset my password?",
+                    "de": "Wie kann ich mein Passwort zurücksetzen?",
+                    "fa": "چگونه می‌توانم رمز عبور خود را بازیابی کنم؟"
+                },
+                "slug": {
+                    "en": "how-can-i-reset-my-password",
+                    "de": "wie-kann-ich-mein-passwort-zuruecksetzen",
+                    "fa": "چگونه-می-توانم-رمز-عبور-خود-را-بازیابی-کنم"
+                },
+                "description": {
+                    "en": "Click on the \"Forgot Password\" link on the login page and follow the instructions sent to your email address.",
+                    "de": "Klicken Sie auf der Anmeldeseite auf den Link \"Passwort vergessen\" und folgen Sie den Anweisungen, die an Ihre E-Mail-Adresse gesendet werden.",
+                    "fa": "در صفحه ورود روی گزینه «فراموشی رمز عبور» کلیک کنید و مراحل ارسال‌شده به ایمیل خود را دنبال کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can I enable two-factor authentication?",
+                    "de": "Kann ich die Zwei-Faktor-Authentifizierung aktivieren?",
+                    "fa": "آیا می‌توانم احراز هویت دو مرحله‌ای را فعال کنم؟"
+                },
+                "slug": {
+                    "en": "can-i-enable-two-factor-authentication",
+                    "de": "kann-ich-die-zwei-faktor-authentifizierung-aktivieren",
+                    "fa": "آیا-می-توانم-احراز-هویت-دو-مرحله-ای-را-فعال-کنم"
+                },
+                "description": {
+                    "en": "Yes, two-factor authentication (2FA) can be enabled from your account security settings for enhanced protection.",
+                    "de": "Ja, die Zwei-Faktor-Authentifizierung (2FA) kann in den Sicherheitseinstellungen Ihres Kontos für besseren Schutz aktiviert werden.",
+                    "fa": "بله، شما می‌توانید از طریق تنظیمات امنیت حساب کاربری، احراز هویت دو مرحله‌ای را برای افزایش امنیت فعال کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "How do I update my profile information?",
+                    "de": "Wie aktualisiere ich meine Profilinformationen?",
+                    "fa": "چگونه اطلاعات پروفایل خود را ویرایش کنم؟"
+                },
+                "slug": {
+                    "en": "how-do-i-update-my-profile-information",
+                    "de": "wie-aktualisiere-ich-meine-profilinformationen",
+                    "fa": "چگونه-اطلاعات-پروفایل-خود-را-ویرایش-کنم"
+                },
+                "description": {
+                    "en": "Navigate to your profile page from the dashboard and update your personal information, then save changes.",
+                    "de": "Öffnen Sie Ihre Profilseite über das Dashboard, aktualisieren Sie Ihre persönlichen Informationen und speichern Sie die Änderungen.",
+                    "fa": "از طریق داشبورد وارد صفحه پروفایل شوید، اطلاعات خود را ویرایش کرده و ذخیره کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can I invite team members to my tenant?",
+                    "de": "Kann ich Teammitglieder zu meinem Mandanten einladen?",
+                    "fa": "آیا می‌توانم اعضای تیم را به مستاجر خود دعوت کنم؟"
+                },
+                "slug": {
+                    "en": "can-i-invite-team-members-to-my-tenant",
+                    "de": "kann-ich-teammitglieder-zu-meinem-mandanten-einladen",
+                    "fa": "آیا-می-توانم-اعضای-تیم-را-به-مستاجر-خود-دعوت-کنم"
+                },
+                "description": {
+                    "en": "Administrators can invite users, assign roles, and control what each team member can access inside the tenant.",
+                    "de": "Administratoren können Benutzer einladen, Rollen zuweisen und steuern, worauf jedes Teammitglied innerhalb des Mandanten zugreifen kann.",
+                    "fa": "مدیران می‌توانند کاربران را دعوت کنند، نقش اختصاص دهند و دسترسی هر عضو تیم را در مستاجر کنترل کنند."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "What should I do if I cannot sign in?",
+                    "de": "Was soll ich tun, wenn ich mich nicht anmelden kann?",
+                    "fa": "اگر نتوانم وارد حساب شوم چه کاری باید انجام دهم؟"
+                },
+                "slug": {
+                    "en": "what-should-i-do-if-i-cannot-sign-in",
+                    "de": "was-soll-ich-tun-wenn-ich-mich-nicht-anmelden-kann",
+                    "fa": "اگر-نتوانم-وارد-حساب-شوم-چه-کاری-باید-انجام-دهم"
+                },
+                "description": {
+                    "en": "Check your email and password, reset your password if needed, and contact an administrator if your account is disabled.",
+                    "de": "Prüfen Sie E-Mail und Passwort, setzen Sie Ihr Passwort bei Bedarf zurück und kontaktieren Sie einen Administrator, falls Ihr Konto deaktiviert ist.",
+                    "fa": "ایمیل و رمز عبور خود را بررسی کنید، در صورت نیاز رمز را بازیابی کنید و اگر حساب شما غیرفعال است با مدیر تماس بگیرید."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Billing & Subscription",
+            "de": "Abrechnung und Abonnement",
+            "fa": "پرداخت و اشتراک"
+        },
+        "slug": {
+            "en": "billing-subscription",
+            "de": "abrechnung-und-abonnement",
+            "fa": "پرداخت-و-اشتراک"
+        },
+        "description": {
+            "en": "Information about pricing and subscription plans",
+            "de": "Informationen zu Preisen und Abonnementplänen",
+            "fa": "اطلاعات مربوط به قیمت‌گذاری و پلن‌های اشتراک"
+        },
+        "status": true,
+        "faqs": [
+            {
+                "name": {
+                    "en": "What payment methods are supported?",
+                    "de": "Welche Zahlungsmethoden werden unterstützt?",
+                    "fa": "چه روش‌های پرداختی پشتیبانی می‌شود؟"
+                },
+                "slug": {
+                    "en": "what-payment-methods-are-supported",
+                    "de": "welche-zahlungsmethoden-werden-unterstuetzt",
+                    "fa": "چه-روش-های-پرداختی-پشتیبانی-می-شود"
+                },
+                "description": {
+                    "en": "We support credit cards and online payment gateways. Custom integrations are also possible.",
+                    "de": "Wir unterstützen Kreditkarten und Online-Zahlungsgateways. Individuelle Integrationen sind ebenfalls möglich.",
+                    "fa": "ما از کارت‌های بانکی و درگاه‌های پرداخت آنلاین پشتیبانی می‌کنیم و امکان افزودن درگاه‌های سفارشی نیز وجود دارد."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can I change or cancel my subscription?",
+                    "de": "Kann ich mein Abonnement ändern oder kündigen?",
+                    "fa": "آیا می‌توانم اشتراک خود را تغییر یا لغو کنم؟"
+                },
+                "slug": {
+                    "en": "can-i-change-or-cancel-my-subscription",
+                    "de": "kann-ich-mein-abonnement-aendern-oder-kuendigen",
+                    "fa": "آیا-می-توانم-اشتراک-خود-را-تغییر-یا-لغو-کنم"
+                },
+                "description": {
+                    "en": "Yes, you can upgrade, downgrade, or cancel your subscription anytime from your billing dashboard.",
+                    "de": "Ja, Sie können Ihr Abonnement jederzeit über Ihr Abrechnungs-Dashboard upgraden, downgraden oder kündigen.",
+                    "fa": "بله، شما می‌توانید در هر زمان از طریق بخش اشتراک در داشبورد، پلن خود را ارتقا، کاهش یا لغو کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Do you offer refunds?",
+                    "de": "Bieten Sie Rückerstattungen an?",
+                    "fa": "آیا بازگشت وجه انجام می‌شود؟"
+                },
+                "slug": {
+                    "en": "do-you-offer-refunds",
+                    "de": "bieten-sie-rueckerstattungen-an",
+                    "fa": "آیا-بازگشت-وجه-انجام-می-شود"
+                },
+                "description": {
+                    "en": "Refunds are handled according to our refund policy. Please contact support for detailed information.",
+                    "de": "Rückerstattungen werden gemäß unserer Rückerstattungsrichtlinie bearbeitet. Bitte kontaktieren Sie den Support für weitere Informationen.",
+                    "fa": "بازگشت وجه طبق قوانین بازپرداخت انجام می‌شود. برای اطلاعات بیشتر با پشتیبانی تماس بگیرید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can I download invoices?",
+                    "de": "Kann ich Rechnungen herunterladen?",
+                    "fa": "آیا می‌توانم فاکتورها را دانلود کنم؟"
+                },
+                "slug": {
+                    "en": "can-i-download-invoices",
+                    "de": "kann-ich-rechnungen-herunterladen",
+                    "fa": "آیا-می-توانم-فاکتورها-را-دانلود-کنم"
+                },
+                "description": {
+                    "en": "Invoices can be downloaded from the billing section when invoice generation is enabled for your tenant.",
+                    "de": "Rechnungen können im Abrechnungsbereich heruntergeladen werden, wenn die Rechnungserstellung für Ihren Mandanten aktiviert ist.",
+                    "fa": "اگر صدور فاکتور برای مستاجر شما فعال باشد، می‌توانید فاکتورها را از بخش پرداخت دانلود کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "How are subscription limits applied?",
+                    "de": "Wie werden Abonnementlimits angewendet?",
+                    "fa": "محدودیت‌های اشتراک چگونه اعمال می‌شوند؟"
+                },
+                "slug": {
+                    "en": "how-are-subscription-limits-applied",
+                    "de": "wie-werden-abonnementlimits-angewendet",
+                    "fa": "محدودیت-های-اشتراک-چگونه-اعمال-می-شوند"
+                },
+                "description": {
+                    "en": "Plan limits can control features such as active users, enabled modules, storage, or usage quotas depending on your configuration.",
+                    "de": "Tariflimits können je nach Konfiguration aktive Benutzer, aktivierte Module, Speicherplatz oder Nutzungskontingente steuern.",
+                    "fa": "محدودیت‌های پلن می‌توانند بسته به تنظیمات شما کاربران فعال، ماژول‌های فعال، فضای ذخیره‌سازی یا سهمیه مصرف را کنترل کنند."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Technical Support",
+            "de": "Technischer Support",
+            "fa": "پشتیبانی فنی"
+        },
+        "slug": {
+            "en": "technical-support",
+            "de": "technischer-support",
+            "fa": "پشتیبانی-فنی"
+        },
+        "description": {
+            "en": "Technical and development related questions",
+            "de": "Technische und entwicklungsbezogene Fragen",
+            "fa": "سوالات فنی و مرتبط با توسعه"
+        },
+        "status": true,
+        "faqs": [
+            {
+                "name": {
+                    "en": "How can I report a bug?",
+                    "de": "Wie kann ich einen Fehler melden?",
+                    "fa": "چگونه می‌توانم یک باگ را گزارش کنم؟"
+                },
+                "slug": {
+                    "en": "how-can-i-report-a-bug",
+                    "de": "wie-kann-ich-einen-fehler-melden",
+                    "fa": "چگونه-می-توانم-یک-باگ-را-گزارش-کنم"
+                },
+                "description": {
+                    "en": "You can report bugs through the support portal or by submitting an issue in the repository with detailed reproduction steps.",
+                    "de": "Sie können Fehler über das Support-Portal melden oder ein Issue im Repository mit detaillierten Schritten zur Reproduktion einreichen.",
+                    "fa": "شما می‌توانید از طریق پورتال پشتیبانی یا ثبت Issue در مخزن پروژه همراه با توضیحات کامل، باگ را گزارش کنید."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Is there an API available?",
+                    "de": "Gibt es eine API?",
+                    "fa": "آیا API در دسترس است؟"
+                },
+                "slug": {
+                    "en": "is-there-an-api-available",
+                    "de": "gibt-es-eine-api",
+                    "fa": "آیا-api-در-دسترس-است"
+                },
+                "description": {
+                    "en": "Yes, the platform provides RESTful APIs for integration with third-party services and custom applications.",
+                    "de": "Ja, die Plattform bietet RESTful APIs für die Integration mit Drittanbieterdiensten und individuellen Anwendungen.",
+                    "fa": "بله، این پلتفرم APIهای REST برای یکپارچه‌سازی با سرویس‌های دیگر و اپلیکیشن‌های سفارشی ارائه می‌دهد."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can I extend the system with custom modules?",
+                    "de": "Kann ich das System mit eigenen Modulen erweitern?",
+                    "fa": "آیا می‌توانم سیستم را با ماژول‌های سفارشی توسعه دهم؟"
+                },
+                "slug": {
+                    "en": "can-i-extend-the-system-with-custom-modules",
+                    "de": "kann-ich-das-system-mit-eigenen-modulen-erweitern",
+                    "fa": "آیا-می-توانم-سیستم-را-با-ماژول-های-سفارشی-توسعه-دهم"
+                },
+                "description": {
+                    "en": "Yes, Vendra is designed with modular architecture, allowing developers to create and plug in custom packages easily.",
+                    "de": "Ja, Vendra ist mit einer modularen Architektur konzipiert, sodass Entwickler eigene Pakete einfach erstellen und einbinden können.",
+                    "fa": "بله، وندرَا با معماری ماژولار طراحی شده و توسعه‌دهندگان می‌توانند به راحتی پکیج‌های سفارشی ایجاد و اضافه کنند."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "How do I check application logs?",
+                    "de": "Wie prüfe ich Anwendungsprotokolle?",
+                    "fa": "چگونه لاگ‌های برنامه را بررسی کنم؟"
+                },
+                "slug": {
+                    "en": "how-do-i-check-application-logs",
+                    "de": "wie-pruefe-ich-anwendungsprotokolle",
+                    "fa": "چگونه-لاگ-های-برنامه-را-بررسی-کنم"
+                },
+                "description": {
+                    "en": "Administrators can review application logs through the configured monitoring tools or server log storage.",
+                    "de": "Administratoren können Anwendungsprotokolle über die konfigurierten Monitoring-Tools oder den Server-Logspeicher prüfen.",
+                    "fa": "مدیران می‌توانند لاگ‌های برنامه را از طریق ابزارهای مانیتورینگ تنظیم‌شده یا محل ذخیره لاگ‌های سرور بررسی کنند."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Can developers use APIs for integrations?",
+                    "de": "Können Entwickler APIs für Integrationen verwenden?",
+                    "fa": "آیا توسعه‌دهندگان می‌توانند برای یکپارچه‌سازی از API استفاده کنند؟"
+                },
+                "slug": {
+                    "en": "can-developers-use-apis-for-integrations",
+                    "de": "koennen-entwickler-apis-fuer-integrationen-verwenden",
+                    "fa": "آیا-توسعه-دهندگان-می-توانند-برای-یکپارچه-سازی-از-api-استفاده-کنند"
+                },
+                "description": {
+                    "en": "Yes, developers can connect external systems through available APIs and module-specific integration endpoints.",
+                    "de": "Ja, Entwickler können externe Systeme über verfügbare APIs und modulspezifische Integrationsendpunkte anbinden.",
+                    "fa": "بله، توسعه‌دهندگان می‌توانند سیستم‌های خارجی را از طریق APIهای موجود و نقاط اتصال مخصوص هر ماژول متصل کنند."
+                },
+                "status": true
+            }
+        ]
+    }
+]

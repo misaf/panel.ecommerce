@@ -32,12 +32,12 @@ final class Affiliate extends Page implements HasTable
 
     public function getTitle(): string|Htmlable
     {
-        return __('navigation.affiliate');
+        return __('vendra-affiliate::navigation.affiliate');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('navigation.affiliate');
+        return __('vendra-affiliate::navigation.affiliate');
     }
 
     public static function getNavigationIcon(): string|Htmlable|null
@@ -73,10 +73,10 @@ final class Affiliate extends Page implements HasTable
                     ->rowIndex(),
 
                 TextColumn::make('user.username')
-                    ->label(__('model.user'))
+                    ->label(__('vendra-user::navigation.user'))
                     ->searchable(),
                 TextColumn::make('commission_earned')
-                    ->label(__('affiliate.commission_earned'))
+                    ->label(__('vendra-affiliate::attributes.commission_earned'))
                     ->numeric(locale: 'en', maxDecimalPlaces: 0)
                     ->sortable(),
                 CreatedAtTextColumn::make('created_at'),
@@ -87,7 +87,7 @@ final class Affiliate extends Page implements HasTable
             ->description(function () {
                 $commissionPercent = filament()->auth()->user()->latestAffiliate->commission_percent ?? 0;
 
-                return sprintf(__('affiliate.commission_percent') . ': %s%%', $commissionPercent);
+                return sprintf(__('vendra-affiliate::attributes.commission_percent') . ': %s%%', $commissionPercent);
             })
             ->headerActions([
                 Action::make('process_affiliate_commission')
@@ -116,7 +116,7 @@ final class Affiliate extends Page implements HasTable
                         $livewire->dispatch('refresh');
                     })
                     ->icon('heroicon-o-banknotes')
-                    ->label(__('دریافت کمیسیون'))
+                    ->label(__('affiliate.receive_commission'))
                     ->requiresConfirmation(),
                 Action::make('process_affiliate_commi2ssion')
                     ->modalContent(function () {
@@ -154,7 +154,7 @@ final class Affiliate extends Page implements HasTable
                     ->modalCancelAction(false)
                     ->modalSubmitAction(false)
                     ->icon('heroicon-o-qr-code')
-                    ->label(__('لینک کسب درآمد')),
+                    ->label(__('affiliate.earning_link')),
             ]);
     }
 

@@ -1,0 +1,8 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'authify_log'            => 'گزارش های احراز هویت',
+    'authify_log_management' => 'مدیریت گزارش های احراز هویت',
+];

@@ -1,0 +1,81 @@
+{
+    "name": "misaf/vendra-localization",
+    "description": "Request locale resolution for Laravel applications.",
+    "keywords": [
+        "laravel",
+        "localization",
+        "locale",
+        "misaf",
+        "vendra"
+    ],
+    "homepage": "https://github.com/misaf/vendra-localization",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.3",
+        "illuminate/contracts": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/support": "^13.0",
+        "spatie/laravel-package-tools": "^1.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.10.0",
+        "laravel/pint": "^1.27",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.4",
+        "orchestra/testbench": "^11.1",
+        "pestphp/pest": "^4.7.2",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "phpstan/extension-installer": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraLocalization\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraLocalization\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraLocalization\\Providers\\LocalizationServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-master": "13.x-dev"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-localization/issues",
+        "source": "https://github.com/misaf/vendra-localization"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}

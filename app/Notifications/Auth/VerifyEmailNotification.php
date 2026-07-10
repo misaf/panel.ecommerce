@@ -27,11 +27,11 @@ final class VerifyEmailNotification extends LaravelVerifyEmail implements Should
         $verificationUrl = $this->verificationUrl($notifiable);
 
         return (new MailMessage())
-            ->subject(__('Verify Email Address'))
-            ->greeting(__('Hello :user,', ['user' => $notifiable->username]))
-            ->line(__('Please click the button below to verify your email address.'))
-            ->action(__('Verify Email Address'), $verificationUrl)
-            ->line(__('If you did not create an account, no further action is required.'))
-            ->salutation(__('Best regards') . "\n" . config('app.name'));
+            ->subject(__('mail.verify_email.subject'))
+            ->greeting(__('mail.verify_email.greeting', ['user' => $notifiable->username]))
+            ->line(__('mail.verify_email.line'))
+            ->action(__('mail.verify_email.action'), $verificationUrl)
+            ->line(__('mail.verify_email.no_action'))
+            ->salutation(__('mail.verify_email.salutation') . "\n" . config('app.name'));
     }
 }

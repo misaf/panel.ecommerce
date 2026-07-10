@@ -77,8 +77,7 @@ final class ManageGeneralSettings extends SettingsPage
                             ]),
 
                         Tab::make('global_authentication')
-                            ->translateLabel(true)
-                            ->label('setting.authentication')
+                            ->label(__('setting.authentication'))
                             ->schema([
                                 // Toggle::make('user_email_verification')
                                 //     ->columnSpanFull()

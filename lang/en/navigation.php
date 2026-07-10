@@ -9,6 +9,8 @@ return [
     'report_management'      => 'Report Management',
     'setting_management'     => 'Setting Management',
     'my_billing'             => 'My Billing',
+    'my_deposit'             => 'My Deposit',
+    'my_withdrawal'          => 'My Withdrawal',
     'edit_profile'           => 'Edit Profile',
     'billing_management'     => 'Billing Management',
 ];

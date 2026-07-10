@@ -9,6 +9,8 @@ return [
     'report_management'      => 'مدیریت گزارش ها',
     'setting_management'     => 'مدیریت تنظیمات',
     'my_billing'             => 'صورتحساب من',
+    'my_deposit'             => 'واریز من',
+    'my_withdrawal'          => 'برداشت من',
     'edit_profile'           => 'ویرایش پروفایل',
     'billing_management'     => 'مدیریت صورتحساب',
 ];

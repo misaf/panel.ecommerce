@@ -24,13 +24,13 @@ final class ResetPasswordNotification extends ResetPassword implements ShouldQue
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject(__('Reset Password Notification'))
-            ->line(__('Dear :user,', ['user' => $notifiable->username]))
-            ->line(__('You are receiving this email because we received a password reset request for your account.'))
-            ->action(__('Reset Password'), $this->url)
-            ->line(__('This password reset link will expire in :count minutes.', [
+            ->subject(__('mail.reset_password.subject'))
+            ->line(__('mail.reset_password.greeting', ['user' => $notifiable->username]))
+            ->line(__('mail.reset_password.line'))
+            ->action(__('mail.reset_password.action'), $this->url)
+            ->line(__('mail.reset_password.expire', [
                 'count' => config('auth.passwords.' . config('auth.defaults.passwords') . '.expire'),
             ]))
-            ->line(__('If you did not request a password reset, no further action is required.'));
+            ->line(__('mail.reset_password.no_action'));
     }
 }

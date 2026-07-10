@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraSupport\Scopes;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Scope;
+use Misaf\VendraSupport\Contracts\TenantResolver;
+
+/**
+ * @implements Scope<Model>
+ */
+class TeamScope implements Scope
+{
+    /**
+     * @param Builder<covariant Model> $builder
+     * @param Model $model
+     */
+    public function apply(Builder $builder, Model $model): void
+    {
+        if ( ! app()->bound(TenantResolver::class) || null !== app(TenantResolver::class)->current()) {
+            return;
+        }
+
+        $user = auth()->user();
+
+        if ( ! $user instanceof Model) {
+            return;
+        }
+
+        $tenantId = $user->getAttribute('tenant_id');
+
+        if (is_int($tenantId) || is_string($tenantId)) {
+            $builder->where($model->qualifyColumn('tenant_id'), $tenantId);
+        }
+    }
+}

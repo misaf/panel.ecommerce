@@ -1,0 +1,58 @@
+[
+    {
+        "name": {
+            "en": "General",
+            "de": "Allgemein",
+            "fa": "عمومی"
+        },
+        "slug": {
+            "en": "general",
+            "de": "allgemein",
+            "fa": "عمومی"
+        },
+        "description": {
+            "en": "General description goes here",
+            "de": "Allgemeine Beschreibung steht hier",
+            "fa": "توضیحات عمومی اینجا قرار می‌گیرد"
+        },
+        "status": true,
+        "custom_pages": [
+            {
+                "name": {
+                    "en": "About Us",
+                    "de": "Über uns",
+                    "fa": "درباره ما"
+                },
+                "slug": {
+                    "en": "about-us",
+                    "de": "ueber-uns",
+                    "fa": "درباره-ما"
+                },
+                "description": {
+                    "en": "About us page content",
+                    "de": "Inhalt der Seite Über uns",
+                    "fa": "محتوای صفحه درباره ما"
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Contact",
+                    "de": "Kontakt",
+                    "fa": "تماس با ما"
+                },
+                "slug": {
+                    "en": "contact",
+                    "de": "kontakt",
+                    "fa": "تماس-با-ما"
+                },
+                "description": {
+                    "en": "Contact page content",
+                    "de": "Inhalt der Kontaktseite",
+                    "fa": "محتوای صفحه تماس"
+                },
+                "status": true
+            }
+        ]
+    }
+]

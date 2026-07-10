@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+return  [
+    'created_at'              => 'تاریخ ایجاد',
+    'deleted_at'              => 'تاریخ حذف',
+    'description'             => 'توضیحات',
+    'description_helper_text' => 'توضیح کوتاهی برای این پرسش و پاسخ بنویسید.',
+    'id'                      => 'شناسه',
+    'image'                   => 'تصویر',
+    'name'                    => 'نام',
+    'slug'                    => 'نامک',
+    'slug_helper_text'        => 'شناسه یکتای URL. برای تولید خودکار از نام، خالی بگذارید.',
+    'status'                  => 'وضعیت',
+    'tenant_id'               => 'مستاجر',
+    'updated_at'              => 'تاریخ بروزرسانی',
+];

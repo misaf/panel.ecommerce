@@ -44,11 +44,11 @@ final class Shetab extends Page implements HasForms
             ->components([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tab::make(__('واریز به شماره کارت'))
+                        Tab::make(__('payment.deposit_to_card'))
                             ->schema([
                                 Livewire::make(ToCard::class),
                             ]),
-                        Tab::make(__('واریز به شماره شبا'))
+                        Tab::make(__('payment.deposit_to_sheba'))
                             ->schema([
                                 Livewire::make(ToSheba::class),
                             ]),
@@ -61,22 +61,22 @@ final class Shetab extends Page implements HasForms
 
     public static function getBreadcrumb(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getModelLabel(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getNavigationSort(): ?int

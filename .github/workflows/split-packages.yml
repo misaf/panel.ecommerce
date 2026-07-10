@@ -1,0 +1,76 @@
+name: Split packages
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - vendra-activity-log
+          - vendra-affiliate
+          - vendra-api
+          - vendra-attribute
+          - vendra-attribute-api
+          - vendra-authify-log
+          - vendra-blog
+          - vendra-blog-api
+          - vendra-currency
+          - vendra-custom-page
+          - vendra-faq
+          - vendra-faq-api
+          - vendra-geo
+          - vendra-language
+          - vendra-localization
+          - vendra-multimedia
+          - vendra-multimedia-api
+          - vendra-newsletter
+          - vendra-permission
+          - vendra-product
+          - vendra-product-api
+          - vendra-subscription
+          - vendra-support
+          - vendra-tagger
+          - vendra-tenant
+          - vendra-testing
+          - vendra-transaction
+          - vendra-user
+          - vendra-user-profile
+
+    steps:
+      - name: Check out monorepo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Split branch
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+        uses: symplify/monorepo-split-github-action@2.4.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        with:
+          package_directory: app-modules/${{ matrix.package }}
+          repository_organization: misaf
+          repository_name: ${{ matrix.package }}
+          user_name: misaf
+          user_email: misaf.1990@gmail.com
+
+      - name: Split tag
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: symplify/monorepo-split-github-action@2.4.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        with:
+          tag: ${{ github.ref_name }}
+          package_directory: app-modules/${{ matrix.package }}
+          repository_organization: misaf
+          repository_name: ${{ matrix.package }}
+          user_name: misaf
+          user_email: misaf.1990@gmail.com

@@ -30,22 +30,22 @@ final class ManagePerfectMoneySettings extends SettingsPage
 
     public static function getModelLabel(): string
     {
-        return __('پرفکت مانی');
+        return __('payment.perfect_money');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('پرداخت ها');
+        return __('payment.payments');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('پرفکت مانی');
+        return __('payment.perfect_money');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('پرفکت مانی');
+        return __('payment.perfect_money');
     }
 
     public function form(Schema $schema): Schema
@@ -55,40 +55,40 @@ final class ManagePerfectMoneySettings extends SettingsPage
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make('deposit')
-                            ->label(__('خرید'))
+                            ->label(__('payment.buy'))
                             ->schema([
                                 TextInput::make('usd_x_toman')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('مبلغ'))
+                                    ->label(__('vendra-transaction::attributes.amount'))
                                     ->numeric()
                                     ->required(),
                             ]),
 
                         Tab::make('withdrawal')
-                            ->label(__('فروش'))
+                            ->label(__('payment.sell'))
                             ->schema([
                                 TextInput::make('toman_x_usd')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('مبلغ'))
+                                    ->label(__('vendra-transaction::attributes.amount'))
                                     ->numeric()
                                     ->required(),
 
                                 Fieldset::make('Label')
-                                    ->label(__('اعمال محدودیت'))
+                                    ->label(__('payment.apply_limit'))
                                     ->schema([
                                         TextInput::make('withdrawal_limit_count')
                                             ->columnSpanFull()
                                             ->extraAttributes(['dir' => 'ltr'])
-                                            ->label(__('تعداد'))
+                                            ->label(__('payment.count'))
                                             ->numeric()
                                             ->required(),
 
                                         TextInput::make('withdrawal_limit_hours')
                                             ->columnSpanFull()
                                             ->extraAttributes(['dir' => 'ltr'])
-                                            ->label(__('مدت زمان ( ساعت )'))
+                                            ->label(__('payment.duration_hours'))
                                             ->numeric()
                                             ->required(),
                                     ]),
@@ -101,6 +101,6 @@ final class ManagePerfectMoneySettings extends SettingsPage
 
     public function getTitle(): string|Htmlable
     {
-        return __('پرفکت مانی');
+        return __('payment.perfect_money');
     }
 }

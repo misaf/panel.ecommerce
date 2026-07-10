@@ -48,7 +48,7 @@ final class Turnstile extends Field
             $responseData = $response->json();
 
             if ( ! $responseData['success']) {
-                $fail(__('متأسفانه کد امنیتی نتوانست شما رو شناسایی کند. لطفاً دوباره امتحان کنید.'));
+                $fail(__('captcha.turnstile_failed'));
             }
 
             $livewire->dispatch('resetTurnstile');

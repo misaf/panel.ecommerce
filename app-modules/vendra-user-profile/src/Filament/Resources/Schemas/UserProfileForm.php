@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraUserProfile\Filament\Resources\Schemas;
+
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Unique;
+use Livewire\Component as Livewire;
+use Misaf\VendraSupport\Support\TenantAwareness;
+
+final class UserProfileForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Select::make('user_id')
+                    ->columnSpanFull()
+                    ->label(__('vendra-user-profile::attributes.user'))
+                    ->native(false)
+                    ->preload()
+                    ->relationship('user', 'username')
+                    ->required()
+                    ->searchable(),
+
+                TextInput::make('name')
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                        if (($get->string('slug', isNullable: true) ?? '') === Str::slug($old ?? '')) {
+                            $set('slug', Str::slug($state ?? ''));
+                        }
+                    })
+                    ->autofocus()
+                    ->columnSpan(['lg' => 1])
+                    ->label(__('vendra-user-profile::attributes.name'))
+                    ->live(onBlur: true)
+                    ->required()
+                    ->unique(
+                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
+                            ->withoutTrashed(),
+                    ),
+
+                TextInput::make('slug')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.slug"))
+                    ->columnSpan(['lg' => 1])
+                    ->label(__('vendra-user-profile::attributes.slug'))
+                    ->required()
+                    ->unique(modifyRuleUsing: fn(Unique $rule) => $rule->withoutTrashed()),
+
+                Textarea::make('description')
+                    ->columnSpanFull()
+                    ->label(__('vendra-user-profile::attributes.description'))
+                    ->maxLength(255),
+
+                Toggle::make('status')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.status"))
+                    ->columnSpanFull()
+                    ->default(false)
+                    ->label(__('vendra-user-profile::attributes.status'))
+                    ->onIcon('heroicon-m-bolt')
+                    ->required()
+                    ->rules([
+                        'boolean',
+                    ]),
+            ]);
+    }
+}

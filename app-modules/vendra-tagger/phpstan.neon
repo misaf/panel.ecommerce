@@ -1,0 +1,12 @@
+parameters:
+
+    paths:
+        - src/
+
+    # Level 10 is the highest level
+    level: 10
+#
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
+#
+#    checkMissingIterableValueType: false

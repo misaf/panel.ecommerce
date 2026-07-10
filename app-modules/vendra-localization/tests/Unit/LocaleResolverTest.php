@@ -1,0 +1,163 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Misaf\VendraLocalization\Contracts\LocaleResolver;
+use Misaf\VendraLocalization\Resolvers\AcceptLanguageLocaleResolver;
+use Misaf\VendraLocalization\Resolvers\ChainLocaleResolver;
+use Misaf\VendraLocalization\Resolvers\QueryLocaleResolver;
+use Misaf\VendraLocalization\Resolvers\RouteLocaleResolver;
+use Misaf\VendraLocalization\Resolvers\UserLocaleResolver;
+use Misaf\VendraLocalization\Tests\Fixtures\TenantLocaleResolver;
+
+function requestWithRouteLocale(?string $locale): Request
+{
+    $request = Request::create(null === $locale ? '/api/products' : "/api/{$locale}/products");
+    $route = new Route('GET', null === $locale ? '/api/products' : '/api/{locale}/products', []);
+    $route->bind($request);
+    $request->setRouteResolver(fn(): Route => $route);
+
+    return $request;
+}
+
+function requestWithUserLocale(?string $locale): Request
+{
+    $request = Request::create('/');
+
+    if (null !== $locale) {
+        $request->setUserResolver(fn(): object => (object) ['locale' => $locale]);
+    }
+
+    return $request;
+}
+
+function requestWithPreferredLocaleUser(string $locale): Request
+{
+    $request = Request::create('/');
+
+    $request->setUserResolver(fn(): HasLocalePreference => new class ($locale) implements HasLocalePreference {
+        public function __construct(
+            private readonly string $locale,
+        ) {}
+
+        public function preferredLocale(): string
+        {
+            return $this->locale;
+        }
+    });
+
+    return $request;
+}
+
+it('binds the configured resolver chain', function (): void {
+    config()->set('vendra-localization.resolvers', [TenantLocaleResolver::class]);
+
+    app()->forgetInstance(LocaleResolver::class);
+
+    $resolver = app(LocaleResolver::class);
+
+    expect($resolver)
+        ->toBeInstanceOf(ChainLocaleResolver::class)
+        ->and($resolver->resolve(Request::create('/')))
+        ->toBe('fa');
+});
+
+it('rejects configured resolvers that do not implement the contract', function (): void {
+    config()->set('vendra-localization.resolvers', [stdClass::class]);
+
+    app()->forgetInstance(LocaleResolver::class);
+
+    app(LocaleResolver::class);
+})->throws(InvalidArgumentException::class);
+
+it('registers every built-in resolver', function (string $resolver): void {
+    expect(app($resolver))->toBeInstanceOf(LocaleResolver::class);
+})->with([
+    AcceptLanguageLocaleResolver::class,
+    QueryLocaleResolver::class,
+    RouteLocaleResolver::class,
+    UserLocaleResolver::class,
+]);
+
+it('resolves locales from each built-in resolver source', function (string $resolver, Request $request, string $expectedLocale): void {
+    expect(app($resolver)->resolve($request))->toBe($expectedLocale);
+})->with([
+    'accept language header' => [
+        AcceptLanguageLocaleResolver::class,
+        Request::create('/', server: [
+            'HTTP_ACCEPT_LANGUAGE' => 'fr-CA,fr;q=0.9,de;q=0.8,en;q=0.7',
+        ]),
+        'fr',
+    ],
+    'query string' => [
+        QueryLocaleResolver::class,
+        Request::create('/?locale=de'),
+        'de',
+    ],
+    'route parameter' => [
+        RouteLocaleResolver::class,
+        requestWithRouteLocale('fa'),
+        'fa',
+    ],
+    'user locale attribute' => [
+        UserLocaleResolver::class,
+        requestWithUserLocale('de'),
+        'de',
+    ],
+    'user locale preference' => [
+        UserLocaleResolver::class,
+        requestWithPreferredLocaleUser('fa'),
+        'fa',
+    ],
+]);
+
+it('returns null when the resolver source has no value', function (string $resolver, Request $request): void {
+    expect(app($resolver)->resolve($request))->toBeNull();
+})->with([
+    'accept language header' => [
+        AcceptLanguageLocaleResolver::class,
+        Request::create('/', server: [
+            'HTTP_ACCEPT_LANGUAGE' => '',
+        ]),
+    ],
+    'query string' => [
+        QueryLocaleResolver::class,
+        Request::create('/'),
+    ],
+    'route parameter' => [
+        RouteLocaleResolver::class,
+        requestWithRouteLocale(null),
+    ],
+    'authenticated user' => [
+        UserLocaleResolver::class,
+        requestWithUserLocale(null),
+    ],
+]);
+
+it('returns the first non-null locale from the chain', function (): void {
+    $chain = new ChainLocaleResolver(
+        new TenantLocaleResolver(null),
+        new TenantLocaleResolver('de'),
+        new TenantLocaleResolver('fa'),
+    );
+
+    expect($chain->resolve(Request::create('/')))->toBe('de');
+});
+
+it('returns null when no chained resolver produces a locale', function (): void {
+    $chain = new ChainLocaleResolver(new TenantLocaleResolver(null));
+
+    expect($chain->resolve(Request::create('/')))->toBeNull();
+});
+
+it('builds chains from source aliases and aggregates vary headers', function (): void {
+    $chain = ChainLocaleResolver::fromSources(app(), ['query', 'accept-language']);
+
+    expect($chain->resolve(Request::create('/?locale=de')))
+        ->toBe('de')
+        ->and($chain->varyHeaders())
+        ->toBe(['Accept-Language']);
+});

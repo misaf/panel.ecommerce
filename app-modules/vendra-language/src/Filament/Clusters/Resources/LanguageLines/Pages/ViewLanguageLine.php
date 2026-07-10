@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages;
+
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
+use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
+use LaraZeus\SpatieTranslatable\Resources\Pages\ViewRecord\Concerns\Translatable;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
+
+final class ViewLanguageLine extends ViewRecord
+{
+    use Translatable;
+
+    protected static string $resource = LanguageLineResource::class;
+
+    public function getBreadcrumb(): string
+    {
+        return self::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb') . ' ' . __('vendra-language::navigation.language');
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            EditAction::make(),
+
+            LocaleSwitcher::make(),
+        ];
+    }
+}

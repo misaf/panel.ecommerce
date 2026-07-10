@@ -31,22 +31,22 @@ final class ManageCoinPaymentsSettings extends SettingsPage
 
     public static function getModelLabel(): string
     {
-        return __('رمز ارزهای دیجیتال');
+        return __('payment.coinpayments');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('پرداخت ها');
+        return __('payment.payments');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('رمز ارزهای دیجیتال');
+        return __('payment.coinpayments');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('رمز ارزهای دیجیتال');
+        return __('payment.coinpayments');
     }
 
     public function form(Schema $schema): Schema
@@ -56,80 +56,80 @@ final class ManageCoinPaymentsSettings extends SettingsPage
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make('deposit')
-                            ->label(__('خرید'))
+                            ->label(__('payment.buy'))
                             ->schema([
                                 TextInput::make('usd_x_toman')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('مبلغ'))
+                                    ->label(__('vendra-transaction::attributes.amount'))
                                     ->numeric()
                                     ->required(),
 
                                 TextInput::make('crazy_bonus_deposit_min_amount')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('Crazy Bonus Minimum Amount'))
+                                    ->label(__('payment.crazy_bonus_minimum_amount'))
                                     ->numeric()
                                     ->required(),
 
                                 TextInput::make('crazy_bonus_deposit_amount')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('Crazy Bonus Amount'))
+                                    ->label(__('payment.crazy_bonus_amount'))
                                     ->numeric()
                                     ->required(),
 
                                 Toggle::make('crazy_bonus_deposit_status')
                                     ->columnSpanFull()
-                                    ->label(__('settings.crazy_bonus_deposit_status'))
+                                    ->label(__('payment.crazy_bonus_deposit_status'))
                                     ->rules('required')
                                     ->default(false),
                             ]),
 
                         Tab::make('withdrawal')
-                            ->label(__('فروش'))
+                            ->label(__('payment.sell'))
                             ->schema([
                                 TextInput::make('toman_x_usd')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('مبلغ'))
+                                    ->label(__('vendra-transaction::attributes.amount'))
                                     ->numeric()
                                     ->required(),
 
                                 TextInput::make('crazy_bonus_withdrawal_min_amount')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('Crazy Bonus Minimum Amount'))
+                                    ->label(__('payment.crazy_bonus_minimum_amount'))
                                     ->numeric()
                                     ->required(),
 
                                 TextInput::make('crazy_bonus_withdrawal_amount')
                                     ->columnSpanFull()
                                     ->extraAttributes(['dir' => 'ltr'])
-                                    ->label(__('Crazy Bonus Amount'))
+                                    ->label(__('payment.crazy_bonus_amount'))
                                     ->numeric()
                                     ->required(),
 
                                 Toggle::make('crazy_bonus_withdrawal_status')
                                     ->columnSpanFull()
-                                    ->label(__('settings.crazy_bonus_withdrawal_status'))
+                                    ->label(__('payment.crazy_bonus_withdrawal_status'))
                                     ->rules('required')
                                     ->default(false),
 
                                 Fieldset::make('Label')
-                                    ->label(__('اعمال محدودیت'))
+                                    ->label(__('payment.apply_limit'))
                                     ->schema([
                                         TextInput::make('withdrawal_limit_count')
                                             ->columnSpanFull()
                                             ->extraAttributes(['dir' => 'ltr'])
-                                            ->label(__('تعداد'))
+                                            ->label(__('payment.count'))
                                             ->numeric()
                                             ->required(),
 
                                         TextInput::make('withdrawal_limit_hours')
                                             ->columnSpanFull()
                                             ->extraAttributes(['dir' => 'ltr'])
-                                            ->label(__('مدت زمان ( ساعت )'))
+                                            ->label(__('payment.duration_hours'))
                                             ->numeric()
                                             ->required(),
                                     ]),
@@ -142,6 +142,6 @@ final class ManageCoinPaymentsSettings extends SettingsPage
 
     public function getTitle(): string|Htmlable
     {
-        return __('رمز ارزهای دیجیتال');
+        return __('payment.coinpayments');
     }
 }

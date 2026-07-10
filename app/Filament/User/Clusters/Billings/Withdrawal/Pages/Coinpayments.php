@@ -27,7 +27,7 @@ final class Coinpayments extends Page
         $name = TransactionGateway::whereJsonContainsLocale('slug', app()->getLocale(), 'coinpayments', '=')
             ->value('name');
 
-        return is_string($name) ? $name : __('Coinpayments');
+        return is_string($name) ? $name : __('payment.coinpayments');
     }
 
     public static function getNavigationSort(): ?int

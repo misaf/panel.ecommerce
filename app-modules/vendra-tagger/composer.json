@@ -1,0 +1,92 @@
+{
+    "name": "misaf/vendra-tagger",
+    "keywords": [
+        "laravel",
+        "filamentphp",
+        "misaf",
+        "vendra",
+        "tagger"
+    ],
+    "homepage": "https://github.com/misaf/vendra-tagger",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.3",
+        "awcodes/filament-badgeable-column": "^4.0",
+        "filament/filament": "^5.6.6",
+        "filament/spatie-laravel-tags-plugin": "^5.0",
+        "illuminate/support": "^13.0",
+        "lara-zeus/spatie-translatable": "^2.0",
+        "misaf/filament-jalali": "^5.1.4",
+        "misaf/vendra-support": "^13.0",
+        "spatie/eloquent-sortable": "^5.0",
+        "spatie/laravel-package-tools": "^1.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.10.0",
+        "laravel/boost": "^2.4.8",
+        "laravel/pint": "^1.27",
+        "misaf/vendra-testing": "^13.0",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.4",
+        "orchestra/testbench": "^11.1",
+        "pestphp/pest": "^4.7.2",
+        "pestphp/pest-plugin-arch": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "pestphp/pest-plugin-profanity": "^4.0",
+        "pestphp/pest-plugin-type-coverage": "^4.0",
+        "phpstan/extension-installer": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraTagger\\": "src/",
+            "Misaf\\VendraTagger\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/",
+            "Misaf\\VendraTagger\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraTagger\\Providers\\TaggerServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-master": "13.x-dev"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-tagger/issues",
+        "source": "https://github.com/misaf/vendra-tagger"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}

@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraTransaction\Filament\Clusters;
+
+use Filament\Clusters\Cluster;
+
+final class TransactionsCluster extends Cluster
+{
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $slug = 'transactions';
+
+    public static function getNavigationGroup(): string
+    {
+        return __('navigation.billing_management');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('vendra-transaction::navigation.transaction');
+    }
+
+    public static function getClusterBreadcrumb(): string
+    {
+        return __('navigation.billing_management');
+    }
+}

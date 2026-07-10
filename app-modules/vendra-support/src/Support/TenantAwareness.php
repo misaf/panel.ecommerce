@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraSupport\Support;
+
+use Illuminate\Validation\Rules\Unique;
+use Misaf\VendraSupport\Contracts\TenantResolver;
+
+final class TenantAwareness
+{
+    /**
+     * Tenant awareness is derived from the bound tenant resolver: installing a
+     * tenant provider (e.g. misaf/vendra-tenant) binds a resolver that reports
+     * itself available, while the default null resolver keeps it disabled.
+     */
+    public static function enabled(): bool
+    {
+        return app(TenantResolver::class)->available();
+    }
+
+    public static function currentId(): ?int
+    {
+        if ( ! self::enabled()) {
+            return null;
+        }
+
+        return app(TenantResolver::class)->currentId();
+    }
+
+    public static function constrainUniqueRule(Unique $rule): Unique
+    {
+        $tenantId = self::currentId();
+
+        if (null === $tenantId) {
+            return $rule;
+        }
+
+        return $rule->where('tenant_id', $tenantId);
+    }
+}

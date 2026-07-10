@@ -23,22 +23,22 @@ final class Shetab extends Page
 
     public static function getBreadcrumb(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getModelLabel(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('shetab::navigation.shetab');
+        return __('payment.shetab');
     }
 
     public static function getNavigationSort(): ?int

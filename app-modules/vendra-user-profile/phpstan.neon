@@ -1,0 +1,15 @@
+parameters:
+
+    paths:
+        - src/
+
+    # Level 10 is the highest level
+    level: 10
+
+    typeAliases:
+        ModelKey: 'int'
+#
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
+#
+#    checkMissingIterableValueType: false

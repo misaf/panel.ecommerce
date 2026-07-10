@@ -1,0 +1,96 @@
+{
+    "name": "misaf/vendra-user-profile",
+    "keywords": [
+        "laravel",
+        "filamentphp",
+        "misaf",
+        "vendra",
+        "user",
+        "profile"
+    ],
+    "homepage": "https://github.com/misaf/vendra-user-profile",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.3",
+        "awcodes/filament-badgeable-column": "^4.0",
+        "filament/filament": "^5.6.6",
+        "illuminate/support": "^13.0",
+        "laravel/pennant": "^1.19",
+        "misaf/filament-jalali": "^5.1.4",
+        "misaf/vendra-permission": "^13.0",
+        "misaf/vendra-support": "^13.0",
+        "misaf/vendra-user": "^13.0",
+        "spatie/laravel-package-tools": "^1.0",
+        "spatie/laravel-sluggable": "^4.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.24.1",
+        "larastan/larastan": "^3.10.0",
+        "laravel/boost": "^2.4.8",
+        "laravel/pint": "^1.27",
+        "misaf/vendra-testing": "^13.0",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.4",
+        "orchestra/testbench": "^11.1",
+        "pestphp/pest": "^4.7.2",
+        "pestphp/pest-plugin-arch": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "pestphp/pest-plugin-livewire": "^4.1",
+        "pestphp/pest-plugin-profanity": "^4.0",
+        "pestphp/pest-plugin-type-coverage": "^4.0",
+        "phpstan/extension-installer": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraUserProfile\\": "src/",
+            "Misaf\\VendraUserProfile\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraUserProfile\\Database\\Factories\\": "database/factories/",
+            "Misaf\\VendraUserProfile\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraUserProfile\\UserProfileServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-master": "13.x-dev"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-user-profile/issues",
+        "source": "https://github.com/misaf/vendra-user-profile"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}

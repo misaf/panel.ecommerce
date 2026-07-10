@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'language_management' => 'مدیریت زبان',
+    'language'            => 'زبان',
+    'language_line'       => 'خط زبان',
+    'languages'           => 'زبان ها',
+];

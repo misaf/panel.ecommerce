@@ -1,0 +1,408 @@
+[
+    {
+        "name": {
+            "en": "Company Updates",
+            "de": "Unternehmensupdates",
+            "fa": "به‌روزرسانی‌های شرکت"
+        },
+        "slug": {
+            "en": "company-updates",
+            "de": "unternehmensupdates",
+            "fa": "به-روزرسانی-های-شرکت"
+        },
+        "description": {
+            "en": "Official announcements, release notes, and important product news.",
+            "de": "Offizielle Ankündigungen, Versionshinweise und wichtige Produktneuigkeiten.",
+            "fa": "اطلاعیه‌های رسمی، یادداشت‌های انتشار و خبرهای مهم محصول."
+        },
+        "status": true,
+        "blog_posts": [
+            {
+                "name": {
+                    "en": "Introducing Vendra Blog Module",
+                    "de": "Einführung des Vendra-Blogmoduls",
+                    "fa": "معرفی ماژول وبلاگ Vendra"
+                },
+                "slug": {
+                    "en": "introducing-vendra-blog-module",
+                    "de": "einfuehrung-des-vendra-blogmoduls",
+                    "fa": "معرفی-ماژول-وبلاگ-vendra"
+                },
+                "description": {
+                    "en": "A quick overview of the blog module, key capabilities, and how teams can publish multilingual content faster.",
+                    "de": "Ein kurzer Überblick über das Blogmodul, die wichtigsten Funktionen und wie Teams mehrsprachige Inhalte schneller veröffentlichen können.",
+                    "fa": "مروری سریع بر ماژول وبلاگ، قابلیت‌های کلیدی و اینکه تیم‌ها چگونه می‌توانند محتوای چندزبانه را سریع‌تر منتشر کنند."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "What Changed in This Month Release",
+                    "de": "Was sich in der Version dieses Monats geändert hat",
+                    "fa": "تغییرات نسخه این ماه"
+                },
+                "slug": {
+                    "en": "what-changed-in-this-month-release",
+                    "de": "was-sich-in-der-version-dieses-monats-geaendert-hat",
+                    "fa": "تغییرات-نسخه-این-ماه"
+                },
+                "description": {
+                    "en": "Highlights of performance improvements, editorial workflow updates, and minor fixes delivered this month.",
+                    "de": "Highlights der Leistungsverbesserungen, Aktualisierungen redaktioneller Workflows und kleiner Fehlerkorrekturen dieses Monats.",
+                    "fa": "خلاصه‌ای از بهبودهای عملکرد، به‌روزرسانی‌های فرایند تولید محتوا و اصلاحات جزئی این ماه."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Roadmap: Next Quarter Priorities",
+                    "de": "Roadmap: Prioritäten für das nächste Quartal",
+                    "fa": "نقشه راه: اولویت‌های فصل آینده"
+                },
+                "slug": {
+                    "en": "roadmap-next-quarter-priorities",
+                    "de": "roadmap-prioritaeten-fuer-das-naechste-quartal",
+                    "fa": "نقشه-راه-اولویت-های-فصل-آینده"
+                },
+                "description": {
+                    "en": "Planned work for publishing tools, analytics dashboards, and collaboration features for editorial teams.",
+                    "de": "Geplante Arbeiten an Veröffentlichungstools, Analyse-Dashboards und Kollaborationsfunktionen für Redaktionsteams.",
+                    "fa": "برنامه‌های پیش‌رو برای ابزارهای انتشار، داشبوردهای تحلیل و قابلیت‌های همکاری برای تیم‌های محتوایی."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Service Status and Maintenance Policy",
+                    "de": "Servicestatus und Wartungsrichtlinie",
+                    "fa": "وضعیت سرویس و سیاست نگه‌داری"
+                },
+                "slug": {
+                    "en": "service-status-and-maintenance-policy",
+                    "de": "servicestatus-und-wartungsrichtlinie",
+                    "fa": "وضعیت-سرویس-و-سیاست-نگه-داری"
+                },
+                "description": {
+                    "en": "Our approach to scheduled maintenance windows, incident response, and transparent status communication.",
+                    "de": "Unser Ansatz für geplante Wartungsfenster, Vorfallsreaktionen und transparente Statuskommunikation.",
+                    "fa": "رویکرد ما برای بازه‌های نگه‌داری برنامه‌ریزی‌شده، واکنش به رخدادها و اطلاع‌رسانی شفاف وضعیت سرویس."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Guides & Tutorials",
+            "de": "Anleitungen und Tutorials",
+            "fa": "راهنماها و آموزش‌ها"
+        },
+        "slug": {
+            "en": "guides-tutorials",
+            "de": "anleitungen-und-tutorials",
+            "fa": "راهنماها-و-آموزش-ها"
+        },
+        "description": {
+            "en": "Step-by-step articles to help teams use the platform effectively.",
+            "de": "Schritt-für-Schritt-Artikel, die Teams helfen, die Plattform effektiv zu nutzen.",
+            "fa": "مقالات مرحله‌به‌مرحله برای استفاده مؤثر تیم‌ها از پلتفرم."
+        },
+        "status": true,
+        "blog_posts": [
+            {
+                "name": {
+                    "en": "How to Write a High-Impact Product Announcement",
+                    "de": "Wie man eine wirkungsvolle Produktankündigung schreibt",
+                    "fa": "چگونه یک اطلاعیه محصول اثرگذار بنویسیم"
+                },
+                "slug": {
+                    "en": "how-to-write-a-high-impact-product-announcement",
+                    "de": "wie-man-eine-wirkungsvolle-produktankuendigung-schreibt",
+                    "fa": "چگونه-یک-اطلاعیه-محصول-اثرگذار-بنویسیم"
+                },
+                "description": {
+                    "en": "Learn a practical structure for announcement posts that improves clarity, engagement, and conversion.",
+                    "de": "Lernen Sie eine praktische Struktur für Ankündigungsbeiträge kennen, die Klarheit, Interaktion und Conversion verbessert.",
+                    "fa": "با یک ساختار کاربردی برای پست‌های اطلاعیه آشنا شوید تا شفافیت، تعامل و نرخ تبدیل بهبود یابد."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Editorial Checklist for Consistent Content Quality",
+                    "de": "Redaktionelle Checkliste für gleichbleibende Inhaltsqualität",
+                    "fa": "چک‌لیست تحریریه برای کیفیت پایدار محتوا"
+                },
+                "slug": {
+                    "en": "editorial-checklist-for-consistent-content-quality",
+                    "de": "redaktionelle-checkliste-fuer-gleichbleibende-inhaltsqualitaet",
+                    "fa": "چک-لیست-تحریریه-برای-کیفیت-پایدار-محتوا"
+                },
+                "description": {
+                    "en": "A reusable checklist covering tone, SEO basics, accessibility, and final publishing validation.",
+                    "de": "Eine wiederverwendbare Checkliste für Tonalität, SEO-Grundlagen, Barrierefreiheit und die finale Veröffentlichungsprüfung.",
+                    "fa": "یک چک‌لیست قابل استفاده مجدد شامل لحن، اصول سئو، دسترس‌پذیری و بررسی نهایی پیش از انتشار."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Managing Multilingual Posts Without Duplication",
+                    "de": "Mehrsprachige Beiträge ohne Duplikate verwalten",
+                    "fa": "مدیریت پست‌های چندزبانه بدون تکرار"
+                },
+                "slug": {
+                    "en": "managing-multilingual-posts-without-duplication",
+                    "de": "mehrsprachige-beitraege-ohne-duplikate-verwalten",
+                    "fa": "مدیریت-پست-های-چندزبانه-بدون-تکرار"
+                },
+                "description": {
+                    "en": "Best practices for translating and maintaining content across languages while keeping one clear source of truth.",
+                    "de": "Best Practices für das Übersetzen und Pflegen von Inhalten über mehrere Sprachen hinweg, während eine klare zentrale Quelle erhalten bleibt.",
+                    "fa": "بهترین روش‌ها برای ترجمه و نگه‌داری محتوا در زبان‌های مختلف با حفظ یک منبع واحد و قابل اعتماد."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Building an Editorial Calendar That Actually Ships",
+                    "de": "Einen Redaktionskalender erstellen, der wirklich veröffentlicht",
+                    "fa": "ساخت تقویم محتوایی که واقعاً منتشر می‌شود"
+                },
+                "slug": {
+                    "en": "building-an-editorial-calendar-that-actually-ships",
+                    "de": "einen-redaktionskalender-erstellen-der-wirklich-veroeffentlicht",
+                    "fa": "ساخت-تقویم-محتوایی-که-واقعا-منتشر-می-شود"
+                },
+                "description": {
+                    "en": "A practical planning model for choosing topics, assigning owners, and keeping weekly publishing commitments.",
+                    "de": "Ein praktisches Planungsmodell zur Themenauswahl, Zuweisung von Verantwortlichen und Einhaltung wöchentlicher Veröffentlichungszusagen.",
+                    "fa": "یک الگوی عملی برای انتخاب موضوع، تعیین مسئول و حفظ تعهد انتشار هفتگی."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Customer Stories",
+            "de": "Kundengeschichten",
+            "fa": "داستان‌های مشتریان"
+        },
+        "slug": {
+            "en": "customer-stories",
+            "de": "kundengeschichten",
+            "fa": "داستان-های-مشتریان"
+        },
+        "description": {
+            "en": "Real examples of teams that improved content operations with Vendra.",
+            "de": "Echte Beispiele von Teams, die ihre Content-Prozesse mit Vendra verbessert haben.",
+            "fa": "نمونه‌های واقعی از تیم‌هایی که با Vendra عملیات تولید محتوا را بهبود داده‌اند."
+        },
+        "status": true,
+        "blog_posts": [
+            {
+                "name": {
+                    "en": "How a Retail Team Cut Publishing Time by 40%",
+                    "de": "Wie ein Einzelhandelsteam die Veröffentlichungszeit um 40 % reduzierte",
+                    "fa": "چگونه یک تیم خرده‌فروشی زمان انتشار را ۴۰٪ کاهش داد"
+                },
+                "slug": {
+                    "en": "how-a-retail-team-cut-publishing-time-by-40",
+                    "de": "wie-ein-einzelhandelsteam-die-veroeffentlichungszeit-um-40-reduzierte",
+                    "fa": "چگونه-یک-تیم-خرده-فروشی-زمان-انتشار-را-۴۰-کاهش-داد"
+                },
+                "description": {
+                    "en": "A short case study on workflow changes that reduced review bottlenecks and accelerated weekly releases.",
+                    "de": "Eine kurze Fallstudie zu Workflow-Änderungen, die Prüfungsengpässe reduzierten und wöchentliche Veröffentlichungen beschleunigten.",
+                    "fa": "یک مطالعه موردی کوتاه درباره تغییرات فرایندی که گلوگاه‌های بازبینی را کاهش داد و انتشار هفتگی را سریع‌تر کرد."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Scaling Content Across Three Regions",
+                    "de": "Inhalte über drei Regionen skalieren",
+                    "fa": "مقیاس‌پذیری محتوا در سه منطقه"
+                },
+                "slug": {
+                    "en": "scaling-content-across-three-regions",
+                    "de": "inhalte-ueber-drei-regionen-skalieren",
+                    "fa": "مقیاس-پذیری-محتوا-در-سه-منطقه"
+                },
+                "description": {
+                    "en": "How one marketing team standardized templates and approvals to ship localized content across multiple regions.",
+                    "de": "Wie ein Marketingteam Vorlagen und Freigaben standardisierte, um lokalisierte Inhalte über mehrere Regionen hinweg zu veröffentlichen.",
+                    "fa": "چگونه یک تیم بازاریابی با استانداردسازی قالب‌ها و تأییدیه‌ها، محتوای بومی‌سازی‌شده را در چند منطقه منتشر کرد."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "From Ad-hoc Posts to a Reliable Publishing Pipeline",
+                    "de": "Von Ad-hoc-Beiträgen zu einer zuverlässigen Veröffentlichungspipeline",
+                    "fa": "از پست‌های موردی تا خط انتشار قابل اتکا"
+                },
+                "slug": {
+                    "en": "from-ad-hoc-posts-to-a-reliable-publishing-pipeline",
+                    "de": "von-ad-hoc-beitraegen-zu-einer-zuverlaessigen-veroeffentlichungspipeline",
+                    "fa": "از-پست-های-موردی-تا-خط-انتشار-قابل-اتکا"
+                },
+                "description": {
+                    "en": "How a small team introduced review standards and cut revisions while increasing content output.",
+                    "de": "Wie ein kleines Team Prüfstandards einführte, Überarbeitungen reduzierte und gleichzeitig die Inhaltsproduktion steigerte.",
+                    "fa": "چگونه یک تیم کوچک با تعریف استاندارد بازبینی، اصلاحات تکراری را کم کرد و خروجی محتوا را افزایش داد."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Product Deep Dives",
+            "de": "Produktdetails im Überblick",
+            "fa": "نگاه عمیق به محصول"
+        },
+        "slug": {
+            "en": "product-deep-dives",
+            "de": "produktdetails-im-ueberblick",
+            "fa": "نگاه-عمیق-به-محصول"
+        },
+        "description": {
+            "en": "Detailed breakdowns of platform features, architecture decisions, and implementation patterns.",
+            "de": "Detaillierte Erläuterungen zu Plattformfunktionen, Architekturentscheidungen und Implementierungsmustern.",
+            "fa": "بررسی‌های دقیق از قابلیت‌های پلتفرم، تصمیمات معماری و الگوهای پیاده‌سازی."
+        },
+        "status": true,
+        "blog_posts": [
+            {
+                "name": {
+                    "en": "How Content Versioning Works Behind the Scenes",
+                    "de": "Wie Inhaltsversionierung im Hintergrund funktioniert",
+                    "fa": "نسخه‌بندی محتوا در پشت صحنه چگونه کار می‌کند"
+                },
+                "slug": {
+                    "en": "how-content-versioning-works-behind-the-scenes",
+                    "de": "wie-inhaltsversionierung-im-hintergrund-funktioniert",
+                    "fa": "نسخه-بندی-محتوا-در-پشت-صحنه-چگونه-کار-می-کند"
+                },
+                "description": {
+                    "en": "An overview of draft history, publish checkpoints, and rollback strategy for safer editorial workflows.",
+                    "de": "Ein Überblick über Entwurfshistorie, Veröffentlichungsprüfpunkte und Rollback-Strategien für sicherere redaktionelle Workflows.",
+                    "fa": "مروری بر تاریخچه پیش‌نویس، نقاط کنترل انتشار و راهبرد بازگشت برای فرایند تحریریه امن‌تر."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Designing Taxonomies for Searchable Knowledge",
+                    "de": "Taxonomien für durchsuchbares Wissen gestalten",
+                    "fa": "طراحی طبقه‌بندی برای دانش قابل جست‌وجو"
+                },
+                "slug": {
+                    "en": "designing-taxonomies-for-searchable-knowledge",
+                    "de": "taxonomien-fuer-durchsuchbares-wissen-gestalten",
+                    "fa": "طراحی-طبقه-بندی-برای-دانش-قابل-جست-وجو"
+                },
+                "description": {
+                    "en": "Guidance on naming categories, using tags effectively, and avoiding taxonomy sprawl over time.",
+                    "de": "Hinweise zur Benennung von Kategorien, zur effektiven Nutzung von Tags und zur Vermeidung ausufernder Taxonomien.",
+                    "fa": "راهنمای نام‌گذاری دسته‌ها، استفاده مؤثر از برچسب‌ها و جلوگیری از پراکندگی طبقه‌بندی در طول زمان."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Observability for Editorial Workflows",
+                    "de": "Observability für redaktionelle Workflows",
+                    "fa": "پایش‌پذیری برای فرایندهای تحریریه"
+                },
+                "slug": {
+                    "en": "observability-for-editorial-workflows",
+                    "de": "observability-fuer-redaktionelle-workflows",
+                    "fa": "پایش-پذیری-برای-فرایندهای-تحریریه"
+                },
+                "description": {
+                    "en": "Which metrics matter most for content teams and how to turn raw activity into actionable publishing insights.",
+                    "de": "Welche Kennzahlen für Content-Teams am wichtigsten sind und wie Rohaktivitäten in umsetzbare Veröffentlichungserkenntnisse umgewandelt werden.",
+                    "fa": "چه شاخص‌هایی برای تیم محتوا مهم‌تر است و چگونه فعالیت خام را به بینش قابل اقدام تبدیل کنیم."
+                },
+                "status": true
+            }
+        ]
+    },
+    {
+        "name": {
+            "en": "Community & Events",
+            "de": "Community und Veranstaltungen",
+            "fa": "جامعه و رویدادها"
+        },
+        "slug": {
+            "en": "community-events",
+            "de": "community-und-veranstaltungen",
+            "fa": "جامعه-و-رویدادها"
+        },
+        "description": {
+            "en": "Recaps, interviews, and announcements related to community programs and events.",
+            "de": "Rückblicke, Interviews und Ankündigungen zu Community-Programmen und Veranstaltungen.",
+            "fa": "گزارش‌ها، گفت‌وگوها و اطلاعیه‌های مرتبط با برنامه‌های جامعه و رویدادها."
+        },
+        "status": true,
+        "blog_posts": [
+            {
+                "name": {
+                    "en": "Highlights from the Editorial Roundtable",
+                    "de": "Highlights des redaktionellen Roundtables",
+                    "fa": "گزیده‌های میزگرد تحریریه"
+                },
+                "slug": {
+                    "en": "highlights-from-the-editorial-roundtable",
+                    "de": "highlights-des-redaktionellen-roundtables",
+                    "fa": "گزیده-های-میزگرد-تحریریه"
+                },
+                "description": {
+                    "en": "Key lessons from content leaders on building repeatable writing systems in fast-moving teams.",
+                    "de": "Wichtige Erkenntnisse von Content-Verantwortlichen zum Aufbau wiederholbarer Schreibsysteme in schnell arbeitenden Teams.",
+                    "fa": "درس‌های کلیدی مدیران محتوا درباره ساخت سیستم‌های نوشتاری تکرارپذیر در تیم‌های پرسرعت."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Contributor Spotlight: Building Better Documentation Habits",
+                    "de": "Mitwirkende im Fokus: Bessere Dokumentationsgewohnheiten aufbauen",
+                    "fa": "معرفی مشارکت‌کننده: ایجاد عادت‌های بهتر مستندسازی"
+                },
+                "slug": {
+                    "en": "contributor-spotlight-building-better-documentation-habits",
+                    "de": "mitwirkende-im-fokus-bessere-dokumentationsgewohnheiten-aufbauen",
+                    "fa": "معرفی-مشارکت-کننده-ایجاد-عادت-های-بهتر-مستندسازی"
+                },
+                "description": {
+                    "en": "A conversation on practical habits that help teams keep documentation accurate and up to date.",
+                    "de": "Ein Gespräch über praktische Gewohnheiten, die Teams helfen, Dokumentation korrekt und aktuell zu halten.",
+                    "fa": "گفت‌وگویی درباره عادت‌های کاربردی که به تیم‌ها کمک می‌کند مستندات را دقیق و به‌روز نگه دارند."
+                },
+                "status": true
+            },
+            {
+                "name": {
+                    "en": "Upcoming Webinar: Content Operations at Scale",
+                    "de": "Bevorstehendes Webinar: Content-Prozesse im großen Maßstab",
+                    "fa": "وبینار پیش‌رو: عملیات محتوا در مقیاس"
+                },
+                "slug": {
+                    "en": "upcoming-webinar-content-operations-at-scale",
+                    "de": "bevorstehendes-webinar-content-prozesse-im-grossen-massstab",
+                    "fa": "وبینار-پیش-رو-عملیات-محتوا-در-مقیاس"
+                },
+                "description": {
+                    "en": "Event details, agenda, and registration information for teams exploring scalable content operations.",
+                    "de": "Veranstaltungsdetails, Agenda und Registrierungsinformationen für Teams, die skalierbare Content-Prozesse erkunden.",
+                    "fa": "جزئیات رویداد، برنامه و اطلاعات ثبت‌نام برای تیم‌هایی که به دنبال عملیات محتوای مقیاس‌پذیر هستند."
+                },
+                "status": false
+            }
+        ]
+    }
+]

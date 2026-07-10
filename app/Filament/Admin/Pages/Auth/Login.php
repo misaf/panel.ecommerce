@@ -42,7 +42,7 @@ final class Login extends \Filament\Auth\Pages\Login
             ->autofocus()
             ->extraAttributes(['dir' => 'ltr'])
             ->extraInputAttributes(['tabindex' => 1])
-            ->label(__('user::attributes.username'))
+            ->label(__('vendra-user::attributes.username'))
             ->maxLength(12)
             ->minLength(3)
             ->required()

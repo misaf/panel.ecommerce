@@ -1,0 +1,2 @@
+providers:
+  - Misaf\VendraBlogApi\Tests\Support\TestbenchServiceProvider
