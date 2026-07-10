@@ -21,9 +21,9 @@
     "require": {
         "php": "^8.3",
         "illuminate/support": "^13.0",
-        "misaf/vendra-api": "^13.0",
-        "misaf/vendra-multimedia-api": "^13.0",
-        "misaf/vendra-product": "^13.0",
+        "misaf/vendra-api": "^0.0.1",
+        "misaf/vendra-multimedia-api": "^0.0.1",
+        "misaf/vendra-product": "^0.0.1",
         "spatie/laravel-package-tools": "^1.0"
     },
     "require-dev": {
