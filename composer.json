@@ -44,6 +44,7 @@
         "misaf/vendra-api": "^0.0.3",
         "misaf/vendra-attribute": "^0.0.3",
         "misaf/vendra-attribute-api": "^0.0.3",
+        "misaf/vendra-authify-log": "^0.0.3",
         "misaf/vendra-blog": "^0.0.3",
         "misaf/vendra-blog-api": "^0.0.3",
         "misaf/vendra-currency": "^0.0.3",
