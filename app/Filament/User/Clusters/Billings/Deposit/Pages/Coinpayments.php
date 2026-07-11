@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\User\Clusters\Billings\Deposit\Pages;
 
 use App\Filament\User\Clusters\Billings\Deposit\DepositCluster\DepositCluster;
-use App\Livewire\User\Payment\Coinpayments\Widgets\DepositOverview;
 use Filament\Clusters\Cluster;
 use Filament\Pages\Page;
 use Misaf\VendraTransaction\Facades\TransactionService;
@@ -35,7 +34,7 @@ final class Coinpayments extends Page
         return is_string($name) ? $name : __('payment.coinpayments');
     }
 
-    public static function getNavigationSort(): ?int
+    public static function getNavigationSort(): int
     {
         $position = TransactionGateway::whereJsonContainsLocale('slug', app()->getLocale(), 'coinpayments', '=')
             ->value('position');
@@ -51,12 +50,5 @@ final class Coinpayments extends Page
     public static function canAccess(): bool
     {
         return TransactionService::hasActiveTransactionGateway('coinpayments');
-    }
-
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            DepositOverview::class,
-        ];
     }
 }

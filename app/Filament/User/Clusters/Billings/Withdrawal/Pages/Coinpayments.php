@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\User\Clusters\Billings\Withdrawal\Pages;
 
 use App\Filament\User\Clusters\Billings\Withdrawal\WithdrawalCluster\WithdrawalCluster;
-use App\Livewire\User\Payment\Coinpayments\Widgets\WithdrawalOverview;
 use Filament\Clusters\Cluster;
 use Filament\Pages\Page;
-use Misaf\VendraTransaction\Facades\TransactionService;
 use Misaf\VendraTransaction\Models\TransactionGateway;
 
 final class Coinpayments extends Page
@@ -30,7 +28,7 @@ final class Coinpayments extends Page
         return is_string($name) ? $name : __('payment.coinpayments');
     }
 
-    public static function getNavigationSort(): ?int
+    public static function getNavigationSort(): int
     {
         $position = TransactionGateway::whereJsonContainsLocale('slug', app()->getLocale(), 'coinpayments', '=')
             ->value('position');
@@ -40,34 +38,11 @@ final class Coinpayments extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        $hasActiveGateway = TransactionService::hasActiveTransactionGateway('coinpayments');
-
-        if ( ! $hasActiveGateway) {
-            return false;
-        }
-
-        $user = filament()->auth()->user();
-
-        return $user->hasTag('deposit_crypto');
+        return false;
     }
 
     public static function canAccess(): bool
     {
-        $hasActiveGateway = TransactionService::hasActiveTransactionGateway('coinpayments');
-
-        if ( ! $hasActiveGateway) {
-            return false;
-        }
-
-        $user = filament()->auth()->user();
-
-        return $user->hasTag('deposit_crypto');
-    }
-
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            WithdrawalOverview::class,
-        ];
+        return false;
     }
 }

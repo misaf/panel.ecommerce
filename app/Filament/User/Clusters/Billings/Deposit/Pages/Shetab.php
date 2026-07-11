@@ -41,7 +41,7 @@ final class Shetab extends Page
         return __('payment.shetab');
     }
 
-    public static function getNavigationSort(): ?int
+    public static function getNavigationSort(): int
     {
         $position = TransactionGateway::whereJsonContainsLocale('slug', app()->getLocale(), 'shetab', '=')
             ->value('position');
