@@ -12,118 +12,91 @@ on:
       - '*.*.*'
 
 jobs:
-  subscription:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out monorepo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  foundation:
+    uses: ./.github/workflows/split-package.yml
+    with:
+      package: vendra-testing
+    secrets: inherit
 
-      - name: Split branch
-        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
-        uses: symplify/monorepo-split-github-action@v2.4.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
-        with:
-          branch: master
-          package_directory: app-modules/vendra-subscription
-          repository_organization: misaf
-          repository_name: vendra-subscription
-          user_name: misaf
-          user_email: misaf.1990@gmail.com
+  core:
+    needs: foundation
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - vendra-api
+          - vendra-localization
+          - vendra-support
+    uses: ./.github/workflows/split-package.yml
+    with:
+      package: ${{ matrix.package }}
+    secrets: inherit
 
-      - name: Split tag
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: symplify/monorepo-split-github-action@v2.4.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
-        with:
-          branch: master
-          tag: ${{ github.ref_name }}
-          package_directory: app-modules/vendra-subscription
-          repository_organization: misaf
-          repository_name: vendra-subscription
-          user_name: misaf
-          user_email: misaf.1990@gmail.com
-
-      - name: Create release for split package
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
-        run: gh release create "${{ github.ref_name }}" --repo "misaf/vendra-subscription" --generate-notes
-
-  packages:
-    needs: subscription
-    runs-on: ubuntu-latest
+  domain-base:
+    needs: core
     strategy:
       fail-fast: false
       matrix:
         package:
           - vendra-activity-log
-          - vendra-affiliate
-          - vendra-api
           - vendra-attribute
+          - vendra-geo
+          - vendra-multimedia
+          - vendra-tagger
+          - vendra-tenant
+    uses: ./.github/workflows/split-package.yml
+    with:
+      package: ${{ matrix.package }}
+    secrets: inherit
+
+  domain:
+    needs: domain-base
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
           - vendra-attribute-api
-          - vendra-authify-log
-          - vendra-blog
-          - vendra-blog-api
           - vendra-currency
           - vendra-custom-page
           - vendra-faq
-          - vendra-faq-api
-          - vendra-geo
           - vendra-language
-          - vendra-localization
-          - vendra-multimedia
           - vendra-multimedia-api
+          - vendra-transaction
+          - vendra-user
+    uses: ./.github/workflows/split-package.yml
+    with:
+      package: ${{ matrix.package }}
+    secrets: inherit
+
+  features:
+    needs: domain
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - vendra-affiliate
+          - vendra-authify-log
+          - vendra-blog
+          - vendra-faq-api
           - vendra-newsletter
           - vendra-permission
           - vendra-product
+    uses: ./.github/workflows/split-package.yml
+    with:
+      package: ${{ matrix.package }}
+    secrets: inherit
+
+  applications:
+    needs: features
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - vendra-blog-api
           - vendra-product-api
-          - vendra-support
-          - vendra-tagger
-          - vendra-tenant
-          - vendra-testing
-          - vendra-transaction
-          - vendra-user
+          - vendra-subscription
           - vendra-user-profile
-
-    steps:
-      - name: Check out monorepo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Split branch
-        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
-        uses: symplify/monorepo-split-github-action@v2.4.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
-        with:
-          branch: master
-          package_directory: app-modules/${{ matrix.package }}
-          repository_organization: misaf
-          repository_name: ${{ matrix.package }}
-          user_name: misaf
-          user_email: misaf.1990@gmail.com
-
-      - name: Split tag
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: symplify/monorepo-split-github-action@v2.4.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
-        with:
-          branch: master
-          tag: ${{ github.ref_name }}
-          package_directory: app-modules/${{ matrix.package }}
-          repository_organization: misaf
-          repository_name: ${{ matrix.package }}
-          user_name: misaf
-          user_email: misaf.1990@gmail.com
-
-      - name: Create release for split package
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
-        run: gh release create "${{ github.ref_name }}" --repo "misaf/${{ matrix.package }}" --generate-notes
+    uses: ./.github/workflows/split-package.yml
+    with:
+      package: ${{ matrix.package }}
+    secrets: inherit
