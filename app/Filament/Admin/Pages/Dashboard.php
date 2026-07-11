@@ -10,7 +10,10 @@ final class Dashboard extends \Filament\Pages\Dashboard
 
     protected static string $routePath = '/admin';
 
-    public function getColumns(): int|array
+    /**
+     * @return array<string, int>
+     */
+    public function getColumns(): array
     {
         return [
             'sm' => 1,

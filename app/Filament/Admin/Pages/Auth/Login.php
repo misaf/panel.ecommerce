@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Pages\Auth;
 
-use App\Forms\Components\Turnstile;
 use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
@@ -56,17 +55,15 @@ final class Login extends \Filament\Auth\Pages\Login
         ]);
     }
 
+    /**
+     * @param  array{username: string, password: string}  $data
+     */
     protected function getCredentialsFromFormData(array $data): array
     {
         return [
-            'username' => (string) $data['username'],
-            'password' => (string) $data['password'],
+            'username' => $data['username'],
+            'password' => $data['password'],
         ];
-    }
-
-    private function getTurnstileFormComponent(): Turnstile
-    {
-        return Turnstile::make('turnstileToken');
     }
 
     protected function getAuthenticateFormAction(): Action

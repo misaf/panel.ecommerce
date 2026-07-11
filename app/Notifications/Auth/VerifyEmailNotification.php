@@ -8,6 +8,8 @@ use Illuminate\Auth\Notifications\VerifyEmail as LaravelVerifyEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use InvalidArgumentException;
+use Misaf\VendraUser\Models\User;
 
 final class VerifyEmailNotification extends LaravelVerifyEmail implements ShouldQueue
 {
@@ -18,13 +20,14 @@ final class VerifyEmailNotification extends LaravelVerifyEmail implements Should
         $this->onQueue('transactional-email');
     }
 
-    /**
-     * @param mixed $notifiable
-     * @return MailMessage
-     */
-    public function toMail($notifiable): MailMessage
+    public function toMail(mixed $notifiable): MailMessage
     {
+        if ( ! $notifiable instanceof User) {
+            throw new InvalidArgumentException(sprintf('Expected %s, got %s.', User::class, get_debug_type($notifiable)));
+        }
+
         $verificationUrl = $this->verificationUrl($notifiable);
+        $appName = config('app.name');
 
         return (new MailMessage())
             ->subject(__('mail.verify_email.subject'))
@@ -32,6 +35,6 @@ final class VerifyEmailNotification extends LaravelVerifyEmail implements Should
             ->line(__('mail.verify_email.line'))
             ->action(__('mail.verify_email.action'), $verificationUrl)
             ->line(__('mail.verify_email.no_action'))
-            ->salutation(__('mail.verify_email.salutation') . "\n" . config('app.name'));
+            ->salutation(__('mail.verify_email.salutation') . "\n" . (is_string($appName) ? $appName : ''));
     }
 }

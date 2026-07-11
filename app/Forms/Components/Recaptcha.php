@@ -32,7 +32,7 @@ final class Recaptcha extends Field
 
     private function recaptchaValidation(): Closure
     {
-        return function (string $attribute, $value, Closure $fail): void {
+        return function (string $attribute, mixed $value, Closure $fail): void {
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
                 'secret'   => config('services.recaptcha.secret'),
                 'response' => $value,
@@ -40,7 +40,7 @@ final class Recaptcha extends Field
 
             $responseData = $response->json();
 
-            if ( ! $responseData['success'] || $responseData['score'] < 0.5) {
+            if ( ! is_array($responseData) || ! $responseData['success'] || $responseData['score'] < 0.5) {
                 $fail(__('captcha.recaptcha_failed'));
             }
         };

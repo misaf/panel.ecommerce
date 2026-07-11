@@ -39,7 +39,7 @@ final class Turnstile extends Field
 
     private function turnstileValidation(Component $livewire): Closure
     {
-        return function (string $attribute, $value, Closure $fail) use ($livewire): void {
+        return function (string $attribute, mixed $value, Closure $fail) use ($livewire): void {
             $response = Http::asJson()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
                 'secret'   => config('services.turnstile.secret'),
                 'response' => $value,
@@ -47,7 +47,7 @@ final class Turnstile extends Field
 
             $responseData = $response->json();
 
-            if ( ! $responseData['success']) {
+            if ( ! is_array($responseData) || ! $responseData['success']) {
                 $fail(__('captcha.turnstile_failed'));
             }
 

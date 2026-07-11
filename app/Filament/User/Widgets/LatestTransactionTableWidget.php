@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Widgets;
 
-use App\Tables\Columns\CreatedAtTextColumn;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Filament\Actions\Action;
@@ -51,7 +50,7 @@ final class LatestTransactionTableWidget extends BaseWidget
             ->heading(__('vendra-transaction::widgets.latest_transaction_table'))
             ->query(
                 Transaction::query()
-                    ->where('user_id', $this->getAuthenticatedUser()->getAuthIdentifier())
+                    ->where('user_id', $this->getAuthenticatedUser()?->getAuthIdentifier())
                     ->where('created_at', '>=', now()->subDays(30)),
             )
             ->columns([
@@ -87,7 +86,8 @@ final class LatestTransactionTableWidget extends BaseWidget
                     ->alignStart()
                     ->label(__('vendra-transaction::attributes.status')),
 
-                CreatedAtTextColumn::make('created_at')
+                TextColumn::make('created_at')
+                    ->dateTime()
                     ->label(__('vendra-transaction::attributes.status')),
             ])
             ->recordActions([
@@ -114,9 +114,6 @@ final class LatestTransactionTableWidget extends BaseWidget
             ]);
     }
 
-    /**
-     * @return ?User
-     */
     private function getAuthenticatedUser(): ?Authenticatable
     {
         return filament()->auth()->user();
@@ -124,9 +121,11 @@ final class LatestTransactionTableWidget extends BaseWidget
 
     private function sendRateLimitNotification(TooManyRequestsException $exception): void
     {
+        $seconds = $exception->secondsUntilAvailable;
+
         Notification::make()
             ->title(__('billing.rate_limit_title'))
-            ->body(__('billing.rate_limit_body', ['seconds' => $exception->secondsUntilAvailable]))
+            ->body(__('billing.rate_limit_body', ['seconds' => is_numeric($seconds) ? (int) $seconds : 0]))
             ->danger()
             ->send();
     }

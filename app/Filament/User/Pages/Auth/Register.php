@@ -14,8 +14,8 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component as Livewire;
-use Misaf\Affiliate\Models\Affiliate;
-use Misaf\Tenant\Models\Tenant;
+use Misaf\VendraAffiliate\Models\Affiliate;
+use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUser\Rules\EmailValidation;
 
@@ -29,7 +29,9 @@ final class Register extends \Filament\Auth\Pages\Register
 
     protected function beforeFill(): void
     {
-        $this->affiliate = $affiliate ?? request()->query('affiliate');
+        $affiliate = request()->query('affiliate');
+
+        $this->affiliate = is_string($affiliate) ? $affiliate : null;
     }
 
     #[On('turnstileStateUpdated')]
@@ -50,30 +52,28 @@ final class Register extends \Filament\Auth\Pages\Register
                 return;
             }
 
+            $record = $this->form->getRecord();
+
+            if ( ! $record instanceof User) {
+                return;
+            }
+
             $affiliate->affiliateUsers()->create([
-                'user_id' => $this->form->getRecord()->id,
+                'user_id' => $record->id,
             ]);
         }
     }
 
-    /**
-     * @return array<int|string, string|Schema>
-     */
-    protected function getForms(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            'form' => $this->form(
-                $this->makeForm()
-                    ->components([
-                        $this->getUsernameFormComponent(),
-                        $this->getEmailFormComponent(),
-                        $this->getPasswordFormComponent(),
-                        $this->getPasswordConfirmationFormComponent(),
-                        $this->getTurnstileFormComponent(),
-                    ])
-                    ->statePath('data'),
-            ),
-        ];
+        return $schema
+            ->components([
+                $this->getUsernameFormComponent(),
+                $this->getEmailFormComponent(),
+                $this->getPasswordFormComponent(),
+                $this->getPasswordConfirmationFormComponent(),
+                $this->getTurnstileFormComponent(),
+            ]);
     }
 
     protected function getUsernameFormComponent(): \Filament\Schemas\Components\Component
@@ -109,7 +109,7 @@ final class Register extends \Filament\Auth\Pages\Register
             ->unique(
                 table: User::class,
                 modifyRuleUsing: function (Unique $rule): void {
-                    $rule->where('tenant_id', Tenant::current()->id)
+                    $rule->where('tenant_id', Tenant::current()?->id)
                         ->withoutTrashed();
                 },
             );
@@ -120,7 +120,7 @@ final class Register extends \Filament\Auth\Pages\Register
         return TextInput::make('password')
             ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.password'))
             ->autocomplete()
-            ->dehydrateStateUsing(fn($state) => Hash::make($state))
+            ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
             ->extraAttributes(['dir' => 'ltr'])
             ->label(__('filament-panels::auth/pages/register.form.password.label'))
             ->live(onBlur: true)

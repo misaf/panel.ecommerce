@@ -13,7 +13,6 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
-use Illuminate\Contracts\Support\Htmlable;
 use Misaf\Tenant\Models\Tenant;
 
 final class ManageGeneralSettings extends SettingsPage
@@ -90,7 +89,7 @@ final class ManageGeneralSettings extends SettingsPage
             ]);
     }
 
-    public function getTitle(): string|Htmlable
+    public function getTitle(): string
     {
         return __('page.configuration');
     }

@@ -9,11 +9,14 @@ use Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository as Sp
 
 final class DatabaseSettingsRepository extends SpatieDatabaseSettingsRepository
 {
+    /**
+     * @param  array<string, mixed>  $properties
+     */
     public function updatePropertiesPayload(string $group, array $properties): void
     {
-        $tenantId = Tenant::current()->id;
+        $tenantId = Tenant::current()?->id;
 
-        $propertiesInBatch = collect($properties)->map(function ($payload, $name) use ($group, $tenantId) {
+        $propertiesInBatch = collect($properties)->map(function (mixed $payload, string $name) use ($group, $tenantId) {
             return [
                 'tenant_id' => $tenantId,
                 'group'     => $group,

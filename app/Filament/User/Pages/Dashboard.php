@@ -10,7 +10,7 @@ final class Dashboard extends \Filament\Pages\Dashboard
 
     protected static string $routePath = '/';
 
-    public function getColumns(): int|array
+    public function getColumns(): int
     {
         return 4;
     }
