@@ -13,6 +13,10 @@ use Misaf\VendraLocalization\Resolvers\RouteLocaleResolver;
 use Misaf\VendraLocalization\Resolvers\UserLocaleResolver;
 use Misaf\VendraLocalization\Tests\Fixtures\TenantLocaleResolver;
 
+beforeEach(function (): void {
+    config(['vendra-localization.supported_locales' => ['en', 'de', 'fa', 'fr']]);
+});
+
 function requestWithRouteLocale(?string $locale): Request
 {
     $request = Request::create(null === $locale ? '/api/products' : "/api/{$locale}/products");
@@ -85,29 +89,29 @@ it('registers every built-in resolver', function (string $resolver): void {
 it('resolves locales from each built-in resolver source', function (string $resolver, Request $request, string $expectedLocale): void {
     expect(app($resolver)->resolve($request))->toBe($expectedLocale);
 })->with([
-    'accept language header' => [
+    'accept language header' => fn(): array => [
         AcceptLanguageLocaleResolver::class,
         Request::create('/', server: [
             'HTTP_ACCEPT_LANGUAGE' => 'fr-CA,fr;q=0.9,de;q=0.8,en;q=0.7',
         ]),
         'fr',
     ],
-    'query string' => [
+    'query string' => fn(): array => [
         QueryLocaleResolver::class,
         Request::create('/?locale=de'),
         'de',
     ],
-    'route parameter' => [
+    'route parameter' => fn(): array => [
         RouteLocaleResolver::class,
         requestWithRouteLocale('fa'),
         'fa',
     ],
-    'user locale attribute' => [
+    'user locale attribute' => fn(): array => [
         UserLocaleResolver::class,
         requestWithUserLocale('de'),
         'de',
     ],
-    'user locale preference' => [
+    'user locale preference' => fn(): array => [
         UserLocaleResolver::class,
         requestWithPreferredLocaleUser('fa'),
         'fa',
@@ -117,21 +121,21 @@ it('resolves locales from each built-in resolver source', function (string $reso
 it('returns null when the resolver source has no value', function (string $resolver, Request $request): void {
     expect(app($resolver)->resolve($request))->toBeNull();
 })->with([
-    'accept language header' => [
+    'accept language header' => fn(): array => [
         AcceptLanguageLocaleResolver::class,
         Request::create('/', server: [
             'HTTP_ACCEPT_LANGUAGE' => '',
         ]),
     ],
-    'query string' => [
+    'query string' => fn(): array => [
         QueryLocaleResolver::class,
         Request::create('/'),
     ],
-    'route parameter' => [
+    'route parameter' => fn(): array => [
         RouteLocaleResolver::class,
         requestWithRouteLocale(null),
     ],
-    'authenticated user' => [
+    'authenticated user' => fn(): array => [
         UserLocaleResolver::class,
         requestWithUserLocale(null),
     ],

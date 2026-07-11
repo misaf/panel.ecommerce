@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-attribute-api",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "API services for the vendra-attribute module",
     "keywords": [
         "laravel",
@@ -22,8 +22,8 @@
     "require": {
         "php": "^8.3",
         "illuminate/support": "^13.0",
-        "misaf/vendra-api": "^0.0.2",
-        "misaf/vendra-attribute": "^0.0.2",
+        "misaf/vendra-api": "^0.0.3",
+        "misaf/vendra-attribute": "^0.0.3",
         "spatie/laravel-package-tools": "^1.0"
     },
     "require-dev": {
@@ -32,6 +32,7 @@
         "laravel-json-api/testing": "^3.1",
         "laravel/boost": "^2.4.8",
         "laravel/pint": "^1.27",
+        "misaf/vendra-testing": "^0.0.3",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
         "orchestra/testbench": "^11.1",

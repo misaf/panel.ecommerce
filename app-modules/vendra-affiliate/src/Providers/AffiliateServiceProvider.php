@@ -6,11 +6,14 @@ namespace Misaf\VendraAffiliate\Providers;
 
 use Filament\Panel;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Event;
 use Misaf\VendraAffiliate\AffiliatePlugin;
 use Misaf\VendraAffiliate\Listeners\AffiliateSubscriber;
+use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliate\Services\AffiliateService;
+use Misaf\VendraUser\Models\User;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -46,6 +49,8 @@ final class AffiliateServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         AboutCommand::add('Vendra Affiliate', fn() => ['Version' => 'dev-master']);
+
+        User::resolveRelationUsing('affiliates', fn(User $user): HasMany => $user->hasMany(Affiliate::class));
 
         Event::subscribe(AffiliateSubscriber::class);
     }

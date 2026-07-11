@@ -2,12 +2,36 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Arr;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Support\CurrencyIntegration;
 use Misaf\VendraSupport\Support\NullCurrencyResolver;
 
 it('falls back to configured currency through the null resolver', function (): void {
     config(['app.currency' => 'GBP']);
+    config(['money' => Arr::except(config('money', []), ['defaultCurrency'])]);
+
+    app()->instance(CurrencyResolver::class, new class () implements CurrencyResolver {
+        public function available(): bool
+        {
+            throw new RuntimeException('Resolver unavailable.');
+        }
+
+        public function defaultCode(): string
+        {
+            throw new RuntimeException('Resolver unavailable.');
+        }
+
+        public function options(): array
+        {
+            throw new RuntimeException('Resolver unavailable.');
+        }
+
+        public function activeCodes(): array
+        {
+            throw new RuntimeException('Resolver unavailable.');
+        }
+    });
 
     expect(CurrencyIntegration::isAvailable())->toBeFalse()
         ->and(CurrencyIntegration::defaultCode())->toBe('GBP')
@@ -52,6 +76,7 @@ it('uses the bound currency resolver when available', function (): void {
 
 it('falls back when the bound resolver throws', function (): void {
     config(['app.currency' => 'CAD']);
+    config(['money' => Arr::except(config('money', []), ['defaultCurrency'])]);
 
     app()->instance(CurrencyResolver::class, new class () implements CurrencyResolver {
         public function available(): bool

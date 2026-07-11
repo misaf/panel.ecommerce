@@ -11,6 +11,10 @@ use Misaf\VendraLocalization\Resolvers\ChainLocaleResolver;
 use Misaf\VendraLocalization\Tests\Fixtures\TenantLocaleResolver;
 use Symfony\Component\HttpFoundation\Response;
 
+beforeEach(function (): void {
+    config(['vendra-localization.supported_locales' => ['en', 'de', 'fa', 'fr']]);
+});
+
 function handleSetLocale(Request $request, string ...$sources): Response
 {
     return app(SetLocale::class)->handle(

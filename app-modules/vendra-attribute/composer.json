@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-attribute",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Reusable tenant-aware attributes and polymorphic values for Vendra models",
     "license": "MIT",
     "type": "vendra-module",
@@ -8,7 +8,7 @@
         "php": "^8.3",
         "filament/filament": "^5.6.6",
         "illuminate/support": "^13.0",
-        "misaf/vendra-support": "^0.0.2",
+        "misaf/vendra-support": "^0.0.3",
         "spatie/eloquent-sortable": "^5.0",
         "spatie/laravel-package-tools": "^1.0"
     },
@@ -16,7 +16,7 @@
         "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.10.0",
         "laravel/pint": "^1.27",
-        "misaf/vendra-testing": "^0.0.2",
+        "misaf/vendra-testing": "^0.0.3",
         "orchestra/testbench": "^11.1",
         "pestphp/pest": "^4.7.2",
         "pestphp/pest-plugin-arch": "^4.0",

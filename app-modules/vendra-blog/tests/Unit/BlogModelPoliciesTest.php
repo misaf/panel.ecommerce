@@ -65,7 +65,9 @@ it('derives tenant awareness from the bound tenant resolver', function (): void 
         ->and(TenantAwareness::currentId())->toBeNull();
 });
 
-it('is not tenant aware without a tenant provider installed', function (): void {
+it('is not tenant aware when the bound tenant resolver reports unavailable', function (): void {
+    app()->instance(TenantResolver::class, fakeTenantResolver(available: false));
+
     expect(TenantAwareness::enabled())->toBeFalse()
         ->and(TenantAwareness::currentId())->toBeNull();
 });

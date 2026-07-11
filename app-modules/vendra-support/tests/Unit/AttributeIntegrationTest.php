@@ -9,6 +9,23 @@ use Misaf\VendraSupport\Support\AttributeIntegration;
 use Misaf\VendraSupport\Support\NullAttributeResolver;
 
 it('falls back to unavailable attribute integration', function (): void {
+    app()->instance(AttributeResolver::class, new class () implements AttributeResolver {
+        public function available(): bool
+        {
+            return false;
+        }
+
+        public function valueModel(): ?string
+        {
+            return null;
+        }
+
+        public function options(): array
+        {
+            return [];
+        }
+    });
+
     expect(AttributeIntegration::isAvailable())->toBeFalse()
         ->and(AttributeIntegration::valueModel())->toBeNull()
         ->and(AttributeIntegration::options())->toBe([]);
