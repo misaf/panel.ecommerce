@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
-use Misaf\AuthifyLog\Models\AuthifyLog as LaravelAuthifyLog;
 use Misaf\VendraAuthifyLog\Database\Factories\AuthifyLogFactory;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 
@@ -28,7 +28,7 @@ use Misaf\VendraSupport\Traits\BelongsToTenant;
 #[Fillable(['tenant_id', 'user_id', 'action', 'ip_address', 'ip_country', 'user_agent'])]
 #[Hidden(['tenant_id'])]
 #[UseFactory(AuthifyLogFactory::class)]
-final class AuthifyLog extends LaravelAuthifyLog
+final class AuthifyLog extends Model
 {
     use BelongsToTenant;
 
