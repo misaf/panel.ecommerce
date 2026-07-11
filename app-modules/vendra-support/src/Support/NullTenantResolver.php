@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSupport\Support;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 
@@ -37,6 +38,11 @@ final class NullTenantResolver implements TenantResolver
     public function makeCurrent(Model|int|string $tenant): bool
     {
         return false;
+    }
+
+    public function execute(Model|int|string $tenant, Closure $callback): mixed
+    {
+        return $callback();
     }
 
     /**

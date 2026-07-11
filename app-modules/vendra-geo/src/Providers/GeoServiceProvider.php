@@ -8,12 +8,16 @@ use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraGeo\Console\Commands\SeedCommand;
 use Misaf\VendraGeo\GeoPlugin;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
+use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class GeoServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -31,7 +35,7 @@ final class GeoServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-geo')) {
                 return;
             }
 
@@ -41,6 +45,8 @@ final class GeoServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantSeeders::class)->register('vendra-geo:seed', priority: 45);
+
         AboutCommand::add('Vendra Geo', fn(): array => ['Version' => 'dev-master']);
     }
 }

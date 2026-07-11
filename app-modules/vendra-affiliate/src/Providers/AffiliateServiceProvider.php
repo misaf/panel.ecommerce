@@ -13,6 +13,7 @@ use Misaf\VendraAffiliate\AffiliatePlugin;
 use Misaf\VendraAffiliate\Listeners\AffiliateSubscriber;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliate\Services\AffiliateService;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraUser\Models\User;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -20,6 +21,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class AffiliateServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -38,7 +41,7 @@ final class AffiliateServiceProvider extends PackageServiceProvider
         $this->app->bind('affiliate-service', fn(Application $app) => new AffiliateService());
 
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-affiliate')) {
                 return;
             }
 

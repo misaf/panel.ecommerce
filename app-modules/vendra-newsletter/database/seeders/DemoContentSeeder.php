@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraNewsletter\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Enum;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterFactory;
@@ -15,7 +16,6 @@ use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 use Misaf\VendraSupport\Concerns\RequiresCurrentTenant;
 use Misaf\VendraSupport\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
-use Misaf\VendraTenant\Models\Tenant;
 
 final class DemoContentSeeder extends BaseDemoContentSeeder
 {
@@ -40,12 +40,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
         }
     }
 
-    protected function seedFactoryRecords(Tenant $tenant): void
+    protected function seedFactoryRecords(Model $tenant): void
     {
         $newsletters = NewsletterFactory::new()
             ->enabled()
             ->count(2)
-            ->create(['tenant_id' => $tenant->id]);
+            ->create(['tenant_id' => $tenant->getKey()]);
 
         if ( ! $newsletters instanceof Collection) {
             $newsletters = new Collection([$newsletters]);
@@ -75,7 +75,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
         });
     }
 
-    protected function seedFixtureRecord(Tenant $tenant, array $record): void
+    protected function seedFixtureRecord(Model $tenant, array $record): void
     {
         $data = $this->validatedFixtureRecord($record);
 
@@ -97,7 +97,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     subscribers: list<array{email: string}>
      * } $data
      */
-    private function handleSeedFixtureRecord(Tenant $tenant, array $data): void
+    private function handleSeedFixtureRecord(Model $tenant, array $data): void
     {
         $newsletter = new Newsletter([
             'name'        => $data['name'],
@@ -106,7 +106,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'status'      => $data['status'],
         ]);
 
-        $newsletter->tenant_id = $tenant->id;
+        $newsletter->tenant_id = (int) $tenant->getKey();
         $newsletter->save();
 
         foreach ($data['posts'] as $newsletterPostRecord) {

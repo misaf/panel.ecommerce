@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+use Misaf\VendraFaq\Models\Faq;
+use Misaf\VendraFaq\Models\FaqCategory;
+use Misaf\VendraTenant\Models\Tenant;
+
+beforeEach(function (): void {
+    Tenant::factory()->enabled()->create()->makeCurrent();
+});
+
+it('serves faqs as a to-many relationship of faq categories', function (): void {
+    $faqCategory = FaqCategory::factory()->enabled()->create();
+    Faq::factory()->count(2)->enabled()->forCategory($faqCategory)->create();
+
+    $related = $this->getJson(
+        "/v1/faq-categories/{$faqCategory->getKey()}/faqs",
+        ['Accept' => 'application/vnd.api+json'],
+    );
+
+    $related->assertOk();
+    expect($related->json('data'))->toHaveCount(2);
+
+    $relationship = $this->getJson(
+        "/v1/faq-categories/{$faqCategory->getKey()}/relationships/faqs",
+        ['Accept' => 'application/vnd.api+json'],
+    );
+
+    $relationship->assertOk();
+    expect($relationship->json('data'))->toHaveCount(2);
+});

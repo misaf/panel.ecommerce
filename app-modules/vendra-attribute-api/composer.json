@@ -24,6 +24,7 @@
         "illuminate/support": "^13.0",
         "misaf/vendra-api": "^0.0.6",
         "misaf/vendra-attribute": "^0.0.6",
+        "misaf/vendra-localization": "^0.0.6",
         "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {

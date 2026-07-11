@@ -6,12 +6,12 @@ namespace Misaf\VendraAttribute\Providers;
 
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
-use Illuminate\Support\Facades\Config;
 use Misaf\VendraAttribute\AttributePlugin;
 use Misaf\VendraAttribute\Console\Commands\SeedCommand;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Models\AttributeValue;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\EloquentAttributeResolver;
 use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -20,6 +20,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class AttributeServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -41,7 +43,7 @@ final class AttributeServiceProvider extends PackageServiceProvider
         );
 
         Panel::configureUsing(function (Panel $panel): void {
-            if ( ! in_array($panel->getId(), $this->configuredPanelIds(), true)) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-attribute')) {
                 return;
             }
 
@@ -56,15 +58,4 @@ final class AttributeServiceProvider extends PackageServiceProvider
         AboutCommand::add('Vendra Attribute', fn() => ['Version' => 'dev-master']);
     }
 
-    /** @return list<string> */
-    private function configuredPanelIds(): array
-    {
-        $panels = Config::get('vendra-attribute.panels', ['admin']);
-
-        if (is_string($panels)) {
-            return [$panels];
-        }
-
-        return array_values(array_filter(Config::array('vendra-attribute.panels'), is_string(...)));
-    }
 }

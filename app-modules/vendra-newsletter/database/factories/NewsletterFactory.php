@@ -6,8 +6,9 @@ namespace Misaf\VendraNewsletter\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraNewsletter\Models\Newsletter;
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraSupport\Support\TenantAwareness;
 
 /**
  * @extends Factory<Newsletter>
@@ -21,7 +22,6 @@ final class NewsletterFactory extends Factory
     public function definition(): array
     {
         return [
-            'tenant_id' => Tenant::factory(),
             'name'      => [
                 'en' => $this->faker->sentences(1, true),
                 'fa' => $this->faker->sentences(1, true),
@@ -32,6 +32,20 @@ final class NewsletterFactory extends Factory
             ],
             'status' => $this->faker->boolean(80),
         ];
+    }
+
+    /**
+     * No-op without a tenant provider, since there is no `tenant_id` column.
+     */
+    public function forTenant(Model|int $tenant): static
+    {
+        if ( ! TenantAwareness::enabled()) {
+            return $this;
+        }
+
+        return $this->state(fn(): array => [
+            'tenant_id' => $tenant instanceof Model ? $tenant->getKey() : $tenant,
+        ]);
     }
 
     public function scheduled(): static

@@ -12,6 +12,7 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraLanguage\Console\Commands\SeedCommand;
 use Misaf\VendraLanguage\LanguagePlugin;
 use Misaf\VendraLanguage\Models\Language;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -19,6 +20,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class LanguageServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -37,7 +40,7 @@ final class LanguageServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-language')) {
                 return;
             }
 

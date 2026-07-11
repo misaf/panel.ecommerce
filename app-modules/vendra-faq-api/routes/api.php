@@ -13,7 +13,7 @@ Route::middleware(['api', 'vendra.locale'])->group(function (): void {
         $server->resource('faq-categories', JsonApiController::class)
             ->readOnly()
             ->relationships(function (Relationships $relations): void {
-                $relations->hasOne('faqs')->readOnly();
+                $relations->hasMany('faqs')->readOnly();
                 $relations->hasMany('multimedia')->readOnly();
             });
 

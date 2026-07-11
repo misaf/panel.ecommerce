@@ -24,6 +24,7 @@ use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
@@ -46,12 +47,14 @@ use Spatie\Translatable\HasTranslations;
 final class BlogPostCategory extends Model implements HasMedia, ShouldLogActivity, Sortable
 {
     use BelongsToTenant;
+
     use HasDefaultMediaConversions, InteractsWithMedia {
         HasDefaultMediaConversions::registerMediaConversions insteadof InteractsWithMedia;
     }
-
     /** @use HasFactory<BlogPostCategoryFactory> */
     use HasFactory;
+
+    use HasTranslatableSlug;
 
     use HasTranslations;
     use SoftDeletes;

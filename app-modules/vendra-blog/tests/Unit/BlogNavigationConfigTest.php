@@ -19,18 +19,18 @@ it('resolves configured panel ids from an array, string, or legacy panel key', f
 
     config(['vendra-blog.panels' => ['admin', 'vendor']]);
 
-    expect($method->invoke($provider))->toBe(['admin', 'vendor']);
+    expect($method->invoke($provider, 'vendra-blog'))->toBe(['admin', 'vendor']);
 
     config(['vendra-blog.panels' => 'admin']);
 
-    expect($method->invoke($provider))->toBe(['admin']);
+    expect($method->invoke($provider, 'vendra-blog'))->toBe(['admin']);
 
     config([
         'vendra-blog.panels' => null,
         'vendra-blog.panel'  => 'legacy',
     ]);
 
-    expect($method->invoke($provider))->toBe(['legacy']);
+    expect($method->invoke($provider, 'vendra-blog'))->toBe(['legacy']);
 });
 
 it('resolves the module-owned navigation group by default', function (): void {

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Pennant\Feature;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUserProfile\Enums\UserProfileFeatureEnum;
 use Misaf\VendraUserProfile\Models\UserProfile;
@@ -18,6 +19,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class UserProfileServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -35,7 +38,7 @@ final class UserProfileServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-user-profile')) {
                 return;
             }
 

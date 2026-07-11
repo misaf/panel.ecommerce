@@ -35,7 +35,7 @@ final class NewsletterMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'newsletter::mail.newsletter',
+            markdown: 'vendra-newsletter::mail.newsletter',
             with: [
                 'newsletter'             => $this->newsletter,
                 'posts'                  => $this->posts,

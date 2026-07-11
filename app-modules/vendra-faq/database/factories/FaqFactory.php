@@ -7,7 +7,6 @@ namespace Misaf\VendraFaq\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraSupport\Support\TenantAwareness;
@@ -24,7 +23,6 @@ final class FaqFactory extends Factory
             'faq_category_id' => FaqCategory::factory(),
             'name'            => ['en' => fake()->sentences(1, true)],
             'description'     => ['en' => fake()->realTextBetween(100, 200)],
-            'slug'            => ['en' => fn(array $attributes) => Str::slug($attributes['name']['en'])],
             'status'          => fake()->boolean(80),
         ];
     }

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraMultimedia\MultimediaPlugin;
 use Misaf\VendraMultimedia\Support\DefaultPathGenerator;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -17,6 +18,8 @@ use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator as SpatieDefa
 
 final class MultimediaServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -33,7 +36,7 @@ final class MultimediaServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-multimedia')) {
                 return;
             }
 

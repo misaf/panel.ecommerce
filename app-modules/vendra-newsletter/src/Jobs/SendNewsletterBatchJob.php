@@ -36,10 +36,10 @@ final class SendNewsletterBatchJob implements ShouldQueue
     public function __construct(
         public NewsletterSendHistory $newsletterSendHistory,
     ) {
-        $this->timeout = Config::integer('newsletter.queue.timeout', 300);
-        $this->tries = Config::integer('newsletter.queue.tries', 3);
-        $this->chunkSize = Config::integer('newsletter.batch_chunk_size', 100);
-        $this->queueName = Config::string('newsletter.queue.name', 'marketing-email');
+        $this->timeout = Config::integer('vendra-newsletter.queue.timeout', 300);
+        $this->tries = Config::integer('vendra-newsletter.queue.tries', 3);
+        $this->chunkSize = Config::integer('vendra-newsletter.batch_chunk_size', 100);
+        $this->queueName = Config::string('vendra-newsletter.queue.name', 'marketing-email');
 
         $this->onQueue($this->queueName);
     }

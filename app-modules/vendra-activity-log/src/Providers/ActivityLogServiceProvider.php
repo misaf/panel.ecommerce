@@ -10,12 +10,16 @@ use Illuminate\Support\Facades\Event;
 use Misaf\VendraActivityLog\ActivityLogPlugin;
 use Misaf\VendraActivityLog\Console\Commands\SeedCommand;
 use Misaf\VendraActivityLog\Listeners\LogModelActivity;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
+use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class ActivityLogServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -33,7 +37,7 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-activity-log')) {
                 return;
             }
 
@@ -43,6 +47,8 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantSeeders::class)->register('vendra-activity-log:seed', priority: 85);
+
         AboutCommand::add('Vendra Activity Log', fn() => ['Version' => 'dev-master']);
 
         $this->registerActivityLogListeners();

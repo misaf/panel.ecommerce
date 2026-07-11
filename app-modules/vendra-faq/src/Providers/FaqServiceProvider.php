@@ -8,6 +8,7 @@ use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraFaq\Console\Commands\SeedCommand;
 use Misaf\VendraFaq\FaqPlugin;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -15,6 +16,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class FaqServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -32,7 +35,7 @@ final class FaqServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-faq')) {
                 return;
             }
 

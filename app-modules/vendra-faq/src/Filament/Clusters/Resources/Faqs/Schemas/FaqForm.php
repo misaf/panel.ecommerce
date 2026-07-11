@@ -53,7 +53,6 @@ final class FaqForm
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-faq::attributes.slug_helper_text'))
                     ->label(__('vendra-faq::attributes.slug'))
-                    ->label(__('vendra-faq::attributes.slug'))
                     ->required()
                     ->unique(modifyRuleUsing: fn(Unique $rule) => $rule->withoutTrashed()),
 

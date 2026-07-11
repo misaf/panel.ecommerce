@@ -16,8 +16,7 @@ declare(strict_types=1);
 pest()->extend(Tests\TestCase::class)->in(
     'Unit',
     'Feature',
-    '../app-modules/*/tests/Unit',
-    '../app-modules/*/tests/Feature',
+    '../app-modules/*/tests',
 );
 
 /*

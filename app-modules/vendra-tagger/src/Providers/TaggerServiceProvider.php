@@ -6,6 +6,7 @@ namespace Misaf\VendraTagger\Providers;
 
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
 use Misaf\VendraTagger\Console\Commands\SeedCommand;
 use Misaf\VendraTagger\TaggerPlugin;
@@ -15,6 +16,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class TaggerServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -27,14 +30,14 @@ final class TaggerServiceProvider extends PackageServiceProvider
             ])
             ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
-                $command->askToStarRepoOnGitHub('misaf/vendra-activity-log');
+                $command->askToStarRepoOnGitHub('misaf/vendra-tagger');
             });
     }
 
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-tagger')) {
                 return;
             }
 

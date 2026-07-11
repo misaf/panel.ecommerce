@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraSupport\Support\TenantAwareness;
 use Misaf\VendraUser\Rules\EmailValidation;
 
 final class NewsletterSubscriberImporter extends Importer
@@ -35,7 +35,7 @@ final class NewsletterSubscriberImporter extends Importer
                     $rules = ['bail', 'required', 'string', 'max:255', 'alpha_dash'];
 
                     $rules[] = Rule::exists('newsletters', 'slug->' . app()->getLocale())
-                        ->where('tenant_id', Tenant::current()?->id);
+                        ->where('tenant_id', TenantAwareness::currentId());
 
                     return $rules;
                 }),
@@ -58,7 +58,7 @@ final class NewsletterSubscriberImporter extends Importer
                     $rules = ['bail', 'required', 'string', 'email:rfc,strict,spoof,filter'];
 
                     $uniqueRule = Rule::unique('newsletter_subscribers', 'email')
-                        ->where('tenant_id', Tenant::current()?->id);
+                        ->where('tenant_id', TenantAwareness::currentId());
 
                     if ($options['update_existing_records'] ?? false) {
                         $uniqueRule->ignore($record->email, 'email');

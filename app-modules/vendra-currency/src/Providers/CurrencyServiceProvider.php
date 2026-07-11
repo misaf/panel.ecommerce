@@ -10,6 +10,7 @@ use Misaf\VendraCurrency\Console\Commands\SeedCommand;
 use Misaf\VendraCurrency\CurrencyPlugin;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\EloquentCurrencyResolver;
 use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -18,6 +19,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class CurrencyServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -40,7 +43,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
         );
 
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-currency')) {
                 return;
             }
 

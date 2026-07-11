@@ -24,6 +24,7 @@ use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
@@ -45,14 +46,16 @@ use Spatie\Sluggable\SlugOptions;
 final class CurrencyCategory extends Model implements HasMedia, Sortable, ShouldLogActivity
 {
     use BelongsToTenant;
-    use HasCurrencyTrait;
 
+    use HasCurrencyTrait;
     use HasDefaultMediaConversions, InteractsWithMedia {
         HasDefaultMediaConversions::registerMediaConversions insteadof InteractsWithMedia;
     }
 
     /** @use HasFactory<CurrencyCategoryFactory> */
     use HasFactory;
+
+    use HasSlug;
     use SoftDeletes;
     use SortableTrait;
 

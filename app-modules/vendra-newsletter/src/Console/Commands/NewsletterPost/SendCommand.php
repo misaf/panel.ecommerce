@@ -13,8 +13,7 @@ use function Laravel\Prompts\search;
 use Misaf\VendraNewsletter\Actions\Newsletter\SendWithPostAction;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterPost;
-
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraSupport\Contracts\TenantResolver;
 
 final class SendCommand extends Command implements PromptsForMissingInput
 {
@@ -32,10 +31,7 @@ final class SendCommand extends Command implements PromptsForMissingInput
             'tenant' => fn() => search(
                 label: 'Search for a tenant:',
                 placeholder: 'E.g. tenant-slug',
-                options: fn(string $value) => Tenant::enabled()
-                    ->when(filled($value), fn(Builder $query) => $query->where('slug', 'like', "%{$value}%"))
-                    ->pluck('slug', 'id')
-                    ->all(),
+                options: fn(string $value) => app(TenantResolver::class)->searchOptions($value),
             ),
 
             'newsletter' => fn() => search(

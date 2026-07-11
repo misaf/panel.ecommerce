@@ -17,6 +17,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
@@ -44,6 +45,8 @@ final class City extends Model implements Sortable, ShouldLogActivity
 
     /** @use HasFactory<CityFactory> */
     use HasFactory;
+
+    use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;

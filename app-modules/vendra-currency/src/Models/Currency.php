@@ -22,6 +22,7 @@ use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
@@ -56,6 +57,8 @@ final class Currency extends Model implements HasMedia, Sortable, ShouldLogActiv
 
     /** @use HasFactory<CurrencyFactory> */
     use HasFactory;
+
+    use HasSlug;
     use SoftDeletes;
     use SortableTrait;
 

@@ -11,23 +11,27 @@ use Misaf\VendraNewsletter\Console\Commands\NewsletterPost\SendCommand as Newsle
 use Misaf\VendraNewsletter\Console\Commands\SendScheduledNewslettersCommand;
 use Misaf\VendraNewsletter\Console\Commands\SyncSubscribersWithUsersCommand;
 use Misaf\VendraNewsletter\NewsletterPlugin;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
+use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class NewsletterServiceProvider extends PackageServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function configurePackage(Package $package): void
     {
         $package
             ->name('vendra-newsletter')
             ->hasTranslations()
-            ->hasConfigFile('newsletter')
+            ->hasConfigFile()
             ->hasMigrations([
                 'create_newsletters_table',
             ])
             ->hasRoute('web')
-            ->hasViews('newsletter')
+            ->hasViews()
             ->hasCommands(
                 SendScheduledNewslettersCommand::class,
                 SyncSubscribersWithUsersCommand::class,
@@ -42,7 +46,7 @@ final class NewsletterServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         Panel::configureUsing(function (Panel $panel): void {
-            if ('admin' !== $panel->getId()) {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-newsletter')) {
                 return;
             }
 
@@ -52,6 +56,8 @@ final class NewsletterServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantSeeders::class)->register('vendra-newsletter:seed', priority: 65);
+
         AboutCommand::add('Vendra Newsletter', fn() => ['Version' => 'dev-master']);
     }
 }

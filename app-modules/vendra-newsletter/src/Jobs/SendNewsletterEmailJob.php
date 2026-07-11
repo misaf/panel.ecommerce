@@ -33,9 +33,9 @@ final class SendNewsletterEmailJob implements ShouldQueue
         public NewsletterSendHistory $sendHistory,
         public NewsletterSubscriber $subscriber,
     ) {
-        $this->timeout = Config::integer('newsletter.queue.email_timeout', 30);
-        $this->tries = Config::integer('newsletter.queue.tries', 3);
-        $this->onQueue(Config::string('newsletter.queue.name', 'marketing-email'));
+        $this->timeout = Config::integer('vendra-newsletter.queue.email_timeout', 30);
+        $this->tries = Config::integer('vendra-newsletter.queue.tries', 3);
+        $this->onQueue(Config::string('vendra-newsletter.queue.name', 'marketing-email'));
     }
 
     public function handle(): void

@@ -7,7 +7,6 @@ namespace Misaf\VendraCustomPage\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraSupport\Support\TenantAwareness;
@@ -24,7 +23,6 @@ final class CustomPageFactory extends Factory
             'custom_page_category_id' => CustomPageCategory::factory(),
             'name'                    => ['en' => fake()->sentences(1, true)],
             'description'             => ['en' => fake()->realTextBetween(100, 200)],
-            'slug'                    => ['en' => fn(array $attributes) => Str::slug($attributes['name']['en'])],
             'status'                  => fake()->boolean(80),
         ];
     }

@@ -34,7 +34,7 @@ final class ProvisionTenantAction
     {
         $password = Str::password(length: 8, letters: true, numbers: true, symbols: false);
 
-        $result = DB::transaction(function () use ($data, $password, $shouldSeed): array {
+        $result = DB::transaction(function () use ($data, $password): array {
             $result = $this->createTenantAction->execute(
                 name: $data['name'],
                 domain: $data['domain'],
@@ -50,13 +50,13 @@ final class ProvisionTenantAction
 
             $result['tenant']->execute(fn() => $result['user']->assignRole($role));
 
-            event(new TenantProvisioned($result['tenant'], $shouldSeed));
-
             return [
                 ...$result,
                 'password' => $password,
             ];
         });
+
+        event(new TenantProvisioned($result['tenant'], $shouldSeed));
 
         $this->cacheTenantRoutes($result['tenant']);
 

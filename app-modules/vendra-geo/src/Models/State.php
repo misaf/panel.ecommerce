@@ -20,6 +20,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
@@ -49,6 +50,8 @@ final class State extends Model implements Sortable, ShouldLogActivity
 
     /** @use HasFactory<StateFactory> */
     use HasFactory;
+
+    use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;

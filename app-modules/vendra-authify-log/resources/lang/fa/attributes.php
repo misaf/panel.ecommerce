@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 return [
-    'id'         => 'شناسه',
-    'tenant_id'  => 'مستاجر',
-    'name'       => 'نام',
     'action'     => 'عملیات',
-    'ip_address' => 'آدرس IP',
-    'status'     => 'وضعیت',
-    'image'      => 'تصویر',
     'created_at' => 'تاریخ ایجاد',
-    'updated_at' => 'تاریخ بروزرسانی',
     'deleted_at' => 'تاریخ حذف',
+    'id'         => 'شناسه',
+    'image'      => 'تصویر',
+    'ip_address' => 'آدرس IP',
+    'name'       => 'نام',
+    'status'     => 'وضعیت',
+    'tenant_id'  => 'مستاجر',
+    'updated_at' => 'تاریخ بروزرسانی',
 ];

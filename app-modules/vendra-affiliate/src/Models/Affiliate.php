@@ -18,6 +18,7 @@ use Misaf\VendraAffiliate\Traits\HasAffiliateUser;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Misaf\VendraUser\Traits\BelongsToUser;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
@@ -40,11 +41,13 @@ use Spatie\Sluggable\SlugOptions;
 final class Affiliate extends Model implements ShouldLogActivity
 {
     use BelongsToTenant;
+
     use BelongsToUser;
     use HasAffiliateUser;
-
     /** @use HasFactory<AffiliateFactory> */
     use HasFactory;
+
+    use HasSlug;
     use SoftDeletes;
 
     /**

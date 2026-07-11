@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class NewsletterForm
 {
@@ -36,7 +36,7 @@ final class NewsletterForm
                     ->required()
                     ->unique(
                         column: fn(Livewire $livewire) => 'name->' . $livewire->activeLocale,
-                        modifyRuleUsing: fn(Unique $rule) => $rule->where('tenant_id', Tenant::current()?->id)->withoutTrashed(),
+                        modifyRuleUsing: fn(Unique $rule) => TenantAwareness::constrainUniqueRule($rule)->withoutTrashed(),
                     ),
 
                 TextInput::make('slug')
@@ -46,7 +46,7 @@ final class NewsletterForm
                     ->required()
                     ->unique(
                         column: fn(Livewire $livewire) => 'slug->' . $livewire->activeLocale,
-                        modifyRuleUsing: fn(Unique $rule) => $rule->where('tenant_id', Tenant::current()?->id)->withoutTrashed(),
+                        modifyRuleUsing: fn(Unique $rule) => TenantAwareness::constrainUniqueRule($rule)->withoutTrashed(),
                     ),
 
                 RichEditor::make('description')
