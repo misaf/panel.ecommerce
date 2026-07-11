@@ -1,5 +1,9 @@
 name: Split packages
 
+concurrency:
+  group: split-packages
+  cancel-in-progress: false
+
 on:
   push:
     branches:
@@ -8,7 +12,49 @@ on:
       - '*.*.*'
 
 jobs:
+  subscription:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out monorepo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Split branch
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+        uses: symplify/monorepo-split-github-action@v2.4.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        with:
+          branch: master
+          package_directory: app-modules/vendra-subscription
+          repository_organization: misaf
+          repository_name: vendra-subscription
+          user_name: misaf
+          user_email: misaf.1990@gmail.com
+
+      - name: Split tag
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: symplify/monorepo-split-github-action@v2.4.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        with:
+          branch: master
+          tag: ${{ github.ref_name }}
+          package_directory: app-modules/vendra-subscription
+          repository_organization: misaf
+          repository_name: vendra-subscription
+          user_name: misaf
+          user_email: misaf.1990@gmail.com
+
+      - name: Create release for split package
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        run: gh release create "${{ github.ref_name }}" --repo "misaf/vendra-subscription" --generate-notes
+
   packages:
+    needs: subscription
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -35,7 +81,6 @@ jobs:
           - vendra-permission
           - vendra-product
           - vendra-product-api
-          - vendra-subscription
           - vendra-support
           - vendra-tagger
           - vendra-tenant
