@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-localization",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Request locale resolution for Laravel applications.",
     "keywords": [
         "laravel",
@@ -29,7 +29,7 @@
     "require-dev": {
         "larastan/larastan": "^3.10.0",
         "laravel/pint": "^1.29.3",
-        "misaf/vendra-testing": "^0.0.5",
+        "misaf/vendra-testing": "^0.0.6",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
         "orchestra/testbench": "^11.1",
