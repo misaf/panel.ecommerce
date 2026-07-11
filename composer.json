@@ -37,7 +37,6 @@
         "laravel/sanctum": "^4.3.2",
         "laravel/tinker": "^3.0.2",
         "misaf/filament-jalali": "^5.1.4",
-        "misaf/laravel-authify-log": "^1.0",
         "misaf/laravel-email-webhooks": "^1.0.1",
         "misaf/vendra-activity-log": "^0.0.3",
         "misaf/vendra-affiliate": "^0.0.3",
