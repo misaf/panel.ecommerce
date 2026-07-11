@@ -13,20 +13,18 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
+use Misaf\VendraPermission\Models\Role;
+use Misaf\VendraUser\Models\User;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
-use Spatie\Permission\Contracts\Role;
-use Spatie\Permission\PermissionRegistrar;
 
 final class AdminPanelServiceProvider extends PanelProvider
 {
@@ -111,14 +109,11 @@ final class AdminPanelServiceProvider extends PanelProvider
     }
 
     /**
-     * @return class-string<Model&Authenticatable>
+     * @return class-string<User>
      */
     private function userModelClass(): string
     {
-        /** @var class-string<Model&Authenticatable> $modelClass */
-        $modelClass = Config::string('auth.providers.users.model');
-
-        return $modelClass;
+        return User::class;
     }
 
     private function hasSuperAdminUser(): bool
@@ -136,10 +131,7 @@ final class AdminPanelServiceProvider extends PanelProvider
 
     private function superAdminRole(): ?Role
     {
-        /** @var class-string<Model&Role> $roleClass */
-        $roleClass = app(PermissionRegistrar::class)->getRoleClass();
-
-        return $roleClass::query()
+        return Role::query()
             ->where('name', $this->configuredSuperAdminRole())
             ->where('guard_name', $this->authGuardName())
             ->first();
