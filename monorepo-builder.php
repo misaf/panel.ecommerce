@@ -3,20 +3,31 @@
 declare(strict_types=1);
 
 use Symplify\MonorepoBuilder\Config\MBConfig;
+use Symplify\MonorepoBuilder\Merge\JsonSchema;
+use Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker;
+use Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker;
+use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker;
-use Vendra\MonorepoBuilder\SetPackageVersionReleaseWorker;
-
-require_once __DIR__ . '/monorepo-builder/SetPackageVersionReleaseWorker.php';
+use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker;
+use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateReplaceReleaseWorker;
 
 return static function (MBConfig $config): void {
-    $config->packageDirectories([__DIR__ . '/app-modules']);
     $config->defaultBranch('master');
+    $config->packageDirectories([
+        __DIR__ . '/packages',
+    ]);
+    $config->composerSectionOrder(JsonSchema::getProperties());
+    $config->packageAliasFormat('<major>.<minor>.x-dev');
     $config->workers([
-        SetPackageVersionReleaseWorker::class,
+        UpdateReplaceReleaseWorker::class,
         SetCurrentMutualDependenciesReleaseWorker::class,
+        AddTagToChangelogReleaseWorker::class,
         TagVersionReleaseWorker::class,
         PushTagReleaseWorker::class,
+        SetNextMutualDependenciesReleaseWorker::class,
+        UpdateBranchAliasReleaseWorker::class,
+        PushNextDevReleaseWorker::class,
     ]);
 };

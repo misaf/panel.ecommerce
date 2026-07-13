@@ -1,0 +1,35 @@
+{
+	frankenphp
+	on_demand_tls {
+		# The app decides which hostnames get certificates: the endpoint
+		# receives ?domain=<host> and must return 200 to allow issuance.
+		ask http://localhost:8080/caddy/domain-check
+	}
+	servers :8080 {
+		protocols h1
+	}
+}
+
+{$SERVER_NAME:localhost} {
+	root * /app/public
+	encode zstd br gzip
+	php_server
+	tls {$SERVER_TLS_MODE:internal}
+}
+
+# Catch-all for tenant domains not listed in SERVER_NAME: certificates are
+# issued on demand, gated by the ask endpoint above.
+https:// {
+	root * /app/public
+	encode zstd br gzip
+	php_server
+	tls {$SERVER_TLS_MODE:internal} {
+		on_demand
+	}
+}
+
+# Plain-HTTP listener for container healthchecks (not published by compose).
+http://:8080 {
+	root * /app/public
+	php_server
+}

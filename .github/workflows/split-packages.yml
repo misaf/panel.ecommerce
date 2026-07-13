@@ -11,92 +11,83 @@ on:
     tags:
       - '*.*.*'
 
+permissions:
+  contents: read
+
 jobs:
-  foundation:
-    uses: ./.github/workflows/split-package.yml
-    with:
-      package: vendra-testing
-    secrets: inherit
-
-  core:
-    needs: foundation
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
-          - vendra-api
-          - vendra-localization
-          - vendra-support
-    uses: ./.github/workflows/split-package.yml
-    with:
-      package: ${{ matrix.package }}
-    secrets: inherit
-
-  domain-base:
-    needs: core
+  split:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         package:
           - vendra-activity-log
+          - vendra-affiliate
+          - vendra-api
           - vendra-attribute
-          - vendra-geo
-          - vendra-multimedia
-          - vendra-tagger
-          - vendra-tenant
-    uses: ./.github/workflows/split-package.yml
-    with:
-      package: ${{ matrix.package }}
-    secrets: inherit
-
-  domain:
-    needs: domain-base
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
           - vendra-attribute-api
+          - vendra-authify-log
+          - vendra-blog
+          - vendra-blog-api
+          - vendra-cart
+          - vendra-cart-api
           - vendra-currency
           - vendra-custom-page
           - vendra-faq
-          - vendra-language
-          - vendra-multimedia-api
-          - vendra-transaction
-          - vendra-user
-    uses: ./.github/workflows/split-package.yml
-    with:
-      package: ${{ matrix.package }}
-    secrets: inherit
-
-  features:
-    needs: domain
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
-          - vendra-affiliate
-          - vendra-authify-log
-          - vendra-blog
           - vendra-faq-api
+          - vendra-geo
+          - vendra-language
+          - vendra-localization
+          - vendra-multimedia
+          - vendra-multimedia-api
           - vendra-newsletter
           - vendra-permission
           - vendra-product
-    uses: ./.github/workflows/split-package.yml
-    with:
-      package: ${{ matrix.package }}
-    secrets: inherit
-
-  applications:
-    needs: features
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
-          - vendra-blog-api
           - vendra-product-api
           - vendra-subscription
+          - vendra-support
+          - vendra-tagger
+          - vendra-tenant
+          - vendra-testing
+          - vendra-transaction
+          - vendra-user
           - vendra-user-profile
-    uses: ./.github/workflows/split-package.yml
-    with:
-      package: ${{ matrix.package }}
-    secrets: inherit
+
+    steps:
+      - name: Check out monorepo
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Split branch
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+        uses: danharrin/monorepo-split-github-action@v2.4.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        with:
+          branch: master
+          package_directory: packages/${{ matrix.package }}
+          repository_organization: misaf
+          repository_name: ${{ matrix.package }}
+          user_name: misaf
+          user_email: misaf.1990@gmail.com
+
+      - name: Split tag
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: danharrin/monorepo-split-github-action@v2.4.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        with:
+          branch: master
+          tag: ${{ github.ref_name }}
+          package_directory: packages/${{ matrix.package }}
+          repository_organization: misaf
+          repository_name: ${{ matrix.package }}
+          user_name: misaf
+          user_email: misaf.1990@gmail.com
+
+      - name: Create package release
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.MONOREPO_SPLIT_TOKEN }}
+        run: gh release create "${{ github.ref_name }}" --repo "misaf/${{ matrix.package }}" --generate-notes

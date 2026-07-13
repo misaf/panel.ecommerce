@@ -1,0 +1,159 @@
+name: "${APP_NAME:-vendra}"
+
+x-php-environment: &php-environment
+  APP_KEY: "${APP_KEY:?APP_KEY is required}"
+  BASE_APP_URL: "${APP_URL:-https://${APP_NAME:-vendra}.test}"
+  LARAVEL_ENV_FILE: "/run/${APP_NAME:-vendra}/.env"
+  TZ: "${TIMEZONE:-UTC}"
+
+# The image is built from the repository root; the .env mounted below is
+# docker/.env (compose/infrastructure settings), not the root Herd dev .env.
+x-php-service: &php-service
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile
+    target: app
+    args:
+      ALPINE_MIRROR: "${ALPINE_MIRROR:-https://dl-cdn.alpinelinux.org/alpine}"
+  environment: *php-environment
+  volumes:
+    - storage-data:/app/storage/app
+    - ./.env:/run/${APP_NAME:-vendra}/.env:ro
+  networks:
+    - net
+
+x-laravel-worker: &laravel-worker
+  <<: *php-service
+  restart: unless-stopped
+  # The base image healthcheck probes the Caddy admin endpoint, which only
+  # exists in the web container; workers are plain artisan processes whose
+  # liveness is their PID 1.
+  healthcheck:
+    disable: true
+  depends_on:
+    mysql:
+      condition: service_healthy
+    php:
+      condition: service_healthy
+
+x-redis-worker: &redis-worker
+  <<: *laravel-worker
+  depends_on:
+    mysql:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    php:
+      condition: service_healthy
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      TZ: "${TIMEZONE:-UTC}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:?DB_ROOT_PASSWORD is required}"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "${DB_DATABASE:?DB_DATABASE is required}"
+      MYSQL_USER: "${DB_USERNAME:?DB_USERNAME is required}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD is required}"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - net
+    ports:
+      - "${MYSQL_BIND_ADDRESS:-127.0.0.1}:${MYSQL_PORT:-3306}:3306"
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "MYSQL_PWD=\"$$MYSQL_ROOT_PASSWORD\" mysqladmin ping -h localhost -u root"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  php:
+    <<: *php-service
+    restart: unless-stopped
+    environment:
+      <<: *php-environment
+      SERVER_NAME: "${SERVER_NAME:-${APP_NAME:-vendra}.test}"
+      SERVER_TLS_MODE: "${SERVER_TLS_MODE:-internal}"
+      TENANT_NAME: "${TENANT_NAME:-vendra}"
+      TENANT_ADMIN_USERNAME: "${TENANT_ADMIN_USERNAME:-admin}"
+      TENANT_ADMIN_EMAIL: "${TENANT_ADMIN_EMAIL:-admin@gmail.com}"
+      TENANT_ADMIN_PASSWORD: "${TENANT_ADMIN_PASSWORD:-}"
+    volumes:
+      - storage-data:/app/storage/app
+      - caddy-data:/data
+      - caddy-config:/config
+      - ./.env:/run/${APP_NAME:-vendra}/.env:ro
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "wget -qO /dev/null http://127.0.0.1:8080/ready"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    environment:
+      TZ: "${TIMEZONE:-UTC}"
+    volumes:
+      - redis-data:/data
+    networks:
+      - net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  horizon:
+    <<: *redis-worker
+    command: ["php", "artisan", "horizon"]
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "php artisan horizon:status --no-ansi | grep -q 'is running'"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  scheduler:
+    <<: *laravel-worker
+    command: ["php", "artisan", "schedule:work"]
+
+  pulse:
+    <<: *laravel-worker
+    command: ["php", "artisan", "pulse:check"]
+    # Stable hostname so Pulse records server stats under one name across
+    # container replacements instead of a new random container ID each time.
+    hostname: "${APP_NAME:-vendra}-app"
+
+  pulse-worker:
+    <<: *redis-worker
+    command: ["php", "artisan", "pulse:work"]
+
+volumes:
+  storage-data:
+  caddy-data:
+  caddy-config:
+  mysql-data:
+  redis-data:
+
+networks:
+  net:

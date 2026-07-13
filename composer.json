@@ -1,8 +1,8 @@
 {
-    "$schema": "https://getcomposer.org/schema.json",
     "name": "misaf/vendra",
-    "type": "project",
     "description": "The skeleton application for the Vendra framework.",
+    "license": "MIT",
+    "type": "project",
     "keywords": [
         "laravel",
         "framework",
@@ -10,7 +10,13 @@
         "ecommerce",
         "shopping"
     ],
-    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^8.3",
         "awcodes/filament-badgeable-column": "^4.0",
@@ -34,40 +40,43 @@
         "laravel/horizon": "^5.47.2",
         "laravel/pennant": "^1.24",
         "laravel/prompts": "^0.3.21",
+        "laravel/pulse": "^1.7",
         "laravel/sanctum": "^4.3.2",
         "laravel/tinker": "^3.0.2",
         "misaf/filament-jalali": "^5.1.4",
         "misaf/laravel-authify-log": "^1.0",
         "misaf/laravel-email-webhooks": "^1.0.1",
-        "misaf/vendra-activity-log": "^0.0.7",
-        "misaf/vendra-affiliate": "^0.0.7",
-        "misaf/vendra-api": "^0.0.7",
-        "misaf/vendra-attribute": "^0.0.7",
-        "misaf/vendra-attribute-api": "^0.0.7",
-        "misaf/vendra-authify-log": "^0.0.7",
-        "misaf/vendra-blog": "^0.0.7",
-        "misaf/vendra-blog-api": "^0.0.7",
-        "misaf/vendra-currency": "^0.0.7",
-        "misaf/vendra-custom-page": "^0.0.7",
-        "misaf/vendra-faq": "^0.0.7",
-        "misaf/vendra-faq-api": "^0.0.7",
-        "misaf/vendra-geo": "^0.0.7",
-        "misaf/vendra-language": "^0.0.7",
-        "misaf/vendra-localization": "^0.0.7",
-        "misaf/vendra-multimedia": "^0.0.7",
-        "misaf/vendra-multimedia-api": "^0.0.7",
-        "misaf/vendra-newsletter": "^0.0.7",
-        "misaf/vendra-permission": "^0.0.7",
-        "misaf/vendra-product": "^0.0.7",
-        "misaf/vendra-product-api": "^0.0.7",
-        "misaf/vendra-subscription": "^0.0.7",
-        "misaf/vendra-support": "^0.0.7",
-        "misaf/vendra-tagger": "^0.0.7",
-        "misaf/vendra-tenant": "^0.0.7",
-        "misaf/vendra-testing": "^0.0.7",
-        "misaf/vendra-transaction": "^0.0.7",
-        "misaf/vendra-user": "^0.0.7",
-        "misaf/vendra-user-profile": "^0.0.7",
+        "misaf/vendra-activity-log": "dev-master as 0.0.7",
+        "misaf/vendra-affiliate": "dev-master as 0.0.7",
+        "misaf/vendra-api": "dev-master as 0.0.7",
+        "misaf/vendra-attribute": "dev-master as 0.0.7",
+        "misaf/vendra-attribute-api": "dev-master as 0.0.7",
+        "misaf/vendra-authify-log": "dev-master as 0.0.7",
+        "misaf/vendra-blog": "dev-master as 0.0.7",
+        "misaf/vendra-blog-api": "dev-master as 0.0.7",
+        "misaf/vendra-cart": "dev-master as 0.0.7",
+        "misaf/vendra-cart-api": "dev-master as 0.0.7",
+        "misaf/vendra-currency": "dev-master as 0.0.7",
+        "misaf/vendra-custom-page": "dev-master as 0.0.7",
+        "misaf/vendra-faq": "dev-master as 0.0.7",
+        "misaf/vendra-faq-api": "dev-master as 0.0.7",
+        "misaf/vendra-geo": "dev-master as 0.0.7",
+        "misaf/vendra-language": "dev-master as 0.0.7",
+        "misaf/vendra-localization": "dev-master as 0.0.7",
+        "misaf/vendra-multimedia": "dev-master as 0.0.7",
+        "misaf/vendra-multimedia-api": "dev-master as 0.0.7",
+        "misaf/vendra-newsletter": "dev-master as 0.0.7",
+        "misaf/vendra-permission": "dev-master as 0.0.7",
+        "misaf/vendra-product": "dev-master as 0.0.7",
+        "misaf/vendra-product-api": "dev-master as 0.0.7",
+        "misaf/vendra-subscription": "dev-master as 0.0.7",
+        "misaf/vendra-support": "dev-master as 0.0.7",
+        "misaf/vendra-tagger": "dev-master as 0.0.7",
+        "misaf/vendra-tenant": "dev-master as 0.0.7",
+        "misaf/vendra-testing": "dev-master as 0.0.7",
+        "misaf/vendra-transaction": "dev-master as 0.0.7",
+        "misaf/vendra-user": "dev-master as 0.0.7",
+        "misaf/vendra-user-profile": "dev-master as 0.0.7",
         "owenvoke/blade-fontawesome": "^3.3",
         "spatie/eloquent-sortable": "^5.0.1",
         "spatie/laravel-activitylog": "^4.12.3",
@@ -109,6 +118,17 @@
         "phpstan/extension-installer": "^1.4.3",
         "symplify/monorepo-builder": "^12.7.1"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -118,55 +138,69 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "Misaf\\VendraActivityLog\\Database\\Factories\\": "app-modules/vendra-activity-log/database/factories/",
-            "Misaf\\VendraActivityLog\\Tests\\": "app-modules/vendra-activity-log/tests/",
-            "Misaf\\VendraAffiliate\\Database\\Factories\\": "app-modules/vendra-affiliate/database/factories/",
-            "Misaf\\VendraAffiliate\\Tests\\": "app-modules/vendra-affiliate/tests/",
-            "Misaf\\VendraApi\\Tests\\": "app-modules/vendra-api/tests/",
-            "Misaf\\VendraAttributeApi\\Tests\\": "app-modules/vendra-attribute-api/tests/",
-            "Misaf\\VendraAttribute\\Database\\Factories\\": "app-modules/vendra-attribute/database/factories/",
-            "Misaf\\VendraAttribute\\Tests\\": "app-modules/vendra-attribute/tests/",
-            "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "app-modules/vendra-authify-log/database/factories/",
-            "Misaf\\VendraAuthifyLog\\Tests\\": "app-modules/vendra-authify-log/tests/",
-            "Misaf\\VendraBlogApi\\Tests\\": "app-modules/vendra-blog-api/tests/",
-            "Misaf\\VendraBlog\\Database\\Factories\\": "app-modules/vendra-blog/database/factories/",
-            "Misaf\\VendraBlog\\Tests\\": "app-modules/vendra-blog/tests/",
-            "Misaf\\VendraCurrency\\Database\\Factories\\": "app-modules/vendra-currency/database/factories/",
-            "Misaf\\VendraCurrency\\Tests\\": "app-modules/vendra-currency/tests/",
-            "Misaf\\VendraCustomPage\\Database\\Factories\\": "app-modules/vendra-custom-page/database/factories/",
-            "Misaf\\VendraCustomPage\\Tests\\": "app-modules/vendra-custom-page/tests/",
-            "Misaf\\VendraFaqApi\\Tests\\": "app-modules/vendra-faq-api/tests/",
-            "Misaf\\VendraFaq\\Database\\Factories\\": "app-modules/vendra-faq/database/factories/",
-            "Misaf\\VendraFaq\\Tests\\": "app-modules/vendra-faq/tests/",
-            "Misaf\\VendraGeo\\Database\\Factories\\": "app-modules/vendra-geo/database/factories/",
-            "Misaf\\VendraGeo\\Tests\\": "app-modules/vendra-geo/tests/",
-            "Misaf\\VendraLanguage\\Database\\Factories\\": "app-modules/vendra-language/database/factories/",
-            "Misaf\\VendraLanguage\\Tests\\": "app-modules/vendra-language/tests/",
-            "Misaf\\VendraLocalization\\Tests\\": "app-modules/vendra-localization/tests/",
-            "Misaf\\VendraMultimediaApi\\Tests\\": "app-modules/vendra-multimedia-api/tests/",
-            "Misaf\\VendraMultimedia\\Tests\\": "app-modules/vendra-multimedia/tests/",
-            "Misaf\\VendraNewsletter\\Database\\Factories\\": "app-modules/vendra-newsletter/database/factories/",
-            "Misaf\\VendraNewsletter\\Tests\\": "app-modules/vendra-newsletter/tests/",
-            "Misaf\\VendraPermission\\Database\\Factories\\": "app-modules/vendra-permission/database/factories/",
-            "Misaf\\VendraPermission\\Tests\\": "app-modules/vendra-permission/tests/",
-            "Misaf\\VendraProductApi\\Tests\\": "app-modules/vendra-product-api/tests/",
-            "Misaf\\VendraProduct\\Database\\Factories\\": "app-modules/vendra-product/database/factories/",
-            "Misaf\\VendraProduct\\Tests\\": "app-modules/vendra-product/tests/",
-            "Misaf\\VendraSubscription\\Database\\Factories\\": "app-modules/vendra-subscription/database/factories/",
-            "Misaf\\VendraSubscription\\Tests\\": "app-modules/vendra-subscription/tests/",
-            "Misaf\\VendraSupport\\Tests\\": "app-modules/vendra-support/tests/",
-            "Misaf\\VendraTagger\\Database\\Factories\\": "app-modules/vendra-tagger/database/factories/",
-            "Misaf\\VendraTagger\\Tests\\": "app-modules/vendra-tagger/tests/",
-            "Misaf\\VendraTenant\\Database\\Factories\\": "app-modules/vendra-tenant/database/factories/",
-            "Misaf\\VendraTenant\\Tests\\": "app-modules/vendra-tenant/tests/",
-            "Misaf\\VendraTesting\\Tests\\": "app-modules/vendra-testing/tests/",
-            "Misaf\\VendraTransaction\\Database\\Factories\\": "app-modules/vendra-transaction/database/factories/",
-            "Misaf\\VendraTransaction\\Tests\\": "app-modules/vendra-transaction/tests/",
-            "Misaf\\VendraUserProfile\\Database\\Factories\\": "app-modules/vendra-user-profile/database/factories/",
-            "Misaf\\VendraUserProfile\\Tests\\": "app-modules/vendra-user-profile/tests/",
-            "Misaf\\VendraUser\\Database\\Factories\\": "app-modules/vendra-user/database/factories/",
-            "Misaf\\VendraUser\\Tests\\": "app-modules/vendra-user/tests/"
+            "Misaf\\VendraActivityLog\\Database\\Factories\\": "packages/vendra-activity-log/database/factories/",
+            "Misaf\\VendraActivityLog\\Tests\\": "packages/vendra-activity-log/tests/",
+            "Misaf\\VendraAffiliate\\Database\\Factories\\": "packages/vendra-affiliate/database/factories/",
+            "Misaf\\VendraAffiliate\\Tests\\": "packages/vendra-affiliate/tests/",
+            "Misaf\\VendraApi\\Tests\\": "packages/vendra-api/tests/",
+            "Misaf\\VendraAttributeApi\\Tests\\": "packages/vendra-attribute-api/tests/",
+            "Misaf\\VendraAttribute\\Database\\Factories\\": "packages/vendra-attribute/database/factories/",
+            "Misaf\\VendraAttribute\\Tests\\": "packages/vendra-attribute/tests/",
+            "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "packages/vendra-authify-log/database/factories/",
+            "Misaf\\VendraAuthifyLog\\Tests\\": "packages/vendra-authify-log/tests/",
+            "Misaf\\VendraBlogApi\\Tests\\": "packages/vendra-blog-api/tests/",
+            "Misaf\\VendraBlog\\Database\\Factories\\": "packages/vendra-blog/database/factories/",
+            "Misaf\\VendraBlog\\Tests\\": "packages/vendra-blog/tests/",
+            "Misaf\\VendraCartApi\\Tests\\": "packages/vendra-cart-api/tests/",
+            "Misaf\\VendraCart\\Database\\Factories\\": "packages/vendra-cart/database/factories/",
+            "Misaf\\VendraCart\\Tests\\": "packages/vendra-cart/tests/",
+            "Misaf\\VendraCurrency\\Database\\Factories\\": "packages/vendra-currency/database/factories/",
+            "Misaf\\VendraCurrency\\Tests\\": "packages/vendra-currency/tests/",
+            "Misaf\\VendraCustomPage\\Database\\Factories\\": "packages/vendra-custom-page/database/factories/",
+            "Misaf\\VendraCustomPage\\Tests\\": "packages/vendra-custom-page/tests/",
+            "Misaf\\VendraFaqApi\\Tests\\": "packages/vendra-faq-api/tests/",
+            "Misaf\\VendraFaq\\Database\\Factories\\": "packages/vendra-faq/database/factories/",
+            "Misaf\\VendraFaq\\Tests\\": "packages/vendra-faq/tests/",
+            "Misaf\\VendraGeo\\Database\\Factories\\": "packages/vendra-geo/database/factories/",
+            "Misaf\\VendraGeo\\Tests\\": "packages/vendra-geo/tests/",
+            "Misaf\\VendraLanguage\\Database\\Factories\\": "packages/vendra-language/database/factories/",
+            "Misaf\\VendraLanguage\\Tests\\": "packages/vendra-language/tests/",
+            "Misaf\\VendraLocalization\\Tests\\": "packages/vendra-localization/tests/",
+            "Misaf\\VendraMultimediaApi\\Tests\\": "packages/vendra-multimedia-api/tests/",
+            "Misaf\\VendraMultimedia\\Tests\\": "packages/vendra-multimedia/tests/",
+            "Misaf\\VendraNewsletter\\Database\\Factories\\": "packages/vendra-newsletter/database/factories/",
+            "Misaf\\VendraNewsletter\\Tests\\": "packages/vendra-newsletter/tests/",
+            "Misaf\\VendraPermission\\Database\\Factories\\": "packages/vendra-permission/database/factories/",
+            "Misaf\\VendraPermission\\Tests\\": "packages/vendra-permission/tests/",
+            "Misaf\\VendraProductApi\\Tests\\": "packages/vendra-product-api/tests/",
+            "Misaf\\VendraProduct\\Database\\Factories\\": "packages/vendra-product/database/factories/",
+            "Misaf\\VendraProduct\\Tests\\": "packages/vendra-product/tests/",
+            "Misaf\\VendraSubscription\\Database\\Factories\\": "packages/vendra-subscription/database/factories/",
+            "Misaf\\VendraSubscription\\Tests\\": "packages/vendra-subscription/tests/",
+            "Misaf\\VendraSupport\\Tests\\": "packages/vendra-support/tests/",
+            "Misaf\\VendraTagger\\Database\\Factories\\": "packages/vendra-tagger/database/factories/",
+            "Misaf\\VendraTagger\\Tests\\": "packages/vendra-tagger/tests/",
+            "Misaf\\VendraTenant\\Database\\Factories\\": "packages/vendra-tenant/database/factories/",
+            "Misaf\\VendraTenant\\Tests\\": "packages/vendra-tenant/tests/",
+            "Misaf\\VendraTesting\\Tests\\": "packages/vendra-testing/tests/",
+            "Misaf\\VendraTransaction\\Database\\Factories\\": "packages/vendra-transaction/database/factories/",
+            "Misaf\\VendraTransaction\\Tests\\": "packages/vendra-transaction/tests/",
+            "Misaf\\VendraUserProfile\\Database\\Factories\\": "packages/vendra-user-profile/database/factories/",
+            "Misaf\\VendraUserProfile\\Tests\\": "packages/vendra-user-profile/tests/",
+            "Misaf\\VendraUser\\Database\\Factories\\": "packages/vendra-user/database/factories/",
+            "Misaf\\VendraUser\\Tests\\": "packages/vendra-user/tests/",
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
         }
     },
     "scripts": {
@@ -186,14 +220,6 @@
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
         ],
-        "check": [
-            "@php artisan config:clear --ansi @no_additional_args",
-            "@php artisan test --compact",
-            "vendor/bin/phpstan analyse --memory-limit=512M"
-        ],
-        "monorepo:propagate": "vendor/bin/monorepo-builder propagate",
-        "monorepo:validate": "vendor/bin/monorepo-builder validate",
-        "release:sync": "composer update misaf/vendra-* --no-scripts",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
@@ -214,33 +240,5 @@
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ]
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "ergebnis/composer-normalize": true,
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "path",
-            "url": "app-modules/*",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
-    "authors": [
-        {
-            "name": "Ehsan Mahmoodi",
-            "email": "misaf.1990@gmail.com",
-            "role": "Developer"
-        }
-    ]
+    "$schema": "https://getcomposer.org/schema.json"
 }

@@ -8,7 +8,7 @@
 /.codex
 /.claude
 /.agents
-/.cursor/
+/.cursor
 /.idea
 /.nova
 /.phpunit.cache
@@ -20,8 +20,6 @@
 /public/hot
 /public/storage
 /storage/*.key
-/storage/debugbar
-/storage/pail
 /vendor
 _ide_helper.php
 Homestead.json

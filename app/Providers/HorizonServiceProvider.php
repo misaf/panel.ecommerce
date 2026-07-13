@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
-use Misaf\VendraUser\Models\User;
 
 final class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
@@ -22,8 +23,12 @@ final class HorizonServiceProvider extends HorizonApplicationServiceProvider
 
     protected function gate(): void
     {
-        Gate::define('viewHorizon', function (User $user) {
-            return $user->hasRole('super-admin');
+        Gate::define('viewHorizon', function (?Authenticatable $user): bool {
+            if ($this->app->isLocal()) {
+                return true;
+            }
+
+            return $user?->hasRole(Config::string('vendra-permission.super_admin_role')) ?? false;
         });
     }
 }

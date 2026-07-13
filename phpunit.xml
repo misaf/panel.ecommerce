@@ -8,91 +8,97 @@
             <directory>tests/Feature</directory>
         </testsuite>
         <testsuite name="vendra-activity-log">
-            <directory>app-modules/vendra-activity-log/tests</directory>
+            <directory>packages/vendra-activity-log/tests</directory>
         </testsuite>
         <testsuite name="vendra-affiliate">
-            <directory>app-modules/vendra-affiliate/tests</directory>
+            <directory>packages/vendra-affiliate/tests</directory>
         </testsuite>
         <testsuite name="vendra-api">
-            <directory>app-modules/vendra-api/tests</directory>
+            <directory>packages/vendra-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-attribute">
-            <directory>app-modules/vendra-attribute/tests</directory>
+            <directory>packages/vendra-attribute/tests</directory>
         </testsuite>
         <testsuite name="vendra-attribute-api">
-            <directory>app-modules/vendra-attribute-api/tests</directory>
+            <directory>packages/vendra-attribute-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-authify-log">
-            <directory>app-modules/vendra-authify-log/tests</directory>
+            <directory>packages/vendra-authify-log/tests</directory>
         </testsuite>
         <testsuite name="vendra-blog">
-            <directory>app-modules/vendra-blog/tests</directory>
+            <directory>packages/vendra-blog/tests</directory>
         </testsuite>
         <testsuite name="vendra-blog-api">
-            <directory>app-modules/vendra-blog-api/tests</directory>
+            <directory>packages/vendra-blog-api/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-cart">
+            <directory>packages/vendra-cart/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-cart-api">
+            <directory>packages/vendra-cart-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-currency">
-            <directory>app-modules/vendra-currency/tests</directory>
+            <directory>packages/vendra-currency/tests</directory>
         </testsuite>
         <testsuite name="vendra-custom-page">
-            <directory>app-modules/vendra-custom-page/tests</directory>
+            <directory>packages/vendra-custom-page/tests</directory>
         </testsuite>
         <testsuite name="vendra-faq">
-            <directory>app-modules/vendra-faq/tests</directory>
+            <directory>packages/vendra-faq/tests</directory>
         </testsuite>
         <testsuite name="vendra-faq-api">
-            <directory>app-modules/vendra-faq-api/tests</directory>
+            <directory>packages/vendra-faq-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-geo">
-            <directory>app-modules/vendra-geo/tests</directory>
+            <directory>packages/vendra-geo/tests</directory>
         </testsuite>
         <testsuite name="vendra-language">
-            <directory>app-modules/vendra-language/tests</directory>
+            <directory>packages/vendra-language/tests</directory>
         </testsuite>
         <testsuite name="vendra-localization">
-            <directory>app-modules/vendra-localization/tests</directory>
+            <directory>packages/vendra-localization/tests</directory>
         </testsuite>
         <testsuite name="vendra-multimedia">
-            <directory>app-modules/vendra-multimedia/tests</directory>
+            <directory>packages/vendra-multimedia/tests</directory>
         </testsuite>
         <testsuite name="vendra-multimedia-api">
-            <directory>app-modules/vendra-multimedia-api/tests</directory>
+            <directory>packages/vendra-multimedia-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-newsletter">
-            <directory>app-modules/vendra-newsletter/tests</directory>
+            <directory>packages/vendra-newsletter/tests</directory>
         </testsuite>
         <testsuite name="vendra-permission">
-            <directory>app-modules/vendra-permission/tests</directory>
+            <directory>packages/vendra-permission/tests</directory>
         </testsuite>
         <testsuite name="vendra-product">
-            <directory>app-modules/vendra-product/tests</directory>
+            <directory>packages/vendra-product/tests</directory>
         </testsuite>
         <testsuite name="vendra-product-api">
-            <directory>app-modules/vendra-product-api/tests</directory>
+            <directory>packages/vendra-product-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-subscription">
-            <directory>app-modules/vendra-subscription/tests</directory>
+            <directory>packages/vendra-subscription/tests</directory>
         </testsuite>
         <testsuite name="vendra-support">
-            <directory>app-modules/vendra-support/tests</directory>
+            <directory>packages/vendra-support/tests</directory>
         </testsuite>
         <testsuite name="vendra-tagger">
-            <directory>app-modules/vendra-tagger/tests</directory>
+            <directory>packages/vendra-tagger/tests</directory>
         </testsuite>
         <testsuite name="vendra-tenant">
-            <directory>app-modules/vendra-tenant/tests</directory>
+            <directory>packages/vendra-tenant/tests</directory>
         </testsuite>
         <testsuite name="vendra-testing">
-            <directory>app-modules/vendra-testing/tests</directory>
+            <directory>packages/vendra-testing/tests</directory>
         </testsuite>
         <testsuite name="vendra-transaction">
-            <directory>app-modules/vendra-transaction/tests</directory>
+            <directory>packages/vendra-transaction/tests</directory>
         </testsuite>
         <testsuite name="vendra-user">
-            <directory>app-modules/vendra-user/tests</directory>
+            <directory>packages/vendra-user/tests</directory>
         </testsuite>
         <testsuite name="vendra-user-profile">
-            <directory>app-modules/vendra-user-profile/tests</directory>
+            <directory>packages/vendra-user-profile/tests</directory>
         </testsuite>
     </testsuites>
     <source>
