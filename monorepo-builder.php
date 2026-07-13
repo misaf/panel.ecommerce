@@ -11,7 +11,6 @@ use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesR
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker;
-use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateReplaceReleaseWorker;
 
 return static function (MBConfig $config): void {
     $config->defaultBranch('master');
@@ -19,9 +18,9 @@ return static function (MBConfig $config): void {
         __DIR__ . '/packages',
     ]);
     $config->composerSectionOrder(JsonSchema::getProperties());
+    $config->disablePackageReplace();
     $config->packageAliasFormat('<major>.<minor>.x-dev');
     $config->workers([
-        UpdateReplaceReleaseWorker::class,
         SetCurrentMutualDependenciesReleaseWorker::class,
         AddTagToChangelogReleaseWorker::class,
         TagVersionReleaseWorker::class,
