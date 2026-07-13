@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa780f47f631b8eb1294732812ce09ae",
+    "content-hash": "b39d3b3f9c9b421976a92136323c07bc",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5318,18 +5318,18 @@
         },
         {
             "name": "misaf/vendra-activity-log",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "30a40d4d5f45907cf8f07013ac49d89a6e9242c9"
+                "reference": "2d6943567b297292d4cc70a655e118d42030bb28"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-activitylog": "^4.12.3",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -5338,7 +5338,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -5351,9 +5351,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraActivityLog\\Providers\\ActivityLogServiceProvider"
@@ -5416,16 +5413,16 @@
         },
         {
             "name": "misaf/vendra-affiliate",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "0f41dc1719e62809435932544c1a5910b22aadf1"
+                "reference": "f59e6194190bdc2a8eb2fdf62bb02638a55005fa"
             },
             "require": {
                 "filament/filament": "^5.6.8",
-                "misaf/vendra-support": "^0.2",
-                "misaf/vendra-user": "^0.2",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-queueable-action": "^2.17",
@@ -5445,9 +5442,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraAffiliate\\Providers\\AffiliateServiceProvider"
@@ -5503,11 +5497,11 @@
         },
         {
             "name": "misaf/vendra-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-api",
-                "reference": "b5a3f83458cd8ebce5ef03ae0aa0b1822e727056"
+                "reference": "b9700a4b363f9e549e2517dac62f1f45a008d078"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -5521,7 +5515,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -5534,9 +5528,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraApi\\Providers\\ApiServiceProvider"
@@ -5597,16 +5588,16 @@
         },
         {
             "name": "misaf/vendra-attribute",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "599bffb641711d4f8a8ff9fe4872ca1c184b8170"
+                "reference": "0a6091dc5f01e77214f664a2e2ceb0e9d003e4f1"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -5615,7 +5606,7 @@
                 "fakerphp/faker": "^1.24.1",
                 "larastan/larastan": "^3.10.0",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
                 "pestphp/pest-plugin-arch": "^4.0.2",
@@ -5623,9 +5614,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraAttribute\\Providers\\AttributeServiceProvider"
@@ -5666,17 +5654,17 @@
         },
         {
             "name": "misaf/vendra-attribute-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "cefb29ac027fc4d21d54c7b3ac59bca4dfaec676"
+                "reference": "1750f00cfe6491867002d12170327a486a6d7b5f"
             },
             "require": {
                 "illuminate/support": "^13.0",
-                "misaf/vendra-api": "^0.2",
-                "misaf/vendra-attribute": "^0.2",
-                "misaf/vendra-localization": "^0.2",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-attribute": "^1.0",
+                "misaf/vendra-localization": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -5686,7 +5674,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -5699,9 +5687,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraAttributeApi\\Providers\\AttributeApiServiceProvider"
@@ -5762,18 +5747,18 @@
         },
         {
             "name": "misaf/vendra-authify-log",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "89f1c3cff98f85c4b27adb05c2754e274a9de270"
+                "reference": "2933b0d721e149794d81a696a128f80a46d5c390"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/laravel-authify-log": "^1.0",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -5782,8 +5767,8 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
-                "misaf/vendra-user": "^0.2",
+                "misaf/vendra-testing": "^1.0",
+                "misaf/vendra-user": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -5795,9 +5780,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraAuthifyLog\\Providers\\AuthifyLogServiceProvider"
@@ -5853,11 +5835,11 @@
         },
         {
             "name": "misaf/vendra-blog",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "879fad61691082dbd7fafb2a796ac1fbb962b2cf"
+                "reference": "430a2cb73c629825417f92935455af56d1be960f"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -5866,8 +5848,8 @@
                 "illuminate/support": "^13.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -5878,7 +5860,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -5891,9 +5873,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraBlog\\Providers\\BlogServiceProvider"
@@ -5955,18 +5934,18 @@
         },
         {
             "name": "misaf/vendra-blog-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
-                "reference": "ed2df5282c98e857c8cc7011d4c14f963d700b94"
+                "reference": "d2712946aea84717db2f0288120b1e610c0a9c85"
             },
             "require": {
                 "illuminate/support": "^13.0",
-                "misaf/vendra-api": "^0.2",
-                "misaf/vendra-blog": "^0.2",
-                "misaf/vendra-localization": "^0.2",
-                "misaf/vendra-multimedia-api": "^0.2",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-blog": "^1.0",
+                "misaf/vendra-localization": "^1.0",
+                "misaf/vendra-multimedia-api": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -5976,7 +5955,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -5989,9 +5968,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraBlogApi\\Providers\\BlogApiServiceProvider"
@@ -6052,17 +6028,17 @@
         },
         {
             "name": "misaf/vendra-cart",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart",
-                "reference": "d5f133e674f9816d6efbdc0ccf3f5a18f03c842f"
+                "reference": "784b27219725e768d12f40a07b14d6a0a15e4860"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/database": "^13.0",
                 "illuminate/support": "^13.0",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -6071,7 +6047,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6084,9 +6060,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraCart\\Providers\\CartServiceProvider"
@@ -6149,17 +6122,17 @@
         },
         {
             "name": "misaf/vendra-cart-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "5fbaf3eace09882eb69114e2082b1dab7fd073fd"
+                "reference": "e99eea036ebc3c0ac57aa618f2fa1af348b0272d"
             },
             "require": {
                 "illuminate/support": "^13.0",
-                "misaf/vendra-api": "^0.2",
-                "misaf/vendra-cart": "^0.2",
-                "misaf/vendra-localization": "^0.2",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-cart": "^1.0",
+                "misaf/vendra-localization": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -6169,7 +6142,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6182,9 +6155,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraCartApi\\Providers\\CartApiServiceProvider"
@@ -6245,11 +6215,11 @@
         },
         {
             "name": "misaf/vendra-currency",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
-                "reference": "ddd3551ca2621eeca168ca0794f59ef0e3da0ba9"
+                "reference": "d00a3e297c775a71587d574a1c286e26b80c320b"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6257,8 +6227,8 @@
                 "filament/spatie-laravel-media-library-plugin": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -6270,7 +6240,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6283,9 +6253,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraCurrency\\Providers\\CurrencyServiceProvider"
@@ -6348,11 +6315,11 @@
         },
         {
             "name": "misaf/vendra-custom-page",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page",
-                "reference": "2f39b2c60f1390f4ca1c2fde9750ce6ba94261e6"
+                "reference": "aee104db50630b3db73a358589e77161df5e46c2"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6361,8 +6328,8 @@
                 "illuminate/support": "^13.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -6373,7 +6340,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6386,9 +6353,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraCustomPage\\Providers\\CustomPageServiceProvider"
@@ -6453,11 +6417,11 @@
         },
         {
             "name": "misaf/vendra-faq",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
-                "reference": "d8618f8180de4973446832b7d6eb847ca4114dab"
+                "reference": "b0a08b240c7a1aec4973179e48bffb8a0c597949"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6466,8 +6430,8 @@
                 "illuminate/support": "^13.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -6478,7 +6442,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6491,9 +6455,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraFaq\\Providers\\FaqServiceProvider"
@@ -6556,18 +6517,18 @@
         },
         {
             "name": "misaf/vendra-faq-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
-                "reference": "cf3496dfd1c89afa01d6717528d0852c7e08cb4a"
+                "reference": "a532774b529337f7189fb24d4e7b6686d678a928"
             },
             "require": {
                 "illuminate/support": "^13.0",
-                "misaf/vendra-api": "^0.2",
-                "misaf/vendra-faq": "^0.2",
-                "misaf/vendra-localization": "^0.2",
-                "misaf/vendra-multimedia-api": "^0.2",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-faq": "^1.0",
+                "misaf/vendra-localization": "^1.0",
+                "misaf/vendra-multimedia-api": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -6577,7 +6538,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6590,9 +6551,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraFaqApi\\Providers\\FaqApiServiceProvider"
@@ -6653,17 +6611,17 @@
         },
         {
             "name": "misaf/vendra-geo",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-geo",
-                "reference": "19afcd626035ebcb6de0fea89cb838ed680b3661"
+                "reference": "5d4419de3bd55246645567a2e2ac6f33cd6d5aa1"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -6674,7 +6632,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6687,9 +6645,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraGeo\\Providers\\GeoServiceProvider"
@@ -6752,11 +6707,11 @@
         },
         {
             "name": "misaf/vendra-language",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
-                "reference": "61b2053b83ac3b1f53156b9cf1c2e7970177103d"
+                "reference": "17ddf50929e7f8c24e347aea263a86e28203236b"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6765,8 +6720,8 @@
                 "filament/spatie-laravel-media-library-plugin": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -6779,7 +6734,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6792,9 +6747,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraLanguage\\Providers\\LanguageServiceProvider"
@@ -6857,11 +6809,11 @@
         },
         {
             "name": "misaf/vendra-localization",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "14cc9531749d58849af8177d2ac5d03efe9a2979"
+                "reference": "feef4d52c50cc661b6f9688200db9485104ccc44"
             },
             "require": {
                 "illuminate/contracts": "^12.0 || ^13.0",
@@ -6873,7 +6825,7 @@
             "require-dev": {
                 "larastan/larastan": "^3.10.0",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6883,9 +6835,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraLocalization\\Providers\\LocalizationServiceProvider"
@@ -6946,18 +6895,18 @@
         },
         {
             "name": "misaf/vendra-multimedia",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
-                "reference": "b90fe84eeedd81377457de8cc63895c340080404"
+                "reference": "37c3574ef375378c2f186064f5983b36b63a4469"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-medialibrary": "^11.23.2",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -6966,7 +6915,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -6979,9 +6928,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraMultimedia\\Providers\\MultimediaServiceProvider"
@@ -7041,17 +6987,17 @@
         },
         {
             "name": "misaf/vendra-multimedia-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
-                "reference": "9d946653f88b84ba08b3dc1cf3705526ca92737f"
+                "reference": "bd5f7547ed6328919ffca286bf23d8ca1cfa63a5"
             },
             "require": {
                 "illuminate/support": "^13.0",
-                "misaf/vendra-api": "^0.2",
-                "misaf/vendra-localization": "^0.2",
-                "misaf/vendra-multimedia": "^0.2",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-localization": "^1.0",
+                "misaf/vendra-multimedia": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -7061,7 +7007,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7074,9 +7020,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraMultimediaApi\\Providers\\MultimediaApiServiceProvider"
@@ -7137,11 +7080,11 @@
         },
         {
             "name": "misaf/vendra-newsletter",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
-                "reference": "35af915d3c823e0d94f45e980cd2f8bdd594fec3"
+                "reference": "1436014beddafa90c787b4509cfb40a75c9b8127"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7149,8 +7092,8 @@
                 "illuminate/support": "^13.0",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/laravel-email-webhooks": "^1.0.1",
-                "misaf/vendra-support": "^0.2",
-                "misaf/vendra-user": "^0.2",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2",
@@ -7162,7 +7105,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7175,9 +7118,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraNewsletter\\Providers\\NewsletterServiceProvider",
@@ -7240,11 +7180,11 @@
         },
         {
             "name": "misaf/vendra-permission",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
-                "reference": "e6c42146c061aac0b33f46ba7c73ddad4c562473"
+                "reference": "97598dab589c7ea1857d0f33d7699fb57121ce54"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7252,8 +7192,8 @@
                 "illuminate/support": "^13.0",
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-support": "^0.2",
-                "misaf/vendra-user": "^0.2",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-permission": "^7.4.2"
@@ -7263,7 +7203,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7277,9 +7217,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraPermission\\Providers\\PermissionServiceProvider"
@@ -7342,11 +7279,11 @@
         },
         {
             "name": "misaf/vendra-product",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
-                "reference": "8b624dd4c1d3a30f34aee6064686f20b7112fb97"
+                "reference": "113986cc295f5cc10e8b357280bc775e1abcd73c"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7356,8 +7293,8 @@
                 "illuminate/support": "^13.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
@@ -7369,8 +7306,8 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-currency": "^0.2",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-currency": "^1.0",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7387,9 +7324,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraProduct\\Providers\\ProductServiceProvider"
@@ -7452,18 +7386,18 @@
         },
         {
             "name": "misaf/vendra-product-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "6ae85d3219e721a1cce1f7add09e6fdb894ee125"
+                "reference": "561c658190591e60c9048f6de63d3a040cba358d"
             },
             "require": {
                 "illuminate/support": "^13.0",
-                "misaf/vendra-api": "^0.2",
-                "misaf/vendra-localization": "^0.2",
-                "misaf/vendra-multimedia-api": "^0.2",
-                "misaf/vendra-product": "^0.2",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-localization": "^1.0",
+                "misaf/vendra-multimedia-api": "^1.0",
+                "misaf/vendra-product": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -7473,7 +7407,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7487,9 +7421,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraProductApi\\Providers\\ProductApiServiceProvider"
@@ -7550,19 +7481,19 @@
         },
         {
             "name": "misaf/vendra-subscription",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "0af67d02ee3f13e86ffc8b584c164a05fc662a89"
+                "reference": "1a9e70e6c8cdf3a9fe63e774462641d6eeeecfbd"
             },
             "require": {
                 "illuminate/console": "^13.0",
                 "illuminate/support": "^13.0",
-                "misaf/vendra-permission": "^0.2",
-                "misaf/vendra-support": "^0.2",
-                "misaf/vendra-tenant": "^0.2",
-                "misaf/vendra-user": "^0.2",
+                "misaf/vendra-permission": "^1.0",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-tenant": "^1.0",
+                "misaf/vendra-user": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -7580,9 +7511,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraSubscription\\Providers\\SubscriptionServiceProvider"
@@ -7638,11 +7566,11 @@
         },
         {
             "name": "misaf/vendra-support",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
-                "reference": "f929db6efdaec822130f99d33e0a250a4da47eac"
+                "reference": "749f798b5b539490e32338aeb174ba578a69f729"
             },
             "require": {
                 "filament/support": "^5.6.8",
@@ -7657,7 +7585,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7670,9 +7598,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraSupport\\Providers\\SupportServiceProvider"
@@ -7733,11 +7658,11 @@
         },
         {
             "name": "misaf/vendra-tagger",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "cf46a8482e56c1ba7b232e85e2bb6d1a48d61c32"
+                "reference": "2699cc4cc49738fe4f1a7c9332b3e5364616b2b0"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7746,7 +7671,7 @@
                 "illuminate/support": "^13.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -7755,7 +7680,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7768,9 +7693,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraTagger\\Providers\\TaggerServiceProvider"
@@ -7832,16 +7754,16 @@
         },
         {
             "name": "misaf/vendra-tenant",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "b11b5863812631f4fe55f11718f8cfff32491a7d"
+                "reference": "3a8208a9265a572359d2dec3ea2477870e5dba07"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-activitylog": "^4.12.3",
                 "spatie/laravel-multitenancy": "^4.1.3",
@@ -7864,9 +7786,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraTenant\\Providers\\TenantServiceProvider"
@@ -7921,11 +7840,11 @@
         },
         {
             "name": "misaf/vendra-testing",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
-                "reference": "b50bf3730dfbf5da9dc9cc62a5ec0cf7f2b7a517"
+                "reference": "287f92d66f02a8297fc4299e88c0ec768261da6f"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7949,11 +7868,6 @@
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraTesting\\": "src/"
@@ -8011,17 +7925,17 @@
         },
         {
             "name": "misaf/vendra-transaction",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "e6f5cda8321f53871dc0a6673cd8fd5dd0bb36e1"
+                "reference": "66ccfe90ddd3d323d33d1c50adc8845bd40c8cb3"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-activitylog": "^4.12.3",
@@ -8043,9 +7957,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraTransaction\\Providers\\TransactionServiceProvider"
@@ -8100,19 +8011,19 @@
         },
         {
             "name": "misaf/vendra-user",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "1417faf4d77c1ddd28dbb33960b30dd08468460b"
+                "reference": "d1ed7fcf3abfc56c15f6b4353ddc4c2343059653"
             },
             "require": {
                 "filament/filament": "^5.6.8",
                 "illuminate/support": "^13.0",
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "^0.2",
-                "misaf/vendra-support": "^0.2",
+                "misaf/vendra-multimedia": "^1.0",
+                "misaf/vendra-support": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-permission": "^7.4.2",
@@ -8123,7 +8034,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -8133,9 +8044,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraUser\\Providers\\UserServiceProvider"
@@ -8191,11 +8099,11 @@
         },
         {
             "name": "misaf/vendra-user-profile",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
-                "reference": "b3c9c2e8bdb5e20ebecfa4e50d8274331394e4ed"
+                "reference": "505d55d544f97f75fe909cd5a80334e9b862ead9"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8203,9 +8111,9 @@
                 "illuminate/support": "^13.0",
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-permission": "^0.2",
-                "misaf/vendra-support": "^0.2",
-                "misaf/vendra-user": "^0.2",
+                "misaf/vendra-permission": "^1.0",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2"
@@ -8215,7 +8123,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^0.2",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -8229,9 +8137,6 @@
             },
             "type": "vendra-module",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Misaf\\VendraUserProfile\\UserProfileServiceProvider"

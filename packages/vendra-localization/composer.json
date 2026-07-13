@@ -28,7 +28,7 @@
     "require-dev": {
         "larastan/larastan": "^3.10.0",
         "laravel/pint": "^1.29.3",
-        "misaf/vendra-testing": "^0.3",
+        "misaf/vendra-testing": "^1.0",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
         "orchestra/testbench": "^11.1",
@@ -47,9 +47,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "0.3.x-dev"
-        },
         "laravel": {
             "providers": [
                 "Misaf\\VendraLocalization\\Providers\\LocalizationServiceProvider"

@@ -74,10 +74,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "$schema": "https://getcomposer.org/schema.json",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.3.x-dev"
-        }
-    }
+    "$schema": "https://getcomposer.org/schema.json"
 }
