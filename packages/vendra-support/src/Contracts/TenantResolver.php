@@ -32,6 +32,13 @@ interface TenantResolver
     public function execute(Model|int|string $tenant, Closure $callback): mixed;
 
     /**
+     * Run the callback once within each tenant's context, restoring the
+     * previous context afterwards. Runs the callback once with no tenant
+     * context when tenancy is disabled.
+     */
+    public function eachTenant(Closure $callback): void;
+
+    /**
      * @return array<int, string>
      */
     public function searchOptions(string $value, int $limit = 10): array;

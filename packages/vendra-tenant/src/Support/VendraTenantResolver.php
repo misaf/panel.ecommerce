@@ -71,6 +71,13 @@ final class VendraTenantResolver implements TenantResolver
         return $tenant->execute($callback);
     }
 
+    public function eachTenant(Closure $callback): void
+    {
+        Tenant::query()
+            ->cursor()
+            ->each(fn(Tenant $tenant): mixed => $tenant->execute($callback));
+    }
+
     /**
      * @return array<int, string>
      */

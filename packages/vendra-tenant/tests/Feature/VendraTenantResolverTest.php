@@ -23,3 +23,19 @@ it('throws when the tenant cannot be resolved for execution', function (): void 
     expect(fn(): mixed => (new VendraTenantResolver())->execute(999999, fn(): null => null))
         ->toThrow(RuntimeException::class);
 });
+
+it('runs the callback within every tenant context and restores the previous one', function (): void {
+    $first = Tenant::factory()->enabled()->create();
+    $second = Tenant::factory()->enabled()->create();
+
+    expect(Tenant::current())->toBeNull();
+
+    $seen = [];
+
+    (new VendraTenantResolver())->eachTenant(function () use (&$seen): void {
+        $seen[] = Tenant::current()?->getKey();
+    });
+
+    expect($seen)->toEqualCanonicalizing([$first->getKey(), $second->getKey()])
+        ->and(Tenant::current())->toBeNull();
+});

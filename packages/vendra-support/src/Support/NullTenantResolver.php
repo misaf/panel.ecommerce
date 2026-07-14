@@ -45,6 +45,11 @@ final class NullTenantResolver implements TenantResolver
         return $callback();
     }
 
+    public function eachTenant(Closure $callback): void
+    {
+        $callback();
+    }
+
     /**
      * @return array<int, string>
      */
