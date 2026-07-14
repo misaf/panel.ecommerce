@@ -5756,7 +5756,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "2043a6606ba975352e85b9e1ae1d6ad20e2685df"
+                "reference": "2d15c764f33b1ebe5db74015db27e266e354a654"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -5781,6 +5781,9 @@
                 "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
                 "phpstan/extension-installer": "^1.4.3"
+            },
+            "suggest": {
+                "misaf/vendra-tagger": "Install this in the host application to assign typed tags to affiliates."
             },
             "type": "vendra-module",
             "extra": {
@@ -6027,7 +6030,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "0a6091dc5f01e77214f664a2e2ceb0e9d003e4f1"
+                "reference": "81b487ffefa85a1cb7a4ee2e66adf786656aa60e"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6046,6 +6049,9 @@
                 "pestphp/pest": "^4.7.5",
                 "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1"
+            },
+            "suggest": {
+                "misaf/vendra-tagger": "Install this in the host application to assign typed tags to attributes."
             },
             "type": "vendra-module",
             "extra": {
@@ -6274,7 +6280,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "430a2cb73c629825417f92935455af56d1be960f"
+                "reference": "70816de0988cf8c233354afb9983e548a2b4b26c"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6305,6 +6311,9 @@
                 "pestphp/pest-plugin-profanity": "^4.2.1",
                 "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
+            },
+            "suggest": {
+                "misaf/vendra-tagger": "Install this in the host application to assign typed tags to blog posts."
             },
             "type": "vendra-module",
             "extra": {
@@ -6856,7 +6865,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
-                "reference": "b0a08b240c7a1aec4973179e48bffb8a0c597949"
+                "reference": "7b2d86e3faf2e39c212bdaf02536bd9411d553b5"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6887,6 +6896,9 @@
                 "pestphp/pest-plugin-profanity": "^4.2.1",
                 "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
+            },
+            "suggest": {
+                "misaf/vendra-tagger": "Install this in the host application to assign typed tags to FAQs."
             },
             "type": "vendra-module",
             "extra": {
@@ -7718,7 +7730,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
-                "reference": "113986cc295f5cc10e8b357280bc775e1abcd73c"
+                "reference": "9aca44cf261ee950f9942ec3ad339d3e09f01c56"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7755,7 +7767,8 @@
             },
             "suggest": {
                 "misaf/vendra-attribute": "Install this in the host application to manage reusable attributes and product attribute values.",
-                "misaf/vendra-currency": "Install this in the host application to manage active currencies used by product pricing forms and demo seeders."
+                "misaf/vendra-currency": "Install this in the host application to manage active currencies used by product pricing forms and demo seeders.",
+                "misaf/vendra-tagger": "Install this in the host application to assign typed tags to products."
             },
             "type": "vendra-module",
             "extra": {
@@ -8188,7 +8201,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "2699cc4cc49738fe4f1a7c9332b3e5364616b2b0"
+                "reference": "9be38074dc2bf2b8745e072d22ca97906ee38053"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8261,6 +8274,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Tenant-aware tag management and Filament administration for Vendra",
             "homepage": "https://github.com/misaf/vendra-tagger",
             "keywords": [
                 "filamentphp",
@@ -8541,7 +8555,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "d1ed7fcf3abfc56c15f6b4353ddc4c2343059653"
+                "reference": "887e551831b9a674dcadf5158fa0edfa6f45549d"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8567,6 +8581,9 @@
                 "pestphp/pest": "^4.7.5",
                 "pestphp/pest-plugin-laravel": "^4.1",
                 "phpstan/extension-installer": "^1.4.3"
+            },
+            "suggest": {
+                "misaf/vendra-tagger": "Install this in the host application to assign typed tags to users."
             },
             "type": "vendra-module",
             "extra": {
