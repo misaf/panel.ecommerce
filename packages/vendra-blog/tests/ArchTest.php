@@ -9,3 +9,10 @@ arch()->preset()->laravel();
 arch('the blog module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraBlog')
     ->not->toUse('Misaf\VendraTenant');
+
+arch('the blog module integrates tags through support, never the tagger or Spatie tags modules')
+    ->expect('Misaf\VendraBlog')
+    ->not->toUse([
+        'Misaf\VendraTagger',
+        'Spatie\Tags',
+    ]);

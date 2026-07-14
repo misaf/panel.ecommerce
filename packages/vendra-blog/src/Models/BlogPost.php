@@ -17,6 +17,7 @@ use Misaf\VendraBlog\Database\Factories\BlogPostFactory;
 use Misaf\VendraMultimedia\Concerns\HasDefaultMediaConversions;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Traits\HasOptionalTags;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
@@ -52,11 +53,13 @@ final class BlogPost extends Model implements HasMedia, ShouldLogActivity, Sorta
     /** @use HasFactory<BlogPostFactory> */
     use HasFactory;
 
+    use HasOptionalTags;
     use HasTranslatableSlug;
 
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+    public const string TAG_TYPE = 'blog';
     public const string MEDIA_COLLECTION = 'blogs/posts';
 
     /**
@@ -111,6 +114,11 @@ final class BlogPost extends Model implements HasMedia, ShouldLogActivity, Sorta
     public function multimedia(): MorphMany
     {
         return $this->media();
+    }
+
+    protected function tagType(): string
+    {
+        return self::TAG_TYPE;
     }
 
     public function getSlugOptions(): SlugOptions

@@ -28,6 +28,7 @@ use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
+use Misaf\VendraSupport\Support\TagIntegration;
 
 final class BlogPostTable
 {
@@ -63,6 +64,8 @@ final class BlogPostTable
                 ->alignStart()
                 ->label(__('vendra-blog::attributes.slug'))
                 ->toggleable(isToggledHiddenByDefault: true),
+
+            ...self::tagColumns(),
 
             ToggleColumn::make('status')
                 ->label(__('vendra-blog::attributes.status'))
@@ -144,6 +147,21 @@ final class BlogPostTable
                             : '';
                     })
             );
+    }
+
+    /** @return list<TextColumn> */
+    private static function tagColumns(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            TextColumn::make('tags.name')
+                ->badge()
+                ->label(__('vendra-blog::attributes.tags'))
+                ->toggleable(),
+        ];
     }
 
 }

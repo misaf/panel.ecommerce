@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlog\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraBlog\BlogPlugin;
@@ -48,7 +50,7 @@ final class BlogServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-blog:seed', priority: 55);
 
-        AboutCommand::add('Vendra Blog', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Blog', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog')]);
     }
 
 

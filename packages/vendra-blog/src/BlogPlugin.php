@@ -7,6 +7,7 @@ namespace Misaf\VendraBlog;
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Illuminate\Support\Facades\Config;
 
 final class BlogPlugin implements Plugin
 {
@@ -44,14 +45,14 @@ final class BlogPlugin implements Plugin
 
     public function getNavigationGroup(): string
     {
-        $group = $this->navigationGroup ?? config('vendra-blog.navigation_group');
+        $group = $this->navigationGroup ?? Config::get('vendra-blog.navigation_group');
 
         if ($group instanceof Closure) {
             $group = $group();
         }
 
         if ( ! is_string($group) || '' === $group) {
-            $group = 'vendra-blog::navigation.content_management';
+            $group = 'vendra-support::navigation.groups.Content';
         }
 
         return (string) __($group);

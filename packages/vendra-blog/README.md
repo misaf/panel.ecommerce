@@ -19,6 +19,10 @@ Tenant-aware blog management for Vendra applications.
 - `misaf/vendra-tenant`
 - `misaf/vendra-activity-log`
 
+Optional:
+
+- `misaf/vendra-tagger` — enables assigning `blog`-typed tags to posts through `misaf/vendra-support`
+
 ## Installation
 
 ```bash
@@ -59,6 +63,16 @@ BlogPost::query()->create([
     'status' => true,
 ]);
 ```
+
+When Tagger is installed, blog post forms and tables expose tags automatically. Create tags with the reserved `blog` type:
+
+```php
+use Misaf\VendraTagger\Models\Tagger;
+
+Tagger::findOrCreate('Announcement', type: 'blog', locale: 'en');
+```
+
+Blog imports neither Vendra Tagger nor Spatie Tags; the optional relationship is resolved through Support.
 
 ## Filament
 

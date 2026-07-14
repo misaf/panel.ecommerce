@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraBlog\Models\BlogPost;
+use Misaf\VendraSupport\Support\TagIntegration;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class BlogPostForm
@@ -68,6 +69,8 @@ final class BlogPostForm
                     ->required()
                     ->json(),
 
+                ...self::tagFields(),
+
                 SpatieMediaLibraryFileUpload::make('image')
                     ->collection(BlogPost::MEDIA_COLLECTION)
                     ->columnSpanFull()
@@ -88,5 +91,23 @@ final class BlogPostForm
                         'boolean',
                     ]),
             ]);
+    }
+
+    /** @return list<Select> */
+    private static function tagFields(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            Select::make('tags')
+                ->columnSpanFull()
+                ->label(__('vendra-blog::attributes.tags'))
+                ->multiple()
+                ->native(false)
+                ->preload()
+                ->relationship('tags', 'name'),
+        ];
     }
 }

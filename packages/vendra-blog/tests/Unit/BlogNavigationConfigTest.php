@@ -35,7 +35,7 @@ it('resolves configured panel ids from an array, string, or legacy panel key', f
 
 it('resolves the module-owned navigation group by default', function (): void {
     expect(BlogPlugin::make()->getNavigationGroup())
-        ->toBe(__('vendra-blog::navigation.content_management'));
+        ->toBe(__('vendra-support::navigation.groups.Content'));
 });
 
 it('lets the navigation group be overridden with a plugin option', function (): void {

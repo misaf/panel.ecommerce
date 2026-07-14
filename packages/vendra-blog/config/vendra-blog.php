@@ -32,6 +32,6 @@ return [
     |
     */
 
-    'navigation_group' => 'vendra-blog::navigation.content_management',
+    'navigation_group' => 'vendra-support::navigation.groups.Content',
 
 ];
