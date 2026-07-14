@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaq\Tests\Unit;
 
-use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Support\EloquentTagResolver;
@@ -25,8 +24,3 @@ it('builds an faq typed tag relation through the support contract', function ():
             'boolean'  => 'and',
         ]);
 });
-
-final class FaqTestTag extends Model
-{
-    protected $table = 'tags';
-}

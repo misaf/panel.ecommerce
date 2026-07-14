@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlog\Tests\Unit;
 
-use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Support\EloquentTagResolver;
@@ -25,8 +24,3 @@ it('builds a blog typed tag relation through the support contract', function ():
             'boolean'  => 'and',
         ]);
 });
-
-final class BlogTestTag extends Model
-{
-    protected $table = 'tags';
-}

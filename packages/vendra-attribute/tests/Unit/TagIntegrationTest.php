@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttribute\Tests\Unit;
 
-use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Support\EloquentTagResolver;
@@ -25,8 +24,3 @@ it('builds an attribute typed tag relation through the support contract', functi
             'boolean'  => 'and',
         ]);
 });
-
-final class AttributeTestTag extends Model
-{
-    protected $table = 'tags';
-}

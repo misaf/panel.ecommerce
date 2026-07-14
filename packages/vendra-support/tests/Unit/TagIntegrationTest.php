@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSupport\Tests\Unit;
 
-use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Support\EloquentTagResolver;
 use Misaf\VendraSupport\Support\NullTagResolver;
@@ -44,5 +43,3 @@ it('falls back when the bound tag resolver throws', function (): void {
     expect(TagIntegration::isAvailable())->toBeFalse()
         ->and(TagIntegration::relationship())->toBeNull();
 });
-
-final class SupportTestTag extends Model {}
