@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlogApi\Providers;
 
+use Composer\InstalledVersions;
+
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraBlogApi\JsonApi\V1\Server as BlogServer;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,11 +22,11 @@ final class BlogApiServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        config()->set('jsonapi.servers.vendra-blog', config('jsonapi.servers.vendra-blog', BlogServer::class));
+        Config::set('jsonapi.servers.vendra-blog', Config::string('jsonapi.servers.vendra-blog', BlogServer::class));
     }
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Blog API', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Blog API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog-api')]);
     }
 }
