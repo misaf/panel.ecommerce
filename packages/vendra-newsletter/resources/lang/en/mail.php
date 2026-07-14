@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 return [
-    'subcopy'               => 'If you\'re having trouble clicking the ":url" button, copy and paste the URL below into your web browser.',
-    'thanks'                => 'Thanks',
-    'unsubscribe'           => 'Unsubscribe',
-    'unsubscribe_from_all'  => 'Unsubscribe from all newsletters',
-    'unsubscribe_from_this' => 'Unsubscribe from this newsletter',
+    'footer_reason'              => 'You are receiving this email because you subscribed to our newsletter.',
+    'unsubscribe'                => 'Unsubscribe',
+    'unsubscribe_confirmed'      => 'You have been unsubscribed',
+    'unsubscribe_confirmed_body' => 'You will no longer receive emails from this newsletter. You can resubscribe at any time.',
+    'unsubscribe_unknown'        => 'Subscription not found',
+    'unsubscribe_unknown_body'   => 'This unsubscribe link is invalid or has already been used.',
 ];

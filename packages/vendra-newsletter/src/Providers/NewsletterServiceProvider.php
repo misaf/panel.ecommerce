@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Misaf\VendraNewsletter\Providers;
 
 use Composer\InstalledVersions;
-
 use Filament\Panel;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
-use Misaf\VendraNewsletter\Console\Commands\Newsletter\SendCommand as NewsletterSendCommand;
-use Misaf\VendraNewsletter\Console\Commands\NewsletterPost\SendCommand as NewsletterPostSendCommand;
+use Illuminate\Support\Facades\Config;
+use Misaf\VendraNewsletter\Console\Commands\SeedCommand;
 use Misaf\VendraNewsletter\Console\Commands\SendScheduledNewslettersCommand;
-use Misaf\VendraNewsletter\Console\Commands\SyncSubscribersWithUsersCommand;
 use Misaf\VendraNewsletter\NewsletterPlugin;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
@@ -27,18 +26,16 @@ final class NewsletterServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('vendra-newsletter')
-            ->hasTranslations()
             ->hasConfigFile()
+            ->hasTranslations()
+            ->hasViews()
+            ->hasRoute('web')
             ->hasMigrations([
                 'create_newsletters_table',
             ])
-            ->hasRoute('web')
-            ->hasViews()
             ->hasCommands(
+                SeedCommand::class,
                 SendScheduledNewslettersCommand::class,
-                SyncSubscribersWithUsersCommand::class,
-                NewsletterSendCommand::class,
-                NewsletterPostSendCommand::class,
             )
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-newsletter');
@@ -58,7 +55,17 @@ final class NewsletterServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        $this->app->make(TenantSeeders::class)->register('vendra-newsletter:seed', priority: 65);
+        $this->app->make(TenantSeeders::class)->register('vendra-newsletter:seed', priority: 70);
+
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
+            if ( ! Config::boolean('vendra-newsletter.schedule.enabled', true)) {
+                return;
+            }
+
+            $schedule->command(SendScheduledNewslettersCommand::class)
+                ->cron(Config::string('vendra-newsletter.schedule.cron', '* * * * *'))
+                ->withoutOverlapping();
+        });
 
         AboutCommand::add('Vendra Newsletter', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-newsletter')]);
     }

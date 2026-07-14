@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Jobs;
 
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,48 +12,43 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Misaf\VendraNewsletter\Mail\NewsletterMail;
-use Misaf\VendraNewsletter\Models\NewsletterSendHistory;
+use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
-use Throwable;
 
 final class SendNewsletterEmailJob implements ShouldQueue
 {
-    use Batchable;
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
 
-    public int $timeout;
-
     public int $tries;
 
+    public int $timeout;
+
     public function __construct(
-        public NewsletterSendHistory $sendHistory,
-        public NewsletterSubscriber $subscriber,
+        public readonly int $newsletterId,
+        public readonly int $subscriberId,
     ) {
-        $this->timeout = Config::integer('vendra-newsletter.queue.email_timeout', 30);
+        $this->onConnection(Config::get('vendra-newsletter.queue.connection'));
+        $this->onQueue(Config::string('vendra-newsletter.queue.name', 'default'));
         $this->tries = Config::integer('vendra-newsletter.queue.tries', 3);
-        $this->onQueue(Config::string('vendra-newsletter.queue.name', 'marketing-email'));
+        $this->timeout = Config::integer('vendra-newsletter.queue.email_timeout', 30);
     }
 
     public function handle(): void
     {
-        if ($this->batch()?->cancelled()) {
+        $newsletter = Newsletter::query()->find($this->newsletterId);
+        $subscriber = NewsletterSubscriber::query()->find($this->subscriberId);
+
+        if ( ! $newsletter instanceof Newsletter || ! $subscriber instanceof NewsletterSubscriber) {
             return;
         }
 
-        Mail::to($this->subscriber->email)
-            ->send(new NewsletterMail($this->sendHistory->newsletter, $this->subscriber, $this->sendHistory->newsletterPosts));
-    }
+        if ( ! $subscriber->isSubscribed()) {
+            return;
+        }
 
-    public function failed(?Throwable $exception): void
-    {
-        logger()->error('Newsletter email job permanently failed', [
-            'newsletter_id' => $this->sendHistory->newsletter->id,
-            'subscriber_id' => $this->subscriber->id,
-            'email'         => $this->subscriber->email,
-            'error'         => $exception?->getMessage(),
-        ]);
+        Mail::to($subscriber->email)->send(new NewsletterMail($newsletter, $subscriber));
     }
 }

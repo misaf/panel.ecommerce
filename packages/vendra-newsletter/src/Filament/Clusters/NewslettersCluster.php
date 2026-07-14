@@ -8,7 +8,7 @@ use BackedEnum;
 use Filament\Clusters\Cluster;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Support\Icons\Heroicon;
-use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
+use Misaf\VendraNewsletter\NewsletterPlugin;
 
 final class NewslettersCluster extends Cluster
 {
@@ -22,7 +22,7 @@ final class NewslettersCluster extends Cluster
 
     public static function getNavigationGroup(): string
     {
-        return NavigationGroup::Marketing->getLabel();
+        return NewsletterPlugin::get()->getNavigationGroup();
     }
 
     public static function getNavigationLabel(): string
@@ -32,6 +32,6 @@ final class NewslettersCluster extends Cluster
 
     public static function getClusterBreadcrumb(): string
     {
-        return __('vendra-newsletter::navigation.newsletter');
+        return NewsletterPlugin::get()->getNavigationGroup();
     }
 }

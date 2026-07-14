@@ -4,68 +4,42 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Mail;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Queue\SerializesModels;
 use Misaf\VendraNewsletter\Models\Newsletter;
-use Misaf\VendraNewsletter\Models\NewsletterPost;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 
 final class NewsletterMail extends Mailable
 {
+    use Queueable;
+    use SerializesModels;
+
     public function __construct(
-        public Newsletter $newsletter,
-        public NewsletterSubscriber $subscriber,
-        public Collection|NewsletterPost $posts,
+        public readonly Newsletter $newsletter,
+        public readonly NewsletterSubscriber $subscriber,
     ) {}
 
     public function envelope(): Envelope
     {
-        $subject = $this->newsletter->name;
-        $subjectString = is_string($subject) ? $subject : '';
-
         return new Envelope(
-            subject: $subjectString,
-            to: [$this->subscriber->email],
+            subject: $this->newsletter->subject,
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'vendra-newsletter::mail.newsletter',
+            view: 'vendra-newsletter::mail.newsletter',
             with: [
-                'newsletter'             => $this->newsletter,
-                'posts'                  => $this->posts,
-                'unsubscribeSpecificUrl' => $this->generateUnsubscribeSpecificUrl(),
-                'unsubscribeAllUrl'      => $this->generateUnsubscribeAllUrl(),
+                'newsletter'     => $this->newsletter,
+                'subscriber'     => $this->subscriber,
+                'unsubscribeUrl' => route('vendra-newsletter.unsubscribe', [
+                    'token' => $this->subscriber->unsubscribe_token,
+                ]),
             ],
         );
-    }
-
-    private function generateUnsubscribeSpecificUrl(): string
-    {
-        return route('newsletter.unsubscribe.specific', [
-            'email'           => $this->subscriber->email,
-            'token'           => $this->generateUnsubscribeToken(),
-            'newsletter_slug' => $this->newsletter->slug,
-        ]);
-    }
-
-    private function generateUnsubscribeAllUrl(): string
-    {
-        return route('newsletter.unsubscribe', [
-            'email' => $this->subscriber->email,
-            'token' => $this->generateUnsubscribeToken(),
-        ]);
-    }
-
-    private function generateUnsubscribeToken(): string
-    {
-        $appKey = Config::string('app.key');
-
-        return hash_hmac('sha256', $this->subscriber->email, $appKey);
     }
 }

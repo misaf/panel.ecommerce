@@ -6,8 +6,9 @@ namespace Misaf\VendraNewsletter\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
-use Misaf\VendraUser\Models\User;
+use Misaf\VendraSupport\Support\TenantAwareness;
 
 /**
  * @extends Factory<NewsletterSubscriber>
@@ -15,28 +16,41 @@ use Misaf\VendraUser\Models\User;
 #[UseModel(NewsletterSubscriber::class)]
 final class NewsletterSubscriberFactory extends Factory
 {
-    /**
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->optional(0.7)->randomElement([User::factory(), null]),
-            'email'   => $this->faker->unique()->safeEmail(),
+            'email' => fake()->unique()->safeEmail(),
+            'name'  => fake()->name(),
         ];
     }
 
-    public function withUser(User $user): static
+    /**
+     * No-op without a tenant provider, since there is no `tenant_id` column.
+     */
+    public function forTenant(Model|int $tenant): static
     {
-        return $this->state(fn(array $attributes): array => [
-            'user_id' => $user->id,
+        if ( ! TenantAwareness::enabled()) {
+            return $this;
+        }
+
+        return $this->state(fn(): array => [
+            'tenant_id' => $tenant instanceof Model ? $tenant->getKey() : $tenant,
         ]);
     }
 
-    public function withoutUser(): static
+    public function subscribed(): static
     {
-        return $this->state(fn(array $attributes): array => [
-            'user_id' => null,
+        return $this->state(fn(): array => [
+            'subscribed_at'   => now()->subMonth(),
+            'unsubscribed_at' => null,
+        ]);
+    }
+
+    public function unsubscribed(): static
+    {
+        return $this->state(fn(): array => [
+            'subscribed_at'   => now()->subMonths(2),
+            'unsubscribed_at' => now()->subWeek(),
         ]);
     }
 }

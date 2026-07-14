@@ -4,134 +4,41 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Console\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
-use Misaf\VendraNewsletter\Actions\Newsletter\SendAction;
+use Misaf\VendraNewsletter\Actions\SendNewsletter;
 use Misaf\VendraNewsletter\Models\Newsletter;
-use Misaf\VendraNewsletter\Services\NewsletterService;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Misaf\VendraSupport\Contracts\TenantResolver;
 
-final class SendScheduledNewslettersCommand extends Command implements PromptsForMissingInput
+final class SendScheduledNewslettersCommand extends Command
 {
-    use TenantAware;
+    protected $signature = 'vendra-newsletter:send-scheduled';
 
-    protected $signature = 'newsletter:send-scheduled
-                            {--dry-run : Show what would be sent without actually sending}
-                            {--tenant=*}';
-
-    protected $description = 'Send scheduled newsletters when their scheduled time arrives';
-
-    public function handle(): int
-    {
-        $isDryRun = $this->option('dry-run');
-
-        if (app()->isDownForMaintenance() && ! $isDryRun) {
-            $this->warn('Application is in maintenance mode. Command aborted.');
-
-            return self::FAILURE;
-        }
-
-        $this->info('Checking for scheduled newsletters...');
-
-        if ($isDryRun) {
-            $this->warn('DRY RUN MODE - No emails will be queued');
-        }
-
-        try {
-            $scheduledNewsletters = $this->getScheduledNewsletters();
-
-            if ($scheduledNewsletters->isEmpty()) {
-                $this->info('No scheduled newsletters to send.');
-
-                return self::SUCCESS;
-            }
-
-            $this->info("Found {$scheduledNewsletters->count()} newsletter(s) to send.");
-
-            foreach ($scheduledNewsletters as $newsletter) {
-                if ( ! $this->validateNewsletterStatus($newsletter)) {
-                    $this->warn("Skipping newsletter {$newsletter->name} - not ready to be sent.");
-
-                    continue;
-                }
-
-                $this->processScheduledNewsletter($newsletter, $isDryRun);
-            }
-
-            return self::SUCCESS;
-        } catch (Exception $e) {
-            $this->error('newsletter:send-scheduled failed', [
-                'command' => 'newsletter:send-scheduled',
-                'error'   => $e->getMessage(),
-                'trace'   => $e->getTraceAsString(),
-            ]);
-
-            return self::FAILURE;
-        }
-    }
+    protected $description = 'Dispatch newsletters whose scheduled send time has passed';
 
     /**
-     * Get newsletters that are scheduled and ready to be sent
-     *
-     * @return Collection<int, Newsletter>
+     * Dispatch due newsletters for every tenant. The support layer runs the
+     * closure once per tenant (or once globally when no tenant provider is
+     * installed), so subscriber scoping stays correct without this module
+     * knowing anything about the concrete tenant.
      */
-    private function getScheduledNewsletters(): Collection
+    public function handle(SendNewsletter $sendNewsletter, TenantResolver $tenants): int
     {
-        $newsletterService = app(NewsletterService::class);
+        $tenants->eachTenant(function () use ($sendNewsletter): void {
+            Newsletter::query()
+                ->due()
+                ->orderBy('scheduled_at')
+                ->get()
+                ->each(function (Newsletter $newsletter) use ($sendNewsletter): void {
+                    $recipients = $sendNewsletter->execute($newsletter);
 
-        return Newsletter::query()
-            ->whereNotNull('scheduled_at')
-            ->where('scheduled_at', '<=', Carbon::now())
-            ->get()
-            ->filter(fn(Newsletter $newsletter) => $newsletterService->isReady($newsletter));
-    }
+                    $this->components->info(sprintf(
+                        'Queued newsletter #%d for %d subscriber(s).',
+                        $newsletter->getKey(),
+                        $recipients,
+                    ));
+                });
+        });
 
-    /**
-     * Process a single scheduled newsletter
-     */
-    private function processScheduledNewsletter(Newsletter $newsletter, bool $isDryRun): void
-    {
-        $this->info("Processing scheduled newsletter: {$newsletter->name}");
-
-        try {
-            $sendAction = app(SendAction::class);
-            $stats = $sendAction->execute($newsletter, $isDryRun);
-
-            if ( ! $isDryRun) {
-                $this->info("Newsletter batch job dispatched successfully! Queued: {$stats['queued']} emails");
-            } else {
-                $this->info("Would queue {$stats['queued']} emails");
-            }
-        } catch (Exception $e) {
-            logger()->error('newsletter:send-scheduled failed', [
-                'command'         => 'newsletter:send',
-                'newsletter_id'   => $newsletter->id,
-                'newsletter_name' => $newsletter->name,
-                'error'           => $e->getMessage(),
-                'trace'           => $e->getTraceAsString(),
-            ]);
-
-            $this->error("Failed to queue newsletter {$newsletter->name}: {$e->getMessage()}");
-        }
-    }
-
-    /**
-     * Validate newsletter status before sending
-     */
-    private function validateNewsletterStatus(Newsletter $newsletter): bool
-    {
-        $newsletterService = app(NewsletterService::class);
-
-        if ( ! $newsletterService->isReady($newsletter)) {
-            $this->error('Newsletter is not ready to be sent.');
-            $this->info('Newsletter must have posts with READY status to be sent.');
-
-            return false;
-        }
-
-        return true;
+        return self::SUCCESS;
     }
 }

@@ -3,14 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'apply_limit'            => 'Limit anwenden',
-    'content'                => 'Inhalt',
-    'content_title_and_text' => 'Titel und Text des Inhalts',
-    'count'                  => 'Anzahl',
-    'from_record'            => 'Ab Datensatz',
-    'retry_failed_only'      => 'Nur fehlgeschlagene wiederholen',
-    'send'                   => 'Senden',
-    'send_advertisement'     => 'Werbung senden',
-    'subject'                => 'Betreff',
-    'to_record'              => 'Bis Datensatz',
+    'send'              => 'Senden',
+    'send_confirmation' => 'Möchten Sie diesen Newsletter wirklich an alle abonnierten Empfänger senden?',
+    'send_success'      => 'Der Newsletter wurde für :count Abonnent(en) in die Warteschlange gestellt.',
 ];

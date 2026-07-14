@@ -5,46 +5,54 @@ declare(strict_types=1);
 namespace Misaf\VendraNewsletter\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
-use Misaf\VendraNewsletter\Observers\NewsletterSubscriberObserver;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraUser\Models\User;
-use Spatie\Tags\HasTags;
+use Misaf\VendraSupport\Traits\BelongsToTenant;
 
 /**
  * @property int $id
- * @property int|null $user_id
+ * @property int $tenant_id
  * @property string $email
+ * @property string|null $name
+ * @property string $unsubscribe_token
+ * @property Carbon|null $subscribed_at
+ * @property Carbon|null $unsubscribed_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
- *
- * @method Attribute<string, string> email()
- * @method BelongsToMany<Newsletter, $this, NewsletterSubscription> newsletters()
- * @method BelongsTo<User, $this> user()
- * @method HasMany<NewsletterSendHistorySubscriber, $this> newsletterSendHistorySubscribers()
  */
-#[Fillable(['user_id', 'email'])]
-#[ObservedBy([NewsletterSubscriberObserver::class])]
+#[Fillable(['email', 'name', 'subscribed_at', 'unsubscribed_at'])]
+#[Hidden(['tenant_id', 'unsubscribe_token'])]
 #[UseFactory(NewsletterSubscriberFactory::class)]
 final class NewsletterSubscriber extends Model implements ShouldLogActivity
 {
+    use BelongsToTenant;
+
     /** @use HasFactory<NewsletterSubscriberFactory> */
     use HasFactory;
 
-    use HasTags;
     use SoftDeletes;
+
+    protected static function booted(): void
+    {
+        static::creating(function (NewsletterSubscriber $subscriber): void {
+            if (blank($subscriber->unsubscribe_token)) {
+                $subscriber->unsubscribe_token = Str::random(48);
+            }
+
+            if (null === $subscriber->subscribed_at && null === $subscriber->unsubscribed_at) {
+                $subscriber->subscribed_at = now();
+            }
+        });
+    }
 
     /**
      * @return array<string, string>
@@ -52,61 +60,33 @@ final class NewsletterSubscriber extends Model implements ShouldLogActivity
     protected function casts(): array
     {
         return [
-            'id'      => 'integer',
-            'user_id' => 'integer',
-            'email'   => 'string',
+            'id'              => 'integer',
+            'tenant_id'       => 'integer',
+            'subscribed_at'   => 'datetime',
+            'unsubscribed_at' => 'datetime',
         ];
     }
 
-    /**
-     * @return Attribute<string, string>
-     */
-    protected function email(): Attribute
+    public function isSubscribed(): bool
     {
-        return Attribute::make(
-            set: fn(string $value): string => Str::lower($value),
-        );
+        return null === $this->unsubscribed_at;
     }
 
     /**
-     * @return BelongsTo<User, $this>
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
      */
-    public function user(): BelongsTo
+    public function scopeSubscribed(Builder $query): Builder
     {
-        return $this->belongsTo(User::class);
+        return $query->whereNull('unsubscribed_at');
     }
 
     /**
-     * @return BelongsToMany<Newsletter, $this, NewsletterSubscription>
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
      */
-    public function newsletters(): BelongsToMany
+    public function scopeUnsubscribed(Builder $query): Builder
     {
-        return $this->belongsToMany(Newsletter::class, 'newsletter_subscription')
-            ->using(NewsletterSubscription::class)
-            ->withPivot(['subscribed_at', 'unsubscribed_at']);
-    }
-
-    /**
-     * @return BelongsToMany<Newsletter, $this, NewsletterSubscription>
-     */
-    public function subscribedNewsletters(): BelongsToMany
-    {
-        return $this->newsletters()->wherePivotNull('unsubscribed_at');
-    }
-
-    /**
-     * @return BelongsToMany<Newsletter, $this, NewsletterSubscription>
-     */
-    public function unsubscribedNewsletters(): BelongsToMany
-    {
-        return $this->newsletters()->wherePivotNotNull('unsubscribed_at');
-    }
-
-    /**
-     * @return HasMany<NewsletterSendHistorySubscriber, $this>
-     */
-    public function newsletterSendHistorySubscribers(): HasMany
-    {
-        return $this->hasMany(NewsletterSendHistorySubscriber::class);
+        return $query->whereNotNull('unsubscribed_at');
     }
 }

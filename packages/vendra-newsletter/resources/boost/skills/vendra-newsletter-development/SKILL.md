@@ -1,77 +1,90 @@
 ---
 name: vendra-newsletter-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Newsletter module in packages/vendra-newsletter, or when creating future newsletter-like Filament/domain modules. Trigger for `Newsletter`, `NewsletterPost`, `NewsletterSubscriber`, `NewsletterSubscription`, `NewsletterSendHistory` models, vendra-newsletter migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Newsletter domain/admin module in packages/vendra-newsletter. Trigger for Newsletter, NewsletterSubscriber, the newsletter status enum, migrations, factories, seeders, policies, permission enums, Filament resources/clusters/forms/tables, the Filament Send action, the send pipeline (SendNewsletter action, SendNewsletterBatchJob, SendNewsletterEmailJob, NewsletterMail), queue/batch configuration, the public unsubscribe controller/route, the scheduled send command and its config-driven per-tenant schedule, translations, and plugin/service provider wiring."
 ---
 
 # Vendra Newsletter
 
 ## Required Context
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI (the mail and unsubscribe views).
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 
 ## Module Boundary
 
-Treat `packages/vendra-newsletter` as the source of newsletter domain behavior and Filament admin UI.
+Treat `packages/vendra-newsletter` as the source of newsletter domain behavior, the Filament admin UI, the send pipeline, the unsubscribe flow, and the scheduled send.
 
 - Use namespace `Misaf\VendraNewsletter`.
-- Keep domain models, factories, seeders, policies, observers, console commands, Filament classes, config, migrations, translations, and tests inside this module.
+- Keep domain models, factories, seeders, policies, mail, jobs, actions, HTTP controllers/routes, console commands, Filament classes, config, migrations, translations, views, and tests inside this module.
 - Do not place newsletter domain code in the host app unless the host app is only integrating the module.
 - Keep cross-module dependencies explicit in `composer.json`; do not introduce a dependency without approval.
 
 ## Domain Model Standards
 
-Follow the existing `Newsletter` and `NewsletterPost` patterns for new newsletter entities.
+Follow the existing `Newsletter` and `NewsletterSubscriber` patterns for new newsletter entities.
 
-- Use `declare(strict_types=1)`, final classes, typed method signatures, and PHPDoc generics for relationships.
-- Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file's density and do not add comments that restate the code.
-- Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
-- Keep models, factories, and Filament UI tenant-agnostic: derive tenant awareness from the support layer (`TenantAwareness`, `BelongsToTenant`) and let `BelongsToTenant` assign `tenant_id`.
-- The send/dispatch console commands deliberately iterate tenants to fan out delivery. Keep that tenant selection isolated to the console/queue layer, not in models, factories, or Filament resources.
-- Use `HasTranslations` for localized `name`, `description`, and `slug`-like fields where the entity is translatable.
-- Use `SoftDeletes` for user-managed content records unless there is a clear reason not to.
-- Use `SortableTrait` and an integer `position` field for ordered admin content.
-- For media-enabled records, implement `HasMedia`, use `InteractsWithMedia` with `HasDefaultMediaConversions`, expose a `multimedia()` morph relation, and define a stable `MEDIA_COLLECTION` constant.
-- For slugs, use `Spatie\Sluggable\SlugOptions`, generate from translated names, and prevent overwrite unless regeneration is intended.
+- Use `declare(strict_types=1)`, final classes, typed method signatures, and PHPDoc generics for query scopes and relationships.
+- Prefer Laravel attributes already used here: `#[Fillable]`, `#[Hidden]`, and `#[UseFactory]`.
+- Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`, `eachTenant`). Never reference a concrete provider such as `Misaf\VendraTenant`, `Tenant::`, or the `tenants:artisan` command. There is no `tenant_aware` config toggle.
+- Hide `tenant_id` and keep tenant behavior centralized in the support layer; `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
+- Hide generated secrets such as `unsubscribe_token`, and assign them from a model `creating` hook rather than the form.
+- Use `SoftDeletes` for user-managed records unless there is a clear reason not to.
+- Back workflow state with a string enum (`NewsletterStatusEnum`) implementing Filament's `HasLabel`, `HasColor`, and `HasIcon`. Express lifecycle predicates as typed query scopes (`Newsletter::due()`, `NewsletterSubscriber::subscribed()` / `unsubscribed()`).
+
+## Sending Pipeline Standards
+
+Keep sending split across an orchestrating action, two queued jobs, and a mailable.
+
+- Orchestrate through `Actions\SendNewsletter`: guard against re-sending a `sent` newsletter, chunk subscribed recipients by `batch_chunk_size`, dispatch one `Jobs\SendNewsletterBatchJob` per chunk, then mark the newsletter `sent` and stamp `sent_at`.
+- `SendNewsletterBatchJob` fans a chunk out into per-recipient `SendNewsletterEmailJob`s. `SendNewsletterEmailJob` reloads the newsletter and subscriber, skips unsubscribed recipients, and delivers `Mail\NewsletterMail` (view `vendra-newsletter::mail.newsletter`).
+- Configure jobs from `config/vendra-newsletter.php` via strict accessors: connection/queue from `queue.connection` / `queue.name`, `tries` from `queue.tries`, batch timeout from `queue.timeout`, and per-email timeout from `queue.email_timeout`.
+- Rely on Spatie's tenant-aware queues to restore tenant context on the worker; never stamp or filter `tenant_id` manually in jobs or actions.
+- Surface manual sending through the reusable `Filament/.../Newsletters/Actions/SendNewsletterAction`, wired into the table row actions and the edit page. Keep it confirmation-gated and hidden once the newsletter is `sent`.
+
+## Scheduled Sending Standards
+
+- `Console\Commands\SendScheduledNewslettersCommand` dispatches due newsletters (`Newsletter::due()`) wrapped in `TenantResolver::eachTenant()`. This is the tenant-agnostic way to run per tenant: the null resolver runs the callback once globally, the concrete provider loops every tenant. Never enumerate tenants or call `tenants:artisan` from this module.
+- Register the schedule from `NewsletterServiceProvider::packageBooted()` with `callAfterResolving(Schedule::class, …)`, gated by config: return early when `schedule.enabled` is false and use `schedule.cron` for the cadence. Do not put the schedule in the host app's console routes.
+
+## Unsubscribe Standards
+
+- Keep the opt-out endpoint in `Http\Controllers\NewsletterUnsubscribeController` + `routes/web.php` (named `vendra-newsletter.unsubscribe`, loaded via `->hasRoute('web')`) + the `vendra-newsletter::unsubscribe` view.
+- Resolve the subscriber by `unsubscribe_token` and set `unsubscribed_at` idempotently. The current tenant is resolved from the request domain, so keep tenant logic out of the controller.
 
 ## Filament Standards
 
 Keep Filament UI organized under `src/Filament/Clusters`.
 
-- Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
-- Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.
-- Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
-- Use this module's translation keys (`vendra-newsletter::attributes`, `vendra-newsletter::navigation`) for labels, breadcrumbs, and navigation.
-- Prevent N+1 issues in tables and relation managers with eager loading, `withCount`, or computed state based on loaded relationships.
-- Use public media visibility only when public access is actually required.
+- Register module UI through `NewsletterPlugin` and `NewsletterServiceProvider`; do not manually wire resources in unrelated panel providers.
+- Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`, and keep custom actions in `Actions/`.
+- Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, notifications from `Filament\Notifications`, and icons from `Filament\Support\Icons\Heroicon`.
+- Use translation keys from `vendra-newsletter::attributes`, `vendra-newsletter::navigation`, `vendra-newsletter::actions`, `vendra-newsletter::mail`, and `vendra-newsletter::newsletter_status_enum` for labels, breadcrumbs, navigation, action buttons, and email copy.
 
 ## Permissions And Navigation
 
 Use policy enums and policies as the permission source.
 
 - Add enum cases for every resource action the panel exposes.
-- Keep policy method names aligned with Filament actions: `viewAny`, `view`, `create`, `update`, `delete`, `deleteAny`, `restore`, `restoreAny`, `forceDelete`, `forceDeleteAny`, `replicate`, and `reorder` as applicable.
+- Keep policy method names aligned with Filament actions: `viewAny`, `view`, `create`, `update`, `delete`, `deleteAny`, `restore`, `restoreAny`, `forceDelete`, `forceDeleteAny`, and `replicate` as applicable.
 - Update `PermissionPolicySeeder` when new permissions are introduced.
-- Keep navigation labels and groups configurable through the module `Plugin` and `config/vendra-newsletter.php`. Do not add a `tenant_aware` config value; tenant awareness derives from the bound `TenantResolver`.
+- Keep the cluster in the `Marketing` navigation group with `$navigationSort` aligned to the host app's `AdminNavigationTest`.
 
 ## Data And Localization
 
 Migrations, factories, seeders, and translation files are part of the contract.
 
-- Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
-- Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
+- Use the package migration stub in `database/migrations`, published into the host app on install.
+- Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-agnostic and let `BelongsToTenant` assign `tenant_id`.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.
-- Preserve translation key parity tests when adding labels or attributes.
 
 ## Testing And Verification
 
 Prefer focused Pest tests in the module.
 
-- Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts (or `tinker`) when a test fits.
-- Add or update unit tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config behavior, and translation parity.
-- Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the domain stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraNewsletter')->not->toUse('Misaf\VendraTenant')` (the console fan-out layer is the intentional exception).
-- Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
+- Add or update tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config/schedule behavior, translation parity, the send pipeline (batch fan-out and per-recipient delivery), cross-tenant send isolation, and the unsubscribe flow.
+- Fake the queue and mail (`Queue::fake()`, `Mail::fake()`) when asserting the send pipeline; use `Tenant::factory()->enabled()->create()->makeCurrent()` in feature tests that need a real tenant context.
+- Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraNewsletter')->not->toUse('Misaf\VendraTenant')`.
 - Run module checks from the package when possible: `composer --working-dir=packages/vendra-newsletter test` and `composer --working-dir=packages/vendra-newsletter analyse`.
-- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
+- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent`.
