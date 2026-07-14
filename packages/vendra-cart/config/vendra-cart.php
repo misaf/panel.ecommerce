@@ -34,4 +34,20 @@ return [
 
     'expires_after_days' => 7,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Schedule
+    |--------------------------------------------------------------------------
+    |
+    | The module registers its own scheduled task that prunes expired carts.
+    | Disable it here to schedule the "vendra-cart:prune-expired" command
+    | yourself, or adjust how often it runs with a standard cron expression.
+    |
+    */
+
+    'schedule' => [
+        'enabled' => env('CART_SCHEDULE_ENABLED', true),
+        'cron'    => env('CART_SCHEDULE_CRON', '0 0 * * *'),
+    ],
+
 ];

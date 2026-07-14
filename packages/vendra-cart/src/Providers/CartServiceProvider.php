@@ -9,6 +9,7 @@ use Composer\InstalledVersions;
 use Filament\Panel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraCart\CartPlugin;
 use Misaf\VendraCart\Console\Commands\PruneExpiredCartsCommand;
 use Misaf\VendraCart\Console\Commands\SeedCommand;
@@ -53,7 +54,13 @@ final class CartServiceProvider extends PackageServiceProvider
         $this->app->make(TenantSeeders::class)->register('vendra-cart:seed', priority: 58);
 
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
-            $schedule->command(PruneExpiredCartsCommand::class)->daily();
+            if ( ! Config::boolean('vendra-cart.schedule.enabled', true)) {
+                return;
+            }
+
+            $schedule->command(PruneExpiredCartsCommand::class)
+                ->cron(Config::string('vendra-cart.schedule.cron', '0 0 * * *'))
+                ->withoutOverlapping();
         });
 
         AboutCommand::add('Vendra Cart', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-cart')]);
