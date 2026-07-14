@@ -6,114 +6,65 @@ namespace Misaf\VendraAffiliate\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
+use Misaf\VendraAffiliate\Enums\AffiliatePolicyEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 
 final class AffiliatePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * @param Authorizable $user
-     * @return bool
-     */
     public function create(Authorizable $user): bool
     {
-        return $user->can('create-affiliate');
+        return $user->can(AffiliatePolicyEnum::CREATE->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @param Affiliate $affiliate
-     * @return bool
-     */
     public function delete(Authorizable $user, Affiliate $affiliate): bool
     {
-        return $user->can('delete-affiliate');
+        return $user->can(AffiliatePolicyEnum::DELETE->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @return bool
-     */
     public function deleteAny(Authorizable $user): bool
     {
-        return $user->can('delete-any-affiliate');
+        return $user->can(AffiliatePolicyEnum::DELETE_ANY->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @param Affiliate $affiliate
-     * @return bool
-     */
     public function forceDelete(Authorizable $user, Affiliate $affiliate): bool
     {
-        return $user->can('force-delete-affiliate');
+        return $user->can(AffiliatePolicyEnum::FORCE_DELETE->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @return bool
-     */
     public function forceDeleteAny(Authorizable $user): bool
     {
-        return $user->can('force-delete-any-affiliate');
+        return $user->can(AffiliatePolicyEnum::FORCE_DELETE_ANY->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @param Affiliate $affiliate
-     * @return bool
-     */
     public function replicate(Authorizable $user, Affiliate $affiliate): bool
     {
-        return $user->can('replicate-affiliate');
+        return $user->can(AffiliatePolicyEnum::REPLICATE->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @param Affiliate $affiliate
-     * @return bool
-     */
     public function restore(Authorizable $user, Affiliate $affiliate): bool
     {
-        return $user->can('restore-affiliate');
+        return $user->can(AffiliatePolicyEnum::RESTORE->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @return bool
-     */
     public function restoreAny(Authorizable $user): bool
     {
-        return $user->can('restore-any-affiliate');
+        return $user->can(AffiliatePolicyEnum::RESTORE_ANY->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @param Affiliate $affiliate
-     * @return bool
-     */
     public function update(Authorizable $user, Affiliate $affiliate): bool
     {
-        return $user->can('update-affiliate');
+        return $user->can(AffiliatePolicyEnum::UPDATE->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @param Affiliate $affiliate
-     * @return bool
-     */
     public function view(Authorizable $user, Affiliate $affiliate): bool
     {
-        return $user->can('view-affiliate');
+        return $user->can(AffiliatePolicyEnum::VIEW->value);
     }
 
-    /**
-     * @param Authorizable $user
-     * @return bool
-     */
     public function viewAny(Authorizable $user): bool
     {
-        return $user->can('view-any-affiliate');
+        return $user->can(AffiliatePolicyEnum::VIEW_ANY->value);
     }
 }

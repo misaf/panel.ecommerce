@@ -4,20 +4,31 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliate\Events;
 
-use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 final class AffiliateCommissionEarnedEvent implements ShouldBroadcast
 {
     use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
-    public function __construct(public int $userId, public int $commissionEarned) {}
+    public function __construct(
+        public int $userId,
+        public int $commissionEarned,
+    ) {}
 
-    public function broadcastOn(): Channel
+    /**
+     * @return array<int, PrivateChannel>
+     */
+    public function broadcastOn(): array
     {
-        return new PrivateChannel('Affiliate.' . $this->userId);
+        return [
+            new PrivateChannel('Affiliate.' . $this->userId),
+        ];
     }
 
     public function broadcastAs(): string

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliate;
 
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
 final class AffiliatePlugin implements Plugin
 {
     public const string ID = 'vendra-affiliate';
+
+    protected string|Closure|null $navigationGroup = null;
 
     public function getId(): string
     {
@@ -19,22 +22,47 @@ final class AffiliatePlugin implements Plugin
     public static function make(): static
     {
         /** @var static $plugin */
-        $plugin = app(static::class);
+        $plugin = app(self::class);
 
         return $plugin;
     }
 
+    public static function get(): static
+    {
+        /** @var static $plugin */
+        $plugin = filament(self::ID);
+
+        return $plugin;
+    }
+
+    public function navigationGroup(string|Closure|null $group): static
+    {
+        $this->navigationGroup = $group;
+
+        return $this;
+    }
+
+    public function getNavigationGroup(): string
+    {
+        $group = $this->navigationGroup ?? config('vendra-affiliate.navigation_group');
+
+        if ($group instanceof Closure) {
+            $group = $group();
+        }
+
+        if ( ! is_string($group) || '' === $group) {
+            $group = 'vendra-affiliate::navigation.marketing';
+        }
+
+        return (string) __($group);
+    }
+
     public function register(Panel $panel): void
     {
-        $panel
-            ->discoverResources(
-                in: __DIR__ . '/Filament/Resources',
-                for: 'Misaf\\VendraAffiliate\\Filament\\Resources',
-            )
-            ->discoverWidgets(
-                in: __DIR__ . '/Filament/Widgets',
-                for: 'Misaf\\VendraAffiliate\\Filament\\Widgets',
-            );
+        $panel->discoverClusters(
+            in: __DIR__ . '/Filament/Clusters',
+            for: 'Misaf\\VendraAffiliate\\Filament\\Clusters',
+        );
     }
 
     public function boot(Panel $panel): void {}

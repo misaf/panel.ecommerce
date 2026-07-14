@@ -1,0 +1,8 @@
+[
+    {
+        "user_id": 1,
+        "code": "WELCOME1",
+        "commission_percent": 20,
+        "status": "active"
+    }
+]

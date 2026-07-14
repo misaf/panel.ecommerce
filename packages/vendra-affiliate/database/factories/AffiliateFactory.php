@@ -7,7 +7,7 @@ namespace Misaf\VendraAffiliate\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraSupport\Support\TenantAwareness;
 use Misaf\VendraUser\Models\User;
@@ -18,19 +18,14 @@ use Misaf\VendraUser\Models\User;
 #[UseModel(Affiliate::class)]
 final class AffiliateFactory extends Factory
 {
-    /**
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
             'user_id'            => User::factory(),
-            'name'               => fake()->unique()->sentence(3),
-            'description'        => fake()->paragraph(),
-            'slug'               => fn(array $attributes) => Str::slug($attributes['name']),
-            'commission_percent' => fake()->randomElements([0, 5, 10, 15, 20, 30, 40, 50]),
-            'is_processing'      => fake()->boolean(),
-            'status'             => fake()->boolean(),
+            'code'               => mb_strtoupper(fake()->unique()->bothify('????####')),
+            'commission_percent' => fake()->randomElement([5, 10, 15, 20, 30, 40, 50]),
+            'signup_bounty'      => null,
+            'status'             => fake()->randomElement(AffiliateStatusEnum::cases()),
         ];
     }
 
@@ -48,10 +43,25 @@ final class AffiliateFactory extends Factory
         ]);
     }
 
-    public function forUser(User $user): static
+    public function forUser(Model|int $user): static
     {
         return $this->state(fn(): array => [
-            'user_id' => $user->id,
+            'user_id' => $user instanceof Model ? $user->getKey() : $user,
         ]);
+    }
+
+    public function active(): static
+    {
+        return $this->state(fn(): array => ['status' => AffiliateStatusEnum::Active]);
+    }
+
+    public function suspended(): static
+    {
+        return $this->state(fn(): array => ['status' => AffiliateStatusEnum::Suspended]);
+    }
+
+    public function withSignupBounty(int $amount): static
+    {
+        return $this->state(fn(): array => ['signup_bounty' => $amount]);
     }
 }

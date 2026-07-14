@@ -9,50 +9,42 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
-use Misaf\VendraAffiliate\Facades\AffiliateService;
-use Misaf\VendraAffiliate\Traits\HasAffiliateUser;
+use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
+use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
+use Misaf\VendraAffiliate\Services\AffiliateCodeService;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Misaf\VendraUser\Traits\BelongsToUser;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property int $id
  * @property int $tenant_id
  * @property int $user_id
- * @property string $name
- * @property string $description
- * @property string $slug
+ * @property string $code
  * @property int $commission_percent
- * @property bool $is_processing
- * @property bool $status
+ * @property int|null $signup_bounty
+ * @property AffiliateStatusEnum $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['user_id', 'name', 'description', 'slug', 'commission_percent', 'is_processing', 'status'])]
+#[Fillable(['user_id', 'code', 'commission_percent', 'signup_bounty', 'status'])]
 #[Hidden(['tenant_id'])]
 #[UseFactory(AffiliateFactory::class)]
 final class Affiliate extends Model implements ShouldLogActivity
 {
     use BelongsToTenant;
-
     use BelongsToUser;
-    use HasAffiliateUser;
     /** @use HasFactory<AffiliateFactory> */
     use HasFactory;
 
-    use HasSlug;
     use SoftDeletes;
 
-    /**
-     * @var array<string, string>
-     */
     /**
      * @return array<string, string>
      */
@@ -62,41 +54,80 @@ final class Affiliate extends Model implements ShouldLogActivity
             'id'                 => 'integer',
             'tenant_id'          => 'integer',
             'user_id'            => 'integer',
-            'name'               => 'string',
-            'description'        => 'string',
-            'slug'               => 'string',
+            'code'               => 'string',
             'commission_percent' => 'integer',
-            'is_processing'      => 'boolean',
-            'status'             => 'boolean',
+            'signup_bounty'      => 'integer',
+            'status'             => AffiliateStatusEnum::class,
         ];
     }
 
-    /**
-     * @var list<string>
-     */
-
-    /**
-     * @var list<string>
-     */
-
-    /**
-     * @return void
-     */
     protected static function booted(): void
     {
         self::creating(function (self $affiliate): void {
-            $name = AffiliateService::generateName();
-
-            $affiliate->name = $name;
-            $affiliate->slug = Str::slug($name);
+            if (blank($affiliate->getAttribute('code'))) {
+                $affiliate->code = app(AffiliateCodeService::class)->generate();
+            }
         });
     }
 
-    public function getSlugOptions(): SlugOptions
+    /**
+     * @return HasMany<AffiliateClick, $this>
+     */
+    public function clicks(): HasMany
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug')
-            ->preventOverwrite();
+        return $this->hasMany(AffiliateClick::class);
+    }
+
+    /**
+     * @return HasMany<AffiliateReferral, $this>
+     */
+    public function referrals(): HasMany
+    {
+        return $this->hasMany(AffiliateReferral::class);
+    }
+
+    /**
+     * @return HasMany<AffiliateCommission, $this>
+     */
+    public function commissions(): HasMany
+    {
+        return $this->hasMany(AffiliateCommission::class);
+    }
+
+    /**
+     * @return HasMany<AffiliatePayout, $this>
+     */
+    public function payouts(): HasMany
+    {
+        return $this->hasMany(AffiliatePayout::class);
+    }
+
+    public function isActive(): bool
+    {
+        return AffiliateStatusEnum::Active === $this->status;
+    }
+
+    /**
+     * The approved-but-unpaid commission total in minor units.
+     */
+    public function pendingBalance(): int
+    {
+        return (int) $this->commissions()
+            ->where('status', CommissionStatusEnum::Approved)
+            ->whereNull('affiliate_payout_id')
+            ->sum('amount');
+    }
+
+    /**
+     * The bounty credited for an attributed signup, in minor units.
+     */
+    public function signupBounty(): int
+    {
+        return $this->signup_bounty ?? Config::integer('vendra-affiliate.defaults.signup_bounty', 0);
+    }
+
+    public function referralUrl(): string
+    {
+        return route('affiliate.redirect', ['code' => $this->code]);
     }
 }

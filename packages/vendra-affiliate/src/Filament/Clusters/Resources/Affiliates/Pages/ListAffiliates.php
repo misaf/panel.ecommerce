@@ -7,6 +7,9 @@ namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\AffiliateResource;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateClicksOverview;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateCommissionsOverview;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateReferralsOverview;
 
 final class ListAffiliates extends ListRecords
 {
@@ -15,6 +18,15 @@ final class ListAffiliates extends ListRecords
     public function getBreadcrumb(): string
     {
         return self::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb') . ' ' . __('vendra-affiliate::navigation.affiliate');
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            AffiliateClicksOverview::class,
+            AffiliateReferralsOverview::class,
+            AffiliateCommissionsOverview::class,
+        ];
     }
 
     protected function getHeaderActions(): array

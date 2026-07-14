@@ -3,7 +3,11 @@
 declare(strict_types=1);
 
 return [
-    'affiliate'            => 'Partner',
-    'affiliate_management' => 'Partnerverwaltung',
-    'affiliate_user'       => 'Partnerbenutzer',
+    'affiliate'            => 'Affiliate',
+    'affiliate_click'      => 'Klick',
+    'affiliate_commission' => 'Provision',
+    'affiliate_management' => 'Affiliate-Verwaltung',
+    'affiliate_payout'     => 'Auszahlung',
+    'affiliate_referral'   => 'Empfehlung',
+    'marketing'            => 'Marketing',
 ];

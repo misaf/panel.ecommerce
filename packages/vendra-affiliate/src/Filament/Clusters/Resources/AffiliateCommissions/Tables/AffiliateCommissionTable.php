@@ -1,0 +1,118 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Tables;
+
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Misaf\VendraAffiliate\Enums\AffiliateCommissionPolicyEnum;
+use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
+use Misaf\VendraAffiliate\Enums\ConversionTypeEnum;
+use Misaf\VendraAffiliate\Models\AffiliateCommission;
+
+final class AffiliateCommissionTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('row')
+                    ->label('#')
+                    ->rowIndex(),
+
+                TextColumn::make('affiliate.code')
+                    ->label(__('vendra-affiliate::attributes.affiliate'))
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('conversion_type')
+                    ->alignCenter()
+                    ->badge()
+                    ->label(__('vendra-affiliate::attributes.conversion_type')),
+
+                TextColumn::make('amount')
+                    ->alignCenter()
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-affiliate::attributes.amount'))
+                    ->numeric(locale: 'en', maxDecimalPlaces: 0)
+                    ->sortable(),
+
+                TextColumn::make('status')
+                    ->alignCenter()
+                    ->badge()
+                    ->label(__('vendra-affiliate::attributes.status')),
+
+                TextColumn::make('created_at')
+                    ->alignCenter()
+                    ->badge()
+                    ->dateTime('Y-m-d H:i')
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-affiliate::attributes.created_at'))
+                    ->sinceTooltip(),
+            ])
+            ->filters(
+                [
+                    SelectFilter::make('status')
+                        ->label(__('vendra-affiliate::attributes.status'))
+                        ->options(CommissionStatusEnum::class),
+
+                    SelectFilter::make('conversion_type')
+                        ->label(__('vendra-affiliate::attributes.conversion_type'))
+                        ->options(ConversionTypeEnum::class),
+
+                    QueryBuilder::make()
+                        ->constraints([
+                            NumberConstraint::make('amount')
+                                ->label(__('vendra-affiliate::attributes.amount')),
+
+                            DateConstraint::make('created_at')
+                                ->label(__('vendra-affiliate::attributes.created_at')),
+                        ]),
+                ],
+                layout: FiltersLayout::AboveContentCollapsible,
+            )
+            ->recordActions([
+                ActionGroup::make([
+                    self::approveAction(),
+
+                    self::reverseAction(),
+
+                    ViewAction::make(),
+                ]),
+            ])
+            ->defaultSort(column: 'created_at', direction: 'desc');
+    }
+
+    private static function approveAction(): Action
+    {
+        return Action::make('approve')
+            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::APPROVE->value))
+            ->color('success')
+            ->icon('heroicon-o-check-circle')
+            ->label(__('vendra-affiliate::messages.approve_commission'))
+            ->requiresConfirmation()
+            ->visible(fn(AffiliateCommission $record): bool => CommissionStatusEnum::Pending === $record->status)
+            ->action(fn(AffiliateCommission $record) => $record->update(['status' => CommissionStatusEnum::Approved]));
+    }
+
+    private static function reverseAction(): Action
+    {
+        return Action::make('reverse')
+            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::REVERSE->value))
+            ->color('danger')
+            ->icon('heroicon-o-arrow-uturn-left')
+            ->label(__('vendra-affiliate::messages.reverse_commission'))
+            ->requiresConfirmation()
+            ->visible(fn(AffiliateCommission $record): bool => in_array($record->status, [CommissionStatusEnum::Pending, CommissionStatusEnum::Approved], true))
+            ->action(fn(AffiliateCommission $record) => $record->update(['status' => CommissionStatusEnum::Reversed]));
+    }
+}

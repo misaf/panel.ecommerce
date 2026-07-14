@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 return [
-    'get_commission'     => 'Get Commission',
-    'link_copied'        => 'Link copied to clipboard',
-    'update_commission'  => 'Update Commission',
+    'approve_commission'          => 'Approve Commission',
+    'link_copied'                 => 'Referral link copied',
+    'process_payout'              => 'Process Payout',
+    'process_payout_description'  => 'This settles the approved balance of :amount into a commission transaction.',
+    'process_payout_queued'       => 'Payout processing has been queued.',
+    'reverse_commission'          => 'Reverse Commission',
 ];

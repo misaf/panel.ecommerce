@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets;
+
+use Filament\Support\Enums\IconPosition;
+use Filament\Widgets\StatsOverviewWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Number;
+use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
+use Misaf\VendraAffiliate\Models\AffiliateCommission;
+
+final class AffiliateCommissionsOverview extends StatsOverviewWidget
+{
+    protected static ?int $sort = 3;
+
+    protected int|string|array $columnSpan = ['sm' => 1];
+
+    protected function getColumns(): int
+    {
+        return 1;
+    }
+
+    protected function getStats(): array
+    {
+        $earnedTotal = (int) AffiliateCommission::whereIn('status', [
+            CommissionStatusEnum::Approved,
+            CommissionStatusEnum::Paid,
+        ])->sum('amount');
+
+        $trend = Trend::query(
+            AffiliateCommission::whereIn('status', [
+                CommissionStatusEnum::Approved,
+                CommissionStatusEnum::Paid,
+            ]),
+        )
+            ->between(Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek())
+            ->perDay()
+            ->sum('amount');
+
+        return [
+            Stat::make('affiliate_commission_stats', Number::format($earnedTotal))
+                ->chart($this->chartValues($trend))
+                ->color('warning')
+                ->description(__('vendra-affiliate::widgets.affiliate_commission_stats_description'))
+                ->descriptionIcon('heroicon-m-banknotes', IconPosition::Before)
+                ->label(__('vendra-affiliate::widgets.affiliate_commission_stats')),
+        ];
+    }
+
+    /**
+     * @param Collection<(int|string), mixed> $values
+     *
+     * @return list<float>
+     */
+    private function chartValues(Collection $values): array
+    {
+        $chart = [];
+
+        foreach ($values as $value) {
+            if ($value instanceof TrendValue && is_numeric($value->aggregate)) {
+                $chart[] = (float) $value->aggregate;
+            }
+        }
+
+        return $chart;
+    }
+}

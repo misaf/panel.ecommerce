@@ -1,0 +1,91 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Tables;
+
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
+
+final class AffiliatePayoutTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('row')
+                    ->label('#')
+                    ->rowIndex(),
+
+                TextColumn::make('affiliate.code')
+                    ->label(__('vendra-affiliate::attributes.affiliate'))
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('amount')
+                    ->alignCenter()
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-affiliate::attributes.amount'))
+                    ->numeric(locale: 'en', maxDecimalPlaces: 0)
+                    ->sortable(),
+
+                TextColumn::make('status')
+                    ->alignCenter()
+                    ->badge()
+                    ->label(__('vendra-affiliate::attributes.status')),
+
+                TextColumn::make('transaction_id')
+                    ->alignCenter()
+                    ->label(__('vendra-affiliate::attributes.transaction'))
+                    ->toggleable(),
+
+                TextColumn::make('processed_at')
+                    ->alignCenter()
+                    ->badge()
+                    ->dateTime('Y-m-d H:i')
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-affiliate::attributes.processed_at'))
+                    ->sinceTooltip(),
+
+                TextColumn::make('created_at')
+                    ->alignCenter()
+                    ->badge()
+                    ->dateTime('Y-m-d H:i')
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-affiliate::attributes.created_at'))
+                    ->sinceTooltip()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters(
+                [
+                    SelectFilter::make('status')
+                        ->label(__('vendra-affiliate::attributes.status'))
+                        ->options(PayoutStatusEnum::class),
+
+                    QueryBuilder::make()
+                        ->constraints([
+                            NumberConstraint::make('amount')
+                                ->label(__('vendra-affiliate::attributes.amount')),
+
+                            DateConstraint::make('processed_at')
+                                ->label(__('vendra-affiliate::attributes.processed_at')),
+                        ]),
+                ],
+                layout: FiltersLayout::AboveContentCollapsible,
+            )
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                ]),
+            ])
+            ->defaultSort(column: 'created_at', direction: 'desc');
+    }
+}

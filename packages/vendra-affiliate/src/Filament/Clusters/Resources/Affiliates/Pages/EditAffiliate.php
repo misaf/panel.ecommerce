@@ -22,6 +22,7 @@ final class EditAffiliate extends EditRecord
     {
         return [
             ViewAction::make(),
+
             DeleteAction::make(),
         ];
     }
