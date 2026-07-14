@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Misaf\VendraLanguage\Providers;
 
 use BezhanSalleh\LanguageSwitch\Enums\Placement;
+
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
+use Composer\InstalledVersions;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -54,7 +56,7 @@ final class LanguageServiceProvider extends PackageServiceProvider
 
         $this->configureLanguageSwitch();
 
-        AboutCommand::add('Vendra Language', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Language', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-language')]);
     }
 
     private function configureLanguageSwitch(): void
