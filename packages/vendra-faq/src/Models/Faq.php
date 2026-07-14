@@ -17,6 +17,7 @@ use Misaf\VendraFaq\Database\Factories\FaqFactory;
 use Misaf\VendraMultimedia\Concerns\HasDefaultMediaConversions;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Traits\HasOptionalTags;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
@@ -53,10 +54,12 @@ final class Faq extends Model implements HasMedia, Sortable, ShouldLogActivity
     /** @use HasFactory<FaqFactory> */
     use HasFactory;
 
+    use HasOptionalTags;
     use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+    public const string TAG_TYPE = 'faq';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`
@@ -118,5 +121,10 @@ final class Faq extends Model implements HasMedia, Sortable, ShouldLogActivity
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug')
             ->preventOverwrite();
+    }
+
+    protected function tagType(): string
+    {
+        return self::TAG_TYPE;
     }
 }

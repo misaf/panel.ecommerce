@@ -20,6 +20,10 @@ Tenant-aware FAQ management for Vendra applications.
 - `misaf/vendra-user`
 - `misaf/vendra-activity-log`
 
+Optional:
+
+- `misaf/vendra-tagger` — enables assigning `faq`-typed tags through the shared Support resolver
+
 ## Installation
 
 ```bash
@@ -75,6 +79,16 @@ $faqs = Faq::query()
     ->where('status', true)
     ->get();
 ```
+
+When Tagger is installed, FAQ forms and tables expose tags automatically. Create tags with the reserved `faq` type:
+
+```php
+use Misaf\VendraTagger\Models\Tagger;
+
+Tagger::findOrCreate('Account', type: 'faq', locale: 'en');
+```
+
+FAQ imports neither Vendra Tagger nor Spatie Tags.
 
 ## Filament
 

@@ -15,6 +15,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
+use Misaf\VendraSupport\Support\TagIntegration;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class FaqForm
@@ -62,6 +63,8 @@ final class FaqForm
                     ->required()
                     ->json(),
 
+                ...self::tagFields(),
+
                 SpatieMediaLibraryFileUpload::make('image')
                     ->collection('faqs')
                     ->columnSpanFull()
@@ -81,5 +84,23 @@ final class FaqForm
                         'boolean',
                     ]),
             ]);
+    }
+
+    /** @return list<Select> */
+    private static function tagFields(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            Select::make('tags')
+                ->columnSpanFull()
+                ->label(__('vendra-faq::attributes.tags'))
+                ->multiple()
+                ->native(false)
+                ->preload()
+                ->relationship('tags', 'name'),
+        ];
     }
 }

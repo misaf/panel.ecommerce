@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaq\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraFaq\Console\Commands\SeedCommand;
@@ -47,6 +49,6 @@ final class FaqServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-faq:seed', priority: 50);
 
-        AboutCommand::add('Vendra Faq', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Faq', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-faq')]);
     }
 }

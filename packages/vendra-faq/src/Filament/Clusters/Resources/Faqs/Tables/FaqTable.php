@@ -27,10 +27,13 @@ use Livewire\Component as Livewire;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
+use Misaf\VendraSupport\Support\TagIntegration;
 
 final class FaqTable
 {
     use HasDefaultAvatarImageUrl;
+    use InteractsWithTranslatedTableRecords;
 
     public static function configure(Table $table): Table
     {
@@ -47,7 +50,7 @@ final class FaqTable
                 ->collection('faqs')
                 ->conversion('thumb-table')
                 ->defaultImageUrl(function (Faq $record, Livewire $livewire): string {
-                    return static::defaultAvatarImageUrl($record->getTranslation('name', $livewire->activeLocale));
+                    return static::defaultAvatarImageUrl(static::translatedAttribute($record, 'name', $livewire));
                 })
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
                 ->label(__('vendra-faq::attributes.image'))
@@ -61,6 +64,8 @@ final class FaqTable
                 ->alignStart()
                 ->label(__('vendra-faq::attributes.slug'))
                 ->toggleable(isToggledHiddenByDefault: true),
+
+            ...self::tagColumns(),
 
             ToggleColumn::make('status')
                 ->label(__('vendra-faq::attributes.status'))
@@ -104,7 +109,7 @@ final class FaqTable
                                 ->selectable(
                                     IsRelatedToOperator::make()
                                         ->getOptionLabelFromRecordUsing(function (FaqCategory $record, Livewire $livewire) {
-                                            return $record->getTranslation('name', $livewire->activeLocale);
+                                            return static::translatedAttribute($record, 'name', $livewire);
                                         })
                                         ->preload()
                                         ->searchable()
@@ -137,8 +142,25 @@ final class FaqTable
                 Group::make('faqCategory.name')
                     ->label(__('vendra-faq::navigation.faq_category'))
                     ->getTitleFromRecordUsing(function (Faq $record, Livewire $livewire) {
-                        return $record->faqCategory?->getTranslation('name', $livewire->activeLocale);
+                        return $record->faqCategory
+                            ? static::translatedAttribute($record->faqCategory, 'name', $livewire)
+                            : '';
                     })
             );
+    }
+
+    /** @return list<TextColumn> */
+    private static function tagColumns(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            TextColumn::make('tags.name')
+                ->badge()
+                ->label(__('vendra-faq::attributes.tags'))
+                ->toggleable(),
+        ];
     }
 }
