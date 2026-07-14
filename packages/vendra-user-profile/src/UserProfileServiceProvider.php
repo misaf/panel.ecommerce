@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraUserProfile;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
@@ -48,7 +50,7 @@ final class UserProfileServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra User Profile', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra User Profile', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-user-profile')]);
 
         Gate::after(function (User $user): ?true {
             return $user->hasRole(Config::string('vendra-permission.super_admin_role', 'superadmin')) ? true : null;

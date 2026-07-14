@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 use Misaf\VendraUser\Filament\Clusters\UsersCluster;
 use Misaf\VendraUserProfile\Enums\UserProfileFeatureEnum;
 use Misaf\VendraUserProfile\Filament\Resources\Pages\CreateUserProfile;
@@ -54,7 +55,7 @@ final class UserProfileResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('navigation.user_management');
+        return NavigationGroup::Customers->getLabel();
     }
 
     public static function getNavigationLabel(): string
