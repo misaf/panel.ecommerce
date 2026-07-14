@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttribute\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraAttribute\AttributePlugin;
@@ -55,7 +57,7 @@ final class AttributeServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-attribute:seed', priority: 35);
 
-        AboutCommand::add('Vendra Attribute', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Attribute', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-attribute')]);
     }
 
 }

@@ -12,3 +12,10 @@ arch('the attribute module is independent of product and concrete tenant provide
         'Misaf\VendraProduct',
         'Misaf\VendraTenant',
     ]);
+
+arch('the attribute module integrates tags through support, never the tagger or Spatie tags modules')
+    ->expect('Misaf\VendraAttribute')
+    ->not->toUse([
+        'Misaf\VendraTagger',
+        'Spatie\Tags',
+    ]);

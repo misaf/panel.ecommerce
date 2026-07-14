@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'navigation_group' => 'vendra-attribute::navigation.content_management',
+    'navigation_group' => 'vendra-support::navigation.groups.Catalog',
 
     /*
     |--------------------------------------------------------------------------
@@ -59,4 +59,5 @@ return [
         'month' => 'Month',
         'year'  => 'Year',
     ],
+
 ];

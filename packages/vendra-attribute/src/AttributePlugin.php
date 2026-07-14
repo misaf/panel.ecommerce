@@ -7,6 +7,7 @@ namespace Misaf\VendraAttribute;
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Illuminate\Support\Facades\Config;
 
 final class AttributePlugin implements Plugin
 {
@@ -39,7 +40,7 @@ final class AttributePlugin implements Plugin
         $group = $this->navigationGroup;
 
         if (null === $group) {
-            $configuredGroup = config('vendra-attribute.navigation_group');
+            $configuredGroup = Config::get('vendra-attribute.navigation_group');
             $group = is_string($configuredGroup) ? $configuredGroup : null;
         }
 
@@ -49,7 +50,7 @@ final class AttributePlugin implements Plugin
 
         return is_string($group) && '' !== $group
             ? trans_choice($group, 1)
-            : trans_choice('vendra-attribute::navigation.content_management', 1);
+            : __('vendra-support::navigation.groups.Catalog');
     }
 
     public function register(Panel $panel): void

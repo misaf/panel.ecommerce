@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttribute\Filament\Clusters;
 
+use BackedEnum;
 use Filament\Clusters\Cluster;
+use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Support\Icons\Heroicon;
 use Misaf\VendraAttribute\AttributePlugin;
 
 final class AttributesCluster extends Cluster
 {
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $slug = 'attributes';
+
+    protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAdjustmentsHorizontal;
 
     public static function getNavigationGroup(): string
     {

@@ -20,6 +20,10 @@ Reusable, tenant-agnostic attributes and polymorphic values for Vendra applicati
 - Filament 5
 - `misaf/vendra-support`
 
+Optional:
+
+- `misaf/vendra-tagger` — enables assigning `attribute`-typed tags through the shared Support resolver
+
 ## Installation
 
 ```bash
@@ -40,6 +44,16 @@ The service provider and Filament plugin are auto-registered.
 When `misaf/vendra-product` is also installed by the host application, its
 attribute fields are enabled automatically through the shared Vendra Support
 resolver. Neither package requires the other directly.
+
+When `misaf/vendra-tagger` is installed, the Attribute form and table expose tags automatically. Create tags with the reserved `attribute` type:
+
+```php
+use Misaf\VendraTagger\Models\Tagger;
+
+Tagger::findOrCreate('Product specification', type: 'attribute', locale: 'en');
+```
+
+Attribute imports neither Vendra Tagger nor Spatie Tags.
 
 ## Usage
 

@@ -13,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Misaf\VendraAttribute\Models\Attribute;
+use Misaf\VendraSupport\Support\TagIntegration;
 
 final class AttributeTable
 {
@@ -29,6 +30,8 @@ final class AttributeTable
                 TextColumn::make('unit')
                     ->badge()
                     ->label(trans_choice('vendra-attribute::attributes.unit', 1)),
+
+                ...self::tagColumns(),
 
                 TextColumn::make('values_count')
                     ->badge()
@@ -51,5 +54,20 @@ final class AttributeTable
             ])
             ->defaultSort('position', 'desc')
             ->reorderable('position', direction: 'desc');
+    }
+
+    /** @return list<TextColumn> */
+    private static function tagColumns(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            TextColumn::make('tags.name')
+                ->badge()
+                ->label(trans_choice('vendra-attribute::attributes.tags', 2))
+                ->toggleable(),
+        ];
     }
 }

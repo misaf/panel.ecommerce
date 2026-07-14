@@ -11,6 +11,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rules\Unique;
 use Misaf\VendraAttribute\Support\AttributeUnits;
+use Misaf\VendraSupport\Support\TagIntegration;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class AttributeForm
@@ -40,6 +41,8 @@ final class AttributeForm
                     ->label(trans_choice('vendra-attribute::attributes.description', 1))
                     ->rows(4),
 
+                ...self::tagFields(),
+
                 Toggle::make('status')
                     ->columnSpanFull()
                     ->default(true)
@@ -47,5 +50,23 @@ final class AttributeForm
                     ->required(),
             ])
             ->columns(2);
+    }
+
+    /** @return list<Select> */
+    private static function tagFields(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            Select::make('tags')
+                ->columnSpanFull()
+                ->label(trans_choice('vendra-attribute::attributes.tags', 2))
+                ->multiple()
+                ->native(false)
+                ->preload()
+                ->relationship('tags', 'name'),
+        ];
     }
 }

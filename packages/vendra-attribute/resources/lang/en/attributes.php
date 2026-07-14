@@ -7,6 +7,7 @@ return [
     'name'        => 'Name',
     'position'    => 'Position',
     'status'      => 'Status',
+    'tags'        => 'Tags',
     'unit'        => 'Unit',
     'value'       => 'Value',
     'values'      => 'Values',

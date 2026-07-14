@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 use Misaf\VendraAttribute\Database\Factories\AttributeFactory;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Traits\HasOptionalTags;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -39,9 +40,11 @@ final class Attribute extends Model implements ShouldLogActivity, Sortable
 
     /** @use HasFactory<AttributeFactory> */
     use HasFactory;
+    use HasOptionalTags;
 
     use SoftDeletes;
     use SortableTrait;
+    public const string TAG_TYPE = 'attribute';
 
     /** @var array{order_column_name: string, sort_when_creating: bool} */
     public array $sortable = [
@@ -67,5 +70,10 @@ final class Attribute extends Model implements ShouldLogActivity, Sortable
             'position'    => 'integer',
             'status'      => 'boolean',
         ];
+    }
+
+    protected function tagType(): string
+    {
+        return self::TAG_TYPE;
     }
 }

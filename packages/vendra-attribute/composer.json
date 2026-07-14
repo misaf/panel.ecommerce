@@ -45,6 +45,9 @@
         "format": "vendor/bin/pint",
         "test": "vendor/bin/pest"
     },
+    "suggest": {
+        "misaf/vendra-tagger": "Install this in the host application to assign typed tags to attributes."
+    },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true,
