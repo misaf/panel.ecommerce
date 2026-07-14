@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCurrency\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraCurrency\Console\Commands\SeedCommand;
@@ -55,6 +57,6 @@ final class CurrencyServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-currency:seed', priority: 30);
 
-        AboutCommand::add('Vendra Currency', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Currency', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-currency')]);
     }
 }
