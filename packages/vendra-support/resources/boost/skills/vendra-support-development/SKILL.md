@@ -1,6 +1,6 @@
 ---
 name: vendra-support-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Support module in packages/vendra-support, or when changing anything tenant-awareness related. Trigger for TenantResolver, NullTenantResolver, TenantAwareness, BelongsToTenant, TenantScope, TeamScope, TenantSchema, RequiresCurrentTenant, TenantSeeders, base DemoContentSeeder / PermissionPolicySeeder, SeedCommand / TenantSeedCommand, shared Filament concerns, and shared events/listeners."
+description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Support module in packages/vendra-support, changing tenant awareness, optional capability resolvers, or shared Filament sidebar navigation. Trigger for TenantResolver, TagResolver, TagIntegration, NullTenantResolver, TenantAwareness, BelongsToTenant, TenantScope, TeamScope, TenantSchema, RequiresCurrentTenant, TenantSeeders, shared seeders and commands, Filament NavigationGroup taxonomy, navigation groups, package sidebar priority, package icons, clusters, sub-navigation, shared Filament concerns, and shared events/listeners."
 ---
 
 # Vendra Support
@@ -16,6 +16,9 @@ Treat `packages/vendra-support` as the shared support and tenant-awareness core.
 - Use namespace `Misaf\VendraSupport`.
 - Own the tenant abstraction here and nowhere else: the `TenantResolver` contract, the default `NullTenantResolver`, `TenantAwareness`, `BelongsToTenant`, `TenantScope`/`TeamScope`, `TenantSchema`, `RequiresCurrentTenant`, `TenantSeeders`, the base seeders and seed commands, and shared Filament concerns.
 - Never depend on a concrete tenant provider (`Misaf\VendraTenant`) or any domain module. Support sits at the bottom of the dependency graph and must build and run standalone.
+- Own small optional-provider boundaries here. Tag consumers use `TagResolver`, `TagIntegration`, and `TagRelationship`; the concrete Tagger module binds the available resolver.
+- Keep `TagRelationship` limited to Eloquent polymorphic relationship metadata. Do not leak Spatie Tags or a domain model into Support.
+- Keep the reusable consumer relation in `HasOptionalTags`; require each model to return a stable domain-specific type and keep unavailable-provider failure behavior consistent.
 
 ## Tenant Abstraction Rules
 
@@ -31,6 +34,27 @@ Tenant awareness is derived purely from the bound resolver — never from config
 
 - Base `DemoContentSeeder` / `PermissionPolicySeeder` and `SeedCommand` / `TenantSeedCommand` must run tenant-agnostically: seed globally when tenancy is off, per-tenant (optional `{tenant?}` arg) when on.
 - Keep shared Filament concerns generic and free of any single module's domain assumptions.
+
+## Filament Navigation Architecture
+
+Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single source of navigation group labels and priority. Do not add app translation strings as package group defaults.
+
+- Register groups in the admin panel as `Filament\Navigation\NavigationGroup` objects with label closures. Do not pass the enum class directly: the locale middleware runs after panel construction, so eager labels can be cached in the wrong locale.
+- Keep group order: Catalog, Sales, Customers, Content, Marketing, Localization, System.
+- Keep current item order:
+  - Catalog: Products 1, Attributes 2.
+  - Sales: Transactions 1 when enabled, Currencies 2, Carts 3.
+  - Customers: Users 1, Permissions 2.
+  - Content: Blog 1, Custom Pages 2, FAQs 3, Multimedia 4, Tags 5.
+  - Marketing: Affiliates 1, Newsletters 2.
+  - Localization: Languages 1, Geography 2.
+  - System: Settings 1, Activity Logs 2, Authentication Logs 3.
+- Represent a multi-resource package with one cluster sidebar item and set `$subNavigationPosition = SubNavigationPosition::Top`; keep the cluster's resources as text-only tabs.
+- Set one distinct outlined `Heroicon` on every top-level cluster or standalone resource. Keep navigation group headers and cluster child resources icon-free to avoid Filament's group/item icon conflict.
+- Preserve package plugin `navigationGroup(...)` overrides and default them to `vendra-support::navigation.groups.*`.
+- Use the package label for its cluster breadcrumb. Never use the broad group label as the breadcrumb.
+- Update `tests/Unit/AdminNavigationTest.php` for group order, locale-safe labels, item sort, icons, and top sub-navigation.
+- Verify the rendered sidebar in at least one non-default locale and open each new destination. Do not expose incomplete or failing package UI.
 
 ## Testing And Verification
 
