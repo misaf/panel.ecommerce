@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraNewsletter\Console\Commands\Newsletter\SendCommand as NewsletterSendCommand;
@@ -58,6 +60,6 @@ final class NewsletterServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-newsletter:seed', priority: 65);
 
-        AboutCommand::add('Vendra Newsletter', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Newsletter', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-newsletter')]);
     }
 }

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'batch_chunk_size' => env('NEWSLETTER_BATCH_CHUNK_SIZE', 100),
+    'batch_chunk_size' => (int) env('NEWSLETTER_BATCH_CHUNK_SIZE', 100),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,9 +26,9 @@ return [
 
     'queue' => [
         'name'          => env('NEWSLETTER_QUEUE_NAME', 'marketing-email'),
-        'tries'         => env('NEWSLETTER_QUEUE_TRIES', 3),
-        'timeout'       => env('NEWSLETTER_QUEUE_TIMEOUT', 300),
-        'email_timeout' => env('NEWSLETTER_EMAIL_QUEUE_TIMEOUT', 30),
+        'tries'         => (int) env('NEWSLETTER_QUEUE_TRIES', 3),
+        'timeout'       => (int) env('NEWSLETTER_QUEUE_TIMEOUT', 300),
+        'email_timeout' => (int) env('NEWSLETTER_EMAIL_QUEUE_TIMEOUT', 30),
     ],
 
 ];

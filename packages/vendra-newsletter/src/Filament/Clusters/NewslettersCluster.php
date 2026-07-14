@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Filament\Clusters;
 
+use BackedEnum;
 use Filament\Clusters\Cluster;
+use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Support\Icons\Heroicon;
+use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 
 final class NewslettersCluster extends Cluster
 {
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $slug = 'newsletters';
 
+    protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedEnvelope;
+
     public static function getNavigationGroup(): string
     {
-        return __('navigation.content_management');
+        return NavigationGroup::Marketing->getLabel();
     }
 
     public static function getNavigationLabel(): string
@@ -24,6 +32,6 @@ final class NewslettersCluster extends Cluster
 
     public static function getClusterBreadcrumb(): string
     {
-        return __('navigation.content_management');
+        return __('vendra-newsletter::navigation.newsletter');
     }
 }
