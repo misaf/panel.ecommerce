@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPage\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraCustomPage\Console\Commands\SeedCommand;
@@ -47,6 +49,6 @@ final class CustomPageServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-custom-page:seed', priority: 60);
 
-        AboutCommand::add('Vendra Custom Page', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Custom Page', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-custom-page')]);
     }
 }
