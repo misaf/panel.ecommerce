@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraActivityLog\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Event;
@@ -49,7 +51,7 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-activity-log:seed', priority: 85);
 
-        AboutCommand::add('Vendra Activity Log', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Activity Log', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-activity-log')]);
 
         $this->registerActivityLogListeners();
     }

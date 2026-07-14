@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraActivityLog\Listeners;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 
@@ -39,7 +40,7 @@ final class LogModelActivity
             return;
         }
 
-        if ( ! config('activitylog.enabled', true)) {
+        if ( ! Config::boolean('activitylog.enabled', true)) {
             return;
         }
 

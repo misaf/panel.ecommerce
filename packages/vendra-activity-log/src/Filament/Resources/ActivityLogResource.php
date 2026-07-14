@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraActivityLog\Filament\Resources;
 
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraActivityLog\Filament\Resources\Pages\ListActivityLogs;
 use Misaf\VendraActivityLog\Filament\Resources\Pages\ViewActivityLog;
 use Misaf\VendraActivityLog\Filament\Resources\Tables\ActivityLogTable;
 use Misaf\VendraActivityLog\Models\ActivityLog;
+use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 
 final class ActivityLogResource extends Resource
 {
@@ -17,11 +20,13 @@ final class ActivityLogResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
+
     protected static ?string $slug = 'activity-logs';
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.report_management');
+        return __('vendra-activity-log::navigation.activity_log');
     }
 
     public static function getModelLabel(): string
@@ -31,7 +36,7 @@ final class ActivityLogResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('navigation.report_management');
+        return NavigationGroup::System->getLabel();
     }
 
     public static function getNavigationLabel(): string
