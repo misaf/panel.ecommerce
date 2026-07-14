@@ -14,7 +14,7 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component as Livewire;
-use Misaf\VendraAffiliate\Models\Affiliate;
+use Misaf\VendraAffiliate\Actions\AttributeReferral;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUser\Rules\EmailValidation;
@@ -42,26 +42,17 @@ final class Register extends \Filament\Auth\Pages\Register
 
     protected function afterRegister(): void
     {
-        if ($this->affiliate) {
-            $affiliate = Affiliate::query()
-                ->where('slug', $this->affiliate)
-                ->where('status', true)
-                ->first();
-
-            if ( ! $affiliate) {
-                return;
-            }
-
-            $record = $this->form->getRecord();
-
-            if ( ! $record instanceof User) {
-                return;
-            }
-
-            $affiliate->affiliateUsers()->create([
-                'user_id' => $record->id,
-            ]);
+        if (null === $this->affiliate || '' === $this->affiliate) {
+            return;
         }
+
+        $record = $this->form->getRecord();
+
+        if ( ! $record instanceof User) {
+            return;
+        }
+
+        app(AttributeReferral::class)->onQueue()->execute($this->affiliate, $record);
     }
 
     public function form(Schema $schema): Schema

@@ -11,7 +11,6 @@ return new class () extends Migration {
     {
         Schema::disableForeignKeyConstraints();
         $this->createUsersTable();
-        $this->createSocialiteUsersTable();
         $this->createPasswordResetTokensTable();
         $this->createSessionsTable();
         Schema::enableForeignKeyConstraints();
@@ -21,7 +20,6 @@ return new class () extends Migration {
     {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('users');
-        Schema::dropIfExists('socialite_users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
         Schema::enableForeignKeyConstraints();
@@ -47,23 +45,6 @@ return new class () extends Migration {
             $table->index(['tenant_id', 'username']);
             $table->index(['tenant_id', 'email']);
             $table->index(['tenant_id', 'password_fingerprint']);
-        });
-    }
-
-    private function createSocialiteUsersTable(): void
-    {
-        Schema::create('socialite_users', function (Blueprint $table): void {
-            $table->id();
-            $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('provider');
-            $table->string('provider_id');
-            $table->timestampsTz();
-
-            $table->unique([
-                'provider',
-                'provider_id',
-            ]);
         });
     }
 

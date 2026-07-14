@@ -30,7 +30,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Misaf\VendraUser\Models\User;
+use Misaf\VendraLocalization\Http\Middleware\SetLocale;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
@@ -74,6 +74,7 @@ final class UserPanelServiceProvider extends PanelProvider
                 EnsureValidTenantSession::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetLocale::class,
             ])
             // ->navigationGroups([
             //     NavigationGroup::make()
@@ -104,12 +105,6 @@ final class UserPanelServiceProvider extends PanelProvider
             //         ['userId' => filament()->auth()->user()->getAuthIdentifier()],
             //     ),
             // )
-            // ->plugins([
-            //     FilamentDeveloperLoginsPlugin::make()
-            //         ->enabled(app()->environment('local'))
-            //         ->users(fn() => User::query()->role(['super-admin'])->pluck('email', 'username')->toArray())
-            //         ->modelClass(User::class),
-            // ]);
         ;
     }
 }

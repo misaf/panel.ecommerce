@@ -6,11 +6,12 @@ namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Auth\Login;
 use Filament\Contracts\Plugin;
+use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationGroup as FilamentNavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -18,11 +19,10 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
-use Misaf\VendraPermission\Models\Role;
-use Misaf\VendraUser\Models\User;
+use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
@@ -54,18 +54,20 @@ final class AdminPanelServiceProvider extends PanelProvider
                 EnsureValidTenantSession::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->navigationGroups([
-                NavigationGroup::make()->label(fn(): string => __('navigation.user_management'))->icon('heroicon-o-users')->collapsed(),
-                NavigationGroup::make()->label(fn(): string => __('navigation.billing_management'))->icon('heroicon-o-credit-card')->collapsed(),
-                NavigationGroup::make()->label(fn(): string => __('navigation.transaction_management'))->icon('heroicon-o-users')->collapsed(),
-                NavigationGroup::make()->label(fn(): string => __('navigation.content_management'))->collapsed(),
-                NavigationGroup::make()->label(fn(): string => __('navigation.report_management'))->icon('heroicon-o-bug-ant')->collapsed(),
-                NavigationGroup::make()->label(fn(): string => __('navigation.setting_management'))->icon('heroicon-o-cog-6-tooth')->collapsed(),
-            ])
+            ->navigationGroups(array_map(
+                static fn(NavigationGroup $group): FilamentNavigationGroup => FilamentNavigationGroup::make()
+                    ->label(static fn(): string => $group->getLabel()),
+                NavigationGroup::cases(),
+            ))
+            ->font(
+                fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
+                provider: SpatieGoogleFontProvider::class,
+            )
             ->path('/admin')
             ->profile()
             ->spa(hasPrefetching: true)
@@ -85,65 +87,6 @@ final class AdminPanelServiceProvider extends PanelProvider
                 ->defaultLocales(['en', 'fa', 'de']),
         ];
 
-        $developerLoginsPlugin = 'DutchCodingCompany\\FilamentDeveloperLogins\\FilamentDeveloperLoginsPlugin';
-
-        if (app()->environment('local') && class_exists($developerLoginsPlugin)) {
-            $plugins[] = $developerLoginsPlugin::make()
-                ->enabled(fn(): bool => $this->hasSuperAdminUser())
-                ->users(function (): array {
-                    $role = $this->superAdminRole();
-
-                    if (null === $role) {
-                        return [];
-                    }
-
-                    return $this->userModelClass()::query()
-                        ->role($role)
-                        ->pluck('email', 'username')
-                        ->toArray();
-                })
-                ->modelClass($this->userModelClass());
-        }
-
         return $plugins;
-    }
-
-    /**
-     * @return class-string<User>
-     */
-    private function userModelClass(): string
-    {
-        return User::class;
-    }
-
-    private function hasSuperAdminUser(): bool
-    {
-        $role = $this->superAdminRole();
-
-        if (null === $role) {
-            return false;
-        }
-
-        return $this->userModelClass()::query()
-            ->role($role)
-            ->exists();
-    }
-
-    private function superAdminRole(): ?Role
-    {
-        return Role::query()
-            ->where('name', $this->configuredSuperAdminRole())
-            ->where('guard_name', $this->authGuardName())
-            ->first();
-    }
-
-    private function configuredSuperAdminRole(): string
-    {
-        return Config::string('vendra-permission.super_admin_role');
-    }
-
-    private function authGuardName(): string
-    {
-        return Config::string('auth.defaults.guard');
     }
 }

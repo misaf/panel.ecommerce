@@ -13,6 +13,9 @@
         <testsuite name="vendra-affiliate">
             <directory>packages/vendra-affiliate/tests</directory>
         </testsuite>
+        <testsuite name="vendra-affiliate-api">
+            <directory>packages/vendra-affiliate-api/tests</directory>
+        </testsuite>
         <testsuite name="vendra-api">
             <directory>packages/vendra-api/tests</directory>
         </testsuite>
@@ -39,6 +42,9 @@
         </testsuite>
         <testsuite name="vendra-currency">
             <directory>packages/vendra-currency/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-developer-logins">
+            <directory>packages/vendra-developer-logins/tests</directory>
         </testsuite>
         <testsuite name="vendra-custom-page">
             <directory>packages/vendra-custom-page/tests</directory>
@@ -93,6 +99,9 @@
         </testsuite>
         <testsuite name="vendra-transaction">
             <directory>packages/vendra-transaction/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-socialite">
+            <directory>packages/vendra-socialite/tests</directory>
         </testsuite>
         <testsuite name="vendra-user">
             <directory>packages/vendra-user/tests</directory>
