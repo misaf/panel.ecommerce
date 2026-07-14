@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Providers;
 
+use Composer\InstalledVersions;
+
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraSubscription\Console\Commands\ProvisionTenantCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -26,6 +28,6 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Subscription', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Subscription', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-subscription')]);
     }
 }
