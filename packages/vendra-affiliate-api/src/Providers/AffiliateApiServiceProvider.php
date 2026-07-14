@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliateApi\Providers;
 
+use Composer\InstalledVersions;
+
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraAffiliateApi\JsonApi\V1\Server as AffiliateServer;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,11 +22,11 @@ final class AffiliateApiServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        config()->set('jsonapi.servers.vendra-affiliate', config('jsonapi.servers.vendra-affiliate', AffiliateServer::class));
+        Config::set('jsonapi.servers.vendra-affiliate', Config::string('jsonapi.servers.vendra-affiliate', AffiliateServer::class));
     }
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Affiliate API', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Affiliate API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-affiliate-api')]);
     }
 }
