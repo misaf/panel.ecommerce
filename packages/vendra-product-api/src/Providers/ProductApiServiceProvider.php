@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraProductApi\Providers;
 
+use Composer\InstalledVersions;
+
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraProductApi\JsonApi\V1\Server as ProductServer;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,11 +22,11 @@ final class ProductApiServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        config()->set('jsonapi.servers.vendra-product', config('jsonapi.servers.vendra-product', ProductServer::class));
+        Config::set('jsonapi.servers.vendra-product', Config::string('jsonapi.servers.vendra-product', ProductServer::class));
     }
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Product API', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Product API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-product-api')]);
     }
 }
