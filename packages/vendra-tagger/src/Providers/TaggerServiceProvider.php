@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace Misaf\VendraTagger\Providers;
 
+use Composer\InstalledVersions;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
+use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
+use Misaf\VendraSupport\Support\EloquentTagResolver;
+use Misaf\VendraSupport\Support\TagRelationship;
 use Misaf\VendraSupport\Support\TenantSeeders;
 use Misaf\VendraTagger\Console\Commands\SeedCommand;
+use Misaf\VendraTagger\Models\Tagger;
 use Misaf\VendraTagger\TaggerPlugin;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -22,6 +29,7 @@ final class TaggerServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('vendra-tagger')
+            ->hasConfigFile()
             ->hasTranslations()
             ->hasMigrations([
                 'add_tenant_id_column_to_tags_table',
@@ -36,6 +44,26 @@ final class TaggerServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
+        $this->app->singleton(
+            TagResolver::class,
+            function (): EloquentTagResolver {
+                $morphName = Config::string('tags.taggable.morph_name', 'taggable');
+                $pivotModel = Config::string('tags.taggable.class_name', MorphPivot::class);
+
+                if ( ! is_a($pivotModel, MorphPivot::class, true)) {
+                    $pivotModel = MorphPivot::class;
+                }
+
+                return new EloquentTagResolver(new TagRelationship(
+                    model: Tagger::class,
+                    morphName: $morphName,
+                    table: Config::string('tags.taggable.table_name', 'taggables'),
+                    foreignPivotKey: "{$morphName}_id",
+                    pivotModel: $pivotModel,
+                ));
+            },
+        );
+
         Panel::configureUsing(function (Panel $panel): void {
             if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-tagger')) {
                 return;
@@ -49,6 +77,6 @@ final class TaggerServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-tagger:seed', priority: 70);
 
-        AboutCommand::add('Vendra Tagger', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Tagger', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-tagger')]);
     }
 }

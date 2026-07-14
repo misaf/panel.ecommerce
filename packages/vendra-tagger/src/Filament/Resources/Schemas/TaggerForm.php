@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraTagger\Filament\Resources\Pages\CreateTagger;
+use Misaf\VendraTagger\Filament\Resources\Pages\EditTagger;
 
 final class TaggerForm
 {
@@ -24,16 +26,17 @@ final class TaggerForm
                         $livewire->validateOnly('data.name');
 
                         if (($get->string('slug', isNullable: true) ?? '') === Str::slug($old ?? '')) {
-                            $set('slug', Str::slug($state));
+                            $set('slug', Str::slug($state ?? ''));
                         }
                     })
                     ->autofocus()
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-tagger::attributes.name'))
                     ->live(onBlur: true)
+                    ->maxLength(255)
                     ->required()
                     ->unique(
-                        column: fn(Livewire $livewire) => 'name->' . $livewire->activeLocale,
+                        column: fn(CreateTagger|EditTagger $livewire): string => 'name->' . ($livewire->activeLocale ?? app()->getLocale()),
                         modifyRuleUsing: function (Unique $rule, Get $get): void {
                             TenantAwareness::constrainUniqueRule($rule);
 
@@ -50,14 +53,20 @@ final class TaggerForm
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-tagger::attributes.slug_helper_text'))
                     ->label(__('vendra-tagger::attributes.slug'))
+                    ->maxLength(255)
                     ->required()
                     ->unique(
-                        column: fn(Livewire $livewire) => 'slug->' . $livewire->activeLocale,
-                        modifyRuleUsing: function (Unique $rule): void {
+                        column: fn(CreateTagger|EditTagger $livewire): string => 'slug->' . ($livewire->activeLocale ?? app()->getLocale()),
+                        modifyRuleUsing: function (Unique $rule, Get $get): void {
                             TenantAwareness::constrainUniqueRule($rule);
+
+                            $type = $get->string('type', isNullable: true);
+
+                            if (null !== $type) {
+                                $rule->where('type', $type);
+                            }
                         },
-                    )
-                    ->label(__('vendra-tagger::attributes.slug')),
+                    ),
 
                 TextInput::make('type')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.type'))
@@ -65,11 +74,7 @@ final class TaggerForm
                     ->columnSpanFull()
                     ->label(__('vendra-tagger::attributes.type'))
                     ->live(onBlur: true)
-                    ->unique(
-                        modifyRuleUsing: function (Unique $rule): void {
-                            TenantAwareness::constrainUniqueRule($rule);
-                        },
-                    ),
+                    ->maxLength(255),
             ]);
     }
 }

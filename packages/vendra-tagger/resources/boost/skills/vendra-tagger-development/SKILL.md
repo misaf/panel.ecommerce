@@ -1,13 +1,13 @@
 ---
 name: vendra-tagger-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Tagger module in packages/vendra-tagger, or when creating future tagger-like Filament/domain modules. Trigger for `Tagger` models, vendra-tagger migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Build, modify, review, or test the Vendra Tagger module in packages/vendra-tagger. Use for the Tagger model, Spatie tags integration, tag migrations, factories, permission policies, Filament resources/forms/tables, translated names and slugs, sortable positions, tenant-aware validation, package configuration, plugin/service-provider wiring, translations, and module documentation."
 ---
 
 # Vendra Tagger
 
 ## Required Context
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Use `laravel-best-practices` for Laravel PHP and `pest-testing` whenever tests change. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 
@@ -19,32 +19,31 @@ Treat `packages/vendra-tagger` as the source of tagger domain behavior and Filam
 - Keep domain models, factories, seeders, policies, observers, console commands, Filament classes, config, migrations, translations, and tests inside this module.
 - Do not place tagger domain code in the host app unless the host app is only integrating the module.
 - Keep cross-module dependencies explicit in `composer.json`; do not introduce a dependency without approval.
+- Depend on `misaf/vendra-support`, never on a concrete tenant provider or unrelated domain package.
 
 ## Domain Model Standards
 
-Follow the existing `Tagger` patterns for new tagger entities.
+Treat `Tagger` as the package's extension of `Spatie\Tags\Tag`.
 
 - Use `declare(strict_types=1)`, final classes, typed method signatures, and PHPDoc generics for relationships.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file's density and do not add comments that restate the code.
-- Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
+- Keep `#[Hidden(['tenant_id'])]` and `#[UseFactory(TaggerFactory::class)]` on the model.
 - Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`). The module must build and run whether or not a tenant provider is installed, so never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. There is no `tenant_aware` config toggle.
 - Hide `tenant_id` and keep tenant behavior centralized in the support layer; do not duplicate tenant scoping or `tenant_id` assignment in models, Filament resources, factories, or seeders. `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
-- Use `HasTranslations` for localized `name`, `description`, and `slug`-like fields where the entity is translatable.
-- Use `SoftDeletes` for user-managed content records unless there is a clear reason not to.
-- Use `SortableTrait` and an integer `position` field for ordered admin content.
-- For media-enabled records, implement `HasMedia`, use `InteractsWithMedia` with `HasDefaultMediaConversions`, expose a `multimedia()` morph relation, and define a stable `MEDIA_COLLECTION` constant.
-- For slugs, use `Spatie\Sluggable\SlugOptions`, generate from translated names, and prevent overwrite unless regeneration is intended.
+- Preserve Spatie's translated `name` and `slug` contract. Generate a slug from the translated name when absent and preserve a provided translated slug.
+- Pin sortable behavior to the integer `position` column. Never rely on Spatie Eloquent Sortable's default `order_column`, because the package migration renames that column.
+- Keep factories tenant-safe and omit `tenant_id`; tenant assignment belongs to `BelongsToTenant`.
 
 ## Filament Standards
 
-Keep Filament UI organized under `src/Filament/Clusters`.
+Keep the standalone Filament UI under `src/Filament/Resources`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.
 - Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
 - Use this module's translation keys (`vendra-tagger::attributes`, `vendra-tagger::navigation`) for labels, breadcrumbs, and navigation.
-- Prevent N+1 issues in tables and relation managers with eager loading, `withCount`, or computed state based on loaded relationships.
-- Use public media visibility only when public access is actually required.
+- Keep translated name and slug validation unique within the current tenant and tag type. The `type` field itself is not unique.
+- Keep table reordering on `position` and use the permission-backed `reorder` policy.
 
 ## Permissions And Navigation
 
@@ -54,14 +53,25 @@ Use policy enums and policies as the permission source.
 - Keep policy method names aligned with Filament actions: `viewAny`, `view`, `create`, `update`, `delete`, `deleteAny`, `restore`, `restoreAny`, `forceDelete`, `forceDeleteAny`, `replicate`, and `reorder` as applicable.
 - Update `PermissionPolicySeeder` when new permissions are introduced.
 - Keep navigation labels and groups configurable through the module `Plugin` and `config/vendra-tagger.php`. Do not add a `tenant_aware` config value; tenant awareness derives from the bound `TenantResolver`.
+- Default `panels` to `['admin']` and `navigation_group` to `vendra-support::navigation.groups.Content`; allow plugin-level navigation group overrides.
+
+## Package Integration
+
+- Register config, translations, migrations, and commands through `TaggerServiceProvider` using Laravel Package Tools.
+- Register Filament resources through `TaggerPlugin`; do not wire them into host panel providers.
+- Keep `config/vendra-tagger.php` cache-safe: use lowercase keys, scalar/array values, no closures, and `env()` only when an environment override is genuinely needed.
+- Require consumers to point `tags.tag_model` at `Misaf\VendraTagger\Models\Tagger`. Do not silently replace an explicit host override.
+- Bind `Misaf\VendraSupport\Contracts\TagResolver` to relationship metadata for `Tagger` and the configured Spatie taggable pivot. This lets consumers detect tags without importing this package.
+- Never depend on or import `misaf/vendra-product`. Product-specific UI and the reserved `product` type belong to Product; Tagger remains a generic provider.
+- The User, Blog, and Affiliate packages likewise own their `user`, `blog`, and `affiliate` types and UI. Never add those domain packages as Tagger dependencies.
+- Attribute and FAQ own their `attribute` and `faq` types and UI. Never add those packages as Tagger dependencies.
 
 ## Data And Localization
 
 Migrations, factories, seeders, and translation files are part of the contract.
 
-- Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
+- Keep the Spatie tags migration as an installation prerequisite. Package migration stubs add optional tenant ownership, rename `order_column` to `position`, and index tenant/position ordering.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
-- Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.
 - Preserve translation key parity tests when adding labels or attributes.
 
@@ -70,8 +80,9 @@ Migrations, factories, seeders, and translation files are part of the contract.
 Prefer focused Pest tests in the module.
 
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts (or `tinker`) when a test fits.
-- Add or update unit tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config behavior, and translation parity.
+- Add or update unit tests for the model/factory contract, sortable column, custom slug preservation, permission coverage, navigation/config behavior, and translation parity.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraTagger')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
-- Run module checks from the package when possible: `composer --working-dir=packages/vendra-tagger test` and `composer --working-dir=packages/vendra-tagger analyse`.
-- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
+- Run `composer --working-dir=packages/vendra-tagger test` and `composer --working-dir=packages/vendra-tagger analyse` when the package has its own installed dependencies. In the monorepo, use the root `vendor/bin/pest packages/vendra-tagger/tests` and targeted root PHPStan command.
+- Validate package configuration with the root `tests/Unit/PackageConfigurationTest.php` and confirm `php artisan config:cache` succeeds after config changes.
+- If PHP files changed, run Pint for only the touched files when the worktree contains unrelated changes.

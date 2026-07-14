@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-tagger",
+    "description": "Tenant-aware tag management and Filament administration for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",
