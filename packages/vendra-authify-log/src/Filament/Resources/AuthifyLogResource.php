@@ -4,24 +4,29 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAuthifyLog\Filament\Resources;
 
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraAuthifyLog\Filament\Resources\Pages\ListAuthifyLogs;
 use Misaf\VendraAuthifyLog\Filament\Resources\Pages\ViewAuthifyLog;
 use Misaf\VendraAuthifyLog\Filament\Resources\Tables\AuthifyLogTable;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
+use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 
 final class AuthifyLogResource extends Resource
 {
     protected static ?string $model = AuthifyLog::class;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
 
     protected static ?string $slug = 'authify-logs';
 
     public static function getBreadcrumb(): string
     {
-        return __('navigation.report_management');
+        return __('vendra-authify-log::navigation.authify_log');
     }
 
     public static function getModelLabel(): string
@@ -31,7 +36,7 @@ final class AuthifyLogResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('navigation.report_management');
+        return NavigationGroup::System->getLabel();
     }
 
     public static function getNavigationLabel(): string

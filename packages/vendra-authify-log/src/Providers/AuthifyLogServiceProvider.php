@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAuthifyLog\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraAuthifyLog\AuthifyLogPlugin;
@@ -52,6 +54,6 @@ final class AuthifyLogServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-authify-log:seed', priority: 90);
 
-        AboutCommand::add('Vendra Authify Log', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Authify Log', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-authify-log')]);
     }
 }
