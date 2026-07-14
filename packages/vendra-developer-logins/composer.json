@@ -1,0 +1,85 @@
+{
+    "name": "misaf/vendra-developer-logins",
+    "description": "Local developer login shortcuts for Vendra Filament panels",
+    "keywords": [
+        "laravel",
+        "filamentphp",
+        "misaf",
+        "vendra",
+        "developer-logins"
+    ],
+    "homepage": "https://github.com/misaf/vendra-developer-logins",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.3",
+        "dutchcodingcompany/filament-developer-logins": "^2.1",
+        "filament/filament": "^5.6.8",
+        "illuminate/support": "^13.0",
+        "misaf/vendra-permission": "^1.0",
+        "misaf/vendra-support": "^1.0",
+        "misaf/vendra-user": "^1.0",
+        "spatie/laravel-package-tools": "^1.93.1"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.24.1",
+        "larastan/larastan": "^3.10.0",
+        "laravel/boost": "^2.4.12",
+        "laravel/pint": "^1.29.3",
+        "misaf/vendra-testing": "^1.0",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.4",
+        "orchestra/testbench": "^11.1",
+        "pestphp/pest": "^4.7.5",
+        "pestphp/pest-plugin-arch": "^4.0.2",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "phpstan/extension-installer": "^1.4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraDeveloperLogins\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraDeveloperLogins\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraDeveloperLogins\\Providers\\DeveloperLoginsServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-developer-logins/issues",
+        "source": "https://github.com/misaf/vendra-developer-logins"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}
