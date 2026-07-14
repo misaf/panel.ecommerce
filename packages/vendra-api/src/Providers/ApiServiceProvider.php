@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraApi\Providers;
 
+use Composer\InstalledVersions;
+
 use Illuminate\Foundation\Console\AboutCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -21,6 +23,6 @@ final class ApiServiceProvider extends PackageServiceProvider
             return;
         }
 
-        AboutCommand::add('Vendra API', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-api')]);
     }
 }
