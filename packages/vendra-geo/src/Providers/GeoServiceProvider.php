@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraGeo\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraGeo\Console\Commands\SeedCommand;
@@ -47,6 +49,6 @@ final class GeoServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-geo:seed', priority: 45);
 
-        AboutCommand::add('Vendra Geo', fn(): array => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Geo', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-geo')]);
     }
 }
