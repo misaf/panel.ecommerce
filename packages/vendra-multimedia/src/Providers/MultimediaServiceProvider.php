@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraMultimedia\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraMultimedia\MultimediaPlugin;
 use Misaf\VendraMultimedia\Support\DefaultPathGenerator;
@@ -59,20 +62,20 @@ final class MultimediaServiceProvider extends PackageServiceProvider
      */
     private function registerMediaLibraryDefaults(): void
     {
-        $mediaModel = config('media-library.media_model');
+        $mediaModel = Config::get('media-library.media_model');
 
         if (null === $mediaModel || SpatieMedia::class === $mediaModel) {
-            config(['media-library.media_model' => Multimedia::class]);
+            Config::set('media-library.media_model', Multimedia::class);
         }
 
-        $pathGenerator = config('media-library.path_generator');
+        $pathGenerator = Config::get('media-library.path_generator');
 
         if (null === $pathGenerator || SpatieDefaultPathGenerator::class === $pathGenerator) {
-            config(['media-library.path_generator' => DefaultPathGenerator::class]);
+            Config::set('media-library.path_generator', DefaultPathGenerator::class);
         }
 
         // Literals, not env(): env() returns its fallback once config is cached.
-        config([
+        Config::set([
             'media-library.queue_conversions_by_default' => false,
             'media-library.moves_media_on_update'        => true,
         ]);
@@ -80,6 +83,6 @@ final class MultimediaServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Multimedia', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Multimedia', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-multimedia')]);
     }
 }
