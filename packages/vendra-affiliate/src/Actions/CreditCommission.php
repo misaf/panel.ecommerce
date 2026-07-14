@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAffiliate\Actions;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\ConversionTypeEnum;
@@ -34,7 +35,7 @@ final class CreditCommission
             return null;
         }
 
-        $status = config('vendra-affiliate.commissions.auto_approve', true)
+        $status = Config::boolean('vendra-affiliate.commissions.auto_approve', true)
             ? CommissionStatusEnum::Approved
             : CommissionStatusEnum::Pending;
 

@@ -26,6 +26,16 @@ stats widgets.
 Each conversion type is toggled in `config/vendra-affiliate.php`, alongside
 the attribution cookie, payout minimum, and defaults.
 
+## Optional tags
+
+Install `misaf/vendra-tagger` to assign `affiliate`-typed tags from the affiliate form and display them in the table. Affiliate imports neither Vendra Tagger nor Spatie Tags; the optional relationship is resolved through `misaf/vendra-support`.
+
+```php
+use Misaf\VendraTagger\Models\Tagger;
+
+Tagger::findOrCreate('Top performer', type: 'affiliate', locale: 'en');
+```
+
 ## Installation
 
 ```bash

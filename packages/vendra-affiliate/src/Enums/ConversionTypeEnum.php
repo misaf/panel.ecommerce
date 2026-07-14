@@ -8,6 +8,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Illuminate\Support\Facades\Config;
 
 enum ConversionTypeEnum: string implements HasColor, HasIcon, HasLabel
 {
@@ -25,7 +26,7 @@ enum ConversionTypeEnum: string implements HasColor, HasIcon, HasLabel
 
     public function isEnabled(): bool
     {
-        return (bool) config(sprintf('vendra-affiliate.conversions.%s.enabled', $this->value), false);
+        return Config::boolean(sprintf('vendra-affiliate.conversions.%s.enabled', $this->value), false);
     }
 
     /**

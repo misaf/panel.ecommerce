@@ -19,6 +19,7 @@ Treat `packages/vendra-affiliate` as the source of affiliate domain behavior and
 - Keep domain models, factories, seeders, policies, observers, console commands, Filament classes, config, migrations, translations, and tests inside this module.
 - Do not place affiliate domain code in the host app unless the host app is only integrating the module.
 - Keep cross-module dependencies explicit in `composer.json`; do not introduce a dependency without approval.
+- Keep affiliate tags optional through Support's `HasOptionalTags` and `TagIntegration`. Use the reserved `affiliate` type, never import Vendra Tagger or Spatie Tags, and list Tagger only under Composer `suggest`.
 
 ## Domain Model Standards
 
@@ -70,6 +71,7 @@ Migrations, factories, seeders, and translation files are part of the contract.
 Prefer focused Pest tests in the module.
 
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts (or `tinker`) when a test fits.
+- Keep architecture coverage proving the module does not use Vendra Tagger or Spatie Tags directly, and test the typed relationship through the Support resolver.
 - Add or update unit tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config behavior, and translation parity.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraAffiliate')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.

@@ -19,6 +19,7 @@ use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Services\AffiliateCodeService;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Traits\HasOptionalTags;
 use Misaf\VendraUser\Traits\BelongsToUser;
 
 /**
@@ -42,8 +43,10 @@ final class Affiliate extends Model implements ShouldLogActivity
     use BelongsToUser;
     /** @use HasFactory<AffiliateFactory> */
     use HasFactory;
+    use HasOptionalTags;
 
     use SoftDeletes;
+    public const string TAG_TYPE = 'affiliate';
 
     /**
      * @return array<string, string>
@@ -129,5 +132,10 @@ final class Affiliate extends Model implements ShouldLogActivity
     public function referralUrl(): string
     {
         return route('affiliate.redirect', ['code' => $this->code]);
+    }
+
+    protected function tagType(): string
+    {
+        return self::TAG_TYPE;
     }
 }

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliate\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Misaf\VendraAffiliate\AffiliatePlugin;
 use Misaf\VendraAffiliate\Console\Commands\SeedCommand;
@@ -47,7 +50,10 @@ final class AffiliateServiceProvider extends PackageServiceProvider
         $this->app->singleton(AffiliateCodeService::class);
 
         Panel::configureUsing(function (Panel $panel): void {
-            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-affiliate')) {
+            if (
+                ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-affiliate')
+                && ! in_array($panel->getId(), Config::array('vendra-affiliate.user_panels'), true)
+            ) {
                 return;
             }
 
@@ -59,7 +65,7 @@ final class AffiliateServiceProvider extends PackageServiceProvider
     {
         $this->app->make(TenantSeeders::class)->register('vendra-affiliate:seed', priority: 75);
 
-        AboutCommand::add('Vendra Affiliate', fn() => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Affiliate', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-affiliate')]);
 
         Event::subscribe(RegistrationSubscriber::class);
         Event::subscribe(TransactionCommissionSubscriber::class);

@@ -25,6 +25,7 @@ use Misaf\VendraAffiliate\Actions\ProcessAffiliatePayout;
 use Misaf\VendraAffiliate\Enums\AffiliatePayoutPolicyEnum;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
+use Misaf\VendraSupport\Support\TagIntegration;
 
 final class AffiliateTable
 {
@@ -49,6 +50,8 @@ final class AffiliateTable
                     ->label(__('vendra-affiliate::attributes.code'))
                     ->searchable()
                     ->tooltip(fn(Affiliate $record): string => $record->referralUrl()),
+
+                ...self::tagColumns(),
 
                 TextColumn::make('commission_percent')
                     ->alignCenter()
@@ -145,5 +148,20 @@ final class AffiliateTable
                     ->title(__('vendra-affiliate::messages.process_payout_queued'))
                     ->send();
             });
+    }
+
+    /** @return list<TextColumn> */
+    private static function tagColumns(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            TextColumn::make('tags.name')
+                ->badge()
+                ->label(__('vendra-affiliate::attributes.tags'))
+                ->toggleable(),
+        ];
     }
 }

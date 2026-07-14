@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\Unique;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
+use Misaf\VendraSupport\Support\TagIntegration;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class AffiliateForm
@@ -68,6 +69,26 @@ final class AffiliateForm
                     ->label(__('vendra-affiliate::attributes.status'))
                     ->options(AffiliateStatusEnum::class)
                     ->required(),
+
+                ...self::tagFields(),
             ]);
+    }
+
+    /** @return list<Select> */
+    private static function tagFields(): array
+    {
+        if ( ! TagIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            Select::make('tags')
+                ->columnSpanFull()
+                ->label(__('vendra-affiliate::attributes.tags'))
+                ->multiple()
+                ->native(false)
+                ->preload()
+                ->relationship('tags', 'name'),
+        ];
     }
 }
