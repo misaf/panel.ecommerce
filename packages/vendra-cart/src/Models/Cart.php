@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraCart\Database\Factories\CartFactory;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 
@@ -48,7 +49,7 @@ final class Cart extends Model
                 return;
             }
 
-            $days = config('vendra-cart.expires_after_days');
+            $days = Config::get('vendra-cart.expires_after_days');
 
             if (is_int($days)) {
                 $cart->expires_at = now()->addDays($days);

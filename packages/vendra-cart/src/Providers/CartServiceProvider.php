@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCart\Providers;
 
+use Composer\InstalledVersions;
+
 use Filament\Panel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -54,6 +56,6 @@ final class CartServiceProvider extends PackageServiceProvider
             $schedule->command(PruneExpiredCartsCommand::class)->daily();
         });
 
-        AboutCommand::add('Vendra Cart', fn(): array => ['Version' => 'dev-master']);
+        AboutCommand::add('Vendra Cart', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-cart')]);
     }
 }

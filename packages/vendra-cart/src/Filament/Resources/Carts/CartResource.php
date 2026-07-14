@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCart\Filament\Resources\Carts;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraCart\Filament\Resources\Carts\Pages\ListCarts;
 use Misaf\VendraCart\Filament\Resources\Carts\Pages\ViewCart;
@@ -13,12 +15,15 @@ use Misaf\VendraCart\Filament\Resources\Carts\RelationManagers\CartItemsRelation
 use Misaf\VendraCart\Filament\Resources\Carts\Schemas\CartForm;
 use Misaf\VendraCart\Filament\Resources\Carts\Tables\CartTable;
 use Misaf\VendraCart\Models\Cart;
+use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 
 final class CartResource extends Resource
 {
     protected static ?string $model = Cart::class;
 
     protected static ?int $navigationSort = 3;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingCart;
 
     protected static ?string $slug = 'carts';
 
@@ -35,6 +40,11 @@ final class CartResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('vendra-cart::navigation.cart');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return NavigationGroup::Sales->getLabel();
     }
 
     public static function getPluralModelLabel(): string
