@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts;
 
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Misaf\VendraAffiliate\Filament\Clusters\AffiliatesCluster;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ListAffiliatePayouts;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ViewAffiliatePayout;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Tables\AffiliatePayoutTable;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\AffiliatePayoutOverviewWidget;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
+use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
 final class AffiliatePayoutResource extends Resource
 {
     protected static ?string $model = AffiliatePayout::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
+
     protected static ?int $navigationSort = 3;
 
     protected static ?string $slug = 'affiliate-payouts';
 
-    protected static ?string $cluster = AffiliatesCluster::class;
+    protected static ?string $cluster = MarketingCluster::class;
 
     public static function getBreadcrumb(): string
     {

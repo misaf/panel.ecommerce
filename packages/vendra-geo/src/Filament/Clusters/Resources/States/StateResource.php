@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraGeo\Filament\Clusters\Resources\States;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraGeo\Filament\Clusters\GeoCluster;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\CreateState;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\EditState;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\ListStates;
@@ -16,6 +17,7 @@ use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\ViewState;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Schemas\StateForm;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Tables\StateTable;
 use Misaf\VendraGeo\Models\State;
+use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class StateResource extends Resource
 {
@@ -23,11 +25,13 @@ final class StateResource extends Resource
 
     protected static ?string $model = State::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMap;
+
     protected static ?int $navigationSort = 2;
 
     protected static ?string $slug = 'states';
 
-    protected static ?string $cluster = GeoCluster::class;
+    protected static ?string $cluster = LocalizationCluster::class;
 
     public static function getBreadcrumb(): string
     {

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraFaq\Filament\Clusters\FaqsCluster;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Pages\CreateFaqCategory;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Pages\EditFaqCategory;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Pages\ListFaqCategories;
@@ -17,6 +18,7 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Schemas\FaqCategor
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Tables\FaqCategoryTable;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\RelationManagers\FaqRelationManager;
 use Misaf\VendraFaq\Models\FaqCategory;
+use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
 final class FaqCategoryResource extends Resource
 {
@@ -24,11 +26,13 @@ final class FaqCategoryResource extends Resource
 
     protected static ?string $model = FaqCategory::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
+
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $slug = 'categories';
+    protected static ?string $slug = 'faq-categories';
 
-    protected static ?string $cluster = FaqsCluster::class;
+    protected static ?string $cluster = ContentCluster::class;
 
     public static function getBreadcrumb(): string
     {

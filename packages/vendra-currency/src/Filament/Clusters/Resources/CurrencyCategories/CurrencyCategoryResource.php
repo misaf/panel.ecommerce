@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Misaf\VendraCurrency\Filament\Clusters\CurrenciesCluster;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\RelationManagers\CurrencyRelationManager;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\CreateCurrencyCategory;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\EditCurrencyCategory;
@@ -16,16 +17,19 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\Vi
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Schemas\CurrencyCategoryForm;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Tables\CurrencyCategoryTable;
 use Misaf\VendraCurrency\Models\CurrencyCategory;
+use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 
 final class CurrencyCategoryResource extends Resource
 {
     protected static ?string $model = CurrencyCategory::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
+
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $slug = 'categories';
+    protected static ?string $slug = 'currency-categories';
 
-    protected static ?string $cluster = CurrenciesCluster::class;
+    protected static ?string $cluster = SalesCluster::class;
 
     public static function getBreadcrumb(): string
     {

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraLanguage\Filament\Clusters\Resources\Languages;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Misaf\VendraLanguage\Filament\Clusters\LanguagesCluster;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\CreateLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\EditLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguages;
@@ -15,16 +16,19 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ViewLanguag
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Schemas\LanguageForm;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Tables\LanguageTable;
 use Misaf\VendraLanguage\Models\Language;
+use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class LanguageResource extends Resource
 {
     protected static ?string $model = Language::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLanguage;
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $slug = 'languages';
 
-    protected static ?string $cluster = LanguagesCluster::class;
+    protected static ?string $cluster = LocalizationCluster::class;
 
     public static function getBreadcrumb(): string
     {

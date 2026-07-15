@@ -12,17 +12,19 @@ use Misaf\VendraAuthifyLog\Filament\Resources\Pages\ListAuthifyLogs;
 use Misaf\VendraAuthifyLog\Filament\Resources\Pages\ViewAuthifyLog;
 use Misaf\VendraAuthifyLog\Filament\Resources\Tables\AuthifyLogTable;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
-use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
+use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 
 final class AuthifyLogResource extends Resource
 {
     protected static ?string $model = AuthifyLog::class;
 
-    protected static ?int $navigationSort = 3;
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
 
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $slug = 'authify-logs';
+
+    protected static ?string $cluster = SystemCluster::class;
 
     public static function getBreadcrumb(): string
     {
@@ -32,11 +34,6 @@ final class AuthifyLogResource extends Resource
     public static function getModelLabel(): string
     {
         return __('vendra-authify-log::navigation.authify_log');
-    }
-
-    public static function getNavigationGroup(): string
-    {
-        return NavigationGroup::System->getLabel();
     }
 
     public static function getNavigationLabel(): string

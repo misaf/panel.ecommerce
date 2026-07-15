@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraGeo\Filament\Clusters\Resources\Cities;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraGeo\Filament\Clusters\GeoCluster;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\CreateCity;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\EditCity;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\ListCities;
@@ -16,6 +17,7 @@ use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\ViewCity;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Schemas\CityForm;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Tables\CityTable;
 use Misaf\VendraGeo\Models\City;
+use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class CityResource extends Resource
 {
@@ -23,11 +25,13 @@ final class CityResource extends Resource
 
     protected static ?string $model = City::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
+
     protected static ?int $navigationSort = 3;
 
     protected static ?string $slug = 'cities';
 
-    protected static ?string $cluster = GeoCluster::class;
+    protected static ?string $cluster = LocalizationCluster::class;
 
     public static function getBreadcrumb(): string
     {

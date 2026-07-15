@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraBlog\Filament\Clusters\BlogsCluster;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\CreateBlogPostCategory;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\EditBlogPostCategory;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\ListBlogPostCategories;
@@ -17,6 +18,7 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Schemas\Blog
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Tables\BlogPostCategoryTable;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\RelationManagers\BlogPostRelationManager;
 use Misaf\VendraBlog\Models\BlogPostCategory;
+use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
 final class BlogPostCategoryResource extends Resource
 {
@@ -24,11 +26,13 @@ final class BlogPostCategoryResource extends Resource
 
     protected static ?string $model = BlogPostCategory::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
+
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $slug = 'categories';
+    protected static ?string $slug = 'blog-post-categories';
 
-    protected static ?string $cluster = BlogsCluster::class;
+    protected static ?string $cluster = ContentCluster::class;
 
     public static function getBreadcrumb(): string
     {

@@ -12,17 +12,19 @@ use Misaf\VendraMultimedia\Filament\Resources\Pages\ListMultimedia;
 use Misaf\VendraMultimedia\Filament\Resources\Pages\ViewMultimedia;
 use Misaf\VendraMultimedia\Filament\Resources\Tables\MultimediaTable;
 use Misaf\VendraMultimedia\Models\Multimedia;
-use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
+use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
 final class MultimediaResource extends Resource
 {
     protected static ?string $model = Multimedia::class;
 
-    protected static ?int $navigationSort = 4;
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
 
+    protected static ?int $navigationSort = 4;
+
     protected static ?string $slug = 'multimedia';
+
+    protected static ?string $cluster = ContentCluster::class;
 
     public static function getBreadcrumb(): string
     {
@@ -32,11 +34,6 @@ final class MultimediaResource extends Resource
     public static function getModelLabel(): string
     {
         return __('vendra-multimedia::navigation.multimedia');
-    }
-
-    public static function getNavigationGroup(): string
-    {
-        return NavigationGroup::Content->getLabel();
     }
 
     public static function getNavigationLabel(): string

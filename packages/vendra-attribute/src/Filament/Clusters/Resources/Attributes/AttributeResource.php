@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Misaf\VendraAttribute\Filament\Clusters\AttributesCluster;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\CreateAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\EditAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ListAttributes;
@@ -15,16 +16,19 @@ use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\RelationManager
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Schemas\AttributeForm;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Tables\AttributeTable;
 use Misaf\VendraAttribute\Models\Attribute;
+use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
 
 final class AttributeResource extends Resource
 {
     protected static ?string $model = Attribute::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAdjustmentsHorizontal;
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $slug = 'attributes';
 
-    protected static ?string $cluster = AttributesCluster::class;
+    protected static ?string $cluster = CatalogCluster::class;
 
     public static function getBreadcrumb(): string
     {
@@ -34,11 +38,6 @@ final class AttributeResource extends Resource
     public static function getModelLabel(): string
     {
         return trans_choice('vendra-attribute::navigation.attribute', 1);
-    }
-
-    public static function getNavigationGroup(): string
-    {
-        return trans_choice('vendra-attribute::navigation.attribute_management', 1);
     }
 
     public static function getNavigationLabel(): string

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraGeo\Filament\Clusters\Resources\Countries;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraGeo\Filament\Clusters\GeoCluster;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Pages\CreateCountry;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Pages\EditCountry;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Pages\ListCountries;
@@ -16,6 +17,7 @@ use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Pages\ViewCountry;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Schemas\CountryForm;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Tables\CountryTable;
 use Misaf\VendraGeo\Models\Country;
+use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class CountryResource extends Resource
 {
@@ -23,11 +25,13 @@ final class CountryResource extends Resource
 
     protected static ?string $model = Country::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $slug = 'countries';
 
-    protected static ?string $cluster = GeoCluster::class;
+    protected static ?string $cluster = LocalizationCluster::class;
 
     public static function getBreadcrumb(): string
     {

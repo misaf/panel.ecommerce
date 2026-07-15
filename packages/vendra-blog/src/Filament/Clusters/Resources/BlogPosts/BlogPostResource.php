@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraBlog\Filament\Clusters\BlogsCluster;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\CreateBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\EditBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\ListBlogPosts;
@@ -16,6 +17,7 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\ViewBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Schemas\BlogPostForm;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Tables\BlogPostTable;
 use Misaf\VendraBlog\Models\BlogPost;
+use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
 final class BlogPostResource extends Resource
 {
@@ -23,11 +25,13 @@ final class BlogPostResource extends Resource
 
     protected static ?string $model = BlogPost::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $slug = 'blog-posts';
 
-    protected static ?string $cluster = BlogsCluster::class;
+    protected static ?string $cluster = ContentCluster::class;
 
     public static function getBreadcrumb(): string
     {

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Misaf\VendraNewsletter\Filament\Clusters\NewslettersCluster;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\CreateNewsletterSubscriber;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\EditNewsletterSubscriber;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\ListNewsletterSubscribers;
@@ -16,16 +17,19 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Sch
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Tables\NewsletterSubscriberTable;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Widgets\NewsletterSubscriberOverviewWidget;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
+use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
 final class NewsletterSubscriberResource extends Resource
 {
     protected static ?string $model = NewsletterSubscriber::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+
     protected static ?int $navigationSort = 2;
 
     protected static ?string $slug = 'newsletter-subscribers';
 
-    protected static ?string $cluster = NewslettersCluster::class;
+    protected static ?string $cluster = MarketingCluster::class;
 
     public static function getBreadcrumb(): string
     {
@@ -39,7 +43,7 @@ final class NewsletterSubscriberResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('vendra-newsletter::navigation.newsletter_subscriber_management');
+        return __('vendra-newsletter::navigation.newsletter_management');
     }
 
     public static function getNavigationLabel(): string

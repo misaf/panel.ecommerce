@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraCustomPage\Filament\Clusters\CustomPagesCluster;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Pages\CreateCustomPageCategory;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Pages\EditCustomPageCategory;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Pages\ListCustomPageCategories;
@@ -17,6 +18,7 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Sche
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Tables\CustomPageCategoryTable;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\RelationManagers\CustomPageRelationManager;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
+use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
 final class CustomPageCategoryResource extends Resource
 {
@@ -24,11 +26,13 @@ final class CustomPageCategoryResource extends Resource
 
     protected static ?string $model = CustomPageCategory::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
+
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $slug = 'categories';
+    protected static ?string $slug = 'custom-page-categories';
 
-    protected static ?string $cluster = CustomPagesCluster::class;
+    protected static ?string $cluster = ContentCluster::class;
 
     public static function getBreadcrumb(): string
     {

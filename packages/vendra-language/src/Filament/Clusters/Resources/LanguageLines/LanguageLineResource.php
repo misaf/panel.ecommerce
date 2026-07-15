@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraLanguage\Filament\Clusters\LanguagesCluster;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\CreateLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\EditLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ListLanguageLines;
@@ -16,6 +17,7 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ViewLan
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Schemas\LanguageLineForm;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Tables\LanguageLineTable;
 use Misaf\VendraLanguage\Models\LanguageLine;
+use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class LanguageLineResource extends Resource
 {
@@ -23,11 +25,13 @@ final class LanguageLineResource extends Resource
 
     protected static ?string $model = LanguageLine::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
+
     protected static ?int $navigationSort = 2;
 
     protected static ?string $slug = 'language-lines';
 
-    protected static ?string $cluster = LanguagesCluster::class;
+    protected static ?string $cluster = LocalizationCluster::class;
 
     public static function getBreadcrumb(): string
     {

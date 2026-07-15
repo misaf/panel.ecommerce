@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Misaf\VendraCurrency\Filament\Clusters\CurrenciesCluster;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\CreateCurrency;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\EditCurrency;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ListCurrencies;
@@ -15,16 +16,19 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ViewCurren
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Schemas\CurrencyForm;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Tables\CurrencyTable;
 use Misaf\VendraCurrency\Models\Currency;
+use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 
 final class CurrencyResource extends Resource
 {
     protected static ?string $model = Currency::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $slug = 'currencies';
 
-    protected static ?string $cluster = CurrenciesCluster::class;
+    protected static ?string $cluster = SalesCluster::class;
 
     public static function getBreadcrumb(): string
     {

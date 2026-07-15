@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
+use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 use Misaf\VendraTagger\Filament\Resources\Pages\CreateTagger;
 use Misaf\VendraTagger\Filament\Resources\Pages\EditTagger;
 use Misaf\VendraTagger\Filament\Resources\Pages\ListTaggers;
@@ -17,7 +18,6 @@ use Misaf\VendraTagger\Filament\Resources\Pages\ViewTagger;
 use Misaf\VendraTagger\Filament\Resources\Schemas\TaggerForm;
 use Misaf\VendraTagger\Filament\Resources\Tables\TaggerTable;
 use Misaf\VendraTagger\Models\Tagger;
-use Misaf\VendraTagger\TaggerPlugin;
 
 final class TaggerResource extends Resource
 {
@@ -25,11 +25,13 @@ final class TaggerResource extends Resource
 
     protected static ?string $model = Tagger::class;
 
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHashtag;
+
     protected static ?int $navigationSort = 5;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
-
     protected static ?string $slug = 'taggers';
+
+    protected static ?string $cluster = ContentCluster::class;
 
     public static function getBreadcrumb(): string
     {
@@ -39,11 +41,6 @@ final class TaggerResource extends Resource
     public static function getModelLabel(): string
     {
         return __('vendra-tagger::navigation.tagger');
-    }
-
-    public static function getNavigationGroup(): string
-    {
-        return TaggerPlugin::make()->getNavigationGroup();
     }
 
     public static function getNavigationLabel(): string
