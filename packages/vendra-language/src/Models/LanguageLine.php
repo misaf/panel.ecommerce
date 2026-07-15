@@ -7,22 +7,26 @@ namespace Misaf\VendraLanguage\Models;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Misaf\VendraLanguage\Database\Factories\LanguageLineFactory;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
+use Misaf\VendraSupport\Support\TenantAwareness;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
 
 /**
  * @property int $id
  * @property int $tenant_id
+ * @property string|null $namespace
  * @property string $group
  * @property string $key
  * @property array<string, string> $text
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-#[Hidden(['tenant_id'])]
+#[Hidden(['tenant_id', 'namespace_guard'])]
 #[UseFactory(LanguageLineFactory::class)]
 final class LanguageLine extends SpatieLanguageLine implements ShouldLogActivity
 {
@@ -31,12 +35,102 @@ final class LanguageLine extends SpatieLanguageLine implements ShouldLogActivity
     /** @use HasFactory<LanguageLineFactory> */
     use HasFactory;
 
+    /**
+     * @return array<mixed>
+     */
+    public static function getTranslationsForGroup(string $locale, string $group, ?string $namespace = null): array
+    {
+        return Cache::rememberForever(
+            static::getCacheKey($group, $locale, $namespace),
+            function () use ($group, $locale, $namespace): array {
+                return static::query()
+                    ->where('namespace', $namespace)
+                    ->where('group', $group)
+                    ->get()
+                    ->reduce(function (array $lines, self $languageLine) use ($locale, $group): array {
+                        $translation = $languageLine->getTranslation($locale);
+
+                        if (null === $translation) {
+                            return $lines;
+                        }
+
+                        if ('*' === $group) {
+                            $lines[$languageLine->key] = $translation;
+
+                            return $lines;
+                        }
+
+                        Arr::set($lines, $languageLine->key, $translation);
+
+                        return $lines;
+                    }, []);
+            },
+        );
+    }
+
+    public static function getCacheKey(string $group, string $locale, ?string $namespace = null): string
+    {
+        $tenantId = TenantAwareness::currentId();
+        $group = null === $namespace ? $group : "{$namespace}::{$group}";
+
+        if (null !== $tenantId) {
+            $group = "tenant-{$tenantId}.{$group}";
+        }
+
+        return parent::getCacheKey($group, $locale);
+    }
+
+    public function flushGroupCache(): void
+    {
+        foreach ($this->getTranslatedLocales() as $locale) {
+            if (is_string($locale)) {
+                Cache::forget(static::getCacheKey($this->group, $locale, $this->namespace));
+            }
+        }
+    }
+
+    protected static function booted(): void
+    {
+        static::updating(function (self $languageLine): void {
+            $languageLine->flushOriginalTranslationCache();
+        });
+    }
 
     protected function casts(): array
     {
         return [
+            'namespace' => 'string',
             'tenant_id' => 'integer',
             ...parent::casts(),
         ];
+    }
+
+    private function flushOriginalTranslationCache(): void
+    {
+        $group = $this->getRawOriginal('group');
+        $namespace = $this->getRawOriginal('namespace');
+        $text = $this->getRawOriginal('text');
+
+        if ( ! is_string($group)) {
+            return;
+        }
+
+        if (is_string($text)) {
+            $text = json_decode($text, true);
+        }
+
+        if ( ! is_array($text)) {
+            return;
+        }
+
+        foreach (array_keys($text) as $locale) {
+            if (is_string($locale)) {
+                Cache::forget(static::getCacheKey(
+                    $group,
+                    $locale,
+                    is_string($namespace) ? $namespace : null,
+                ));
+            }
+        }
     }
 }
