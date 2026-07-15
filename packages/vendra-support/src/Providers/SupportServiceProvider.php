@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSupport\Providers;
 
+use Filament\Panel;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
@@ -11,6 +12,7 @@ use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Events\TenantProvisioned;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Listeners\RunTenantSeeders;
 use Misaf\VendraSupport\Support\NullAttributeResolver;
 use Misaf\VendraSupport\Support\NullCurrencyResolver;
@@ -20,6 +22,8 @@ use Misaf\VendraSupport\Support\TenantSeeders;
 
 final class SupportServiceProvider extends ServiceProvider
 {
+    use ResolvesConfiguredPanels;
+
     public function register(): void
     {
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'vendra-support');
@@ -31,6 +35,17 @@ final class SupportServiceProvider extends ServiceProvider
         $this->app->singletonIf(CurrencyResolver::class, NullCurrencyResolver::class);
         $this->app->singletonIf(TagResolver::class, NullTagResolver::class);
         $this->app->singleton(TenantSeeders::class);
+
+        Panel::configureUsing(function (Panel $panel): void {
+            if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-support')) {
+                return;
+            }
+
+            $panel->discoverClusters(
+                in: __DIR__ . '/../Filament/Clusters',
+                for: 'Misaf\\VendraSupport\\Filament\\Clusters',
+            );
+        });
     }
 
     public function boot(): void
