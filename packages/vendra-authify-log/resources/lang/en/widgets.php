@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'latest_authify_log_table' => 'Latest Authify Logs',
+    'latest_authify_log_table' => 'Auth Logs',
 ];

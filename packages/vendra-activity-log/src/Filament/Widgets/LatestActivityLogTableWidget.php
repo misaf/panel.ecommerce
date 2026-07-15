@@ -16,12 +16,9 @@ use Misaf\VendraActivityLog\Models\ActivityLog;
 
 final class LatestActivityLogTableWidget extends BaseWidget
 {
-    protected static ?int $sort = 9;
+    protected static ?int $sort = 8;
 
-    protected int|string|array $columnSpan = [
-        'sm' => 1,
-        'lg' => 2,
-    ];
+    protected int|string|array $columnSpan = 'full';
 
     protected function getColumns(): int
     {
@@ -66,7 +63,6 @@ final class LatestActivityLogTableWidget extends BaseWidget
                 ViewAction::make()
             ])
             ->defaultSort(column: 'id', direction: 'desc')
-            ->paginationPageOptions([5])
-            ->poll('10s');
+            ->paginationPageOptions([5]);
     }
 }

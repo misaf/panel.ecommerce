@@ -19,10 +19,7 @@ final class LatestAuthifyLogTableWidget extends BaseWidget
     /**
      * @var int|string|array<string, int|null>
      */
-    protected int|string|array $columnSpan = [
-        'sm' => 1,
-        'lg' => 2,
-    ];
+    protected int|string|array $columnSpan = 'full';
 
     protected function getColumns(): int
     {
@@ -76,7 +73,6 @@ final class LatestAuthifyLogTableWidget extends BaseWidget
                     ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d', latinNumbers: true)),
             ])
             ->searchable(false)
-            ->paginated(false)
-            ->poll('10s');
+            ->paginated(false);
     }
 }

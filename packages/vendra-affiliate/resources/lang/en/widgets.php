@@ -3,10 +3,22 @@
 declare(strict_types=1);
 
 return [
-    'affiliate_click_stats'                  => 'Referral Clicks',
-    'affiliate_click_stats_description'      => 'Total referral link clicks with this week\'s trend.',
-    'affiliate_commission_stats'             => 'Commissions Earned',
-    'affiliate_commission_stats_description' => 'Approved and paid commission totals with this week\'s trend.',
-    'affiliate_referral_stats'               => 'Referred Signups',
-    'affiliate_referral_stats_description'   => 'Total attributed signups with this week\'s trend.',
+    'affiliate_click_stats'                  => 'Clicks',
+    'affiliate_click_stats_description'      => 'Affiliate · Weekly click trend',
+    'affiliate_commission_stats'             => 'Commissions',
+    'affiliate_commission_stats_description' => 'Affiliate · Weekly commission trend',
+    'affiliate_referral_stats'               => 'Signups',
+    'affiliate_referral_stats_description'   => 'Affiliate · Weekly signup trend',
+    'completed_payouts'                      => 'Completed',
+    'completed_payouts_description'          => 'Payout · Processed',
+    'failed_payouts'                         => 'Failed',
+    'failed_payouts_description'             => 'Payout · Needs attention',
+    'paid_commissions'                       => 'Paid',
+    'paid_commissions_description'           => 'Commission · Settled',
+    'payable_commissions'                    => 'Payable',
+    'payable_commissions_description'        => 'Commission · Ready to pay',
+    'pending_payouts'                        => 'Pending',
+    'pending_payouts_description'            => 'Payout · Waiting',
+    'total_commissions'                      => 'Commissions',
+    'total_commissions_description'          => 'Commission · All entries',
 ];
