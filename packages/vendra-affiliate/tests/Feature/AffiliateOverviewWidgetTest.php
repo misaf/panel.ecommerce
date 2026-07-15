@@ -3,11 +3,17 @@
 declare(strict_types=1);
 
 use Filament\Panel;
+use Filament\Support\Enums\IconPosition;
+use Filament\Support\Icons\Heroicon;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 use Misaf\VendraAffiliate\AffiliatePlugin;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateClickFactory;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateCommissionFactory;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
+use Misaf\VendraAffiliate\Database\Factories\AffiliatePayoutFactory;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateReferralFactory;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Widgets\AffiliateCommissionOverviewWidget;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\AffiliatePayoutOverviewWidget;
 use Misaf\VendraAffiliate\Filament\Widgets\AffiliateOverviewWidget;
 use Misaf\VendraAffiliate\Filament\Widgets\UserAffiliateOverviewWidget;
 use Misaf\VendraTenant\Database\Factories\TenantFactory;
@@ -102,6 +108,73 @@ it('shows tenant-scoped affiliate metrics and earned commissions', function (): 
             __('vendra-affiliate::widgets.affiliate_commission_stats'),
             '4,000',
         ]);
+
+    /** @var array<int, Stat> $stats */
+    $stats = (new ReflectionMethod(AffiliateOverviewWidget::class, 'getStats'))
+        ->invoke(app(AffiliateOverviewWidget::class));
+
+    expect(array_map(
+        static fn(Stat $stat): mixed => $stat->getIcon(),
+        $stats,
+    ))->each->toBe(Heroicon::OutlinedLink);
+});
+
+it('shows tenant-scoped commission and payout resource metrics', function (): void {
+    $tenant = TenantFactory::new()->enabled()->createOne();
+    $tenant->makeCurrent();
+
+    $affiliate = AffiliateFactory::new()->createOne();
+
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->pending()->createOne();
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->approved()->createOne();
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->paid()->createOne();
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->reversed()->createOne();
+
+    AffiliatePayoutFactory::new()->forAffiliate($affiliate)->count(2)->create();
+    AffiliatePayoutFactory::new()->forAffiliate($affiliate)->completed()->createOne();
+    AffiliatePayoutFactory::new()->forAffiliate($affiliate)->failed()->createOne();
+
+    $otherTenant = TenantFactory::new()->enabled()->createOne();
+    $otherTenant->makeCurrent();
+
+    $otherAffiliate = AffiliateFactory::new()->createOne();
+
+    AffiliateCommissionFactory::new()->forAffiliate($otherAffiliate)->approved()->createOne();
+    AffiliatePayoutFactory::new()->forAffiliate($otherAffiliate)->completed()->createOne();
+
+    $tenant->makeCurrent();
+
+    /** @var array<int, Stat> $commissionStats */
+    $commissionStats = (new ReflectionMethod(AffiliateCommissionOverviewWidget::class, 'getStats'))
+        ->invoke(app(AffiliateCommissionOverviewWidget::class));
+
+    /** @var array<int, Stat> $payoutStats */
+    $payoutStats = (new ReflectionMethod(AffiliatePayoutOverviewWidget::class, 'getStats'))
+        ->invoke(app(AffiliatePayoutOverviewWidget::class));
+
+    expect(array_map(
+        static fn(Stat $stat): mixed => $stat->getValue(),
+        $commissionStats,
+    ))->toBe(['4', '1', '1'])
+        ->and(array_map(
+            static fn(Stat $stat): mixed => $stat->getValue(),
+            $payoutStats,
+        ))->toBe(['2', '1', '1']);
+
+    foreach ([$commissionStats, $payoutStats] as $stats) {
+        expect(array_map(
+            static fn(Stat $stat): mixed => $stat->getIcon(),
+            $stats,
+        ))->each->toBe(Heroicon::OutlinedLink)
+            ->and(array_map(
+                static fn(Stat $stat): IconPosition|string => $stat->getDescriptionIconPosition(),
+                $stats,
+            ))->each->toBe(IconPosition::Before)
+            ->and(array_map(
+                static fn(Stat $stat): int => count($stat->getChart() ?? []),
+                $stats,
+            ))->each->toBeGreaterThan(0);
+    }
 });
 
 it('shows only the signed-in users affiliate metrics', function (): void {

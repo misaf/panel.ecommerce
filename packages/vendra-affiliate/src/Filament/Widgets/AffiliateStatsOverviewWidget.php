@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAffiliate\Filament\Widgets;
 
 use Filament\Support\Enums\IconPosition;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Flowframe\Trend\Trend;
@@ -21,6 +22,8 @@ use Misaf\VendraAffiliate\Models\AffiliateReferral;
 abstract class AffiliateStatsOverviewWidget extends StatsOverviewWidget
 {
     protected bool $isAffiliateScoped = false;
+
+    protected ?string $pollingInterval = null;
 
     /**
      * @return array<int, Stat>
@@ -59,18 +62,21 @@ abstract class AffiliateStatsOverviewWidget extends StatsOverviewWidget
                 ->color('primary')
                 ->description(__('vendra-affiliate::widgets.affiliate_click_stats_description'))
                 ->descriptionIcon('heroicon-m-cursor-arrow-rays', IconPosition::Before)
+                ->icon(Heroicon::OutlinedLink)
                 ->label(__('vendra-affiliate::widgets.affiliate_click_stats')),
             Stat::make('affiliate_referral_stats', Number::format($referrals->count()))
                 ->chart($this->chartValues($referralTrend))
                 ->color('success')
                 ->description(__('vendra-affiliate::widgets.affiliate_referral_stats_description'))
                 ->descriptionIcon('heroicon-m-user-plus', IconPosition::Before)
+                ->icon(Heroicon::OutlinedLink)
                 ->label(__('vendra-affiliate::widgets.affiliate_referral_stats')),
             Stat::make('affiliate_commission_stats', Number::format((int) $earnedCommissions->sum('amount')))
                 ->chart($this->chartValues($commissionTrend))
                 ->color('warning')
                 ->description(__('vendra-affiliate::widgets.affiliate_commission_stats_description'))
                 ->descriptionIcon('heroicon-m-banknotes', IconPosition::Before)
+                ->icon(Heroicon::OutlinedLink)
                 ->label(__('vendra-affiliate::widgets.affiliate_commission_stats')),
         ];
     }

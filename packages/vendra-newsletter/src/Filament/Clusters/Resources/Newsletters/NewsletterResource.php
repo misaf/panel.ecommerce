@@ -14,6 +14,7 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\ListNew
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\ViewNewsletter;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Schemas\NewsletterForm;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Tables\NewsletterTable;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Widgets\NewsletterOverviewWidget;
 use Misaf\VendraNewsletter\Models\Newsletter;
 
 final class NewsletterResource extends Resource
@@ -58,6 +59,13 @@ final class NewsletterResource extends Resource
             'create' => CreateNewsletter::route('/create'),
             'view'   => ViewNewsletter::route('/{record}'),
             'edit'   => EditNewsletter::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            NewsletterOverviewWidget::class,
         ];
     }
 

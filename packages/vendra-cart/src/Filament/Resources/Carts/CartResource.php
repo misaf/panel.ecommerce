@@ -9,11 +9,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Number;
 use Misaf\VendraCart\Filament\Resources\Carts\Pages\ListCarts;
 use Misaf\VendraCart\Filament\Resources\Carts\Pages\ViewCart;
 use Misaf\VendraCart\Filament\Resources\Carts\RelationManagers\CartItemsRelationManager;
 use Misaf\VendraCart\Filament\Resources\Carts\Schemas\CartForm;
 use Misaf\VendraCart\Filament\Resources\Carts\Tables\CartTable;
+use Misaf\VendraCart\Filament\Resources\Carts\Widgets\CartOverviewWidget;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 
@@ -47,6 +49,16 @@ final class CartResource extends Resource
         return NavigationGroup::Sales->getLabel();
     }
 
+    public static function getNavigationBadge(): string
+    {
+        return (string) Number::format(Cart::query()->count());
+    }
+
+    public static function getNavigationBadgeTooltip(): string
+    {
+        return __('vendra-cart::navigation.navigation_badge_tooltip');
+    }
+
     public static function getPluralModelLabel(): string
     {
         return __('vendra-cart::navigation.carts');
@@ -66,6 +78,13 @@ final class CartResource extends Resource
     {
         return [
             CartItemsRelationManager::class,
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            CartOverviewWidget::class,
         ];
     }
 

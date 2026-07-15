@@ -10,6 +10,7 @@ use Misaf\VendraAffiliate\Filament\Clusters\AffiliatesCluster;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ListAffiliatePayouts;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ViewAffiliatePayout;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Tables\AffiliatePayoutTable;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\AffiliatePayoutOverviewWidget;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
 
 final class AffiliatePayoutResource extends Resource
@@ -52,6 +53,13 @@ final class AffiliatePayoutResource extends Resource
         return [
             'index' => ListAffiliatePayouts::route('/'),
             'view'  => ViewAffiliatePayout::route('/{record}'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            AffiliatePayoutOverviewWidget::class,
         ];
     }
 

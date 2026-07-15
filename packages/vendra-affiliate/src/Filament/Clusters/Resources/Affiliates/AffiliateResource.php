@@ -18,6 +18,9 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\RelationManager
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\RelationManagers\ReferralsRelationManager;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Schemas\AffiliateForm;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Tables\AffiliateTable;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateClicksOverview;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateCommissionsOverview;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateReferralsOverview;
 use Misaf\VendraAffiliate\Models\Affiliate;
 
 final class AffiliateResource extends Resource
@@ -72,6 +75,15 @@ final class AffiliateResource extends Resource
             'create' => CreateAffiliate::route('/create'),
             'view'   => ViewAffiliate::route('/{record}'),
             'edit'   => EditAffiliate::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            AffiliateClicksOverview::class,
+            AffiliateReferralsOverview::class,
+            AffiliateCommissionsOverview::class,
         ];
     }
 

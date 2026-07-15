@@ -10,6 +10,7 @@ use Misaf\VendraAffiliate\Filament\Clusters\AffiliatesCluster;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Pages\ListAffiliateCommissions;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Pages\ViewAffiliateCommission;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Tables\AffiliateCommissionTable;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Widgets\AffiliateCommissionOverviewWidget;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 
 final class AffiliateCommissionResource extends Resource
@@ -52,6 +53,13 @@ final class AffiliateCommissionResource extends Resource
         return [
             'index' => ListAffiliateCommissions::route('/'),
             'view'  => ViewAffiliateCommission::route('/{record}'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            AffiliateCommissionOverviewWidget::class,
         ];
     }
 

@@ -20,6 +20,18 @@ final class ListAffiliates extends ListRecords
         return self::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb') . ' ' . __('vendra-affiliate::navigation.affiliate');
     }
 
+    /**
+     * @return array<string, int>
+     */
+    public function getHeaderWidgetsColumns(): array
+    {
+        return [
+            'sm' => 1,
+            'md' => 2,
+            'lg' => 3,
+        ];
+    }
+
     protected function getHeaderWidgets(): array
     {
         return [

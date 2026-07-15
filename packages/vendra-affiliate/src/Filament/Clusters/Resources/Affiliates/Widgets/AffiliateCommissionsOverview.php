@@ -21,6 +21,8 @@ final class AffiliateCommissionsOverview extends StatsOverviewWidget
 
     protected int|string|array $columnSpan = ['sm' => 1];
 
+    protected ?string $pollingInterval = null;
+
     protected function getColumns(): int
     {
         return 1;
