@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 52" role="img" aria-labelledby="vendra-logo-title">
+    <title id="vendra-logo-title">Vendra</title>
+    <defs>
+        <linearGradient id="vendra-mark-gradient" x1="8" y1="6" x2="44" y2="46" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fbbf24"/>
+            <stop offset="1" stop-color="#f97316"/>
+        </linearGradient>
+    </defs>
+    <rect width="52" height="52" rx="15" fill="url(#vendra-mark-gradient)"/>
+    <path d="M12.5 13h8l5.5 14.3L31.5 13h8L28.8 39h-5.6L12.5 13Z" fill="#fff"/>
+    <path d="M68 13h6.6L82 33.6 89.4 13H96L85.4 41h-6.8L68 13Zm34 0h21v5.7h-14.6v5.1h13.2v5.4h-13.2v6.1H123V41h-21V13Zm27 0h6.5L147 31.6V13h6.2v28h-6.4l-11.6-18.7V41H129V13Zm31 0h11.3c9.2 0 15.4 5.5 15.4 14s-6.2 14-15.4 14H160V13Zm6.4 5.8v16.4h4.6c5.5 0 9.1-3.1 9.1-8.2s-3.6-8.2-9.1-8.2h-4.6ZM193 13h12.8c7.2 0 11.6 3.6 11.6 9.3 0 3.8-2.1 6.7-5.7 8.1L219 41h-7.4l-6.3-9.5h-5.9V41H193V13Zm6.4 5.5v7.6h5.8c3.6 0 5.6-1.3 5.6-3.8s-2-3.8-5.6-3.8h-5.8ZM235 13h7l11 28h-6.8l-2.1-5.8h-11.5l-2.1 5.8H224l11-28Zm-.4 16.7h7.5l-3.8-10.4-3.7 10.4Z" fill="#111827"/>
+</svg>

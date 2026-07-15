@@ -21,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
+use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
@@ -40,6 +41,10 @@ final class AdminPanelServiceProvider extends PanelProvider
 
         return $panel
             ->id('admin')
+            ->brandLogo(asset('images/vendra-logo.svg'))
+            ->brandLogoHeight('2rem')
+            ->brandName('Vendra')
+            ->darkModeBrandLogo(asset('images/vendra-logo-dark.svg'))
             ->databaseNotifications()
             ->databaseTransactions()
             ->discoverClusters(app_path('Filament/Admin/Clusters'), 'App\\Filament\\Admin\\Clusters')
@@ -88,7 +93,7 @@ final class AdminPanelServiceProvider extends PanelProvider
     {
         $plugins = [
             SpatieTranslatablePlugin::make()
-                ->defaultLocales(['en', 'fa', 'de']),
+                ->defaultLocales(Locales::configured()),
         ];
 
         return $plugins;
