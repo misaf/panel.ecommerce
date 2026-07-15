@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraFaq\Enums\FaqCategoryPolicyEnum;
 use Misaf\VendraFaq\Models\FaqCategory;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class FaqCategoryPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

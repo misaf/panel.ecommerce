@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraCustomPage\Enums\CustomPageCategoryPolicyEnum;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class CustomPageCategoryPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

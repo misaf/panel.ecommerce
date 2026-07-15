@@ -6,11 +6,13 @@ namespace Misaf\VendraUserProfile\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 use Misaf\VendraUserProfile\Enums\UserProfilePolicyEnum;
 use Misaf\VendraUserProfile\Models\UserProfile;
 
 final class UserProfilePolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

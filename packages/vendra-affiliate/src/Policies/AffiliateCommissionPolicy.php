@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAffiliate\Enums\AffiliateCommissionPolicyEnum;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class AffiliateCommissionPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function approve(Authorizable $user, AffiliateCommission $affiliateCommission): bool

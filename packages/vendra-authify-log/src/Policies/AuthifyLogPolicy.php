@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAuthifyLog\Enums\AuthifyLogPolicyEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class AuthifyLogPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

@@ -9,9 +9,11 @@ use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Models\Newsletter;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class NewsletterPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

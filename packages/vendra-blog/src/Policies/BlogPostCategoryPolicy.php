@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraBlog\Enums\BlogPostCategoryPolicyEnum;
 use Misaf\VendraBlog\Models\BlogPostCategory;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class BlogPostCategoryPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

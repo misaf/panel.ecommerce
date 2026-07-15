@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAffiliate\Enums\AffiliatePolicyEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class AffiliatePolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

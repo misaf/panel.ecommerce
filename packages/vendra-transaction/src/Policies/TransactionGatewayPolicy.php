@@ -6,10 +6,12 @@ namespace Misaf\VendraTransaction\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 use Misaf\VendraTransaction\Models\TransactionGateway;
 
 final class TransactionGatewayPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

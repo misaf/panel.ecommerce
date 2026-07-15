@@ -8,10 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAttribute\Enums\AttributeValuePolicyEnum;
 use Misaf\VendraAttribute\Models\AttributeValue;
-use Misaf\VendraSupport\Support\SandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class AttributeValuePolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool
@@ -76,6 +77,6 @@ final class AttributeValuePolicy
 
     private function allowed(Authorizable $user, AttributeValuePolicyEnum $permission): bool
     {
-        return SandboxMode::enabled() || $user->can($permission->value);
+        return $user->can($permission->value);
     }
 }

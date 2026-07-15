@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraCart\Enums\CartPolicyEnum;
 use Misaf\VendraCart\Models\Cart;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class CartPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

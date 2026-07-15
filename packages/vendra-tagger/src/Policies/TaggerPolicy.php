@@ -6,11 +6,13 @@ namespace Misaf\VendraTagger\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 use Misaf\VendraTagger\Enums\TaggerPolicyEnum;
 use Misaf\VendraTagger\Models\Tagger;
 
 final class TaggerPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

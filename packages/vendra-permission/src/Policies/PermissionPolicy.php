@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraPermission\Enums\PermissionPolicyEnum;
 use Misaf\VendraPermission\Models\Permission;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class PermissionPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAffiliate\Enums\AffiliateClickPolicyEnum;
 use Misaf\VendraAffiliate\Models\AffiliateClick;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class AffiliateClickPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     /**

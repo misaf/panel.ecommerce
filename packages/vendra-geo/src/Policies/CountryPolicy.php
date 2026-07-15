@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraGeo\Enums\CountryPolicyEnum;
 use Misaf\VendraGeo\Models\Country;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class CountryPolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool
