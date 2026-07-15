@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Clusters\Billings\Withdrawal\WithdrawalCluster;
 
+use BackedEnum;
 use Filament\Clusters\Cluster;
+use Filament\Support\Icons\Heroicon;
 use Misaf\VendraTransaction\Facades\TransactionService;
 
 final class WithdrawalCluster extends Cluster
 {
     protected static ?int $navigationSort = 2;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowUpTray;
 
     protected static ?string $slug = 'billings/withdrawal';
 

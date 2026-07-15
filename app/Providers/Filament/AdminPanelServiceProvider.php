@@ -11,9 +11,9 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup as FilamentNavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Schemas\Schema;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -22,7 +22,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
-use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
@@ -30,6 +29,15 @@ final class AdminPanelServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        Schema::configureUsing(
+            static fn(Schema $schema): Schema => $schema->extraAttributes(
+                static fn(): array => 'headerWidgets' === $schema->getKey()
+                    ? ['class' => 'max-md:order-last']
+                    : [],
+                merge: true,
+            ),
+        );
+
         return $panel
             ->id('admin')
             ->databaseNotifications()
@@ -42,7 +50,7 @@ final class AdminPanelServiceProvider extends PanelProvider
             ->homeUrl('/')
             ->login(Login::class)
             ->sidebarFullyCollapsibleOnDesktop()
-            ->sidebarWidth('16rem')
+            ->sidebarWidth('18rem')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -60,11 +68,6 @@ final class AdminPanelServiceProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->navigationGroups(array_map(
-                static fn(NavigationGroup $group): FilamentNavigationGroup => FilamentNavigationGroup::make()
-                    ->label(static fn(): string => $group->getLabel()),
-                NavigationGroup::cases(),
-            ))
             ->font(
                 fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
                 provider: SpatieGoogleFontProvider::class,
@@ -74,7 +77,7 @@ final class AdminPanelServiceProvider extends PanelProvider
             ->spa(hasPrefetching: true)
             ->strictAuthorization()
             ->unsavedChangesAlerts()
-            ->viteTheme('resources/css/filament/admin/theme.css')
+            // ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins($this->plugins());
     }
 

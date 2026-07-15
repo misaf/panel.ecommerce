@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Pages;
 
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\View;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\HtmlString;
+use Filament\Schemas\Components\Livewire;
+use Filament\Widgets\Widget;
+use Misaf\VendraTransaction\Filament\Widgets\TransactionTypeChartWidget;
 
 final class Dashboard extends \Filament\Pages\Dashboard
 {
     protected static ?int $navigationSort = -2;
 
-    protected static string $routePath = '/admin';
+    protected static string $routePath = '/dashboard';
 
     public function getMaxContentWidth(): string
     {
@@ -28,7 +29,7 @@ final class Dashboard extends \Filament\Pages\Dashboard
         return Grid::make([
             'lg' => 3,
         ])->schema([
-            Group::make(fn(): array => $this->getWidgetsSchemaComponents($this->getWidgets()))
+            Group::make(fn(): array => $this->getResponsiveWidgetsSchemaComponents())
                 ->columns([
                     'md' => 3,
                 ])
@@ -36,13 +37,11 @@ final class Dashboard extends \Filament\Pages\Dashboard
                     'lg' => 2,
                 ]),
 
-            Section::make(__('page.dashboard_changelog'))
-                ->icon(Heroicon::OutlinedDocumentText)
-                ->schema([
-                    View::make('filament.admin.dashboard-markdown')
-                        ->viewData(fn(): array => [
-                            'content' => $this->getDashboardChangelog(),
-                        ]),
+            Livewire::make(TransactionTypeChartWidget::class)
+                ->key(TransactionTypeChartWidget::class)
+                ->liberatedFromContainerGrid()
+                ->extraAttributes([
+                    'class' => 'max-md:order-last',
                 ])
                 ->columnSpan([
                     'lg' => 1,
@@ -50,13 +49,35 @@ final class Dashboard extends \Filament\Pages\Dashboard
         ]);
     }
 
-    private function getDashboardChangelog(): HtmlString
+    /**
+     * @return array<Component|Action|ActionGroup>
+     */
+    private function getResponsiveWidgetsSchemaComponents(): array
     {
-        return str(__('page.dashboard_changelog_items'))
-            ->markdown([
-                'html_input'         => 'strip',
-                'allow_unsafe_links' => false,
-            ])
-            ->toHtmlString();
+        $components = $this->getWidgetsSchemaComponents($this->getWidgets());
+        $componentCount = count($components);
+
+        foreach ($components as $index => $component) {
+            if ( ! $component instanceof Livewire) {
+                continue;
+            }
+
+            $widget = app($component->getComponent());
+
+            if ( ! $widget instanceof Widget) {
+                continue;
+            }
+
+            $component
+                ->liberatedFromContainerGrid(false)
+                ->columnSpan($widget->getColumnSpan())
+                ->columnStart($widget->getColumnStart())
+                ->columnOrder([
+                    'default' => $componentCount - $index,
+                    'md'      => $index + 1,
+                ]);
+        }
+
+        return $components;
     }
 }

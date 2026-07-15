@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Clusters\Billings\Deposit\DepositCluster;
 
+use BackedEnum;
 use Filament\Clusters\Cluster;
+use Filament\Support\Icons\Heroicon;
 use Misaf\VendraTransaction\Facades\TransactionService;
 
 final class DepositCluster extends Cluster
 {
     protected static ?int $navigationSort = 1;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowDownTray;
 
     protected static ?string $slug = 'billings/deposit';
 
