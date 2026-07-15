@@ -10,19 +10,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Supported Locales
-    |--------------------------------------------------------------------------
-    |
-    | The locales your application serves. A resolved locale is validated
-    | against this list; region variants (fr-CA) match their base
-    | language (fr). Anything else falls back to app.fallback_locale.
-    |
-    */
-
-    'supported_locales' => ['fa', 'en', 'de'],
-
-    /*
-    |--------------------------------------------------------------------------
     | Locale Resolvers
     |--------------------------------------------------------------------------
     |
