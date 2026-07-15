@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 use Illuminate\Console\Scheduling\Schedule;
-use Misaf\VendraNewsletter\Filament\Clusters\NewslettersCluster;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\NewsletterResource;
 use Misaf\VendraNewsletter\NewsletterPlugin;
 use Misaf\VendraNewsletter\Providers\NewsletterServiceProvider;
+use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
 it('defaults the newsletter module to the admin panel', function (): void {
     expect(config('vendra-newsletter.panels'))->toBe(['admin']);
@@ -40,9 +41,8 @@ it('resolves the module-owned navigation group by default', function (): void {
         ->toBe(__('vendra-support::navigation.groups.Marketing'));
 });
 
-it('uses the package label for the cluster breadcrumb', function (): void {
-    expect(NewslettersCluster::getClusterBreadcrumb())
-        ->toBe(__('vendra-newsletter::navigation.newsletter'));
+it('places newsletters in the marketing domain', function (): void {
+    expect(NewsletterResource::getCluster())->toBe(MarketingCluster::class);
 });
 
 it('lets the navigation group be overridden with a plugin option', function (): void {

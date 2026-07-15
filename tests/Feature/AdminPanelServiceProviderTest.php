@@ -8,7 +8,7 @@ use Filament\Panel;
 it('uses a compact sidebar width', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
 
-    expect($panel->getSidebarWidth())->toBe('16rem');
+    expect($panel->getSidebarWidth())->toBe('18rem');
 });
 
 it('uses the font matching the application locale', function (string $locale, string $font): void {
@@ -19,6 +19,6 @@ it('uses the font matching the application locale', function (string $locale, st
     expect($panel->getFontFamily())->toBe($font);
 })->with([
     'Persian' => ['fa', 'Vazirmatn'],
-    'English' => ['en', 'Roboto'],
-    'German'  => ['de', 'Roboto'],
+    'English' => ['en', 'Google'],
+    'German'  => ['de', 'Google'],
 ]);

@@ -56,6 +56,13 @@ it('uses the same responsive widget grid on every resource page', function (stri
     ListAffiliatePayouts::class,
 ]);
 
+it('moves resource header widgets after content on mobile', function (): void {
+    $headerWidgets = app(ListTransactions::class)->getSchema('headerWidgets');
+
+    expect($headerWidgets)->not->toBeNull()
+        ->and($headerWidgets->getExtraAttributeBag()->get('class'))->toBe('max-md:order-last');
+});
+
 it('registers each combined overview on its resource page', function (string $pageClass, string $widgetClass): void {
     $headerWidgets = (new ReflectionMethod($pageClass, 'getHeaderWidgets'))
         ->invoke(app($pageClass));

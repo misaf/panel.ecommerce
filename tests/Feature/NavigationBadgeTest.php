@@ -6,9 +6,9 @@ use Misaf\VendraCart\Database\Factories\CartFactory;
 use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
 use Misaf\VendraTenant\Database\Factories\TenantFactory;
 use Misaf\VendraTransaction\Database\Factories\TransactionFactory;
-use Misaf\VendraTransaction\Filament\Clusters\TransactionsCluster;
+use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource;
 use Misaf\VendraUser\Database\Factories\UserFactory;
-use Misaf\VendraUser\Filament\Clusters\UsersCluster;
+use Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource;
 
 it('shows record counts on important navigation items', function (): void {
     $tenant = TenantFactory::new()->enabled()->createOne();
@@ -32,10 +32,10 @@ it('shows record counts on important navigation items', function (): void {
 
     $tenant->makeCurrent();
 
-    expect(UsersCluster::getNavigationBadge())->toBe('2')
-        ->and(TransactionsCluster::getNavigationBadge())->toBe('3')
+    expect(UserResource::getNavigationBadge())->toBe('2')
+        ->and(TransactionResource::getNavigationBadge())->toBe('3')
         ->and(CartResource::getNavigationBadge())->toBe('4')
-        ->and(UsersCluster::getNavigationBadgeTooltip())->toBe(__('vendra-user::navigation.navigation_badge_tooltip'))
-        ->and(TransactionsCluster::getNavigationBadgeTooltip())->toBe(__('vendra-transaction::navigation.navigation_badge_tooltip'))
+        ->and(UserResource::getNavigationBadgeTooltip())->toBe(__('vendra-user::navigation.navigation_badge_tooltip'))
+        ->and(TransactionResource::getNavigationBadgeTooltip())->toBe(__('vendra-transaction::navigation.navigation_badge_tooltip'))
         ->and(CartResource::getNavigationBadgeTooltip())->toBe(__('vendra-cart::navigation.navigation_badge_tooltip'));
 });

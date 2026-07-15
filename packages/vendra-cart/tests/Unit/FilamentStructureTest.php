@@ -8,11 +8,12 @@ use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
 use Misaf\VendraCart\Filament\Resources\Carts\RelationManagers\CartItemsRelationManager;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCart\Policies\CartPolicy;
+use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
 
-it('registers a cart plugin and standalone resource', function (): void {
+it('registers a cart plugin and catalog resource', function (): void {
     expect(CartPlugin::make()->getId())->toBe('vendra-cart')
         ->and(CartResource::getModel())->toBe(Cart::class)
-        ->and(CartResource::getCluster())->toBeNull()
+        ->and(CartResource::getCluster())->toBe(CatalogCluster::class)
         ->and(Gate::getPolicyFor(Cart::class))->toBeInstanceOf(CartPolicy::class)
         ->and(CartResource::getRelations())->toContain(CartItemsRelationManager::class)
         ->and(CartResource::getPages())->toHaveKeys(['index', 'view']);
