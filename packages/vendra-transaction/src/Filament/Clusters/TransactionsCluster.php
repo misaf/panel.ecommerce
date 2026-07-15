@@ -8,7 +8,9 @@ use BackedEnum;
 use Filament\Clusters\Cluster;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Number;
 use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
+use Misaf\VendraTransaction\Models\Transaction;
 
 final class TransactionsCluster extends Cluster
 {
@@ -28,6 +30,16 @@ final class TransactionsCluster extends Cluster
     public static function getNavigationLabel(): string
     {
         return __('vendra-transaction::navigation.transaction');
+    }
+
+    public static function getNavigationBadge(): string
+    {
+        return (string) Number::format(Transaction::query()->count());
+    }
+
+    public static function getNavigationBadgeTooltip(): string
+    {
+        return __('vendra-transaction::navigation.navigation_badge_tooltip');
     }
 
     public static function getClusterBreadcrumb(): string

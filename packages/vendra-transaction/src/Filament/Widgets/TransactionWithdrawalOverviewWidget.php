@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraTransaction\Filament\Widgets;
 
+use Filament\Support\Enums\IconPosition;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -17,6 +19,8 @@ final class TransactionWithdrawalOverviewWidget extends StatsOverviewWidget
     use InteractsWithPageFilters;
 
     protected static ?int $sort = 3;
+
+    protected ?string $pollingInterval = null;
 
     protected int|string|array $columnSpan = [
         'sm' => 1,
@@ -64,7 +68,8 @@ final class TransactionWithdrawalOverviewWidget extends StatsOverviewWidget
             Stat::make('withdrawal_transaction_stats', Number::format($todayTotal))
                 ->label(__('vendra-transaction::widgets.withdrawal_transaction_stats'))
                 ->description(__('vendra-transaction::widgets.withdrawal_transaction_stats_description'))
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->descriptionIcon('heroicon-m-arrow-trending-up', IconPosition::Before)
+                ->icon(Heroicon::OutlinedBanknotes)
                 ->chart(
                     $withdrawalTrend->map(fn(TrendValue $value) => (int) $value->aggregate)->toArray(),
                 )
