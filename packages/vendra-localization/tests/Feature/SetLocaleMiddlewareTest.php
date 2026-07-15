@@ -40,8 +40,23 @@ it('sets the resolved supported locale and Content-Language header', function (?
     'unsupported locale'                   => ['es', 'en'],
     'region variant of a supported locale' => ['fr-CA', 'fr'],
     'underscored region variant'           => ['fr_CA', 'fr'],
+    'case-insensitive region variant'      => ['FR_ca', 'fr'],
     'no resolved locale'                   => [null, 'en'],
 ]);
+
+it('uses the application fallback locale when resolution fails', function (): void {
+    config()->set('app.locale', 'de');
+    config()->set('app.fallback_locale', 'fa');
+
+    app()->instance(LocaleResolver::class, new TenantLocaleResolver(null));
+
+    $response = handleSetLocale(Request::create('/'));
+
+    expect(app()->getLocale())
+        ->toBe('fa')
+        ->and($response->headers->get('Content-Language'))
+        ->toBe('fa');
+});
 
 it('matches supported locales after normalizing region separators', function (): void {
     config()->set('vendra-localization.supported_locales', ['en', 'fr-CA']);

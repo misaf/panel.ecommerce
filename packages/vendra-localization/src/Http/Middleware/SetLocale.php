@@ -139,6 +139,9 @@ final readonly class SetLocale
 
     private function normalizeLocale(string $locale): string
     {
-        return str_replace('_', '-', $locale);
+        return Str::of($locale)
+            ->replace('_', '-')
+            ->lower()
+            ->value();
     }
 }
