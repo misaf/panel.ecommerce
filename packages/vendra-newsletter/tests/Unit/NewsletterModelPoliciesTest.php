@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
+use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Support\Facades\Gate;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterSubscriberPolicyEnum;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterAction;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
+use Misaf\VendraNewsletter\Policies\NewsletterPolicy;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Scopes\TeamScope;
 use Misaf\VendraSupport\Scopes\TenantScope;
@@ -80,6 +84,7 @@ it('defines policy permissions for all newsletter resources', function (): void 
         'replicate-newsletter',
         'restore-newsletter',
         'restore-any-newsletter',
+        'send-newsletter',
         'update-newsletter',
         'view-newsletter',
         'view-any-newsletter',
@@ -97,4 +102,54 @@ it('defines policy permissions for all newsletter resources', function (): void 
             'view-newsletter-subscriber',
             'view-any-newsletter-subscriber',
         ]);
+});
+
+it('prevents sent newsletters from being updated', function (): void {
+    $user = Mockery::mock(Authorizable::class);
+    $user->shouldReceive('can')
+        ->once()
+        ->with(NewsletterPolicyEnum::UPDATE->value)
+        ->andReturnTrue();
+
+    $draft = new Newsletter();
+    $draft->status = NewsletterStatusEnum::Draft;
+
+    $sent = new Newsletter();
+    $sent->status = NewsletterStatusEnum::Sent;
+
+    $policy = new NewsletterPolicy();
+
+    expect($policy->update($user, $draft))->toBeTrue()
+        ->and($policy->update($user, $sent))->toBeFalse();
+});
+
+it('authorizes newsletter sending through its dedicated permission', function (): void {
+    $user = Mockery::mock(Authorizable::class);
+    $user->shouldReceive('can')
+        ->once()
+        ->with(NewsletterPolicyEnum::SEND->value)
+        ->andReturnTrue();
+
+    $draft = new Newsletter();
+    $draft->status = NewsletterStatusEnum::Draft;
+
+    $sent = new Newsletter();
+    $sent->status = NewsletterStatusEnum::Sent;
+
+    $policy = new NewsletterPolicy();
+
+    expect($policy->send($user, $draft))->toBeTrue()
+        ->and($policy->send($user, $sent))->toBeFalse();
+});
+
+it('wires the custom send action to policy authorization', function (): void {
+    $newsletter = new Newsletter();
+    $newsletter->status = NewsletterStatusEnum::Draft;
+
+    Gate::shouldReceive('allows')
+        ->once()
+        ->with('send', $newsletter)
+        ->andReturnFalse();
+
+    expect(SendNewsletterAction::make()->record($newsletter)->isAuthorized())->toBeFalse();
 });

@@ -32,6 +32,6 @@ final class NewslettersCluster extends Cluster
 
     public static function getClusterBreadcrumb(): string
     {
-        return NewsletterPlugin::get()->getNavigationGroup();
+        return __('vendra-newsletter::navigation.newsletter');
     }
 }

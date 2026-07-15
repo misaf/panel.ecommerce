@@ -2,11 +2,20 @@
 
 declare(strict_types=1);
 
+use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriber;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 use Misaf\VendraTenant\Models\Tenant;
+use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
 
 beforeEach(function (): void {
+    config([
+        'multitenancy.switch_tenant_tasks' => array_values(array_filter(
+            config('multitenancy.switch_tenant_tasks'),
+            fn(string $task): bool => SwitchRouteCacheTask::class !== $task,
+        )),
+    ]);
+
     Tenant::factory()->enabled()->create()->makeCurrent();
 });
 
@@ -38,4 +47,26 @@ it('shows the unknown page and changes nothing for an invalid token', function (
         ->assertOk();
 
     expect(NewsletterSubscriber::query()->unsubscribed()->count())->toBe(0);
+});
+
+it('restores and resubscribes a soft-deleted subscriber instead of creating a duplicate', function (): void {
+    $subscriber = NewsletterSubscriberFactory::new()->unsubscribed()->create([
+        'email' => 'restored@example.com',
+        'name'  => 'Original name',
+    ]);
+    $originalToken = $subscriber->unsubscribe_token;
+
+    $subscriber->delete();
+
+    $restoredSubscriber = app(SubscribeNewsletterSubscriber::class)->execute([
+        'email' => 'restored@example.com',
+        'name'  => 'Restored name',
+    ]);
+
+    expect($restoredSubscriber->id)->toBe($subscriber->id)
+        ->and($restoredSubscriber->trashed())->toBeFalse()
+        ->and($restoredSubscriber->isSubscribed())->toBeTrue()
+        ->and($restoredSubscriber->name)->toBe('Restored name')
+        ->and($restoredSubscriber->unsubscribe_token)->toBe($originalToken)
+        ->and(NewsletterSubscriber::query()->withTrashed()->where('email', 'restored@example.com')->count())->toBe(1);
 });

@@ -7,6 +7,7 @@ namespace Misaf\VendraNewsletter\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
+use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Models\Newsletter;
 
 final class NewsletterPolicy
@@ -53,9 +54,16 @@ final class NewsletterPolicy
         return $user->can(NewsletterPolicyEnum::RESTORE_ANY->value);
     }
 
+    public function send(Authorizable $user, Newsletter $newsletter): bool
+    {
+        return NewsletterStatusEnum::Sent !== $newsletter->status
+            && $user->can(NewsletterPolicyEnum::SEND->value);
+    }
+
     public function update(Authorizable $user, Newsletter $newsletter): bool
     {
-        return $user->can(NewsletterPolicyEnum::UPDATE->value);
+        return NewsletterStatusEnum::Sent !== $newsletter->status
+            && $user->can(NewsletterPolicyEnum::UPDATE->value);
     }
 
     public function view(Authorizable $user, Newsletter $newsletter): bool

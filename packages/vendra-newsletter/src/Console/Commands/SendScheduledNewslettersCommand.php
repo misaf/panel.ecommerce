@@ -33,7 +33,7 @@ final class SendScheduledNewslettersCommand extends Command
 
                     $this->components->info(sprintf(
                         'Queued newsletter #%d for %d subscriber(s).',
-                        $newsletter->getKey(),
+                        $newsletter->id,
                         $recipients,
                     ));
                 });

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriber;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
 
 final class CreateNewsletterSubscriber extends CreateRecord
@@ -14,5 +16,13 @@ final class CreateNewsletterSubscriber extends CreateRecord
     public function getBreadcrumb(): string
     {
         return self::$breadcrumb ?? __('filament-panels::resources/pages/create-record.breadcrumb') . ' ' . __('vendra-newsletter::navigation.newsletter_subscriber');
+    }
+
+    /**
+     * @param  array{email: string, name?: string|null}  $data
+     */
+    protected function handleRecordCreation(array $data): Model
+    {
+        return app(SubscribeNewsletterSubscriber::class)->execute($data);
     }
 }

@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Misaf\VendraNewsletter\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 
-final class SendNewsletterBatchJob implements ShouldQueue
+final class SendNewsletterBatchJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -29,10 +30,12 @@ final class SendNewsletterBatchJob implements ShouldQueue
         public readonly int $newsletterId,
         public readonly array $subscriberIds,
     ) {
-        $this->onConnection(Config::get('vendra-newsletter.queue.connection'));
+        $connection = Config::string('vendra-newsletter.queue.connection', '');
+
+        $this->onConnection('' === $connection ? null : $connection);
         $this->onQueue(Config::string('vendra-newsletter.queue.name', 'default'));
         $this->tries = Config::integer('vendra-newsletter.queue.tries', 3);
-        $this->timeout = Config::integer('vendra-newsletter.queue.timeout', 300);
+        $this->timeout = Config::integer('vendra-newsletter.queue.timeout', 30);
     }
 
     public function handle(): void
@@ -40,5 +43,10 @@ final class SendNewsletterBatchJob implements ShouldQueue
         foreach ($this->subscriberIds as $subscriberId) {
             SendNewsletterEmailJob::dispatch($this->newsletterId, $subscriberId);
         }
+    }
+
+    public function uniqueId(): string
+    {
+        return $this->newsletterId . ':' . hash('sha256', implode(',', $this->subscriberIds));
     }
 }

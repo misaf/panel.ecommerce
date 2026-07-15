@@ -32,6 +32,7 @@ final class NewsletterForm
                     ->live()
                     ->native(false)
                     ->options(NewsletterStatusEnum::class)
+                    ->disableOptionWhen(fn(string $value): bool => NewsletterStatusEnum::Sent->value === $value)
                     ->required()
                     ->selectablePlaceholder(false),
 
@@ -39,9 +40,9 @@ final class NewsletterForm
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-newsletter::attributes.scheduled_at'))
                     ->minDate(now())
-                    ->required(fn(Get $get): bool => NewsletterStatusEnum::Scheduled->value === $get('status'))
+                    ->required(fn(Get $get): bool => NewsletterStatusEnum::Scheduled === $get('status'))
                     ->seconds(false)
-                    ->visible(fn(Get $get): bool => NewsletterStatusEnum::Scheduled->value === $get('status')),
+                    ->visible(fn(Get $get): bool => NewsletterStatusEnum::Scheduled === $get('status')),
 
                 RichEditor::make('content')
                     ->columnSpanFull()

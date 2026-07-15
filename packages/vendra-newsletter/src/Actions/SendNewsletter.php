@@ -6,6 +6,7 @@ namespace Misaf\VendraNewsletter\Actions;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Jobs\SendNewsletterBatchJob;
 use Misaf\VendraNewsletter\Models\Newsletter;
@@ -19,30 +20,36 @@ final class SendNewsletter
      */
     public function execute(Newsletter $newsletter): int
     {
-        if (NewsletterStatusEnum::Sent === $newsletter->status) {
-            return 0;
-        }
+        return DB::transaction(function () use ($newsletter): int {
+            $lockedNewsletter = Newsletter::query()
+                ->lockForUpdate()
+                ->find($newsletter->id);
 
-        $chunkSize = Config::integer('vendra-newsletter.batch_chunk_size', 100);
-        $queued = 0;
+            if ( ! $lockedNewsletter instanceof Newsletter || NewsletterStatusEnum::Sent === $lockedNewsletter->status) {
+                return 0;
+            }
 
-        NewsletterSubscriber::query()
-            ->subscribed()
-            ->select('id')
-            ->chunkById($chunkSize, function (Collection $subscribers) use ($newsletter, &$queued): void {
-                /** @var list<int> $ids */
-                $ids = $subscribers->modelKeys();
+            $chunkSize = Config::integer('vendra-newsletter.batch_chunk_size', 100);
+            $queued = 0;
 
-                SendNewsletterBatchJob::dispatch($newsletter->getKey(), $ids);
+            NewsletterSubscriber::query()
+                ->subscribed()
+                ->select('id')
+                ->chunkById($chunkSize, function (Collection $subscribers) use ($lockedNewsletter, &$queued): void {
+                    /** @var list<int> $ids */
+                    $ids = $subscribers->modelKeys();
 
-                $queued += count($ids);
-            });
+                    SendNewsletterBatchJob::dispatch($lockedNewsletter->id, $ids)->afterCommit();
 
-        $newsletter->forceFill([
-            'status'  => NewsletterStatusEnum::Sent,
-            'sent_at' => now(),
-        ])->save();
+                    $queued += count($ids);
+                });
 
-        return $queued;
+            $lockedNewsletter->forceFill([
+                'status'  => NewsletterStatusEnum::Sent,
+                'sent_at' => now(),
+            ])->save();
+
+            return $queued;
+        });
     }
 }

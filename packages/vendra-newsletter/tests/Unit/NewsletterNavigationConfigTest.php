@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Console\Scheduling\Schedule;
+use Misaf\VendraNewsletter\Filament\Clusters\NewslettersCluster;
 use Misaf\VendraNewsletter\NewsletterPlugin;
 use Misaf\VendraNewsletter\Providers\NewsletterServiceProvider;
 
@@ -39,6 +40,11 @@ it('resolves the module-owned navigation group by default', function (): void {
         ->toBe(__('vendra-support::navigation.groups.Marketing'));
 });
 
+it('uses the package label for the cluster breadcrumb', function (): void {
+    expect(NewslettersCluster::getClusterBreadcrumb())
+        ->toBe(__('vendra-newsletter::navigation.newsletter'));
+});
+
 it('lets the navigation group be overridden with a plugin option', function (): void {
     expect(NewsletterPlugin::make()->navigationGroup('Marketing')->getNavigationGroup())
         ->toBe('Marketing')
@@ -56,8 +62,8 @@ it('falls back to the configured navigation group when no plugin option is set',
 it('exposes the sending queue configuration through strict accessors', function (): void {
     expect(config('vendra-newsletter.batch_chunk_size'))->toBeInt()
         ->and(config('vendra-newsletter.queue.tries'))->toBeInt()
-        ->and(config('vendra-newsletter.queue.timeout'))->toBeInt()
-        ->and(config('vendra-newsletter.queue.email_timeout'))->toBeInt();
+        ->and(config('vendra-newsletter.queue.timeout'))->toBe(30)
+        ->and(config('vendra-newsletter.queue.email_timeout'))->toBe(30);
 });
 
 it('exposes a configurable, toggleable schedule', function (): void {
