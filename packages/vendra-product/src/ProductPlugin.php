@@ -61,9 +61,9 @@ final class ProductPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->discoverClusters(
-            in: __DIR__ . '/Filament/Clusters',
-            for: 'Misaf\\VendraProduct\\Filament\\Clusters',
+        $panel->discoverResources(
+            in: __DIR__ . '/Filament/Clusters/Resources',
+            for: 'Misaf\\VendraProduct\\Filament\\Clusters\\Resources',
         );
 
         $panel->widgets([

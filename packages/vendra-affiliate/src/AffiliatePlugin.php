@@ -63,9 +63,9 @@ final class AffiliatePlugin implements Plugin
     public function register(Panel $panel): void
     {
         if ($this->isConfiguredPanel($panel, 'vendra-affiliate.panels')) {
-            $panel->discoverClusters(
-                in: __DIR__ . '/Filament/Clusters',
-                for: 'Misaf\\VendraAffiliate\\Filament\\Clusters',
+            $panel->discoverResources(
+                in: __DIR__ . '/Filament/Clusters/Resources',
+                for: 'Misaf\\VendraAffiliate\\Filament\\Clusters\\Resources',
             );
 
             $panel->widgets([

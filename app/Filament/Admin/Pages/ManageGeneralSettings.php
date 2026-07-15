@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Clusters\Settings\SettingsCluster;
 use App\Settings\GeneralSettings;
 use Filament\Clusters\Cluster;
 use Filament\Forms\Components\Textarea;
@@ -14,13 +13,14 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Misaf\Tenant\Models\Tenant;
+use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 
 final class ManageGeneralSettings extends SettingsPage
 {
     /**
      * @var class-string<Cluster>|null
      */
-    protected static ?string $cluster = SettingsCluster::class;
+    protected static ?string $cluster = SystemCluster::class;
 
     protected static ?int $navigationSort = 1;
 
@@ -38,11 +38,6 @@ final class ManageGeneralSettings extends SettingsPage
     public static function getModelLabel(): string
     {
         return __('page.configuration');
-    }
-
-    public static function getNavigationGroup(): string
-    {
-        return __('page.setting');
     }
 
     public static function getNavigationLabel(): string

@@ -24,9 +24,9 @@ final class UserProfilePlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->discoverClusters(
-            in: __DIR__ . '/Filament/Clusters',
-            for: 'Misaf\\VendraUserProfile\\Filament\\Clusters',
+        $panel->discoverResources(
+            in: __DIR__ . '/Filament/Resources',
+            for: 'Misaf\\VendraUserProfile\\Filament\\Resources',
         );
     }
 

@@ -60,9 +60,9 @@ final class BlogPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->discoverClusters(
-            in: __DIR__ . '/Filament/Clusters',
-            for: 'Misaf\\VendraBlog\\Filament\\Clusters',
+        $panel->discoverResources(
+            in: __DIR__ . '/Filament/Clusters/Resources',
+            for: 'Misaf\\VendraBlog\\Filament\\Clusters\\Resources',
         );
     }
 
