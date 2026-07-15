@@ -17,7 +17,7 @@ enum NewsletterStatusEnum: string implements HasColor, HasIcon, HasLabel
 
     public function getLabel(): string
     {
-        return __("vendra-newsletter::newsletter_status_enum.{$this->value}");
+        return __("vendra-newsletter::enums.newsletter_status_{$this->value}");
     }
 
     public function getColor(): string

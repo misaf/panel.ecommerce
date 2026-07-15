@@ -14,6 +14,7 @@ enum NewsletterPolicyEnum: string
     case REPLICATE = 'replicate-newsletter';
     case RESTORE = 'restore-newsletter';
     case RESTORE_ANY = 'restore-any-newsletter';
+    case SEND = 'send-newsletter';
     case UPDATE = 'update-newsletter';
     case VIEW = 'view-newsletter';
     case VIEW_ANY = 'view-any-newsletter';
