@@ -8,6 +8,8 @@ use BackedEnum;
 use Filament\Clusters\Cluster;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Number;
+use Misaf\VendraUser\Models\User;
 use Misaf\VendraUser\UserPlugin;
 
 final class UsersCluster extends Cluster
@@ -28,6 +30,16 @@ final class UsersCluster extends Cluster
     public static function getNavigationLabel(): string
     {
         return __('vendra-user::navigation.user');
+    }
+
+    public static function getNavigationBadge(): string
+    {
+        return (string) Number::format(User::query()->count());
+    }
+
+    public static function getNavigationBadgeTooltip(): string
+    {
+        return __('vendra-user::navigation.navigation_badge_tooltip');
     }
 
     public static function getClusterBreadcrumb(): string

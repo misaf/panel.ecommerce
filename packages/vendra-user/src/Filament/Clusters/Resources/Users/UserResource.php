@@ -14,14 +14,13 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Number;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\Pages\CreateUser;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\Pages\EditUser;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\Pages\ListUsers;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\Pages\ViewUser;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\Schemas\UserForm;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\Tables\UserTable;
+use Misaf\VendraUser\Filament\Clusters\Resources\Users\Widgets\UserOverviewWidget;
 use Misaf\VendraUser\Filament\Clusters\UsersCluster;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUser\UserPlugin;
@@ -88,11 +87,6 @@ final class UserResource extends Resource
         ];
     }
 
-    public static function getNavigationBadge(): ?string
-    {
-        return Cache::rememberForever('user-row-count', fn(): string => (string) Number::format(self::getModel()::count()));
-    }
-
     /**
      * @return array<string, PageRegistration>
      */
@@ -112,6 +106,13 @@ final class UserResource extends Resource
     public static function getRelations(): array
     {
         return [];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            UserOverviewWidget::class,
+        ];
     }
 
     public static function form(Schema $schema): Schema
