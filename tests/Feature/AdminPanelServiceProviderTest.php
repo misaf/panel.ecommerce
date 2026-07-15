@@ -5,6 +5,12 @@ declare(strict_types=1);
 use App\Providers\Filament\AdminPanelServiceProvider;
 use Filament\Panel;
 
+it('uses a compact sidebar width', function (): void {
+    $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
+
+    expect($panel->getSidebarWidth())->toBe('16rem');
+});
+
 it('uses the font matching the application locale', function (string $locale, string $font): void {
     app()->setLocale($locale);
 
