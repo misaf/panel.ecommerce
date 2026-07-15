@@ -10,12 +10,17 @@ The `misaf/vendra-newsletter` package owns newsletter domain behavior and the Fi
 - Tenant awareness is owned by `misaf/vendra-support` via `Misaf\VendraSupport\Support\TenantAwareness`, which derives purely from the bound `TenantResolver`. Installing a tenant provider (e.g. `misaf/vendra-tenant`) makes the app tenant-aware; without one the default null resolver keeps it disabled. The newsletter module defines no `tenant_aware` config.
 - Keep the module tenant-agnostic: it must build and run with or without a tenant provider. Never reference a concrete provider such as `Misaf\VendraTenant`, `Tenant::`, or the `tenants:artisan` command anywhere — models, migrations, factories, seeders, fixtures, jobs, or commands. Let `BelongsToTenant` assign `tenant_id`; do not set it manually.
 - Keep Filament resources thin by delegating forms to `Schemas/*Form.php` and tables to `Tables/*Table.php`. Keep the reusable Filament send button in `Filament/Clusters/Resources/Newsletters/Actions/SendNewsletterAction.php`; it delegates to the `Actions\SendNewsletter` domain action and is hidden once a newsletter is `sent`.
+- Authorize the custom send action explicitly through `Gate::allows('send', $newsletter)`. Keep `NewsletterPolicy::send()` backed by the dedicated `send-newsletter` permission, seed new permissions through the package permission seeder, and prevent edits after a newsletter reaches `sent`.
+- Keep subscriber email unique per tenant and `unsubscribe_token` globally unique. Creating an email that belongs to a soft-deleted subscriber must restore and resubscribe that row, update its name, and preserve its existing unsubscribe token through `Actions\SubscribeNewsletterSubscriber`.
+- Keep the `newsletter_deliveries` receipt table in `create_newsletters_table.php`, created after newsletters and subscribers and dropped before them. Its unique `(newsletter_id, newsletter_subscriber_id)` constraint is the durable delivery-idempotency boundary.
 
 ### Sending pipeline
 
-- Orchestrate sends through the `Actions\SendNewsletter` domain action. It guards against re-sending, fans subscribed recipients out in chunks of `batch_chunk_size`, dispatches one `Jobs\SendNewsletterBatchJob` per chunk, and marks the newsletter `sent`.
-- Keep the queue layers split: `SendNewsletterBatchJob` (fan-out, `queue.timeout`) dispatches per-recipient `SendNewsletterEmailJob` (`queue.email_timeout`), which skips unsubscribed recipients and delivers `Mail\NewsletterMail` (view `resources/views/mail/newsletter.blade.php`).
+- Orchestrate sends through the `Actions\SendNewsletter` domain action. Lock the newsletter row in a database transaction, guard against stale or repeated sends, fan subscribed recipients out in chunks of `batch_chunk_size`, dispatch each `Jobs\SendNewsletterBatchJob` with `afterCommit()`, and mark the newsletter `sent` in the same transaction.
+- Keep the queue layers split: `SendNewsletterBatchJob` (fan-out, `queue.timeout`) dispatches per-recipient `SendNewsletterEmailJob` (`queue.email_timeout`). Keep both jobs `ShouldBeUnique` with deterministic newsletter/recipient identifiers to suppress concurrent duplicate dispatches.
+- In `SendNewsletterEmailJob`, reload tenant-scoped models, skip missing or unsubscribed recipients, then transactionally insert and lock the recipient's `newsletter_deliveries` receipt. Skip rows with `sent_at`; otherwise deliver `Mail\NewsletterMail` and stamp `sent_at`. A transport exception must roll back the receipt so the job remains retryable.
 - Read all queue/batch settings (`batch_chunk_size`, `queue.connection`, `queue.name`, `queue.tries`, `queue.timeout`, `queue.email_timeout`) from `config/vendra-newsletter.php` through strict config accessors (`Config::integer`, `Config::string`). Rely on Spatie's tenant-aware queues to restore tenant context on the worker; do not stamp or query `tenant_id` manually.
+- Keep the default batch and email timeouts at 30 seconds. When integrating with Horizon, preserve `job timeout < Horizon supervisor timeout < queue retry_after` (the host defaults are `30 < 60 < 90`) to avoid concurrent retries.
 
 ### Scheduled sending
 
@@ -29,6 +34,6 @@ The `misaf/vendra-newsletter` package owns newsletter domain behavior and the Fi
 ### Conventions
 
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file and do not add comments that restate the code.
-- Add or update Pest tests for policy coverage, config/navigation/schedule behavior, translation parity, model contracts, the send pipeline, per-tenant isolation, and the unsubscribe flow.
+- Add or update Pest tests for policy coverage, config/navigation/schedule behavior, translation parity, model contracts, the send pipeline, durable delivery receipts and failed-send rollback, per-tenant isolation, subscriber restoration, and the unsubscribe flow.
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets plus a tenant-agnostic expectation, e.g. `arch()->expect('Misaf\VendraNewsletter')->not->toUse('Misaf\VendraTenant')`.

@@ -1,6 +1,6 @@
 ---
 name: vendra-newsletter-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Newsletter domain/admin module in packages/vendra-newsletter. Trigger for Newsletter, NewsletterSubscriber, the newsletter status enum, migrations, factories, seeders, policies, permission enums, Filament resources/clusters/forms/tables, the Filament Send action, the send pipeline (SendNewsletter action, SendNewsletterBatchJob, SendNewsletterEmailJob, NewsletterMail), queue/batch configuration, the public unsubscribe controller/route, the scheduled send command and its config-driven per-tenant schedule, translations, and plugin/service provider wiring."
+description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Newsletter domain/admin module in packages/vendra-newsletter. Trigger for Newsletter, NewsletterSubscriber, subscriber restoration, newsletter delivery receipts and idempotency, the newsletter status enum, migrations, factories, seeders, policies, permission enums, Filament resources/clusters/forms/tables, the Filament Send action, the send pipeline (SendNewsletter action, SendNewsletterBatchJob, SendNewsletterEmailJob, NewsletterMail), queue/batch/Horizon timeout configuration, the public unsubscribe controller/route, the scheduled send command and its config-driven per-tenant schedule, translations, and plugin/service provider wiring."
 ---
 
 # Vendra Newsletter
@@ -29,6 +29,7 @@ Follow the existing `Newsletter` and `NewsletterSubscriber` patterns for new new
 - Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`, `eachTenant`). Never reference a concrete provider such as `Misaf\VendraTenant`, `Tenant::`, or the `tenants:artisan` command. There is no `tenant_aware` config toggle.
 - Hide `tenant_id` and keep tenant behavior centralized in the support layer; `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
 - Hide generated secrets such as `unsubscribe_token`, and assign them from a model `creating` hook rather than the form.
+- Keep subscriber email unique per tenant and `unsubscribe_token` globally unique. Route creation through `Actions\SubscribeNewsletterSubscriber`: when an email matches a soft-deleted subscriber, restore and resubscribe that row, update its name, and preserve its token.
 - Use `SoftDeletes` for user-managed records unless there is a clear reason not to.
 - Back workflow state with a string enum (`NewsletterStatusEnum`) implementing Filament's `HasLabel`, `HasColor`, and `HasIcon`. Express lifecycle predicates as typed query scopes (`Newsletter::due()`, `NewsletterSubscriber::subscribed()` / `unsubscribed()`).
 
@@ -36,9 +37,11 @@ Follow the existing `Newsletter` and `NewsletterSubscriber` patterns for new new
 
 Keep sending split across an orchestrating action, two queued jobs, and a mailable.
 
-- Orchestrate through `Actions\SendNewsletter`: guard against re-sending a `sent` newsletter, chunk subscribed recipients by `batch_chunk_size`, dispatch one `Jobs\SendNewsletterBatchJob` per chunk, then mark the newsletter `sent` and stamp `sent_at`.
-- `SendNewsletterBatchJob` fans a chunk out into per-recipient `SendNewsletterEmailJob`s. `SendNewsletterEmailJob` reloads the newsletter and subscriber, skips unsubscribed recipients, and delivers `Mail\NewsletterMail` (view `vendra-newsletter::mail.newsletter`).
+- Orchestrate through `Actions\SendNewsletter`: lock the newsletter row in a transaction, guard against stale or repeated sends, chunk subscribed recipients by `batch_chunk_size`, dispatch each `Jobs\SendNewsletterBatchJob` with `afterCommit()`, then mark the newsletter `sent` and stamp `sent_at` in that transaction.
+- Keep `SendNewsletterBatchJob` and `SendNewsletterEmailJob` `ShouldBeUnique` with deterministic newsletter/chunk and newsletter/subscriber IDs. The cache locks prevent concurrent duplicate dispatches but are not the durable delivery record.
+- `SendNewsletterBatchJob` fans a chunk out into per-recipient `SendNewsletterEmailJob`s. `SendNewsletterEmailJob` reloads the newsletter and subscriber, skips missing or unsubscribed recipients, and transactionally inserts and locks the unique `newsletter_deliveries` receipt. Skip completed receipts; after delivering `Mail\NewsletterMail` (view `vendra-newsletter::mail.newsletter`), stamp `sent_at`. Let transport exceptions roll back the receipt so retries remain possible.
 - Configure jobs from `config/vendra-newsletter.php` via strict accessors: connection/queue from `queue.connection` / `queue.name`, `tries` from `queue.tries`, batch timeout from `queue.timeout`, and per-email timeout from `queue.email_timeout`.
+- Keep both timeout defaults at 30 seconds and preserve `job timeout < Horizon supervisor timeout < queue retry_after` in host configuration. An empty newsletter connection means inherit the application's default queue connection.
 - Rely on Spatie's tenant-aware queues to restore tenant context on the worker; never stamp or filter `tenant_id` manually in jobs or actions.
 - Surface manual sending through the reusable `Filament/.../Newsletters/Actions/SendNewsletterAction`, wired into the table row actions and the edit page. Keep it confirmation-gated and hidden once the newsletter is `sent`.
 
@@ -66,6 +69,7 @@ Keep Filament UI organized under `src/Filament/Clusters`.
 Use policy enums and policies as the permission source.
 
 - Add enum cases for every resource action the panel exposes.
+- Authorize the custom send action explicitly with `Gate::allows('send', $record)`. Keep `NewsletterPolicy::send()` backed by `NewsletterPolicyEnum::SendNewsletter` (`send-newsletter`), rerun the package permission seeder after adding permissions, and deny updates after `sent`.
 - Keep policy method names aligned with Filament actions: `viewAny`, `view`, `create`, `update`, `delete`, `deleteAny`, `restore`, `restoreAny`, `forceDelete`, `forceDeleteAny`, and `replicate` as applicable.
 - Update `PermissionPolicySeeder` when new permissions are introduced.
 - Keep the cluster in the `Marketing` navigation group with `$navigationSort` aligned to the host app's `AdminNavigationTest`.
@@ -74,7 +78,7 @@ Use policy enums and policies as the permission source.
 
 Migrations, factories, seeders, and translation files are part of the contract.
 
-- Use the package migration stub in `database/migrations`, published into the host app on install.
+- Use the consolidated `create_newsletters_table.php` package migration stub, published into the host app on install. Create `newsletter_deliveries` after newsletters/subscribers and drop it first; keep its explicit unique `(newsletter_id, newsletter_subscriber_id)` receipt constraint.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-agnostic and let `BelongsToTenant` assign `tenant_id`.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.
@@ -83,7 +87,7 @@ Migrations, factories, seeders, and translation files are part of the contract.
 
 Prefer focused Pest tests in the module.
 
-- Add or update tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config/schedule behavior, translation parity, the send pipeline (batch fan-out and per-recipient delivery), cross-tenant send isolation, and the unsubscribe flow.
+- Add or update tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config/schedule behavior, translation parity, the send pipeline (batch fan-out, per-recipient delivery, durable replay suppression, and failed-send rollback), cross-tenant send isolation, soft-deleted subscriber restoration, and the unsubscribe flow.
 - Fake the queue and mail (`Queue::fake()`, `Mail::fake()`) when asserting the send pipeline; use `Tenant::factory()->enabled()->create()->makeCurrent()` in feature tests that need a real tenant context.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraNewsletter')->not->toUse('Misaf\VendraTenant')`.
 - Run module checks from the package when possible: `composer --working-dir=packages/vendra-newsletter test` and `composer --working-dir=packages/vendra-newsletter analyse`.

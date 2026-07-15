@@ -50,13 +50,17 @@ final class AppServiceProvider extends ServiceProvider
                 ->defaultNumberLocale('en');
         });
 
+        DateTimePicker::configureUsing(function (DateTimePicker $dateTimePicker) {
+            return $dateTimePicker
+                ->firstDayOfWeek(6)
+                ->when(app()->isLocale('fa'), fn(DateTimePicker $component): DateTimePicker => $component->jalali())
+                ->native(false);
+        });
+
         DatePicker::configureUsing(function (DatePicker $datePicker) {
             return $datePicker
                 ->closeOnDateSelection()
-                ->displayFormat('Y-m-d')
-                ->firstDayOfWeek(6)
-                ->unless(app()->isLocale('fa'), fn(DateTimePicker $column) => $column->jalali())
-                ->native(false);
+                ->displayFormat('Y-m-d');
         });
     }
 
