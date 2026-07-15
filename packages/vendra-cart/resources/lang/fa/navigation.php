@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 return [
-    'cart'             => 'سبدهای خرید',
-    'cart_item'        => 'آیتم سبد خرید',
-    'cart_items'       => 'آیتم‌های سبد خرید',
-    'carts'            => 'سبدهای خرید',
+    'cart'                     => 'سبدهای خرید',
+    'cart_item'                => 'آیتم سبد خرید',
+    'cart_items'               => 'آیتم‌های سبد خرید',
+    'carts'                    => 'سبدهای خرید',
+    'navigation_badge_tooltip' => 'تعداد کل سبدهای خرید',
 ];

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraCurrency\Enums\CurrencyCategoryPolicyEnum;
 use Misaf\VendraCurrency\Enums\CurrencyPolicyEnum;
 use Misaf\VendraCurrency\Models\Currency;
@@ -17,6 +18,16 @@ it('defines the expected currency models', function (): void {
         ->and((new Currency())->getFillable())->toContain('currency_category_id', 'name', 'description', 'slug', 'iso_code', 'conversion_rate', 'decimal_place', 'buy_price', 'sell_price', 'is_default', 'position', 'status')
         ->and((new CurrencyCategory())->getHidden())->toContain('tenant_id')
         ->and((new Currency())->getHidden())->toContain('tenant_id');
+});
+
+it('normalizes and generates three-letter currency codes', function (): void {
+    $currency = new Currency();
+    $currency->iso_code = 'usd';
+
+    $factoryCode = CurrencyFactory::new()->definition()['iso_code'];
+
+    expect($currency->iso_code)->toBe('USD')
+        ->and($factoryCode)->toBeString()->toMatch('/^[A-Z]{3}$/');
 });
 
 it('defines the expected currency relationships', function (): void {

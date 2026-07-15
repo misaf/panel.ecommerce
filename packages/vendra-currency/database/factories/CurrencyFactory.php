@@ -20,12 +20,14 @@ final class CurrencyFactory extends Factory
 {
     public function definition(): array
     {
+        $name = fake()->sentence();
+
         return [
             'currency_category_id' => CurrencyCategory::factory(),
-            'name'                 => fake()->sentences(1, true),
+            'name'                 => $name,
             'description'          => fake()->realTextBetween(100, 200),
-            'slug'                 => fn(array $attributes) => Str::slug($attributes['name']),
-            'iso_code'             => fake()->languageCode(),
+            'slug'                 => Str::slug($name),
+            'iso_code'             => fake()->unique()->currencyCode(),
             'conversion_rate'      => fake()->randomFloat(2, 0.1, 10),
             'decimal_place'        => fake()->numberBetween(0, 4),
             'is_default'           => fake()->boolean(1),

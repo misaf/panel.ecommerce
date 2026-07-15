@@ -165,7 +165,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
                 'currencies.*.name'            => ['required', 'string'],
                 'currencies.*.description'     => ['required', 'string'],
                 'currencies.*.slug'            => ['required', 'string'],
-                'currencies.*.iso_code'        => ['required', 'string'],
+                'currencies.*.iso_code'        => ['required', 'string', 'alpha:ascii', 'size:3'],
                 'currencies.*.conversion_rate' => ['required', 'numeric'],
                 'currencies.*.decimal_place'   => ['required', 'integer'],
                 'currencies.*.buy_price'       => ['required', 'integer'],

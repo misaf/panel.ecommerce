@@ -67,7 +67,9 @@ final class CurrencyForm
                             ])
                             ->extraInputAttributes(['dir' => 'ltr'])
                             ->label(__('vendra-currency::attributes.iso_code'))
-                            ->required(),
+                            ->length(3)
+                            ->required()
+                            ->rules(['alpha:ascii']),
 
                         TextInput::make('conversion_rate')
                             ->columnSpan([

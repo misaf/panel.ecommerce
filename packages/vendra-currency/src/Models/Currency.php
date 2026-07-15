@@ -7,12 +7,14 @@ namespace Misaf\VendraCurrency\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraMultimedia\Concerns\HasDefaultMediaConversions;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
@@ -99,6 +101,16 @@ final class Currency extends Model implements HasMedia, Sortable, ShouldLogActiv
             'position'             => 'integer',
             'status'               => 'boolean',
         ];
+    }
+
+    /**
+     * @return Attribute<string, string>
+     */
+    protected function isoCode(): Attribute
+    {
+        return Attribute::make(
+            set: fn(string $value): string => Str::upper($value),
+        );
     }
 
     /**

@@ -12,12 +12,14 @@ return new class () extends Migration {
         Schema::disableForeignKeyConstraints();
         $this->createNewslettersTable();
         $this->createNewsletterSubscribersTable();
+        $this->createNewsletterDeliveriesTable();
         Schema::enableForeignKeyConstraints();
     }
 
     public function down(): void
     {
         Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('newsletter_deliveries');
         Schema::dropIfExists('newsletter_subscribers');
         Schema::dropIfExists('newsletters');
         Schema::enableForeignKeyConstraints();
@@ -61,8 +63,29 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'email']);
+            $table->unique(['tenant_id', 'email']);
+            $table->unique('unsubscribe_token');
             $table->index(['tenant_id', 'unsubscribed_at']);
+        });
+    }
+
+    private function createNewsletterDeliveriesTable(): void
+    {
+        Schema::create('newsletter_deliveries', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignId('newsletter_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('newsletter_subscriber_id')
+                ->constrained('newsletter_subscribers')
+                ->cascadeOnDelete();
+            $table->timestampTz('sent_at')
+                ->nullable();
+
+            $table->unique(
+                ['newsletter_id', 'newsletter_subscriber_id'],
+                'newsletter_delivery_recipient_unique',
+            );
         });
     }
 };
