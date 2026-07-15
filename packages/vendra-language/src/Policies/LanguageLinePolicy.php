@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraLanguage\Enums\LanguageLinePolicyEnum;
 use Misaf\VendraLanguage\Models\LanguageLine;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class LanguageLinePolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool

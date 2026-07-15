@@ -27,24 +27,15 @@ return new class () extends Migration {
         Schema::create('languages', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->string('name');
-            $table->string('description')
-                ->nullable();
-            $table->string('slug');
-            $table->char('iso_code');
-            $table->boolean('is_default');
-            $table->unsignedBigInteger('position');
-            $table->boolean('status')
+            $table->string('locale', 8);
+            $table->boolean('is_default')
                 ->default(false);
+            $table->unsignedBigInteger('position');
             $table->timestampsTz();
-            $table->softDeletesTz();
 
-            $table->index(TenantSchema::tenantIndex(['name']));
-            $table->index(TenantSchema::tenantIndex(['slug']));
-            $table->index(TenantSchema::tenantIndex(['iso_code']));
+            $table->unique(TenantSchema::tenantIndex(['locale']));
             $table->index(TenantSchema::tenantIndex(['is_default']));
             $table->index(TenantSchema::tenantIndex(['position']));
-            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 };

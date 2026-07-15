@@ -8,9 +8,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraLanguage\Enums\LanguagePolicyEnum;
 use Misaf\VendraLanguage\Models\Language;
+use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 
 final class LanguagePolicy
 {
+    use AuthorizesSandboxMode;
     use HandlesAuthorization;
 
     public function create(Authorizable $user): bool
@@ -28,34 +30,9 @@ final class LanguagePolicy
         return $user->can(LanguagePolicyEnum::DELETE_ANY->value);
     }
 
-    public function forceDelete(Authorizable $user, Language $language): bool
-    {
-        return $user->can(LanguagePolicyEnum::FORCE_DELETE->value);
-    }
-
-    public function forceDeleteAny(Authorizable $user): bool
-    {
-        return $user->can(LanguagePolicyEnum::FORCE_DELETE_ANY->value);
-    }
-
     public function reorder(Authorizable $user): bool
     {
         return $user->can(LanguagePolicyEnum::REORDER->value);
-    }
-
-    public function replicate(Authorizable $user, Language $language): bool
-    {
-        return $user->can(LanguagePolicyEnum::REPLICATE->value);
-    }
-
-    public function restore(Authorizable $user, Language $language): bool
-    {
-        return $user->can(LanguagePolicyEnum::RESTORE->value);
-    }
-
-    public function restoreAny(Authorizable $user): bool
-    {
-        return $user->can(LanguagePolicyEnum::RESTORE_ANY->value);
     }
 
     public function update(Authorizable $user, Language $language): bool

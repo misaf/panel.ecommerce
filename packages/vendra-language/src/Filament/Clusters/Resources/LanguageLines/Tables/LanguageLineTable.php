@@ -14,9 +14,8 @@ use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
-use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraLanguage\Enums\LanguageLineGroupEnum;
 use Misaf\VendraLanguage\Models\LanguageLine;
 
 final class LanguageLineTable
@@ -35,6 +34,14 @@ final class LanguageLineTable
                 ->alignStart()
                 ->badge()
                 ->label(__('vendra-language::attributes.group'))
+                ->searchable()
+                ->sortable(),
+
+            TextColumn::make('namespace')
+                ->alignStart()
+                ->badge()
+                ->label(__('vendra-language::attributes.namespace'))
+                ->placeholder('—')
                 ->searchable()
                 ->sortable(),
 
@@ -75,9 +82,11 @@ final class LanguageLineTable
                 [
                     QueryBuilder::make()
                         ->constraints([
-                            SelectConstraint::make('group')
-                                ->label(__('vendra-language::attributes.group'))
-                                ->options(LanguageLineGroupEnum::class),
+                            TextConstraint::make('namespace')
+                                ->label(__('vendra-language::attributes.namespace')),
+
+                            TextConstraint::make('group')
+                                ->label(__('vendra-language::attributes.group')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

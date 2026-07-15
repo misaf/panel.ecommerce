@@ -6,10 +6,8 @@ namespace Misaf\VendraLanguage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Misaf\VendraLanguage\Models\Language;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraLanguage\Support\Locales;
 
 /**
  * @extends Factory<Language>
@@ -17,42 +15,20 @@ use Misaf\VendraSupport\Support\TenantAwareness;
 #[UseModel(Language::class)]
 final class LanguageFactory extends Factory
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
-        $isoCode = $this->faker->unique()->languageCode();
-
         return [
-            'name'        => $isoCode,
-            'description' => $this->faker->realTextBetween(100, 200),
-            'slug'        => Str::slug($isoCode),
-            'iso_code'    => $isoCode,
-            'is_default'  => false,
-            'position'    => $this->faker->numberBetween(1, 1000),
-            'status'      => $this->faker->boolean(80),
+            'locale'     => $this->faker->unique()->randomElement(Locales::configured()),
+            'is_default' => false,
+            'position'   => $this->faker->numberBetween(1, 1000),
         ];
     }
 
-    /**
-     * No-op without a tenant provider, since there is no `tenant_id` column.
-     */
-    public function forTenant(Model|int $tenant): static
+    public function default(): static
     {
-        if ( ! TenantAwareness::enabled()) {
-            return $this;
-        }
-
-        return $this->state(fn(): array => [
-            'tenant_id' => $tenant instanceof Model ? $tenant->getKey() : $tenant,
-        ]);
-    }
-
-    public function enabled(): static
-    {
-        return $this->state(fn(): array => ['status' => true]);
-    }
-
-    public function disabled(): static
-    {
-        return $this->state(fn(): array => ['status' => false]);
+        return $this->state(fn(): array => ['is_default' => true]);
     }
 }

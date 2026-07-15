@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 
 return new class () extends Migration {
     public function up(): void
@@ -25,21 +26,16 @@ return new class () extends Migration {
     {
         Schema::create('languages', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
-            $table->longText('name');
-            $table->longText('description')
-                ->nullable();
-            $table->longText('slug');
-            $table->char('iso_code')
-                ->index();
+            TenantSchema::addTenantColumn($table);
+            $table->string('locale', 8);
             $table->boolean('is_default')
-                ->index();
-            $table->unsignedInteger('position')
-                ->index();
-            $table->boolean('status')
-                ->index();
+                ->default(false);
+            $table->unsignedBigInteger('position');
             $table->timestampsTz();
-            $table->softDeletesTz();
+
+            $table->unique(TenantSchema::tenantIndex(['locale']));
+            $table->index(TenantSchema::tenantIndex(['is_default']));
+            $table->index(TenantSchema::tenantIndex(['position']));
         });
     }
 };

@@ -11,13 +11,14 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\Column;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Table;
+use Misaf\VendraLanguage\Models\Language;
+use Misaf\VendraLanguage\Support\Locales;
 
 final class LanguageTable
 {
@@ -31,30 +32,18 @@ final class LanguageTable
                 ->label('#')
                 ->rowIndex(),
 
-            SpatieMediaLibraryImageColumn::make('image')
-                ->alignCenter()
-                ->collection('languages')
-                ->conversion('thumb-table')
-                ->label(__('vendra-language::attributes.image'))
-                ->stacked(),
+            TextColumn::make('locale')
+                ->badge()
+                ->label(__('vendra-language::attributes.locale'))
+                ->searchable()
+                ->sortable(),
 
             TextColumn::make('name')
                 ->label(__('vendra-language::attributes.name'))
-                ->searchable()
-                ->sortable(),
-
-            TextColumn::make('iso_code')
-                ->badge()
-                ->label(__('vendra-language::attributes.iso_code'))
-                ->searchable()
-                ->sortable(),
+                ->state(fn(Language $record): string => Locales::name($record->locale)),
 
             ToggleColumn::make('is_default')
                 ->label(__('vendra-language::attributes.is_default')),
-
-            ToggleColumn::make('status')
-                ->label(__('vendra-language::attributes.status'))
-                ->onIcon('heroicon-m-bolt'),
 
             TextColumn::make('created_at')
                 ->badge()
@@ -81,9 +70,6 @@ final class LanguageTable
                         ->constraints([
                             BooleanConstraint::make('is_default')
                                 ->label(__('vendra-language::attributes.is_default')),
-
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-language::attributes.status')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
