@@ -6,5 +6,5 @@ namespace Misaf\VendraAffiliate\Filament\Widgets;
 
 final class AffiliateOverviewWidget extends AffiliateStatsOverviewWidget
 {
-    protected static ?int $sort = 5;
+    protected static ?int $sort = 2;
 }

@@ -110,7 +110,7 @@ final class ProductPrice extends Model implements ShouldLogActivity
 
             return $this->price->format();
         } catch (UnknownCurrencyException) {
-            return Number::format((int) $this->price->getAmount()) . ' ' . $this->currency_code;
+            return Number::format((int) $this->price->getAmount(), locale: 'en') . ' ' . $this->currency_code;
         }
     }
 

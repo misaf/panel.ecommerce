@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Misaf\VendraSupport\Events\TenantProvisioned;
@@ -31,6 +34,16 @@ it('skips provisioning an existing tenant domain when requested', function (): v
 it('provisions a tenant with a provided password without printing it', function (): void {
     Event::fake([TenantProvisioned::class]);
     Queue::fake();
+
+    $kernel = Mockery::mock(get_class(app(Kernel::class)), [app(), app(Dispatcher::class)])
+        ->makePartial();
+    $kernel
+        ->shouldReceive('call')
+        ->with('tenants:artisan', Mockery::type('array'))
+        ->once()
+        ->andReturn(0);
+    app()->instance(Kernel::class, $kernel);
+    Artisan::swap($kernel);
 
     $this->artisan('vendra-subscription:provision', [
         'name'       => 'Acme',

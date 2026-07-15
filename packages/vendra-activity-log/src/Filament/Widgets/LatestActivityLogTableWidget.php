@@ -16,7 +16,7 @@ use Misaf\VendraActivityLog\Models\ActivityLog;
 
 final class LatestActivityLogTableWidget extends BaseWidget
 {
-    protected static ?int $sort = 8;
+    protected static ?int $sort = 5;
 
     protected int|string|array $columnSpan = 'full';
 

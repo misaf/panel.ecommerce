@@ -13,7 +13,7 @@ use Misaf\VendraTransaction\Models\Transaction;
 
 final class LatestTransactionTableWidget extends BaseWidget
 {
-    protected static ?int $sort = 6;
+    protected static ?int $sort = 3;
 
     protected int|string|array $columnSpan = 'full';
 
