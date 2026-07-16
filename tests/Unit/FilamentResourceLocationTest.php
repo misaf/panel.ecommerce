@@ -26,3 +26,28 @@ it('stores package resources according to their cluster assignment', function ()
         expect($path)->toContain($expectedDirectory);
     }
 });
+
+it('documents the resource location invariant in every resource package', function (): void {
+    $resourcePackages = collect(File::directories(base_path('packages')))
+        ->filter(fn(string $packagePath): bool => File::isDirectory($packagePath . '/src/Filament'))
+        ->filter(fn(string $packagePath): bool => collect(File::allFiles($packagePath . '/src/Filament'))
+            ->contains(fn(SplFileInfo $file): bool => Str::endsWith($file->getFilename(), 'Resource.php')));
+
+    expect($resourcePackages)->not->toBeEmpty();
+
+    foreach ($resourcePackages as $packagePath) {
+        $guidelinePath = $packagePath . '/resources/boost/guidelines/core.blade.php';
+        $skillFiles = File::allFiles($packagePath . '/resources/boost/skills');
+
+        expect($guidelinePath)->toBeFile()
+            ->and($skillFiles)->toHaveCount(1);
+
+        foreach ([$guidelinePath, $skillFiles[0]->getPathname()] as $instructionPath) {
+            $instructions = File::get($instructionPath);
+
+            expect($instructions)
+                ->toContain('src/Filament/Clusters/Resources/')
+                ->toContain('src/Filament/Resources/');
+        }
+    }
+});
