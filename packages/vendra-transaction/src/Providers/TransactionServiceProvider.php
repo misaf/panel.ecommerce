@@ -7,7 +7,6 @@ namespace Misaf\VendraTransaction\Providers;
 use Composer\InstalledVersions;
 
 use Filament\Panel;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Event;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
@@ -37,7 +36,7 @@ final class TransactionServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->bind('transaction-service', fn(Application $app) => new TransactionService());
+        $this->app->singleton(TransactionService::class);
 
         Panel::configureUsing(function (Panel $panel): void {
             if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-transaction')) {
@@ -62,15 +61,5 @@ final class TransactionServiceProvider extends PackageServiceProvider
 
         Event::subscribe(TransactionTransferSubscriber::class);
         Event::subscribe(WithdrawalLimitSubscriber::class);
-    }
-
-    /**
-     * @return array<int, string>
-     */
-    public function provides(): array
-    {
-        return [
-            'transaction-service',
-        ];
     }
 }
