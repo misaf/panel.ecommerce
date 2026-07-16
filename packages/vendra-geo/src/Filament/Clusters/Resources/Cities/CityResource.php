@@ -9,7 +9,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\CreateCity;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\EditCity;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\Pages\ListCities;
@@ -21,8 +20,6 @@ use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class CityResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = City::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
@@ -66,11 +63,6 @@ final class CityResource extends Resource
             'view'   => ViewCity::route('/{record}'),
             'edit'   => EditCity::route('/{record}/edit'),
         ];
-    }
-
-    public static function getDefaultTranslatableLocale(): string
-    {
-        return app()->getLocale();
     }
 
     public static function form(Schema $schema): Schema

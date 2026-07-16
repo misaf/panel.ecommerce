@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Misaf\VendraGeo\Models\City;
 use Misaf\VendraGeo\Models\State;
 use Misaf\VendraSupport\Support\TenantAwareness;
+use UnexpectedValueException;
 
 /**
  * @extends Factory<City>
@@ -24,9 +26,9 @@ final class CityFactory extends Factory
 
         return [
             'state_id'   => State::factory(),
-            'country_id' => fn(array $attributes) => State::query()->find($attributes['state_id'])->country_id,
-            'name'       => ['en' => $name],
-            'slug'       => ['en' => Str::slug($name)],
+            'country_id' => fn(array $attributes): int => self::countryIdForState($attributes['state_id'] ?? null),
+            'name'       => $name,
+            'slug'       => Str::slug($name),
             'latitude'   => fake()->latitude(),
             'longitude'  => fake()->longitude(),
             'status'     => fake()->boolean(80),
@@ -63,5 +65,20 @@ final class CityFactory extends Factory
     public function disabled(): static
     {
         return $this->state(fn(): array => ['status' => false]);
+    }
+
+    private static function countryIdForState(mixed $stateId): int
+    {
+        if ( ! is_int($stateId) && ! is_string($stateId)) {
+            throw new InvalidArgumentException('The city state ID must be an integer or string.');
+        }
+
+        $countryId = State::query()->findOrFail($stateId)->getAttribute('country_id');
+
+        if ( ! is_int($countryId)) {
+            throw new UnexpectedValueException('The state country ID must be an integer.');
+        }
+
+        return $countryId;
     }
 }

@@ -6,14 +6,10 @@ namespace Misaf\VendraGeo\Filament\Clusters\Resources\Countries\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
-use LaraZeus\SpatieTranslatable\Resources\Pages\ListRecords\Concerns\Translatable;
 use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\CountryResource;
 
 final class ListCountries extends ListRecords
 {
-    use Translatable;
-
     protected static string $resource = CountryResource::class;
 
     public function getBreadcrumb(): string
@@ -25,7 +21,6 @@ final class ListCountries extends ListRecords
     {
         return [
             CreateAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 }

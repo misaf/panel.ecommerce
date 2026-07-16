@@ -17,15 +17,9 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Livewire\Component as Livewire;
-use Misaf\VendraGeo\Models\Country;
-use Misaf\VendraGeo\Models\State;
-use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
 
 final class StateTable
 {
-    use InteractsWithTranslatedTableRecords;
-
     public static function configure(Table $table): Table
     {
         return $table
@@ -40,12 +34,7 @@ final class StateTable
 
                 TextColumn::make('country.name')
                     ->label(__('vendra-geo::attributes.country'))
-                    ->searchable()
-                    ->state(function (State $record, Livewire $livewire): string {
-                        return $record->country
-                            ? static::translatedAttribute($record->country, 'name', $livewire)
-                            : '';
-                    }),
+                    ->searchable(),
 
                 TextColumn::make('code')
                     ->label(__('vendra-geo::attributes.code'))
@@ -62,9 +51,6 @@ final class StateTable
             ->filters([
                 SelectFilter::make('country_id')
                     ->relationship('country', 'name')
-                    ->getOptionLabelFromRecordUsing(function (Country $record, Livewire $livewire): string {
-                        return static::translatedAttribute($record, 'name', $livewire);
-                    })
                     ->label(__('vendra-geo::attributes.country'))
                     ->searchable()
                     ->preload(),

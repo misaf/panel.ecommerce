@@ -31,8 +31,8 @@ return new class () extends Migration {
         Schema::create('countries', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->json('name');
-            $table->json('slug');
+            $table->string('name');
+            $table->string('slug');
             $table->string('iso2', 2);
             $table->string('iso3', 3)
                 ->nullable();
@@ -64,8 +64,8 @@ return new class () extends Migration {
             $table->id();
             TenantSchema::addTenantColumn($table);
             $table->unsignedBigInteger('country_id');
-            $table->json('name');
-            $table->json('slug');
+            $table->string('name');
+            $table->string('slug');
             $table->string('code', 32)
                 ->nullable();
             $table->string('type', 32)
@@ -93,8 +93,8 @@ return new class () extends Migration {
             TenantSchema::addTenantColumn($table);
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('state_id');
-            $table->json('name');
-            $table->json('slug');
+            $table->string('name');
+            $table->string('slug');
             $table->decimal('latitude', 10, 7)
                 ->nullable();
             $table->decimal('longitude', 10, 7)

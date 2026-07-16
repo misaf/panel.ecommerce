@@ -9,7 +9,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\CreateState;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\EditState;
 use Misaf\VendraGeo\Filament\Clusters\Resources\States\Pages\ListStates;
@@ -21,8 +20,6 @@ use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class StateResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = State::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMap;
@@ -66,11 +63,6 @@ final class StateResource extends Resource
             'view'   => ViewState::route('/{record}'),
             'edit'   => EditState::route('/{record}/edit'),
         ];
-    }
-
-    public static function getDefaultTranslatableLocale(): string
-    {
-        return app()->getLocale();
     }
 
     public static function form(Schema $schema): Schema

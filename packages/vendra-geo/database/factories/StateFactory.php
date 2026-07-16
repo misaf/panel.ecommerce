@@ -20,12 +20,12 @@ final class StateFactory extends Factory
 {
     public function definition(): array
     {
-        $name = fake()->unique()->state();
+        $name = fake()->unique()->city();
 
         return [
             'country_id' => Country::factory(),
-            'name'       => ['en' => $name],
-            'slug'       => ['en' => Str::slug($name)],
+            'name'       => $name,
+            'slug'       => Str::slug($name),
             'code'       => fake()->optional()->lexify('???'),
             'type'       => fake()->randomElement(['state', 'province']),
             'latitude'   => fake()->latitude(),

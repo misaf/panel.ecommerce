@@ -22,8 +22,8 @@ final class CountryFactory extends Factory
         $country = fake()->unique()->country();
 
         return [
-            'name'          => ['en' => $country],
-            'slug'          => ['en' => Str::slug($country)],
+            'name'          => $country,
+            'slug'          => Str::slug($country),
             'iso2'          => fake()->unique()->lexify('??'),
             'iso3'          => fake()->unique()->lexify('???'),
             'numeric_code'  => fake()->numerify('###'),

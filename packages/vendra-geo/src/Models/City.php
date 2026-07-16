@@ -17,17 +17,16 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Spatie\Sluggable\HasTranslatableSlug;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Translatable\HasTranslations;
 
 /**
  * @property int $id
  * @property int $tenant_id
  * @property int $country_id
  * @property int $state_id
- * @property array<string, string> $name
- * @property array<string, string> $slug
+ * @property string $name
+ * @property string $slug
  * @property string|null $latitude
  * @property string|null $longitude
  * @property int $position
@@ -46,8 +45,7 @@ final class City extends Model implements Sortable, ShouldLogActivity
     /** @use HasFactory<CityFactory> */
     use HasFactory;
 
-    use HasTranslatableSlug;
-    use HasTranslations;
+    use HasSlug;
     use SoftDeletes;
     use SortableTrait;
 
@@ -68,11 +66,6 @@ final class City extends Model implements Sortable, ShouldLogActivity
     ];
 
     /**
-     * @var list<string>
-     */
-    public array $translatable = ['name', 'slug'];
-
-    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -82,8 +75,8 @@ final class City extends Model implements Sortable, ShouldLogActivity
             'tenant_id'  => 'integer',
             'country_id' => 'integer',
             'state_id'   => 'integer',
-            'name'       => 'array',
-            'slug'       => 'array',
+            'name'       => 'string',
+            'slug'       => 'string',
             'position'   => 'integer',
             'status'     => 'boolean',
         ];
