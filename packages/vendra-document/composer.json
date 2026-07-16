@@ -1,0 +1,44 @@
+{
+    "name": "misaf/vendra-document",
+    "description": "Private jurisdiction-aware user profile documents for Vendra",
+    "license": "MIT",
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.3",
+        "filament/filament": "^5.6.8",
+        "illuminate/support": "^13.0",
+        "misaf/vendra-support": "^1.0",
+        "misaf/vendra-user-profile": "^1.0",
+        "spatie/laravel-package-tools": "^1.93.1"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.24.1",
+        "laravel/boost": "^2.4.12",
+        "laravel/pint": "^1.29.3",
+        "misaf/vendra-testing": "^1.0",
+        "orchestra/testbench": "^11.1",
+        "pestphp/pest": "^4.7.5",
+        "pestphp/pest-plugin-laravel": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraDocument\\": "src/",
+            "Misaf\\VendraDocument\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraDocument\\Database\\Factories\\": "database/factories/",
+            "Misaf\\VendraDocument\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraDocument\\Providers\\DocumentServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
