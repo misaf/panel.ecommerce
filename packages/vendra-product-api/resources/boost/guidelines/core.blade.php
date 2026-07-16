@@ -9,7 +9,7 @@ The `misaf/vendra-product-api` package exposes `misaf/vendra-product` domain mod
 - Import domain models from `Misaf\VendraProduct`; do not duplicate persistence or domain behavior in the API module.
 - Keep Filament/admin UI in `misaf/vendra-product`.
 - Respect domain model tenancy. Tenant awareness is owned by `misaf/vendra-support` and derives from the bound `TenantResolver` (installing `misaf/vendra-tenant` enables it); there is no `tenant_aware` config toggle.
-- Keep the module tenant-agnostic: it must build and run with or without a tenant provider. Inherit tenancy through the `Misaf\VendraProduct` domain models and never reference a concrete provider such as `Misaf\VendraTenant` in servers, schemas, queries, routes, or tests.
+- Keep production API code tenant-provider agnostic: inherit tenancy through the `Misaf\VendraProduct` models and never reference `Misaf\VendraTenant` in servers, schemas, queries, or routes. Feature tests may use a concrete tenant factory solely to establish tenant context; architecture expectations remain scoped to the production `Misaf\VendraProductApi` namespace.
 - Keep schema filters and request validation rules synchronized.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file and do not add comments that restate the code.
 - Add or update Pest tests for routes, server schema registration, filters, includes, pagination, sorting, sparse fieldsets, and relationship endpoints.

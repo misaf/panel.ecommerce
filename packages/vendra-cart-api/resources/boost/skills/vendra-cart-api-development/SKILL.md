@@ -14,7 +14,7 @@ Use this skill with `vendra-api-development`, `laravel-best-practices`, and `pes
 - Keep API code in `packages/vendra-cart-api` with namespace `Misaf\VendraCartApi`.
 - Depend on `misaf/vendra-cart` for models and `misaf/vendra-api` for shared JSON:API infrastructure.
 - Keep domain behavior, migrations, factories, policies, seeders, and Filament classes out of this package.
-- Never reference `Misaf\VendraTenant`; model scopes provide tenant isolation.
+- Keep production API code free of `Misaf\VendraTenant`; model scopes provide tenant isolation. Feature tests may use a concrete tenant factory solely to establish tenant context.
 
 ## Server And Routes
 

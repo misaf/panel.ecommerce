@@ -12,5 +12,5 @@ The `misaf/vendra-cart-api` package owns JSON:API schemas, resources, query vali
 - Serialize `sellable_type` and `sellable_id` as identity attributes until every supported sellable type has a registered JSON:API schema. Do not claim a polymorphic JSON:API relationship with incomplete inverse types.
 - Keep cart/item relationships read-only and support includes for `items` and `cart`.
 - Use focused collection filters for IDs, cart token, expiration, quantity, sellable identity, and relationship presence.
-- Remain tenant-agnostic and rely on the cart models' support-layer tenant scope. Never reference `Misaf\VendraTenant`.
+- Rely on the cart models' support-layer tenant scope and keep production API code free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.
 - Keep Pest architecture tests and focused route/server/resource tests current.

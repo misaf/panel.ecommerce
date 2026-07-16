@@ -18,7 +18,7 @@ Treat `packages/vendra-blog-api` as the JSON:API layer for `vendra-blog`.
 - Use namespace `Misaf\VendraBlogApi`.
 - Keep API servers, schemas, API resources, query validators, routes, service providers, and API tests inside this module.
 - Import domain models from `Misaf\VendraBlog`; do not duplicate domain models or persistence logic in the API module.
-- Respect the domain module's tenant awareness and stay tenant-agnostic: tenancy is inherited from the domain models, which derive it from the bound `TenantResolver` in `misaf/vendra-support`. Add no API tenant toggle and never reference a concrete tenant provider such as `Misaf\VendraTenant` (servers, schemas, queries, routes, or tests). The API must build and run whether or not a tenant provider is installed.
+- Keep production API code tenant-provider agnostic: inherit tenancy from the domain models and add no API tenant toggle or `Misaf\VendraTenant` reference in servers, schemas, queries, or routes. Feature tests may use a concrete tenant factory solely to establish tenant context; keep the architecture rule scoped to `Misaf\VendraBlogApi`.
 - Keep Filament/admin UI out of this module.
 - Keep dependencies explicit in `composer.json`; do not add or change package dependencies without approval.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file's density and do not add comments that restate the code.

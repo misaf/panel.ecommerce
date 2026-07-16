@@ -15,7 +15,7 @@ Use `vendra-api-development` for shared JSON:API infrastructure, `laravel-best-p
 - Reuse `Misaf\VendraAttribute\Models\AttributeValue`; do not duplicate attribute persistence or polymorphic relationships.
 - Preserve the v1 shape: `attribute_id`, `value`, and read-only `position`. Keep raw `attributable_type` and `attributable_id` private unless a complete relationship contract is designed.
 - Keep the API read-only while the server is non-authorizable; do not add generic mutations.
-- Inherit tenant scoping from the domain model and never import `Misaf\VendraTenant`.
+- Inherit tenant scoping from the domain model and keep the production `Misaf\VendraAttributeApi` namespace free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.
 
 ## Change Checklist
 
