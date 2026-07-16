@@ -16,7 +16,7 @@ Use `vendra-api-development` for shared JSON:API infrastructure, `laravel-best-p
 - Preserve the public read-only contract: expose active affiliates only and serialize only `code` and `created_at`.
 - Apply active status in `AffiliateSchema::newQuery()` so index, filter, and show endpoints cannot diverge.
 - Keep filters intentionally narrow and never expose user relationships or financial fields.
-- Inherit tenant scoping from the domain model; never import `Misaf\VendraTenant`.
+- Inherit tenant scoping from the domain model and keep the production `Misaf\VendraAffiliateApi` namespace free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.
 
 ## Change Checklist
 

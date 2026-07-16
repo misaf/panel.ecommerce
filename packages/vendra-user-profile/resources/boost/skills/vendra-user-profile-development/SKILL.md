@@ -26,7 +26,7 @@ Follow the existing `UserProfile` patterns for new user-profile entities.
 
 - Use `declare(strict_types=1)`, final classes, typed method signatures, and PHPDoc generics for relationships.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file's density and do not add comments that restate the code.
-- Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
+- Prefer only the Laravel attributes already used by the affected sibling model; do not add model attributes merely because another package uses them.
 - Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`). The module must build and run whether or not a tenant provider is installed, so never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. There is no `tenant_aware` config toggle.
 - Hide `tenant_id` and keep tenant behavior centralized in the support layer; do not duplicate tenant scoping or `tenant_id` assignment in models, Filament resources, factories, or seeders. `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
 - Reuse only the traits and conventions present on the affected sibling model; do not infer translations, media, slugs, sorting, or soft deletes from another package.
@@ -34,7 +34,7 @@ Follow the existing `UserProfile` patterns for new user-profile entities.
 
 ## Filament Standards
 
-Keep Filament UI organized under `src/Filament/Clusters`.
+Keep Filament UI under `src/Filament/Resources`. `UserProfileResource` belongs to the shared `CustomersCluster` through its `$cluster` property; do not move it into a package-owned `Clusters` directory.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.
