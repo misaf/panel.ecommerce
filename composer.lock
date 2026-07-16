@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "868a01f7c06a4e84b9471399e2d78feb",
+    "content-hash": "6c0e2a3508e7873e890535bd04ef5fb9",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2479,6 +2479,84 @@
                 }
             ],
             "time": "2025-12-03T09:33:47+00:00"
+        },
+        {
+            "name": "giggsey/libphonenumber-for-php-lite",
+            "version": "9.0.34",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php-lite.git",
+                "reference": "a9f129a296b1e31f7f9b73fd81845415d302bee2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/a9f129a296b1e31f7f9b73fd81845415d302bee2",
+                "reference": "a9f129a296b1e31f7f9b73fd81845415d302bee2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "conflict": {
+                "giggsey/libphonenumber-for-php": "*"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "friendsofphp/php-cs-fixer": "^3.71",
+                "infection/infection": "^0.29|^0.31.0",
+                "nette/php-generator": "^4.1",
+                "php-coveralls/php-coveralls": "^2.7",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^2.1.7",
+                "phpstan/phpstan-deprecation-rules": "^2.0.1",
+                "phpstan/phpstan-phpunit": "^2.0.4",
+                "phpstan/phpstan-strict-rules": "^2.0.3",
+                "phpunit/phpunit": "^10.5.45",
+                "symfony/console": "^6.4",
+                "symfony/filesystem": "^6.4",
+                "symfony/process": "^6.4"
+            },
+            "suggest": {
+                "giggsey/libphonenumber-for-php": "Use libphonenumber-for-php for geocoding, carriers, timezones and matching"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "A lite version of giggsey/libphonenumber-for-php, which is a PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php-lite",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/giggsey/libphonenumber-for-php-lite/issues",
+                "source": "https://github.com/giggsey/libphonenumber-for-php-lite"
+            },
+            "time": "2026-07-03T10:23:06+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -5755,6 +5833,60 @@
             }
         },
         {
+            "name": "misaf/vendra-address",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-address",
+                "reference": "a3ef13ef2f2d84740a6bf1408a4b0f8d590e49e4"
+            },
+            "require": {
+                "filament/filament": "^5.6.8",
+                "illuminate/support": "^13.0",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user-profile": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.24.1",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-laravel": "^4.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraAddress\\Providers\\AddressServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraAddress\\": "src/",
+                    "Misaf\\VendraAddress\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraAddress\\Database\\Factories\\": "database/factories/",
+                    "Misaf\\VendraAddress\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Country-adaptable user profile addresses for Vendra",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "misaf/vendra-affiliate",
             "version": "1.x-dev",
             "dist": {
@@ -6875,6 +7007,60 @@
             }
         },
         {
+            "name": "misaf/vendra-document",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-document",
+                "reference": "0f0ed739a00bb017367d7cd566916128cee89631"
+            },
+            "require": {
+                "filament/filament": "^5.6.8",
+                "illuminate/support": "^13.0",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user-profile": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.24.1",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-laravel": "^4.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraDocument\\Providers\\DocumentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraDocument\\": "src/",
+                    "Misaf\\VendraDocument\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraDocument\\Database\\Factories\\": "database/factories/",
+                    "Misaf\\VendraDocument\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Private jurisdiction-aware user profile documents for Vendra",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "misaf/vendra-faq",
             "version": "1.x-dev",
             "dist": {
@@ -7273,12 +7459,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "98ed0f436cba354ecd03955d2698529fe513d04c"
+                "reference": "da81ea3f13d457206476a9062b6b50d839bf0667"
             },
             "require": {
-                "illuminate/contracts": "^12.0 || ^13.0",
-                "illuminate/http": "^12.0 || ^13.0",
-                "illuminate/support": "^12.0 || ^13.0",
+                "illuminate/contracts": "^13.0",
+                "illuminate/http": "^13.0",
+                "illuminate/support": "^13.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -7727,6 +7913,61 @@
                 "issues": "https://github.com/misaf/vendra-permission/issues",
                 "source": "https://github.com/misaf/vendra-permission"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-phone",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-phone",
+                "reference": "fcbcb9a6e200fbc518c727b7324bd4276a5df20e"
+            },
+            "require": {
+                "filament/filament": "^5.6.8",
+                "illuminate/support": "^13.0",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user-profile": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1",
+                "ysfkaya/filament-phone-input": "^4.2.1"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.24.1",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-laravel": "^4.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraPhone\\Providers\\PhoneServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraPhone\\": "src/",
+                    "Misaf\\VendraPhone\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraPhone\\Database\\Factories\\": "database/factories/",
+                    "Misaf\\VendraPhone\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "International user profile phone numbers for Vendra",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -8747,6 +8988,60 @@
                 "issues": "https://github.com/misaf/vendra-user-profile/issues",
                 "source": "https://github.com/misaf/vendra-user-profile"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-verification",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-verification",
+                "reference": "2a8ebb87256ccaf64b1ef76d2e35554bed7ce71d"
+            },
+            "require": {
+                "filament/filament": "^5.6.8",
+                "illuminate/support": "^13.0",
+                "misaf/vendra-support": "^1.0",
+                "misaf/vendra-user-profile": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.24.1",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-laravel": "^4.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraVerification\\Providers\\VerificationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraVerification\\": "src/",
+                    "Misaf\\VendraVerification\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraVerification\\Database\\Factories\\": "database/factories/",
+                    "Misaf\\VendraVerification\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Provider-neutral user profile verification records for Vendra",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10225,6 +10520,78 @@
                 "source": "https://github.com/antonioribeiro/google2fa-qrcode/tree/v4.0.0"
             },
             "time": "2026-05-08T19:24:44+00:00"
+        },
+        {
+            "name": "propaganistas/laravel-phone",
+            "version": "6.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Propaganistas/Laravel-Phone.git",
+                "reference": "b0e2bdb44cfbeaf2466862aaf854815605b5205a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Propaganistas/Laravel-Phone/zipball/b0e2bdb44cfbeaf2466862aaf854815605b5205a",
+                "reference": "b0e2bdb44cfbeaf2466862aaf854815605b5205a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "giggsey/libphonenumber-for-php-lite": "^9.0",
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "illuminate/validation": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.21",
+                "orchestra/testbench": "*",
+                "phpunit/phpunit": "^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Propaganistas\\LaravelPhone\\PhoneServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Propaganistas\\LaravelPhone\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Propaganistas",
+                    "email": "Propaganistas@users.noreply.github.com"
+                }
+            ],
+            "description": "Adds phone number functionality to Laravel based on Google's libphonenumber API.",
+            "keywords": [
+                "laravel",
+                "libphonenumber",
+                "phone",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/Propaganistas/Laravel-Phone/issues",
+                "source": "https://github.com/Propaganistas/Laravel-Phone/tree/6.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Propaganistas",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-03-18T07:05:47+00:00"
         },
         {
             "name": "psr/clock",
@@ -15878,6 +16245,70 @@
                 }
             ],
             "time": "2026-04-26T05:33:54+00:00"
+        },
+        {
+            "name": "ysfkaya/filament-phone-input",
+            "version": "v4.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ysfkaya/filament-phone-input.git",
+                "reference": "b16d9c07f5378cb9d5abe7492ad26ffb7de1c589"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ysfkaya/filament-phone-input/zipball/b16d9c07f5378cb9d5abe7492ad26ffb7de1c589",
+                "reference": "b16d9c07f5378cb9d5abe7492ad26ffb7de1c589",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0|^5.0",
+                "php": "^8.2",
+                "propaganistas/laravel-phone": "^6.0",
+                "spatie/laravel-package-tools": "^1.92"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^8.1",
+                "nunomaduro/larastan": "^3.0",
+                "orchestra/testbench-dusk": "^10.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-arch": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "pestphp/pest-plugin-livewire": "^3.0|^4.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ysfkaya\\FilamentPhoneInput\\FilamentPhoneInputServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ysfkaya\\FilamentPhoneInput\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A phone input component for Laravel Filament",
+            "homepage": "https://github.com/ysfkaya/filament-phone-input",
+            "keywords": [
+                "filament",
+                "intl-tel-input",
+                "laravel",
+                "phone-input"
+            ],
+            "support": {
+                "issues": "https://github.com/ysfkaya/filament-phone-input/issues",
+                "source": "https://github.com/ysfkaya/filament-phone-input/tree/v4.2.1"
+            },
+            "time": "2026-07-01T08:04:10+00:00"
         }
     ],
     "packages-dev": [

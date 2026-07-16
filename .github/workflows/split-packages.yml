@@ -18,6 +18,7 @@ jobs:
       matrix:
         package: &packages
           - vendra-activity-log
+          - vendra-address
           - vendra-affiliate
           - vendra-affiliate-api
           - vendra-api
@@ -30,6 +31,7 @@ jobs:
           - vendra-cart-api
           - vendra-currency
           - vendra-developer-logins
+          - vendra-document
           - vendra-custom-page
           - vendra-faq
           - vendra-faq-api
@@ -40,6 +42,7 @@ jobs:
           - vendra-multimedia-api
           - vendra-newsletter
           - vendra-permission
+          - vendra-phone
           - vendra-product
           - vendra-product-api
           - vendra-socialite
@@ -51,6 +54,7 @@ jobs:
           - vendra-transaction
           - vendra-user
           - vendra-user-profile
+          - vendra-verification
 
     steps:
       - name: Check out monorepo
