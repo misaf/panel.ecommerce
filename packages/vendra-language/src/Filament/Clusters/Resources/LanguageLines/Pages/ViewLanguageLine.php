@@ -6,14 +6,10 @@ namespace Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages;
 
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
-use LaraZeus\SpatieTranslatable\Resources\Pages\ViewRecord\Concerns\Translatable;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 
 final class ViewLanguageLine extends ViewRecord
 {
-    use Translatable;
-
     protected static string $resource = LanguageLineResource::class;
 
     public function getBreadcrumb(): string
@@ -25,8 +21,6 @@ final class ViewLanguageLine extends ViewRecord
     {
         return [
             EditAction::make(),
-
-            LocaleSwitcher::make(),
         ];
     }
 }

@@ -9,7 +9,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\CreateLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\EditLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ListLanguageLines;
@@ -21,8 +20,6 @@ use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
 final class LanguageLineResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = LanguageLine::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
@@ -66,11 +63,6 @@ final class LanguageLineResource extends Resource
             'view'   => ViewLanguageLine::route('/{record}'),
             'edit'   => EditLanguageLine::route('/{record}/edit'),
         ];
-    }
-
-    public static function getDefaultTranslatableLocale(): string
-    {
-        return app()->getLocale();
     }
 
     public static function form(Schema $schema): Schema

@@ -7,14 +7,10 @@ namespace Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
-use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
-use LaraZeus\SpatieTranslatable\Resources\Pages\EditRecord\Concerns\Translatable;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 
 final class EditLanguageLine extends EditRecord
 {
-    use Translatable;
-
     protected static string $resource = LanguageLineResource::class;
 
     public function getBreadcrumb(): string
@@ -28,8 +24,6 @@ final class EditLanguageLine extends EditRecord
             ViewAction::make(),
 
             DeleteAction::make(),
-
-            LocaleSwitcher::make(),
         ];
     }
 }
