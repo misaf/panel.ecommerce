@@ -6,7 +6,7 @@ The `misaf/vendra-user` package owns user management, authentication, media hand
 
 - Keep user domain code inside `packages/vendra-user` using the `Misaf\VendraUser` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, observers, Filament resources, translations, config, and package bootstrapping.
-- Follow existing model conventions where they apply: tenant ownership, translated `name` / `description` / `slug`, soft deletes, sortable `position`, media collections, factories, and typed relationships.
+- Follow the concrete models and neighboring files in this package; do not apply translation, media, slug, sorting, or soft-delete patterns unless the affected model already uses them.
 - Tenant awareness is owned by `misaf/vendra-support` via the bound `TenantResolver`; consume it through `Misaf\VendraSupport\Support\TenantAwareness` and `BelongsToTenant`, not a `tenant_aware` config toggle.
 - This module is multi-tenancy core: the `User` model implements tenant membership (`HasTenants`, `teams()` / `tenants()`), so it intentionally references the concrete tenant provider. Keep that coupling deliberate and minimal — new domain code that is not about tenant membership should still derive tenancy from the support layer and avoid `Misaf\VendraTenant`.
 - Keep Filament resources thin by delegating forms to `Schemas/*Form.php` and tables to `Tables/*Table.php`.

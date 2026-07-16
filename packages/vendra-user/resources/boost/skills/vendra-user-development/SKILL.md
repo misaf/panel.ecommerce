@@ -30,11 +30,7 @@ Follow the existing `User` model patterns for new user entities. Social login (t
 - Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
 - This module is multi-tenancy core. The `User` model owns tenant membership (`HasTenants`, `teams()` / `tenants()`) and intentionally references the concrete tenant provider; keep that coupling deliberate and confined to membership concerns.
 - For everything that is not tenant membership, still derive tenant awareness from the support layer (`TenantAwareness`, `BelongsToTenant`) and let `BelongsToTenant` assign `tenant_id`; do not spread `Misaf\VendraTenant` references into unrelated domain code.
-- Use `HasTranslations` for localized `name`, `description`, and `slug`-like fields where the entity is translatable.
-- Use `SoftDeletes` for user-managed content records unless there is a clear reason not to.
-- Use `SortableTrait` and an integer `position` field for ordered admin content.
-- For media-enabled records, implement `HasMedia`, use `InteractsWithMedia` with `HasDefaultMediaConversions`, expose a `multimedia()` morph relation, and define a stable `MEDIA_COLLECTION` constant.
-- For slugs, use `Spatie\Sluggable\SlugOptions`, generate from translated names, and prevent overwrite unless regeneration is intended.
+- Reuse only the traits and conventions present on the affected sibling model; do not infer translations, media, slugs, sorting, or soft deletes from another package.
 
 ## Filament Standards
 

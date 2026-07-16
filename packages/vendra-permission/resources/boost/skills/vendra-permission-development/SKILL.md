@@ -29,11 +29,7 @@ Follow the existing `Permission` and `Role` patterns for new permission entities
 - Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
 - Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`). The module must build and run whether or not a tenant provider is installed, so never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. There is no `tenant_aware` config toggle.
 - Hide `tenant_id` and keep tenant behavior centralized in the support layer; do not duplicate tenant scoping or `tenant_id` assignment in models, Filament resources, factories, or seeders. `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
-- Use `HasTranslations` for localized `name`, `description`, and `slug`-like fields where the entity is translatable.
-- Use `SoftDeletes` for user-managed content records unless there is a clear reason not to.
-- Use `SortableTrait` and an integer `position` field for ordered admin content.
-- For media-enabled records, implement `HasMedia`, use `InteractsWithMedia` with `HasDefaultMediaConversions`, expose a `multimedia()` morph relation, and define a stable `MEDIA_COLLECTION` constant.
-- For slugs, use `Spatie\Sluggable\SlugOptions`, generate from translated names, and prevent overwrite unless regeneration is intended.
+- Reuse only the traits and conventions present on the affected sibling model; do not infer translations, media, slugs, sorting, or soft deletes from another package.
 - `Permission` and `Role` extend Spatie Permission models; `tenant_id` is added by `TenantSchema::enabled()`-guarded migrations and Pennant features are scoped through the resolver's model class, never a concrete `Tenant`.
 
 ## Filament Standards

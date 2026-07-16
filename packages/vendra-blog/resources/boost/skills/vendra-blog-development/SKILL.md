@@ -31,11 +31,7 @@ Follow the existing `BlogPost` and `BlogPostCategory` patterns for new blog enti
 - Prefer Laravel attributes already used here: `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
 - Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`). The module must build and run whether or not a tenant provider is installed, so never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. There is no `tenant_aware` config toggle.
 - Hide `tenant_id` and keep tenant behavior centralized in the support layer; do not duplicate tenant scoping or `tenant_id` assignment in models, Filament resources, factories, seeders, or API code. `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
-- Use `HasTranslations` for localized `name`, `description`, and `slug`-like fields.
-- Use `SoftDeletes` for user-managed content records unless there is a clear reason not to.
-- Use `SortableTrait` and an integer `position` field for ordered admin content.
-- For media-enabled records, implement `HasMedia`, use `InteractsWithMedia` with `HasDefaultMediaConversions`, expose a `multimedia()` morph relation, and define a stable `MEDIA_COLLECTION` constant.
-- For slugs, use `Spatie\Sluggable\SlugOptions`, generate from translated names, save to the translated slug attribute, and prevent overwrite unless the requested behavior requires regeneration.
+- Reuse only the traits and conventions present on the affected sibling model; do not infer translations, media, slugs, sorting, or soft deletes from another package.
 
 ## Filament Standards
 
