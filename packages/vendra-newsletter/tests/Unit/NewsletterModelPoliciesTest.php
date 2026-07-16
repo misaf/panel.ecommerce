@@ -108,7 +108,7 @@ it('prevents sent newsletters from being updated', function (): void {
     $user = Mockery::mock(Authorizable::class);
     $user->shouldReceive('can')
         ->once()
-        ->with(NewsletterPolicyEnum::UPDATE->value)
+        ->with(NewsletterPolicyEnum::Update->value)
         ->andReturnTrue();
 
     $draft = new Newsletter();
@@ -127,7 +127,7 @@ it('authorizes newsletter sending through its dedicated permission', function ()
     $user = Mockery::mock(Authorizable::class);
     $user->shouldReceive('can')
         ->once()
-        ->with(NewsletterPolicyEnum::SEND->value)
+        ->with(NewsletterPolicyEnum::Send->value)
         ->andReturnTrue();
 
     $draft = new Newsletter();

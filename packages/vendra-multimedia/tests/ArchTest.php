@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-arch('multimedia package uses strict types')
-    ->expect('Misaf\VendraMultimedia')
-    ->toUseStrictTypes();
+arch()->preset()->php();
+arch()->preset()->security();
+arch()->preset()->laravel();
 
-arch('multimedia package does not use debugging functions')
+arch('the multimedia module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraMultimedia')
-    ->not->toUse(['dd', 'dump', 'ray', 'var_dump']);
+    ->not->toUse('Misaf\VendraTenant');

@@ -20,10 +20,10 @@ it('authorizes cart abilities through permissions', function (string $method, Ca
 
     expect((new CartPolicy())->{$method}(...$arguments))->toBeTrue();
 })->with([
-    ['view', CartPolicyEnum::VIEW],
-    ['viewAny', CartPolicyEnum::VIEW_ANY],
-    ['delete', CartPolicyEnum::DELETE],
-    ['deleteAny', CartPolicyEnum::DELETE_ANY],
+    ['view', CartPolicyEnum::View],
+    ['viewAny', CartPolicyEnum::ViewAny],
+    ['delete', CartPolicyEnum::Delete],
+    ['deleteAny', CartPolicyEnum::DeleteAny],
 ]);
 
 it('authorizes cart item abilities through permissions', function (string $method, CartItemPolicyEnum $permission): void {
@@ -36,10 +36,10 @@ it('authorizes cart item abilities through permissions', function (string $metho
 
     expect((new CartItemPolicy())->{$method}(...$arguments))->toBeTrue();
 })->with([
-    ['view', CartItemPolicyEnum::VIEW],
-    ['viewAny', CartItemPolicyEnum::VIEW_ANY],
-    ['delete', CartItemPolicyEnum::DELETE],
-    ['deleteAny', CartItemPolicyEnum::DELETE_ANY],
+    ['view', CartItemPolicyEnum::View],
+    ['viewAny', CartItemPolicyEnum::ViewAny],
+    ['delete', CartItemPolicyEnum::Delete],
+    ['deleteAny', CartItemPolicyEnum::DeleteAny],
 ]);
 
 it('does not allow carts or items to be created or updated through administration', function (): void {
