@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliate\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAffiliate\Enums\AffiliatePayoutPolicyEnum;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
 
 final class AffiliatePayoutPolicy
 {
     use AuthorizesSandboxMode;
-    use HandlesAuthorization;
+    use AuthorizesViewAbilities;
+    use ResolvesPolicyPermissions;
 
-    /**
-     * Payouts are created only through the settlement action.
-     */
+    protected static function permissionEnum(): string
+    {
+        return AffiliatePayoutPolicyEnum::class;
+    }
+
     public function create(Authorizable $user): bool
     {
         return false;
@@ -30,21 +34,11 @@ final class AffiliatePayoutPolicy
 
     public function process(Authorizable $user): bool
     {
-        return $user->can(AffiliatePayoutPolicyEnum::PROCESS->value);
+        return $this->allowed($user, 'Process');
     }
 
     public function update(Authorizable $user, AffiliatePayout $affiliatePayout): bool
     {
         return false;
-    }
-
-    public function view(Authorizable $user, AffiliatePayout $affiliatePayout): bool
-    {
-        return $user->can(AffiliatePayoutPolicyEnum::VIEW->value);
-    }
-
-    public function viewAny(Authorizable $user): bool
-    {
-        return $user->can(AffiliatePayoutPolicyEnum::VIEW_ANY->value);
     }
 }

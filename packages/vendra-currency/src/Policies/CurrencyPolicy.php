@@ -4,74 +4,33 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCurrency\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraCurrency\Enums\CurrencyPolicyEnum;
-use Misaf\VendraCurrency\Models\Currency;
+use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReorderAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReplicateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesUpdateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
 
 final class CurrencyPolicy
 {
+    use AuthorizesCreateAbilities;
+    use AuthorizesDeleteAbilities;
+    use AuthorizesForceDeleteAbilities;
+    use AuthorizesReorderAbilities;
+    use AuthorizesReplicateAbilities;
+    use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
-    use HandlesAuthorization;
+    use AuthorizesUpdateAbilities;
+    use AuthorizesViewAbilities;
+    use ResolvesPolicyPermissions;
 
-    public function create(Authorizable $user): bool
+    protected static function permissionEnum(): string
     {
-        return $user->can(CurrencyPolicyEnum::CREATE->value);
-    }
-
-    public function delete(Authorizable $user, Currency $currency): bool
-    {
-        return $user->can(CurrencyPolicyEnum::DELETE->value);
-    }
-
-    public function deleteAny(Authorizable $user): bool
-    {
-        return $user->can(CurrencyPolicyEnum::DELETE_ANY->value);
-    }
-
-    public function forceDelete(Authorizable $user, Currency $currency): bool
-    {
-        return $user->can(CurrencyPolicyEnum::FORCE_DELETE->value);
-    }
-
-    public function forceDeleteAny(Authorizable $user): bool
-    {
-        return $user->can(CurrencyPolicyEnum::FORCE_DELETE_ANY->value);
-    }
-
-    public function reorder(Authorizable $user): bool
-    {
-        return $user->can(CurrencyPolicyEnum::REORDER->value);
-    }
-
-    public function replicate(Authorizable $user, Currency $currency): bool
-    {
-        return $user->can(CurrencyPolicyEnum::REPLICATE->value);
-    }
-
-    public function restore(Authorizable $user, Currency $currency): bool
-    {
-        return $user->can(CurrencyPolicyEnum::RESTORE->value);
-    }
-
-    public function restoreAny(Authorizable $user): bool
-    {
-        return $user->can(CurrencyPolicyEnum::RESTORE_ANY->value);
-    }
-
-    public function update(Authorizable $user, Currency $currency): bool
-    {
-        return $user->can(CurrencyPolicyEnum::UPDATE->value);
-    }
-
-    public function view(Authorizable $user, Currency $currency): bool
-    {
-        return $user->can(CurrencyPolicyEnum::VIEW->value);
-    }
-
-    public function viewAny(Authorizable $user): bool
-    {
-        return $user->can(CurrencyPolicyEnum::VIEW_ANY->value);
+        return CurrencyPolicyEnum::class;
     }
 }

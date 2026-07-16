@@ -4,74 +4,33 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlog\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraBlog\Enums\BlogPostPolicyEnum;
-use Misaf\VendraBlog\Models\BlogPost;
+use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReorderAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReplicateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesUpdateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
 
 final class BlogPostPolicy
 {
+    use AuthorizesCreateAbilities;
+    use AuthorizesDeleteAbilities;
+    use AuthorizesForceDeleteAbilities;
+    use AuthorizesReorderAbilities;
+    use AuthorizesReplicateAbilities;
+    use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
-    use HandlesAuthorization;
+    use AuthorizesUpdateAbilities;
+    use AuthorizesViewAbilities;
+    use ResolvesPolicyPermissions;
 
-    public function create(Authorizable $user): bool
+    protected static function permissionEnum(): string
     {
-        return $user->can(BlogPostPolicyEnum::CREATE->value);
-    }
-
-    public function delete(Authorizable $user, BlogPost $blogPost): bool
-    {
-        return $user->can(BlogPostPolicyEnum::DELETE->value);
-    }
-
-    public function deleteAny(Authorizable $user): bool
-    {
-        return $user->can(BlogPostPolicyEnum::DELETE_ANY->value);
-    }
-
-    public function forceDelete(Authorizable $user, BlogPost $blogPost): bool
-    {
-        return $user->can(BlogPostPolicyEnum::FORCE_DELETE->value);
-    }
-
-    public function forceDeleteAny(Authorizable $user): bool
-    {
-        return $user->can(BlogPostPolicyEnum::FORCE_DELETE_ANY->value);
-    }
-
-    public function reorder(Authorizable $user): bool
-    {
-        return $user->can(BlogPostPolicyEnum::REORDER->value);
-    }
-
-    public function replicate(Authorizable $user, BlogPost $blogPost): bool
-    {
-        return $user->can(BlogPostPolicyEnum::REPLICATE->value);
-    }
-
-    public function restore(Authorizable $user, BlogPost $blogPost): bool
-    {
-        return $user->can(BlogPostPolicyEnum::RESTORE->value);
-    }
-
-    public function restoreAny(Authorizable $user): bool
-    {
-        return $user->can(BlogPostPolicyEnum::RESTORE_ANY->value);
-    }
-
-    public function update(Authorizable $user, BlogPost $blogPost): bool
-    {
-        return $user->can(BlogPostPolicyEnum::UPDATE->value);
-    }
-
-    public function view(Authorizable $user, BlogPost $blogPost): bool
-    {
-        return $user->can(BlogPostPolicyEnum::VIEW->value);
-    }
-
-    public function viewAny(Authorizable $user): bool
-    {
-        return $user->can(BlogPostPolicyEnum::VIEW_ANY->value);
+        return BlogPostPolicyEnum::class;
     }
 }

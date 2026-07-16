@@ -4,77 +4,44 @@ declare(strict_types=1);
 
 namespace Misaf\VendraNewsletter\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Models\Newsletter;
+use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReplicateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
 
 final class NewsletterPolicy
 {
+    use AuthorizesCreateAbilities;
+    use AuthorizesDeleteAbilities;
+    use AuthorizesForceDeleteAbilities;
+    use AuthorizesReplicateAbilities;
+    use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
-    use HandlesAuthorization;
+    use AuthorizesViewAbilities;
+    use ResolvesPolicyPermissions;
 
-    public function create(Authorizable $user): bool
+    protected static function permissionEnum(): string
     {
-        return $user->can(NewsletterPolicyEnum::CREATE->value);
-    }
-
-    public function delete(Authorizable $user, Newsletter $newsletter): bool
-    {
-        return $user->can(NewsletterPolicyEnum::DELETE->value);
-    }
-
-    public function deleteAny(Authorizable $user): bool
-    {
-        return $user->can(NewsletterPolicyEnum::DELETE_ANY->value);
-    }
-
-    public function forceDelete(Authorizable $user, Newsletter $newsletter): bool
-    {
-        return $user->can(NewsletterPolicyEnum::FORCE_DELETE->value);
-    }
-
-    public function forceDeleteAny(Authorizable $user): bool
-    {
-        return $user->can(NewsletterPolicyEnum::FORCE_DELETE_ANY->value);
-    }
-
-    public function replicate(Authorizable $user, Newsletter $newsletter): bool
-    {
-        return $user->can(NewsletterPolicyEnum::REPLICATE->value);
-    }
-
-    public function restore(Authorizable $user, Newsletter $newsletter): bool
-    {
-        return $user->can(NewsletterPolicyEnum::RESTORE->value);
-    }
-
-    public function restoreAny(Authorizable $user): bool
-    {
-        return $user->can(NewsletterPolicyEnum::RESTORE_ANY->value);
+        return NewsletterPolicyEnum::class;
     }
 
     public function send(Authorizable $user, Newsletter $newsletter): bool
     {
         return NewsletterStatusEnum::Sent !== $newsletter->status
-            && $user->can(NewsletterPolicyEnum::SEND->value);
+            && $this->allowed($user, 'Send');
     }
 
     public function update(Authorizable $user, Newsletter $newsletter): bool
     {
         return NewsletterStatusEnum::Sent !== $newsletter->status
-            && $user->can(NewsletterPolicyEnum::UPDATE->value);
-    }
-
-    public function view(Authorizable $user, Newsletter $newsletter): bool
-    {
-        return $user->can(NewsletterPolicyEnum::VIEW->value);
-    }
-
-    public function viewAny(Authorizable $user): bool
-    {
-        return $user->can(NewsletterPolicyEnum::VIEW_ANY->value);
+            && $this->allowed($user, 'Update');
     }
 }

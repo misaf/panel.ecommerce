@@ -4,74 +4,33 @@ declare(strict_types=1);
 
 namespace Misaf\VendraGeo\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraGeo\Enums\CountryPolicyEnum;
-use Misaf\VendraGeo\Models\Country;
+use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReorderAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReplicateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesUpdateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
 
 final class CountryPolicy
 {
+    use AuthorizesCreateAbilities;
+    use AuthorizesDeleteAbilities;
+    use AuthorizesForceDeleteAbilities;
+    use AuthorizesReorderAbilities;
+    use AuthorizesReplicateAbilities;
+    use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
-    use HandlesAuthorization;
+    use AuthorizesUpdateAbilities;
+    use AuthorizesViewAbilities;
+    use ResolvesPolicyPermissions;
 
-    public function create(Authorizable $user): bool
+    protected static function permissionEnum(): string
     {
-        return $user->can(CountryPolicyEnum::CREATE->value);
-    }
-
-    public function delete(Authorizable $user, Country $country): bool
-    {
-        return $user->can(CountryPolicyEnum::DELETE->value);
-    }
-
-    public function deleteAny(Authorizable $user): bool
-    {
-        return $user->can(CountryPolicyEnum::DELETE_ANY->value);
-    }
-
-    public function forceDelete(Authorizable $user, Country $country): bool
-    {
-        return $user->can(CountryPolicyEnum::FORCE_DELETE->value);
-    }
-
-    public function forceDeleteAny(Authorizable $user): bool
-    {
-        return $user->can(CountryPolicyEnum::FORCE_DELETE_ANY->value);
-    }
-
-    public function reorder(Authorizable $user): bool
-    {
-        return $user->can(CountryPolicyEnum::REORDER->value);
-    }
-
-    public function replicate(Authorizable $user, Country $country): bool
-    {
-        return $user->can(CountryPolicyEnum::REPLICATE->value);
-    }
-
-    public function restore(Authorizable $user, Country $country): bool
-    {
-        return $user->can(CountryPolicyEnum::RESTORE->value);
-    }
-
-    public function restoreAny(Authorizable $user): bool
-    {
-        return $user->can(CountryPolicyEnum::RESTORE_ANY->value);
-    }
-
-    public function update(Authorizable $user, Country $country): bool
-    {
-        return $user->can(CountryPolicyEnum::UPDATE->value);
-    }
-
-    public function view(Authorizable $user, Country $country): bool
-    {
-        return $user->can(CountryPolicyEnum::VIEW->value);
-    }
-
-    public function viewAny(Authorizable $user): bool
-    {
-        return $user->can(CountryPolicyEnum::VIEW_ANY->value);
+        return CountryPolicyEnum::class;
     }
 }

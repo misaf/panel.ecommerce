@@ -4,74 +4,33 @@ declare(strict_types=1);
 
 namespace Misaf\VendraGeo\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraGeo\Enums\StatePolicyEnum;
-use Misaf\VendraGeo\Models\State;
+use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReorderAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesReplicateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Concerns\AuthorizesUpdateAbilities;
+use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
 
 final class StatePolicy
 {
+    use AuthorizesCreateAbilities;
+    use AuthorizesDeleteAbilities;
+    use AuthorizesForceDeleteAbilities;
+    use AuthorizesReorderAbilities;
+    use AuthorizesReplicateAbilities;
+    use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
-    use HandlesAuthorization;
+    use AuthorizesUpdateAbilities;
+    use AuthorizesViewAbilities;
+    use ResolvesPolicyPermissions;
 
-    public function create(Authorizable $user): bool
+    protected static function permissionEnum(): string
     {
-        return $user->can(StatePolicyEnum::CREATE->value);
-    }
-
-    public function delete(Authorizable $user, State $state): bool
-    {
-        return $user->can(StatePolicyEnum::DELETE->value);
-    }
-
-    public function deleteAny(Authorizable $user): bool
-    {
-        return $user->can(StatePolicyEnum::DELETE_ANY->value);
-    }
-
-    public function forceDelete(Authorizable $user, State $state): bool
-    {
-        return $user->can(StatePolicyEnum::FORCE_DELETE->value);
-    }
-
-    public function forceDeleteAny(Authorizable $user): bool
-    {
-        return $user->can(StatePolicyEnum::FORCE_DELETE_ANY->value);
-    }
-
-    public function reorder(Authorizable $user): bool
-    {
-        return $user->can(StatePolicyEnum::REORDER->value);
-    }
-
-    public function replicate(Authorizable $user, State $state): bool
-    {
-        return $user->can(StatePolicyEnum::REPLICATE->value);
-    }
-
-    public function restore(Authorizable $user, State $state): bool
-    {
-        return $user->can(StatePolicyEnum::RESTORE->value);
-    }
-
-    public function restoreAny(Authorizable $user): bool
-    {
-        return $user->can(StatePolicyEnum::RESTORE_ANY->value);
-    }
-
-    public function update(Authorizable $user, State $state): bool
-    {
-        return $user->can(StatePolicyEnum::UPDATE->value);
-    }
-
-    public function view(Authorizable $user, State $state): bool
-    {
-        return $user->can(StatePolicyEnum::VIEW->value);
-    }
-
-    public function viewAny(Authorizable $user): bool
-    {
-        return $user->can(StatePolicyEnum::VIEW_ANY->value);
+        return StatePolicyEnum::class;
     }
 }
