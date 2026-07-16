@@ -22,7 +22,8 @@ The `misaf/vendra-user-profile` package owns per-user profiles attached to the u
 - Keep the cluster-assigned Filament resource under `src/Filament/Clusters/Resources`, delegating forms to `Schemas/*Form.php` and tables to `Tables/*Table.php`.
 - Keep `UserProfileResource::getRelations()` provider-neutral by resolving `UserProfileRelationManagers`; never hardcode an optional provider relation manager.
 - Keep the complete resource tree under `src/Filament/Clusters/Resources/`, use the matching `Misaf\VendraUserProfile\Filament\Clusters\Resources` namespace, and keep plugin discovery aligned. Any future resource without a `$cluster` must instead live under `src/Filament/Resources/`.
-- Keep `UserProfileResource` inside `CustomersCluster`, immediately after Users, and return `vendra-user::navigation.user_management` from `getNavigationGroup()` so Profiles and Users render together.
+- Keep `UserProfileResource` inside `CustomersCluster`, ungrouped and immediately after Users through `NavigationPriority::UserProfiles`.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file and do not add comments that restate the code.
 - Add or update Pest tests for policy coverage, config/navigation behavior, translation parity, model contracts, and user-visible Filament behavior.
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts when a test fits.

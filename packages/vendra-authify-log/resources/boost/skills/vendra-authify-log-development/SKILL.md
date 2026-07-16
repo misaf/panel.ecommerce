@@ -46,6 +46,8 @@ Keep every resource that declares a `$cluster`, including its pages, tables, rel
 - Keep `AuthifyLogResource` thin by delegating table configuration to `Tables/AuthifyLogTable.php`. Do not add a form schema unless authentication logs intentionally become editable.
 - Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
 - Use this module's translation keys (`vendra-authify-log::attributes`, `vendra-authify-log::navigation`) for labels, breadcrumbs, and navigation.
+- Keep cluster resources ungrouped and assign `$navigationSort` from their package-specific `NavigationPriority` case; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Prevent N+1 issues in tables and relation managers with eager loading, `withCount`, or computed state based on loaded relationships.
 - Use public media visibility only when public access is actually required.
 

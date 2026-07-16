@@ -25,13 +25,15 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\Affilia
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class AffiliateResource extends Resource
 {
     protected static ?string $model = Affiliate::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::Affiliates->value;
 
     protected static ?string $slug = 'affiliates';
 
@@ -47,19 +49,14 @@ final class AffiliateResource extends Resource
         return __('vendra-affiliate::navigation.affiliate');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-affiliate::navigation.affiliate_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-affiliate::navigation.affiliate');
+        return __('vendra-affiliate::navigation.affiliates');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-affiliate::navigation.affiliate');
+        return __('vendra-affiliate::navigation.affiliates');
     }
 
     public static function getRelations(): array

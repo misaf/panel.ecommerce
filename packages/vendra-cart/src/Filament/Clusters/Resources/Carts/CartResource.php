@@ -19,13 +19,15 @@ use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Widgets\CartOverviewWidge
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class CartResource extends Resource
 {
     protected static ?string $model = Cart::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingCart;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = NavigationPriority::Carts->value;
 
     protected static ?string $slug = 'carts';
 
@@ -43,7 +45,7 @@ final class CartResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('vendra-cart::navigation.cart');
+        return __('vendra-cart::navigation.carts');
     }
 
     public static function getNavigationBadge(): string

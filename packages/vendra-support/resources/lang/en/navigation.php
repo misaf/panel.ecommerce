@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 return [
     'groups' => [
-        'Customers'    => 'Customers & Access',
+        'Customers'    => 'Users & Access',
         'Catalog'      => 'Catalog',
         'Sales'        => 'Sales & Finance',
         'Content'      => 'Content',
         'Marketing'    => 'Marketing',
-        'Localization' => 'Localization',
+        'Localization' => 'Languages',
         'System'       => 'System',
     ],
 ];

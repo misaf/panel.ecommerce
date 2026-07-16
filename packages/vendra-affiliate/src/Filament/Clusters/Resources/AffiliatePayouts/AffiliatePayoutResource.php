@@ -15,13 +15,15 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\A
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class AffiliatePayoutResource extends Resource
 {
     protected static ?string $model = AffiliatePayout::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = NavigationPriority::AffiliatePayouts->value;
 
     protected static ?string $slug = 'affiliate-payouts';
 
@@ -37,19 +39,14 @@ final class AffiliatePayoutResource extends Resource
         return __('vendra-affiliate::navigation.affiliate_payout');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-affiliate::navigation.affiliate_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-affiliate::navigation.affiliate_payout');
+        return __('vendra-affiliate::navigation.affiliate_payouts');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-affiliate::navigation.affiliate_payout');
+        return __('vendra-affiliate::navigation.affiliate_payouts');
     }
 
     public static function getPages(): array

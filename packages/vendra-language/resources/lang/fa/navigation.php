@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 return [
     'language'            => 'زبان',
-    'language_line'       => 'خط زبان',
+    'language_line'       => 'ترجمه',
+    'language_lines'      => 'ترجمه‌ها',
     'language_management' => 'مدیریت زبان',
-    'languages'           => 'زبان ها',
+    'languages'           => 'زبان‌ها',
 ];

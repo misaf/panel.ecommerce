@@ -19,6 +19,8 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Tables\Custom
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class CustomPageResource extends Resource
 {
     use Translatable;
@@ -27,7 +29,7 @@ final class CustomPageResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocument;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::CustomPages->value;
 
     protected static ?string $slug = 'custom-pages';
 
@@ -43,19 +45,14 @@ final class CustomPageResource extends Resource
         return __('vendra-custom-page::navigation.custom_page');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-custom-page::navigation.custom_page_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-custom-page::navigation.custom_page');
+        return __('vendra-custom-page::navigation.custom_pages');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-custom-page::navigation.custom_page');
+        return __('vendra-custom-page::navigation.custom_pages');
     }
 
     public static function getPages(): array

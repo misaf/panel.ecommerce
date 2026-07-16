@@ -28,6 +28,8 @@ Use `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, 
 ## Change Checklist
 
 - Keep every resource that declares a `$cluster`, including its complete supporting tree, under `src/Filament/Clusters/Resources/` with the matching `Misaf\VendraAttribute\Filament\Clusters\Resources` namespace and plugin discovery path. Resources without a cluster belong under `src/Filament/Resources/`.
+- Keep `AttributeResource` ungrouped and assign `$navigationSort` from `NavigationPriority::Attributes`; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Keep resources thin, with form/table definitions and the value relation manager in their existing Filament directories.
 - Update migrations, factories, policies, permission seeders, configuration, and translation parity when their contracts change.
 - Cover polymorphic values, resolver wiring, units, optional tags, policies, and user-visible Filament behavior with focused Pest tests.

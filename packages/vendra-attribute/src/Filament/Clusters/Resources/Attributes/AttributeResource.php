@@ -18,13 +18,15 @@ use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Tables\Attribut
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class AttributeResource extends Resource
 {
     protected static ?string $model = Attribute::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAdjustmentsHorizontal;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::Attributes->value;
 
     protected static ?string $slug = 'attributes';
 
@@ -42,7 +44,7 @@ final class AttributeResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return trans_choice('vendra-attribute::navigation.attribute', 1);
+        return trans_choice('vendra-attribute::navigation.attributes', 1);
     }
 
     public static function getPluralModelLabel(): string

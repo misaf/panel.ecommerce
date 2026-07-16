@@ -20,6 +20,8 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\RelationManag
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class CustomPageCategoryResource extends Resource
 {
     use Translatable;
@@ -28,7 +30,7 @@ final class CustomPageCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::CustomPageCategories->value;
 
     protected static ?string $slug = 'custom-page-categories';
 
@@ -44,19 +46,14 @@ final class CustomPageCategoryResource extends Resource
         return __('vendra-custom-page::navigation.custom_page_category');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-custom-page::navigation.custom_page_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-custom-page::navigation.custom_page_category');
+        return __('vendra-custom-page::navigation.custom_page_categories');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-custom-page::navigation.custom_page_category');
+        return __('vendra-custom-page::navigation.custom_page_categories');
     }
 
     public static function getRelations(): array

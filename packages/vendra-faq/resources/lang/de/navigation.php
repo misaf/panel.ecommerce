@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 return  [
-    'faq'                     => 'FAQs',
-    'faq_category'            => 'FAQ-Kategorien',
+    'faq'                     => 'FAQ',
+    'faq_categories'          => 'FAQ-Kategorien',
+    'faq_category'            => 'FAQ-Kategorie',
     'faq_category_management' => 'FAQ-Kategorie-Verwaltung',
     'faq_management'          => 'FAQ-Verwaltung',
+    'faqs'                    => 'FAQs',
 ];

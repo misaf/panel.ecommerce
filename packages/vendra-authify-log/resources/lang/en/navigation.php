@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'authify_log'            => 'Authify Logs',
-    'authify_log_management' => 'Authify Log Management',
+    'authify_log'            => 'Authentication Log',
+    'authify_log_management' => 'Authentication Log Management',
+    'authify_logs'           => 'Authentication Logs',
 ];

@@ -19,6 +19,8 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Tables\BlogPostTable;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class BlogPostResource extends Resource
 {
     use Translatable;
@@ -27,7 +29,7 @@ final class BlogPostResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::BlogPosts->value;
 
     protected static ?string $slug = 'blog-posts';
 
@@ -43,19 +45,14 @@ final class BlogPostResource extends Resource
         return __('vendra-blog::navigation.blog_post');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-blog::navigation.blog_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-blog::navigation.blog_post');
+        return __('vendra-blog::navigation.blog_posts');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-blog::navigation.blog_post');
+        return __('vendra-blog::navigation.blog_posts');
     }
 
     public static function getPages(): array

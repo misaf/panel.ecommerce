@@ -19,6 +19,8 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Tables\FaqTable;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class FaqResource extends Resource
 {
     use Translatable;
@@ -27,7 +29,7 @@ final class FaqResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQuestionMarkCircle;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::Faqs->value;
 
     protected static ?string $slug = 'faqs';
 
@@ -43,19 +45,14 @@ final class FaqResource extends Resource
         return __('vendra-faq::navigation.faq');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-faq::navigation.faq_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-faq::navigation.faq');
+        return __('vendra-faq::navigation.faqs');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-faq::navigation.faq');
+        return __('vendra-faq::navigation.faqs');
     }
 
     public static function getPages(): array

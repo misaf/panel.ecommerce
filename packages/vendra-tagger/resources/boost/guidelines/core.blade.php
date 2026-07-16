@@ -18,6 +18,8 @@ The `misaf/vendra-tagger` package owns tagging and taxonomy and the Filament adm
 - Keep the module tenant-agnostic: it must build and run with or without a tenant provider. Never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. Let `BelongsToTenant` assign `tenant_id`; do not set it manually.
 - Keep the cluster-assigned Filament resource under `src/Filament/Clusters/Resources`, delegating forms to `Schemas/*Form.php` and tables to `Tables/*Table.php`.
 - Keep the complete resource tree under `src/Filament/Clusters/Resources/`, use the matching `Misaf\VendraTagger\Filament\Clusters\Resources` namespace, and keep plugin discovery aligned. Any future resource without a `$cluster` must instead live under `src/Filament/Resources/`.
+- Keep `TaggerResource` ungrouped and assign `$navigationSort` from `NavigationPriority::Tags`; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Keep translated names and slugs unique per tenant and tag type; do not make the `type` field unique.
 - Register the resource through `TaggerPlugin`, default it to the configured `admin` panel and shared Content navigation group, and keep host overrides working.
 - Keep `config/vendra-tagger.php` cache-safe and do not add closures or a tenant toggle. Consumer applications must configure `tags.tag_model` as `Misaf\VendraTagger\Models\Tagger`.

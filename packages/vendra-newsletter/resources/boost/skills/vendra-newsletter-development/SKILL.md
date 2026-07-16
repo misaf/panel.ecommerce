@@ -78,7 +78,8 @@ Use policy enums and policies as the permission source.
 - Authorize the custom send action explicitly with `Gate::allows('send', $record)`. Keep `NewsletterPolicy::send()` backed by `NewsletterPolicyEnum::SendNewsletter` (`send-newsletter`), rerun the package permission seeder after adding permissions, and deny updates after `sent`.
 - Keep policy method names aligned with Filament actions: `viewAny`, `view`, `create`, `update`, `delete`, `deleteAny`, `restore`, `restoreAny`, `forceDelete`, `forceDeleteAny`, and `replicate` as applicable.
 - Update `PermissionPolicySeeder` when new permissions are introduced.
-- Keep the cluster in the `Marketing` navigation group with `$navigationSort` aligned to the host app's `AdminNavigationTest`.
+- Keep the cluster in the `Marketing` navigation group. Keep its resources ungrouped and assign `$navigationSort` from their package-specific `NavigationPriority` cases; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 
 ## Data And Localization
 

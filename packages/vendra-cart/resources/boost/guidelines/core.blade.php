@@ -19,6 +19,8 @@ The `misaf/vendra-cart` package owns temporary shopping selections before checko
 - Treat carts as temporary state. Keep expiration explicit and avoid turning carts into orders, payments, stock reservations, or immutable pricing snapshots; those concerns belong to checkout/order modules.
 - Keep the cluster-assigned Filament resource under `src/Filament/Clusters/Resources`, with forms in `Schemas`, tables in `Tables`, and items managed through the cart relation manager. The administration UI may inspect and delete carts/items but must not edit external sellables.
 - Keep the complete resource tree under `src/Filament/Clusters/Resources/`, use the matching `Misaf\VendraCart\Filament\Clusters\Resources` namespace, and keep plugin registration aligned. Any future resource without a `$cluster` must instead live under `src/Filament/Resources/`.
+- Keep `CartResource` ungrouped and assign `$navigationSort` from `NavigationPriority::Carts`; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Display resolved owner records through a human-readable label (`username`, `name`, or `email`) and eager-load the polymorphic owner instead of exposing raw morph type and ID columns.
 - Use `CartPolicyEnum` and `CartItemPolicyEnum` as permission sources, keep policies aligned with exposed Filament actions, and update `PermissionPolicySeeder` when abilities change.
 - Update English, German, and Persian translation files together and keep their keys in parity.

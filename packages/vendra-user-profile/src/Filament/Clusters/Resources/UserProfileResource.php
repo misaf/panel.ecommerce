@@ -23,6 +23,7 @@ use InvalidArgumentException;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Filament\Clusters\CustomersCluster;
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 use Misaf\VendraUserProfile\Features\ModuleEnabled;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\EditUserProfile;
@@ -31,6 +32,7 @@ use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ViewUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Schemas\UserProfileForm;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Tables\UserProfileTable;
 use Misaf\VendraUserProfile\Models\UserProfile;
+
 use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 
 final class UserProfileResource extends Resource
@@ -39,7 +41,7 @@ final class UserProfileResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedIdentification;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::UserProfiles->value;
 
     protected static ?string $slug = 'user-profiles';
 
@@ -58,19 +60,14 @@ final class UserProfileResource extends Resource
         return __('vendra-user-profile::navigation.user_profile');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-user::navigation.user_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-user-profile::navigation.user_profile');
+        return __('vendra-user-profile::navigation.user_profiles');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-user-profile::navigation.user_profile');
+        return __('vendra-user-profile::navigation.user_profiles');
     }
 
     public static function getGloballySearchableAttributes(): array

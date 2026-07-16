@@ -15,6 +15,8 @@ use Filament\Schemas\Schema;
 use Misaf\Tenant\Models\Tenant;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class ManageGeneralSettings extends SettingsPage
 {
     /**
@@ -22,7 +24,7 @@ final class ManageGeneralSettings extends SettingsPage
      */
     protected static ?string $cluster = SystemCluster::class;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::GeneralSettings->value;
 
     protected static string $settings = GeneralSettings::class;
 

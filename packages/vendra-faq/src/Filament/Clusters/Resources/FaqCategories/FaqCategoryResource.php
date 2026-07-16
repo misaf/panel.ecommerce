@@ -20,6 +20,8 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\RelationManagers\FaqRelatio
 use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class FaqCategoryResource extends Resource
 {
     use Translatable;
@@ -28,7 +30,7 @@ final class FaqCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::FaqCategories->value;
 
     protected static ?string $slug = 'faq-categories';
 
@@ -44,19 +46,14 @@ final class FaqCategoryResource extends Resource
         return __('vendra-faq::navigation.faq_category');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-faq::navigation.faq_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-faq::navigation.faq_category');
+        return __('vendra-faq::navigation.faq_categories');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-faq::navigation.faq_category');
+        return __('vendra-faq::navigation.faq_categories');
     }
 
     public static function getRelations(): array

@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraSupport\Filament\Navigation;
+
+enum NavigationPriority: int
+{
+    case Products = 1100;
+    case ProductCategories = 1110;
+    case ProductPrices = 1120;
+    case Attributes = 1200;
+
+    case Transactions = 2100;
+    case TransactionGateways = 2110;
+    case Currencies = 2200;
+    case CurrencyCategories = 2210;
+    case Carts = 2300;
+
+    case Users = 3100;
+    case UserProfiles = 3110;
+    case Roles = 3200;
+    case Permissions = 3210;
+
+    case BlogPosts = 4100;
+    case BlogPostCategories = 4110;
+    case CustomPages = 4200;
+    case CustomPageCategories = 4210;
+    case Faqs = 4300;
+    case FaqCategories = 4310;
+    case Multimedia = 4400;
+    case Tags = 4500;
+
+    case Affiliates = 5100;
+    case AffiliateCommissions = 5110;
+    case AffiliatePayouts = 5120;
+    case Newsletters = 5200;
+    case NewsletterSubscribers = 5210;
+
+    case Languages = 6100;
+    case LanguageLines = 6110;
+
+    case GeneralSettings = 7100;
+    case ActivityLogs = 7200;
+    case AuthenticationLogs = 7300;
+}

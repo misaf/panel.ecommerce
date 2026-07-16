@@ -19,13 +19,15 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Tables\C
 use Misaf\VendraCurrency\Models\CurrencyCategory;
 use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class CurrencyCategoryResource extends Resource
 {
     protected static ?string $model = CurrencyCategory::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::CurrencyCategories->value;
 
     protected static ?string $slug = 'currency-categories';
 
@@ -41,19 +43,14 @@ final class CurrencyCategoryResource extends Resource
         return __('vendra-currency::navigation.currency_category');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-currency::navigation.currency_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-currency::navigation.currency_category');
+        return __('vendra-currency::navigation.currency_categories');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-currency::navigation.currency_category');
+        return __('vendra-currency::navigation.currency_categories');
     }
 
     public static function getRelations(): array

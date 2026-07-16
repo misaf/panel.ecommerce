@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'authify_log'            => 'Authify-Protokolle',
-    'authify_log_management' => 'Authify-Protokollverwaltung',
+    'authify_log'            => 'Anmeldeprotokoll',
+    'authify_log_management' => 'Anmeldeprotokollverwaltung',
+    'authify_logs'           => 'Anmeldeprotokolle',
 ];

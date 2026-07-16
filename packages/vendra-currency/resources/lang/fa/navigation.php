@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 return [
     'billing_management'           => 'مدیریت صورتحساب',
-    'currency'                     => 'ارزها',
-    'currency_category'            => 'دسته بندی ارزها',
-    'currency_category_management' => 'مدیریت دسته بندی ارزها',
+    'currencies'                   => 'ارزها',
+    'currency'                     => 'ارز',
+    'currency_categories'          => 'دسته‌بندی‌های ارز',
+    'currency_category'            => 'دسته‌بندی ارز',
+    'currency_category_management' => 'مدیریت دسته‌بندی ارزها',
     'currency_management'          => 'مدیریت ارزها',
 ];

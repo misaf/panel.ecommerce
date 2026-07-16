@@ -14,13 +14,15 @@ use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Tables\AuthifyLogTable;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class AuthifyLogResource extends Resource
 {
     protected static ?string $model = AuthifyLog::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = NavigationPriority::AuthenticationLogs->value;
 
     protected static ?string $slug = 'authify-logs';
 
@@ -38,12 +40,12 @@ final class AuthifyLogResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('vendra-authify-log::navigation.authify_log');
+        return __('vendra-authify-log::navigation.authify_logs');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-authify-log::navigation.authify_log');
+        return __('vendra-authify-log::navigation.authify_logs');
     }
 
     public static function getPages(): array

@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 return [
-    'tag'               => 'Tags',
-    'tagger'            => 'Tagger',
+    'tag'               => 'Tag',
+    'tagger'            => 'Tag',
     'tagger_management' => 'Tag-Verwaltung',
+    'taggers'           => 'Tags',
 ];

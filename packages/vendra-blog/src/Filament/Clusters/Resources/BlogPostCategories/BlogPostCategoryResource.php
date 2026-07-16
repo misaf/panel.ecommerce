@@ -20,6 +20,8 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\RelationManagers\Blog
 use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class BlogPostCategoryResource extends Resource
 {
     use Translatable;
@@ -28,7 +30,7 @@ final class BlogPostCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::BlogPostCategories->value;
 
     protected static ?string $slug = 'blog-post-categories';
 
@@ -44,19 +46,14 @@ final class BlogPostCategoryResource extends Resource
         return __('vendra-blog::navigation.blog_post_category');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-blog::navigation.blog_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-blog::navigation.blog_post_category');
+        return __('vendra-blog::navigation.blog_post_categories');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-blog::navigation.blog_post_category');
+        return __('vendra-blog::navigation.blog_post_categories');
     }
 
     public static function getRelations(): array

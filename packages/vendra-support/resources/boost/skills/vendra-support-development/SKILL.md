@@ -53,7 +53,7 @@ Domain policies across all modules compose the shared ability traits instead of 
 
 ## Filament Navigation Architecture
 
-Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single source of navigation group labels and priority. Do not add app translation strings as package group defaults.
+Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single source of navigation group labels and `NavigationPriority` as the single source of resource ordering. Do not add app translation strings as package group defaults.
 
 - Register groups in the admin panel as `Filament\Navigation\NavigationGroup` objects with label closures. Do not pass the enum class directly: the locale middleware runs after panel construction, so eager labels can be cached in the wrong locale.
 - Store package resources that declare a `$cluster` under `src/Filament/Clusters/Resources/` with matching `Filament\Clusters\Resources` namespaces. Store resources without a cluster under `src/Filament/Resources/`, and keep plugin discovery paths aligned.
@@ -61,13 +61,15 @@ Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single sour
 - Keep current item order:
   - Catalog: Products 1, Attributes 2.
   - Sales: Transactions 1 when enabled, Currencies 2, Carts 3.
-  - Customers: Users and User Profiles in the shared user-management group, then Roles and Permissions in the permission-management group.
+  - Customers: Users 1, User Profiles 2, Roles 3, Permissions 4.
   - Content: Blog 1, Custom Pages 2, FAQs 3, Multimedia 4, Tags 5.
   - Marketing: Affiliates 1, Newsletters 2.
   - Localization: Languages 1.
   - System: Settings 1, Activity Logs 2, Authentication Logs 3.
-- Represent a multi-resource package with one cluster sidebar item and set `$subNavigationPosition = SubNavigationPosition::Top`; keep the cluster's resources as text-only tabs.
-- Set one distinct outlined `Heroicon` on every top-level cluster or standalone resource. Keep navigation group headers and cluster child resources icon-free to avoid Filament's group/item icon conflict.
+- Give every resource a globally unique `NavigationPriority` case and assign `$navigationSort` from its backed value. Group values by domain cluster and leave gaps for future resources.
+- Give every resource separate singular and plural translation keys in `en`, `de`, and `fa`. Use the singular key for model labels and the plural key for navigation and plural model labels; keep navigation labels at 24 characters or fewer.
+- Use domain clusters as top-level sidebar items, set `$subNavigationPosition = SubNavigationPosition::Top`, and keep cluster resources ungrouped so `NavigationPriority` controls their visible tab order.
+- Set one distinct outlined `Heroicon` on every top-level cluster and resource. Keep navigation group headers icon-free.
 - Preserve package plugin `navigationGroup(...)` overrides and default them to `vendra-support::navigation.groups.*`.
 - Use the package label for its cluster breadcrumb. Never use the broad group label as the breadcrumb.
 - Update `tests/Unit/AdminNavigationTest.php` for group order, locale-safe labels, item sort, icons, and top sub-navigation.

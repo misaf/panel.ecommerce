@@ -18,13 +18,15 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Tables\LanguageTa
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class LanguageResource extends Resource
 {
     protected static ?string $model = Language::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLanguage;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = NavigationPriority::Languages->value;
 
     protected static ?string $slug = 'languages';
 
@@ -40,19 +42,14 @@ final class LanguageResource extends Resource
         return __('vendra-language::navigation.language');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-language::navigation.language_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-language::navigation.language');
+        return __('vendra-language::navigation.languages');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-language::navigation.language');
+        return __('vendra-language::navigation.languages');
     }
 
     public static function getPages(): array

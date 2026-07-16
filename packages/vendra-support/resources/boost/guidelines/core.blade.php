@@ -23,9 +23,10 @@ The `misaf/vendra-support` package owns the shared support layer for every Vendr
 - Shared Filament navigation taxonomy lives in `Misaf\VendraSupport\Filament\Navigation\NavigationGroup`. Keep group labels and ordering there; domain packages must not invent app-level group strings.
 - Store every package resource that declares a `$cluster` under `src/Filament/Clusters/Resources/` with a matching `Filament\Clusters\Resources` namespace. Store resources without a cluster under `src/Filament/Resources/`.
 - Keep group priority in this order: Catalog, Sales, Customers, Content, Marketing, Localization, System. Register panel group labels with closures so the request locale is resolved after locale middleware runs.
-- Treat each package as one top-level sidebar item: use a cluster for packages with multiple resources and top-positioned cluster sub-navigation tabs for their internal resources. In `CustomersCluster`, group Users and User Profiles together under `vendra-user::navigation.user_management`.
-- Give every top-level package item one distinct outlined `Heroicon`; keep group headers and cluster sub-navigation items icon-free. Filament navigation groups and their child items must not both define icons.
-- Assign every top-level item an explicit, unique `$navigationSort` within its group. Update `tests/Unit/AdminNavigationTest.php` whenever adding or moving navigation.
+- Use domain clusters as top-level sidebar items and render their resources as ungrouped, top-positioned sub-navigation tabs so `NavigationPriority` controls the visible order without Filament's grouped-item bucket taking precedence.
+- Give every resource one distinct outlined `Heroicon`; navigation group headers remain icon-free.
+- Assign every resource a case in `NavigationPriority` and use that case for `$navigationSort`. Keep values globally unique, grouped by domain cluster, and leave gaps for future resources. Update `tests/Unit/AdminNavigationTest.php` whenever adding or moving navigation.
+- Give every resource separate singular and plural translation keys in `en`, `de`, and `fa`. Use the singular key for model labels and the plural key for navigation and plural model labels; keep navigation labels at 24 characters or fewer.
 - Keep package plugin navigation-group overrides working, but default them to a `vendra-support::navigation.groups.*` key. Resolve breadcrumbs to the package label, not the broad group label.
 - Browser-check the sidebar in a non-default locale after navigation changes. Do not register a navigation entry until its destination renders successfully.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic.

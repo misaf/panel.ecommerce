@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 use App\Providers\Filament\AdminPanelServiceProvider;
 use Filament\Panel;
+use Filament\Support\Enums\Width;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 
 it('uses a compact sidebar width', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
 
     expect($panel->getSidebarWidth())->toBe('18rem');
+});
+
+it('uses the full content width for localized navigation and pages', function (): void {
+    $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
+
+    expect($panel->getMaxContentWidth())->toBe(Width::Full);
 });
 
 it('uses the Vendra logo in light and dark modes', function (): void {

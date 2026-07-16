@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 return [
-    'multimedia'            => 'Multimedia',
+    'media_item'            => 'Media Item',
+    'media_items'           => 'Media',
+    'multimedia'            => 'Media',
     'multimedia_management' => 'Multimedia Management',
 ];

@@ -46,6 +46,8 @@ Keep every resource that declares a `$cluster`, including its pages, tables, and
 - Keep `MultimediaResource` thin by delegating table configuration to `Tables/MultimediaTable.php`. Do not add a form schema unless media records intentionally become editable here.
 - Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
 - Use this module's translation keys (`vendra-multimedia::attributes`, `vendra-multimedia::navigation`) for labels, breadcrumbs, and navigation.
+- Keep `MultimediaResource` ungrouped and assign `$navigationSort` from `NavigationPriority::Multimedia`; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Prevent N+1 issues in tables and relation managers with eager loading, `withCount`, or computed state based on loaded relationships.
 - Use public media visibility only when public access is actually required.
 

@@ -14,13 +14,15 @@ use Misaf\VendraActivityLog\Filament\Clusters\Resources\Tables\ActivityLogTable;
 use Misaf\VendraActivityLog\Models\ActivityLog;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class ActivityLogResource extends Resource
 {
     protected static ?string $model = ActivityLog::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::ActivityLogs->value;
 
     protected static ?string $slug = 'activity-logs';
 
@@ -38,12 +40,12 @@ final class ActivityLogResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('vendra-activity-log::navigation.activity_log');
+        return __('vendra-activity-log::navigation.activity_logs');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-activity-log::navigation.activity_log');
+        return __('vendra-activity-log::navigation.activity_logs');
     }
 
     public static function getPages(): array

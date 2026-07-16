@@ -19,13 +19,15 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Wid
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class NewsletterSubscriberResource extends Resource
 {
     protected static ?string $model = NewsletterSubscriber::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::NewsletterSubscribers->value;
 
     protected static ?string $slug = 'newsletter-subscribers';
 
@@ -41,19 +43,14 @@ final class NewsletterSubscriberResource extends Resource
         return __('vendra-newsletter::navigation.newsletter_subscriber');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-newsletter::navigation.newsletter_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-newsletter::navigation.newsletter_subscriber');
+        return __('vendra-newsletter::navigation.newsletter_subscribers');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-newsletter::navigation.newsletter_subscriber');
+        return __('vendra-newsletter::navigation.newsletter_subscribers');
     }
 
     public static function getPages(): array

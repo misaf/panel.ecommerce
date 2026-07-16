@@ -14,13 +14,15 @@ use Misaf\VendraMultimedia\Filament\Clusters\Resources\Tables\MultimediaTable;
 use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class MultimediaResource extends Resource
 {
     protected static ?string $model = Multimedia::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = NavigationPriority::Multimedia->value;
 
     protected static ?string $slug = 'multimedia';
 
@@ -33,17 +35,17 @@ final class MultimediaResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('vendra-multimedia::navigation.multimedia');
+        return __('vendra-multimedia::navigation.media_item');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('vendra-multimedia::navigation.multimedia');
+        return __('vendra-multimedia::navigation.media_items');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-multimedia::navigation.multimedia');
+        return __('vendra-multimedia::navigation.media_items');
     }
 
     public static function getPages(): array

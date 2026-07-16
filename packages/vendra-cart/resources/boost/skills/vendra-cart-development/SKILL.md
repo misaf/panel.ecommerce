@@ -53,6 +53,8 @@ Treat `packages/vendra-cart` as the source of temporary shopping-selection behav
 - Display the resolved owner using `username`, `name`, or `email` with a route-key fallback. Eager-load the polymorphic owner in tables and do not expose raw morph type/ID as the primary label.
 - Use Filament v5 namespaces: fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, columns from `Filament\Tables\Columns`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
 - Use `vendra-cart::attributes` and `vendra-cart::navigation` translation keys for every visible label.
+- Keep `CartResource` ungrouped and assign `$navigationSort` from `NavigationPriority::Carts`; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Keep policy methods aligned with exposed actions and backed by `CartPolicyEnum` or `CartItemPolicyEnum` permissions.
 - Update `PermissionPolicySeeder` and `vendra-cart:seed` whenever permission cases change.
 

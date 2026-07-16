@@ -48,6 +48,8 @@ Keep every resource that declares a `$cluster`, including its complete supportin
 - Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.
 - Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
 - Use this module's translation keys (`vendra-tagger::attributes`, `vendra-tagger::navigation`) for labels, breadcrumbs, and navigation.
+- Keep `TaggerResource` ungrouped and assign `$navigationSort` from `NavigationPriority::Tags`; never hardcode numeric resource sort values.
+- Provide separate singular and plural resource labels in `en`, `de`, and `fa`: model labels use the singular key, while navigation and plural model labels use the plural key. Keep navigation labels at 24 characters or fewer.
 - Keep translated name and slug validation unique within the current tenant and tag type. The `type` field itself is not unique.
 - Keep table reordering on `position` and use the permission-backed `reorder` policy.
 

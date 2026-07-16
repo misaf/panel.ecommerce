@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 return [
-    'multimedia'            => 'چندرسانه',
+    'media_item'            => 'رسانه',
+    'media_items'           => 'رسانه‌ها',
+    'multimedia'            => 'رسانه‌ها',
     'multimedia_management' => 'مدیریت چندرسانه',
 ];

@@ -15,13 +15,15 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Widge
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 
+use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
+
 final class AffiliateCommissionResource extends Resource
 {
     protected static ?string $model = AffiliateCommission::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedReceiptPercent;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = NavigationPriority::AffiliateCommissions->value;
 
     protected static ?string $slug = 'affiliate-commissions';
 
@@ -37,19 +39,14 @@ final class AffiliateCommissionResource extends Resource
         return __('vendra-affiliate::navigation.affiliate_commission');
     }
 
-    public static function getNavigationGroup(): string
-    {
-        return __('vendra-affiliate::navigation.affiliate_management');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('vendra-affiliate::navigation.affiliate_commission');
+        return __('vendra-affiliate::navigation.affiliate_commissions');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('vendra-affiliate::navigation.affiliate_commission');
+        return __('vendra-affiliate::navigation.affiliate_commissions');
     }
 
     public static function getPages(): array
