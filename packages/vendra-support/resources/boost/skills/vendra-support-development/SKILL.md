@@ -50,6 +50,7 @@ Domain policies across all modules compose the shared ability traits instead of 
 Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single source of navigation group labels and priority. Do not add app translation strings as package group defaults.
 
 - Register groups in the admin panel as `Filament\Navigation\NavigationGroup` objects with label closures. Do not pass the enum class directly: the locale middleware runs after panel construction, so eager labels can be cached in the wrong locale.
+- Store package resources that declare a `$cluster` under `src/Filament/Clusters/Resources/` with matching `Filament\Clusters\Resources` namespaces. Store resources without a cluster under `src/Filament/Resources/`, and keep plugin discovery paths aligned.
 - Keep group order: Catalog, Sales, Customers, Content, Marketing, Localization, System.
 - Keep current item order:
   - Catalog: Products 1, Attributes 2.
