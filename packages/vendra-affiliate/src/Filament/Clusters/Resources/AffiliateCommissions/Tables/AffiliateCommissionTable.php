@@ -95,7 +95,7 @@ final class AffiliateCommissionTable
     private static function approveAction(): Action
     {
         return Action::make('approve')
-            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::APPROVE->value))
+            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::Approve->value))
             ->color('success')
             ->icon('heroicon-o-check-circle')
             ->label(__('vendra-affiliate::messages.approve_commission'))
@@ -107,7 +107,7 @@ final class AffiliateCommissionTable
     private static function reverseAction(): Action
     {
         return Action::make('reverse')
-            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::REVERSE->value))
+            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::Reverse->value))
             ->color('danger')
             ->icon('heroicon-o-arrow-uturn-left')
             ->label(__('vendra-affiliate::messages.reverse_commission'))

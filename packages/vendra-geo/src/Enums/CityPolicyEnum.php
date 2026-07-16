@@ -6,16 +6,16 @@ namespace Misaf\VendraGeo\Enums;
 
 enum CityPolicyEnum: string
 {
-    case CREATE = 'create-city';
-    case DELETE = 'delete-city';
-    case DELETE_ANY = 'delete-any-city';
-    case FORCE_DELETE = 'force-delete-city';
-    case FORCE_DELETE_ANY = 'force-delete-any-city';
-    case REORDER = 'reorder-city';
-    case REPLICATE = 'replicate-city';
-    case RESTORE = 'restore-city';
-    case RESTORE_ANY = 'restore-any-city';
-    case UPDATE = 'update-city';
-    case VIEW = 'view-city';
-    case VIEW_ANY = 'view-any-city';
+    case Create = 'create-city';
+    case Delete = 'delete-city';
+    case DeleteAny = 'delete-any-city';
+    case ForceDelete = 'force-delete-city';
+    case ForceDeleteAny = 'force-delete-any-city';
+    case Reorder = 'reorder-city';
+    case Replicate = 'replicate-city';
+    case Restore = 'restore-city';
+    case RestoreAny = 'restore-any-city';
+    case Update = 'update-city';
+    case View = 'view-city';
+    case ViewAny = 'view-any-city';
 }

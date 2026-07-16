@@ -6,12 +6,12 @@ namespace Misaf\VendraAffiliate\Enums;
 
 enum AffiliateCommissionPolicyEnum: string
 {
-    case APPROVE = 'approve-affiliate-commission';
-    case DELETE = 'delete-affiliate-commission';
-    case DELETE_ANY = 'delete-any-affiliate-commission';
-    case RESTORE = 'restore-affiliate-commission';
-    case RESTORE_ANY = 'restore-any-affiliate-commission';
-    case REVERSE = 'reverse-affiliate-commission';
-    case VIEW = 'view-affiliate-commission';
-    case VIEW_ANY = 'view-any-affiliate-commission';
+    case Approve = 'approve-affiliate-commission';
+    case Delete = 'delete-affiliate-commission';
+    case DeleteAny = 'delete-any-affiliate-commission';
+    case Restore = 'restore-affiliate-commission';
+    case RestoreAny = 'restore-any-affiliate-commission';
+    case Reverse = 'reverse-affiliate-commission';
+    case View = 'view-affiliate-commission';
+    case ViewAny = 'view-any-affiliate-commission';
 }

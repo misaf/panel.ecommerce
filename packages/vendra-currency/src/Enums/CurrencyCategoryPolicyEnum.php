@@ -6,16 +6,16 @@ namespace Misaf\VendraCurrency\Enums;
 
 enum CurrencyCategoryPolicyEnum: string
 {
-    case CREATE = 'create-currency-category';
-    case DELETE = 'delete-currency-category';
-    case DELETE_ANY = 'delete-any-currency-category';
-    case FORCE_DELETE = 'force-delete-currency-category';
-    case FORCE_DELETE_ANY = 'force-delete-any-currency-category';
-    case REORDER = 'reorder-currency-category';
-    case REPLICATE = 'replicate-currency-category';
-    case RESTORE = 'restore-currency-category';
-    case RESTORE_ANY = 'restore-any-currency-category';
-    case UPDATE = 'update-currency-category';
-    case VIEW = 'view-currency-category';
-    case VIEW_ANY = 'view-any-currency-category';
+    case Create = 'create-currency-category';
+    case Delete = 'delete-currency-category';
+    case DeleteAny = 'delete-any-currency-category';
+    case ForceDelete = 'force-delete-currency-category';
+    case ForceDeleteAny = 'force-delete-any-currency-category';
+    case Reorder = 'reorder-currency-category';
+    case Replicate = 'replicate-currency-category';
+    case Restore = 'restore-currency-category';
+    case RestoreAny = 'restore-any-currency-category';
+    case Update = 'update-currency-category';
+    case View = 'view-currency-category';
+    case ViewAny = 'view-any-currency-category';
 }

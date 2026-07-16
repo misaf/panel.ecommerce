@@ -6,16 +6,16 @@ namespace Misaf\VendraFaq\Enums;
 
 enum FaqCategoryPolicyEnum: string
 {
-    case CREATE = 'create-faq-category';
-    case DELETE = 'delete-faq-category';
-    case DELETE_ANY = 'delete-any-faq-category';
-    case FORCE_DELETE = 'force-delete-faq-category';
-    case FORCE_DELETE_ANY = 'force-delete-any-faq-category';
-    case REORDER = 'reorder-faq-category';
-    case REPLICATE = 'replicate-faq-category';
-    case RESTORE = 'restore-faq-category';
-    case RESTORE_ANY = 'restore-any-faq-category';
-    case UPDATE = 'update-faq-category';
-    case VIEW = 'view-faq-category';
-    case VIEW_ANY = 'view-any-faq-category';
+    case Create = 'create-faq-category';
+    case Delete = 'delete-faq-category';
+    case DeleteAny = 'delete-any-faq-category';
+    case ForceDelete = 'force-delete-faq-category';
+    case ForceDeleteAny = 'force-delete-any-faq-category';
+    case Reorder = 'reorder-faq-category';
+    case Replicate = 'replicate-faq-category';
+    case Restore = 'restore-faq-category';
+    case RestoreAny = 'restore-any-faq-category';
+    case Update = 'update-faq-category';
+    case View = 'view-faq-category';
+    case ViewAny = 'view-any-faq-category';
 }

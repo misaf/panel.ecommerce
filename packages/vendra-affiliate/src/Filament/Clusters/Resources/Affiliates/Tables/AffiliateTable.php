@@ -131,7 +131,7 @@ final class AffiliateTable
     public static function processPayoutAction(): Action
     {
         return Action::make('processPayout')
-            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliatePayoutPolicyEnum::PROCESS->value))
+            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliatePayoutPolicyEnum::Process->value))
             ->color('success')
             ->disabled(fn(Affiliate $record): bool => $record->pendingBalance() < Config::integer('vendra-affiliate.payout.minimum', 0))
             ->icon('heroicon-o-banknotes')

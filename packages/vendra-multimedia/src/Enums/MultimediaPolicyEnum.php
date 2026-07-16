@@ -6,15 +6,15 @@ namespace Misaf\VendraMultimedia\Enums;
 
 enum MultimediaPolicyEnum: string
 {
-    case CREATE = 'create-multimedia';
-    case DELETE = 'delete-multimedia';
-    case DELETE_ANY = 'delete-any-multimedia';
-    case FORCE_DELETE = 'force-delete-multimedia';
-    case FORCE_DELETE_ANY = 'force-delete-any-multimedia';
-    case REPLICATE = 'replicate-multimedia';
-    case RESTORE = 'restore-multimedia';
-    case RESTORE_ANY = 'restore-any-multimedia';
-    case UPDATE = 'update-multimedia';
-    case VIEW = 'view-multimedia';
-    case VIEW_ANY = 'view-any-multimedia';
+    case Create = 'create-multimedia';
+    case Delete = 'delete-multimedia';
+    case DeleteAny = 'delete-any-multimedia';
+    case ForceDelete = 'force-delete-multimedia';
+    case ForceDeleteAny = 'force-delete-any-multimedia';
+    case Replicate = 'replicate-multimedia';
+    case Restore = 'restore-multimedia';
+    case RestoreAny = 'restore-any-multimedia';
+    case Update = 'update-multimedia';
+    case View = 'view-multimedia';
+    case ViewAny = 'view-any-multimedia';
 }

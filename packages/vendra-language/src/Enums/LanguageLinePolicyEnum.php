@@ -6,11 +6,11 @@ namespace Misaf\VendraLanguage\Enums;
 
 enum LanguageLinePolicyEnum: string
 {
-    case CREATE = 'create-language-line';
-    case DELETE = 'delete-language-line';
-    case DELETE_ANY = 'delete-any-language-line';
-    case REPLICATE = 'replicate-language-line';
-    case UPDATE = 'update-language-line';
-    case VIEW = 'view-language-line';
-    case VIEW_ANY = 'view-any-language-line';
+    case Create = 'create-language-line';
+    case Delete = 'delete-language-line';
+    case DeleteAny = 'delete-any-language-line';
+    case Replicate = 'replicate-language-line';
+    case Update = 'update-language-line';
+    case View = 'view-language-line';
+    case ViewAny = 'view-any-language-line';
 }

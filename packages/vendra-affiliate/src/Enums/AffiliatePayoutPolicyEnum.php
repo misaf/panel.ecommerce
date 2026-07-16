@@ -6,7 +6,7 @@ namespace Misaf\VendraAffiliate\Enums;
 
 enum AffiliatePayoutPolicyEnum: string
 {
-    case PROCESS = 'process-affiliate-payout';
-    case VIEW = 'view-affiliate-payout';
-    case VIEW_ANY = 'view-any-affiliate-payout';
+    case Process = 'process-affiliate-payout';
+    case View = 'view-affiliate-payout';
+    case ViewAny = 'view-any-affiliate-payout';
 }

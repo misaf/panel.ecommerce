@@ -6,5 +6,5 @@ namespace Misaf\VendraUserProfile\Enums;
 
 enum UserProfileFeatureEnum: string
 {
-    case MODULE_ENABLED = 'vendra-user-profile.module-enabled';
+    case ModuleEnabled = 'vendra-user-profile.module-enabled';
 }

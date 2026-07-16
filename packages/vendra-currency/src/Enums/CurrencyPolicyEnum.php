@@ -6,16 +6,16 @@ namespace Misaf\VendraCurrency\Enums;
 
 enum CurrencyPolicyEnum: string
 {
-    case CREATE = 'create-currency';
-    case DELETE = 'delete-currency';
-    case DELETE_ANY = 'delete-any-currency';
-    case FORCE_DELETE = 'force-delete-currency';
-    case FORCE_DELETE_ANY = 'force-delete-any-currency';
-    case REORDER = 'reorder-currency';
-    case REPLICATE = 'replicate-currency';
-    case RESTORE = 'restore-currency';
-    case RESTORE_ANY = 'restore-any-currency';
-    case UPDATE = 'update-currency';
-    case VIEW = 'view-currency';
-    case VIEW_ANY = 'view-any-currency';
+    case Create = 'create-currency';
+    case Delete = 'delete-currency';
+    case DeleteAny = 'delete-any-currency';
+    case ForceDelete = 'force-delete-currency';
+    case ForceDeleteAny = 'force-delete-any-currency';
+    case Reorder = 'reorder-currency';
+    case Replicate = 'replicate-currency';
+    case Restore = 'restore-currency';
+    case RestoreAny = 'restore-any-currency';
+    case Update = 'update-currency';
+    case View = 'view-currency';
+    case ViewAny = 'view-any-currency';
 }

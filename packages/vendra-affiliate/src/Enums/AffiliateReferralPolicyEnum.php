@@ -6,9 +6,9 @@ namespace Misaf\VendraAffiliate\Enums;
 
 enum AffiliateReferralPolicyEnum: string
 {
-    case CREATE = 'create-affiliate-referral';
-    case DELETE = 'delete-affiliate-referral';
-    case DELETE_ANY = 'delete-any-affiliate-referral';
-    case VIEW = 'view-affiliate-referral';
-    case VIEW_ANY = 'view-any-affiliate-referral';
+    case Create = 'create-affiliate-referral';
+    case Delete = 'delete-affiliate-referral';
+    case DeleteAny = 'delete-any-affiliate-referral';
+    case View = 'view-affiliate-referral';
+    case ViewAny = 'view-any-affiliate-referral';
 }

@@ -6,16 +6,16 @@ namespace Misaf\VendraGeo\Enums;
 
 enum CountryPolicyEnum: string
 {
-    case CREATE = 'create-country';
-    case DELETE = 'delete-country';
-    case DELETE_ANY = 'delete-any-country';
-    case FORCE_DELETE = 'force-delete-country';
-    case FORCE_DELETE_ANY = 'force-delete-any-country';
-    case REORDER = 'reorder-country';
-    case REPLICATE = 'replicate-country';
-    case RESTORE = 'restore-country';
-    case RESTORE_ANY = 'restore-any-country';
-    case UPDATE = 'update-country';
-    case VIEW = 'view-country';
-    case VIEW_ANY = 'view-any-country';
+    case Create = 'create-country';
+    case Delete = 'delete-country';
+    case DeleteAny = 'delete-any-country';
+    case ForceDelete = 'force-delete-country';
+    case ForceDeleteAny = 'force-delete-any-country';
+    case Reorder = 'reorder-country';
+    case Replicate = 'replicate-country';
+    case Restore = 'restore-country';
+    case RestoreAny = 'restore-any-country';
+    case Update = 'update-country';
+    case View = 'view-country';
+    case ViewAny = 'view-any-country';
 }

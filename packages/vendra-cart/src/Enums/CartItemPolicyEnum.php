@@ -6,8 +6,8 @@ namespace Misaf\VendraCart\Enums;
 
 enum CartItemPolicyEnum: string
 {
-    case DELETE = 'delete-cart-item';
-    case DELETE_ANY = 'delete-any-cart-item';
-    case VIEW = 'view-cart-item';
-    case VIEW_ANY = 'view-any-cart-item';
+    case Delete = 'delete-cart-item';
+    case DeleteAny = 'delete-any-cart-item';
+    case View = 'view-cart-item';
+    case ViewAny = 'view-any-cart-item';
 }

@@ -6,15 +6,15 @@ namespace Misaf\VendraUserProfile\Enums;
 
 enum UserProfilePolicyEnum: string
 {
-    case CREATE = 'create-user-profile';
-    case DELETE = 'delete-user-profile';
-    case DELETE_ANY = 'delete-any-user-profile';
-    case FORCE_DELETE = 'force-delete-user-profile';
-    case FORCE_DELETE_ANY = 'force-delete-any-user-profile';
-    case REPLICATE = 'replicate-user-profile';
-    case RESTORE = 'restore-user-profile';
-    case RESTORE_ANY = 'restore-any-user-profile';
-    case UPDATE = 'update-user-profile';
-    case VIEW = 'view-user-profile';
-    case VIEW_ANY = 'view-any-user-profile';
+    case Create = 'create-user-profile';
+    case Delete = 'delete-user-profile';
+    case DeleteAny = 'delete-any-user-profile';
+    case ForceDelete = 'force-delete-user-profile';
+    case ForceDeleteAny = 'force-delete-any-user-profile';
+    case Replicate = 'replicate-user-profile';
+    case Restore = 'restore-user-profile';
+    case RestoreAny = 'restore-any-user-profile';
+    case Update = 'update-user-profile';
+    case View = 'view-user-profile';
+    case ViewAny = 'view-any-user-profile';
 }

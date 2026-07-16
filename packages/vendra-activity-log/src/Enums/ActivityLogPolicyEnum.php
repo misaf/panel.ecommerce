@@ -6,15 +6,15 @@ namespace Misaf\VendraActivityLog\Enums;
 
 enum ActivityLogPolicyEnum: string
 {
-    case CREATE = 'create-activity-log';
-    case DELETE = 'delete-activity-log';
-    case DELETE_ANY = 'delete-any-activity-log';
-    case FORCE_DELETE = 'force-delete-activity-log';
-    case FORCE_DELETE_ANY = 'force-delete-any-activity-log';
-    case REPLICATE = 'replicate-activity-log';
-    case RESTORE = 'restore-activity-log';
-    case RESTORE_ANY = 'restore-any-activity-log';
-    case UPDATE = 'update-activity-log';
-    case VIEW = 'view-activity-log';
-    case VIEW_ANY = 'view-any-activity-log';
+    case Create = 'create-activity-log';
+    case Delete = 'delete-activity-log';
+    case DeleteAny = 'delete-any-activity-log';
+    case ForceDelete = 'force-delete-activity-log';
+    case ForceDeleteAny = 'force-delete-any-activity-log';
+    case Replicate = 'replicate-activity-log';
+    case Restore = 'restore-activity-log';
+    case RestoreAny = 'restore-any-activity-log';
+    case Update = 'update-activity-log';
+    case View = 'view-activity-log';
+    case ViewAny = 'view-any-activity-log';
 }

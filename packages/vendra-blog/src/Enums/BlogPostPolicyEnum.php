@@ -6,16 +6,16 @@ namespace Misaf\VendraBlog\Enums;
 
 enum BlogPostPolicyEnum: string
 {
-    case CREATE = 'create-blog-post';
-    case DELETE = 'delete-blog-post';
-    case DELETE_ANY = 'delete-any-blog-post';
-    case FORCE_DELETE = 'force-delete-blog-post';
-    case FORCE_DELETE_ANY = 'force-delete-any-blog-post';
-    case REORDER = 'reorder-blog-post';
-    case REPLICATE = 'replicate-blog-post';
-    case RESTORE = 'restore-blog-post';
-    case RESTORE_ANY = 'restore-any-blog-post';
-    case UPDATE = 'update-blog-post';
-    case VIEW = 'view-blog-post';
-    case VIEW_ANY = 'view-any-blog-post';
+    case Create = 'create-blog-post';
+    case Delete = 'delete-blog-post';
+    case DeleteAny = 'delete-any-blog-post';
+    case ForceDelete = 'force-delete-blog-post';
+    case ForceDeleteAny = 'force-delete-any-blog-post';
+    case Reorder = 'reorder-blog-post';
+    case Replicate = 'replicate-blog-post';
+    case Restore = 'restore-blog-post';
+    case RestoreAny = 'restore-any-blog-post';
+    case Update = 'update-blog-post';
+    case View = 'view-blog-post';
+    case ViewAny = 'view-any-blog-post';
 }

@@ -6,15 +6,15 @@ namespace Misaf\VendraAuthifyLog\Enums;
 
 enum AuthifyLogPolicyEnum: string
 {
-    case CREATE = 'create-authify-log';
-    case DELETE = 'delete-authify-log';
-    case DELETE_ANY = 'delete-any-authify-log';
-    case FORCE_DELETE = 'force-delete-authify-log';
-    case FORCE_DELETE_ANY = 'force-delete-any-authify-log';
-    case REPLICATE = 'replicate-authify-log';
-    case RESTORE = 'restore-authify-log';
-    case RESTORE_ANY = 'restore-any-authify-log';
-    case UPDATE = 'update-authify-log';
-    case VIEW = 'view-authify-log';
-    case VIEW_ANY = 'view-any-authify-log';
+    case Create = 'create-authify-log';
+    case Delete = 'delete-authify-log';
+    case DeleteAny = 'delete-any-authify-log';
+    case ForceDelete = 'force-delete-authify-log';
+    case ForceDeleteAny = 'force-delete-any-authify-log';
+    case Replicate = 'replicate-authify-log';
+    case Restore = 'restore-authify-log';
+    case RestoreAny = 'restore-any-authify-log';
+    case Update = 'update-authify-log';
+    case View = 'view-authify-log';
+    case ViewAny = 'view-any-authify-log';
 }

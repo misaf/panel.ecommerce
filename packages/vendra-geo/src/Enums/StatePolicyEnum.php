@@ -6,16 +6,16 @@ namespace Misaf\VendraGeo\Enums;
 
 enum StatePolicyEnum: string
 {
-    case CREATE = 'create-state';
-    case DELETE = 'delete-state';
-    case DELETE_ANY = 'delete-any-state';
-    case FORCE_DELETE = 'force-delete-state';
-    case FORCE_DELETE_ANY = 'force-delete-any-state';
-    case REORDER = 'reorder-state';
-    case REPLICATE = 'replicate-state';
-    case RESTORE = 'restore-state';
-    case RESTORE_ANY = 'restore-any-state';
-    case UPDATE = 'update-state';
-    case VIEW = 'view-state';
-    case VIEW_ANY = 'view-any-state';
+    case Create = 'create-state';
+    case Delete = 'delete-state';
+    case DeleteAny = 'delete-any-state';
+    case ForceDelete = 'force-delete-state';
+    case ForceDeleteAny = 'force-delete-any-state';
+    case Reorder = 'reorder-state';
+    case Replicate = 'replicate-state';
+    case Restore = 'restore-state';
+    case RestoreAny = 'restore-any-state';
+    case Update = 'update-state';
+    case View = 'view-state';
+    case ViewAny = 'view-any-state';
 }

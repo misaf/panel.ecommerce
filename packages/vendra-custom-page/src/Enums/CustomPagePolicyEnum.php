@@ -6,16 +6,16 @@ namespace Misaf\VendraCustomPage\Enums;
 
 enum CustomPagePolicyEnum: string
 {
-    case CREATE = 'create-custom-page';
-    case DELETE = 'delete-custom-page';
-    case DELETE_ANY = 'delete-any-custom-page';
-    case FORCE_DELETE = 'force-delete-custom-page';
-    case FORCE_DELETE_ANY = 'force-delete-any-custom-page';
-    case REORDER = 'reorder-custom-page';
-    case REPLICATE = 'replicate-custom-page';
-    case RESTORE = 'restore-custom-page';
-    case RESTORE_ANY = 'restore-any-custom-page';
-    case UPDATE = 'update-custom-page';
-    case VIEW = 'view-custom-page';
-    case VIEW_ANY = 'view-any-custom-page';
+    case Create = 'create-custom-page';
+    case Delete = 'delete-custom-page';
+    case DeleteAny = 'delete-any-custom-page';
+    case ForceDelete = 'force-delete-custom-page';
+    case ForceDeleteAny = 'force-delete-any-custom-page';
+    case Reorder = 'reorder-custom-page';
+    case Replicate = 'replicate-custom-page';
+    case Restore = 'restore-custom-page';
+    case RestoreAny = 'restore-any-custom-page';
+    case Update = 'update-custom-page';
+    case View = 'view-custom-page';
+    case ViewAny = 'view-any-custom-page';
 }

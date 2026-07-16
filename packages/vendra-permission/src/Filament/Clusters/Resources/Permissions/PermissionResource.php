@@ -82,7 +82,7 @@ final class PermissionResource extends Resource
     {
         $tenant = app(TenantResolver::class)->current();
 
-        return Feature::for($tenant)->active(PermissionFeatureEnum::MODULE_ENABLED->value)
-            && Feature::for($tenant)->active(PermissionFeatureEnum::PERMISSION_MANAGEMENT->value);
+        return Feature::for($tenant)->active(PermissionFeatureEnum::ModuleEnabled->value)
+            && Feature::for($tenant)->active(PermissionFeatureEnum::PermissionManagement->value);
     }
 }

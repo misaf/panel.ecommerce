@@ -6,16 +6,16 @@ namespace Misaf\VendraAttribute\Enums;
 
 enum AttributePolicyEnum: string
 {
-    case CREATE = 'create-attribute';
-    case DELETE = 'delete-attribute';
-    case DELETE_ANY = 'delete-any-attribute';
-    case FORCE_DELETE = 'force-delete-attribute';
-    case FORCE_DELETE_ANY = 'force-delete-any-attribute';
-    case REORDER = 'reorder-attribute';
-    case REPLICATE = 'replicate-attribute';
-    case RESTORE = 'restore-attribute';
-    case RESTORE_ANY = 'restore-any-attribute';
-    case UPDATE = 'update-attribute';
-    case VIEW = 'view-attribute';
-    case VIEW_ANY = 'view-any-attribute';
+    case Create = 'create-attribute';
+    case Delete = 'delete-attribute';
+    case DeleteAny = 'delete-any-attribute';
+    case ForceDelete = 'force-delete-attribute';
+    case ForceDeleteAny = 'force-delete-any-attribute';
+    case Reorder = 'reorder-attribute';
+    case Replicate = 'replicate-attribute';
+    case Restore = 'restore-attribute';
+    case RestoreAny = 'restore-any-attribute';
+    case Update = 'update-attribute';
+    case View = 'view-attribute';
+    case ViewAny = 'view-any-attribute';
 }

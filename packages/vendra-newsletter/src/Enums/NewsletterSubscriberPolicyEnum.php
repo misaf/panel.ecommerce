@@ -6,15 +6,15 @@ namespace Misaf\VendraNewsletter\Enums;
 
 enum NewsletterSubscriberPolicyEnum: string
 {
-    case CREATE = 'create-newsletter-subscriber';
-    case DELETE = 'delete-newsletter-subscriber';
-    case DELETE_ANY = 'delete-any-newsletter-subscriber';
-    case FORCE_DELETE = 'force-delete-newsletter-subscriber';
-    case FORCE_DELETE_ANY = 'force-delete-any-newsletter-subscriber';
-    case REPLICATE = 'replicate-newsletter-subscriber';
-    case RESTORE = 'restore-newsletter-subscriber';
-    case RESTORE_ANY = 'restore-any-newsletter-subscriber';
-    case UPDATE = 'update-newsletter-subscriber';
-    case VIEW = 'view-newsletter-subscriber';
-    case VIEW_ANY = 'view-any-newsletter-subscriber';
+    case Create = 'create-newsletter-subscriber';
+    case Delete = 'delete-newsletter-subscriber';
+    case DeleteAny = 'delete-any-newsletter-subscriber';
+    case ForceDelete = 'force-delete-newsletter-subscriber';
+    case ForceDeleteAny = 'force-delete-any-newsletter-subscriber';
+    case Replicate = 'replicate-newsletter-subscriber';
+    case Restore = 'restore-newsletter-subscriber';
+    case RestoreAny = 'restore-any-newsletter-subscriber';
+    case Update = 'update-newsletter-subscriber';
+    case View = 'view-newsletter-subscriber';
+    case ViewAny = 'view-any-newsletter-subscriber';
 }

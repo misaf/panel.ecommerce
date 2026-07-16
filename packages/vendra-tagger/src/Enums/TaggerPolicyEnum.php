@@ -6,16 +6,16 @@ namespace Misaf\VendraTagger\Enums;
 
 enum TaggerPolicyEnum: string
 {
-    case CREATE = 'create-tagger';
-    case DELETE = 'delete-tagger';
-    case DELETE_ANY = 'delete-any-tagger';
-    case FORCE_DELETE = 'force-delete-tagger';
-    case FORCE_DELETE_ANY = 'force-delete-any-tagger';
-    case REORDER = 'reorder-tagger';
-    case REPLICATE = 'replicate-tagger';
-    case RESTORE = 'restore-tagger';
-    case RESTORE_ANY = 'restore-any-tagger';
-    case UPDATE = 'update-tagger';
-    case VIEW = 'view-tagger';
-    case VIEW_ANY = 'view-any-tagger';
+    case Create = 'create-tagger';
+    case Delete = 'delete-tagger';
+    case DeleteAny = 'delete-any-tagger';
+    case ForceDelete = 'force-delete-tagger';
+    case ForceDeleteAny = 'force-delete-any-tagger';
+    case Reorder = 'reorder-tagger';
+    case Replicate = 'replicate-tagger';
+    case Restore = 'restore-tagger';
+    case RestoreAny = 'restore-any-tagger';
+    case Update = 'update-tagger';
+    case View = 'view-tagger';
+    case ViewAny = 'view-any-tagger';
 }

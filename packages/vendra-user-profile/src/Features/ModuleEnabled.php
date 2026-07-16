@@ -10,7 +10,7 @@ use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Support\TenantAwareness;
 use Misaf\VendraUserProfile\Enums\UserProfileFeatureEnum;
 
-#[Name(UserProfileFeatureEnum::MODULE_ENABLED->value)]
+#[Name(UserProfileFeatureEnum::ModuleEnabled->value)]
 final class ModuleEnabled
 {
     public function before(mixed $scope): ?bool
