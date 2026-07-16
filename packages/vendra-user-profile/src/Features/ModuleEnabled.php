@@ -23,11 +23,11 @@ final class ModuleEnabled
             }
         }
 
-        if ( ! Config::boolean('vendra-user-profile.features_enabled', false)) {
+        if ( ! Config::boolean('vendra-user-profile.features_enabled', true)) {
             return false;
         }
 
-        return Config::boolean('vendra-user-profile.module_enabled', false) ? true : null;
+        return Config::boolean('vendra-user-profile.module_enabled', true) ? true : null;
     }
 
     public function resolve(mixed $scope): bool
