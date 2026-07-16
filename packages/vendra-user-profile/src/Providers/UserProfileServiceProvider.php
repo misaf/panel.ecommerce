@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
+use Misaf\VendraSupport\Support\TenantSeeders;
 use Misaf\VendraUser\Models\User;
+use Misaf\VendraUserProfile\Console\Commands\SeedCommand;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 use Misaf\VendraUserProfile\UserProfilePlugin;
@@ -33,6 +35,7 @@ final class UserProfileServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 'create_user_profiles_table',
             ])
+            ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-user-profile');
             });
@@ -53,6 +56,8 @@ final class UserProfileServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantSeeders::class)->register('vendra-user-profile:seed', priority: 21);
+
         AboutCommand::add('Vendra User Profile', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-user-profile')]);
 
         Gate::after(function (User $user): ?true {
