@@ -27,9 +27,9 @@ Follow the existing `User` model patterns for new user entities. Social login (t
 
 - Use `declare(strict_types=1)`, final classes, typed method signatures, and PHPDoc generics for relationships.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file's density and do not add comments that restate the code.
-- Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
-- This module is multi-tenancy core. The `User` model owns tenant membership (`HasTenants`, `teams()` / `tenants()`) and intentionally references the concrete tenant provider; keep that coupling deliberate and confined to membership concerns.
-- For everything that is not tenant membership, still derive tenant awareness from the support layer (`TenantAwareness`, `BelongsToTenant`) and let `BelongsToTenant` assign `tenant_id`; do not spread `Misaf\VendraTenant` references into unrelated domain code.
+- Prefer only the Laravel attributes already used by the affected sibling model; do not add model attributes merely because another package uses them.
+- The `User` model owns Filament tenant membership (`HasTenants`, `teams()` / `tenants()`) but resolves the tenant model through support-layer `BelongsToTenant`. Never reference the concrete `Misaf\VendraTenant` provider.
+- Derive all tenant awareness from the support layer (`TenantAwareness`, `BelongsToTenant`) and let the trait handle ordinary model creation.
 - Reuse only the traits and conventions present on the affected sibling model; do not infer translations, media, slugs, sorting, or soft deletes from another package.
 
 ## Filament Standards
@@ -69,7 +69,7 @@ Prefer focused Pest tests in the module.
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts (or `tinker`) when a test fits.
 - Keep architecture coverage proving the module does not use Vendra Tagger or Spatie Tags directly, and test the typed relationship through the Support resolver.
 - Add or update unit tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config behavior, and translation parity.
-- Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus the standard presets (multi-tenancy core: no `not->toUse('Misaf\VendraTenant')` expectation).
+- Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraUser')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
 - Run module checks from the package when possible: `composer --working-dir=packages/vendra-user test` and `composer --working-dir=packages/vendra-user analyse`.
 - If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
