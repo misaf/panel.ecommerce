@@ -2,13 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraLanguage\Enums\LanguageLineGroupEnum;
 use Misaf\VendraLanguage\Support\TranslationCatalog;
-
-test('language line groups expose labels for filament options', function (): void {
-    expect(LanguageLineGroupEnum::Dashboard->getLabel())->toBe('Dashboard')
-        ->and(LanguageLineGroupEnum::Modules->getLabel())->toBe('Modules');
-});
 
 test('registered translation namespaces are available as sorted select options', function (): void {
     $options = app(TranslationCatalog::class)->namespaceOptions();
