@@ -27,3 +27,18 @@ test('translation files and their keys are available as dependent select options
         ->and($catalog->keyOptions('vendra-language', '../composer'))
         ->toBe([]);
 });
+
+test('translation files are exposed as locale-complete language lines', function (): void {
+    $languageLine = collect(app(TranslationCatalog::class)->languageLines())
+        ->first(fn(array $line): bool => 'vendra-language' === $line['namespace']
+            && 'navigation' === $line['group']
+            && 'language' === $line['key']);
+
+    expect($languageLine)
+        ->toBeArray()
+        ->and($languageLine['text'])->toMatchArray([
+            'de' => 'Sprache',
+            'en' => 'Language',
+            'fa' => 'زبان',
+        ]);
+});

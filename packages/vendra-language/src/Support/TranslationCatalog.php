@@ -102,6 +102,55 @@ final class TranslationCatalog
         return $this->keyOptions[$cacheKey] = $this->options($keys);
     }
 
+    /**
+     * @return list<array{
+     *     namespace: string,
+     *     group: string,
+     *     key: string,
+     *     text: array<string, string>
+     * }>
+     */
+    public function languageLines(): array
+    {
+        $languageLines = [];
+
+        foreach (array_keys($this->namespaceOptions()) as $namespace) {
+            foreach ($this->translationFiles($namespace) as $file) {
+                $locale = $this->localeFromFile($file);
+                $group = $this->groupFromFile($file);
+                $translations = $this->files->getRequire($file->getRealPath());
+
+                if ( ! is_array($translations)) {
+                    continue;
+                }
+
+                foreach (Arr::dot($translations) as $key => $translation) {
+                    if ( ! is_string($key) || ! is_string($translation)) {
+                        continue;
+                    }
+
+                    $identity = "{$namespace}\0{$group}\0{$key}";
+                    $languageLines[$identity] ??= [
+                        'namespace' => $namespace,
+                        'group'     => $group,
+                        'key'       => $key,
+                        'text'      => [],
+                    ];
+                    $languageLines[$identity]['text'][$locale] = $translation;
+                }
+            }
+        }
+
+        ksort($languageLines);
+
+        foreach ($languageLines as &$languageLine) {
+            ksort($languageLine['text']);
+        }
+        unset($languageLine);
+
+        return array_values($languageLines);
+    }
+
     private function fileLoader(): ?FileLoader
     {
         $loader = $this->translator->getLoader();
@@ -164,6 +213,13 @@ final class TranslationCatalog
             ->after(DIRECTORY_SEPARATOR)
             ->beforeLast('.php')
             ->replace(DIRECTORY_SEPARATOR, '/')
+            ->toString();
+    }
+
+    private function localeFromFile(SplFileInfo $file): string
+    {
+        return Str::of($file->getRelativePathname())
+            ->before(DIRECTORY_SEPARATOR)
             ->toString();
     }
 

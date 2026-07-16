@@ -24,6 +24,14 @@ it('shows package before group in the language line table', function (): void {
         ->toBe(['row', 'namespace', 'group']);
 });
 
+it('exposes package translation synchronization from both language pages', function (): void {
+    livewire(ListLanguages::class)
+        ->assertActionExists('syncLanguageLines');
+
+    livewire(ListLanguageLines::class)
+        ->assertActionExists('syncLanguageLines');
+});
+
 it('creates a discovered translation override for enabled locales', function (): void {
     Language::query()->create(['locale' => 'en', 'position' => 1]);
     Language::query()->create(['locale' => 'de', 'position' => 2]);

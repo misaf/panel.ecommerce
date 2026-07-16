@@ -65,6 +65,10 @@ Use policy enums and policies as the permission source.
 
 Migrations, factories, seeders, and translation files are part of the contract.
 
+- Keep installed-package translation discovery in `TranslationCatalog`. Read only registered `vendra-*` namespaces from Laravel's `FileLoader`, flatten nested PHP translation arrays to dot-notation keys, and retain every locale found in package files.
+- Use `SyncLanguageLines` as the synchronization boundary. Package files provide import defaults; database `LanguageLine` values are user-owned overrides. Create missing lines and add only locale keys absent from existing rows. Never replace an existing database locale value, including an intentionally blank value.
+- Keep synchronization idempotent and transaction-safe. Load existing tenant-scoped lines in a batch, let `BelongsToTenant` assign ownership, and return created, updated, and unchanged counts for user feedback.
+- Keep the shared synchronization action available from both Languages and Language Lines list pages. Since synchronization can create and update rows, authorize both Language Line create and update abilities.
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Keep demo fixtures deterministic and tenant-safe.
@@ -79,6 +83,7 @@ Prefer focused Pest tests in the module.
 
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts (or `tinker`) when a test fits.
 - Add or update unit tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config behavior, and translation parity.
+- Test translation synchronization for nested keys, all package-provided locales, preservation of customized and blank database values, missing-locale merging, idempotency, and Filament action availability.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraLanguage')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
 - Run module checks from the package when possible: `composer --working-dir=packages/vendra-language test` and `composer --working-dir=packages/vendra-language analyse`.
