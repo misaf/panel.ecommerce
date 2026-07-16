@@ -17,7 +17,7 @@ use Livewire\Livewire;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUserProfile\Features\ModuleEnabled;
-use Misaf\VendraUserProfile\Filament\Resources\UserProfileResource;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 
 final class UserProfileModuleTestContext implements TenantResolver
 {

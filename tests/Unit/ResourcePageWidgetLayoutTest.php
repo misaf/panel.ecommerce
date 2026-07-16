@@ -14,10 +14,10 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\ListAffil
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateClicksOverview;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateCommissionsOverview;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateReferralsOverview;
-use Misaf\VendraAuthifyLog\Filament\Resources\Widgets\LatestAuthifyLogTableWidget;
-use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
-use Misaf\VendraCart\Filament\Resources\Carts\Pages\ListCarts;
-use Misaf\VendraCart\Filament\Resources\Carts\Widgets\CartOverviewWidget;
+use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Widgets\LatestAuthifyLogTableWidget;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Pages\ListCarts;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Widgets\CartOverviewWidget;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\NewsletterResource;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\ListNewsletters;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Widgets\NewsletterOverviewWidget;

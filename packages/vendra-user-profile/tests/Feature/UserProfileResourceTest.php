@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Schema;
 use Laravel\Pennant\Feature;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUserProfile\Features\ModuleEnabled;
-use Misaf\VendraUserProfile\Filament\Resources\Pages\ListUserProfiles;
-use Misaf\VendraUserProfile\Filament\Resources\UserProfileResource;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 

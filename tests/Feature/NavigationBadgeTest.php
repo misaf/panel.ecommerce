@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Misaf\VendraCart\Database\Factories\CartFactory;
-use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 use Misaf\VendraTenant\Database\Factories\TenantFactory;
 use Misaf\VendraTransaction\Database\Factories\TransactionFactory;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource;

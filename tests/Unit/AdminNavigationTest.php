@@ -8,10 +8,10 @@ use App\Providers\Filament\AdminPanelServiceProvider;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Panel;
 use Filament\Support\Icons\Heroicon;
-use Misaf\VendraActivityLog\Filament\Resources\ActivityLogResource;
-use Misaf\VendraAuthifyLog\Filament\Resources\AuthifyLogResource;
-use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
-use Misaf\VendraMultimedia\Filament\Resources\MultimediaResource;
+use Misaf\VendraActivityLog\Filament\Clusters\Resources\ActivityLogResource;
+use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\AuthifyLogResource;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
+use Misaf\VendraMultimedia\Filament\Clusters\Resources\MultimediaResource;
 use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 use Misaf\VendraSupport\Filament\Clusters\CustomersCluster;
@@ -20,7 +20,7 @@ use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
-use Misaf\VendraTagger\Filament\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
 
 it('uses domain clusters as top-level navigation without redundant groups', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
@@ -125,6 +125,6 @@ it('uses semantic icons for domain resources', function (string $resource, Heroi
     'taggers'                 => [TaggerResource::class, Heroicon::OutlinedHashtag],
     'transaction gateways'    => [Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\TransactionGatewayResource::class, Heroicon::OutlinedCreditCard],
     'transactions'            => [Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource::class, Heroicon::OutlinedArrowsRightLeft],
-    'user profiles'           => [Misaf\VendraUserProfile\Filament\Resources\UserProfileResource::class, Heroicon::OutlinedIdentification],
+    'user profiles'           => [Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource::class, Heroicon::OutlinedIdentification],
     'users'                   => [Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource::class, Heroicon::OutlinedUserGroup],
 ]);

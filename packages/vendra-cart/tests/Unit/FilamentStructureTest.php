@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Gate;
 use Misaf\VendraCart\CartPlugin;
-use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
-use Misaf\VendraCart\Filament\Resources\Carts\RelationManagers\CartItemsRelationManager;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\RelationManagers\CartItemsRelationManager;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCart\Policies\CartPolicy;
 use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
