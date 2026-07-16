@@ -25,7 +25,7 @@ Use this skill with `vendra-api-development`, `laravel-best-practices`, and `pes
 ## Server And Routes
 
 - Register `Server` as `jsonapi.servers.vendra-cart` with base URI `/v1`.
-- Expose `carts` and `cart-items` through the package `routes/api.php` using the `api` and `vendra.locale` middleware.
+- Expose `carts` and `cart-items` through the package `routes/api.php` using Laravel's `api` middleware without requiring a localization package.
 - Keep generic controller routes read-only until authenticated ownership/token access and mutation authorization have an explicit design.
 - Register read-only `items` and `cart` relationship endpoints.
 

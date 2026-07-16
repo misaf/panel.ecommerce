@@ -22,6 +22,7 @@ Treat `packages/vendra-api` as shared JSON:API infrastructure, not a domain API.
 - Use namespace `Misaf\VendraApi`.
 - Keep only cross-cutting, reusable JSON:API building blocks here: `JsonApi/Filters`, `JsonApi/Sorting`, and API service-provider wiring.
 - Do not add domain schemas, resources, routes, or servers here — those live in the per-domain API modules (`vendra-faq-api`, `vendra-product-api`, `vendra-multimedia-api`, `vendra-blog-api`, `vendra-custom-page-api`).
+- Keep all API packages localization-package agnostic: do not require `misaf/vendra-localization` or attach `vendra.locale`; the host application owns optional locale resolution.
 - Never depend on a domain module or a concrete tenant provider (`Misaf\VendraTenant`); this package must build and run standalone and tenant-agnostic.
 
 ## Standards

@@ -12,6 +12,7 @@ Use this skill together with `laravel-best-practices` and `pest-testing`.
 - Keep API code in `packages/vendra-custom-page-api` under `Misaf\VendraCustomPageApi`.
 - Depend on `Misaf\VendraCustomPage` models; do not duplicate models, migrations, factories, policies, or Filament UI.
 - Inherit tenant scoping from domain models and never reference `Misaf\VendraTenant` in production code.
+- Do not require `misaf/vendra-localization` or attach `vendra.locale`; the host application owns optional locale resolution.
 
 ## JSON:API Contract
 

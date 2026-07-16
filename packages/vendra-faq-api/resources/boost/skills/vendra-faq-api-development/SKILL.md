@@ -69,7 +69,7 @@ Keep package bootstrapping minimal and predictable.
 
 - Use the module `ServiceProvider` for package configuration and route loading.
 - Load only this module's API routes from the API module.
-- Keep route middleware consistent with existing routes, including `api` and `vendra.locale`.
+- Keep routes localization-package agnostic and use only Laravel's `api` middleware. Locale-aware filters read Laravel's current locale, which the host application may resolve by any mechanism.
 - Do not use host-app route files for module endpoints unless integrating the package at application level.
 
 ## Testing And Verification

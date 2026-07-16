@@ -7,6 +7,7 @@ The `misaf/vendra-custom-page-api` package exposes `misaf/vendra-custom-page` do
 - Keep API code inside `packages/vendra-custom-page-api` using the `Misaf\VendraCustomPageApi` namespace.
 - Import `CustomPage` and `CustomPageCategory` from `Misaf\VendraCustomPage`; do not duplicate persistence or domain behavior.
 - Keep the API read-only and tenant-provider agnostic. Tenant scoping comes from the domain models through Vendra Support.
+- Keep the API localization-package agnostic. Use Laravel's `api` middleware only; locale-aware filters read Laravel's current locale without requiring a resolver package.
 - Expose translated `name`, `description`, and `slug` fields as JSON hashes using `getTranslations()` and keep locale-aware filters aligned with request validation.
 - Validate query-string booleans with `JsonApiRule::boolean()->asString()` so validation matches boolean filter deserialization.
 - Register `with-trashed` and `only-trashed` in both collection validation and schema filters.

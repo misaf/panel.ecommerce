@@ -8,7 +8,7 @@ use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
 use LaravelJsonApi\Laravel\Routing\Relationships;
 use LaravelJsonApi\Laravel\Routing\ResourceRegistrar;
 
-Route::middleware(['api', 'vendra.locale'])->group(function (): void {
+Route::middleware('api')->group(function (): void {
     JsonApiRoute::server('vendra-custom-page')->prefix('v1')->resources(function (ResourceRegistrar $server): void {
         $server->resource('custom-page-categories', JsonApiController::class)
             ->readOnly()

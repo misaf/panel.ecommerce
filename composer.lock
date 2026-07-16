@@ -6017,13 +6017,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate-api",
-                "reference": "44fce31f27414a34b44cdf5140e7bfdb47127dc3"
+                "reference": "4f34555c0603ccd9d7c9188f968f55c0ffa4f915"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-affiliate": "^1.0",
                 "misaf/vendra-api": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -6279,13 +6278,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "e0d6be05c7437f50498313ed4e51d0be990ba4c2"
+                "reference": "7e5ea5d79dfa58c69b2b2b26464df87046541361"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
                 "misaf/vendra-attribute": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -6564,13 +6562,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
-                "reference": "d2712946aea84717db2f0288120b1e610c0a9c85"
+                "reference": "f7cffd27c4dda494b708e55f86d1190dc572ad96"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
                 "misaf/vendra-blog": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "misaf/vendra-multimedia-api": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -6752,13 +6749,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "e99eea036ebc3c0ac57aa618f2fa1af348b0272d"
+                "reference": "7f1e96ce1aab82d2211c0285f40b7f3cf7866de9"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
                 "misaf/vendra-cart": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -7047,13 +7043,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page-api",
-                "reference": "88c466d4d8393d4683bfdf4610e1cd9fc247e1c8"
+                "reference": "873ae11faed8e22b48f37fb5a92c2f996f8195e9"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
                 "misaf/vendra-custom-page": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "misaf/vendra-multimedia-api": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -7335,13 +7330,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
-                "reference": "a532774b529337f7189fb24d4e7b6686d678a928"
+                "reference": "7d9e0c019d555e442ecc32f41e7a1d3a1955eea7"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
                 "misaf/vendra-faq": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "misaf/vendra-multimedia-api": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -7708,12 +7702,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
-                "reference": "bd5f7547ed6328919ffca286bf23d8ca1cfa63a5"
+                "reference": "87966d02f4f3fe67b4c1d1e0df75b07f5d65583c"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "misaf/vendra-multimedia": "^1.0",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -8192,12 +8185,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "561c658190591e60c9048f6de63d3a040cba358d"
+                "reference": "0ed81e2d3a0c9eb961f735953e9ae46d25162e3f"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "^1.0",
-                "misaf/vendra-localization": "^1.0",
                 "misaf/vendra-multimedia-api": "^1.0",
                 "misaf/vendra-product": "^1.0",
                 "php": "^8.3",

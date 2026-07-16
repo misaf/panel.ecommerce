@@ -8,7 +8,7 @@ Read-only JSON:API resources for Vendra FAQ content.
 - `GET /v1/faqs`
 - Read-only category, FAQ, and multimedia relationships
 
-Requests use the `api` and `vendra.locale` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema.
+Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema. Applications may optionally resolve the current locale before these routes run.
 
 ## Requirements
 
@@ -16,7 +16,6 @@ Requests use the `api` and `vendra.locale` middleware. Standard JSON:API filteri
 - Laravel 13
 - `misaf/vendra-api`
 - `misaf/vendra-faq`
-- `misaf/vendra-localization`
 - `misaf/vendra-multimedia-api`
 
 ## Installation

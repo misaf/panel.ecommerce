@@ -9,6 +9,7 @@ use Misaf\VendraTenant\Models\Tenant;
 beforeEach(function (): void {
     Tenant::forgetCurrent();
     Tenant::factory()->enabled()->create()->makeCurrent();
+    app()->setLocale('en');
 });
 
 afterEach(function (): void {

@@ -12,6 +12,7 @@ The `misaf/vendra-api` package provides shared Laravel JSON:API infrastructure â
 
 - Keep shared API code inside `packages/vendra-api` using the `Misaf\VendraApi` namespace.
 - Use this package for cross-cutting JSON:API building blocks: reusable `JsonApi/Filters`, `JsonApi/Sorting`, and API service-provider wiring. Domain schemas, resources, and routes belong in the per-domain API modules, not here.
+- Keep every domain API localization-package agnostic: do not require `misaf/vendra-localization` or attach `vendra.locale` inside API packages. Locale-aware behavior may read Laravel's current locale, while the host application decides whether and how to resolve it.
 - Depend only on framework and JSON:API packages. Never import a domain module or a concrete tenant provider such as `Misaf\VendraTenant`; this module stays domain- and tenant-agnostic.
 - Keep filters and sorters generic and reusable across resource types, and keep their behavior covered by focused tests.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file and do not add comments that restate the code.

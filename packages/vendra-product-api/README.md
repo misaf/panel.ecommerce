@@ -9,14 +9,13 @@ Read-only JSON:API resources for the Vendra product catalog.
 - `GET /v1/product-prices`
 - Read-only category, pricing, multimedia, and optional attribute-value relationships
 
-Requests use the `api` and `vendra.locale` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema.
+Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema. Applications may optionally resolve the current locale before these routes run.
 
 ## Requirements
 
 - PHP 8.3+
 - Laravel 13
 - `misaf/vendra-api`
-- `misaf/vendra-localization`
 - `misaf/vendra-multimedia-api`
 - `misaf/vendra-product`
 
