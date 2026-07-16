@@ -27,10 +27,12 @@ use Livewire\Component as Livewire;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
 
 final class CustomPageTable
 {
     use HasDefaultAvatarImageUrl;
+    use InteractsWithTranslatedTableRecords;
 
     public static function configure(Table $table): Table
     {
@@ -47,7 +49,7 @@ final class CustomPageTable
                 ->collection('customs/pages')
                 ->conversion('thumb-table')
                 ->defaultImageUrl(function (CustomPage $record, Livewire $livewire): string {
-                    return static::defaultAvatarImageUrl($record->getTranslation('name', $livewire->activeLocale));
+                    return static::defaultAvatarImageUrl(static::translatedAttribute($record, 'name', $livewire));
                 })
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
                 ->label(__('vendra-custom-page::attributes.image'))
@@ -104,7 +106,7 @@ final class CustomPageTable
                                 ->selectable(
                                     IsRelatedToOperator::make()
                                         ->getOptionLabelFromRecordUsing(function (CustomPageCategory $record, Livewire $livewire) {
-                                            return $record->getTranslation('name', $livewire->activeLocale);
+                                            return static::translatedAttribute($record, 'name', $livewire);
                                         })
                                         ->preload()
                                         ->searchable()
@@ -137,7 +139,9 @@ final class CustomPageTable
                 Group::make('customPageCategory.name')
                     ->label(__('vendra-custom-page::navigation.custom_page_category'))
                     ->getTitleFromRecordUsing(function (CustomPage $record, Livewire $livewire) {
-                        return $record->customPageCategory?->getTranslation('name', $livewire->activeLocale);
+                        return $record->customPageCategory
+                            ? static::translatedAttribute($record->customPageCategory, 'name', $livewire)
+                            : '';
                     })
             );
     }

@@ -27,10 +27,12 @@ use Illuminate\Support\Number;
 use Livewire\Component as Livewire;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
 
 final class CustomPageCategoryTable
 {
     use HasDefaultAvatarImageUrl;
+    use InteractsWithTranslatedTableRecords;
 
     public static function configure(Table $table): Table
     {
@@ -47,7 +49,7 @@ final class CustomPageCategoryTable
                 ->collection('customs/pages/categories')
                 ->conversion('thumb-table')
                 ->defaultImageUrl(function (CustomPageCategory $record, Livewire $livewire): string {
-                    return static::defaultAvatarImageUrl($record->getTranslation('name', $livewire->activeLocale));
+                    return static::defaultAvatarImageUrl(static::translatedAttribute($record, 'name', $livewire));
                 })
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
                 ->label(__('vendra-custom-page::attributes.image'))
@@ -56,7 +58,7 @@ final class CustomPageCategoryTable
             BadgeableColumn::make('name')
                 ->alignStart()
                 ->description(function (Livewire $livewire, CustomPageCategory $record): string {
-                    return $record->getTranslation('description', $livewire->activeLocale);
+                    return static::translatedAttribute($record, 'description', $livewire);
                 })
                 ->icon('heroicon-m-folder-plus')
                 ->label(__('vendra-custom-page::attributes.name'))

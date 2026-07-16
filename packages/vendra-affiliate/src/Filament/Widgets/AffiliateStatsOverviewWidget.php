@@ -73,7 +73,7 @@ abstract class AffiliateStatsOverviewWidget extends StatsOverviewWidget
                 ->label(__('vendra-affiliate::widgets.affiliate_referral_stats')),
             Stat::make('affiliate_commission_stats', Number::format((int) $earnedCommissions->sum('amount')))
                 ->chart($this->chartValues($commissionTrend))
-                ->color('warning')
+                ->color('danger')
                 ->description(__('vendra-affiliate::widgets.affiliate_commission_stats_description'))
                 ->descriptionIcon('heroicon-m-banknotes', IconPosition::Before)
                 ->icon(Heroicon::OutlinedLink)
