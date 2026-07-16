@@ -61,7 +61,7 @@ Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single sour
 - Keep current item order:
   - Catalog: Products 1, Attributes 2.
   - Sales: Transactions 1 when enabled, Currencies 2, Carts 3.
-  - Customers: Users 1, Permissions 2.
+  - Customers: Users and User Profiles in the shared user-management group, then Roles and Permissions in the permission-management group.
   - Content: Blog 1, Custom Pages 2, FAQs 3, Multimedia 4, Tags 5.
   - Marketing: Affiliates 1, Newsletters 2.
   - Localization: Languages 1, Geography 2.

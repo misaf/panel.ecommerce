@@ -21,6 +21,14 @@ beforeEach(function (): void {
     }
 });
 
+it('exposes the installed module by default', function (): void {
+    UserProfileModuleTestContext::createCurrentTenant();
+
+    expect(Config::boolean('vendra-user-profile.features_enabled'))->toBeTrue()
+        ->and(Config::boolean('vendra-user-profile.module_enabled'))->toBeTrue()
+        ->and(UserProfileResource::canAccess())->toBeTrue();
+});
+
 it('lets the global module switch override a persisted inactive value', function (): void {
     Config::set('vendra-user-profile.features', [
         'enabled'  => true,

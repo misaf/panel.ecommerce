@@ -91,6 +91,14 @@ it('groups newsletters and subscribers together', function (string $resource): v
     'newsletters'            => Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\NewsletterResource::class,
 ]);
 
+it('groups users and user profiles together in the customers cluster', function (string $resource): void {
+    expect($resource::getCluster())->toBe(CustomersCluster::class)
+        ->and($resource::getNavigationGroup())->toBe(__('vendra-user::navigation.user_management'));
+})->with([
+    'users'         => Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource::class,
+    'user profiles' => Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource::class,
+]);
+
 it('uses semantic icons for domain resources', function (string $resource, Heroicon $icon): void {
     expect($resource::getNavigationIcon())->toBe($icon);
 })->with([

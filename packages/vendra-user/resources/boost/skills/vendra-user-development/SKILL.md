@@ -46,6 +46,7 @@ Keep every resource that declares a `$cluster`, including its complete supportin
 - Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.
 - Use Filament v5 namespaces: form fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, table columns from `Filament\Tables\Columns`, filters from `Filament\Tables\Filters`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.
 - Use this module's translation keys (`vendra-user::attributes`, `vendra-user::navigation`) for labels, breadcrumbs, and navigation.
+- Keep `UserResource` in `CustomersCluster` under the `vendra-user::navigation.user_management` navigation group. User-domain add-ons such as User Profile share this cluster and group.
 - Prevent N+1 issues in tables and relation managers with eager loading, `withCount`, or computed state based on loaded relationships.
 - Use public media visibility only when public access is actually required.
 
