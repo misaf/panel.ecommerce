@@ -14,9 +14,11 @@ use Misaf\VendraLanguage\LanguagePlugin;
 use Misaf\VendraLanguage\Localization\LanguageSwitchLocaleResolver;
 use Misaf\VendraLanguage\Localization\NamespacedTranslationLoaderManager;
 use Misaf\VendraLanguage\Localization\TenantLocaleResolver;
-use Misaf\VendraLanguage\Models\Language;
+use Misaf\VendraLanguage\Localization\TranslationLoaders\DatabaseTranslationLoader;
 use Misaf\VendraLanguage\Models\LanguageLine;
 use Misaf\VendraLanguage\Support\Locales;
+use Misaf\VendraLanguage\Support\TranslationLocales;
+use Misaf\VendraLanguage\Support\TranslationProgress;
 use Misaf\VendraLocalization\Contracts\LocaleResolver;
 use Misaf\VendraLocalization\Resolvers\QueryLocaleResolver;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
@@ -24,6 +26,9 @@ use Misaf\VendraSupport\Support\TenantSeeders;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
+use Spatie\TranslationLoader\TranslationLoaderManager;
+use Spatie\TranslationLoader\TranslationLoaders\Db;
 
 final class LanguageServiceProvider extends PackageServiceProvider
 {
@@ -40,6 +45,7 @@ final class LanguageServiceProvider extends PackageServiceProvider
                 'add_tenant_id_column_to_language_lines_table',
                 'enforce_language_invariants',
                 'add_namespace_to_language_lines_table',
+                'backfill_language_defaults',
             ])
             ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
@@ -49,10 +55,9 @@ final class LanguageServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        config([
-            'translation-loader.model'               => LanguageLine::class,
-            'translation-loader.translation_manager' => NamespacedTranslationLoaderManager::class,
-        ]);
+        $this->app->scoped(TranslationProgress::class);
+
+        $this->configureTranslationLoader();
 
         Panel::configureUsing(function (Panel $panel): void {
             if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-language')) {
@@ -72,6 +77,40 @@ final class LanguageServiceProvider extends PackageServiceProvider
         $this->configureLocalization();
 
         AboutCommand::add('Vendra Language', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-language')]);
+    }
+
+    /**
+     * Default the spatie translation-loader config to this module's namespace-aware
+     * implementations while leaving host overrides intact: the stock `Db` loader is
+     * upgraded to the namespace-aware database loader, and the model and manager are
+     * only replaced while they still point at the spatie defaults. Hosts may publish
+     * their own loaders, model, and manager through `config/translation-loader.php`.
+     */
+    private function configureTranslationLoader(): void
+    {
+        $configuredTranslationLoaders = config('translation-loader.translation_loaders');
+
+        /** @var array<int, class-string> $translationLoaders */
+        $translationLoaders = is_array($configuredTranslationLoaders)
+            ? $configuredTranslationLoaders
+            : [DatabaseTranslationLoader::class];
+
+        config([
+            'translation-loader.translation_loaders' => array_map(
+                static fn(string $translationLoader): string => Db::class === $translationLoader
+                    ? DatabaseTranslationLoader::class
+                    : $translationLoader,
+                $translationLoaders,
+            ),
+        ]);
+
+        if (in_array(config('translation-loader.model'), [null, SpatieLanguageLine::class], true)) {
+            config(['translation-loader.model' => LanguageLine::class]);
+        }
+
+        if (in_array(config('translation-loader.translation_manager'), [null, TranslationLoaderManager::class], true)) {
+            config(['translation-loader.translation_manager' => NamespacedTranslationLoaderManager::class]);
+        }
     }
 
     /**
@@ -121,13 +160,6 @@ final class LanguageServiceProvider extends PackageServiceProvider
      */
     private function availableLocales(): array
     {
-        $locales = Language::query()
-            ->ordered()
-            ->pluck('locale')
-            ->flatMap(fn(mixed $locale): array => is_string($locale) ? [$locale] : [])
-            ->values()
-            ->all();
-
-        return [] === $locales ? [config()->string('app.fallback_locale')] : $locales;
+        return TranslationLocales::enabled();
     }
 }

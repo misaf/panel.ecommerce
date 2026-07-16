@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Misaf\VendraLanguage\Contracts\NamespacedLanguageLine;
 use Misaf\VendraLanguage\Database\Factories\LanguageLineFactory;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Support\TenantAwareness;
@@ -28,7 +29,7 @@ use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
  */
 #[Hidden(['tenant_id', 'namespace_guard'])]
 #[UseFactory(LanguageLineFactory::class)]
-final class LanguageLine extends SpatieLanguageLine implements ShouldLogActivity
+final class LanguageLine extends SpatieLanguageLine implements NamespacedLanguageLine, ShouldLogActivity
 {
     use BelongsToTenant;
 
@@ -48,9 +49,9 @@ final class LanguageLine extends SpatieLanguageLine implements ShouldLogActivity
                     ->where('group', $group)
                     ->get()
                     ->reduce(function (array $lines, self $languageLine) use ($locale, $group): array {
-                        $translation = $languageLine->getTranslation($locale);
+                        $translation = $languageLine->text[$locale] ?? null;
 
-                        if (null === $translation) {
+                        if ( ! is_string($translation) || blank($translation)) {
                             return $lines;
                         }
 

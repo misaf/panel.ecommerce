@@ -11,8 +11,17 @@ use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 use Symfony\Component\Finder\SplFileInfo;
 
-final readonly class TranslationCatalog
+final class TranslationCatalog
 {
+    /** @var array<string, array<string, string>> */
+    private array $groupOptions = [];
+
+    /** @var array<string, array<string, string>> */
+    private array $keyOptions = [];
+
+    /** @var array<string, string>|null */
+    private ?array $namespaceOptions = null;
+
     public function __construct(
         private Filesystem $files,
         private Translator $translator,
@@ -23,10 +32,14 @@ final readonly class TranslationCatalog
      */
     public function namespaceOptions(): array
     {
+        if (null !== $this->namespaceOptions) {
+            return $this->namespaceOptions;
+        }
+
         $loader = $this->fileLoader();
 
         if (null === $loader) {
-            return [];
+            return $this->namespaceOptions = [];
         }
 
         $namespaces = array_filter(
@@ -34,7 +47,7 @@ final readonly class TranslationCatalog
             fn(string $namespace): bool => Str::startsWith($namespace, 'vendra-'),
         );
 
-        return $this->options($namespaces);
+        return $this->namespaceOptions = $this->options($namespaces);
     }
 
     /**
@@ -42,13 +55,19 @@ final readonly class TranslationCatalog
      */
     public function groupOptions(?string $namespace): array
     {
+        $cacheKey = $namespace ?? '*';
+
+        if (array_key_exists($cacheKey, $this->groupOptions)) {
+            return $this->groupOptions[$cacheKey];
+        }
+
         $groups = [];
 
         foreach ($this->translationFiles($namespace) as $file) {
             $groups[] = $this->groupFromFile($file);
         }
 
-        return $this->options($groups);
+        return $this->groupOptions[$cacheKey] = $this->options($groups);
     }
 
     /**
@@ -56,8 +75,14 @@ final readonly class TranslationCatalog
      */
     public function keyOptions(?string $namespace, ?string $group): array
     {
+        $cacheKey = ($namespace ?? '*') . '::' . ($group ?? '*');
+
+        if (array_key_exists($cacheKey, $this->keyOptions)) {
+            return $this->keyOptions[$cacheKey];
+        }
+
         if (null === $group || ! array_key_exists($group, $this->groupOptions($namespace))) {
-            return [];
+            return $this->keyOptions[$cacheKey] = [];
         }
 
         $keys = [];
@@ -74,7 +99,7 @@ final readonly class TranslationCatalog
             }
         }
 
-        return $this->options($keys);
+        return $this->keyOptions[$cacheKey] = $this->options($keys);
     }
 
     private function fileLoader(): ?FileLoader

@@ -6,13 +6,13 @@ namespace Misaf\VendraLanguage\Localization;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraLanguage\Models\LanguageLine;
+use Spatie\TranslationLoader\LanguageLine;
 use Spatie\TranslationLoader\TranslationLoaderManager;
 
 final class NamespacedTranslationLoaderManager extends TranslationLoaderManager
 {
     /**
-     * Load file translations and apply database overrides for package namespaces.
+     * Allow configured translation loaders to override package translations.
      *
      * @param string $locale
      * @param string $group
@@ -31,14 +31,25 @@ final class NamespacedTranslationLoaderManager extends TranslationLoaderManager
         try {
             return array_replace_recursive(
                 $fileTranslations,
-                LanguageLine::getTranslationsForGroup($locale, $group, $namespace),
+                $this->getTranslationsForTranslationLoaders($locale, $group, $namespace),
             );
         } catch (QueryException $exception) {
-            if ( ! Schema::hasTable((new LanguageLine())->getTable())) {
+            if ($this->translationTableIsMissing()) {
                 return $fileTranslations;
             }
 
             throw $exception;
         }
+    }
+
+    private function translationTableIsMissing(): bool
+    {
+        $modelClass = config('translation-loader.model');
+
+        if ( ! is_string($modelClass) || ! is_a($modelClass, LanguageLine::class, true)) {
+            return false;
+        }
+
+        return ! Schema::hasTable((new $modelClass())->getTable());
     }
 }
