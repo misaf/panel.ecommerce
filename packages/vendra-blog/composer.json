@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-blog",
+    "description": "Tenant-aware blog publishing and Filament content management for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",

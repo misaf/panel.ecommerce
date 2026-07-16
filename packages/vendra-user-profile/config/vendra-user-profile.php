@@ -18,6 +18,10 @@ return [
         'enabled' => env('VENDRA_USER_PROFILE_FEATURES_ENABLED', false),
 
         'discover' => env('VENDRA_USER_PROFILE_FEATURES_DISCOVER', false),
+
+        'defaults' => [
+            'vendra-user-profile.module-enabled' => false,
+        ],
     ],
 
 ];

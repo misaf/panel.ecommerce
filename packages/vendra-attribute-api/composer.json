@@ -80,7 +80,7 @@
         "issues": "https://github.com/misaf/vendra-attribute-api/issues",
         "source": "https://github.com/misaf/vendra-attribute-api"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }

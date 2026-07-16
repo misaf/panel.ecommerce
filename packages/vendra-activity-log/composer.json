@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-activity-log",
+    "description": "Activity log auditing and Filament log management for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",

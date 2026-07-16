@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-subscription",
-    "description": "Tenant subscription lifecycle: plans, subscriptions, and tenant provisioning orchestration",
+    "description": "Tenant provisioning orchestration for Vendra applications",
     "keywords": [
         "laravel",
         "filamentphp",

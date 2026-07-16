@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-user-profile",
+    "description": "Tenant-aware user profiles and Filament profile management for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",
@@ -63,7 +64,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Misaf\\VendraUserProfile\\UserProfileServiceProvider"
+                "Misaf\\VendraUserProfile\\Providers\\UserProfileServiceProvider"
             ]
         }
     },

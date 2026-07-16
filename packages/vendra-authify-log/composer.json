@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-authify-log",
+    "description": "Authentication event logging and Filament log management for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",

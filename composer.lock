@@ -5664,7 +5664,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "2d6943567b297292d4cc70a655e118d42030bb28"
+                "reference": "346d78bdb1f543d5971322d20f8ec8afe4ed7a65"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -5735,6 +5735,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Activity log auditing and Filament log management for Vendra",
             "homepage": "https://github.com/misaf/vendra-activity-log",
             "keywords": [
                 "activity",
@@ -6033,7 +6034,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "81b487ffefa85a1cb7a4ee2e66adf786656aa60e"
+                "reference": "cb1301b6b8ff93d7ea58c5da28fe9113fca33e1d"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6046,12 +6047,18 @@
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
                 "larastan/larastan": "^3.10.0",
+                "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "^1.0",
+                "mockery/mockery": "^1.6.12",
+                "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
                 "pestphp/pest-plugin-arch": "^4.0.2",
-                "pestphp/pest-plugin-laravel": "^4.1"
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
+                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-tagger": "Install this in the host application to assign typed tags to attributes."
@@ -6085,6 +6092,9 @@
                 ],
                 "test": [
                     "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
                 ]
             },
             "license": [
@@ -6102,7 +6112,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "1750f00cfe6491867002d12170327a486a6d7b5f"
+                "reference": "e0d6be05c7437f50498313ed4e51d0be990ba4c2"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6195,7 +6205,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "2933b0d721e149794d81a696a128f80a46d5c390"
+                "reference": "2fa85d43700c3cb319647daca52121b22224e47a"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6266,6 +6276,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Authentication event logging and Filament log management for Vendra",
             "keywords": [
                 "authify",
                 "filamentphp",
@@ -6283,7 +6294,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "70816de0988cf8c233354afb9983e548a2b4b26c"
+                "reference": "452028ac0471db3514cc03df9c64aeaec13a07f5"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6362,6 +6373,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Tenant-aware blog publishing and Filament content management for Vendra",
             "homepage": "https://github.com/misaf/vendra-blog",
             "keywords": [
                 "blog",
@@ -7347,7 +7359,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
-                "reference": "37c3574ef375378c2f186064f5983b36b63a4469"
+                "reference": "332056b639bd60ecb15d13773a2120a4102477a0"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7416,6 +7428,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Media library integration and Filament media management for Vendra",
             "homepage": "https://github.com/misaf/vendra-multimedia",
             "keywords": [
                 "filamentphp",
@@ -7532,7 +7545,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
-                "reference": "669bccd6c0c043b1b1fd52150598fda54f3d066b"
+                "reference": "06d8d188e8ae1fc8c9c6f7f6c002a130b2fc065e"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -7602,6 +7615,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Tenant-aware newsletter publishing and subscriber management for Vendra",
             "homepage": "https://github.com/misaf/vendra-newsletter",
             "keywords": [
                 "filamentphp",
@@ -8018,7 +8032,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "1a9e70e6c8cdf3a9fe63e774462641d6eeeecfbd"
+                "reference": "78e14be67a9988471820cc64267b8221efeb2303"
             },
             "require": {
                 "illuminate/console": "^13.0",
@@ -8085,7 +8099,7 @@
                     "email": "misaf.1990@gmail.com"
                 }
             ],
-            "description": "Tenant subscription lifecycle: plans, subscriptions, and tenant provisioning orchestration",
+            "description": "Tenant provisioning orchestration for Vendra applications",
             "keywords": [
                 "filamentphp",
                 "laravel",
@@ -8293,7 +8307,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "3a8208a9265a572359d2dec3ea2477870e5dba07"
+                "reference": "a627e033818af96b591f40baf35cd4b07949c8d1"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8312,6 +8326,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -8464,7 +8479,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "66ccfe90ddd3d323d33d1c50adc8845bd40c8cb3"
+                "reference": "3daed6c8b5db579307eacac585108ecad4518813"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8483,6 +8498,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -8641,7 +8657,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
-                "reference": "505d55d544f97f75fe909cd5a80334e9b862ead9"
+                "reference": "0a0f12769565a1a0f4cabda07285ce46ea0fbc79"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8677,7 +8693,7 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Misaf\\VendraUserProfile\\UserProfileServiceProvider"
+                        "Misaf\\VendraUserProfile\\Providers\\UserProfileServiceProvider"
                     ]
                 }
             },
@@ -8717,6 +8733,7 @@
                     "role": "Developer"
                 }
             ],
+            "description": "Tenant-aware user profiles and Filament profile management for Vendra",
             "homepage": "https://github.com/misaf/vendra-user-profile",
             "keywords": [
                 "filamentphp",

@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-newsletter",
+    "description": "Tenant-aware newsletter publishing and subscriber management for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",

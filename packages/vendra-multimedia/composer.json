@@ -1,5 +1,6 @@
 {
     "name": "misaf/vendra-multimedia",
+    "description": "Media library integration and Filament media management for Vendra",
     "keywords": [
         "laravel",
         "filamentphp",
