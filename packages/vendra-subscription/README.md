@@ -8,7 +8,7 @@ Tenant provisioning orchestration for Vendra applications.
 - Creates the initial administrator and super-admin role
 - Optionally runs registered tenant seeders
 - Dispatches the shared tenant-provisioned event
-- Provides an idempotent provisioning command
+- Supports idempotent provisioning with `--if-missing`
 
 This package currently owns tenant provisioning only. It does not provide plan, billing, or recurring subscription models.
 
@@ -31,6 +31,12 @@ Provision a tenant interactively:
 
 ```bash
 php artisan vendra-subscription:provision
+```
+
+For repeatable provisioning, use `--if-missing` to return successfully without creating another tenant when the domain already exists:
+
+```bash
+php artisan vendra-subscription:provision --if-missing
 ```
 
 Use `php artisan vendra-subscription:provision --help` for the available arguments and options.

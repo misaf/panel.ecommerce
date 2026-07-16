@@ -1,6 +1,6 @@
 ---
 name: vendra-subscription-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Subscription module in packages/vendra-subscription. Trigger for CreateTenantAction, ProvisionTenantAction, tenant provisioning orchestration, subscription/plan lifecycle, subscription console commands, TenantProvisioned events, and subscription service-provider wiring."
+description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Subscription module in packages/vendra-subscription. Trigger for CreateTenantAction, ProvisionTenantAction, tenant provisioning orchestration, provisioning console commands, TenantProvisioned events, and subscription service-provider wiring."
 ---
 
 # Vendra Subscription
@@ -11,10 +11,10 @@ Always use this skill together with `laravel-best-practices` for Laravel PHP and
 
 ## Module Boundary
 
-Treat `packages/vendra-subscription` as tenant subscription and provisioning orchestration.
+Treat `packages/vendra-subscription` as tenant provisioning orchestration. It does not currently provide plan, billing, or recurring-subscription models.
 
 - Use namespace `Misaf\VendraSubscription`.
-- Own provisioning actions, subscription lifecycle, and related console commands here.
+- Own provisioning actions and related console commands here.
 - This module is intentionally tenant-coupled: it provisions tenants and may reference the tenant provider directly. Keep that coupling inside provisioning code, not spread into unrelated logic.
 - Compose other modules' actions (permission, user, tenant) rather than reimplementing their behavior; keep cross-module dependencies explicit in `composer.json`.
 
@@ -23,7 +23,8 @@ Treat `packages/vendra-subscription` as tenant subscription and provisioning orc
 - Wrap multi-step provisioning in `DB::transaction` so a partial failure rolls back cleanly.
 - Emit `Misaf\VendraSupport\Events\TenantProvisioned` and let listeners handle post-provisioning work (seeding, caching) rather than inlining it.
 - Generate credentials and secrets safely; never log secrets.
-- Keep artisan-driven steps (route caching, per-tenant commands) idempotent and their failures surfaced.
+- `vendra-subscription:provision` is idempotent only with `--if-missing`: skip an existing domain and return success. Without that option, preserve the duplicate-domain validation failure.
+- Keep other artisan-driven steps (route caching, per-tenant commands) idempotent and their failures surfaced.
 
 ## Testing And Verification
 
