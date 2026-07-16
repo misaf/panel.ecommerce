@@ -10,6 +10,9 @@
         <testsuite name="vendra-activity-log">
             <directory>packages/vendra-activity-log/tests</directory>
         </testsuite>
+        <testsuite name="vendra-address">
+            <directory>packages/vendra-address/tests</directory>
+        </testsuite>
         <testsuite name="vendra-affiliate">
             <directory>packages/vendra-affiliate/tests</directory>
         </testsuite>
@@ -49,6 +52,9 @@
         <testsuite name="vendra-custom-page">
             <directory>packages/vendra-custom-page/tests</directory>
         </testsuite>
+        <testsuite name="vendra-document">
+            <directory>packages/vendra-document/tests</directory>
+        </testsuite>
         <testsuite name="vendra-faq">
             <directory>packages/vendra-faq/tests</directory>
         </testsuite>
@@ -75,6 +81,9 @@
         </testsuite>
         <testsuite name="vendra-permission">
             <directory>packages/vendra-permission/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-phone">
+            <directory>packages/vendra-phone/tests</directory>
         </testsuite>
         <testsuite name="vendra-product">
             <directory>packages/vendra-product/tests</directory>
@@ -108,6 +117,9 @@
         </testsuite>
         <testsuite name="vendra-user-profile">
             <directory>packages/vendra-user-profile/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-verification">
+            <directory>packages/vendra-verification/tests</directory>
         </testsuite>
     </testsuites>
     <source>
