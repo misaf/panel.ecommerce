@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Resources\Pages;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Pages;
 
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
 use LaraZeus\SpatieTranslatable\Resources\Pages\ViewRecord\Concerns\Translatable;
-use Misaf\VendraTagger\Filament\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
 
 final class ViewTagger extends ViewRecord
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraUserProfile\Filament\Resources\Tables;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Tables;
 
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -10,18 +10,17 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
-use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 
-final class UserProfileTable
+final class TaggerTable
 {
     public static function configure(Table $table): Table
     {
@@ -33,28 +32,26 @@ final class UserProfileTable
                 ->label('#')
                 ->rowIndex(),
 
-            TextColumn::make('user.username')
-                ->alignStart()
-                ->badge()
-                ->expandableLimitedList()
-                ->icon(Heroicon::UserGroup)
-                ->label(__('vendra-user-profile::table.columns.user'))
-                ->limitList(2)
-                ->listWithLineBreaks(),
-
             TextColumn::make('name')
                 ->alignStart()
-                ->description(fn($record): ?string => $record->description)
-                ->label(__('vendra-user-profile::table.columns.name'))
-                ->searchable()
-                ->sortable(),
+                ->label(__('vendra-tagger::attributes.name')),
+
+            TextColumn::make('slug')
+                ->alignStart()
+                ->label(__('vendra-tagger::attributes.slug'))
+                ->toggleable(isToggledHiddenByDefault: true),
+
+            TextColumn::make('type')
+                ->alignStart()
+                ->label(__('vendra-tagger::attributes.type')),
 
             TextColumn::make('created_at')
                 ->alignCenter()
                 ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
-                ->label(__('vendra-user-profile::table.columns.created_at'))
+                ->label(__('vendra-tagger::attributes.created_at'))
                 ->sinceTooltip()
+                ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->unless(
                     app()->isLocale('fa'),
@@ -66,7 +63,7 @@ final class UserProfileTable
                 ->alignCenter()
                 ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
-                ->label(__('vendra-user-profile::table.columns.updated_at'))
+                ->label(__('vendra-tagger::attributes.updated_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->unless(
@@ -83,7 +80,19 @@ final class UserProfileTable
                     QueryBuilder::make()
                         ->constraints([
                             TextConstraint::make('name')
-                                ->label(__('vendra-user-profile::table.columns.name')),
+                                ->label(__('vendra-tagger::attributes.name')),
+
+                            TextConstraint::make('slug')
+                                ->label(__('vendra-tagger::attributes.slug')),
+
+                            TextConstraint::make('type')
+                                ->label(__('vendra-tagger::attributes.type')),
+
+                            DateConstraint::make('created_at')
+                                ->label(__('vendra-tagger::attributes.created_at')),
+
+                            DateConstraint::make('updated_at')
+                                ->label(__('vendra-tagger::attributes.updated_at')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
@@ -102,9 +111,7 @@ final class UserProfileTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultGroup(
-                Group::make('user.username')
-                    ->label(__('vendra-user-profile::table.groups.user'))
-            );
+            ->defaultSort(column: 'position', direction: 'desc')
+            ->reorderable(column: 'position', direction: 'desc');
     }
 }

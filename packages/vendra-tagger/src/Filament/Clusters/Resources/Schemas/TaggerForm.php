@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Resources\Schemas;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
@@ -12,8 +12,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraSupport\Support\TenantAwareness;
-use Misaf\VendraTagger\Filament\Resources\Pages\CreateTagger;
-use Misaf\VendraTagger\Filament\Resources\Pages\EditTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\CreateTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\EditTagger;
 
 final class TaggerForm
 {

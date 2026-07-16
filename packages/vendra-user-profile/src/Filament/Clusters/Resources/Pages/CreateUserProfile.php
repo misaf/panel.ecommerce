@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraUserProfile\Filament\Resources\Pages;
+namespace Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
-use Misaf\VendraUserProfile\Filament\Resources\UserProfileResource;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 
 final class CreateUserProfile extends CreateRecord
 {

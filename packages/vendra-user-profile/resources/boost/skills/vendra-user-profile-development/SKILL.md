@@ -34,7 +34,7 @@ Follow the existing `UserProfile` patterns for new user-profile entities.
 
 ## Filament Standards
 
-Keep Filament UI under `src/Filament/Resources`. `UserProfileResource` belongs to the shared `CustomersCluster` through its `$cluster` property; do not move it into a package-owned `Clusters` directory.
+Keep Filament UI under `src/Filament/Clusters/Resources`. `UserProfileResource` belongs to the shared `CustomersCluster` through its `$cluster` property, so its namespace and plugin discovery path must use `Filament\Clusters\Resources`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.

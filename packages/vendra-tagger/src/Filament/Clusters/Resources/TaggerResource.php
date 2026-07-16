@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Resources;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources;
 
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -11,12 +11,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
-use Misaf\VendraTagger\Filament\Resources\Pages\CreateTagger;
-use Misaf\VendraTagger\Filament\Resources\Pages\EditTagger;
-use Misaf\VendraTagger\Filament\Resources\Pages\ListTaggers;
-use Misaf\VendraTagger\Filament\Resources\Pages\ViewTagger;
-use Misaf\VendraTagger\Filament\Resources\Schemas\TaggerForm;
-use Misaf\VendraTagger\Filament\Resources\Tables\TaggerTable;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\CreateTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\EditTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ListTaggers;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ViewTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Schemas\TaggerForm;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Tables\TaggerTable;
 use Misaf\VendraTagger\Models\Tagger;
 
 final class TaggerResource extends Resource

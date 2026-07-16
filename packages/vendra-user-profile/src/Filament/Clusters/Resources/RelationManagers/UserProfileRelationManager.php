@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraUserProfile\Filament\Resources\RelationManagers;
+namespace Misaf\VendraUserProfile\Filament\Clusters\Resources\RelationManagers;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -10,7 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Number;
-use Misaf\VendraUserProfile\Filament\Resources\UserProfileResource;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 
 final class UserProfileRelationManager extends RelationManager
 {

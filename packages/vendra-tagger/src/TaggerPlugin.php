@@ -56,8 +56,8 @@ final class TaggerPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->discoverResources(
-            in: __DIR__ . '/Filament/Resources',
-            for: 'Misaf\\VendraTagger\\Filament\\Resources',
+            in: __DIR__ . '/Filament/Clusters/Resources',
+            for: 'Misaf\\VendraTagger\\Filament\\Clusters\\Resources',
         );
     }
 

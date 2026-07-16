@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraUserProfile\Filament\Resources\Pages;
+namespace Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Misaf\VendraUserProfile\Filament\Resources\UserProfileResource;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 
 final class ListUserProfiles extends ListRecords
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Resources\Pages;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Pages;
 
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
 use LaraZeus\SpatieTranslatable\Resources\Pages\EditRecord\Concerns\Translatable;
-use Misaf\VendraTagger\Filament\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
 
 final class EditTagger extends EditRecord
 {

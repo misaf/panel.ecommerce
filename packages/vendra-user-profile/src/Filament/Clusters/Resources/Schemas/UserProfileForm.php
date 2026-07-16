@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraUserProfile\Filament\Resources\Schemas;
+namespace Misaf\VendraUserProfile\Filament\Clusters\Resources\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;

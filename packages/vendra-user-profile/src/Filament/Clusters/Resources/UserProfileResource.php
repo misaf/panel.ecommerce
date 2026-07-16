@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraUserProfile\Filament\Resources;
+namespace Misaf\VendraUserProfile\Filament\Clusters\Resources;
 
 use BackedEnum;
 use Filament\Actions\Action;
@@ -23,12 +23,12 @@ use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Filament\Clusters\CustomersCluster;
 use Misaf\VendraUserProfile\Features\ModuleEnabled;
-use Misaf\VendraUserProfile\Filament\Resources\Pages\CreateUserProfile;
-use Misaf\VendraUserProfile\Filament\Resources\Pages\EditUserProfile;
-use Misaf\VendraUserProfile\Filament\Resources\Pages\ListUserProfiles;
-use Misaf\VendraUserProfile\Filament\Resources\Pages\ViewUserProfile;
-use Misaf\VendraUserProfile\Filament\Resources\Schemas\UserProfileForm;
-use Misaf\VendraUserProfile\Filament\Resources\Tables\UserProfileTable;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\EditUserProfile;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ViewUserProfile;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Schemas\UserProfileForm;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Tables\UserProfileTable;
 use Misaf\VendraUserProfile\Models\UserProfile;
 
 final class UserProfileResource extends Resource

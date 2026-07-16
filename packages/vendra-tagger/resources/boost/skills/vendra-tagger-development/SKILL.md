@@ -36,7 +36,7 @@ Treat `Tagger` as the package's extension of `Spatie\Tags\Tag`.
 
 ## Filament Standards
 
-Keep the standalone Filament UI under `src/Filament/Resources`.
+Keep the cluster-assigned Filament UI under `src/Filament/Clusters/Resources`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep resource classes thin. Delegate form schemas to `Schemas/*Form.php` and table configuration to `Tables/*Table.php`.
