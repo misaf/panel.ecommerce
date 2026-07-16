@@ -9,6 +9,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
+use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
@@ -34,6 +35,7 @@ final class LanguageForm
                 Toggle::make('is_default')
                     ->columnSpanFull()
                     ->default(false)
+                    ->disabled(fn(?Language $record): bool => null !== $record && $record->is_default)
                     ->label(__('vendra-language::attributes.is_default'))
                     ->required(),
             ]);

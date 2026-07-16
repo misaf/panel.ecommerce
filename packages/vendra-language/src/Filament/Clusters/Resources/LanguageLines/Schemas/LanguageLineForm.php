@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Schemas;
 
+use Closure;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
-use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraLanguage\Support\TranslationCatalog;
+use Misaf\VendraLanguage\Support\TranslationLocales;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class LanguageLineForm
@@ -89,12 +91,53 @@ final class LanguageLineForm
                     ),
 
                 KeyValue::make('text')
+                    ->addable(false)
+                    ->afterStateHydrated(function (KeyValue $component, mixed $state): void {
+                        $translations = [];
+
+                        if (is_array($state)) {
+                            foreach ($state as $locale => $translation) {
+                                if (is_string($locale) && is_string($translation)) {
+                                    $translations[$locale] = $translation;
+                                }
+                            }
+                        }
+
+                        $component->state(TranslationLocales::merge($translations));
+                    })
                     ->columnSpanFull()
-                    ->default(fn(): array => Locales::translationDefaults())
+                    ->default(fn(): array => TranslationLocales::merge())
+                    ->deletable(false)
+                    ->editableKeys(false)
                     ->keyLabel(__('vendra-language::attributes.locale'))
                     ->label(__('vendra-language::attributes.text'))
+                    ->reorderable(false)
                     ->required()
+                    ->rule(fn(): Closure => function (string $attribute, mixed $value, Closure $fail): void {
+                        if ( ! self::hasTranslation($value)) {
+                            $fail(__('vendra-language::validation.translation_required'));
+                        }
+                    })
                     ->valueLabel(__('vendra-language::attributes.translation')),
             ]);
+    }
+
+    private static function hasTranslation(mixed $state): bool
+    {
+        if ( ! is_array($state)) {
+            return false;
+        }
+
+        foreach ($state as $translation) {
+            if (is_array($translation)) {
+                $translation = $translation['value'] ?? null;
+            }
+
+            if (is_string($translation) && Str::of($translation)->trim()->isNotEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
