@@ -8,6 +8,7 @@ return [
         'is_primary'  => 'اصلی',
         'label'       => 'عنوان',
         'metadata'    => 'داده‌های ویژه کشور',
+        'notes'       => 'یادداشت‌ها',
         'number'      => 'شماره تلفن',
         'type'        => 'نوع',
         'verified_at' => 'تأیید شده',

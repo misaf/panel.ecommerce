@@ -35,7 +35,6 @@ jobs:
           - vendra-custom-page
           - vendra-faq
           - vendra-faq-api
-          - vendra-geo
           - vendra-language
           - vendra-localization
           - vendra-multimedia

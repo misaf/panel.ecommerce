@@ -61,9 +61,6 @@
         <testsuite name="vendra-faq-api">
             <directory>packages/vendra-faq-api/tests</directory>
         </testsuite>
-        <testsuite name="vendra-geo">
-            <directory>packages/vendra-geo/tests</directory>
-        </testsuite>
         <testsuite name="vendra-language">
             <directory>packages/vendra-language/tests</directory>
         </testsuite>

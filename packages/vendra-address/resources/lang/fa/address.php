@@ -16,6 +16,7 @@ return [
         'locale'              => 'زبان آدرس',
         'locality'            => 'شهر / محل',
         'metadata'            => 'داده‌های ویژه کشور',
+        'notes'               => 'یادداشت‌ها',
         'organization'        => 'سازمان',
         'postal_code'         => 'کد پستی',
         'recipient_name'      => 'نام گیرنده',

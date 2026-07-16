@@ -16,6 +16,7 @@ return [
         'locale'              => 'Adresssprache',
         'locality'            => 'Stadt / Ort',
         'metadata'            => 'Länderspezifische Daten',
+        'notes'               => 'Notizen',
         'organization'        => 'Organisation',
         'postal_code'         => 'Postleitzahl',
         'recipient_name'      => 'Name des Empfängers',

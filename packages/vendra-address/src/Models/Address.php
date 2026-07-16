@@ -32,6 +32,7 @@ use Misaf\VendraUserProfile\Models\UserProfile;
     'country_code',
     'locale',
     'metadata',
+    'notes',
     'is_primary',
     'verified_at',
 ])]
@@ -78,6 +79,7 @@ final class Address extends Model implements ShouldLogActivity
             'country_code'        => 'string',
             'locale'              => 'string',
             'metadata'            => 'array',
+            'notes'               => 'string',
             'is_primary'          => 'boolean',
             'verified_at'         => 'datetime',
         ];

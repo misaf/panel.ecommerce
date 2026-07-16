@@ -28,6 +28,7 @@ return new class () extends Migration {
             $table->char('country_code', 2);
             $table->string('locale', 35)->nullable();
             $table->json('metadata')->nullable();
+            $table->text('notes')->nullable();
             $table->boolean('is_primary')->default(false);
             $table->timestampTz('verified_at')->nullable();
             $table->timestampsTz();

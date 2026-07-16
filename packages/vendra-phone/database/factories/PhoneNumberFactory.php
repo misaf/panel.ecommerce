@@ -23,6 +23,7 @@ final class PhoneNumberFactory extends Factory
             'number'          => '+1' . fake()->numerify('##########'),
             'extension'       => fake()->optional()->numerify('####'),
             'metadata'        => [],
+            'notes'           => fake()->optional()->sentence(),
             'is_primary'      => false,
             'verified_at'     => null,
         ];

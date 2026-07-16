@@ -16,6 +16,7 @@ return [
         'locale'              => 'Address locale',
         'locality'            => 'City / Locality',
         'metadata'            => 'Country-specific data',
+        'notes'               => 'Notes',
         'organization'        => 'Organization',
         'postal_code'         => 'Postal code',
         'recipient_name'      => 'Recipient name',

@@ -8,6 +8,7 @@ return [
         'is_primary'  => 'Primär',
         'label'       => 'Bezeichnung',
         'metadata'    => 'Länderspezifische Daten',
+        'notes'       => 'Notizen',
         'number'      => 'Telefonnummer',
         'type'        => 'Typ',
         'verified_at' => 'Verifiziert',

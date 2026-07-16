@@ -64,7 +64,7 @@ Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single sour
   - Customers: Users and User Profiles in the shared user-management group, then Roles and Permissions in the permission-management group.
   - Content: Blog 1, Custom Pages 2, FAQs 3, Multimedia 4, Tags 5.
   - Marketing: Affiliates 1, Newsletters 2.
-  - Localization: Languages 1, Geography 2.
+  - Localization: Languages 1.
   - System: Settings 1, Activity Logs 2, Authentication Logs 3.
 - Represent a multi-resource package with one cluster sidebar item and set `$subNavigationPosition = SubNavigationPosition::Top`; keep the cluster's resources as text-only tabs.
 - Set one distinct outlined `Heroicon` on every top-level cluster or standalone resource. Keep navigation group headers and cluster child resources icon-free to avoid Filament's group/item icon conflict.

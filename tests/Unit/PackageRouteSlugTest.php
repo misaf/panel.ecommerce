@@ -21,9 +21,6 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Cust
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\CustomPageResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\FaqCategoryResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\FaqResource;
-use Misaf\VendraGeo\Filament\Clusters\Resources\Cities\CityResource;
-use Misaf\VendraGeo\Filament\Clusters\Resources\Countries\CountryResource;
-use Misaf\VendraGeo\Filament\Clusters\Resources\States\StateResource;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\LanguageResource;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\MultimediaResource;
@@ -111,8 +108,6 @@ it('uses the full resource name as the resource slug', function (string $resourc
     BlogPostCategoryResource::class,
     BlogPostResource::class,
     CartResource::class,
-    CityResource::class,
-    CountryResource::class,
     CurrencyCategoryResource::class,
     CurrencyResource::class,
     CustomPageCategoryResource::class,
@@ -129,7 +124,6 @@ it('uses the full resource name as the resource slug', function (string $resourc
     ProductPriceResource::class,
     ProductResource::class,
     RoleResource::class,
-    StateResource::class,
     TaggerResource::class,
     TransactionGatewayResource::class,
     TransactionResource::class,
@@ -171,9 +165,6 @@ it('assigns each admin resource to its domain cluster', function (string $resour
     'marketing / subscribers'           => [NewsletterSubscriberResource::class, MarketingCluster::class],
     'localization / languages'          => [LanguageResource::class, LocalizationCluster::class],
     'localization / language lines'     => [LanguageLineResource::class, LocalizationCluster::class],
-    'localization / countries'          => [CountryResource::class, LocalizationCluster::class],
-    'localization / states'             => [StateResource::class, LocalizationCluster::class],
-    'localization / cities'             => [CityResource::class, LocalizationCluster::class],
     'system / activity logs'            => [ActivityLogResource::class, SystemCluster::class],
     'system / authentication logs'      => [AuthifyLogResource::class, SystemCluster::class],
 ]);

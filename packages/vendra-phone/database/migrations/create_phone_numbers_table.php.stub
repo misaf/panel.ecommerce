@@ -20,6 +20,7 @@ return new class () extends Migration {
             $table->string('number', 32);
             $table->string('extension', 16)->nullable();
             $table->json('metadata')->nullable();
+            $table->text('notes')->nullable();
             $table->boolean('is_primary')->default(false);
             $table->timestampTz('verified_at')->nullable();
             $table->timestampsTz();

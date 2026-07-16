@@ -17,6 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraSupport\Support\Countries;
 
 final class VerificationsRelationManager extends RelationManager
 {
@@ -57,9 +58,11 @@ final class VerificationsRelationManager extends RelationManager
                 ->required(),
             TextInput::make('provider')->label(__('vendra-verification::verification.fields.provider')),
             TextInput::make('reference')->label(__('vendra-verification::verification.fields.reference')),
-            TextInput::make('country_code')
+            Select::make('country_code')
                 ->label(__('vendra-verification::verification.fields.country_code'))
-                ->length(2),
+                ->native(false)
+                ->options(fn(): array => Countries::options())
+                ->searchable(),
             DateTimePicker::make('verified_at')->label(__('vendra-verification::verification.fields.verified_at')),
             DateTimePicker::make('expires_at')
                 ->label(__('vendra-verification::verification.fields.expires_at'))

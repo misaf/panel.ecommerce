@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c0e2a3508e7873e890535bd04ef5fb9",
+    "content-hash": "32c08be68db08c2fce2d4fb38b5ed0e5",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7330,102 +7330,6 @@
             }
         },
         {
-            "name": "misaf/vendra-geo",
-            "version": "1.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "packages/vendra-geo",
-                "reference": "5d4419de3bd55246645567a2e2ac6f33cd6d5aa1"
-            },
-            "require": {
-                "filament/filament": "^5.6.8",
-                "illuminate/support": "^13.0",
-                "lara-zeus/spatie-translatable": "^2.0.1",
-                "misaf/vendra-support": "^1.0",
-                "php": "^8.3",
-                "spatie/eloquent-sortable": "^5.0.1",
-                "spatie/laravel-package-tools": "^1.93.1",
-                "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "^1.0",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-arch": "^4.0.2",
-                "pestphp/pest-plugin-laravel": "^4.1",
-                "pestphp/pest-plugin-profanity": "^4.2.1",
-                "pestphp/pest-plugin-type-coverage": "^4.0.4",
-                "phpstan/extension-installer": "^1.4.3"
-            },
-            "type": "vendra-module",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Misaf\\VendraGeo\\Providers\\GeoServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Misaf\\VendraGeo\\": "src/",
-                    "Misaf\\VendraGeo\\Database\\Seeders\\": "database/seeders/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraGeo\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraGeo\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ehsan Mahmoodi",
-                    "email": "misaf.1990@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Countries, states, provinces, and cities support for Vendra",
-            "homepage": "https://github.com/misaf/vendra-geo",
-            "keywords": [
-                "filamentphp",
-                "geo",
-                "laravel",
-                "misaf",
-                "vendra"
-            ],
-            "support": {
-                "issues": "https://github.com/misaf/vendra-geo/issues",
-                "source": "https://github.com/misaf/vendra-geo"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
             "name": "misaf/vendra-language",
             "version": "1.x-dev",
             "dist": {
@@ -8465,7 +8369,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
-                "reference": "daa6ac6665fce297aa3439f5db228c502b7f59ff"
+                "reference": "4b594da8d1451f2a69d059a84371d3ab3d3eaeab"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8474,7 +8378,8 @@
                 "illuminate/database": "^13.0",
                 "illuminate/support": "^13.0",
                 "laravel/prompts": "^0.3.21",
-                "php": "^8.3"
+                "php": "^8.3",
+                "symfony/intl": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",

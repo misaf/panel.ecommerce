@@ -9,6 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -19,6 +20,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraDocument\Models\Document;
+use Misaf\VendraSupport\Support\Countries;
 
 final class DocumentsRelationManager extends RelationManager
 {
@@ -48,9 +50,11 @@ final class DocumentsRelationManager extends RelationManager
     {
         return $schema->components([
             TextInput::make('type')->label(__('vendra-document::document.fields.type'))->required(),
-            TextInput::make('issuing_country_code')
+            Select::make('issuing_country_code')
                 ->label(__('vendra-document::document.fields.issuing_country_code'))
-                ->length(2),
+                ->native(false)
+                ->options(fn(): array => Countries::options())
+                ->searchable(),
             TextInput::make('number')->label(__('vendra-document::document.fields.number')),
             SpatieMediaLibraryFileUpload::make('file')
                 ->collection(Document::MEDIA_COLLECTION)

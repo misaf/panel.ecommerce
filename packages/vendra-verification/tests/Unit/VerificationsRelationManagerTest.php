@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Schema;
+use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraVerification\Filament\RelationManagers\VerificationsRelationManager;
+
+it('uses a searchable localized country select', function (): void {
+    app()->setLocale('fa');
+
+    $relationManager = new VerificationsRelationManager();
+    $schema = $relationManager->form(Schema::make($relationManager));
+    $field = $schema->getFlatFields()['country_code'];
+
+    expect($field)
+        ->toBeInstanceOf(Select::class)
+        ->and($field->isSearchable())->toBeTrue()
+        ->and($field->getOptions())->toBe(Countries::options());
+});

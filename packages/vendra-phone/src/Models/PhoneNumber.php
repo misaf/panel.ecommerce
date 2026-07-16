@@ -24,6 +24,7 @@ use Misaf\VendraUserProfile\Models\UserProfile;
     'number',
     'extension',
     'metadata',
+    'notes',
     'is_primary',
     'verified_at',
 ])]
@@ -62,6 +63,7 @@ final class PhoneNumber extends Model implements ShouldLogActivity
             'number'          => 'string',
             'extension'       => 'string',
             'metadata'        => 'array',
+            'notes'           => 'string',
             'is_primary'      => 'boolean',
             'verified_at'     => 'datetime',
         ];

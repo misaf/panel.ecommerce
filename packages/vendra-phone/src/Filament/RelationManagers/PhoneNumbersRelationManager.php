@@ -8,6 +8,7 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -62,6 +63,9 @@ final class PhoneNumbersRelationManager extends RelationManager
             TextInput::make('extension')->label(__('vendra-phone::phone.fields.extension')),
             KeyValue::make('metadata')
                 ->label(__('vendra-phone::phone.fields.metadata'))
+                ->columnSpanFull(),
+            Textarea::make('notes')
+                ->label(__('vendra-phone::phone.fields.notes'))
                 ->columnSpanFull(),
             Toggle::make('is_primary')->label(__('vendra-phone::phone.fields.is_primary')),
         ]);

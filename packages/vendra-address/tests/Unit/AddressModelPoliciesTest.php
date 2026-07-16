@@ -25,6 +25,7 @@ it('keeps country-adaptable address fields fillable', function (): void {
         'country_code',
         'locale',
         'metadata',
+        'notes',
     );
 });
 

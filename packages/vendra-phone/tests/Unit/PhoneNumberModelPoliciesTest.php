@@ -21,6 +21,7 @@ it('keeps international phone fields fillable', function (): void {
         'number',
         'extension',
         'metadata',
+        'notes',
         'is_primary',
     );
 });

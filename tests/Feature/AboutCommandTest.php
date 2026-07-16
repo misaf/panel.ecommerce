@@ -29,7 +29,6 @@ it('reports the installed version of every Vendra package', function (): void {
         'Vendra Developer Logins' => 'misaf/vendra-developer-logins',
         'Vendra Faq'              => 'misaf/vendra-faq',
         'Vendra Faq API'          => 'misaf/vendra-faq-api',
-        'Vendra Geo'              => 'misaf/vendra-geo',
         'Vendra Language'         => 'misaf/vendra-language',
         'Vendra Multimedia'       => 'misaf/vendra-multimedia',
         'Vendra Multimedia API'   => 'misaf/vendra-multimedia-api',

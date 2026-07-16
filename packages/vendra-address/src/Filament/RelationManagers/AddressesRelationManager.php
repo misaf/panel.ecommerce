@@ -8,6 +8,8 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -16,6 +18,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraSupport\Support\Countries;
 
 final class AddressesRelationManager extends RelationManager
 {
@@ -55,13 +58,18 @@ final class AddressesRelationManager extends RelationManager
             TextInput::make('administrative_area')->label(__('vendra-address::address.fields.administrative_area')),
             TextInput::make('postal_code')->label(__('vendra-address::address.fields.postal_code')),
             TextInput::make('sorting_code')->label(__('vendra-address::address.fields.sorting_code')),
-            TextInput::make('country_code')
+            Select::make('country_code')
                 ->label(__('vendra-address::address.fields.country_code'))
-                ->length(2)
+                ->native(false)
+                ->options(fn(): array => Countries::options())
+                ->searchable()
                 ->required(),
             TextInput::make('locale')->label(__('vendra-address::address.fields.locale')),
             KeyValue::make('metadata')
                 ->label(__('vendra-address::address.fields.metadata'))
+                ->columnSpanFull(),
+            Textarea::make('notes')
+                ->label(__('vendra-address::address.fields.notes'))
                 ->columnSpanFull(),
             Toggle::make('is_primary')->label(__('vendra-address::address.fields.is_primary')),
         ]);
