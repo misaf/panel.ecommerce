@@ -5,9 +5,9 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 # Vendra Subscription
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Pair it with `vendra-tenant-development` and `vendra-permission-development` when provisioning composes those modules. Before code changes, use Laravel Boost `application-info` and `search-docs`.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Pair it with `vendra-tenant-development` and `vendra-permission-development` when provisioning composes those modules. Before code changes, use Laravel Boost `application-info` and `search-docs`.
 
 ## Module Boundary
 

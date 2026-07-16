@@ -1,13 +1,13 @@
 ---
 name: vendra-language-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Language module in packages/vendra-language, or when creating future language-like Filament/domain modules. Trigger for `Language`, `LanguageLine` models, vendra-language migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Language package in packages/vendra-language. Use for Language, LanguageLine, the ICU locale catalog, default-language behavior, database translations, TenantLocaleResolver integration, actions, observers, migrations, policies, Filament resources, configuration, translations, and package wiring."
 ---
 
 # Vendra Language
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

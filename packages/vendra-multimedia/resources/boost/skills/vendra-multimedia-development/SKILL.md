@@ -1,13 +1,13 @@
 ---
 name: vendra-multimedia-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Multimedia module in packages/vendra-multimedia, or when creating future multimedia-like Filament/domain modules. Trigger for `Multimedia` models, vendra-multimedia migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Multimedia package in packages/vendra-multimedia. Use for Multimedia records, Spatie Media Library integration, reusable media concerns and conversions, polymorphic media ownership, migrations, policies, Filament resources, configuration, translations, package wiring, and the vendra-multimedia-api boundary."
 ---
 
 # Vendra Multimedia
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

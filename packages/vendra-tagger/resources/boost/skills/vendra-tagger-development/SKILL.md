@@ -5,7 +5,7 @@ description: "Build, modify, review, or test the Vendra Tagger module in package
 
 # Vendra Tagger
 
-## Required Context
+## Workflow
 
 Use `laravel-best-practices` for Laravel PHP and `pest-testing` whenever tests change. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 

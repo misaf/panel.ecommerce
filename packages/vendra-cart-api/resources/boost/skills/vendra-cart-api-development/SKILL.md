@@ -5,9 +5,9 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 # Vendra Cart API
 
-## Required Context
+## Workflow
 
-Use this skill with `modular`, `vendra-api-development`, `laravel-best-practices`, and `pest-testing` when tests change. Before code changes, use Laravel Boost `application-info` and `search-docs` for Laravel JSON:API.
+Use this skill with `vendra-api-development`, `laravel-best-practices`, and `pest-testing` when tests change. Before code changes, use Laravel Boost `application-info` and `search-docs` for Laravel JSON:API.
 
 ## Boundary
 

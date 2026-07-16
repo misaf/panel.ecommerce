@@ -1,13 +1,13 @@
 ---
 name: vendra-user-profile-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra User Profile module in packages/vendra-user-profile, or when creating future user-profile-like Filament/domain modules. Trigger for `UserProfile` models, vendra-user-profile migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra User Profile package in packages/vendra-user-profile. Use for UserProfile, dynamic User relations registered by the service provider, profile traits, migrations, factories, policies, Filament resources, configuration, translations, permission integration, package wiring, and tests."
 ---
 
 # Vendra User Profile
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

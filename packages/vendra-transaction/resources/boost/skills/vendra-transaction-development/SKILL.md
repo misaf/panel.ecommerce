@@ -1,13 +1,13 @@
 ---
 name: vendra-transaction-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Transaction module in packages/vendra-transaction, or when creating future transaction-like Filament/domain modules. Trigger for `Transaction`, `TransactionGateway`, `TransactionFee`, `TransactionLimit` models, vendra-transaction migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Transaction package in packages/vendra-transaction. Use for Transaction, checks, gateways, fees, limits, metadata, transfers, gateway services and rules, actions, events/listeners, policies, Filament resources, migrations, configuration, translations, and package wiring."
 ---
 
 # Vendra Transaction
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

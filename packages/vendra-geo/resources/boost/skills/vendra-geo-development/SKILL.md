@@ -1,13 +1,13 @@
 ---
 name: vendra-geo-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Geo module in packages/vendra-geo, or when creating future geo-like Filament/domain modules. Trigger for `Country`, `State`, `City` models, vendra-geo migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Geo package in packages/vendra-geo. Use for Country, State, City, geographic hierarchy and codes, observers, migrations, factories, seeders, policies, Filament resources and relation managers, configuration, translations, package wiring, and tests."
 ---
 
 # Vendra Geo
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

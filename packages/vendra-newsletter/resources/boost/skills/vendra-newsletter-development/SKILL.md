@@ -5,9 +5,9 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 # Vendra Newsletter
 
-## Required Context
+## Workflow
 
-Always use this skill together with `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI (the mail and unsubscribe views).
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI (the mail and unsubscribe views).
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

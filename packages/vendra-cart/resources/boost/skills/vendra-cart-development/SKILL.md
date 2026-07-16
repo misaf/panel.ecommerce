@@ -5,9 +5,9 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 # Vendra Cart
 
-## Required Context
+## Workflow
 
-Use this skill with `modular` for module structure, `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, and `laravel-permission-development` when policies or permissions change. Use `tailwindcss-development` only for Blade or Tailwind UI.
+Use this skill with `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, and `vendra-permission-development` when policies or permissions change. Use `tailwindcss-development` only for Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant installed packages. Prefer Boost database and browser tools for application inspection.
 

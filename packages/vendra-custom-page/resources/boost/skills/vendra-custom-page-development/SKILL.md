@@ -1,13 +1,13 @@
 ---
 name: vendra-custom-page-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Custom Page module in packages/vendra-custom-page, or when creating future custom-page-like Filament/domain modules. Trigger for `CustomPage`, `CustomPageCategory` models, vendra-custom-page migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Custom Page package in packages/vendra-custom-page. Use for CustomPage, CustomPageCategory, translated slugs/content, media, observers, migrations, factories, seeders, policies, Filament resources, configuration, translations, plugin/service-provider wiring, and tests."
 ---
 
 # Vendra Custom Page
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

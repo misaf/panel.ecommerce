@@ -1,13 +1,13 @@
 ---
 name: vendra-affiliate-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Affiliate module in packages/vendra-affiliate, or when creating future affiliate-like Filament/domain modules. Trigger for `Affiliate`, `AffiliateUser` models, vendra-affiliate migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Affiliate package in packages/vendra-affiliate. Use for Affiliate, AffiliateClick, AffiliateCommission, AffiliatePayout, AffiliateReferral, referral tracking, commissions and payouts, actions, services, events, HTTP endpoints, policies, Filament resources, configuration, translations, and package wiring."
 ---
 
 # Vendra Affiliate
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

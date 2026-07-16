@@ -1,13 +1,13 @@
 ---
 name: vendra-authify-log-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Authify Log module in packages/vendra-authify-log, or when creating future authify-log-like Filament/domain modules. Trigger for `AuthifyLog` models, vendra-authify-log migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration."
+description: "Create, modify, review, or test the Vendra Authify Log package in packages/vendra-authify-log. Use for AuthifyLog records, Redis-buffered authentication logging, drain commands, authentication listeners and notifications, policies, Filament resources and filters, configuration, translations, package wiring, and tests."
 ---
 
 # Vendra Authify Log
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

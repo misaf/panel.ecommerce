@@ -1,13 +1,13 @@
 ---
 name: vendra-user-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra User module in packages/vendra-user, or when creating future user-like Filament/domain modules. Trigger for the `User` model, vendra-user migrations, factories, seeders, policies, permission enums, Filament resources, clusters, forms, tables, relation managers, translations, media collections, plugin/service provider wiring, and module configuration. OAuth social login lives in the separate `misaf/vendra-socialite` add-on."
+description: "Create, modify, review, or test the Vendra User package in packages/vendra-user. Use for User, authentication, tenant membership, media and optional tags, user actions/services/rules, migrations, factories, seeders, policies, Filament resources, configuration, translations, and package wiring. OAuth social login belongs to the separate vendra-socialite add-on."
 ---
 
 # Vendra User
 
-## Required Context
+## Workflow
 
-Always use this skill together with `modular` for module structure, `laravel-best-practices` for Laravel PHP, and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
+Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 

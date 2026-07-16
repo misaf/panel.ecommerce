@@ -5,6 +5,10 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 # Vendra Socialite
 
+## Workflow
+
+Use `socialite-development` for OAuth flows, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, inspect the installed package versions and search Laravel Boost documentation for Socialite and Filament integration behavior.
+
 ## Module Boundary
 
 `packages/vendra-socialite` is the optional social-login add-on for Vendra. It depends on `misaf/vendra-user` but `misaf/vendra-user` must never depend on it — requiring this package alone enables social login.
