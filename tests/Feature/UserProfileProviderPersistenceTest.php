@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Misaf\VendraAddress\Models\Address;
 use Misaf\VendraDocument\Models\Document;
+use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraPhone\Models\PhoneNumber;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
@@ -61,4 +63,25 @@ it('uses scalar country-aware columns and structured metadata', function (): voi
         ->and(Schema::getColumnType('documents', 'metadata'))->toBeIn(['json', 'text'])
         ->and(Schema::getColumnType('verifications', 'country_code'))->toBeIn(['string', 'varchar'])
         ->and(Schema::getColumnType('verifications', 'metadata'))->toBeIn(['json', 'text']);
+});
+
+it('stores private document files through Vendra Multimedia', function (): void {
+    Storage::fake('local');
+    UserProfileModuleTestContext::createCurrentTenant();
+    $user = UserProfileModuleTestContext::createUser();
+    $profile = UserProfile::factory()->forUser($user)->create();
+    $document = Document::factory()->create(['user_profile_id' => $profile->id]);
+
+    $media = $document
+        ->addMediaFromString('private document')
+        ->usingFileName('passport.pdf')
+        ->toMediaCollection(Document::MEDIA_COLLECTION);
+
+    expect($media)->toBeInstanceOf(Multimedia::class)
+        ->and($media->disk)->toBe('local')
+        ->and($media->tenant_id)->toBe(1)
+        ->and($document->getMedia(Document::MEDIA_COLLECTION))->toHaveCount(1)
+        ->and(Schema::hasColumns('documents', ['disk', 'path']))->toBeFalse();
+
+    Storage::disk('local')->assertExists($media->getPathRelativeToRoot());
 });

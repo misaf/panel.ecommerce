@@ -6,8 +6,10 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Config;
 use Laravel\Pennant\Feature;
 use Override;
+use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
 
 abstract class TestCase extends BaseTestCase
 {

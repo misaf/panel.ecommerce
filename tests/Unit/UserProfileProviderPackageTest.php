@@ -47,7 +47,14 @@ it('keeps user profile providers independently selectable', function (): void {
             File::get(base_path('packages/vendra-phone/composer.json')),
             true,
             flags: JSON_THROW_ON_ERROR,
-        )['require'])->toHaveKey('ysfkaya/filament-phone-input');
+        )['require'])->toHaveKey('ysfkaya/filament-phone-input')
+        ->and(json_decode(
+            File::get(base_path('packages/vendra-document/composer.json')),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        )['require'])
+        ->toHaveKey('misaf/vendra-multimedia')
+        ->toHaveKey('filament/spatie-laravel-media-library-plugin');
 });
 
 it('enforces one-way provider boundaries', function (): void {
@@ -88,4 +95,25 @@ it('uses the international phone input contract', function (): void {
         ->toContain("->countryStatePath('country_code')")
         ->toContain('PhoneInputNumberType::E164')
         ->toContain("PhoneColumn::make('number')");
+});
+
+it('stores document files through Vendra Multimedia', function (): void {
+    $model = File::get(base_path('packages/vendra-document/src/Models/Document.php'));
+    $relationManager = File::get(base_path(
+        'packages/vendra-document/src/Filament/RelationManagers/DocumentsRelationManager.php',
+    ));
+    $migration = File::get(base_path(
+        'packages/vendra-document/database/migrations/create_documents_table.php.stub',
+    ));
+
+    expect($model)
+        ->toContain('implements HasMedia')
+        ->toContain('use InteractsWithMedia')
+        ->toContain("MEDIA_COLLECTION = 'documents'")
+        ->and($relationManager)
+        ->toContain("SpatieMediaLibraryFileUpload::make('file')")
+        ->toContain('->visibility(\'private\')')
+        ->and($migration)
+        ->not->toContain("\$table->string('disk')")
+        ->not->toContain("\$table->string('path')");
 });
