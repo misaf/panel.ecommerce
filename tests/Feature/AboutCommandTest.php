@@ -26,6 +26,7 @@ it('reports the installed version of every Vendra package', function (): void {
         'Vendra Cart API'         => 'misaf/vendra-cart-api',
         'Vendra Currency'         => 'misaf/vendra-currency',
         'Vendra Custom Page'      => 'misaf/vendra-custom-page',
+        'Vendra Custom Page API'  => 'misaf/vendra-custom-page-api',
         'Vendra Developer Logins' => 'misaf/vendra-developer-logins',
         'Vendra Faq'              => 'misaf/vendra-faq',
         'Vendra Faq API'          => 'misaf/vendra-faq-api',

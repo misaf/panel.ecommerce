@@ -9,7 +9,7 @@ Shared Laravel JSON:API infrastructure for Vendra domain API modules.
 - Shared JSON:API package wiring
 - Domain- and tenant-provider-agnostic foundations
 
-Domain schemas, resources, servers, and routes belong in packages such as `vendra-product-api` and `vendra-blog-api`.
+Domain schemas, resources, servers, and routes belong in packages such as `vendra-product-api`, `vendra-blog-api`, and `vendra-custom-page-api`.
 
 ## Requirements
 

@@ -52,6 +52,9 @@
         <testsuite name="vendra-custom-page">
             <directory>packages/vendra-custom-page/tests</directory>
         </testsuite>
+        <testsuite name="vendra-custom-page-api">
+            <directory>packages/vendra-custom-page-api/tests</directory>
+        </testsuite>
         <testsuite name="vendra-document">
             <directory>packages/vendra-document/tests</directory>
         </testsuite>

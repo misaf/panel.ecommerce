@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32c08be68db08c2fce2d4fb38b5ed0e5",
+    "content-hash": "6acadd4bdeb97088ead8f790c1c92d83",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7035,6 +7035,100 @@
             "support": {
                 "issues": "https://github.com/misaf/vendra-custom-page/issues",
                 "source": "https://github.com/misaf/vendra-custom-page"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-custom-page-api",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-custom-page-api",
+                "reference": "88c466d4d8393d4683bfdf4610e1cd9fc247e1c8"
+            },
+            "require": {
+                "illuminate/support": "^13.0",
+                "misaf/vendra-api": "^1.0",
+                "misaf/vendra-custom-page": "^1.0",
+                "misaf/vendra-localization": "^1.0",
+                "misaf/vendra-multimedia-api": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.24.1",
+                "larastan/larastan": "^3.10.0",
+                "laravel-json-api/testing": "^3.2",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "misaf/vendra-testing": "^1.0",
+                "mockery/mockery": "^1.6.12",
+                "nunomaduro/collision": "^8.9.4",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
+                "phpstan/extension-installer": "^1.4.3"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraCustomPageApi\\Providers\\CustomPageApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraCustomPageApi\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraCustomPageApi\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API services for the vendra-custom-page module",
+            "homepage": "https://github.com/misaf/vendra-custom-page-api",
+            "keywords": [
+                "custom-page-api",
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-custom-page-api/issues",
+                "source": "https://github.com/misaf/vendra-custom-page-api"
             },
             "transport-options": {
                 "symlink": true,

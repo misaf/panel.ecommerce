@@ -33,6 +33,7 @@ jobs:
           - vendra-developer-logins
           - vendra-document
           - vendra-custom-page
+          - vendra-custom-page-api
           - vendra-faq
           - vendra-faq-api
           - vendra-language

@@ -23,6 +23,7 @@ Treat `packages/vendra-custom-page` as the source of custom-page domain behavior
 
 - Use namespace `Misaf\VendraCustomPage`.
 - Keep domain models, factories, seeders, policies, observers, console commands, Filament classes, config, migrations, translations, and tests inside this module.
+- Keep JSON:API schemas, resources, queries, routes, and server wiring in `packages/vendra-custom-page-api`.
 - Do not place custom-page domain code in the host app unless the host app is only integrating the module.
 - Keep cross-module dependencies explicit in `composer.json`; do not introduce a dependency without approval.
 
