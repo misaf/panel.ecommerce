@@ -39,3 +39,17 @@ it('runs the callback within every tenant context and restores the previous one'
     expect($seen)->toEqualCanonicalizing([$first->getKey(), $second->getKey()])
         ->and(Tenant::current())->toBeNull();
 });
+
+it('offers only enabled tenants as search options', function (): void {
+    $enabled = Tenant::factory()->enabled()->create(['slug' => 'acme-shop']);
+    Tenant::factory()->disabled()->create(['slug' => 'acme-archive']);
+    $other = Tenant::factory()->enabled()->create(['slug' => 'globex']);
+
+    $resolver = new VendraTenantResolver();
+
+    expect($resolver->searchOptions(''))->toBe([
+        $enabled->getKey() => 'acme-shop',
+        $other->getKey()   => 'globex',
+    ])
+        ->and($resolver->searchOptions('acme'))->toBe([$enabled->getKey() => 'acme-shop']);
+});
