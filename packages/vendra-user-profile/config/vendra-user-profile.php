@@ -14,14 +14,10 @@ return [
     |
     */
 
-    'features' => [
-        'enabled' => env('VENDRA_USER_PROFILE_FEATURES_ENABLED', false),
+    'features_enabled' => env('VENDRA_USER_PROFILE_FEATURES_ENABLED', false),
 
-        'discover' => env('VENDRA_USER_PROFILE_FEATURES_DISCOVER', false),
+    'features_discover' => env('VENDRA_USER_PROFILE_FEATURES_DISCOVER', false),
 
-        'defaults' => [
-            'vendra-user-profile.module-enabled' => false,
-        ],
-    ],
+    'module_enabled' => env('VENDRA_USER_PROFILE_MODULE_ENABLED', false),
 
 ];

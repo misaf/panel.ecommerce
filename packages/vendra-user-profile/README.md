@@ -27,19 +27,17 @@ php artisan vendor:publish --tag=vendra-user-profile-migrations
 php artisan migrate
 ```
 
+Tenant columns are determined when the migration runs. If profiles must be tenant-scoped, install a tenant provider such as `misaf/vendra-tenant` before running the migration. Enabling tenancy later does not add a tenant column to an existing table.
+
 The service provider and Filament plugin are auto-registered.
 
 ## Feature Flag
 
-The resource is disabled by default. Enable Pennant feature resolution and its module default in the published configuration or environment-specific configuration:
+The resource is disabled by default. Enable Pennant feature resolution and the global module switch in the published configuration or environment-specific configuration:
 
 ```php
-'features' => [
-    'enabled' => true,
-    'defaults' => [
-        'vendra-user-profile.module-enabled' => true,
-    ],
-],
+'features_enabled' => true,
+'module_enabled' => true,
 ```
 
 ## Testing

@@ -51,12 +51,14 @@ Use policy enums and policies as the permission source.
 - Keep policy method names aligned with Filament actions: `viewAny`, `view`, `create`, `update`, `delete`, `deleteAny`, `restore`, `restoreAny`, `forceDelete`, `forceDeleteAny`, `replicate`, and `reorder` as applicable.
 - Update `PermissionPolicySeeder` when new permissions are introduced.
 - Keep navigation labels and groups configurable through the module `Plugin` and `config/vendra-user-profile.php`. Do not add a `tenant_aware` config value; tenant awareness derives from the bound `TenantResolver`.
+- Keep feature configuration flat with `features_enabled`, `features_discover`, and `module_enabled`; do not introduce nested `features.*` keys. Check module access through `Features\ModuleEnabled::class`, whose Pennant `before()` hook applies the global switches before persisted tenant values.
 
 ## Data And Localization
 
 Migrations, factories, seeders, and translation files are part of the contract.
 
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
+- `TenantSchema::addTenantColumn()` is evaluated when migrations run. Install a tenant provider before migrating when profiles must be tenant-scoped; enabling tenancy later does not retrofit `tenant_id`.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.

@@ -22,7 +22,7 @@ use Illuminate\Support\HtmlString;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Filament\Clusters\CustomersCluster;
-use Misaf\VendraUserProfile\Enums\UserProfileFeatureEnum;
+use Misaf\VendraUserProfile\Features\ModuleEnabled;
 use Misaf\VendraUserProfile\Filament\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Resources\Pages\EditUserProfile;
 use Misaf\VendraUserProfile\Filament\Resources\Pages\ListUserProfiles;
@@ -140,6 +140,6 @@ final class UserProfileResource extends Resource
     {
         $tenant = app(TenantResolver::class)->current();
 
-        return Feature::for($tenant)->active(UserProfileFeatureEnum::MODULE_ENABLED->value);
+        return Feature::for($tenant)->active(ModuleEnabled::class);
     }
 }
