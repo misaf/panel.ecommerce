@@ -24,6 +24,8 @@ php artisan vendor:publish --tag=vendra-geo-migrations
 php artisan migrate
 ```
 
+Tenant columns are determined when the migrations run. If geographic records must be tenant-scoped, install a tenant provider such as `misaf/vendra-tenant` before running the migrations. Enabling tenancy later does not add tenant columns to existing tables.
+
 The service provider and Filament plugin are auto-registered.
 
 ## Testing

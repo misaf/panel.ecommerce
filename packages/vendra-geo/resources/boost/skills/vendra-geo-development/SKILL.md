@@ -56,6 +56,7 @@ Use policy enums and policies as the permission source.
 Migrations, factories, seeders, and translation files are part of the contract.
 
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
+- `TenantSchema::addTenantColumn()` is evaluated when migrations run. Install a tenant provider before migrating when geographic records must be tenant-scoped; enabling tenancy later does not add tenant columns to existing tables.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.
