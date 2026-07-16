@@ -20,8 +20,6 @@ final class DocumentFactory extends Factory
             'type'                 => fake()->randomElement(['identity', 'passport', 'license', 'tax', 'utility', 'other']),
             'issuing_country_code' => fake()->countryCode(),
             'number'               => fake()->optional()->bothify('DOC-########'),
-            'disk'                 => 'local',
-            'path'                 => 'user-profiles/documents/' . fake()->uuid() . '.pdf',
             'issued_at'            => fake()->optional()->dateTimeBetween('-5 years', '-1 year'),
             'expires_at'           => fake()->optional()->dateTimeBetween('+1 month', '+5 years'),
             'verified_at'          => null,

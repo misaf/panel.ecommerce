@@ -15,14 +15,14 @@ use Misaf\VendraDocument\Database\Factories\DocumentFactory;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Misaf\VendraUserProfile\Models\UserProfile;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 #[Fillable([
     'user_profile_id',
     'type',
     'issuing_country_code',
     'number',
-    'disk',
-    'path',
     'issued_at',
     'expires_at',
     'verified_at',
@@ -31,23 +31,29 @@ use Misaf\VendraUserProfile\Models\UserProfile;
 ])]
 #[Hidden(['tenant_id'])]
 #[UseFactory(DocumentFactory::class)]
-final class Document extends Model implements ShouldLogActivity
+final class Document extends Model implements HasMedia, ShouldLogActivity
 {
     use BelongsToTenant;
 
     /** @use HasFactory<DocumentFactory> */
     use HasFactory;
 
+    use InteractsWithMedia;
     use SoftDeletes;
 
-    protected $attributes = [
-        'disk' => 'local',
-    ];
+    public const string MEDIA_COLLECTION = 'documents';
 
     /** @return BelongsTo<UserProfile, $this> */
     public function userProfile(): BelongsTo
     {
         return $this->belongsTo(UserProfile::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::MEDIA_COLLECTION)
+            ->useDisk('local')
+            ->singleFile();
     }
 
     /** @return array<string, string> */
@@ -60,8 +66,6 @@ final class Document extends Model implements ShouldLogActivity
             'type'                 => 'string',
             'issuing_country_code' => 'string',
             'number'               => 'string',
-            'disk'                 => 'string',
-            'path'                 => 'string',
             'issued_at'            => 'date',
             'expires_at'           => 'date',
             'verified_at'          => 'datetime',

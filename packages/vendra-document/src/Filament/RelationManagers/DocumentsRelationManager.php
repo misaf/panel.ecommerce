@@ -8,8 +8,8 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -18,6 +18,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraDocument\Models\Document;
 
 final class DocumentsRelationManager extends RelationManager
 {
@@ -51,13 +52,16 @@ final class DocumentsRelationManager extends RelationManager
                 ->label(__('vendra-document::document.fields.issuing_country_code'))
                 ->length(2),
             TextInput::make('number')->label(__('vendra-document::document.fields.number')),
-            FileUpload::make('path')
-                ->label(__('vendra-document::document.fields.path'))
-                ->directory('user-profiles/documents')
+            SpatieMediaLibraryFileUpload::make('file')
+                ->collection(Document::MEDIA_COLLECTION)
                 ->disk('local')
-                ->visibility('private')
                 ->downloadable()
-                ->required(),
+                ->label(__('vendra-document::document.fields.file'))
+                ->openable()
+                ->preserveFilenames()
+                ->required()
+                ->visibility('private')
+                ->columnSpanFull(),
             DatePicker::make('issued_at')->label(__('vendra-document::document.fields.issued_at')),
             DatePicker::make('expires_at')
                 ->label(__('vendra-document::document.fields.expires_at'))

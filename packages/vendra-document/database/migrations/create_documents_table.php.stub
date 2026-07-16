@@ -17,8 +17,6 @@ return new class () extends Migration {
             $table->string('type');
             $table->char('issuing_country_code', 2)->nullable();
             $table->string('number')->nullable();
-            $table->string('disk')->default('local');
-            $table->string('path');
             $table->date('issued_at')->nullable();
             $table->date('expires_at')->nullable();
             $table->timestampTz('verified_at')->nullable();

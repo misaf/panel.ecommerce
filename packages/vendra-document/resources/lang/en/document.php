@@ -7,12 +7,12 @@ return [
     'documents' => 'Documents',
     'fields'    => [
         'expires_at'           => 'Expires at',
+        'file'                 => 'Private file',
         'issued_at'            => 'Issued at',
         'issuing_country_code' => 'Issuing country',
         'metadata'             => 'Country-specific data',
         'notes'                => 'Notes',
         'number'               => 'Document number',
-        'path'                 => 'Private file',
         'type'                 => 'Type',
         'verified_at'          => 'Verified',
     ],

@@ -7012,11 +7012,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "0f0ed739a00bb017367d7cd566916128cee89631"
+                "reference": "44bb144c2e4349048cb6386e0019300064b5cba5"
             },
             "require": {
                 "filament/filament": "^5.6.8",
+                "filament/spatie-laravel-media-library-plugin": "^5.6.8",
                 "illuminate/support": "^13.0",
+                "misaf/vendra-multimedia": "^1.0",
                 "misaf/vendra-support": "^1.0",
                 "misaf/vendra-user-profile": "^1.0",
                 "php": "^8.3",
