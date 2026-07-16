@@ -29,7 +29,7 @@ Follow the current `JsonApi/V1` layout.
 - Register routes in `routes/api.php` with `JsonApiRoute::server('vendra-faq')->prefix('v1')`.
 - Use `JsonApiController` for standard resource endpoints.
 - Keep resource type names kebab-case and stable, for example `faqs`, `faq-categories`.
-- Register schemas in `JsonApi\V1\Server::allSchemas()`.
+- Register `FaqCategorySchema`, `FaqSchema`, and `MultimediaSchema` in `JsonApi\V1\Server::allSchemas()`. The FAQ multimedia relationships and include paths require the multimedia schema on the same server.
 - Keep `authorizable()` behavior intentional; do not silently enable or disable authorization.
 - Use schema classes for fields, relationships, filters, pagination, and sortables.
 

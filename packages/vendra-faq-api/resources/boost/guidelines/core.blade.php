@@ -10,6 +10,7 @@ The `misaf/vendra-faq-api` package exposes `misaf/vendra-faq` domain models thro
 - Keep Filament/admin UI in `misaf/vendra-faq`.
 - Respect domain model tenancy. Tenant awareness is owned by `misaf/vendra-support` and derives from the bound `TenantResolver` (installing `misaf/vendra-tenant` enables it); there is no `tenant_aware` config toggle.
 - Keep production API code tenant-provider agnostic: inherit tenancy through the `Misaf\VendraFaq` models and never reference `Misaf\VendraTenant` in servers, schemas, queries, or routes. Feature tests may use a concrete tenant factory solely to establish tenant context; architecture expectations remain scoped to the production `Misaf\VendraFaqApi` namespace.
+- Register `FaqCategorySchema`, `FaqSchema`, and `MultimediaSchema` in `JsonApi\V1\Server::allSchemas()`. FAQ multimedia relationships and include paths require the multimedia schema on the same JSON:API server.
 - Keep schema filters and request validation rules synchronized.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file and do not add comments that restate the code.
 - Add or update Pest tests for routes, server schema registration, filters, includes, pagination, sorting, sparse fieldsets, and relationship endpoints.

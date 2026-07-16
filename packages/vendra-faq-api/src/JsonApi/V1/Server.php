@@ -7,6 +7,7 @@ namespace Misaf\VendraFaqApi\JsonApi\V1;
 use LaravelJsonApi\Core\Server\Server as BaseServer;
 use Misaf\VendraFaqApi\JsonApi\V1\FaqCategories\FaqCategorySchema;
 use Misaf\VendraFaqApi\JsonApi\V1\Faqs\FaqSchema;
+use Misaf\VendraMultimediaApi\JsonApi\V1\Multimedia\MultimediaSchema;
 
 final class Server extends BaseServer
 {
@@ -25,6 +26,7 @@ final class Server extends BaseServer
         return [
             FaqCategorySchema::class,
             FaqSchema::class,
+            MultimediaSchema::class,
         ];
     }
 }
