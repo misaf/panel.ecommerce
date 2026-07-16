@@ -7,6 +7,12 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 ## Workflow
 
+## Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 Use `socialite-development` for OAuth flows, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, inspect the installed package versions and search Laravel Boost documentation for Socialite and Filament integration behavior.
 
 ## Module Boundary

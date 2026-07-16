@@ -7,6 +7,12 @@ description: "Create, modify, review, or test the Vendra Multimedia package in p
 
 ## Workflow
 
+## Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
@@ -34,7 +40,7 @@ Follow the existing `Multimedia` patterns for new multimedia entities.
 
 ## Filament Standards
 
-Keep the read-only resource in `src/Filament/Clusters/Resources` and its dashboard widget in `src/Filament/Widgets`. The resource belongs to the shared `ContentCluster` through its `$cluster` property, so its namespace and plugin discovery path must use `Filament\Clusters\Resources`.
+Keep every resource that declares a `$cluster`, including its pages, tables, and resource-scoped widgets, under `src/Filament/Clusters/Resources/` with the matching `Misaf\VendraMultimedia\Filament\Clusters\Resources` namespace and plugin discovery path. Resources without a cluster belong under `src/Filament/Resources/`. Keep dashboard widgets in `src/Filament/Widgets`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep `MultimediaResource` thin by delegating table configuration to `Tables/MultimediaTable.php`. Do not add a form schema unless media records intentionally become editable here.

@@ -4,12 +4,19 @@ The `misaf/vendra-newsletter` package owns newsletter domain behavior and the Fi
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep newsletter domain code inside `packages/vendra-newsletter` using the `Misaf\VendraNewsletter` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, Filament resources, mail, jobs, actions, the unsubscribe controller/route, console commands, translations, config, and package bootstrapping.
 - Follow existing model conventions: tenant ownership, soft deletes, typed casts, the `NewsletterStatusEnum` lifecycle (`draft` → `scheduled` → `sent`), factories, and typed query scopes (`Newsletter::due()`, `NewsletterSubscriber::subscribed()` / `unsubscribed()`).
 - Tenant awareness is owned by `misaf/vendra-support` via `Misaf\VendraSupport\Support\TenantAwareness`, which derives purely from the bound `TenantResolver`. Installing a tenant provider (e.g. `misaf/vendra-tenant`) makes the app tenant-aware; without one the default null resolver keeps it disabled. The newsletter module defines no `tenant_aware` config.
 - Keep the module tenant-agnostic: it must build and run with or without a tenant provider. Never reference a concrete provider such as `Misaf\VendraTenant`, `Tenant::`, or the `tenants:artisan` command anywhere — models, migrations, factories, seeders, fixtures, jobs, or commands. Let `BelongsToTenant` assign `tenant_id`; do not set it manually.
 - Keep Filament resources thin by delegating forms to `Schemas/*Form.php` and tables to `Tables/*Table.php`. Keep the reusable Filament send button in `Filament/Clusters/Resources/Newsletters/Actions/SendNewsletterAction.php`; it delegates to the `Actions\SendNewsletter` domain action and is hidden once a newsletter is `sent`.
+- Because the package resources declare a `$cluster`, keep their complete resource trees under `src/Filament/Clusters/Resources/`, use the matching `Misaf\VendraNewsletter\Filament\Clusters\Resources` namespace, and keep plugin discovery aligned. Any future resource without a cluster must instead live under `src/Filament/Resources/`.
 - Authorize the custom send action explicitly through `Gate::allows('send', $newsletter)`. Keep `NewsletterPolicy::send()` backed by the dedicated `send-newsletter` permission, seed new permissions through the package permission seeder, and prevent edits after a newsletter reaches `sent`.
 - Keep subscriber email unique per tenant and `unsubscribe_token` globally unique. Creating an email that belongs to a soft-deleted subscriber must restore and resubscribe that row, update its name, and preserve its existing unsubscribe token through `Actions\SubscribeNewsletterSubscriber`.
 - Keep the `newsletter_deliveries` receipt table in `create_newsletters_table.php`, created after newsletters and subscribers and dropped before them. Its unique `(newsletter_id, newsletter_subscriber_id)` constraint is the durable delivery-idempotency boundary.

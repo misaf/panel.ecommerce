@@ -4,6 +4,12 @@ The `misaf/vendra-affiliate-api` package exposes the public referral lookup surf
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep API code inside `packages/vendra-affiliate-api` using the `Misaf\VendraAffiliateApi` namespace; keep affiliate persistence and workflows in `misaf/vendra-affiliate`.
 - Treat the API as public and read-only. Expose active affiliates only, and return only the referral code and creation timestamp; never expose users, commission terms, payouts, or other financial data.
 - Keep the active-affiliate constraint in the schema query so collection, filtered, and individual-resource endpoints enforce the same visibility rule.

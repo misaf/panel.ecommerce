@@ -4,6 +4,12 @@ The `misaf/vendra-support` package owns the shared support layer for every Vendr
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep shared support code inside `packages/vendra-support` using the `Misaf\VendraSupport` namespace.
 - This package owns the tenant contract and defaults: `Contracts\TenantResolver`, the default `NullTenantResolver` binding, `Support\TenantAwareness`, `Traits\BelongsToTenant`, `Scopes\TenantScope` / `TeamScope`, `Support\TenantSchema`, `Concerns\RequiresCurrentTenant`, `Support\TenantSeeders`, the base `Database\Seeders` (`DemoContentSeeder`, `PermissionPolicySeeder`), the base `Console\Commands` (`SeedCommand`, `TenantSeedCommand`), shared `Filament\Concerns`, and shared events/listeners.
 - This package also owns optional capability contracts and null defaults, including `TagResolver`, `TagIntegration`, and `TagRelationship`. Domain consumers use these without importing the concrete provider package.

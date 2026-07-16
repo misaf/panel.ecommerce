@@ -7,6 +7,12 @@ description: "Create, modify, review, or test the Vendra Attribute package in pa
 
 ## Workflow
 
+## Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 Use `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, and `tailwindcss-development` only for Blade or Tailwind UI. Before editing, inspect sibling code and use Laravel Boost `application-info` and `search-docs` for affected Laravel or Filament APIs.
 
 ## Domain Boundary
@@ -21,6 +27,7 @@ Use `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, 
 
 ## Change Checklist
 
+- Keep every resource that declares a `$cluster`, including its complete supporting tree, under `src/Filament/Clusters/Resources/` with the matching `Misaf\VendraAttribute\Filament\Clusters\Resources` namespace and plugin discovery path. Resources without a cluster belong under `src/Filament/Resources/`.
 - Keep resources thin, with form/table definitions and the value relation manager in their existing Filament directories.
 - Update migrations, factories, policies, permission seeders, configuration, and translation parity when their contracts change.
 - Cover polymorphic values, resolver wiring, units, optional tags, policies, and user-visible Filament behavior with focused Pest tests.

@@ -7,6 +7,12 @@ description: "Create, modify, review, or test the Vendra Authify Log package in 
 
 ## Workflow
 
+## Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
@@ -34,7 +40,7 @@ Follow the existing `AuthifyLog` patterns for new authify-log entities.
 
 ## Filament Standards
 
-Keep the read-only resource, relation manager, and resource widget under `src/Filament/Clusters/Resources`. The resource belongs to the shared `SystemCluster` through its `$cluster` property, so its namespace and plugin discovery path must use `Filament\Clusters\Resources`.
+Keep every resource that declares a `$cluster`, including its pages, tables, relation managers, and resource-scoped widgets, under `src/Filament/Clusters/Resources/` with the matching `Misaf\VendraAuthifyLog\Filament\Clusters\Resources` namespace and plugin discovery path. Resources without a cluster belong under `src/Filament/Resources/`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep `AuthifyLogResource` thin by delegating table configuration to `Tables/AuthifyLogTable.php`. Do not add a form schema unless authentication logs intentionally become editable.

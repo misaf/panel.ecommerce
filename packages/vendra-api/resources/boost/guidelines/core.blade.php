@@ -4,6 +4,12 @@ The `misaf/vendra-api` package provides shared Laravel JSON:API infrastructure â
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep shared API code inside `packages/vendra-api` using the `Misaf\VendraApi` namespace.
 - Use this package for cross-cutting JSON:API building blocks: reusable `JsonApi/Filters`, `JsonApi/Sorting`, and API service-provider wiring. Domain schemas, resources, and routes belong in the per-domain API modules, not here.
 - Depend only on framework and JSON:API packages. Never import a domain module or a concrete tenant provider such as `Misaf\VendraTenant`; this module stays domain- and tenant-agnostic.

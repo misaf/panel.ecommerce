@@ -7,6 +7,12 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 
 ## Workflow
 
+## Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 Use this skill with `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, and `vendra-permission-development` when policies or permissions change. Use `tailwindcss-development` only for Blade or Tailwind UI.
 
 Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant installed packages. Prefer Boost database and browser tools for application inspection.
@@ -42,7 +48,7 @@ Treat `packages/vendra-cart` as the source of temporary shopping-selection behav
 ## Filament And Permissions
 
 - Register `CartResource` through `CartPlugin` and `CartServiceProvider`, respecting configured panel IDs.
-- Keep the cluster-assigned resource under `src/Filament/Clusters/Resources`; delegate schemas and tables to dedicated classes.
+- Keep every resource that declares a `$cluster`, including its complete supporting tree, under `src/Filament/Clusters/Resources/` with the matching `Misaf\VendraCart\Filament\Clusters\Resources` namespace and plugin registration. Resources without a cluster belong under `src/Filament/Resources/`; delegate schemas and tables to dedicated classes.
 - Keep the administration surface operational and catalog-safe: allow authorized users to list, view, and delete carts or items, but do not edit external sellable data.
 - Display the resolved owner using `username`, `name`, or `email` with a route-key fallback. Eager-load the polymorphic owner in tables and do not expose raw morph type/ID as the primary label.
 - Use Filament v5 namespaces: fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, columns from `Filament\Tables\Columns`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.

@@ -4,6 +4,12 @@ The `misaf/vendra-tagger` package owns tagging and taxonomy and the Filament adm
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep tagger domain code inside `packages/vendra-tagger` using the `Misaf\VendraTagger` namespace.
 - Use this package for the `Tagger` model, migration extensions, factory, permission policy, Filament resource, translations, config, and package bootstrapping.
 - Extend `Spatie\Tags\Tag`, preserve translated `name` and `slug` values, generate missing slugs from names, and preserve explicitly supplied slugs.
@@ -11,6 +17,7 @@ The `misaf/vendra-tagger` package owns tagging and taxonomy and the Filament adm
 - Tenant awareness is owned by `misaf/vendra-support` via `Misaf\VendraSupport\Support\TenantAwareness`, which derives purely from the bound `TenantResolver`. Installing a tenant provider (e.g. `misaf/vendra-tenant`) makes the app tenant-aware; without one the default null resolver keeps it disabled. The module defines no `tenant_aware` config.
 - Keep the module tenant-agnostic: it must build and run with or without a tenant provider. Never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. Let `BelongsToTenant` assign `tenant_id`; do not set it manually.
 - Keep the cluster-assigned Filament resource under `src/Filament/Clusters/Resources`, delegating forms to `Schemas/*Form.php` and tables to `Tables/*Table.php`.
+- Keep the complete resource tree under `src/Filament/Clusters/Resources/`, use the matching `Misaf\VendraTagger\Filament\Clusters\Resources` namespace, and keep plugin discovery aligned. Any future resource without a `$cluster` must instead live under `src/Filament/Resources/`.
 - Keep translated names and slugs unique per tenant and tag type; do not make the `type` field unique.
 - Register the resource through `TaggerPlugin`, default it to the configured `admin` panel and shared Content navigation group, and keep host overrides working.
 - Keep `config/vendra-tagger.php` cache-safe and do not add closures or a tenant toggle. Consumer applications must configure `tags.tag_model` as `Misaf\VendraTagger\Models\Tagger`.

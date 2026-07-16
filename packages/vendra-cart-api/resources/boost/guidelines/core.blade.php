@@ -4,6 +4,12 @@ The `misaf/vendra-cart-api` package owns JSON:API schemas, resources, query vali
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep cart API code inside `packages/vendra-cart-api` using the `Misaf\VendraCartApi` namespace.
 - Keep cart models, migrations, factories, policies, seeders, and Filament UI in `misaf/vendra-cart`; this package only serializes and routes them.
 - Register `carts` and `cart-items` on the `vendra-cart` JSON:API server under `/v1`.
