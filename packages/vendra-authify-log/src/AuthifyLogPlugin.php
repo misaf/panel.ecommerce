@@ -32,8 +32,8 @@ final class AuthifyLogPlugin implements Plugin
                 for: 'Misaf\\VendraAuthifyLog\\Filament\\Pages',
             )
             ->discoverResources(
-                in: __DIR__ . '/Filament/Resources',
-                for: 'Misaf\\VendraAuthifyLog\\Filament\\Resources',
+                in: __DIR__ . '/Filament/Clusters/Resources',
+                for: 'Misaf\\VendraAuthifyLog\\Filament\\Clusters\\Resources',
             )
             ->discoverWidgets(
                 in: __DIR__ . '/Filament/Widgets',

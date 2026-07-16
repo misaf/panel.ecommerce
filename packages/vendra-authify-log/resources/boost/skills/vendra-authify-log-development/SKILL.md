@@ -34,7 +34,7 @@ Follow the existing `AuthifyLog` patterns for new authify-log entities.
 
 ## Filament Standards
 
-Keep the read-only resource, relation manager, and resource widget under `src/Filament/Resources`. The resource belongs to the shared `SystemCluster` through its `$cluster` property; do not move it into a package-owned `Clusters` directory.
+Keep the read-only resource, relation manager, and resource widget under `src/Filament/Clusters/Resources`. The resource belongs to the shared `SystemCluster` through its `$cluster` property, so its namespace and plugin discovery path must use `Filament\Clusters\Resources`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep `AuthifyLogResource` thin by delegating table configuration to `Tables/AuthifyLogTable.php`. Do not add a form schema unless authentication logs intentionally become editable.

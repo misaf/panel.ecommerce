@@ -41,8 +41,8 @@ Treat `packages/vendra-cart` as the source of temporary shopping-selection behav
 
 ## Filament And Permissions
 
-- Register the standalone `CartResource` through `CartPlugin` and `CartServiceProvider`, respecting configured panel IDs.
-- Keep standalone Filament resources under `src/Filament/Resources`; delegate schemas and tables to dedicated classes.
+- Register `CartResource` through `CartPlugin` and `CartServiceProvider`, respecting configured panel IDs.
+- Keep the cluster-assigned resource under `src/Filament/Clusters/Resources`; delegate schemas and tables to dedicated classes.
 - Keep the administration surface operational and catalog-safe: allow authorized users to list, view, and delete carts or items, but do not edit external sellable data.
 - Display the resolved owner using `username`, `name`, or `email` with a route-key fallback. Eager-load the polymorphic owner in tables and do not expose raw morph type/ID as the primary label.
 - Use Filament v5 namespaces: fields from `Filament\Forms\Components`, layout from `Filament\Schemas\Components`, columns from `Filament\Tables\Columns`, actions from `Filament\Actions`, and icons from `Filament\Support\Icons\Heroicon`.

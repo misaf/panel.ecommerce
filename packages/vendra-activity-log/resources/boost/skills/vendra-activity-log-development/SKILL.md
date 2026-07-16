@@ -33,7 +33,7 @@ Follow the existing `ActivityLog` patterns for new activity-log entities.
 
 ## Filament Standards
 
-Keep the read-only resource in `src/Filament/Resources` and its dashboard widget in `src/Filament/Widgets`. The resource belongs to the shared `SystemCluster` through its `$cluster` property; do not move it into a package-owned `Clusters` directory.
+Keep the read-only resource in `src/Filament/Clusters/Resources` and its dashboard widget in `src/Filament/Widgets`. The resource belongs to the shared `SystemCluster` through its `$cluster` property, so its namespace and plugin discovery path must use `Filament\Clusters\Resources`.
 
 - Register module UI through the module `Plugin` and `ServiceProvider`; do not manually wire resources in unrelated panel providers.
 - Keep `ActivityLogResource` thin by delegating table configuration to `Tables/ActivityLogTable.php`. Do not add a form schema unless activity records intentionally become editable.

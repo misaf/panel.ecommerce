@@ -6,7 +6,7 @@ namespace Misaf\VendraCart;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Misaf\VendraCart\Filament\Resources\Carts\CartResource;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 
 final class CartPlugin implements Plugin
 {
