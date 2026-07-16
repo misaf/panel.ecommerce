@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class () extends Migration {
+    public function up(): void
+    {
+        if ( ! Schema::hasTable('languages')) {
+            return;
+        }
+
+        if (Schema::hasColumn('languages', 'tenant_id')) {
+            $tenantIds = DB::table('languages')
+                ->distinct()
+                ->orderBy('tenant_id')
+                ->pluck('tenant_id');
+
+            foreach ($tenantIds as $tenantId) {
+                $languages = DB::table('languages')->where('tenant_id', $tenantId);
+
+                if ((clone $languages)->where('is_default', true)->exists()) {
+                    continue;
+                }
+
+                $languageId = (clone $languages)
+                    ->orderBy('position')
+                    ->orderBy('id')
+                    ->value('id');
+
+                if (null !== $languageId) {
+                    DB::table('languages')->where('id', $languageId)->update(['is_default' => true]);
+                }
+            }
+
+            return;
+        }
+
+        if (DB::table('languages')->where('is_default', true)->exists()) {
+            return;
+        }
+
+        $languageId = DB::table('languages')
+            ->orderBy('position')
+            ->orderBy('id')
+            ->value('id');
+
+        if (null !== $languageId) {
+            DB::table('languages')->where('id', $languageId)->update(['is_default' => true]);
+        }
+    }
+
+    /**
+     * Existing defaults cannot be distinguished from backfilled defaults.
+     */
+    public function down(): void {}
+};

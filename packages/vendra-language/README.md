@@ -5,8 +5,8 @@ Tenant-aware language catalogs and database-backed translation lines for Vendra 
 ## Features
 
 - A platform locale catalog backed by Symfony Intl and ICU
-- Per-tenant enabled languages with a default flag and sortable display order
-- Database-backed translation lines powered by `spatie/laravel-translation-loader`
+- Per-tenant enabled languages with exactly one default and sortable display order
+- Locale-specific database overrides powered by `spatie/laravel-translation-loader`
 - A global Filament language switcher
 - An optional bridge to `misaf/vendra-localization`
 
@@ -52,7 +52,7 @@ $language = Language::query()->create([
 ]);
 ```
 
-Setting another language as default automatically clears the previous default for the current tenant.
+The first enabled language becomes the default automatically. Setting another language as default clears the previous default for the current tenant, and deleting the default promotes the first remaining language in display order.
 
 Create a translation line and read it through Laravel's translator:
 
@@ -87,6 +87,10 @@ __('vendra-product::attributes.name');
 
 Leave `namespace` empty for application translations. In Laravel's `namespace::group.key` syntax, the package name is the namespace and the translation file name is the group.
 
+Database values override only the locale for which a non-blank value is stored. Missing and blank values leave that locale's file translation intact, allowing Laravel's normal fallback behavior to run afterward.
+
+Applications that replace `translation-loader.model` may implement `Misaf\VendraLanguage\Contracts\NamespacedLanguageLine` to receive package namespaces. Models without the contract continue to support application translations, while explicit custom loaders and translation managers remain authoritative.
+
 Load the current tenant's enabled languages in display order:
 
 ```php
@@ -99,7 +103,9 @@ When `misaf/vendra-localization` is installed, this package supplies its support
 
 ## Filament
 
-The configured panels expose Languages and Language Lines within the Localization cluster. The global language switcher uses the current tenant's enabled languages and falls back to `config('app.fallback_locale')` when none are enabled.
+The configured panels expose Languages and Language Lines within the Localization cluster. Language lines can override keys discovered in application and Vendra package translation files. Their form displays all enabled tenant locales together and retains stored values for locales that are later disabled. The Languages table reports override coverage per locale, while the Language Lines table reports enabled-locale completion and identifies missing locales.
+
+The global language switcher uses the current tenant's enabled languages in display order and falls back to `config('app.fallback_locale')` when none are enabled.
 
 ## Testing
 
