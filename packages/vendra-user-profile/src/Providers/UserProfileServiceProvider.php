@@ -14,6 +14,7 @@ use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUserProfile\Models\UserProfile;
+use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 use Misaf\VendraUserProfile\UserProfilePlugin;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -39,6 +40,8 @@ final class UserProfileServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
+        $this->app->singleton(UserProfileRelationManagers::class);
+
         Panel::configureUsing(function (Panel $panel): void {
             if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-user-profile')) {
                 return;

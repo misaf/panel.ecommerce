@@ -19,6 +19,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
+use InvalidArgumentException;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Filament\Clusters\CustomersCluster;
@@ -30,6 +31,7 @@ use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ViewUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Schemas\UserProfileForm;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Tables\UserProfileTable;
 use Misaf\VendraUserProfile\Models\UserProfile;
+use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 
 final class UserProfileResource extends Resource
 {
@@ -54,6 +56,11 @@ final class UserProfileResource extends Resource
     public static function getModelLabel(): string
     {
         return __('vendra-user-profile::navigation.user_profile');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('vendra-user::navigation.user_management');
     }
 
     public static function getNavigationLabel(): string
@@ -92,14 +99,16 @@ final class UserProfileResource extends Resource
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
+        $profile = self::profile($record);
+
         return [
-            __('vendra-user-profile::attributes.email') => str('<span dir="ltr">' . $record->user->email . '</span>')->toHtmlString(),
+            __('vendra-user-profile::attributes.email') => str('<span dir="ltr">' . $profile->user()->firstOrFail()->email . '</span>')->toHtmlString(),
         ];
     }
 
-    public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
+    public static function getGlobalSearchResultTitle(Model $record): Htmlable
     {
-        return str('<span dir="ltr">' . $record->name . '</span>')->toHtmlString();
+        return str('<span dir="ltr">' . self::profile($record)->name . '</span>')->toHtmlString();
     }
 
     /**
@@ -120,10 +129,7 @@ final class UserProfileResource extends Resource
      */
     public static function getRelations(): array
     {
-        return [
-            // UserProfileDocumentRelationManager::class,
-            // UserProfilePhoneRelationManager::class,
-        ];
+        return app(UserProfileRelationManagers::class)->all();
     }
 
     public static function form(Schema $schema): Schema
@@ -141,5 +147,14 @@ final class UserProfileResource extends Resource
         $tenant = app(TenantResolver::class)->current();
 
         return Feature::for($tenant)->active(ModuleEnabled::class);
+    }
+
+    private static function profile(Model $record): UserProfile
+    {
+        if ( ! $record instanceof UserProfile) {
+            throw new InvalidArgumentException('User Profile resources require a UserProfile record.');
+        }
+
+        return $record;
     }
 }
