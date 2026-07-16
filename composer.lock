@@ -5838,7 +5838,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
-                "reference": "a3ef13ef2f2d84740a6bf1408a4b0f8d590e49e4"
+                "reference": "694d524904acf860d19cebb3c5e1f1a92e9a8d38"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -5850,12 +5850,14 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
+                "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "^1.0",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-laravel": "^4.1"
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -5877,10 +5879,43 @@
                     "Misaf\\VendraAddress\\Tests\\": "tests/"
                 }
             },
+            "scripts": {
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ]
+            },
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
             "description": "Country-adaptable user profile addresses for Vendra",
+            "homepage": "https://github.com/misaf/vendra-address",
+            "keywords": [
+                "address",
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-address/issues",
+                "source": "https://github.com/misaf/vendra-address"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -7012,7 +7047,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "44bb144c2e4349048cb6386e0019300064b5cba5"
+                "reference": "0009b45e655432d30830d4e240c141f0208624b3"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -7026,12 +7061,14 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
+                "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "^1.0",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-laravel": "^4.1"
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7053,10 +7090,43 @@
                     "Misaf\\VendraDocument\\Tests\\": "tests/"
                 }
             },
+            "scripts": {
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ]
+            },
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
             "description": "Private jurisdiction-aware user profile documents for Vendra",
+            "homepage": "https://github.com/misaf/vendra-document",
+            "keywords": [
+                "document",
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-document/issues",
+                "source": "https://github.com/misaf/vendra-document"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -7926,7 +7996,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
-                "reference": "fcbcb9a6e200fbc518c727b7324bd4276a5df20e"
+                "reference": "8b9e40a245cba5d1ae94f27a356ab65ee5a88b4a"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -7939,12 +8009,14 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
+                "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "^1.0",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-laravel": "^4.1"
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7966,10 +8038,43 @@
                     "Misaf\\VendraPhone\\Tests\\": "tests/"
                 }
             },
+            "scripts": {
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ]
+            },
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
             "description": "International user profile phone numbers for Vendra",
+            "homepage": "https://github.com/misaf/vendra-phone",
+            "keywords": [
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "phone",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-phone/issues",
+                "source": "https://github.com/misaf/vendra-phone"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -9001,7 +9106,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
-                "reference": "2a8ebb87256ccaf64b1ef76d2e35554bed7ce71d"
+                "reference": "03df45af33117104a3db2d953f9b24d6ad84fefd"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -9013,12 +9118,14 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
+                "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "^1.0",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-laravel": "^4.1"
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9040,10 +9147,43 @@
                     "Misaf\\VendraVerification\\Tests\\": "tests/"
                 }
             },
+            "scripts": {
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ]
+            },
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
             "description": "Provider-neutral user profile verification records for Vendra",
+            "homepage": "https://github.com/misaf/vendra-verification",
+            "keywords": [
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra",
+                "verification"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-verification/issues",
+                "source": "https://github.com/misaf/vendra-verification"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
