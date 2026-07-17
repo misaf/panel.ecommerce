@@ -29,7 +29,7 @@ final class MultimediaServiceProvider extends PackageServiceProvider
             ->name('vendra-multimedia')
             ->hasTranslations()
             ->hasMigrations([
-                'add_tenant_id_column_to_media_table',
+                'create_media_table',
             ])
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-multimedia');

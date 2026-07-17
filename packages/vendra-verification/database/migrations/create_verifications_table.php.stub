@@ -13,7 +13,9 @@ return new class () extends Migration {
         Schema::create('verifications', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('user_profile_id');
+            $table->foreignId('user_profile_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('type');
             $table->string('status')->default('pending');
             $table->string('provider')->nullable();

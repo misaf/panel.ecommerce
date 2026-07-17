@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraLanguage\Actions\SetDefaultLanguage;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Support\NullTenantResolver;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 use function Pest\Laravel\mock;
@@ -129,6 +129,7 @@ it('creates the fresh language schema expected by the model', function (): void 
         'id',
         'locale',
         'is_default',
+        'default_guard',
         'position',
         'created_at',
         'updated_at',
@@ -214,35 +215,17 @@ it('rejects bulk updates that would create multiple default languages', function
         ->toThrow(QueryException::class);
 });
 
-it('backfills the first ordered language for every tenant without a default', function (): void {
-    $currentTenantId = 1;
-    $tenantResolver = mock(TenantResolver::class);
+it('creates language tables without tenant columns when tenancy is unavailable', function (): void {
+    app()->instance(TenantResolver::class, new NullTenantResolver());
 
-    $tenantResolver->shouldReceive('available')->andReturnTrue();
-    $tenantResolver->shouldReceive('current')->andReturnNull();
-    $tenantResolver->shouldReceive('currentId')->andReturnUsing(function () use (&$currentTenantId): int {
-        return $currentTenantId;
-    });
+    Schema::dropIfExists('language_lines');
+    Schema::dropIfExists('languages');
 
-    app()->instance(TenantResolver::class, $tenantResolver);
+    $migration = require __DIR__ . '/../../database/migrations/create_languages_table.php.stub';
 
-    $tenantOneEnglish = Language::query()->create(['locale' => 'en', 'is_default' => false, 'position' => 2]);
-    $tenantOneGerman = Language::query()->create(['locale' => 'de', 'is_default' => false, 'position' => 1]);
-
-    $currentTenantId = 2;
-
-    $tenantTwoEnglish = Language::query()->create(['locale' => 'en', 'is_default' => false, 'position' => 1]);
-    $tenantTwoPersian = Language::query()->create(['locale' => 'fa', 'is_default' => false, 'position' => 2]);
-
-    DB::table('languages')->update(['is_default' => false]);
-    DB::table('languages')->where('id', $tenantOneEnglish->getKey())->update(['position' => 2]);
-    DB::table('languages')->where('id', $tenantOneGerman->getKey())->update(['position' => 1]);
-    DB::table('languages')->where('id', $tenantTwoEnglish->getKey())->update(['position' => 1]);
-    DB::table('languages')->where('id', $tenantTwoPersian->getKey())->update(['position' => 2]);
-
-    $migration = require __DIR__ . '/../../database/migrations/backfill_language_defaults.php.stub';
     $migration->up();
 
-    expect(DB::table('languages')->where('tenant_id', 1)->where('is_default', true)->value('locale'))->toBe('de')
-        ->and(DB::table('languages')->where('tenant_id', 2)->where('is_default', true)->value('locale'))->toBe('en');
+    expect(Schema::hasColumn('languages', 'tenant_id'))->toBeFalse()
+        ->and(Schema::hasColumn('language_lines', 'tenant_id'))->toBeFalse()
+        ->and(Schema::hasColumns('language_lines', ['namespace', 'namespace_guard', 'group', 'key', 'text']))->toBeTrue();
 });

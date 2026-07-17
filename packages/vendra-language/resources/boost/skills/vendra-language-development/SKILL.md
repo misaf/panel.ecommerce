@@ -72,6 +72,7 @@ Migrations, factories, seeders, and translation files are part of the contract.
 - Keep synchronization idempotent and transaction-safe. Load existing tenant-scoped lines in a batch, let `BelongsToTenant` assign ownership, and return created, updated, and unchanged counts for user feedback.
 - Keep the shared synchronization action available from both Languages and Language Lines list pages. Since synchronization can create and update rows, authorize both Language Line create and update abilities.
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
+- Keep fresh installs to final create migrations for `languages` and `language_lines`; define namespace and uniqueness invariants there and do not include data backfills in the fresh baseline.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.

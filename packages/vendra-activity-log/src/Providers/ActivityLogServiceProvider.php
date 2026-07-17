@@ -28,7 +28,7 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
             ->name('vendra-activity-log')
             ->hasTranslations()
             ->hasMigrations([
-                'add_tenant_id_column_to_activity_log_table',
+                'create_activity_log_table',
             ])
             ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {

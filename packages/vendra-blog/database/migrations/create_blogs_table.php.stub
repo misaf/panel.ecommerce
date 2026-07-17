@@ -10,18 +10,10 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createBlogPostCategoriesTable();
-        $this->createBlogPostsTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('blog_posts');
-        Schema::dropIfExists('blog_post_categories');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createBlogPostCategoriesTable();
+            $this->createBlogPostsTable();
+        });
     }
 
     private function createBlogPostCategoriesTable(): void
@@ -49,7 +41,9 @@ return new class () extends Migration {
         Schema::create('blog_posts', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('blog_post_category_id');
+            $table->foreignId('blog_post_category_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -63,6 +57,14 @@ return new class () extends Migration {
             $table->index(TenantSchema::tenantIndex(['blog_post_category_id']));
             $table->index(TenantSchema::tenantIndex(['position']));
             $table->index(TenantSchema::tenantIndex(['status']));
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('blog_posts');
+            Schema::dropIfExists('blog_post_categories');
         });
     }
 };

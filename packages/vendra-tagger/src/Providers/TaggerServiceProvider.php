@@ -32,9 +32,7 @@ final class TaggerServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasTranslations()
             ->hasMigrations([
-                'add_tenant_id_column_to_tags_table',
-                'rename_order_column_to_position_on_tags_table',
-                'add_index_to_tags_position_column',
+                'create_tag_tables',
             ])
             ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {

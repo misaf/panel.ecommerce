@@ -65,6 +65,7 @@ Use policy enums and policies as the permission source.
 Migrations, factories, seeders, and translation files are part of the contract.
 
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
+- Keep Media Library's complete Vendra schema in one final create migration, including optional tenant ownership; do not publish Spatie's media migration separately.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.

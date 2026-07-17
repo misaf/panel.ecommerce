@@ -10,24 +10,15 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
         $this->createAuthifyLogsTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('vendra_authify_logs');
-        Schema::enableForeignKeyConstraints();
     }
 
     private function createAuthifyLogsTable(): void
     {
-        Schema::create('vendra_authify_logs', function (Blueprint $table): void {
+        Schema::create('authify_logs', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->tinyInteger('action');
             $table->ipAddress('ip_address');
             $table->char('ip_country', 2)
@@ -39,5 +30,10 @@ return new class () extends Migration {
             $table->index(TenantSchema::tenantIndex(['action']));
             $table->index(TenantSchema::tenantIndex(['ip_address']));
         });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('authify_logs');
     }
 };

@@ -4,6 +4,12 @@ The `misaf/vendra-custom-page-api` package exposes `misaf/vendra-custom-page` do
 
 ### Standards
 
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
 - Keep API code inside `packages/vendra-custom-page-api` using the `Misaf\VendraCustomPageApi` namespace.
 - Import `CustomPage` and `CustomPageCategory` from `Misaf\VendraCustomPage`; do not duplicate persistence or domain behavior.
 - Keep the API read-only and tenant-provider agnostic. Tenant scoping comes from the domain models through Vendra Support.

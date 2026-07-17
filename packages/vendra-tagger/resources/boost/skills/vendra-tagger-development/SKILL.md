@@ -78,7 +78,7 @@ Use policy enums and policies as the permission source.
 
 Migrations, factories, seeders, and translation files are part of the contract.
 
-- Keep the Spatie tags migration as an installation prerequisite. Package migration stubs add optional tenant ownership, rename `order_column` to `position`, and index tenant/position ordering.
+- Publish only the package's final tag create migration. It directly defines optional tenant ownership, `position`, tenant-aware ordering indexes, and the taggable pivot; do not publish Spatie's migration separately.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Update all supported locales together and keep translation keys sorted.
 - Preserve translation key parity tests when adding labels or attributes.

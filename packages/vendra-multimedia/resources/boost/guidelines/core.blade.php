@@ -12,6 +12,7 @@ The `misaf/vendra-multimedia` package owns multimedia and media library manageme
 
 - Keep multimedia domain code inside `packages/vendra-multimedia` using the `Misaf\VendraMultimedia` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, observers, Filament resources, translations, config, and package bootstrapping.
+- Keep the final Media Library schema in this package's single create migration, including optional tenant ownership. Do not publish Spatie's media migration separately.
 - Keep JSON:API serialization and API routes in `misaf/vendra-multimedia-api`.
 - Follow the concrete models and neighboring files in this package; do not apply translation, media, slug, sorting, or soft-delete patterns unless the affected model already uses them.
 - Tenant awareness is owned by `misaf/vendra-support` via `Misaf\VendraSupport\Support\TenantAwareness`, which derives purely from the bound `TenantResolver`. Installing a tenant provider (e.g. `misaf/vendra-tenant`) makes the app tenant-aware; without one the default null resolver keeps it disabled. The module defines no `tenant_aware` config.
