@@ -12,8 +12,6 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraSupport\Support\TenantAwareness;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\CreateTagger;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\EditTagger;
 
 final class TaggerForm
 {
@@ -36,7 +34,6 @@ final class TaggerForm
                     ->maxLength(255)
                     ->required()
                     ->unique(
-                        column: fn(CreateTagger|EditTagger $livewire): string => 'name->' . ($livewire->activeLocale ?? app()->getLocale()),
                         modifyRuleUsing: function (Unique $rule, Get $get): void {
                             TenantAwareness::constrainUniqueRule($rule);
 
@@ -56,7 +53,6 @@ final class TaggerForm
                     ->maxLength(255)
                     ->required()
                     ->unique(
-                        column: fn(CreateTagger|EditTagger $livewire): string => 'slug->' . ($livewire->activeLocale ?? app()->getLocale()),
                         modifyRuleUsing: function (Unique $rule, Get $get): void {
                             TenantAwareness::constrainUniqueRule($rule);
 
@@ -70,7 +66,6 @@ final class TaggerForm
 
                 TextInput::make('type')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.type'))
-                    ->autofocus()
                     ->columnSpanFull()
                     ->label(__('vendra-tagger::attributes.type'))
                     ->live(onBlur: true)
