@@ -19,10 +19,10 @@
         "php": "^8.3",
         "illuminate/console": "^13.0",
         "illuminate/support": "^13.0",
-        "misaf/vendra-permission": "^1.1",
-        "misaf/vendra-support": "^1.1",
-        "misaf/vendra-tenant": "^1.1",
-        "misaf/vendra-user": "^1.1",
+        "misaf/vendra-permission": "^1.2",
+        "misaf/vendra-support": "^1.2",
+        "misaf/vendra-tenant": "^1.2",
+        "misaf/vendra-user": "^1.2",
         "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {
