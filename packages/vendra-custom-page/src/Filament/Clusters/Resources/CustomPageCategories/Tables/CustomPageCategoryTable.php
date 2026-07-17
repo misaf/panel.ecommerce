@@ -13,6 +13,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
@@ -42,11 +43,11 @@ final class CustomPageCategoryTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             SpatieMediaLibraryImageColumn::make('image')
                 ->alignCenter()
-                ->collection('customs/pages/categories')
+                ->collection(CustomPageCategory::MEDIA_COLLECTION)
                 ->conversion('thumb-table')
                 ->defaultImageUrl(function (CustomPageCategory $record, Livewire $livewire): string {
                     return static::defaultAvatarImageUrl(static::translatedAttribute($record, 'name', $livewire));
@@ -60,7 +61,7 @@ final class CustomPageCategoryTable
                 ->description(function (Livewire $livewire, CustomPageCategory $record): string {
                     return static::translatedAttribute($record, 'description', $livewire);
                 })
-                ->icon('heroicon-m-folder-plus')
+                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-custom-page::attributes.name'))
                 ->suffixBadges([
                     Badge::make('count')
@@ -75,7 +76,7 @@ final class CustomPageCategoryTable
 
             ToggleColumn::make('status')
                 ->label(__('vendra-custom-page::attributes.status'))
-                ->onIcon('heroicon-m-bolt'),
+                ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
                 ->alignCenter()
@@ -84,7 +85,7 @@ final class CustomPageCategoryTable
                 ->label(__('vendra-custom-page::attributes.created_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -97,7 +98,7 @@ final class CustomPageCategoryTable
                 ->label(__('vendra-custom-page::attributes.updated_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -130,7 +131,7 @@ final class CustomPageCategoryTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'position', direction: 'desc')
+            ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable(column: 'position', direction: 'desc');
     }
 }

@@ -28,7 +28,6 @@ final class LanguageForm
                     ->rule(Rule::in(static::catalog()))
                     ->searchable()
                     ->unique(
-                        ignoreRecord: true,
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule),
                     ),
 

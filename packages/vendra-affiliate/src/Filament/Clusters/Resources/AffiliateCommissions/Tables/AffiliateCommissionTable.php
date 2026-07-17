@@ -7,6 +7,7 @@ namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -27,7 +28,7 @@ final class AffiliateCommissionTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('affiliate.code')
                     ->label(__('vendra-affiliate::attributes.affiliate'))
@@ -54,10 +55,15 @@ final class AffiliateCommissionTable
                 TextColumn::make('created_at')
                     ->alignCenter()
                     ->badge()
-                    ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.created_at'))
-                    ->sinceTooltip(),
+                    ->sinceTooltip()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->filters(
                 [
@@ -89,7 +95,7 @@ final class AffiliateCommissionTable
                     ViewAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'created_at', direction: 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 
     private static function approveAction(): Action
@@ -97,7 +103,7 @@ final class AffiliateCommissionTable
         return Action::make('approve')
             ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::Approve->value))
             ->color('success')
-            ->icon('heroicon-o-check-circle')
+            ->icon(Heroicon::OutlinedCheckCircle)
             ->label(__('vendra-affiliate::messages.approve_commission'))
             ->requiresConfirmation()
             ->visible(fn(AffiliateCommission $record): bool => CommissionStatusEnum::Pending === $record->status)
@@ -109,7 +115,7 @@ final class AffiliateCommissionTable
         return Action::make('reverse')
             ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliateCommissionPolicyEnum::Reverse->value))
             ->color('danger')
-            ->icon('heroicon-o-arrow-uturn-left')
+            ->icon(Heroicon::OutlinedArrowUturnLeft)
             ->label(__('vendra-affiliate::messages.reverse_commission'))
             ->requiresConfirmation()
             ->visible(fn(AffiliateCommission $record): bool => in_array($record->status, [CommissionStatusEnum::Pending, CommissionStatusEnum::Approved], true))

@@ -24,7 +24,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property int $tenant_id
  * @property int $user_id
  * @property string $name
- * @property string $description
+ * @property string|null $description
  * @property string $slug
  * @property bool $is_default
  * @property bool $status

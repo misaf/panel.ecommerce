@@ -19,7 +19,6 @@ return [
     'signup_bounty'             => 'Registrierungsprämie',
     'signup_bounty_helper_text' => 'Fester Betrag in kleinsten Einheiten pro geworbener Registrierung. Leer lassen, um den konfigurierten Standard zu verwenden.',
     'status'                    => 'Status',
-    'tags'                      => 'Schlagwörter',
     'tenant_id'                 => 'Mandant',
     'transaction'               => 'Transaktion',
     'updated_at'                => 'Aktualisiert am',

@@ -25,7 +25,7 @@ final class NewsletterTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('subject')
                     ->alignStart()
@@ -46,7 +46,7 @@ final class NewsletterTable
                     ->label(__('vendra-newsletter::attributes.scheduled_at'))
                     ->placeholder('—')
                     ->toggleable()
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -59,7 +59,7 @@ final class NewsletterTable
                     ->label(__('vendra-newsletter::attributes.sent_at'))
                     ->placeholder('—')
                     ->toggleable()
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -72,7 +72,7 @@ final class NewsletterTable
                     ->label(__('vendra-newsletter::attributes.created_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -102,6 +102,6 @@ final class NewsletterTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'created_at', direction: 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 }

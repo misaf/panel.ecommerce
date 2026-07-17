@@ -8,6 +8,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Config;
 
 enum ConversionTypeEnum: string implements HasColor, HasIcon, HasLabel
@@ -41,12 +42,12 @@ enum ConversionTypeEnum: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getIcon(): string
+    public function getIcon(): Heroicon
     {
         return match ($this) {
-            self::Deposit  => 'heroicon-o-currency-dollar',
-            self::Signup   => 'heroicon-o-user-plus',
-            self::Checkout => 'heroicon-o-shopping-cart',
+            self::Deposit  => Heroicon::OutlinedCurrencyDollar,
+            self::Signup   => Heroicon::OutlinedUserPlus,
+            self::Checkout => Heroicon::OutlinedShoppingCart,
         };
     }
 

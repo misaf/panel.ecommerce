@@ -29,7 +29,7 @@ final class LanguageLineTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             TextColumn::make('namespace')
                 ->alignStart()
@@ -94,20 +94,28 @@ final class LanguageLineTable
             TextColumn::make('created_at')
                 ->alignCenter()
                 ->badge()
-                ->dateTime('Y-m-d H:i')
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                    fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                ),
 
             TextColumn::make('updated_at')
                 ->alignCenter()
                 ->badge()
-                ->dateTime('Y-m-d H:i')
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                    fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                ),
         ];
 
         return $table
@@ -139,7 +147,7 @@ final class LanguageLineTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'created_at', direction: 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 
     private static function progressColor(int $percentage, int $total): string

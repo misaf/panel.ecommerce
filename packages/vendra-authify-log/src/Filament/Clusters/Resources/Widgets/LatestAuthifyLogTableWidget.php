@@ -70,7 +70,7 @@ final class LatestAuthifyLogTableWidget extends BaseWidget
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-authify-log::attributes.created_at'))
                     ->sinceTooltip()
-                    ->unless(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d', latinNumbers: true)),
+                    ->when(app()->isLocale('fa'), fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d', latinNumbers: true)),
             ])
             ->searchable(false)
             ->paginated(false);

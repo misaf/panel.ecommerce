@@ -23,12 +23,12 @@ final class AttributeValueRelationManager extends RelationManager
 
     public static function getModelLabel(): string
     {
-        return trans_choice('vendra-attribute::navigation.attribute_value', 1);
+        return __('vendra-attribute::navigation.attribute_value');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return trans_choice('vendra-attribute::navigation.attribute_value', 1);
+        return __('vendra-attribute::navigation.attribute_value');
     }
 
     public function isReadOnly(): bool
@@ -49,7 +49,7 @@ final class AttributeValueRelationManager extends RelationManager
         return $schema
             ->components([
                 TextInput::make('value')
-                    ->label(trans_choice('vendra-attribute::attributes.value', 1))
+                    ->label(__('vendra-attribute::attributes.value'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -60,12 +60,12 @@ final class AttributeValueRelationManager extends RelationManager
         return $table
             ->columns([
                 TextColumn::make('value')
-                    ->label(trans_choice('vendra-attribute::attributes.value', 1))
+                    ->label(__('vendra-attribute::attributes.value'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('position')
-                    ->label(trans_choice('vendra-attribute::attributes.position', 1))
+                    ->label(__('vendra-attribute::attributes.position'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

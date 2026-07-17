@@ -59,6 +59,7 @@ final class FaqCategory extends Model implements HasMedia, Sortable, ShouldLogAc
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+    public const string MEDIA_COLLECTION = 'faqs/categories';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`

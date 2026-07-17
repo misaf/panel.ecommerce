@@ -13,6 +13,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
@@ -43,7 +44,7 @@ final class BlogPostCategoryTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             SpatieMediaLibraryImageColumn::make('image')
                 ->alignCenter()
@@ -61,7 +62,7 @@ final class BlogPostCategoryTable
                 ->description(function (Livewire $livewire, BlogPostCategory $record): string {
                     return static::translatedAttribute($record, 'description', $livewire);
                 })
-                ->icon('heroicon-m-folder-plus')
+                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-blog::attributes.name'))
                 ->suffixBadges([
                     Badge::make('count')
@@ -76,7 +77,7 @@ final class BlogPostCategoryTable
 
             ToggleColumn::make('status')
                 ->label(__('vendra-blog::attributes.status'))
-                ->onIcon('heroicon-m-bolt'),
+                ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
                 ->alignCenter()
@@ -85,7 +86,7 @@ final class BlogPostCategoryTable
                 ->label(__('vendra-blog::attributes.created_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -98,7 +99,7 @@ final class BlogPostCategoryTable
                 ->label(__('vendra-blog::attributes.updated_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -132,7 +133,7 @@ final class BlogPostCategoryTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'position', direction: 'desc')
+            ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable(column: 'position', direction: 'desc');
     }
 

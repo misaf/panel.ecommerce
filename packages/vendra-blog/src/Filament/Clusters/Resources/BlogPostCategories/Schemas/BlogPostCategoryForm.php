@@ -11,14 +11,18 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraBlog\Models\BlogPostCategory;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedFormFields;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class BlogPostCategoryForm
 {
+    use InteractsWithTranslatedFormFields;
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -35,10 +39,9 @@ final class BlogPostCategoryForm
                     ->live(onBlur: true)
                     ->required()
                     ->unique(
-                        modifyRuleUsing: function (Unique $rule): void {
-                            TenantAwareness::constrainUniqueRule($rule)
-                                ->withoutTrashed();
-                        },
+                        column: fn(Livewire $livewire): string => 'name->' . self::activeFormLocale($livewire),
+                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
+                            ->withoutTrashed(),
                     ),
 
                 TextInput::make('slug')
@@ -48,6 +51,7 @@ final class BlogPostCategoryForm
                     ->label(__('vendra-blog::attributes.slug'))
                     ->required()
                     ->unique(
+                        column: fn(Livewire $livewire): string => 'slug->' . self::activeFormLocale($livewire),
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
                             ->withoutTrashed(),
                     ),
@@ -70,11 +74,12 @@ final class BlogPostCategoryForm
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-blog::attributes.status'))
-                    ->onIcon('heroicon-m-bolt')
+                    ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([
                         'boolean',
                     ]),
             ]);
     }
+
 }

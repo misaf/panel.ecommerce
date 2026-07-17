@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 return [
+    'created_at'  => 'تاریخ ایجاد',
     'description' => 'توضیحات',
     'name'        => 'نام',
     'position'    => 'موقعیت',
     'status'      => 'وضعیت',
-    'tags'        => 'برچسب‌ها',
     'unit'        => 'واحد',
+    'updated_at'  => 'تاریخ بروزرسانی',
     'value'       => 'مقدار',
     'values'      => 'مقادیر',
 ];

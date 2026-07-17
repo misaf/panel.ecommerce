@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets;
 
 use Filament\Support\Enums\IconPosition;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Flowframe\Trend\Trend;
@@ -39,7 +40,7 @@ final class AffiliateReferralsOverview extends StatsOverviewWidget
                 ->chart($this->chartValues($trend))
                 ->color('success')
                 ->description(__('vendra-affiliate::widgets.affiliate_referral_stats_description'))
-                ->descriptionIcon('heroicon-m-user-plus', IconPosition::Before)
+                ->descriptionIcon(Heroicon::UserPlus, IconPosition::Before)
                 ->label(__('vendra-affiliate::widgets.affiliate_referral_stats')),
         ];
     }

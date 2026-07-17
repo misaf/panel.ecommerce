@@ -36,7 +36,7 @@ final class ClicksRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('ip_address')
                     ->extraCellAttributes(['dir' => 'ltr'])
@@ -56,10 +56,14 @@ final class ClicksRelationManager extends RelationManager
                 TextColumn::make('created_at')
                     ->alignCenter()
                     ->badge()
-                    ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.created_at'))
-                    ->sinceTooltip(),
+                    ->sinceTooltip()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->defaultSort(column: 'created_at', direction: 'desc');
     }

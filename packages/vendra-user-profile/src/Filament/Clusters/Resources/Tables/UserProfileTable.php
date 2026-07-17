@@ -20,6 +20,7 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Misaf\VendraUserProfile\Models\UserProfile;
 
 final class UserProfileTable
 {
@@ -31,7 +32,7 @@ final class UserProfileTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             TextColumn::make('user.username')
                 ->alignStart()
@@ -44,7 +45,7 @@ final class UserProfileTable
 
             TextColumn::make('name')
                 ->alignStart()
-                ->description(fn($record): ?string => $record->description)
+                ->description(fn(UserProfile $record): ?string => $record->description)
                 ->label(__('vendra-user-profile::table.columns.name'))
                 ->searchable()
                 ->sortable(),
@@ -56,7 +57,7 @@ final class UserProfileTable
                 ->label(__('vendra-user-profile::table.columns.created_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -69,7 +70,7 @@ final class UserProfileTable
                 ->label(__('vendra-user-profile::table.columns.updated_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -105,6 +106,7 @@ final class UserProfileTable
             ->defaultGroup(
                 Group::make('user.username')
                     ->label(__('vendra-user-profile::table.groups.user'))
-            );
+            )
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 }

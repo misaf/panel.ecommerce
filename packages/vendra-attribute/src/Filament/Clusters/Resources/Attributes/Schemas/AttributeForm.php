@@ -11,18 +11,21 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rules\Unique;
 use Misaf\VendraAttribute\Support\AttributeUnits;
-use Misaf\VendraSupport\Support\TagIntegration;
+
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTagFields;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class AttributeForm
 {
+    use InteractsWithTagFields;
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('name')
                     ->autofocus()
-                    ->label(trans_choice('vendra-attribute::attributes.name', 1))
+                    ->label(__('vendra-attribute::attributes.name'))
                     ->maxLength(255)
                     ->required()
                     ->unique(
@@ -31,14 +34,14 @@ final class AttributeForm
                     ),
 
                 Select::make('unit')
-                    ->label(trans_choice('vendra-attribute::attributes.unit', 1))
+                    ->label(__('vendra-attribute::attributes.unit'))
                     ->native(false)
                     ->options(AttributeUnits::options())
                     ->searchable(),
 
                 Textarea::make('description')
                     ->columnSpanFull()
-                    ->label(trans_choice('vendra-attribute::attributes.description', 1))
+                    ->label(__('vendra-attribute::attributes.description'))
                     ->rows(4),
 
                 ...self::tagFields(),
@@ -46,27 +49,10 @@ final class AttributeForm
                 Toggle::make('status')
                     ->columnSpanFull()
                     ->default(true)
-                    ->label(trans_choice('vendra-attribute::attributes.status', 1))
+                    ->label(__('vendra-attribute::attributes.status'))
                     ->required(),
             ])
             ->columns(2);
     }
 
-    /** @return list<Select> */
-    private static function tagFields(): array
-    {
-        if ( ! TagIntegration::isAvailable()) {
-            return [];
-        }
-
-        return [
-            Select::make('tags')
-                ->columnSpanFull()
-                ->label(trans_choice('vendra-attribute::attributes.tags', 2))
-                ->multiple()
-                ->native(false)
-                ->preload()
-                ->relationship('tags', 'name'),
-        ];
-    }
 }

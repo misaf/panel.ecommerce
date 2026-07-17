@@ -12,15 +12,21 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraBlog\Models\BlogPost;
-use Misaf\VendraSupport\Support\TagIntegration;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTagFields;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedFormFields;
+
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class BlogPostForm
 {
+    use InteractsWithTagFields;
+    use InteractsWithTranslatedFormFields;
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -46,10 +52,9 @@ final class BlogPostForm
                     ->live(onBlur: true)
                     ->required()
                     ->unique(
-                        modifyRuleUsing: function (Unique $rule): void {
-                            TenantAwareness::constrainUniqueRule($rule)
-                                ->withoutTrashed();
-                        },
+                        column: fn(Livewire $livewire): string => 'name->' . self::activeFormLocale($livewire),
+                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
+                            ->withoutTrashed(),
                     ),
 
                 TextInput::make('slug')
@@ -59,6 +64,7 @@ final class BlogPostForm
                     ->label(__('vendra-blog::attributes.slug'))
                     ->required()
                     ->unique(
+                        column: fn(Livewire $livewire): string => 'slug->' . self::activeFormLocale($livewire),
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
                             ->withoutTrashed(),
                     ),
@@ -85,7 +91,7 @@ final class BlogPostForm
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-blog::attributes.status'))
-                    ->onIcon('heroicon-m-bolt')
+                    ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([
                         'boolean',
@@ -93,21 +99,5 @@ final class BlogPostForm
             ]);
     }
 
-    /** @return list<Select> */
-    private static function tagFields(): array
-    {
-        if ( ! TagIntegration::isAvailable()) {
-            return [];
-        }
 
-        return [
-            Select::make('tags')
-                ->columnSpanFull()
-                ->label(__('vendra-blog::attributes.tags'))
-                ->multiple()
-                ->native(false)
-                ->preload()
-                ->relationship('tags', 'name'),
-        ];
-    }
 }

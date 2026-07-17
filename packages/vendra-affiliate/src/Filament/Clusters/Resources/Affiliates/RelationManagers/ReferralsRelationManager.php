@@ -36,7 +36,7 @@ final class ReferralsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('user.username')
                     ->label(__('vendra-affiliate::attributes.user'))
@@ -45,10 +45,14 @@ final class ReferralsRelationManager extends RelationManager
                 TextColumn::make('attributed_at')
                     ->alignCenter()
                     ->badge()
-                    ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.attributed_at'))
-                    ->sinceTooltip(),
+                    ->sinceTooltip()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->defaultSort(column: 'attributed_at', direction: 'desc');
     }

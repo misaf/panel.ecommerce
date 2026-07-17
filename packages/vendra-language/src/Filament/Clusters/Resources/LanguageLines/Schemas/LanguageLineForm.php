@@ -70,7 +70,6 @@ final class LanguageLineForm
                     ->required()
                     ->searchable()
                     ->unique(
-                        ignoreRecord: true,
                         modifyRuleUsing: function (Unique $rule, Get $get): void {
                             TenantAwareness::constrainUniqueRule($rule);
 

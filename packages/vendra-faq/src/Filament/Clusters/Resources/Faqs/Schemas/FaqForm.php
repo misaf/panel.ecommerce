@@ -12,14 +12,21 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
-use Misaf\VendraSupport\Support\TagIntegration;
+use Misaf\VendraFaq\Models\Faq;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTagFields;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedFormFields;
+
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class FaqForm
 {
+    use InteractsWithTagFields;
+    use InteractsWithTranslatedFormFields;
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -45,17 +52,22 @@ final class FaqForm
                     ->live(onBlur: true)
                     ->required()
                     ->unique(
+                        column: fn(Livewire $livewire): string => 'name->' . self::activeFormLocale($livewire),
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
                             ->withoutTrashed(),
                     ),
 
                 TextInput::make('slug')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.slug"))
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.slug'))
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-faq::attributes.slug_helper_text'))
                     ->label(__('vendra-faq::attributes.slug'))
                     ->required()
-                    ->unique(modifyRuleUsing: fn(Unique $rule) => $rule->withoutTrashed()),
+                    ->unique(
+                        column: fn(Livewire $livewire): string => 'slug->' . self::activeFormLocale($livewire),
+                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
+                            ->withoutTrashed(),
+                    ),
 
                 RichEditor::make('description')
                     ->columnSpanFull()
@@ -66,7 +78,7 @@ final class FaqForm
                 ...self::tagFields(),
 
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->collection('faqs')
+                    ->collection(Faq::MEDIA_COLLECTION)
                     ->columnSpanFull()
                     ->image()
                     ->label(__('vendra-faq::attributes.image'))
@@ -74,11 +86,11 @@ final class FaqForm
                     ->responsiveImages(),
 
                 Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.status"))
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-faq::attributes.status'))
-                    ->onIcon('heroicon-m-bolt')
+                    ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([
                         'boolean',
@@ -86,21 +98,5 @@ final class FaqForm
             ]);
     }
 
-    /** @return list<Select> */
-    private static function tagFields(): array
-    {
-        if ( ! TagIntegration::isAvailable()) {
-            return [];
-        }
 
-        return [
-            Select::make('tags')
-                ->columnSpanFull()
-                ->label(__('vendra-faq::attributes.tags'))
-                ->multiple()
-                ->native(false)
-                ->preload()
-                ->relationship('tags', 'name'),
-        ];
-    }
 }

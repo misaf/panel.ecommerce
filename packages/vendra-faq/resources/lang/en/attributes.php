@@ -13,7 +13,6 @@ return  [
     'slug'                    => 'Slug',
     'slug_helper_text'        => 'A unique identifier for the URL. Leave empty to auto-generate from the name.',
     'status'                  => 'Status',
-    'tags'                    => 'Tags',
     'tenant_id'               => 'Tenant',
     'updated_at'              => 'Updated At',
 ];

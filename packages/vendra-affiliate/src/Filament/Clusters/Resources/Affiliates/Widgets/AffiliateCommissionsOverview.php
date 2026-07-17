@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets;
 
 use Filament\Support\Enums\IconPosition;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Flowframe\Trend\Trend;
@@ -50,7 +51,7 @@ final class AffiliateCommissionsOverview extends StatsOverviewWidget
                 ->chart($this->chartValues($trend))
                 ->color('warning')
                 ->description(__('vendra-affiliate::widgets.affiliate_commission_stats_description'))
-                ->descriptionIcon('heroicon-m-banknotes', IconPosition::Before)
+                ->descriptionIcon(Heroicon::Banknotes, IconPosition::Before)
                 ->label(__('vendra-affiliate::widgets.affiliate_commission_stats')),
         ];
     }

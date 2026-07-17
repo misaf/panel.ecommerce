@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Tables;
 
-use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -18,7 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraLanguage\Actions\SetDefaultLanguage;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions\SetDefaultLanguageAction;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraLanguage\Support\TranslationProgress;
@@ -33,7 +32,7 @@ final class LanguageTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             TextColumn::make('locale')
                 ->badge()
@@ -72,20 +71,30 @@ final class LanguageTable
                 }),
 
             TextColumn::make('created_at')
+                ->alignCenter()
                 ->badge()
-                ->dateTime('Y-m-d H:i')
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                    fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                ),
 
             TextColumn::make('updated_at')
+                ->alignCenter()
                 ->badge()
-                ->dateTime('Y-m-d H:i')
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                    fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                ),
         ];
 
         return $table
@@ -106,17 +115,7 @@ final class LanguageTable
 
                     EditAction::make(),
 
-                    Action::make('setDefault')
-                        ->action(function (Action $action, Language $record, SetDefaultLanguage $setDefaultLanguage): void {
-                            $setDefaultLanguage->execute($record);
-                            $action->success();
-                        })
-                        ->authorize(fn(Language $record): bool => auth()->user()?->can('update', $record) ?? false)
-                        ->icon('heroicon-o-check-circle')
-                        ->label(__('vendra-language::actions.set_default'))
-                        ->requiresConfirmation()
-                        ->successNotificationTitle(__('vendra-language::messages.default_language_updated'))
-                        ->visible(fn(Language $record): bool => ! $record->is_default),
+                    SetDefaultLanguageAction::make(),
 
                     DeleteAction::make(),
                 ]),
@@ -126,7 +125,7 @@ final class LanguageTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'position')
+            ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable(column: 'position');
     }
 

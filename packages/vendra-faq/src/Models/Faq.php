@@ -60,6 +60,7 @@ final class Faq extends Model implements HasMedia, Sortable, ShouldLogActivity
     use SoftDeletes;
     use SortableTrait;
     public const string TAG_TYPE = 'faq';
+    public const string MEDIA_COLLECTION = 'faqs';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`

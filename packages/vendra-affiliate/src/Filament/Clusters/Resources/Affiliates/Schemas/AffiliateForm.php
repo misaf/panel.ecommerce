@@ -11,11 +11,14 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\Unique;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
-use Misaf\VendraSupport\Support\TagIntegration;
+
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTagFields;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class AffiliateForm
 {
+    use InteractsWithTagFields;
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -30,7 +33,6 @@ final class AffiliateForm
                     ->unique(
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
                             ->withoutTrashed(),
-                        ignoreRecord: true,
                     ),
 
                 TextInput::make('code')
@@ -42,7 +44,6 @@ final class AffiliateForm
                     ->unique(
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
                             ->withoutTrashed(),
-                        ignoreRecord: true,
                     ),
 
                 TextInput::make('commission_percent')
@@ -74,21 +75,4 @@ final class AffiliateForm
             ]);
     }
 
-    /** @return list<Select> */
-    private static function tagFields(): array
-    {
-        if ( ! TagIntegration::isAvailable()) {
-            return [];
-        }
-
-        return [
-            Select::make('tags')
-                ->columnSpanFull()
-                ->label(__('vendra-affiliate::attributes.tags'))
-                ->multiple()
-                ->native(false)
-                ->preload()
-                ->relationship('tags', 'name'),
-        ];
-    }
 }

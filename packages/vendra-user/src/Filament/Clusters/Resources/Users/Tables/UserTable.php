@@ -23,7 +23,7 @@ final class UserTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('username')
                     ->label(__('vendra-user::attributes.username'))
@@ -47,7 +47,7 @@ final class UserTable
                     ->label(__('vendra-user::attributes.email_verified_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
@@ -60,7 +60,7 @@ final class UserTable
                     ->label(__('vendra-user::attributes.created_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
@@ -73,7 +73,7 @@ final class UserTable
                     ->label(__('vendra-user::attributes.updated_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
@@ -96,7 +96,7 @@ final class UserTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 
     /** @return list<TextColumn> */
@@ -109,7 +109,7 @@ final class UserTable
         return [
             TextColumn::make('tags.name')
                 ->badge()
-                ->label(__('vendra-user::attributes.tags'))
+                ->label(__('vendra-support::attributes.tags'))
                 ->toggleable(),
         ];
     }

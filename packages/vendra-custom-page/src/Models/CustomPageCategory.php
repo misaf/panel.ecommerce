@@ -59,6 +59,7 @@ final class CustomPageCategory extends Model implements HasMedia, Sortable, Shou
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+    public const string MEDIA_COLLECTION = 'custom-pages/categories';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`

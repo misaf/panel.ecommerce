@@ -21,25 +21,55 @@ final class AttributeTable
     {
         return $table
             ->columns([
+                TextColumn::make('row')
+                    ->label('#')
+                    ->rowIndex()->sortable(),
+
                 TextColumn::make('name')
                     ->description(fn(Attribute $record): ?string => $record->description)
-                    ->label(trans_choice('vendra-attribute::attributes.name', 1))
+                    ->label(__('vendra-attribute::attributes.name'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('unit')
                     ->badge()
-                    ->label(trans_choice('vendra-attribute::attributes.unit', 1)),
+                    ->label(__('vendra-attribute::attributes.unit')),
 
                 ...self::tagColumns(),
 
                 TextColumn::make('values_count')
                     ->badge()
                     ->counts('values')
-                    ->label(trans_choice('vendra-attribute::attributes.values', 1)),
+                    ->label(__('vendra-attribute::attributes.values')),
 
                 ToggleColumn::make('status')
-                    ->label(trans_choice('vendra-attribute::attributes.status', 1)),
+                    ->label(__('vendra-attribute::attributes.status')),
+
+                TextColumn::make('created_at')
+                    ->alignCenter()
+                    ->badge()
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-attribute::attributes.created_at'))
+                    ->sinceTooltip()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
+
+                TextColumn::make('updated_at')
+                    ->alignCenter()
+                    ->badge()
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('vendra-attribute::attributes.updated_at'))
+                    ->sinceTooltip()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->recordActions([
                 ActionGroup::make([
@@ -52,7 +82,7 @@ final class AttributeTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('position', 'desc')
+            ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable('position', direction: 'desc');
     }
 
@@ -66,7 +96,7 @@ final class AttributeTable
         return [
             TextColumn::make('tags.name')
                 ->badge()
-                ->label(trans_choice('vendra-attribute::attributes.tags', 2))
+                ->label(__('vendra-support::attributes.tags'))
                 ->toggleable(),
         ];
     }

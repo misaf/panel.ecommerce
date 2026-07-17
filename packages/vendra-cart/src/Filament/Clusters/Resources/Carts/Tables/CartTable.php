@@ -19,9 +19,9 @@ final class CartTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label(__('vendra-cart::attributes.id'))
-                    ->sortable(),
+                TextColumn::make('row')
+                    ->label('#')
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('token')
                     ->copyable()
@@ -45,7 +45,7 @@ final class CartTable
                     ->placeholder('—')
                     ->sinceTooltip()
                     ->sortable()
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
@@ -59,7 +59,7 @@ final class CartTable
                     ->sinceTooltip()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
@@ -78,6 +78,6 @@ final class CartTable
                 ]),
             ])
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->with('owner'))
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 }

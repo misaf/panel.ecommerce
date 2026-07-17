@@ -19,7 +19,6 @@ return [
     'signup_bounty'             => 'Signup Bounty',
     'signup_bounty_helper_text' => 'Fixed amount in minor units credited per referred signup. Leave empty to use the configured default.',
     'status'                    => 'Status',
-    'tags'                      => 'Tags',
     'tenant_id'                 => 'Tenant',
     'transaction'               => 'Transaction',
     'updated_at'                => 'Updated At',

@@ -90,11 +90,25 @@ final class VerificationsRelationManager extends RelationManager
                     ->label(__('vendra-verification::verification.fields.country_code'))
                     ->badge(),
                 TextColumn::make('verified_at')
+                    ->alignCenter()
+                    ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-verification::verification.fields.verified_at'))
-                    ->dateTime(),
+                    ->sinceTooltip()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
                 TextColumn::make('expires_at')
+                    ->alignCenter()
+                    ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-verification::verification.fields.expires_at'))
-                    ->dateTime(),
+                    ->sinceTooltip()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->headerActions([CreateAction::make()])
             ->recordActions([EditAction::make(), DeleteAction::make()]);

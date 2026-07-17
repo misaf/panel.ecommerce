@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraUserProfile\Filament\Clusters\Resources;
 
 use BackedEnum;
-use Filament\Actions\Action;
 use Filament\Clusters\Cluster;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -25,6 +24,7 @@ use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Filament\Clusters\CustomersCluster;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 use Misaf\VendraUserProfile\Features\ModuleEnabled;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Actions\GlobalSearchViewAction;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\EditUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
@@ -81,13 +81,12 @@ final class UserProfileResource extends Resource
     }
 
     /**
-     * @return array<Action>
+     * @return array<\Filament\Actions\Action>
      */
     public static function getGlobalSearchResultActions(Model $record): array
     {
         return [
-            Action::make('view')
-                ->url(self::getUrl('view', ['record' => $record])),
+            GlobalSearchViewAction::make($record),
         ];
     }
 

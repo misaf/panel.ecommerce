@@ -34,22 +34,22 @@ final class AttributeResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return trans_choice('vendra-attribute::navigation.attribute', 1);
+        return __('vendra-attribute::navigation.attribute');
     }
 
     public static function getModelLabel(): string
     {
-        return trans_choice('vendra-attribute::navigation.attribute', 1);
+        return __('vendra-attribute::navigation.attribute');
     }
 
     public static function getNavigationLabel(): string
     {
-        return trans_choice('vendra-attribute::navigation.attributes', 1);
+        return __('vendra-attribute::navigation.attributes');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return trans_choice('vendra-attribute::navigation.attributes', 1);
+        return __('vendra-attribute::navigation.attributes');
     }
 
     public static function getRelations(): array

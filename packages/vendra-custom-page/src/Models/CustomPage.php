@@ -57,6 +57,7 @@ final class CustomPage extends Model implements HasMedia, Sortable, ShouldLogAct
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+    public const string MEDIA_COLLECTION = 'custom-pages';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`

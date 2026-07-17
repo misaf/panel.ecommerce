@@ -13,7 +13,6 @@ return  [
     'slug'                    => 'Slug',
     'slug_helper_text'        => 'Eine eindeutige Kennung für die URL. Leer lassen, um sie automatisch aus dem Namen zu generieren.',
     'status'                  => 'Status',
-    'tags'                    => 'Schlagwörter',
     'tenant_id'               => 'Mandant',
     'updated_at'              => 'Aktualisiert am',
 ];

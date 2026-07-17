@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Tables;
 
-use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -20,10 +18,8 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Config;
-use Misaf\VendraAffiliate\Actions\ProcessAffiliatePayout;
-use Misaf\VendraAffiliate\Enums\AffiliatePayoutPolicyEnum;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Actions\ProcessPayoutAction;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraSupport\Support\TagIntegration;
 
@@ -35,7 +31,7 @@ final class AffiliateTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('user.username')
                     ->label(__('vendra-affiliate::attributes.user'))
@@ -74,20 +70,28 @@ final class AffiliateTable
                 TextColumn::make('created_at')
                     ->alignCenter()
                     ->badge()
-                    ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.created_at'))
                     ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
 
                 TextColumn::make('updated_at')
                     ->alignCenter()
                     ->badge()
-                    ->dateTime('Y-m-d H:i')
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.updated_at'))
                     ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->filters(
                 [
@@ -111,7 +115,7 @@ final class AffiliateTable
             )
             ->recordActions([
                 ActionGroup::make([
-                    self::processPayoutAction(),
+                    ProcessPayoutAction::make(),
 
                     ViewAction::make(),
 
@@ -125,29 +129,7 @@ final class AffiliateTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'created_at', direction: 'desc');
-    }
-
-    public static function processPayoutAction(): Action
-    {
-        return Action::make('processPayout')
-            ->authorize(fn(): bool => (bool) auth()->user()?->can(AffiliatePayoutPolicyEnum::Process->value))
-            ->color('success')
-            ->disabled(fn(Affiliate $record): bool => $record->pendingBalance() < Config::integer('vendra-affiliate.payout.minimum', 0))
-            ->icon('heroicon-o-banknotes')
-            ->label(__('vendra-affiliate::messages.process_payout'))
-            ->requiresConfirmation()
-            ->modalDescription(fn(Affiliate $record): string => __('vendra-affiliate::messages.process_payout_description', [
-                'amount' => $record->pendingBalance(),
-            ]))
-            ->action(function (Affiliate $record): void {
-                app(ProcessAffiliatePayout::class)->onQueue()->execute($record);
-
-                Notification::make()
-                    ->success()
-                    ->title(__('vendra-affiliate::messages.process_payout_queued'))
-                    ->send();
-            });
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 
     /** @return list<TextColumn> */
@@ -160,7 +142,7 @@ final class AffiliateTable
         return [
             TextColumn::make('tags.name')
                 ->badge()
-                ->label(__('vendra-affiliate::attributes.tags'))
+                ->label(__('vendra-support::attributes.tags'))
                 ->toggleable(),
         ];
     }

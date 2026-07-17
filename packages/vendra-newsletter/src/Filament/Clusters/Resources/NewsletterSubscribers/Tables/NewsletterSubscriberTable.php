@@ -25,7 +25,7 @@ final class NewsletterSubscriberTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex(),
+                    ->rowIndex()->sortable(),
 
                 TextColumn::make('email')
                     ->alignStart()
@@ -53,7 +53,7 @@ final class NewsletterSubscriberTable
                     ->label(__('vendra-newsletter::attributes.subscribed_at'))
                     ->placeholder('—')
                     ->toggleable()
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -67,7 +67,7 @@ final class NewsletterSubscriberTable
                     ->label(__('vendra-newsletter::attributes.unsubscribed_at'))
                     ->placeholder('—')
                     ->toggleable()
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -80,7 +80,7 @@ final class NewsletterSubscriberTable
                     ->label(__('vendra-newsletter::attributes.created_at'))
                     ->sinceTooltip()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->unless(
+                    ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -108,6 +108,6 @@ final class NewsletterSubscriberTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'created_at', direction: 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 }
