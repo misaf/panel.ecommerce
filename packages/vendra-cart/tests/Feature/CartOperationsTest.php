@@ -44,7 +44,7 @@ it('merges quantities when the sellable is already in the cart', function (): vo
 
 it('prunes expired carts together with their items', function (): void {
     $expired = Cart::factory()->create(['expires_at' => now()->subMinute()]);
-    CartItem::factory()->create(['cart_id' => $expired->id]);
+    CartItem::factory()->forCart($expired)->create();
 
     $active = Cart::factory()->create(['expires_at' => now()->addDay()]);
     $everlasting = Cart::factory()->create(['expires_at' => null]);

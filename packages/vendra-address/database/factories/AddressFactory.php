@@ -36,4 +36,11 @@ final class AddressFactory extends Factory
             'verified_at'         => null,
         ];
     }
+
+    public function forUserProfile(UserProfile $userProfile): static
+    {
+        return $this->state(fn(): array => [
+            'user_profile_id' => $userProfile->id,
+        ]);
+    }
 }

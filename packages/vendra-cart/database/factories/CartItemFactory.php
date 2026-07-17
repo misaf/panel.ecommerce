@@ -30,6 +30,13 @@ final class CartItemFactory extends Factory
         ];
     }
 
+    public function forCart(Cart $cart): static
+    {
+        return $this->state(fn(): array => [
+            'cart_id' => $cart->id,
+        ]);
+    }
+
     public function forSellable(Model $sellable): static
     {
         return $this->state(fn(): array => [

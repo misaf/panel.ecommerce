@@ -28,4 +28,11 @@ final class VerificationFactory extends Factory
             'notes'           => fake()->optional()->sentence(),
         ];
     }
+
+    public function forUserProfile(UserProfile $userProfile): static
+    {
+        return $this->state(fn(): array => [
+            'user_profile_id' => $userProfile->id,
+        ]);
+    }
 }
