@@ -9,18 +9,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createCustomPageCategoriesTable();
-        $this->createCustomPagesTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('custom_pages');
-        Schema::dropIfExists('custom_page_categories');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createCustomPageCategoriesTable();
+            $this->createCustomPagesTable();
+        });
     }
 
     private function createCustomPageCategoriesTable(): void
@@ -48,7 +40,9 @@ return new class () extends Migration {
         Schema::create('custom_pages', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('custom_page_category_id');
+            $table->foreignId('custom_page_category_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -62,6 +56,14 @@ return new class () extends Migration {
             $table->index(['tenant_id', 'custom_page_category_id']);
             $table->index(['tenant_id', 'position']);
             $table->index(['tenant_id', 'status']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('custom_pages');
+            Schema::dropIfExists('custom_page_categories');
         });
     }
 };

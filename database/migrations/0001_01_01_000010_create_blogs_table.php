@@ -9,18 +9,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createBlogPostCategoriesTable();
-        $this->createBlogPostsTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('blog_posts');
-        Schema::dropIfExists('blog_post_categories');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createBlogPostCategoriesTable();
+            $this->createBlogPostsTable();
+        });
     }
 
     private function createBlogPostCategoriesTable(): void
@@ -48,7 +40,9 @@ return new class () extends Migration {
         Schema::create('blog_posts', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('blog_post_category_id');
+            $table->foreignId('blog_post_category_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -62,6 +56,14 @@ return new class () extends Migration {
             $table->index(['tenant_id', 'blog_post_category_id']);
             $table->index(['tenant_id', 'position']);
             $table->index(['tenant_id', 'status']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('blog_posts');
+            Schema::dropIfExists('blog_post_categories');
         });
     }
 };

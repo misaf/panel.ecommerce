@@ -8,50 +8,28 @@ use Illuminate\Support\Facades\Schema;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 
 return new class () extends Migration {
-    /**
-     * @return void
-     */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createTransactionGatewaysTable();
-        $this->createTransactionsTable();
-        $this->createTransactionFeeTable();
-        $this->createTransactionTransferTable();
-        $this->createTransactionMetadataTable();
-        $this->createTransactionChecksTable();
-        $this->createTransactionLimitsTable();
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createTransactionGatewaysTable();
+            $this->createTransactionsTable();
+            $this->createTransactionFeeTable();
+            $this->createTransactionTransferTable();
+            $this->createTransactionMetadataTable();
+            $this->createTransactionChecksTable();
+            $this->createTransactionLimitsTable();
+        });
     }
 
-    /**
-     * @return void
-     */
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('transaction_checks');
-        Schema::dropIfExists('transaction_metadata');
-        Schema::dropIfExists('transaction_transfers');
-        Schema::dropIfExists('transaction_fees');
-        Schema::dropIfExists('transactions');
-        Schema::dropIfExists('transaction_gateways');
-        Schema::dropIfExists('transaction_limits');
-        Schema::enableForeignKeyConstraints();
-    }
-
-    /**
-     * @return void
-     */
     private function createTransactionGatewaysTable(): void
     {
         Schema::create('transaction_gateways', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->longText('name');
-            $table->longText('description')
+            $table->json('name');
+            $table->json('description')
                 ->nullable();
-            $table->longText('slug');
+            $table->json('slug');
             $table->unsignedBigInteger('position');
             $table->boolean('status');
             $table->timestampsTz();
@@ -62,16 +40,17 @@ return new class () extends Migration {
         });
     }
 
-    /**
-     * @return void
-     */
     private function createTransactionsTable(): void
     {
         Schema::create('transactions', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('transaction_gateway_id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('transaction_gateway_id')
+                ->constrained()
+                ->restrictOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->restrictOnDelete();
             $table->enum('transaction_type', [
                 TransactionTypeEnum::Deposit->value,
                 TransactionTypeEnum::Withdrawal->value,
@@ -94,14 +73,13 @@ return new class () extends Migration {
         });
     }
 
-    /**
-     * @return void
-     */
     private function createTransactionFeeTable(): void
     {
         Schema::create('transaction_fees', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
+            $table->foreignId('transaction_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->bigInteger('amount');
             $table->timestampsTz();
 
@@ -109,15 +87,16 @@ return new class () extends Migration {
         });
     }
 
-    /**
-     * @return void
-     */
     private function createTransactionTransferTable(): void
     {
         Schema::create('transaction_transfers', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('transaction_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->restrictOnDelete();
             $table->timestampsTz();
 
             $table->index(['transaction_id']);
@@ -125,14 +104,13 @@ return new class () extends Migration {
         });
     }
 
-    /**
-     * @return void
-     */
     private function createTransactionMetadataTable(): void
     {
         Schema::create('transaction_metadata', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
+            $table->foreignId('transaction_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('key_name');
             $table->string('key_value');
             $table->timestampsTz();
@@ -142,14 +120,13 @@ return new class () extends Migration {
         });
     }
 
-    /**
-     * @return void
-     */
     private function createTransactionChecksTable(): void
     {
         Schema::create('transaction_checks', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
+            $table->foreignId('transaction_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->tinyInteger('attempt_count');
             $table->timestampsTz();
 
@@ -157,14 +134,13 @@ return new class () extends Migration {
         });
     }
 
-    /**
-     * @return void
-     */
     private function createTransactionLimitsTable(): void
     {
         Schema::create('transaction_limits', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->enum('transaction_type', [
                 TransactionTypeEnum::Deposit->value,
                 TransactionTypeEnum::Withdrawal->value,
@@ -173,6 +149,19 @@ return new class () extends Migration {
             $table->timestampsTz();
 
             $table->index(['user_id', 'transaction_type']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('transaction_checks');
+            Schema::dropIfExists('transaction_metadata');
+            Schema::dropIfExists('transaction_transfers');
+            Schema::dropIfExists('transaction_fees');
+            Schema::dropIfExists('transactions');
+            Schema::dropIfExists('transaction_gateways');
+            Schema::dropIfExists('transaction_limits');
         });
     }
 };

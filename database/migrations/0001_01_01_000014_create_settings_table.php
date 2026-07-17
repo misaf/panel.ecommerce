@@ -5,13 +5,14 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 
 return new class () extends Migration {
     public function up(): void
     {
         Schema::create(config('settings.repositories.database.table') ?? 'settings', function (Blueprint $table): void {
             $table->id();
-
+            TenantSchema::addTenantColumn($table);
             $table->string('group');
             $table->string('name');
             $table->boolean('locked')->default(false);
@@ -19,7 +20,8 @@ return new class () extends Migration {
 
             $table->timestamps();
 
-            $table->unique(['group', 'name']);
+            $table->unique(TenantSchema::tenantIndex(['group', 'name']));
+            TenantSchema::addTenantIndex($table);
         });
     }
 

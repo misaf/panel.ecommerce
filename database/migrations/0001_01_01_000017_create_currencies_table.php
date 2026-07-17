@@ -9,18 +9,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createCurrencyCategoriesTable();
-        $this->createCurrenciesTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('currencies');
-        Schema::dropIfExists('currency_categories');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createCurrencyCategoriesTable();
+            $this->createCurrenciesTable();
+        });
     }
 
     private function createCurrencyCategoriesTable(): void
@@ -50,16 +42,18 @@ return new class () extends Migration {
         Schema::create('currencies', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('currency_category_id');
+            $table->foreignId('currency_category_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('name');
             $table->string('description')
                 ->nullable();
             $table->string('slug');
-            $table->char('iso_code');
-            $table->string('conversion_rate');
-            $table->string('decimal_place');
-            $table->integer('buy_price');
-            $table->integer('sell_price');
+            $table->char('iso_code', 3);
+            $table->decimal('conversion_rate', 20, 8);
+            $table->unsignedTinyInteger('decimal_place');
+            $table->unsignedBigInteger('buy_price');
+            $table->unsignedBigInteger('sell_price');
             $table->boolean('is_default')
                 ->default(false);
             $table->unsignedBigInteger('position');
@@ -75,6 +69,14 @@ return new class () extends Migration {
             $table->index(['tenant_id', 'is_default']);
             $table->index(['tenant_id', 'position']);
             $table->index(['tenant_id', 'status']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('currencies');
+            Schema::dropIfExists('currency_categories');
         });
     }
 };

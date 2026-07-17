@@ -10,16 +10,9 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createUserProfilesTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('user_profiles');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createUserProfilesTable();
+        });
     }
 
     private function createUserProfilesTable(): void
@@ -27,7 +20,9 @@ return new class () extends Migration {
         Schema::create('user_profiles', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('name');
             $table->string('description')
                 ->nullable();
@@ -44,6 +39,13 @@ return new class () extends Migration {
             $table->index(TenantSchema::tenantIndex(['slug']));
             $table->index(TenantSchema::tenantIndex(['is_default']));
             $table->index(TenantSchema::tenantIndex(['status']));
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('user_profiles');
         });
     }
 };

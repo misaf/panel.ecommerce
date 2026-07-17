@@ -57,7 +57,7 @@ final class AdminPanelServiceProvider extends PanelProvider
             ->login(Login::class)
             ->maxContentWidth(Width::Full)
             ->sidebarFullyCollapsibleOnDesktop()
-            ->sidebarWidth('18rem')
+            ->sidebarWidth('14rem')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

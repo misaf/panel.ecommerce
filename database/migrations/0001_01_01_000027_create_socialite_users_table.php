@@ -12,7 +12,9 @@ return new class () extends Migration {
         Schema::create('socialite_users', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('provider');
             $table->string('provider_id');
             $table->timestampsTz();

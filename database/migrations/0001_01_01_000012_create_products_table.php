@@ -10,20 +10,11 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createProductCategoriesTable();
-        $this->createProductsTable();
-        $this->createProductPricesTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('product_prices');
-        Schema::dropIfExists('products');
-        Schema::dropIfExists('product_categories');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createProductCategoriesTable();
+            $this->createProductsTable();
+            $this->createProductPricesTable();
+        });
     }
 
     private function createProductCategoriesTable(): void
@@ -51,7 +42,9 @@ return new class () extends Migration {
         Schema::create('products', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('product_category_id');
+            $table->foreignId('product_category_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -85,7 +78,9 @@ return new class () extends Migration {
     {
         Schema::create('product_prices', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->foreignId('product_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->char('currency_code', 3)
                 ->default(Config::string('app.currency'));
             $table->unsignedBigInteger('price')
@@ -96,6 +91,15 @@ return new class () extends Migration {
             $table->index('product_id');
             $table->index('currency_code');
             $table->index('price');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('product_prices');
+            Schema::dropIfExists('products');
+            Schema::dropIfExists('product_categories');
         });
     }
 };

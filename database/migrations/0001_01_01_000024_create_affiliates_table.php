@@ -10,24 +10,13 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createAffiliatesTable();
-        $this->createAffiliateClicksTable();
-        $this->createAffiliateReferralsTable();
-        $this->createAffiliateCommissionsTable();
-        $this->createAffiliatePayoutsTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('affiliate_payouts');
-        Schema::dropIfExists('affiliate_commissions');
-        Schema::dropIfExists('affiliate_referrals');
-        Schema::dropIfExists('affiliate_clicks');
-        Schema::dropIfExists('affiliates');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createAffiliatesTable();
+            $this->createAffiliateClicksTable();
+            $this->createAffiliateReferralsTable();
+            $this->createAffiliatePayoutsTable();
+            $this->createAffiliateCommissionsTable();
+        });
     }
 
     private function createAffiliatesTable(): void
@@ -35,7 +24,9 @@ return new class () extends Migration {
         Schema::create('affiliates', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('code', 16);
             $table->unsignedTinyInteger('commission_percent')
                 ->default(0);
@@ -57,7 +48,9 @@ return new class () extends Migration {
         Schema::create('affiliate_clicks', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('affiliate_id');
+            $table->foreignId('affiliate_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('ip_address', 45)
                 ->nullable();
             $table->string('user_agent')
@@ -78,10 +71,16 @@ return new class () extends Migration {
         Schema::create('affiliate_referrals', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('affiliate_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('affiliate_click_id')
-                ->nullable();
+            $table->foreignId('affiliate_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('affiliate_click_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
             $table->timestampTz('attributed_at');
             $table->timestampsTz();
 
@@ -90,14 +89,42 @@ return new class () extends Migration {
         });
     }
 
+    private function createAffiliatePayoutsTable(): void
+    {
+        Schema::create('affiliate_payouts', function (Blueprint $table): void {
+            $table->id();
+            TenantSchema::addTenantColumn($table);
+            $table->foreignId('affiliate_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->bigInteger('amount')
+                ->default(0);
+            $table->string('status')
+                ->default('pending');
+            $table->foreignId('transaction_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->timestampTz('processed_at')
+                ->nullable();
+            $table->timestampsTz();
+
+            $table->index(TenantSchema::tenantIndex(['affiliate_id', 'status']));
+        });
+    }
+
     private function createAffiliateCommissionsTable(): void
     {
         Schema::create('affiliate_commissions', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('affiliate_id');
-            $table->unsignedBigInteger('affiliate_referral_id')
-                ->nullable();
+            $table->foreignId('affiliate_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('affiliate_referral_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
             $table->string('conversion_type');
             $table->string('source_type')
                 ->nullable();
@@ -107,8 +134,10 @@ return new class () extends Migration {
                 ->default(0);
             $table->string('status')
                 ->default('pending');
-            $table->unsignedBigInteger('affiliate_payout_id')
-                ->nullable();
+            $table->foreignId('affiliate_payout_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
             $table->timestampsTz();
             $table->softDeletesTz();
 
@@ -120,23 +149,14 @@ return new class () extends Migration {
         });
     }
 
-    private function createAffiliatePayoutsTable(): void
+    public function down(): void
     {
-        Schema::create('affiliate_payouts', function (Blueprint $table): void {
-            $table->id();
-            TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('affiliate_id');
-            $table->bigInteger('amount')
-                ->default(0);
-            $table->string('status')
-                ->default('pending');
-            $table->unsignedBigInteger('transaction_id')
-                ->nullable();
-            $table->timestampTz('processed_at')
-                ->nullable();
-            $table->timestampsTz();
-
-            $table->index(TenantSchema::tenantIndex(['affiliate_id', 'status']));
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('affiliate_commissions');
+            Schema::dropIfExists('affiliate_payouts');
+            Schema::dropIfExists('affiliate_referrals');
+            Schema::dropIfExists('affiliate_clicks');
+            Schema::dropIfExists('affiliates');
         });
     }
 };

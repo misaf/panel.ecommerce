@@ -9,18 +9,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        $this->createFaqCategoriesTable();
-        $this->createFaqsTable();
-        Schema::enableForeignKeyConstraints();
-    }
-
-    public function down(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('faqs');
-        Schema::dropIfExists('faq_categories');
-        Schema::enableForeignKeyConstraints();
+        Schema::withoutForeignKeyConstraints(function (): void {
+            $this->createFaqCategoriesTable();
+            $this->createFaqsTable();
+        });
     }
 
     private function createFaqCategoriesTable(): void
@@ -48,7 +40,9 @@ return new class () extends Migration {
         Schema::create('faqs', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('faq_category_id');
+            $table->foreignId('faq_category_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -62,6 +56,14 @@ return new class () extends Migration {
             $table->index(['tenant_id', 'faq_category_id']);
             $table->index(['tenant_id', 'position']);
             $table->index(['tenant_id', 'status']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::withoutForeignKeyConstraints(function (): void {
+            Schema::dropIfExists('faqs');
+            Schema::dropIfExists('faq_categories');
         });
     }
 };

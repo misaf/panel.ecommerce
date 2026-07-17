@@ -30,7 +30,9 @@ return new class () extends Migration {
         Schema::create('attribute_values', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('attribute_id');
+            $table->foreignId('attribute_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->morphs('attributable');
             $table->text('value');
             $table->unsignedBigInteger('position');

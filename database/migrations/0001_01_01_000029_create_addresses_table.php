@@ -10,15 +10,25 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::create('phone_numbers', function (Blueprint $table): void {
+        Schema::create('addresses', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
-            $table->unsignedBigInteger('user_profile_id');
-            $table->string('type')->default('mobile');
+            $table->foreignId('user_profile_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->string('type')->default('other');
             $table->string('label')->nullable();
+            $table->string('recipient_name')->nullable();
+            $table->string('organization')->nullable();
+            $table->string('line_one');
+            $table->string('line_two')->nullable();
+            $table->string('line_three')->nullable();
+            $table->string('locality')->nullable();
+            $table->string('administrative_area')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('sorting_code')->nullable();
             $table->char('country_code', 2);
-            $table->string('number', 32);
-            $table->string('extension', 16)->nullable();
+            $table->string('locale', 35)->nullable();
             $table->json('metadata')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('is_primary')->default(false);
@@ -28,13 +38,13 @@ return new class () extends Migration {
 
             $table->index(TenantSchema::tenantIndex(['user_profile_id']));
             $table->index(TenantSchema::tenantIndex(['country_code']));
-            $table->index(TenantSchema::tenantIndex(['number']));
+            $table->index(TenantSchema::tenantIndex(['locality']));
             $table->index(TenantSchema::tenantIndex(['is_primary']));
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('phone_numbers');
+        Schema::dropIfExists('addresses');
     }
 };

@@ -5,11 +5,9 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 
 return new class () extends Migration {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         $teams = config('permission.teams');
@@ -17,6 +15,7 @@ return new class () extends Migration {
         $columnNames = config('permission.column_names');
         $pivotRole = $columnNames['role_pivot_key'] ?? 'role_id';
         $pivotPermission = $columnNames['permission_pivot_key'] ?? 'permission_id';
+        $teamForeignKey = $columnNames['team_foreign_key'] ?? 'team_id';
 
         throw_if(empty($tableNames), 'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         throw_if($teams && empty($columnNames['team_foreign_key'] ?? null), 'Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
@@ -26,29 +25,35 @@ return new class () extends Migration {
          */
         Schema::create($tableNames['permissions'], static function (Blueprint $table): void {
             $table->id(); // permission id
+            TenantSchema::addTenantColumn($table);
             $table->string('name');
+            $table->string('description')->nullable();
             $table->string('guard_name');
             $table->timestamps();
 
-            $table->unique(['name', 'guard_name']);
+            $table->unique(TenantSchema::tenantIndex(['name', 'guard_name']));
         });
 
         /**
          * See `docs/prerequisites.md` for suggested lengths on 'name' and 'guard_name' if "1071 Specified key was too long" errors are encountered.
          */
-        Schema::create($tableNames['roles'], static function (Blueprint $table) use ($teams, $columnNames): void {
+        Schema::create($tableNames['roles'], static function (Blueprint $table) use ($teams, $teamForeignKey): void {
             $table->id(); // role id
-            if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
-                $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
-                $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
+            TenantSchema::addTenantColumn($table);
+            if (($teams || config('permission.testing')) && ( ! TenantSchema::enabled() || 'tenant_id' !== $teamForeignKey)) { // permission.testing is a fix for sqlite testing
+                $table->unsignedBigInteger($teamForeignKey)->nullable();
+            }
+            if ($teams || config('permission.testing')) {
+                $table->index($teamForeignKey, 'roles_team_foreign_key_index');
             }
             $table->string('name');
+            $table->string('description')->nullable();
             $table->string('guard_name');
             $table->timestamps();
             if ($teams || config('permission.testing')) {
-                $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
+                $table->unique(TenantSchema::tenantIndex([$teamForeignKey, 'name', 'guard_name']));
             } else {
-                $table->unique(['name', 'guard_name']);
+                $table->unique(TenantSchema::tenantIndex(['name', 'guard_name']));
             }
         });
 
@@ -128,9 +133,6 @@ return new class () extends Migration {
             ->forget(config('permission.cache.key'));
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         $tableNames = config('permission.table_names');
