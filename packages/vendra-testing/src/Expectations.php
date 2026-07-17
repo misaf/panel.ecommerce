@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Livewire\Features\SupportTesting\Testable;
+use Misaf\VendraTesting\TableSorting;
 use Misaf\VendraTesting\TranslationParity;
 use Pest\Expectation;
 use PHPUnit\Framework\Assert;
@@ -42,6 +44,21 @@ if (function_exists('expect')) {
 
         return $this;
     });
+
+    /**
+     * @param-closure-this Expectation<mixed> $this
+     *
+     * @param  array<int, Illuminate\Database\Eloquent\Model>  $recordsInAscendingOrder
+     */
+    expect()->extend('toSortByEverySortableColumn', function (array $recordsInAscendingOrder, bool $assertDescendingOrder = true): Expectation {
+        TableSorting::assertSortsByEverySortableColumn(
+            listPage: vendraTestingListPage($this->value),
+            recordsInAscendingOrder: $recordsInAscendingOrder,
+            assertDescendingOrder: $assertDescendingOrder,
+        );
+
+        return $this;
+    });
 }
 
 function vendraTestingLanguageDirectory(mixed $languageDirectory): string
@@ -51,4 +68,13 @@ function vendraTestingLanguageDirectory(mixed $languageDirectory): string
     }
 
     return $languageDirectory;
+}
+
+function vendraTestingListPage(mixed $listPage): Testable
+{
+    if ( ! $listPage instanceof Testable) {
+        Assert::fail('The expectation value must be a Livewire testable list page.');
+    }
+
+    return $listPage;
 }
