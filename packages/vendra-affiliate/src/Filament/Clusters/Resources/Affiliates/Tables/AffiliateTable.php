@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\SpatieTagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -29,72 +30,82 @@ final class AffiliateTable
 {
     public static function configure(Table $table): Table
     {
+        /**
+         * @var array<int, TextColumn|SpatieTagsColumn> $columns
+         */
+        $columns = [
+            TextColumn::make('row')
+                ->label('#')
+                ->rowIndex()->sortable(['id']),
+
+            TextColumn::make('user.username')
+                ->label(__('vendra-affiliate::attributes.user'))
+                ->searchable()
+                ->sortable(),
+
+            TextColumn::make('code')
+                ->copyable()
+                ->copyMessage(__('vendra-affiliate::messages.link_copied'))
+                ->copyMessageDuration(1500)
+                ->copyableState(fn(Affiliate $record): string => $record->referralUrl())
+                ->label(__('vendra-affiliate::attributes.code'))
+                ->searchable()
+                ->tooltip(fn(Affiliate $record): string => $record->referralUrl()),
+
+            TextColumn::make('commission_percent')
+                ->alignCenter()
+                ->label(__('vendra-affiliate::attributes.commission_percent'))
+                ->sortable()
+                ->suffix('%'),
+
+            TextColumn::make('pending_balance')
+                ->alignCenter()
+                ->extraCellAttributes(['dir' => 'ltr'])
+                ->label(__('vendra-affiliate::attributes.pending_balance'))
+                ->numeric(locale: 'en', maxDecimalPlaces: 0)
+                ->state(fn(Affiliate $record): int => $record->pendingBalance()),
+
+            TextColumn::make('status')
+                ->alignCenter()
+                ->badge()
+                ->label(__('vendra-affiliate::attributes.status')),
+
+            TextColumn::make('created_at')
+                ->alignCenter()
+                ->badge()
+                ->extraCellAttributes(['dir' => 'ltr'])
+                ->label(__('vendra-affiliate::attributes.created_at'))
+                ->sinceTooltip()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                    fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                ),
+
+            TextColumn::make('updated_at')
+                ->alignCenter()
+                ->badge()
+                ->extraCellAttributes(['dir' => 'ltr'])
+                ->label(__('vendra-affiliate::attributes.updated_at'))
+                ->sinceTooltip()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                    fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                ),
+        ];
+
+        if (TagIntegration::isAvailable()) {
+            $columns[] = SpatieTagsColumn::make('tags')
+                ->label(__('vendra-support::attributes.tags'))
+                ->type(Affiliate::TAG_TYPE)
+                ->toggleable();
+        }
+
         return $table
-            ->columns([
-                TextColumn::make('row')
-                    ->label('#')
-                    ->rowIndex()->sortable(['id']),
-
-                TextColumn::make('user.username')
-                    ->label(__('vendra-affiliate::attributes.user'))
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('code')
-                    ->copyable()
-                    ->copyMessage(__('vendra-affiliate::messages.link_copied'))
-                    ->copyMessageDuration(1500)
-                    ->copyableState(fn(Affiliate $record): string => $record->referralUrl())
-                    ->label(__('vendra-affiliate::attributes.code'))
-                    ->searchable()
-                    ->tooltip(fn(Affiliate $record): string => $record->referralUrl()),
-
-                ...self::tagColumns(),
-
-                TextColumn::make('commission_percent')
-                    ->alignCenter()
-                    ->label(__('vendra-affiliate::attributes.commission_percent'))
-                    ->sortable()
-                    ->suffix('%'),
-
-                TextColumn::make('pending_balance')
-                    ->alignCenter()
-                    ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('vendra-affiliate::attributes.pending_balance'))
-                    ->numeric(locale: 'en', maxDecimalPlaces: 0)
-                    ->state(fn(Affiliate $record): int => $record->pendingBalance()),
-
-                TextColumn::make('status')
-                    ->alignCenter()
-                    ->badge()
-                    ->label(__('vendra-affiliate::attributes.status')),
-
-                TextColumn::make('created_at')
-                    ->alignCenter()
-                    ->badge()
-                    ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('vendra-affiliate::attributes.created_at'))
-                    ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->when(
-                        app()->isLocale('fa'),
-                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
-                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
-                    ),
-
-                TextColumn::make('updated_at')
-                    ->alignCenter()
-                    ->badge()
-                    ->extraCellAttributes(['dir' => 'ltr'])
-                    ->label(__('vendra-affiliate::attributes.updated_at'))
-                    ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->when(
-                        app()->isLocale('fa'),
-                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
-                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
-                    ),
-            ])
+            ->columns($columns)
             ->filters(
                 [
                     SelectFilter::make('status')
@@ -142,18 +153,5 @@ final class AffiliateTable
             ->defaultSort(column: 'id', direction: 'desc');
     }
 
-    /** @return list<TextColumn> */
-    private static function tagColumns(): array
-    {
-        if ( ! TagIntegration::isAvailable()) {
-            return [];
-        }
 
-        return [
-            TextColumn::make('tags.name')
-                ->badge()
-                ->label(__('vendra-support::attributes.tags'))
-                ->toggleable(),
-        ];
-    }
 }
