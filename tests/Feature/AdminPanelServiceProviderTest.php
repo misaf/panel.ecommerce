@@ -10,7 +10,7 @@ use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 it('uses a compact sidebar width', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
 
-    expect($panel->getSidebarWidth())->toBe('18rem');
+    expect($panel->getSidebarWidth())->toBe('14rem');
 });
 
 it('uses the full content width for localized navigation and pages', function (): void {
