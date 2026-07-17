@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 
 return new class () extends Migration {
     public function up(): void
@@ -29,7 +30,7 @@ return new class () extends Migration {
     {
         Schema::create('users', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->string('username');
             $table->string('email');
             $table->timestampTz('email_verified_at')
@@ -41,10 +42,10 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id']);
-            $table->index(['tenant_id', 'username']);
-            $table->index(['tenant_id', 'email']);
-            $table->index(['tenant_id', 'password_fingerprint']);
+            TenantSchema::addTenantIndex($table);
+            $table->unique(TenantSchema::tenantIndex(['username']));
+            $table->index(TenantSchema::tenantIndex(['email']));
+            $table->index(TenantSchema::tenantIndex(['password_fingerprint']));
         });
     }
 

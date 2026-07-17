@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 
 return new class () extends Migration {
     public function up(): void
@@ -19,7 +20,7 @@ return new class () extends Migration {
     {
         Schema::create('currency_categories', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->string('name');
             $table->string('description')
                 ->nullable();
@@ -30,10 +31,10 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'name']);
-            $table->index(['tenant_id', 'slug']);
-            $table->index(['tenant_id', 'position']);
-            $table->index(['tenant_id', 'status']);
+            $table->index(TenantSchema::tenantIndex(['name']));
+            $table->index(TenantSchema::tenantIndex(['slug']));
+            $table->index(TenantSchema::tenantIndex(['position']));
+            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 
@@ -41,7 +42,7 @@ return new class () extends Migration {
     {
         Schema::create('currencies', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->foreignId('currency_category_id')
                 ->constrained()
                 ->cascadeOnDelete();
@@ -62,13 +63,13 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'currency_category_id']);
-            $table->index(['tenant_id', 'name']);
-            $table->index(['tenant_id', 'slug']);
-            $table->index(['tenant_id', 'iso_code']);
-            $table->index(['tenant_id', 'is_default']);
-            $table->index(['tenant_id', 'position']);
-            $table->index(['tenant_id', 'status']);
+            $table->index(TenantSchema::tenantIndex(['currency_category_id']));
+            $table->index(TenantSchema::tenantIndex(['name']));
+            $table->index(TenantSchema::tenantIndex(['slug']));
+            $table->index(TenantSchema::tenantIndex(['iso_code']));
+            $table->index(TenantSchema::tenantIndex(['is_default']));
+            $table->index(TenantSchema::tenantIndex(['position']));
+            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 
 return new class () extends Migration {
@@ -25,7 +26,7 @@ return new class () extends Migration {
     {
         Schema::create('transaction_gateways', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -35,8 +36,8 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'position']);
-            $table->index(['tenant_id', 'status']);
+            $table->index(TenantSchema::tenantIndex(['position']));
+            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 
@@ -44,7 +45,7 @@ return new class () extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->foreignId('transaction_gateway_id')
                 ->constrained()
                 ->restrictOnDelete();
@@ -64,12 +65,12 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'transaction_gateway_id']);
-            $table->index(['tenant_id', 'user_id']);
-            $table->index(['tenant_id', 'transaction_type']);
-            $table->index(['tenant_id', 'token']);
-            $table->index(['tenant_id', 'amount']);
-            $table->index(['tenant_id', 'status']);
+            $table->index(TenantSchema::tenantIndex(['transaction_gateway_id']));
+            $table->index(TenantSchema::tenantIndex(['user_id']));
+            $table->index(TenantSchema::tenantIndex(['transaction_type']));
+            $table->index(TenantSchema::tenantIndex(['token']));
+            $table->index(TenantSchema::tenantIndex(['amount']));
+            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 

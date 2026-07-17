@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantSchema;
 
 return new class () extends Migration {
     public function up(): void
@@ -19,7 +20,7 @@ return new class () extends Migration {
     {
         Schema::create('blog_post_categories', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->json('name');
             $table->json('description')
                 ->nullable();
@@ -30,8 +31,8 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'position']);
-            $table->index(['tenant_id', 'status']);
+            $table->index(TenantSchema::tenantIndex(['position']));
+            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 
@@ -39,7 +40,7 @@ return new class () extends Migration {
     {
         Schema::create('blog_posts', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('tenant_id');
+            TenantSchema::addTenantColumn($table);
             $table->foreignId('blog_post_category_id')
                 ->constrained()
                 ->cascadeOnDelete();
@@ -53,9 +54,9 @@ return new class () extends Migration {
             $table->timestampsTz();
             $table->softDeletesTz();
 
-            $table->index(['tenant_id', 'blog_post_category_id']);
-            $table->index(['tenant_id', 'position']);
-            $table->index(['tenant_id', 'status']);
+            $table->index(TenantSchema::tenantIndex(['blog_post_category_id']));
+            $table->index(TenantSchema::tenantIndex(['position']));
+            $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 
