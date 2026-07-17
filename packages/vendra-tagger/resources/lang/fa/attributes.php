@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 return [
     'created_at'       => 'تاریخ ایجاد',
-    'id'               => 'شناسه',
     'name'             => 'نام',
     'slug'             => 'نامک',
     'slug_helper_text' => 'شناسه یکتای URL. برای تولید خودکار از نام، خالی بگذارید.',

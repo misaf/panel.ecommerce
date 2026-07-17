@@ -13,8 +13,8 @@ final class SeedCommand extends TenantSeedCommand
     protected const string MODULE_NAME = TaggerPlugin::ID;
 
     protected $signature = self::MODULE_NAME . ':seed
-        {tenant? : Tenant ID or slug to seed blog data for}
-        {seeders?* : Seeder keys to run. Use "all" or one or more of: permission-policies, demo-contents}';
+        {tenant? : Tenant ID or slug to seed tagger data for}
+        {seeders?* : Seeder keys to run. Use "all" or one or more of: permission-policies}';
 
     protected $description = 'Seed tagger module data for a tenant';
 
