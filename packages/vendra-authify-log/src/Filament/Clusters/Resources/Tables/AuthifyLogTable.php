@@ -35,7 +35,7 @@ class AuthifyLogTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(),
+                ->rowIndex()->sortable(['id']),
 
             TextColumn::make('ip_address')
                 ->alignCenter()

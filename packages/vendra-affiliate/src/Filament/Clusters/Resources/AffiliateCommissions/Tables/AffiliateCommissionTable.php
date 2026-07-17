@@ -30,7 +30,7 @@ final class AffiliateCommissionTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(),
+                    ->rowIndex()->sortable(['id']),
 
                 TextColumn::make('affiliate.code')
                     ->label(__('vendra-affiliate::attributes.affiliate'))

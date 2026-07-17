@@ -28,7 +28,7 @@ final class AttributeTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(),
+                    ->rowIndex()->sortable(['id']),
 
                 TextColumn::make('name')
                     ->description(fn(Attribute $record): ?string => $record->description)

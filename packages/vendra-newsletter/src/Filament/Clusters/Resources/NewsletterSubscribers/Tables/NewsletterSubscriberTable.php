@@ -27,7 +27,7 @@ final class NewsletterSubscriberTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(),
+                    ->rowIndex()->sortable(['id']),
 
                 TextColumn::make('email')
                     ->alignStart()

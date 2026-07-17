@@ -45,7 +45,7 @@ final class BlogPostTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(),
+                ->rowIndex()->sortable(['id']),
 
             SpatieMediaLibraryImageColumn::make('image')
                 ->alignCenter()

@@ -36,7 +36,7 @@ final class ReferralsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(),
+                    ->rowIndex()->sortable(['id']),
 
                 TextColumn::make('user.username')
                     ->label(__('vendra-affiliate::attributes.user'))

@@ -25,7 +25,7 @@ final class TaggerTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(),
+                ->rowIndex()->sortable(['id']),
 
             TextColumn::make('name')
                 ->alignStart()

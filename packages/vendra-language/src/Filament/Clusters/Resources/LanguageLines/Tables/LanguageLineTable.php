@@ -29,7 +29,7 @@ final class LanguageLineTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(),
+                ->rowIndex()->sortable(['id']),
 
             TextColumn::make('namespace')
                 ->alignStart()
