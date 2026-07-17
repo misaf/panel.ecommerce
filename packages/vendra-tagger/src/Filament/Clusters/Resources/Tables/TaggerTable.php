@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 
@@ -87,6 +88,8 @@ final class TaggerTable
 
                             DateConstraint::make('updated_at')
                                 ->label(__('vendra-tagger::attributes.updated_at')),
+
+                            NumberConstraint::make('position'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

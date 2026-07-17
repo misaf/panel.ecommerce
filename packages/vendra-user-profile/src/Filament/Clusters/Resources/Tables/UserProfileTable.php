@@ -17,6 +17,9 @@ use Filament\Tables\Columns\Layout\Component as LayoutComponent;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
@@ -85,6 +88,17 @@ final class UserProfileTable
                         ->constraints([
                             TextConstraint::make('name')
                                 ->label(__('vendra-user-profile::table.columns.name')),
+
+                            RelationshipConstraint::make('user')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('username'),
+                                ),
+                            TextConstraint::make('slug'),
+                            BooleanConstraint::make('is_default'),
+                            BooleanConstraint::make('status'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

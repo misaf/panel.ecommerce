@@ -23,6 +23,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Table;
 use Illuminate\Support\Number;
 use Livewire\Component as Livewire;
@@ -113,6 +114,8 @@ final class ProductCategoryTable
                         ->constraints([
                             BooleanConstraint::make('status')
                                 ->label(__('vendra-product::attributes.status')),
+
+                            NumberConstraint::make('position'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

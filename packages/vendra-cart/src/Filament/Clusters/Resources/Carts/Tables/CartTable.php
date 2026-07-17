@@ -10,6 +10,10 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -78,6 +82,13 @@ final class CartTable
                 ]),
             ])
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->with('owner'))
+            ->filters([
+                QueryBuilder::make()
+                    ->constraints([
+                        TextConstraint::make('token'),
+                        DateConstraint::make('expires_at'),
+                    ]),
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->defaultSort(column: 'id', direction: 'desc');
     }
 }

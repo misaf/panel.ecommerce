@@ -15,6 +15,8 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -101,6 +103,14 @@ final class AffiliateTable
 
                     QueryBuilder::make()
                         ->constraints([
+                            RelationshipConstraint::make('user')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('email'),
+                                ),
+
                             TextConstraint::make('code')
                                 ->label(__('vendra-affiliate::attributes.code')),
 

@@ -199,6 +199,8 @@ final class ProductTable
 
                             BooleanConstraint::make('available_soon')
                                 ->label(__('vendra-product::attributes.available_soon')),
+
+                            NumberConstraint::make('position'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

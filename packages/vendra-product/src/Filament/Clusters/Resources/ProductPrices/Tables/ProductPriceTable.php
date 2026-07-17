@@ -17,6 +17,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Misaf\VendraProduct\Models\ProductPrice;
 
@@ -72,6 +75,15 @@ final class ProductPriceTable
                         ->constraints([
                             NumberConstraint::make('price')
                                 ->label(__('vendra-product::attributes.price')),
+
+                            RelationshipConstraint::make('product')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('name'),
+                                ),
+                            TextConstraint::make('currency_code'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

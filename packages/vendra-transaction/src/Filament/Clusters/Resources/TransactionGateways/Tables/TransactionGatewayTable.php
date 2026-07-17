@@ -14,6 +14,10 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\Actions\ReportAction;
@@ -78,7 +82,12 @@ final class TransactionGatewayTable
             ])
             ->filters([
                 TrashedFilter::make(),
-            ])
+                QueryBuilder::make()
+                    ->constraints([
+                        BooleanConstraint::make('status'),
+                        NumberConstraint::make('position'),
+                    ]),
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

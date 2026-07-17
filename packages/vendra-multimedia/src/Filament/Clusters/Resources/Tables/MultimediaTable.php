@@ -136,6 +136,9 @@ final class MultimediaTable
                             NumberConstraint::make('size')
                                 ->label(__('vendra-multimedia::attributes.size')),
 
+                            NumberConstraint::make('order_column')
+                                ->label(__('vendra-multimedia::attributes.order_column')),
+
                             DateConstraint::make('created_at')
                                 ->label(__('vendra-multimedia::attributes.created_at')),
 

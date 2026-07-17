@@ -16,6 +16,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions\SetDefaultLanguageAction;
 use Misaf\VendraLanguage\Models\Language;
@@ -105,6 +107,12 @@ final class LanguageTable
                         ->constraints([
                             BooleanConstraint::make('is_default')
                                 ->label(__('vendra-language::attributes.is_default')),
+
+                            TextConstraint::make('locale')
+                                ->label(__('vendra-language::attributes.locale')),
+
+                            NumberConstraint::make('position')
+                                ->label(__('vendra-language::attributes.position')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

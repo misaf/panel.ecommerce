@@ -14,6 +14,8 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\TrashedFilter;
@@ -108,6 +110,22 @@ final class TransactionTable
                     TrashedFilter::make(),
                     QueryBuilder::make()
                         ->constraints([
+                            RelationshipConstraint::make('transactionGateway')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('name'),
+                                ),
+
+                            RelationshipConstraint::make('user')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('username'),
+                                ),
+
                             SelectConstraint::make('transaction_type')
                                 ->label(__('vendra-transaction::attributes.transaction_type'))
                                 ->multiple()

@@ -11,6 +11,10 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Misaf\VendraSupport\Support\TagIntegration;
@@ -79,9 +83,21 @@ final class UserTable
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
                     ),
             ])
-            ->filters([
-                TrashedFilter::make(),
-            ])
+            ->filters(
+                [
+                    TrashedFilter::make(),
+                    QueryBuilder::make()
+                        ->constraints([
+                            TextConstraint::make('username')
+                                ->label(__('vendra-user::attributes.username')),
+                            TextConstraint::make('email')
+                                ->label(__('vendra-user::attributes.email')),
+                            BooleanConstraint::make('email_verified_at')
+                                ->label(__('vendra-user::attributes.email_verified_at')),
+                        ]),
+                ],
+                layout: FiltersLayout::AboveContentCollapsible,
+            )
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

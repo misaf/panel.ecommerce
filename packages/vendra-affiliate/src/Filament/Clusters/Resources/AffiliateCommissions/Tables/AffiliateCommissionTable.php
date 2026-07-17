@@ -13,6 +13,8 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Misaf\VendraAffiliate\Enums\AffiliateCommissionPolicyEnum;
@@ -77,6 +79,14 @@ final class AffiliateCommissionTable
 
                     QueryBuilder::make()
                         ->constraints([
+                            RelationshipConstraint::make('affiliate')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('code'),
+                                ),
+
                             NumberConstraint::make('amount')
                                 ->label(__('vendra-affiliate::attributes.amount')),
 

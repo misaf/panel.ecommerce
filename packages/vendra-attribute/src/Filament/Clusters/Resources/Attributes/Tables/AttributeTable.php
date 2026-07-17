@@ -11,6 +11,11 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraSupport\Support\TagIntegration;
@@ -83,6 +88,15 @@ final class AttributeTable
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc')
+            ->filters([
+                QueryBuilder::make()
+                    ->constraints([
+                        TextConstraint::make('name'),
+                        TextConstraint::make('unit'),
+                        BooleanConstraint::make('status'),
+                        NumberConstraint::make('position'),
+                    ]),
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->reorderable('position', direction: 'desc');
     }
 

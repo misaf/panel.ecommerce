@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Support\Number;
@@ -116,6 +117,12 @@ final class ActivityLogTable
 
                             TextConstraint::make('batch_uuid')
                                 ->label(__('vendra-activity-log::attributes.batch_uuid')),
+
+                            NumberConstraint::make('subject_id')
+                                ->label(__('vendra-activity-log::attributes.subject_id')),
+
+                            NumberConstraint::make('causer_id')
+                                ->label(__('vendra-activity-log::attributes.causer_id')),
 
                             DateConstraint::make('created_at')
                                 ->label(__('vendra-activity-log::attributes.created_at')),

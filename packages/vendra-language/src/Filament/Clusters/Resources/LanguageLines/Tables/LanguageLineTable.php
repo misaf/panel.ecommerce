@@ -129,6 +129,9 @@ final class LanguageLineTable
 
                             TextConstraint::make('group')
                                 ->label(__('vendra-language::attributes.group')),
+
+                            TextConstraint::make('key')
+                                ->label(__('vendra-language::attributes.key')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

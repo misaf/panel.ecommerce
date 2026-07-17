@@ -13,6 +13,8 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
@@ -91,6 +93,11 @@ final class NewsletterSubscriberTable
                     TernaryFilter::make('unsubscribed_at')
                         ->label(__('vendra-newsletter::attributes.status'))
                         ->nullable(),
+                    QueryBuilder::make()
+                        ->constraints([
+                            TextConstraint::make('email')
+                                ->label(__('vendra-newsletter::attributes.email')),
+                        ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )

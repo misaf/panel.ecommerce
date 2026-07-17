@@ -6,6 +6,7 @@ namespace Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Tables;
 
 use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
@@ -14,12 +15,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
-use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Misaf\VendraAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 
 class AuthifyLogTable
@@ -86,17 +89,19 @@ class AuthifyLogTable
                 [
                     QueryBuilder::make()
                         ->constraints([
-                            TextConstraint::make('name')
-                                ->label(__('vendra-authify-log::attributes.name')),
-
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-authify-log::attributes.status')),
-
-                            DateConstraint::make('created_at')
-                                ->label(__('vendra-authify-log::attributes.created_at')),
-
-                            DateConstraint::make('updated_at')
-                                ->label(__('vendra-authify-log::attributes.updated_at')),
+                            RelationshipConstraint::make('user')
+                                ->selectable(
+                                    IsRelatedToOperator::make()
+                                        ->preload()
+                                        ->searchable()
+                                        ->titleAttribute('username'),
+                                ),
+                            SelectConstraint::make('action')
+                                ->options(AuthifyLogActionEnum::class)
+                                ->multiple(),
+                            TextConstraint::make('ip_address'),
+                            DateConstraint::make('created_at'),
+                            DateConstraint::make('updated_at'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
