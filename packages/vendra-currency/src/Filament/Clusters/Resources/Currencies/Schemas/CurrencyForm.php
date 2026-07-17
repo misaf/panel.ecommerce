@@ -13,9 +13,11 @@ use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
+use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class CurrencyForm
@@ -43,6 +45,7 @@ final class CurrencyForm
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-currency::attributes.name'))
                     ->live(onBlur: true)
+                    ->maxLength(255)
                     ->required()
                     ->unique(
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
@@ -50,12 +53,16 @@ final class CurrencyForm
                     ),
 
                 TextInput::make('slug')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.slug"))
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.slug'))
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-currency::attributes.slug_helper_text'))
                     ->label(__('vendra-currency::attributes.slug'))
+                    ->maxLength(255)
                     ->required()
-                    ->unique(modifyRuleUsing: fn(Unique $rule) => $rule->withoutTrashed()),
+                    ->unique(
+                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
+                            ->withoutTrashed(),
+                    ),
 
                 Fieldset::make('currency_setting')
                     ->columns(3)
@@ -122,7 +129,7 @@ final class CurrencyForm
                     ->rows(5),
 
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->collection('currencies')
+                    ->collection(Currency::MEDIA_COLLECTION)
                     ->columnSpanFull()
                     ->image()
                     ->label(__('vendra-currency::attributes.image'))
@@ -130,22 +137,22 @@ final class CurrencyForm
                     ->responsiveImages(),
 
                 Toggle::make('is_default')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.is_default"))
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.is_default'))
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-currency::attributes.is_default'))
-                    ->onIcon('heroicon-m-bolt')
+                    ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([
                         'boolean',
                     ]),
 
                 Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly("data.status"))
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-currency::attributes.status'))
-                    ->onIcon('heroicon-m-bolt')
+                    ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([
                         'boolean',

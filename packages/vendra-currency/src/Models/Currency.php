@@ -63,6 +63,7 @@ final class Currency extends Model implements HasMedia, Sortable, ShouldLogActiv
     use HasSlug;
     use SoftDeletes;
     use SortableTrait;
+    public const string MEDIA_COLLECTION = 'currencies';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`

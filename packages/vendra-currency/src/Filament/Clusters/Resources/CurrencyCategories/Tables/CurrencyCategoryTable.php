@@ -13,6 +13,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
@@ -40,11 +41,11 @@ final class CurrencyCategoryTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             SpatieMediaLibraryImageColumn::make('image')
                 ->alignCenter()
-                ->collection('currencies/categories')
+                ->collection(CurrencyCategory::MEDIA_COLLECTION)
                 ->conversion('thumb-table')
                 ->defaultImageUrl(fn(CurrencyCategory $record): string =>  static::defaultAvatarImageUrl($record->name))
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
@@ -54,7 +55,7 @@ final class CurrencyCategoryTable
             BadgeableColumn::make('name')
                 ->alignStart()
                 ->description(fn(CurrencyCategory $record): string => $record->description)
-                ->icon('heroicon-m-folder-plus')
+                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-currency::attributes.name'))
                 ->searchable()
                 ->suffixBadges([
@@ -71,7 +72,7 @@ final class CurrencyCategoryTable
 
             ToggleColumn::make('status')
                 ->label(__('vendra-currency::attributes.status'))
-                ->onIcon('heroicon-m-bolt'),
+                ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
                 ->alignCenter()
@@ -80,7 +81,7 @@ final class CurrencyCategoryTable
                 ->label(__('vendra-currency::attributes.created_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -93,7 +94,7 @@ final class CurrencyCategoryTable
                 ->label(__('vendra-currency::attributes.updated_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -132,7 +133,7 @@ final class CurrencyCategoryTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'position', direction: 'desc')
+            ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable(column: 'position', direction: 'desc');
     }
 }

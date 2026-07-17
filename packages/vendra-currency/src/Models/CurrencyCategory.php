@@ -58,6 +58,7 @@ final class CurrencyCategory extends Model implements HasMedia, Sortable, Should
     use HasSlug;
     use SoftDeletes;
     use SortableTrait;
+    public const string MEDIA_COLLECTION = 'currencies/categories';
 
     /**
      * Pin sortable behavior regardless of the global `eloquent-sortable`

@@ -6,16 +6,14 @@ namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Tables;
 
 use Awcodes\BadgeableColumn\Components\Badge;
 use Awcodes\BadgeableColumn\Components\BadgeableColumn;
-use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
@@ -30,9 +28,9 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Oper
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetBuyPriceAction;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetDefaultCurrencyAction;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetSellPriceAction;
+use Misaf\VendraCurrency\Actions\SetDefaultCurrencyAction;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\UpdateBuyPriceAction;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\UpdateSellPriceAction;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraCurrency\Models\CurrencyCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
@@ -49,11 +47,11 @@ final class CurrencyTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex(),
+                ->rowIndex()->sortable(),
 
             SpatieMediaLibraryImageColumn::make('image')
                 ->alignCenter()
-                ->collection('currencies')
+                ->collection(Currency::MEDIA_COLLECTION)
                 ->conversion('thumb-table')
                 ->defaultImageUrl(fn(Currency $record): string =>  static::defaultAvatarImageUrl($record->name))
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
@@ -96,70 +94,12 @@ final class CurrencyTable
             TextColumn::make('buy_price')
                 ->label(__('vendra-currency::attributes.buy_price'))
                 ->numeric()
-                ->action(
-                    Action::make('updateBuyPrice')
-                        ->schema([
-                            TextInput::make('buy_price')
-                                ->default(fn(Currency $record) => $record->buy_price)
-                                ->extraInputAttributes(['dir' => 'ltr'])
-                                ->label(__('vendra-currency::attributes.buy_price'))
-                                ->inputMode('number')
-                                ->numeric()
-                                ->required(),
-                        ])
-                        ->action(function (Currency $record, array $data): void {
-                            $price = $data['buy_price'] ?? null;
-
-                            if ( ! is_numeric($price)) {
-                                return;
-                            }
-
-                            $buyPrice = (new SetBuyPriceAction())->execute($record, (int) $price);
-
-                            if ($buyPrice) {
-                                Notification::make()
-                                    ->title(__('vendra-currency::messages.buy_price_changed_successfully', ['iso_code' => $record->iso_code]))
-                                    ->success()
-                                    ->send();
-                            }
-                        })
-                        ->label(fn(Currency $record) => __('vendra-currency::messages.update_name', ['name' => $record->name]))
-                        ->requiresConfirmation(),
-                ),
+                ->action(UpdateBuyPriceAction::make()),
 
             TextColumn::make('sell_price')
                 ->label(__('vendra-currency::attributes.sell_price'))
                 ->numeric()
-                ->action(
-                    Action::make('updateSellPrice')
-                        ->schema([
-                            TextInput::make('sell_price')
-                                ->default(fn(Currency $record) => $record->sell_price)
-                                ->extraInputAttributes(['dir' => 'ltr'])
-                                ->inputMode('number')
-                                ->label(__('vendra-currency::attributes.sell_price'))
-                                ->numeric()
-                                ->required(),
-                        ])
-                        ->action(function (array $data, Currency $record): void {
-                            $price = $data['sell_price'] ?? null;
-
-                            if ( ! is_numeric($price)) {
-                                return;
-                            }
-
-                            $sellPrice = (new SetSellPriceAction())->execute($record, (int) $price);
-
-                            if ($sellPrice) {
-                                Notification::make()
-                                    ->title(__('vendra-currency::messages.sell_price_changed_successfully', ['iso_code' => $record->iso_code]))
-                                    ->success()
-                                    ->send();
-                            }
-                        })
-                        ->label(fn(Currency $record) => __('vendra-currency::messages.update_name', ['name' => $record->name]))
-                        ->requiresConfirmation(),
-                ),
+                ->action(UpdateSellPriceAction::make()),
 
             ToggleColumn::make('is_default')
                 ->afterStateUpdated(function (Currency $record, ?string $state): void {
@@ -168,11 +108,11 @@ final class CurrencyTable
                     }
                 })
                 ->label(__('vendra-currency::attributes.is_default'))
-                ->onIcon('heroicon-m-bolt'),
+                ->onIcon(Heroicon::Bolt),
 
             ToggleColumn::make('status')
                 ->label(__('vendra-currency::attributes.status'))
-                ->onIcon('heroicon-m-bolt'),
+                ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
                 ->alignCenter()
@@ -181,7 +121,7 @@ final class CurrencyTable
                 ->label(__('vendra-currency::attributes.created_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -194,7 +134,7 @@ final class CurrencyTable
                 ->label(__('vendra-currency::attributes.updated_at'))
                 ->sinceTooltip()
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->unless(
+                ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
@@ -251,7 +191,7 @@ final class CurrencyTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(column: 'position', direction: 'desc')
+            ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable(column: 'position', direction: 'desc')
             ->defaultGroup(
                 Group::make('currencyCategory.name')

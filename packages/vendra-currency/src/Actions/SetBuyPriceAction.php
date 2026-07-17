@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions;
+namespace Misaf\VendraCurrency\Actions;
 
 use Exception;
 use Misaf\VendraCurrency\Models\Currency;
