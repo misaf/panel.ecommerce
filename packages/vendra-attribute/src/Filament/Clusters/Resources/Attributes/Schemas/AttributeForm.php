@@ -10,7 +10,9 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Validation\Rules\Unique;
+use Livewire\Component as Livewire;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Support\AttributeUnits;
 use Misaf\VendraSupport\Support\TagIntegration;
@@ -43,10 +45,15 @@ final class AttributeForm
                 ->rows(4),
 
             Toggle::make('status')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                 ->columnSpanFull()
-                ->default(true)
+                ->default(false)
                 ->label(__('vendra-attribute::attributes.status'))
-                ->required(),
+                ->onIcon(Heroicon::Bolt)
+                ->required()
+                ->rules([
+                    'boolean',
+                ]),
         ];
 
         if (TagIntegration::isAvailable()) {

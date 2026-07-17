@@ -9,6 +9,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\SpatieTagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
@@ -49,7 +50,8 @@ final class AttributeTable
                 ->label(__('vendra-attribute::attributes.values')),
 
             ToggleColumn::make('status')
-                ->label(__('vendra-attribute::attributes.status')),
+                ->label(__('vendra-attribute::attributes.status'))
+                ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
                 ->alignCenter()
