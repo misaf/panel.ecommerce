@@ -33,7 +33,8 @@ final class ActivityLogTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             TextColumn::make('event')
                 ->alignStart()

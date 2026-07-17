@@ -34,7 +34,8 @@ final class LanguageTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             TextColumn::make('locale')
                 ->badge()

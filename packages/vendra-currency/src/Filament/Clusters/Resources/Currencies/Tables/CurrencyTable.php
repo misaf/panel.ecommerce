@@ -48,7 +48,8 @@ final class CurrencyTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             SpatieMediaLibraryImageColumn::make('image')
                 ->alignCenter()

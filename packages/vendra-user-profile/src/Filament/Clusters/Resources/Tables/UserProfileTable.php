@@ -35,7 +35,8 @@ final class UserProfileTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             TextColumn::make('user.username')
                 ->alignStart()

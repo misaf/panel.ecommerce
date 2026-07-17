@@ -33,7 +33,8 @@ final class MultimediaTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             BadgeableColumn::make('model_type')
                 ->alignStart()
