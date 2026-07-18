@@ -23,9 +23,9 @@
         "filament/filament": "^5.6.8",
         "filament/spatie-laravel-media-library-plugin": "^5.6.8",
         "illuminate/support": "^13.0",
-        "misaf/vendra-multimedia": "^1.2.1",
-        "misaf/vendra-support": "^1.2.1",
-        "misaf/vendra-user-profile": "^1.2.1",
+        "misaf/vendra-multimedia": "self.version",
+        "misaf/vendra-support": "self.version",
+        "misaf/vendra-user-profile": "self.version",
         "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {
@@ -33,7 +33,7 @@
         "larastan/larastan": "^3.10.0",
         "laravel/boost": "^2.4.12",
         "laravel/pint": "^1.29.3",
-        "misaf/vendra-testing": "^1.2.1",
+        "misaf/vendra-testing": "self.version",
         "orchestra/testbench": "^11.1",
         "pestphp/pest": "^4.7.5",
         "pestphp/pest-plugin-laravel": "^4.1",
