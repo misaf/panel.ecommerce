@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c4fc8fdef7220cc1d4679a421cea1b5",
+    "content-hash": "abaa0b256f8c9c0c5ec6f405e1688931",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2622,16 +2622,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.15.0",
+            "version": "7.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "90bd104afeb0fcc2190c9eb6fd8a441447e4b30d"
+                "reference": "61443dfb33c62f308ee8add20f45b4d6e4bf8d2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/90bd104afeb0fcc2190c9eb6fd8a441447e4b30d",
-                "reference": "90bd104afeb0fcc2190c9eb6fd8a441447e4b30d",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/61443dfb33c62f308ee8add20f45b4d6e4bf8d2f",
+                "reference": "61443dfb33c62f308ee8add20f45b4d6e4bf8d2f",
                 "shasum": ""
             },
             "require": {
@@ -2730,7 +2730,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.15.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.15.1"
             },
             "funding": [
                 {
@@ -2746,7 +2746,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-17T12:26:48+00:00"
+            "time": "2026-07-18T11:23:11+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -5738,7 +5738,7 @@
         },
         {
             "name": "misaf/vendra-activity-log",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
@@ -5834,7 +5834,7 @@
         },
         {
             "name": "misaf/vendra-address",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
@@ -5923,7 +5923,7 @@
         },
         {
             "name": "misaf/vendra-affiliate",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
@@ -6013,7 +6013,7 @@
         },
         {
             "name": "misaf/vendra-affiliate-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate-api",
@@ -6105,7 +6105,7 @@
         },
         {
             "name": "misaf/vendra-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-api",
@@ -6196,7 +6196,7 @@
         },
         {
             "name": "misaf/vendra-attribute",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
@@ -6274,7 +6274,7 @@
         },
         {
             "name": "misaf/vendra-attribute-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
@@ -6366,7 +6366,7 @@
         },
         {
             "name": "misaf/vendra-authify-log",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
@@ -6455,7 +6455,7 @@
         },
         {
             "name": "misaf/vendra-blog",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
@@ -6558,7 +6558,7 @@
         },
         {
             "name": "misaf/vendra-blog-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
@@ -6651,7 +6651,7 @@
         },
         {
             "name": "misaf/vendra-cart",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart",
@@ -6745,7 +6745,7 @@
         },
         {
             "name": "misaf/vendra-cart-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
@@ -6837,7 +6837,7 @@
         },
         {
             "name": "misaf/vendra-currency",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
@@ -6937,7 +6937,7 @@
         },
         {
             "name": "misaf/vendra-custom-page",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page",
@@ -7039,7 +7039,7 @@
         },
         {
             "name": "misaf/vendra-custom-page-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page-api",
@@ -7132,7 +7132,7 @@
         },
         {
             "name": "misaf/vendra-document",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
@@ -7223,7 +7223,7 @@
         },
         {
             "name": "misaf/vendra-faq",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
@@ -7326,7 +7326,7 @@
         },
         {
             "name": "misaf/vendra-faq-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
@@ -7419,7 +7419,7 @@
         },
         {
             "name": "misaf/vendra-language",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
@@ -7519,7 +7519,7 @@
         },
         {
             "name": "misaf/vendra-localization",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
@@ -7605,7 +7605,7 @@
         },
         {
             "name": "misaf/vendra-multimedia",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
@@ -7698,7 +7698,7 @@
         },
         {
             "name": "misaf/vendra-multimedia-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
@@ -7790,7 +7790,7 @@
         },
         {
             "name": "misaf/vendra-newsletter",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
@@ -7884,7 +7884,7 @@
         },
         {
             "name": "misaf/vendra-permission",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
@@ -7983,7 +7983,7 @@
         },
         {
             "name": "misaf/vendra-phone",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
@@ -8073,7 +8073,7 @@
         },
         {
             "name": "misaf/vendra-product",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
@@ -8181,7 +8181,7 @@
         },
         {
             "name": "misaf/vendra-product-api",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
@@ -8275,7 +8275,7 @@
         },
         {
             "name": "misaf/vendra-socialite",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-socialite",
@@ -8366,7 +8366,7 @@
         },
         {
             "name": "misaf/vendra-subscription",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
@@ -8451,7 +8451,7 @@
         },
         {
             "name": "misaf/vendra-support",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
@@ -8545,7 +8545,7 @@
         },
         {
             "name": "misaf/vendra-tagger",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
@@ -8642,7 +8642,7 @@
         },
         {
             "name": "misaf/vendra-tenant",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
@@ -8729,7 +8729,7 @@
         },
         {
             "name": "misaf/vendra-testing",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
@@ -8816,7 +8816,7 @@
         },
         {
             "name": "misaf/vendra-transaction",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
@@ -8903,7 +8903,7 @@
         },
         {
             "name": "misaf/vendra-user",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
@@ -8994,7 +8994,7 @@
         },
         {
             "name": "misaf/vendra-user-profile",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
@@ -9095,7 +9095,7 @@
         },
         {
             "name": "misaf/vendra-verification",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
@@ -9688,16 +9688,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.1.4",
+            "version": "v4.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "7da6c396d7ebe142bc857c20479d5e70a5e1aac7"
+                "reference": "b043439dbdf954e6c28b5ea7e34b0100f83165e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/7da6c396d7ebe142bc857c20479d5e70a5e1aac7",
-                "reference": "7da6c396d7ebe142bc857c20479d5e70a5e1aac7",
+                "url": "https://api.github.com/repos/nette/utils/zipball/b043439dbdf954e6c28b5ea7e34b0100f83165e0",
+                "reference": "b043439dbdf954e6c28b5ea7e34b0100f83165e0",
                 "shasum": ""
             },
             "require": {
@@ -9717,7 +9717,7 @@
             },
             "suggest": {
                 "ext-gd": "to use Image",
-                "ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
+                "ext-iconv": "to use Strings::chr(), ord() and reverse()",
                 "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
                 "ext-json": "to use Nette\\Utils\\Json",
                 "ext-mbstring": "to use Strings::lower() etc...",
@@ -9773,9 +9773,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.1.4"
+                "source": "https://github.com/nette/utils/tree/v4.1.5"
             },
-            "time": "2026-05-11T20:49:54+00:00"
+            "time": "2026-07-17T23:02:45+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -18579,7 +18579,7 @@
         },
         {
             "name": "misaf/vendra-developer-logins",
-            "version": "dev-master",
+            "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-developer-logins",
