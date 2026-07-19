@@ -21,7 +21,9 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Oper
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
+use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Actions\ProcessPayoutAction;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraSupport\Support\TagIntegration;
@@ -36,7 +38,8 @@ final class AffiliateTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             TextColumn::make('user.username')
                 ->label(__('vendra-affiliate::attributes.user'))
@@ -76,7 +79,6 @@ final class AffiliateTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-affiliate::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -89,7 +91,6 @@ final class AffiliateTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-affiliate::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -105,6 +106,11 @@ final class AffiliateTable
         }
 
         return $table
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->withSum([
+                'commissions as pending_balance' => fn(Builder $commissionQuery): Builder => $commissionQuery
+                    ->where('status', CommissionStatusEnum::Approved)
+                    ->whereNull('affiliate_payout_id'),
+            ], 'amount'))
             ->columns($columns)
             ->filters(
                 [

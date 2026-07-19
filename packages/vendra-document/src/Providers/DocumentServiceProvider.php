@@ -8,6 +8,7 @@ use Misaf\VendraDocument\Console\Commands\SeedCommand;
 use Misaf\VendraDocument\Filament\RelationManagers\DocumentsRelationManager;
 use Misaf\VendraDocument\Models\Document;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 use Spatie\LaravelPackageTools\Package;
@@ -26,6 +27,7 @@ final class DocumentServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('documents');
         $this->app->make(TenantSeeders::class)->register('vendra-document:seed', priority: 24);
 
         UserProfile::resolveRelationUsing(

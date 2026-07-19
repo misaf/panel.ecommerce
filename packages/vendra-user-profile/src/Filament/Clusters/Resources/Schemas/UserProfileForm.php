@@ -66,6 +66,17 @@ final class UserProfileForm
                     ->label(__('vendra-user-profile::attributes.description'))
                     ->maxLength(255),
 
+                Toggle::make('is_default')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.is_default'))
+                    ->columnSpanFull()
+                    ->default(false)
+                    ->label(__('vendra-user-profile::attributes.is_default'))
+                    ->onIcon(Heroicon::Bolt)
+                    ->required()
+                    ->rules([
+                        'boolean',
+                    ]),
+
                 Toggle::make('status')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->columnSpanFull()

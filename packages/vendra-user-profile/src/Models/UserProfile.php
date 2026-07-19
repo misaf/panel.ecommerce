@@ -33,7 +33,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property Carbon|null $deleted_at
  */
 #[Fillable(['tenant_id', 'user_id', 'name', 'description', 'slug', 'is_default', 'status'])]
-#[Hidden(['tenant_id'])]
+#[Hidden(['tenant_id', 'active_name_guard', 'active_slug_guard', 'default_user_guard'])]
 #[UseFactory(UserProfileFactory::class)]
 final class UserProfile extends Model implements ShouldLogActivity
 {
@@ -79,5 +79,20 @@ final class UserProfile extends Model implements ShouldLogActivity
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug')
             ->preventOverwrite();
+    }
+
+    protected static function booted(): void
+    {
+        self::saving(function (self $userProfile): void {
+            if ( ! $userProfile->is_default) {
+                return;
+            }
+
+            self::query()
+                ->where('user_id', $userProfile->user_id)
+                ->where('is_default', true)
+                ->whereKeyNot($userProfile->getKey())
+                ->update(['is_default' => false]);
+        });
     }
 }

@@ -14,6 +14,7 @@ use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\EloquentTagResolver;
 use Misaf\VendraSupport\Support\TagRelationship;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraTagger\Console\Commands\SeedCommand;
 use Misaf\VendraTagger\Models\Tagger;
 use Misaf\VendraTagger\TaggerPlugin;
@@ -73,6 +74,7 @@ final class TaggerServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('tags');
         $this->app->make(TenantSeeders::class)->register('vendra-tagger:seed', priority: 70);
 
         AboutCommand::add('Vendra Tagger', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-tagger')]);

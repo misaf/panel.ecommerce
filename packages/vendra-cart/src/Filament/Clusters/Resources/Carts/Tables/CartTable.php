@@ -25,7 +25,8 @@ final class CartTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(['id']),
+                    ->rowIndex()
+                    ->sortable(['id']),
 
                 TextColumn::make('token')
                     ->copyable()
@@ -62,7 +63,6 @@ final class CartTable
                     ->label(__('vendra-cart::attributes.created_at'))
                     ->sinceTooltip()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

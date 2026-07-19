@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'latest_multimedia_table' => 'Media',
+    'recent_multimedia_table' => 'Recent Media',
 ];

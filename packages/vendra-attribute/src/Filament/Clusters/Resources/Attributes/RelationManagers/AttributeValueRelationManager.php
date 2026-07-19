@@ -11,13 +11,14 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
-use Misaf\VendraAttribute\Models\AttributeValue;
+use Misaf\VendraAttribute\Models\Attribute;
 
 final class AttributeValueRelationManager extends RelationManager
 {
     protected static string $relationship = 'values';
+
+    protected static bool $isBadgeDeferred = true;
 
     protected static bool $isLazy = false;
 
@@ -26,9 +27,14 @@ final class AttributeValueRelationManager extends RelationManager
         return __('vendra-attribute::navigation.attribute_value');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('vendra-attribute::navigation.attribute_values');
+    }
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('vendra-attribute::navigation.attribute_value');
+        return __('vendra-attribute::navigation.attribute_values');
     }
 
     public function isReadOnly(): bool
@@ -38,10 +44,11 @@ final class AttributeValueRelationManager extends RelationManager
 
     public static function getBadge(Model $ownerRecord, string $pageClass): string
     {
-        /** @var Collection<int, AttributeValue> $values */
-        $values = $ownerRecord->getRelation('values') ?? collect();
+        if ( ! $ownerRecord instanceof Attribute) {
+            return (string) Number::format(0);
+        }
 
-        return (string) Number::format($values->count());
+        return (string) Number::format($ownerRecord->values()->count());
     }
 
     public function form(Schema $schema): Schema

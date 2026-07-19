@@ -10,6 +10,7 @@ use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraSocialite\Support\SocialiteRegistrar;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -42,6 +43,7 @@ final class SocialiteServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('socialite_users');
         AboutCommand::add('Vendra Socialite', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-socialite')]);
     }
 }

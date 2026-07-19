@@ -43,7 +43,8 @@ final class MultimediaTable
                     Badge::make('count')
                         ->label(fn(Multimedia $record): string => Number::format((int) $record->model_id) ?: '0')
                         ->size(Size::Small),
-                ]),
+                ])
+                ->suffix(''),
 
             TextColumn::make('uuid')
                 ->alignStart()
@@ -83,7 +84,6 @@ final class MultimediaTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-multimedia::tables.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -96,7 +96,6 @@ final class MultimediaTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-multimedia::tables.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

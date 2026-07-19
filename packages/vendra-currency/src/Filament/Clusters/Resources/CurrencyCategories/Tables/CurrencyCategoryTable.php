@@ -26,6 +26,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Number;
 use Misaf\VendraCurrency\Models\CurrencyCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
@@ -49,7 +50,7 @@ final class CurrencyCategoryTable
                 ->alignCenter()
                 ->collection(CurrencyCategory::MEDIA_COLLECTION)
                 ->conversion('thumb-table')
-                ->defaultImageUrl(fn(CurrencyCategory $record): string =>  static::defaultAvatarImageUrl($record->name))
+                ->defaultImageUrl(fn(CurrencyCategory $record): string => static::defaultAvatarImageUrl($record->name))
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
                 ->label(__('vendra-currency::attributes.image'))
                 ->stacked(),
@@ -62,9 +63,10 @@ final class CurrencyCategoryTable
                 ->searchable()
                 ->suffixBadges([
                     Badge::make('count')
-                        ->label(fn(CurrencyCategory $record): string => (string) Number::format($record->currencies()->count()))
+                        ->label(fn(CurrencyCategory $record): string => (string) Number::format(static::currencyCount($record)))
                         ->size(Size::Small),
-                ]),
+                ])
+                ->suffix(''),
 
             TextColumn::make('slug')
                 ->alignStart()
@@ -82,7 +84,6 @@ final class CurrencyCategoryTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-currency::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -95,7 +96,6 @@ final class CurrencyCategoryTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-currency::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -104,6 +104,7 @@ final class CurrencyCategoryTable
         ];
 
         return $table
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('currencies'))
             ->columns($columns)
             ->filters(
                 [
@@ -139,5 +140,12 @@ final class CurrencyCategoryTable
             ])
             ->defaultSort(column: 'id', direction: 'desc')
             ->reorderable(column: 'position', direction: 'desc');
+    }
+
+    private static function currencyCount(CurrencyCategory $record): int
+    {
+        $count = $record->getAttribute('currencies_count');
+
+        return is_numeric($count) ? (int) $count : 0;
     }
 }

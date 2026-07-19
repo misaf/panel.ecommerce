@@ -12,6 +12,7 @@ use Misaf\VendraBlog\BlogPlugin;
 use Misaf\VendraBlog\Console\Commands\SeedCommand;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -48,6 +49,7 @@ final class BlogServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('blog_post_categories', 'blog_posts');
         $this->app->make(TenantSeeders::class)->register('vendra-blog:seed', priority: 55);
 
         AboutCommand::add('Vendra Blog', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog')]);

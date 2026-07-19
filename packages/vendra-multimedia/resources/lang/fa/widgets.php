@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'latest_multimedia_table' => 'رسانه‌ها',
+    'recent_multimedia_table' => 'رسانه‌های اخیر',
 ];

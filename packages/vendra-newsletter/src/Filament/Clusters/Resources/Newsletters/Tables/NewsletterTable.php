@@ -27,7 +27,8 @@ final class NewsletterTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(['id']),
+                    ->rowIndex()
+                    ->sortable(['id']),
 
                 TextColumn::make('subject')
                     ->alignStart()
@@ -73,7 +74,6 @@ final class NewsletterTable
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-newsletter::attributes.created_at'))
                     ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

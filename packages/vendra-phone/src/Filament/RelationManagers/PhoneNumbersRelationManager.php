@@ -13,13 +13,15 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraPhone\Models\PhoneNumber;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
@@ -82,8 +84,20 @@ final class PhoneNumbersRelationManager extends RelationManager
                 ->countryColumn('country_code')
                 ->displayFormat(PhoneInputNumberType::INTERNATIONAL),
             TextColumn::make('extension')->label(__('vendra-phone::phone.fields.extension')),
-            IconColumn::make('is_primary')->label(__('vendra-phone::phone.fields.is_primary'))->boolean(),
-            IconColumn::make('verified_at')->label(__('vendra-phone::phone.fields.verified_at'))->boolean(),
+            ToggleColumn::make('is_primary')
+                ->disabled(fn(PhoneNumber $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
+                ->label(__('vendra-phone::phone.fields.is_primary'))
+                ->onIcon(Heroicon::Bolt),
+            ToggleColumn::make('verified_at')
+                ->disabled(fn(PhoneNumber $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
+                ->label(__('vendra-phone::phone.fields.verified_at'))
+                ->onIcon(Heroicon::Bolt)
+                ->state(fn(PhoneNumber $record): bool => null !== $record->verified_at)
+                ->updateStateUsing(function (PhoneNumber $record, bool $state): bool {
+                    $record->update(['verified_at' => $state ? now() : null]);
+
+                    return $state;
+                }),
         ];
 
         return $table

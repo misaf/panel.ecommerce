@@ -15,8 +15,9 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraDocument\Models\Document;
@@ -89,9 +90,16 @@ final class DocumentsRelationManager extends RelationManager
                     ->label(__('vendra-document::document.fields.issuing_country_code'))
                     ->badge(),
                 TextColumn::make('expires_at')->label(__('vendra-document::document.fields.expires_at'))->date(),
-                IconColumn::make('verified_at')
+                ToggleColumn::make('verified_at')
+                    ->disabled(fn(Document $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
                     ->label(__('vendra-document::document.fields.verified_at'))
-                    ->boolean(),
+                    ->onIcon(Heroicon::Bolt)
+                    ->state(fn(Document $record): bool => null !== $record->verified_at)
+                    ->updateStateUsing(function (Document $record, bool $state): bool {
+                        $record->update(['verified_at' => $state ? now() : null]);
+
+                        return $state;
+                    }),
             ])
             ->headerActions([CreateAction::make()])
             ->recordActions([EditAction::make(), DeleteAction::make()]);

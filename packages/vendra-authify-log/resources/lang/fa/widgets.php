@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'latest_authify_log_table' => 'گزارش احراز هویت',
+    'recent_authify_log_table' => 'گزارش‌های احراز هویت اخیر',
 ];

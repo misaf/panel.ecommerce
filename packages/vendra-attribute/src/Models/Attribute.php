@@ -32,7 +32,7 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property Carbon|null $deleted_at
  */
 #[Fillable(['name', 'description', 'unit', 'position', 'status'])]
-#[Hidden(['tenant_id'])]
+#[Hidden(['tenant_id', 'active_name_guard'])]
 #[UseFactory(AttributeFactory::class)]
 final class Attribute extends Model implements ShouldLogActivity, Sortable
 {

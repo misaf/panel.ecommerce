@@ -8,6 +8,7 @@ use Misaf\VendraAddress\Console\Commands\SeedCommand;
 use Misaf\VendraAddress\Filament\RelationManagers\AddressesRelationManager;
 use Misaf\VendraAddress\Models\Address;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 use Spatie\LaravelPackageTools\Package;
@@ -26,6 +27,7 @@ final class AddressServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('addresses');
         $this->app->make(TenantSeeders::class)->register('vendra-address:seed', priority: 22);
 
         UserProfile::resolveRelationUsing(

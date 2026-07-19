@@ -56,7 +56,8 @@ final class ActivityLogTable
                     Badge::make('count')
                         ->label(fn(ActivityLog $record): string => Number::format((int) $record->subject_id) ?: '0')
                         ->size(Size::Small),
-                ]),
+                ])
+                ->suffix(''),
 
             BadgeableColumn::make('causer_type')
                 ->alignStart()
@@ -65,7 +66,8 @@ final class ActivityLogTable
                     Badge::make('count')
                         ->label(fn(ActivityLog $record): string => Number::format((int) $record->causer_id) ?: '0')
                         ->size(Size::Small),
-                ]),
+                ])
+                ->suffix(''),
 
             TextColumn::make('batch_uuid')
                 ->alignStart()
@@ -77,7 +79,6 @@ final class ActivityLogTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-activity-log::tables.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -90,7 +91,6 @@ final class ActivityLogTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-activity-log::tables.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

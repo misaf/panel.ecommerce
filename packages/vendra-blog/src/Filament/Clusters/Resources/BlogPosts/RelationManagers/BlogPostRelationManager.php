@@ -26,6 +26,8 @@ final class BlogPostRelationManager extends RelationManager
 
     protected static string $relationship = 'blogPosts';
 
+    protected static bool $isBadgeDeferred = true;
+
     protected static bool $isLazy = false;
 
     public static function getModelLabel(): string
@@ -33,9 +35,14 @@ final class BlogPostRelationManager extends RelationManager
         return __('vendra-blog::navigation.blog_post');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('vendra-blog::navigation.blog_posts');
+    }
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('vendra-blog::navigation.blog_post');
+        return __('vendra-blog::navigation.blog_posts');
     }
 
     public function isReadOnly(): bool

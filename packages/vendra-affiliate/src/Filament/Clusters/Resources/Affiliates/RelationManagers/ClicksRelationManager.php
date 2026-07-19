@@ -36,7 +36,8 @@ final class ClicksRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(['id']),
+                    ->rowIndex()
+                    ->sortable(['id']),
 
                 TextColumn::make('ip_address')
                     ->extraCellAttributes(['dir' => 'ltr'])

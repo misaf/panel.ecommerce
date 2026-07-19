@@ -19,6 +19,7 @@ use Misaf\VendraSupport\Support\NullCurrencyResolver;
 use Misaf\VendraSupport\Support\NullTagResolver;
 use Misaf\VendraSupport\Support\NullTenantResolver;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 
 final class SupportServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,7 @@ final class SupportServiceProvider extends ServiceProvider
         $this->app->singletonIf(CurrencyResolver::class, NullCurrencyResolver::class);
         $this->app->singletonIf(TagResolver::class, NullTagResolver::class);
         $this->app->singleton(TenantSeeders::class);
+        $this->app->singleton(TenantTableRegistry::class);
 
         Panel::configureUsing(function (Panel $panel): void {
             if ( ! $this->shouldRegisterOnPanel($panel->getId(), 'vendra-support')) {

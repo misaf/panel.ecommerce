@@ -47,7 +47,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property Carbon|null $deleted_at
  */
 #[Fillable(['currency_category_id', 'name', 'description', 'slug', 'iso_code', 'conversion_rate', 'decimal_place', 'buy_price', 'sell_price', 'is_default', 'position', 'status'])]
-#[Hidden(['tenant_id'])]
+#[Hidden(['tenant_id', 'active_slug_guard'])]
 #[UseFactory(CurrencyFactory::class)]
 final class Currency extends Model implements HasMedia, Sortable, ShouldLogActivity
 {

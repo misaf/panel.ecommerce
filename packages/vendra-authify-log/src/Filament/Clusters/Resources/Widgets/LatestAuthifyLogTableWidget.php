@@ -39,7 +39,7 @@ final class LatestAuthifyLogTableWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->heading(__('vendra-authify-log::widgets.latest_authify_log_table'))
+            ->heading(__('vendra-authify-log::widgets.recent_authify_log_table'))
             ->query(AuthifyLog::where('action', '<>', AuthifyLogActionEnum::Authenticated)->take(5))
             ->columns([
                 TextColumn::make('action')

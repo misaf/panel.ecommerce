@@ -46,11 +46,7 @@ final class CurrencyForm
                     ->label(__('vendra-currency::attributes.name'))
                     ->live(onBlur: true)
                     ->maxLength(255)
-                    ->required()
-                    ->unique(
-                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
-                            ->withoutTrashed(),
-                    ),
+                    ->required(),
 
                 TextInput::make('slug')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.slug'))
@@ -85,15 +81,21 @@ final class CurrencyForm
                             ->extraInputAttributes(['dir' => 'ltr'])
                             ->inputMode('decimal')
                             ->label(__('vendra-currency::attributes.conversion_rate'))
-                            ->required(),
+                            ->minValue(0)
+                            ->numeric()
+                            ->required()
+                            ->rules(['decimal:0,8']),
 
                         TextInput::make('decimal_place')
                             ->columnSpan([
                                 'lg' => 1,
                             ])
                             ->extraInputAttributes(['dir' => 'ltr'])
-                            ->inputMode('decimal')
+                            ->inputMode('numeric')
+                            ->integer()
                             ->label(__('vendra-currency::attributes.decimal_place'))
+                            ->maxValue(255)
+                            ->minValue(0)
                             ->required(),
                     ]),
 
@@ -125,6 +127,7 @@ final class CurrencyForm
                 Textarea::make('description')
                     ->columnSpanFull()
                     ->label(__('vendra-currency::attributes.description'))
+                    ->maxLength(255)
                     ->required()
                     ->rows(5),
 

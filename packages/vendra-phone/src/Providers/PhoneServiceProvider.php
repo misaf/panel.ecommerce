@@ -8,6 +8,7 @@ use Misaf\VendraPhone\Console\Commands\SeedCommand;
 use Misaf\VendraPhone\Filament\RelationManagers\PhoneNumbersRelationManager;
 use Misaf\VendraPhone\Models\PhoneNumber;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 use Spatie\LaravelPackageTools\Package;
@@ -26,6 +27,7 @@ final class PhoneServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('phone_numbers');
         $this->app->make(TenantSeeders::class)->register('vendra-phone:seed', priority: 23);
 
         UserProfile::resolveRelationUsing(

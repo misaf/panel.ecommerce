@@ -115,6 +115,12 @@ final class Affiliate extends Model implements ShouldLogActivity
      */
     public function pendingBalance(): int
     {
+        $pendingBalance = $this->getAttributes()['pending_balance'] ?? null;
+
+        if (is_numeric($pendingBalance)) {
+            return (int) $pendingBalance;
+        }
+
         return (int) $this->commissions()
             ->where('status', CommissionStatusEnum::Approved)
             ->whereNull('affiliate_payout_id')

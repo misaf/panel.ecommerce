@@ -24,7 +24,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
-use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Livewire\Component as Livewire;
 use Misaf\VendraFaq\Models\Faq;
@@ -79,7 +78,6 @@ final class FaqTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-faq::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -92,7 +90,6 @@ final class FaqTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-faq::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -148,15 +145,6 @@ final class FaqTable
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc')
-            ->reorderable(column: 'position', direction: 'desc')
-            ->defaultGroup(
-                Group::make('faqCategory.name')
-                    ->label(__('vendra-faq::navigation.faq_category'))
-                    ->getTitleFromRecordUsing(function (Faq $record, Livewire $livewire) {
-                        return $record->faqCategory
-                            ? static::translatedAttribute($record->faqCategory, 'name', $livewire)
-                            : '';
-                    })
-            );
+            ->reorderable(column: 'position', direction: 'desc');
     }
 }

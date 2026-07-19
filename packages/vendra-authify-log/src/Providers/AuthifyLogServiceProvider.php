@@ -11,8 +11,11 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraAuthifyLog\AuthifyLogPlugin;
 use Misaf\VendraAuthifyLog\Console\Commands\AuthifyLogChannelCommand;
 use Misaf\VendraAuthifyLog\Console\Commands\SeedCommand;
+use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
+use Misaf\VendraUser\Models\User;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -52,8 +55,11 @@ final class AuthifyLogServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('authify_logs');
         $this->app->make(TenantSeeders::class)->register('vendra-authify-log:seed', priority: 90);
 
         AboutCommand::add('Vendra Authify Log', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-authify-log')]);
+
+        User::resolveRelationUsing('authifyLogs', fn(User $user) => $user->hasMany(AuthifyLog::class));
     }
 }

@@ -20,6 +20,7 @@ use Misaf\VendraAffiliate\Models\AffiliateReferral;
 use Misaf\VendraAffiliate\Services\AffiliateCodeService;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -63,6 +64,13 @@ final class AffiliateServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register(
+            'affiliates',
+            'affiliate_clicks',
+            'affiliate_referrals',
+            'affiliate_payouts',
+            'affiliate_commissions',
+        );
         $this->app->make(TenantSeeders::class)->register('vendra-affiliate:seed', priority: 75);
 
         AboutCommand::add('Vendra Affiliate', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-affiliate')]);

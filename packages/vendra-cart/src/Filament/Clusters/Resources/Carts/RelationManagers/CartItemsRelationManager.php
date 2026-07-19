@@ -16,6 +16,8 @@ final class CartItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'items';
 
+    protected static bool $isBadgeDeferred = true;
+
     protected static bool $isLazy = false;
 
     public static function getModelLabel(): string

@@ -48,7 +48,6 @@ final class TaggerTable
                 ->label(__('vendra-tagger::attributes.created_at'))
                 ->sinceTooltip()
                 ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -61,7 +60,6 @@ final class TaggerTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-tagger::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

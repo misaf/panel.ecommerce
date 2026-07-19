@@ -12,9 +12,9 @@ use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\ConversionTypeEnum;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraAffiliate\Models\AffiliateReferral;
-use Misaf\VendraTransaction\Enums\TransactionStatusEnum;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Models\Transaction;
+use Misaf\VendraTransaction\States\Approved;
 
 /**
  * Reconciles deposit transactions of referred users with the commission
@@ -39,7 +39,7 @@ final class TransactionCommissionSubscriber implements ShouldQueueAfterCommit
             return;
         }
 
-        if (TransactionStatusEnum::Approved === $transaction->status) {
+        if ($transaction->status instanceof Approved) {
             $this->creditDeposit($transaction);
 
             return;
@@ -60,8 +60,10 @@ final class TransactionCommissionSubscriber implements ShouldQueueAfterCommit
 
     private function creditDeposit(Transaction $transaction): void
     {
+        $transaction->loadMissing('wallet');
+
         $referral = AffiliateReferral::with('affiliate')
-            ->where('user_id', $transaction->user_id)
+            ->where('user_id', $transaction->wallet->user_id)
             ->first();
 
         if ( ! $referral instanceof AffiliateReferral || null === $referral->affiliate) {

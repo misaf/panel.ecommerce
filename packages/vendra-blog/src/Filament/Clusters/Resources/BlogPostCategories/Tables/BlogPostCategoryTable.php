@@ -70,7 +70,8 @@ final class BlogPostCategoryTable
                     Badge::make('count')
                         ->label(fn(BlogPostCategory $record): string => (string) Number::format(static::integerAttribute($record, 'blog_posts_count')))
                         ->size(Size::Small),
-                ]),
+                ])
+                ->suffix(''),
 
             TextColumn::make('slug')
                 ->alignStart()
@@ -87,7 +88,6 @@ final class BlogPostCategoryTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-blog::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -100,7 +100,6 @@ final class BlogPostCategoryTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-blog::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

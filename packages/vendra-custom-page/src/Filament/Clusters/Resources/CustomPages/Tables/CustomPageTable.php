@@ -23,7 +23,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
-use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Livewire\Component as Livewire;
 use Misaf\VendraCustomPage\Models\CustomPage;
@@ -77,7 +76,6 @@ final class CustomPageTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-custom-page::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -90,7 +88,6 @@ final class CustomPageTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-custom-page::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -139,15 +136,6 @@ final class CustomPageTable
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc')
-            ->reorderable(column: 'position', direction: 'desc')
-            ->defaultGroup(
-                Group::make('customPageCategory.name')
-                    ->label(__('vendra-custom-page::navigation.custom_page_category'))
-                    ->getTitleFromRecordUsing(function (CustomPage $record, Livewire $livewire) {
-                        return $record->customPageCategory
-                            ? static::translatedAttribute($record->customPageCategory, 'name', $livewire)
-                            : '';
-                    })
-            );
+            ->reorderable(column: 'position', direction: 'desc');
     }
 }

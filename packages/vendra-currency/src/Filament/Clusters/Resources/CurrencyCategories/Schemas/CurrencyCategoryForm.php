@@ -34,6 +34,7 @@ final class CurrencyCategoryForm
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-currency::attributes.name'))
                     ->live(onBlur: true)
+                    ->maxLength(255)
                     ->required()
                     ->unique(
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
@@ -45,6 +46,7 @@ final class CurrencyCategoryForm
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-currency::attributes.slug_helper_text'))
                     ->label(__('vendra-currency::attributes.slug'))
+                    ->maxLength(255)
                     ->required()
                     ->unique(
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
@@ -54,6 +56,7 @@ final class CurrencyCategoryForm
                 Textarea::make('description')
                     ->columnSpanFull()
                     ->label(__('vendra-currency::attributes.description'))
+                    ->maxLength(255)
                     ->rows(5),
 
                 SpatieMediaLibraryFileUpload::make('image')

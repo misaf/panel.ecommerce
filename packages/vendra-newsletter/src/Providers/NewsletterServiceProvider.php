@@ -14,6 +14,7 @@ use Misaf\VendraNewsletter\Console\Commands\SendScheduledNewslettersCommand;
 use Misaf\VendraNewsletter\NewsletterPlugin;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -55,6 +56,7 @@ final class NewsletterServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('newsletters', 'newsletter_subscribers');
         $this->app->make(TenantSeeders::class)->register('vendra-newsletter:seed', priority: 70);
 
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {

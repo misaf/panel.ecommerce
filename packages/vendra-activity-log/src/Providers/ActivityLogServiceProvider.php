@@ -14,6 +14,7 @@ use Misaf\VendraActivityLog\Console\Commands\SeedCommand;
 use Misaf\VendraActivityLog\Listeners\LogModelActivity;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -49,6 +50,13 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $connection = config('activitylog.database_connection');
+        $table = config('activitylog.table_name');
+
+        $this->app->make(TenantTableRegistry::class)->registerOnConnection(
+            is_string($connection) ? $connection : null,
+            is_string($table) ? $table : 'activity_log',
+        );
         $this->app->make(TenantSeeders::class)->register('vendra-activity-log:seed', priority: 85);
 
         AboutCommand::add('Vendra Activity Log', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-activity-log')]);

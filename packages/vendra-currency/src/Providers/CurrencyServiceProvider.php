@@ -15,6 +15,7 @@ use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\EloquentCurrencyResolver;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -29,7 +30,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
             ->name('vendra-currency')
             ->hasTranslations()
             ->hasMigrations([
-                'create_currencies_table'
+                'create_currencies_table',
             ])
             ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
@@ -55,6 +56,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('currency_categories', 'currencies');
         $this->app->make(TenantSeeders::class)->register('vendra-currency:seed', priority: 30);
 
         AboutCommand::add('Vendra Currency', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-currency')]);

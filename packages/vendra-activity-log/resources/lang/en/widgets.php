@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'latest_activity_log_table' => 'Activity Log',
+    'recent_activity_log_table' => 'Recent Activity',
 ];

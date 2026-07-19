@@ -25,7 +25,8 @@ final class AffiliatePayoutTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(['id']),
+                    ->rowIndex()
+                    ->sortable(['id']),
 
                 TextColumn::make('affiliate.code')
                     ->label(__('vendra-affiliate::attributes.affiliate'))
@@ -67,7 +68,6 @@ final class AffiliatePayoutTable
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.created_at'))
                     ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

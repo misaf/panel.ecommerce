@@ -11,7 +11,6 @@ use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
-use Misaf\VendraTransaction\Enums\TransactionStatusEnum;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Facades\TransactionService;
 use Misaf\VendraUser\Models\User;
@@ -19,7 +18,9 @@ use Spatie\QueueableAction\QueueableAction;
 
 /**
  * Settles an affiliate's approved commissions: groups them into a payout,
- * marks them paid, and credits the balance through a Commission transaction.
+ * marks them paid, and credits the wallet through an approved Commission
+ * transaction. The whole payout commits atomically — if the transaction
+ * cannot be created or settled, the commissions remain payable.
  */
 final class ProcessAffiliatePayout
 {
@@ -27,7 +28,7 @@ final class ProcessAffiliatePayout
 
     public function execute(Affiliate $affiliate): ?AffiliatePayout
     {
-        $payout = DB::transaction(function () use ($affiliate): ?AffiliatePayout {
+        return DB::transaction(function () use ($affiliate): ?AffiliatePayout {
             $commissions = $affiliate->commissions()
                 ->where('status', CommissionStatusEnum::Approved)
                 ->whereNull('affiliate_payout_id')
@@ -38,6 +39,16 @@ final class ProcessAffiliatePayout
 
             if ($amount < Config::integer('vendra-affiliate.payout.minimum', 0) || 0 === $commissions->count()) {
                 return null;
+            }
+
+            $affiliate->loadMissing('user');
+
+            if ( ! $affiliate->user instanceof User) {
+                /** @var AffiliatePayout */
+                return $affiliate->payouts()->create([
+                    'amount' => $amount,
+                    'status' => PayoutStatusEnum::Failed,
+                ]);
             }
 
             /** @var AffiliatePayout $payout */
@@ -53,39 +64,26 @@ final class ProcessAffiliatePayout
                     'affiliate_payout_id' => $payout->id,
                 ]);
 
+            $transaction = TransactionService::createTransaction(
+                transactionGateway: Config::string('vendra-affiliate.payout.transaction_gateway', 'internal-transactions'),
+                wallet: TransactionService::defaultWalletFor($affiliate->user),
+                transactionType: TransactionTypeEnum::Commission,
+                amount: $payout->amount,
+                metadata: [
+                    'type'                => 'affiliate-commission',
+                    'affiliate_payout_id' => $payout->id,
+                ],
+            );
+
+            $transaction->approve();
+
+            $payout->update([
+                'status'         => PayoutStatusEnum::Completed,
+                'transaction_id' => $transaction->id,
+                'processed_at'   => now(),
+            ]);
+
             return $payout;
         });
-
-        if ( ! $payout instanceof AffiliatePayout) {
-            return null;
-        }
-
-        $affiliate->loadMissing('user');
-
-        if ( ! $affiliate->user instanceof User) {
-            $payout->update(['status' => PayoutStatusEnum::Failed]);
-
-            return $payout;
-        }
-
-        $transaction = TransactionService::createTransaction(
-            transactionGateway: Config::string('vendra-affiliate.payout.transaction_gateway', 'internal-transactions'),
-            user: $affiliate->user,
-            transactionType: TransactionTypeEnum::Commission,
-            amount: $payout->amount,
-            status: TransactionStatusEnum::Pending,
-            metadatas: [
-                'type'                => 'affiliate-commission',
-                'affiliate_payout_id' => $payout->id,
-            ],
-        );
-
-        $payout->update([
-            'status'         => PayoutStatusEnum::Completed,
-            'transaction_id' => $transaction->id,
-            'processed_at'   => now(),
-        ]);
-
-        return $payout;
     }
 }

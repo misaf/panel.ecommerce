@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUserProfile\Console\Commands\SeedCommand;
 use Misaf\VendraUserProfile\Models\UserProfile;
@@ -56,6 +57,7 @@ final class UserProfileServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('user_profiles');
         $this->app->make(TenantSeeders::class)->register('vendra-user-profile:seed', priority: 21);
 
         AboutCommand::add('Vendra User Profile', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-user-profile')]);

@@ -10,13 +10,15 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 
 final class NewsletterSubscriberTable
@@ -27,7 +29,8 @@ final class NewsletterSubscriberTable
             ->columns([
                 TextColumn::make('row')
                     ->label('#')
-                    ->rowIndex()->sortable(['id']),
+                    ->rowIndex()
+                    ->sortable(['id']),
 
                 TextColumn::make('email')
                     ->alignStart()
@@ -42,11 +45,20 @@ final class NewsletterSubscriberTable
                     ->placeholder('—')
                     ->searchable(),
 
-                IconColumn::make('subscribed')
+                ToggleColumn::make('subscribed')
                     ->alignCenter()
-                    ->boolean()
+                    ->disabled(fn(NewsletterSubscriber $record): bool => ! NewsletterSubscriberResource::canEdit($record))
                     ->label(__('vendra-newsletter::attributes.status'))
-                    ->state(fn(NewsletterSubscriber $record): bool => $record->isSubscribed()),
+                    ->onIcon(Heroicon::Bolt)
+                    ->state(fn(NewsletterSubscriber $record): bool => $record->isSubscribed())
+                    ->updateStateUsing(function (NewsletterSubscriber $record, bool $state): bool {
+                        $record->update([
+                            'subscribed_at'   => $state ? now() : $record->subscribed_at,
+                            'unsubscribed_at' => $state ? null : now(),
+                        ]);
+
+                        return $state;
+                    }),
 
                 TextColumn::make('subscribed_at')
                     ->alignCenter()
@@ -81,7 +93,6 @@ final class NewsletterSubscriberTable
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-newsletter::attributes.created_at'))
                     ->sinceTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->when(
                         app()->isLocale('fa'),
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

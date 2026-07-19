@@ -14,10 +14,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraAddress\Models\Address;
 use Misaf\VendraSupport\Support\Countries;
 
 final class AddressesRelationManager extends RelationManager
@@ -83,8 +85,20 @@ final class AddressesRelationManager extends RelationManager
                 TextColumn::make('line_one')->label(__('vendra-address::address.fields.line_one'))->searchable(),
                 TextColumn::make('locality')->label(__('vendra-address::address.fields.locality'))->searchable(),
                 TextColumn::make('country_code')->label(__('vendra-address::address.fields.country_code'))->badge(),
-                IconColumn::make('is_primary')->label(__('vendra-address::address.fields.is_primary'))->boolean(),
-                IconColumn::make('verified_at')->label(__('vendra-address::address.fields.verified_at'))->boolean(),
+                ToggleColumn::make('is_primary')
+                    ->disabled(fn(Address $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
+                    ->label(__('vendra-address::address.fields.is_primary'))
+                    ->onIcon(Heroicon::Bolt),
+                ToggleColumn::make('verified_at')
+                    ->disabled(fn(Address $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
+                    ->label(__('vendra-address::address.fields.verified_at'))
+                    ->onIcon(Heroicon::Bolt)
+                    ->state(fn(Address $record): bool => null !== $record->verified_at)
+                    ->updateStateUsing(function (Address $record, bool $state): bool {
+                        $record->update(['verified_at' => $state ? now() : null]);
+
+                        return $state;
+                    }),
             ])
             ->headerActions([CreateAction::make()])
             ->recordActions([EditAction::make(), DeleteAction::make()]);

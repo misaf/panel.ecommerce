@@ -38,7 +38,7 @@ final class LatestMultimediaTableWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->heading(__('vendra-multimedia::widgets.latest_multimedia_table'))
+            ->heading(__('vendra-multimedia::widgets.recent_multimedia_table'))
             ->query(fn(): Builder => Multimedia::query())
             ->columns([
                 BadgeableColumn::make('model_type')
@@ -48,7 +48,8 @@ final class LatestMultimediaTableWidget extends BaseWidget
                         Badge::make('count')
                             ->label(fn(Multimedia $record): string => Number::format((int) $record->model_id) ?: '0')
                             ->size(Size::Small),
-                    ]),
+                    ])
+                    ->suffix(''),
 
                 BadgeableColumn::make('collection_name')
                     ->alignStart()
@@ -57,7 +58,8 @@ final class LatestMultimediaTableWidget extends BaseWidget
                         Badge::make('count')
                             ->label(fn(Multimedia $record): string => Number::fileSize($record->size))
                             ->size(Size::Small),
-                    ]),
+                    ])
+                    ->suffix(''),
             ])
             ->recordActions([
                 ViewAction::make(),

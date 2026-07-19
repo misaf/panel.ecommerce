@@ -8,15 +8,16 @@ use Filament\Actions\CreateAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Number;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
-use Misaf\VendraCurrency\Models\Currency;
+use Misaf\VendraCurrency\Models\CurrencyCategory;
 
 final class CurrencyRelationManager extends RelationManager
 {
     protected static string $relationship = 'currencies';
+
+    protected static bool $isBadgeDeferred = true;
 
     protected static bool $isLazy = false;
 
@@ -25,9 +26,14 @@ final class CurrencyRelationManager extends RelationManager
         return __('vendra-currency::navigation.currency');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('vendra-currency::navigation.currencies');
+    }
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('vendra-currency::navigation.currency');
+        return __('vendra-currency::navigation.currencies');
     }
 
     public function isReadOnly(): bool
@@ -37,12 +43,11 @@ final class CurrencyRelationManager extends RelationManager
 
     public static function getBadge(Model $ownerRecord, string $pageClass): string
     {
-        /** @var Collection<int, Currency> $currencies */
-        $currencies = $ownerRecord->relationLoaded('currencies')
-            ? $ownerRecord->getRelation('currencies')
-            : $ownerRecord->newCollection();
+        if ( ! $ownerRecord instanceof CurrencyCategory) {
+            return (string) Number::format(0);
+        }
 
-        return (string) Number::format($currencies->count());
+        return (string) Number::format($ownerRecord->currencies()->count());
     }
 
     public function form(Schema $schema): Schema

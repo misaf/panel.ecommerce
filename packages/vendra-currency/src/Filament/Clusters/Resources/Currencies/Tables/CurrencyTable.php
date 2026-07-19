@@ -27,7 +27,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
-use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Misaf\VendraCurrency\Actions\SetDefaultCurrencyAction;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\UpdateBuyPriceAction;
@@ -55,7 +54,7 @@ final class CurrencyTable
                 ->alignCenter()
                 ->collection(Currency::MEDIA_COLLECTION)
                 ->conversion('thumb-table')
-                ->defaultImageUrl(fn(Currency $record): string =>  static::defaultAvatarImageUrl($record->name))
+                ->defaultImageUrl(fn(Currency $record): string => static::defaultAvatarImageUrl($record->name))
                 ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
                 ->label(__('vendra-product::attributes.image'))
                 ->stacked(),
@@ -69,7 +68,8 @@ final class CurrencyTable
                     Badge::make('status')
                         ->label(fn(Currency $record) => $record->iso_code)
                         ->size(Size::Small),
-                ]),
+                ])
+                ->suffix(''),
 
             TextColumn::make('slug')
                 ->alignStart()
@@ -122,7 +122,6 @@ final class CurrencyTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-currency::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -135,7 +134,6 @@ final class CurrencyTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-currency::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -196,10 +194,6 @@ final class CurrencyTable
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc')
-            ->reorderable(column: 'position', direction: 'desc')
-            ->defaultGroup(
-                Group::make('currencyCategory.name')
-                    ->label(__('vendra-currency::navigation.currency_category'))
-            );
+            ->reorderable(column: 'position', direction: 'desc');
     }
 }

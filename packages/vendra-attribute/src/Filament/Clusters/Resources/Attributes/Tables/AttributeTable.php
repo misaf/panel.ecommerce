@@ -32,7 +32,8 @@ final class AttributeTable
         $columns = [
             TextColumn::make('row')
                 ->label('#')
-                ->rowIndex()->sortable(['id']),
+                ->rowIndex()
+                ->sortable(['id']),
 
             TextColumn::make('name')
                 ->description(fn(Attribute $record): ?string => $record->description)
@@ -59,7 +60,6 @@ final class AttributeTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-attribute::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -72,7 +72,6 @@ final class AttributeTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-attribute::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
