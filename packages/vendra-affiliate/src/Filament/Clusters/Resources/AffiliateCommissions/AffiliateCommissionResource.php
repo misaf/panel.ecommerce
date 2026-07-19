@@ -6,10 +6,12 @@ namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions
 
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Pages\ListAffiliateCommissions;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Pages\ViewAffiliateCommission;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Schemas\AffiliateCommissionInfolist;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Tables\AffiliateCommissionTable;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Widgets\AffiliateCommissionOverviewWidget;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
@@ -62,6 +64,11 @@ final class AffiliateCommissionResource extends Resource
         return [
             AffiliateCommissionOverviewWidget::class,
         ];
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AffiliateCommissionInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

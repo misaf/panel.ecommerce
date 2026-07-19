@@ -14,6 +14,7 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\EditCurren
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ListCurrencies;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ViewCurrency;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Schemas\CurrencyForm;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Schemas\CurrencyInfolist;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Tables\CurrencyTable;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
@@ -65,6 +66,11 @@ final class CurrencyResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return CurrencyForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return CurrencyInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

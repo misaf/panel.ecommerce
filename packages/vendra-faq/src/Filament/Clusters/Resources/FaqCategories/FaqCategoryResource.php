@@ -15,6 +15,7 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Pages\EditFaqCateg
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Pages\ListFaqCategories;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Pages\ViewFaqCategory;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Schemas\FaqCategoryForm;
+use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Schemas\FaqCategoryInfolist;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Tables\FaqCategoryTable;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\RelationManagers\FaqRelationManager;
 use Misaf\VendraFaq\Models\FaqCategory;
@@ -81,6 +82,11 @@ final class FaqCategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return FaqCategoryForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return FaqCategoryInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

@@ -14,6 +14,7 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\EditLanguag
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguages;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ViewLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Schemas\LanguageForm;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Schemas\LanguageInfolist;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Tables\LanguageTable;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
@@ -65,6 +66,11 @@ final class LanguageResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return LanguageForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return LanguageInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

@@ -18,6 +18,7 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\RelationManager
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\RelationManagers\PayoutsRelationManager;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\RelationManagers\ReferralsRelationManager;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Schemas\AffiliateForm;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Schemas\AffiliateInfolist;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Tables\AffiliateTable;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateClicksOverview;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateCommissionsOverview;
@@ -91,6 +92,11 @@ final class AffiliateResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return AffiliateForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AffiliateInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

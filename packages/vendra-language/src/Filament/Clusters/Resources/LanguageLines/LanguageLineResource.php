@@ -14,6 +14,7 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\EditLan
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ListLanguageLines;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ViewLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Schemas\LanguageLineForm;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Schemas\LanguageLineInfolist;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Tables\LanguageLineTable;
 use Misaf\VendraLanguage\Models\LanguageLine;
 use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
@@ -65,6 +66,11 @@ final class LanguageLineResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return LanguageLineForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return LanguageLineInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

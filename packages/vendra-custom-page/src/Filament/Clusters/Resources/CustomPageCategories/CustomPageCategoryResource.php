@@ -15,6 +15,7 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Page
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Pages\ListCustomPageCategories;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Pages\ViewCustomPageCategory;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Schemas\CustomPageCategoryForm;
+use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Schemas\CustomPageCategoryInfolist;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Tables\CustomPageCategoryTable;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\RelationManagers\CustomPageRelationManager;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
@@ -81,6 +82,11 @@ final class CustomPageCategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return CustomPageCategoryForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return CustomPageCategoryInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

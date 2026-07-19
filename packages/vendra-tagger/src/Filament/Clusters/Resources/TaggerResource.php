@@ -17,6 +17,7 @@ use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\EditTagger;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ListTaggers;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ViewTagger;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Schemas\TaggerForm;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Schemas\TaggerInfolist;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Tables\TaggerTable;
 use Misaf\VendraTagger\Models\Tagger;
 
@@ -72,6 +73,11 @@ final class TaggerResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return TaggerForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return TaggerInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

@@ -6,10 +6,12 @@ namespace Misaf\VendraActivityLog\Filament\Clusters\Resources;
 
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraActivityLog\Filament\Clusters\Resources\Pages\ListActivityLogs;
 use Misaf\VendraActivityLog\Filament\Clusters\Resources\Pages\ViewActivityLog;
+use Misaf\VendraActivityLog\Filament\Clusters\Resources\Schemas\ActivityLogInfolist;
 use Misaf\VendraActivityLog\Filament\Clusters\Resources\Tables\ActivityLogTable;
 use Misaf\VendraActivityLog\Models\ActivityLog;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
@@ -54,6 +56,11 @@ final class ActivityLogResource extends Resource
             'index' => ListActivityLogs::route('/'),
             'view'  => ViewActivityLog::route('/{record}'),
         ];
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return ActivityLogInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

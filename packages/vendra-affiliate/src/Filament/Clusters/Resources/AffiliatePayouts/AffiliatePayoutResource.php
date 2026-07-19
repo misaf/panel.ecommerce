@@ -6,10 +6,12 @@ namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts;
 
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ListAffiliatePayouts;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ViewAffiliatePayout;
+use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Schemas\AffiliatePayoutInfolist;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Tables\AffiliatePayoutTable;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\AffiliatePayoutOverviewWidget;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
@@ -62,6 +64,11 @@ final class AffiliatePayoutResource extends Resource
         return [
             AffiliatePayoutOverviewWidget::class,
         ];
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AffiliatePayoutInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

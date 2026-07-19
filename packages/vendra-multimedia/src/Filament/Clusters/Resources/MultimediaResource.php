@@ -6,10 +6,12 @@ namespace Misaf\VendraMultimedia\Filament\Clusters\Resources;
 
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\Pages\ListMultimedia;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\Pages\ViewMultimedia;
+use Misaf\VendraMultimedia\Filament\Clusters\Resources\Schemas\MultimediaInfolist;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\Tables\MultimediaTable;
 use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
@@ -54,6 +56,11 @@ final class MultimediaResource extends Resource
             'index' => ListMultimedia::route('/'),
             'view'  => ViewMultimedia::route('/{record}'),
         ];
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return MultimediaInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

@@ -15,6 +15,7 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\EditCus
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\ListCustomPages;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\ViewCustomPage;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Schemas\CustomPageForm;
+use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Schemas\CustomPageInfolist;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Tables\CustomPageTable;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
@@ -73,6 +74,11 @@ final class CustomPageResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return CustomPageForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return CustomPageInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

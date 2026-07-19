@@ -30,6 +30,7 @@ use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\EditUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ViewUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Schemas\UserProfileForm;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Schemas\UserProfileInfolist;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Tables\UserProfileTable;
 use Misaf\VendraUserProfile\Models\UserProfile;
 
@@ -131,6 +132,11 @@ final class UserProfileResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return UserProfileForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return UserProfileInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

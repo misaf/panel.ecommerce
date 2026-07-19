@@ -14,6 +14,7 @@ use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Pages\ListCarts;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Pages\ViewCart;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\RelationManagers\CartItemsRelationManager;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Schemas\CartForm;
+use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Schemas\CartInfolist;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Tables\CartTable;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Widgets\CartOverviewWidget;
 use Misaf\VendraCart\Models\Cart;
@@ -66,6 +67,11 @@ final class CartResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return CartForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return CartInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

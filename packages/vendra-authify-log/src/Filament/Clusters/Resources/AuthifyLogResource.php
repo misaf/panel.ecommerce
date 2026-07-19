@@ -6,10 +6,12 @@ namespace Misaf\VendraAuthifyLog\Filament\Clusters\Resources;
 
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Pages\ListAuthifyLogs;
 use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Pages\ViewAuthifyLog;
+use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Schemas\AuthifyLogInfolist;
 use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Tables\AuthifyLogTable;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
@@ -54,6 +56,11 @@ final class AuthifyLogResource extends Resource
             'index'  => ListAuthifyLogs::route('/'),
             'view'   => ViewAuthifyLog::route('/{record}'),
         ];
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AuthifyLogInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

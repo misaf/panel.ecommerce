@@ -15,6 +15,7 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Pages\EditFaq;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Pages\ListFaqs;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Pages\ViewFaq;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Schemas\FaqForm;
+use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Schemas\FaqInfolist;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Tables\FaqTable;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
@@ -73,6 +74,11 @@ final class FaqResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return FaqForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return FaqInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

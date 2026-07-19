@@ -15,6 +15,7 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\EditBl
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\ListBlogPostCategories;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\ViewBlogPostCategory;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Schemas\BlogPostCategoryForm;
+use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Schemas\BlogPostCategoryInfolist;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Tables\BlogPostCategoryTable;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\RelationManagers\BlogPostRelationManager;
 use Misaf\VendraBlog\Models\BlogPostCategory;
@@ -81,6 +82,11 @@ final class BlogPostCategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return BlogPostCategoryForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return BlogPostCategoryInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

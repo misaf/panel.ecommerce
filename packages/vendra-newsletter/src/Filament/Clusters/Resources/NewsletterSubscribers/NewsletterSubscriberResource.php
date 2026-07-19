@@ -14,6 +14,7 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pag
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\ListNewsletterSubscribers;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\ViewNewsletterSubscriber;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Schemas\NewsletterSubscriberForm;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Schemas\NewsletterSubscriberInfolist;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Tables\NewsletterSubscriberTable;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Widgets\NewsletterSubscriberOverviewWidget;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
@@ -73,6 +74,11 @@ final class NewsletterSubscriberResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return NewsletterSubscriberForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return NewsletterSubscriberInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

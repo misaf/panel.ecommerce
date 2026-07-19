@@ -15,6 +15,7 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\EditBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\ListBlogPosts;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\ViewBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Schemas\BlogPostForm;
+use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Schemas\BlogPostInfolist;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Tables\BlogPostTable;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
@@ -73,6 +74,11 @@ final class BlogPostResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return BlogPostForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return BlogPostInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

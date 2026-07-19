@@ -15,6 +15,7 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\Ed
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\ListCurrencyCategories;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\ViewCurrencyCategory;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Schemas\CurrencyCategoryForm;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Schemas\CurrencyCategoryInfolist;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Tables\CurrencyCategoryTable;
 use Misaf\VendraCurrency\Models\CurrencyCategory;
 use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
@@ -73,6 +74,11 @@ final class CurrencyCategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return CurrencyCategoryForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return CurrencyCategoryInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
