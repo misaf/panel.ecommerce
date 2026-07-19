@@ -10,19 +10,13 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
-        $this->createAuthifyLogsTable();
-    }
-
-    private function createAuthifyLogsTable(): void
-    {
         Schema::create('authify_logs', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
             $table->foreignId('user_id')->constrained();
             $table->tinyInteger('action');
             $table->ipAddress('ip_address');
-            $table->char('ip_country', 2)
-                ->default('XX');
+            $table->char('ip_country', 2)->default('XX');
             $table->mediumText('user_agent');
             $table->timestampsTz();
 

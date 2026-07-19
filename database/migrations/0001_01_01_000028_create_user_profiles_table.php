@@ -33,8 +33,20 @@ return new class () extends Migration {
                 ->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('active_name_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN name ELSE NULL END');
+            $table->string('active_slug_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN slug ELSE NULL END');
+            $table->unsignedBigInteger('default_user_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN is_default THEN user_id ELSE NULL END');
 
             $table->index(TenantSchema::tenantIndex(['user_id']));
+            $table->unique(TenantSchema::tenantIndex(['active_name_guard']), 'user_profiles_active_name_unique');
+            $table->unique(TenantSchema::tenantIndex(['active_slug_guard']), 'user_profiles_active_slug_unique');
+            $table->unique(TenantSchema::tenantIndex(['default_user_guard']), 'user_profiles_one_default_per_user_unique');
             $table->index(TenantSchema::tenantIndex(['name']));
             $table->index(TenantSchema::tenantIndex(['slug']));
             $table->index(TenantSchema::tenantIndex(['is_default']));

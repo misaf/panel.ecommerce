@@ -6,18 +6,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraSupport\Support\TenantSchema;
-use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 
 return new class () extends Migration {
     public function up(): void
     {
         Schema::withoutForeignKeyConstraints(function (): void {
             $this->createTransactionGatewaysTable();
+            $this->createWalletsTable();
+            $this->createLedgerEntriesTable();
             $this->createTransactionsTable();
-            $this->createTransactionFeeTable();
-            $this->createTransactionTransferTable();
+            $this->createTransactionFeesTable();
             $this->createTransactionMetadataTable();
-            $this->createTransactionChecksTable();
             $this->createTransactionLimitsTable();
         });
     }
@@ -30,14 +29,52 @@ return new class () extends Migration {
             $table->json('name');
             $table->json('description')
                 ->nullable();
-            $table->json('slug');
+            $table->string('slug');
             $table->unsignedBigInteger('position');
             $table->boolean('status');
             $table->timestampsTz();
             $table->softDeletesTz();
 
+            $table->index(TenantSchema::tenantIndex(['slug']));
             $table->index(TenantSchema::tenantIndex(['position']));
             $table->index(TenantSchema::tenantIndex(['status']));
+        });
+    }
+
+    private function createWalletsTable(): void
+    {
+        Schema::create('wallets', function (Blueprint $table): void {
+            $table->id();
+            TenantSchema::addTenantColumn($table);
+            $table->foreignId('user_id')
+                ->constrained()
+                ->restrictOnDelete();
+            $table->foreignId('currency_id')
+                ->constrained()
+                ->restrictOnDelete();
+            $table->bigInteger('balance')
+                ->default(0);
+            $table->timestampsTz();
+            $table->softDeletesTz();
+
+            $table->unique(TenantSchema::tenantIndex(['user_id', 'currency_id']));
+            $table->index(TenantSchema::tenantIndex(['currency_id']));
+        });
+    }
+
+    private function createLedgerEntriesTable(): void
+    {
+        Schema::create('ledger_entries', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignId('wallet_id')
+                ->constrained()
+                ->restrictOnDelete();
+            $table->nullableMorphs('source');
+            $table->bigInteger('amount');
+            $table->bigInteger('balance_after');
+            $table->timestampTz('created_at');
+
+            $table->index(['wallet_id', 'created_at']);
         });
     }
 
@@ -46,62 +83,42 @@ return new class () extends Migration {
         Schema::create('transactions', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
+            $table->foreignId('wallet_id')
+                ->constrained()
+                ->restrictOnDelete();
             $table->foreignId('transaction_gateway_id')
                 ->constrained()
                 ->restrictOnDelete();
-            $table->foreignId('user_id')
-                ->constrained()
+            $table->foreignId('counterparty_wallet_id')
+                ->nullable()
+                ->constrained('wallets')
                 ->restrictOnDelete();
-            $table->enum('transaction_type', [
-                TransactionTypeEnum::Deposit->value,
-                TransactionTypeEnum::Withdrawal->value,
-                TransactionTypeEnum::Commission->value,
-                TransactionTypeEnum::Transfer->value,
-                TransactionTypeEnum::Bonus->value,
-            ]);
+            $table->string('transaction_type');
             $table->string('token');
-            $table->bigInteger('amount');
+            $table->unsignedBigInteger('amount');
             $table->string('status');
             $table->timestampsTz();
             $table->softDeletesTz();
 
+            $table->index(TenantSchema::tenantIndex(['wallet_id']));
             $table->index(TenantSchema::tenantIndex(['transaction_gateway_id']));
-            $table->index(TenantSchema::tenantIndex(['user_id']));
             $table->index(TenantSchema::tenantIndex(['transaction_type']));
             $table->index(TenantSchema::tenantIndex(['token']));
-            $table->index(TenantSchema::tenantIndex(['amount']));
             $table->index(TenantSchema::tenantIndex(['status']));
         });
     }
 
-    private function createTransactionFeeTable(): void
+    private function createTransactionFeesTable(): void
     {
         Schema::create('transaction_fees', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('transaction_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->bigInteger('amount');
+            $table->unsignedBigInteger('amount');
             $table->timestampsTz();
 
             $table->index(['transaction_id']);
-        });
-    }
-
-    private function createTransactionTransferTable(): void
-    {
-        Schema::create('transaction_transfers', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignId('transaction_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->restrictOnDelete();
-            $table->timestampsTz();
-
-            $table->index(['transaction_id']);
-            $table->index(['user_id']);
         });
     }
 
@@ -117,21 +134,6 @@ return new class () extends Migration {
             $table->timestampsTz();
 
             $table->index(['transaction_id', 'key_name']);
-            $table->index(['transaction_id', 'key_value']);
-        });
-    }
-
-    private function createTransactionChecksTable(): void
-    {
-        Schema::create('transaction_checks', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignId('transaction_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->tinyInteger('attempt_count');
-            $table->timestampsTz();
-
-            $table->index(['transaction_id', 'attempt_count']);
         });
     }
 
@@ -139,30 +141,27 @@ return new class () extends Migration {
     {
         Schema::create('transaction_limits', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('user_id')
+            $table->foreignId('wallet_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->enum('transaction_type', [
-                TransactionTypeEnum::Deposit->value,
-                TransactionTypeEnum::Withdrawal->value,
-            ]);
-            $table->bigInteger('amount');
+            $table->string('transaction_type');
+            $table->unsignedBigInteger('amount');
             $table->timestampsTz();
 
-            $table->index(['user_id', 'transaction_type']);
+            $table->unique(['wallet_id', 'transaction_type']);
         });
     }
 
     public function down(): void
     {
         Schema::withoutForeignKeyConstraints(function (): void {
-            Schema::dropIfExists('transaction_checks');
+            Schema::dropIfExists('transaction_limits');
             Schema::dropIfExists('transaction_metadata');
-            Schema::dropIfExists('transaction_transfers');
             Schema::dropIfExists('transaction_fees');
             Schema::dropIfExists('transactions');
+            Schema::dropIfExists('ledger_entries');
+            Schema::dropIfExists('wallets');
             Schema::dropIfExists('transaction_gateways');
-            Schema::dropIfExists('transaction_limits');
         });
     }
 };

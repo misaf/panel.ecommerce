@@ -30,7 +30,15 @@ return new class () extends Migration {
                 ->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('active_name_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN name ELSE NULL END');
+            $table->string('active_slug_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN slug ELSE NULL END');
 
+            $table->unique(TenantSchema::tenantIndex(['active_name_guard']), 'currency_categories_active_name_unique');
+            $table->unique(TenantSchema::tenantIndex(['active_slug_guard']), 'currency_categories_active_slug_unique');
             $table->index(TenantSchema::tenantIndex(['name']));
             $table->index(TenantSchema::tenantIndex(['slug']));
             $table->index(TenantSchema::tenantIndex(['position']));
@@ -62,8 +70,12 @@ return new class () extends Migration {
                 ->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('active_slug_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN slug ELSE NULL END');
 
             $table->index(TenantSchema::tenantIndex(['currency_category_id']));
+            $table->unique(TenantSchema::tenantIndex(['active_slug_guard']), 'currencies_active_slug_unique');
             $table->index(TenantSchema::tenantIndex(['name']));
             $table->index(TenantSchema::tenantIndex(['slug']));
             $table->index(TenantSchema::tenantIndex(['iso_code']));

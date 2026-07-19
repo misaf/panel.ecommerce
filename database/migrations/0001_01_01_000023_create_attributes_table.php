@@ -20,7 +20,11 @@ return new class () extends Migration {
             $table->boolean('status')->default(true);
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('active_name_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN name ELSE NULL END');
 
+            $table->unique(TenantSchema::tenantIndex(['active_name_guard']), 'attributes_active_name_unique');
             $table->index(TenantSchema::tenantIndex(['name']));
             $table->index(TenantSchema::tenantIndex(['unit']));
             $table->index(TenantSchema::tenantIndex(['position']));
