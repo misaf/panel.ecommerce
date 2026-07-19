@@ -1,6 +1,8 @@
 {
     "name": "misaf/vendra-attribute-api",
     "description": "API services for the vendra-attribute module",
+    "license": "MIT",
+    "type": "vendra-module",
     "keywords": [
         "laravel",
         "filamentphp",
@@ -8,8 +10,6 @@
         "vendra",
         "attribute-api"
     ],
-    "homepage": "https://github.com/misaf/vendra-attribute-api",
-    "license": "MIT",
     "authors": [
         {
             "name": "Ehsan Mahmoodi",
@@ -17,7 +17,11 @@
             "role": "Developer"
         }
     ],
-    "type": "vendra-module",
+    "homepage": "https://github.com/misaf/vendra-attribute-api",
+    "support": {
+        "issues": "https://github.com/misaf/vendra-attribute-api/issues",
+        "source": "https://github.com/misaf/vendra-attribute-api"
+    },
     "require": {
         "php": "^8.3",
         "illuminate/support": "^13.0",
@@ -42,6 +46,8 @@
         "pestphp/pest-plugin-type-coverage": "^4.0.4",
         "phpstan/extension-installer": "^1.4.3"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Misaf\\VendraAttributeApi\\": "src/"
@@ -51,6 +57,16 @@
         "psr-4": {
             "Misaf\\VendraAttributeApi\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -65,21 +81,5 @@
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage"
     },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "support": {
-        "issues": "https://github.com/misaf/vendra-attribute-api/issues",
-        "source": "https://github.com/misaf/vendra-attribute-api"
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }

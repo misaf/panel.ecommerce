@@ -138,8 +138,6 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Misaf\\VendraAddress\\Database\\Factories\\": "packages/vendra-address/database/factories/",
-            "Misaf\\VendraAddress\\Tests\\": "packages/vendra-address/tests/",
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
@@ -149,6 +147,8 @@
         "psr-4": {
             "Misaf\\VendraActivityLog\\Database\\Factories\\": "packages/vendra-activity-log/database/factories/",
             "Misaf\\VendraActivityLog\\Tests\\": "packages/vendra-activity-log/tests/",
+            "Misaf\\VendraAddress\\Database\\Factories\\": "packages/vendra-address/database/factories/",
+            "Misaf\\VendraAddress\\Tests\\": "packages/vendra-address/tests/",
             "Misaf\\VendraAffiliateApi\\Tests\\": "packages/vendra-affiliate-api/tests/",
             "Misaf\\VendraAffiliate\\Database\\Factories\\": "packages/vendra-affiliate/database/factories/",
             "Misaf\\VendraAffiliate\\Tests\\": "packages/vendra-affiliate/tests/",
@@ -166,12 +166,12 @@
             "Misaf\\VendraCart\\Tests\\": "packages/vendra-cart/tests/",
             "Misaf\\VendraCurrency\\Database\\Factories\\": "packages/vendra-currency/database/factories/",
             "Misaf\\VendraCurrency\\Tests\\": "packages/vendra-currency/tests/",
+            "Misaf\\VendraCustomPageApi\\Tests\\": "packages/vendra-custom-page-api/tests/",
+            "Misaf\\VendraCustomPage\\Database\\Factories\\": "packages/vendra-custom-page/database/factories/",
+            "Misaf\\VendraCustomPage\\Tests\\": "packages/vendra-custom-page/tests/",
             "Misaf\\VendraDeveloperLogins\\Tests\\": "packages/vendra-developer-logins/tests/",
             "Misaf\\VendraDocument\\Database\\Factories\\": "packages/vendra-document/database/factories/",
             "Misaf\\VendraDocument\\Tests\\": "packages/vendra-document/tests/",
-            "Misaf\\VendraCustomPage\\Database\\Factories\\": "packages/vendra-custom-page/database/factories/",
-            "Misaf\\VendraCustomPage\\Tests\\": "packages/vendra-custom-page/tests/",
-            "Misaf\\VendraCustomPageApi\\Tests\\": "packages/vendra-custom-page-api/tests/",
             "Misaf\\VendraFaqApi\\Tests\\": "packages/vendra-faq-api/tests/",
             "Misaf\\VendraFaq\\Database\\Factories\\": "packages/vendra-faq/database/factories/",
             "Misaf\\VendraFaq\\Tests\\": "packages/vendra-faq/tests/",
@@ -189,6 +189,7 @@
             "Misaf\\VendraProductApi\\Tests\\": "packages/vendra-product-api/tests/",
             "Misaf\\VendraProduct\\Database\\Factories\\": "packages/vendra-product/database/factories/",
             "Misaf\\VendraProduct\\Tests\\": "packages/vendra-product/tests/",
+            "Misaf\\VendraSocialite\\Tests\\": "packages/vendra-socialite/tests/",
             "Misaf\\VendraSubscription\\Database\\Factories\\": "packages/vendra-subscription/database/factories/",
             "Misaf\\VendraSubscription\\Tests\\": "packages/vendra-subscription/tests/",
             "Misaf\\VendraSupport\\Tests\\": "packages/vendra-support/tests/",
@@ -200,7 +201,6 @@
             "Misaf\\VendraTransaction\\Database\\Factories\\": "packages/vendra-transaction/database/factories/",
             "Misaf\\VendraTransaction\\Tests\\": "packages/vendra-transaction/tests/",
             "Misaf\\VendraUserProfile\\Database\\Factories\\": "packages/vendra-user-profile/database/factories/",
-            "Misaf\\VendraSocialite\\Tests\\": "packages/vendra-socialite/tests/",
             "Misaf\\VendraUserProfile\\Tests\\": "packages/vendra-user-profile/tests/",
             "Misaf\\VendraUser\\Database\\Factories\\": "packages/vendra-user/database/factories/",
             "Misaf\\VendraUser\\Tests\\": "packages/vendra-user/tests/",
@@ -210,40 +210,27 @@
         }
     },
     "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true,
         "allow-plugins": {
             "ergebnis/composer-normalize": true,
             "pestphp/pest-plugin": true,
             "php-http/discovery": true,
             "phpstan/extension-installer": true
-        }
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "scripts": {
-        "setup": [
-            "composer install",
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate",
-            "@php artisan migrate --force",
-            "npm install --ignore-scripts",
-            "npm run build"
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
-        "dev": [
-            "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
-        ],
-        "test": [
-            "@php artisan config:clear --ansi @no_additional_args",
-            "@php artisan test"
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan filament:upgrade"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -253,8 +240,21 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "pre-package-uninstall": [
-            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install --ignore-scripts",
+            "npm run build"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi @no_additional_args",
+            "@php artisan test"
         ]
     },
     "$schema": "https://getcomposer.org/schema.json"

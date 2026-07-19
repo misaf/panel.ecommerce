@@ -1,6 +1,8 @@
 {
     "name": "misaf/vendra-testing",
     "description": "Shared testing utilities for Vendra modules",
+    "license": "MIT",
+    "type": "vendra-module",
     "keywords": [
         "laravel",
         "filamentphp",
@@ -8,8 +10,6 @@
         "vendra",
         "testing"
     ],
-    "homepage": "https://github.com/misaf/vendra-testing",
-    "license": "MIT",
     "authors": [
         {
             "name": "Ehsan Mahmoodi",
@@ -17,7 +17,11 @@
             "role": "Developer"
         }
     ],
-    "type": "vendra-module",
+    "homepage": "https://github.com/misaf/vendra-testing",
+    "support": {
+        "issues": "https://github.com/misaf/vendra-testing/issues",
+        "source": "https://github.com/misaf/vendra-testing"
+    },
     "require": {
         "php": "^8.3",
         "illuminate/support": "^13.0",
@@ -41,6 +45,8 @@
         "pestphp/pest-plugin-type-coverage": "^4.0.4",
         "phpstan/extension-installer": "^1.4.3"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Misaf\\VendraTesting\\": "src/"
@@ -54,12 +60,6 @@
             "Misaf\\VendraTesting\\Tests\\": "tests/"
         }
     },
-    "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
-        "format": "vendor/bin/pint",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage"
-    },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true,
@@ -70,11 +70,11 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "support": {
-        "issues": "https://github.com/misaf/vendra-testing/issues",
-        "source": "https://github.com/misaf/vendra-testing"
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }

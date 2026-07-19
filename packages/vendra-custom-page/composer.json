@@ -1,6 +1,8 @@
 {
     "name": "misaf/vendra-custom-page",
     "description": "Dynamic page management system with CMS capabilities",
+    "license": "MIT",
+    "type": "vendra-module",
     "keywords": [
         "laravel",
         "filamentphp",
@@ -10,8 +12,6 @@
         "page",
         "custom-page"
     ],
-    "homepage": "https://github.com/misaf/vendra-custom-page",
-    "license": "MIT",
     "authors": [
         {
             "name": "Ehsan Mahmoodi",
@@ -19,7 +19,11 @@
             "role": "Developer"
         }
     ],
-    "type": "vendra-module",
+    "homepage": "https://github.com/misaf/vendra-custom-page",
+    "support": {
+        "issues": "https://github.com/misaf/vendra-custom-page/issues",
+        "source": "https://github.com/misaf/vendra-custom-page"
+    },
     "require": {
         "php": "^8.3",
         "awcodes/filament-badgeable-column": "^4.0",
@@ -50,6 +54,8 @@
         "pestphp/pest-plugin-type-coverage": "^4.0.4",
         "phpstan/extension-installer": "^1.4.3"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Misaf\\VendraCustomPage\\": "src/",
@@ -61,6 +67,16 @@
             "Misaf\\VendraCustomPage\\Database\\Factories\\": "database/factories/",
             "Misaf\\VendraCustomPage\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -75,21 +91,5 @@
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage"
     },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "support": {
-        "issues": "https://github.com/misaf/vendra-custom-page/issues",
-        "source": "https://github.com/misaf/vendra-custom-page"
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }

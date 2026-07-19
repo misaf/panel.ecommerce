@@ -1,6 +1,8 @@
 {
     "name": "misaf/vendra-tagger",
     "description": "Tenant-aware tag management and Filament administration for Vendra",
+    "license": "MIT",
+    "type": "vendra-module",
     "keywords": [
         "laravel",
         "filamentphp",
@@ -8,8 +10,6 @@
         "vendra",
         "tagger"
     ],
-    "homepage": "https://github.com/misaf/vendra-tagger",
-    "license": "MIT",
     "authors": [
         {
             "name": "Ehsan Mahmoodi",
@@ -17,7 +17,11 @@
             "role": "Developer"
         }
     ],
-    "type": "vendra-module",
+    "homepage": "https://github.com/misaf/vendra-tagger",
+    "support": {
+        "issues": "https://github.com/misaf/vendra-tagger/issues",
+        "source": "https://github.com/misaf/vendra-tagger"
+    },
     "require": {
         "php": "^8.3",
         "awcodes/filament-badgeable-column": "^4.0",
@@ -45,6 +49,8 @@
         "pestphp/pest-plugin-type-coverage": "^4.0.4",
         "phpstan/extension-installer": "^1.4.3"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Misaf\\VendraTagger\\": "src/",
@@ -56,6 +62,16 @@
             "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/",
             "Misaf\\VendraTagger\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -70,21 +86,5 @@
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage"
     },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "support": {
-        "issues": "https://github.com/misaf/vendra-tagger/issues",
-        "source": "https://github.com/misaf/vendra-tagger"
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }

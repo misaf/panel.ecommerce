@@ -1,12 +1,13 @@
 {
     "name": "misaf/vendra-affiliate",
     "description": "Affiliate and referral management system with commission tracking and user referral capabilities",
+    "license": "MIT",
+    "type": "vendra-module",
     "keywords": [
         "laravel",
         "filamentphp",
         "affiliate"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Ehsan Mahmoodi",
@@ -14,14 +15,18 @@
             "role": "Developer"
         }
     ],
-    "type": "vendra-module",
+    "homepage": "https://github.com/misaf/vendra-affiliate",
+    "support": {
+        "issues": "https://github.com/misaf/vendra-affiliate/issues",
+        "source": "https://github.com/misaf/vendra-affiliate"
+    },
     "require": {
+        "php": "^8.3",
         "filament/filament": "^5.6.8",
         "illuminate/support": "^13.0",
         "misaf/vendra-support": "self.version",
         "misaf/vendra-transaction": "self.version",
         "misaf/vendra-user": "self.version",
-        "php": "^8.3",
         "spatie/laravel-package-tools": "^1.93.1",
         "spatie/laravel-queueable-action": "^2.17"
     },
@@ -39,6 +44,11 @@
         "pestphp/pest-plugin-laravel": "^4.1",
         "phpstan/extension-installer": "^1.4.3"
     },
+    "suggest": {
+        "misaf/vendra-tagger": "Install this in the host application to assign typed tags to affiliates."
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Misaf\\VendraAffiliate\\": "src/",
@@ -50,6 +60,16 @@
             "Misaf\\VendraAffiliate\\Database\\Factories\\": "database/factories/",
             "Misaf\\VendraAffiliate\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -64,20 +84,5 @@
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage"
     },
-    "suggest": {
-        "misaf/vendra-tagger": "Install this in the host application to assign typed tags to affiliates."
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }
