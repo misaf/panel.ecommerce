@@ -13,6 +13,7 @@ enum NavigationPriority: int
 
     case Transactions = 2100;
     case TransactionGateways = 2110;
+    case Wallets = 2120;
     case Currencies = 2200;
     case CurrencyCategories = 2210;
     case Carts = 2300;

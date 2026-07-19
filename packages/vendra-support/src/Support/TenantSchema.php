@@ -67,4 +67,9 @@ final class TenantSchema
             return false;
         }
     }
+
+    public static function forgetTenantColumn(string $table): void
+    {
+        unset(self::$tenantColumnCache[$table]);
+    }
 }
