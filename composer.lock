@@ -1628,6 +1628,59 @@
             "time": "2025-03-06T22:45:56+00:00"
         },
         {
+            "name": "facade/ignition-contracts",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facade/ignition-contracts.git",
+                "reference": "3c921a1cdba35b68a7f0ccffc6dffc1995b18267"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facade/ignition-contracts/zipball/3c921a1cdba35b68a7f0ccffc6dffc1995b18267",
+                "reference": "3c921a1cdba35b68a7f0ccffc6dffc1995b18267",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^v2.15.8",
+                "phpunit/phpunit": "^9.3.11",
+                "vimeo/psalm": "^3.17.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Facade\\IgnitionContracts\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://flareapp.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Solution contracts for Ignition",
+            "homepage": "https://github.com/facade/ignition-contracts",
+            "keywords": [
+                "contracts",
+                "flare",
+                "ignition"
+            ],
+            "support": {
+                "issues": "https://github.com/facade/ignition-contracts/issues",
+                "source": "https://github.com/facade/ignition-contracts/tree/1.0.2"
+            },
+            "time": "2020-10-16T08:27:54+00:00"
+        },
+        {
             "name": "filament/actions",
             "version": "v5.7.1",
             "source": {
@@ -5738,11 +5791,11 @@
         },
         {
             "name": "misaf/vendra-activity-log",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "51e32363178f982aeaa84a36cdcef8d455e19f35"
+                "reference": "0d2cf6bf56f276145f2431c408ecf6b85d2b9125"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -5834,11 +5887,11 @@
         },
         {
             "name": "misaf/vendra-address",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
-                "reference": "a3ee3f980e63b2b52dff6eaff065a73a2cda703e"
+                "reference": "2b2ab9e0e44587ce1d4dade1eac2f4d6070314f2"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -5923,11 +5976,11 @@
         },
         {
             "name": "misaf/vendra-affiliate",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "db9f00225ed061e1a0b932086d3380db61bbe2ad"
+                "reference": "2956ef63b490dee4f498002b33bb21527e415651"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6001,11 +6054,16 @@
                 }
             ],
             "description": "Affiliate and referral management system with commission tracking and user referral capabilities",
+            "homepage": "https://github.com/misaf/vendra-affiliate",
             "keywords": [
                 "affiliate",
                 "filamentphp",
                 "laravel"
             ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-affiliate/issues",
+                "source": "https://github.com/misaf/vendra-affiliate"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -6013,11 +6071,11 @@
         },
         {
             "name": "misaf/vendra-affiliate-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate-api",
-                "reference": "accd4237d8f32ddbf0eb8ecb87699b73d6c152a2"
+                "reference": "0ae816739f29293479f9c946c84392cb174707ad"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6105,11 +6163,11 @@
         },
         {
             "name": "misaf/vendra-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-api",
-                "reference": "134471062c3feb684c63e8d51a62b6d1a602dd90"
+                "reference": "080aa888af601c1c3a9b52be1e21c0395fd95fa1"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6196,11 +6254,11 @@
         },
         {
             "name": "misaf/vendra-attribute",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "59deeedd022c1d896046ff8fa6cbbe6e92840c99"
+                "reference": "fab20d61b61849266828bf7438b5b1ba7308e3b0"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6266,7 +6324,26 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
             "description": "Reusable tenant-aware attributes and polymorphic values for Vendra models",
+            "homepage": "https://github.com/misaf/vendra-attribute",
+            "keywords": [
+                "attribute",
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-attribute/issues",
+                "source": "https://github.com/misaf/vendra-attribute"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -6274,11 +6351,11 @@
         },
         {
             "name": "misaf/vendra-attribute-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "1bbadfb311fe5c480bd0ce6e6fb307cc849a5178"
+                "reference": "49f9c42a8c46ce91d2b1c845f8f4b1dcdb30755f"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6366,11 +6443,11 @@
         },
         {
             "name": "misaf/vendra-authify-log",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "49b0e8df76df9f6b5d4fcd7d38a1e70fedf85414"
+                "reference": "a34bc3059a5f5d035efccf7701e71f26f3b76da8"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6442,12 +6519,17 @@
                 }
             ],
             "description": "Authentication event logging and Filament log management for Vendra",
+            "homepage": "https://github.com/misaf/vendra-authify-log",
             "keywords": [
                 "authify",
                 "filamentphp",
                 "laravel",
                 "log"
             ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-authify-log/issues",
+                "source": "https://github.com/misaf/vendra-authify-log"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -6455,11 +6537,11 @@
         },
         {
             "name": "misaf/vendra-blog",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "73a582d1a48689e6a25f50d213f240d7761c9878"
+                "reference": "592dc5e4c6736f17db17c1fb50325b70296c446a"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6558,11 +6640,11 @@
         },
         {
             "name": "misaf/vendra-blog-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
-                "reference": "81eb7c20634898b37343d99698c93a6966be7649"
+                "reference": "5677f8ef469da8545af6ea552d09c6a6094a3a05"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6651,11 +6733,11 @@
         },
         {
             "name": "misaf/vendra-cart",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart",
-                "reference": "1f96a3668528d286d2a1580e36ddbd2cdc42c34a"
+                "reference": "ea14cef6e9634a124b66e26120b804906fe9bde6"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -6745,11 +6827,11 @@
         },
         {
             "name": "misaf/vendra-cart-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "30478a27dae46f8afa66549662b9d2a08c94eaac"
+                "reference": "ea75f9cb508020150d035d23a7da850a87b50e08"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6837,11 +6919,11 @@
         },
         {
             "name": "misaf/vendra-currency",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
-                "reference": "37500da9e19ce0481c49eefa7b9449df04e36fea"
+                "reference": "5bda3f168f6eaf56ffa9965e8f320417f14fb8bc"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6937,11 +7019,11 @@
         },
         {
             "name": "misaf/vendra-custom-page",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page",
-                "reference": "2b9657ee1375e18de9ca20f51d7adc8cfe423d5e"
+                "reference": "9c0e48e5bcada8840ae64e56ef88b873279db1fc"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7039,11 +7121,11 @@
         },
         {
             "name": "misaf/vendra-custom-page-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page-api",
-                "reference": "6d7ba21181c57a085577e684ec25b2e4ab84bb89"
+                "reference": "894a4f51faae9cff3bf1759650083432cd3957f5"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7132,11 +7214,11 @@
         },
         {
             "name": "misaf/vendra-document",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "45738d0ea131672cc7f53e573a3ae7e9f260465a"
+                "reference": "e25f2cbf9788c13f287b64d269d6ae6ae6d21039"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -7223,11 +7305,11 @@
         },
         {
             "name": "misaf/vendra-faq",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
-                "reference": "eef0e540c18e12a8edba09e9630733225bb6af82"
+                "reference": "429460c82ffbd86947076a9c5476265eca9aaa55"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7326,11 +7408,11 @@
         },
         {
             "name": "misaf/vendra-faq-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
-                "reference": "f34072dc45e2ce34f613f3addff836e8f20ee6d6"
+                "reference": "aed3345b9357afdf932b4924bc4d6b9ba5186c2f"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7419,11 +7501,11 @@
         },
         {
             "name": "misaf/vendra-language",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
-                "reference": "0df62c4cd1b042b50f6d6641c9b9bb4ed096bcfa"
+                "reference": "4730b932aad28ae5c5acf86d272a12773bc1ddf0"
             },
             "require": {
                 "bezhansalleh/filament-language-switch": "^4.3",
@@ -7519,11 +7601,11 @@
         },
         {
             "name": "misaf/vendra-localization",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "fb6584b0ef18d0931b29e0ba9cbe8cd84eff9869"
+                "reference": "a632df88fbd110f1a98734f26bf5e54c6f2f454a"
             },
             "require": {
                 "illuminate/contracts": "^13.0",
@@ -7605,11 +7687,11 @@
         },
         {
             "name": "misaf/vendra-multimedia",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
-                "reference": "0517fc3355c666835fbaa737ec5c89ca1bb48f12"
+                "reference": "ba51e58190c8eef8a4e6321b9bcd4a216619a20c"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7698,11 +7780,11 @@
         },
         {
             "name": "misaf/vendra-multimedia-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
-                "reference": "10754b4723e4f0b60f24b11c7c79710ffef0cb91"
+                "reference": "d093aa2effd6714d2c91c2c02015ae28799f1821"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7790,11 +7872,11 @@
         },
         {
             "name": "misaf/vendra-newsletter",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
-                "reference": "5079101bed4d581250153a57c1041d31e60f48cd"
+                "reference": "d916b058ba389495039434b176f24c0ba1e93d8a"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -7884,11 +7966,11 @@
         },
         {
             "name": "misaf/vendra-permission",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
-                "reference": "f218ce16d0b2366da201e09ad1b0cd31ab4f2a28"
+                "reference": "ef90bd147e5bafb830674c3ba9e1f1339688ad12"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7983,11 +8065,11 @@
         },
         {
             "name": "misaf/vendra-phone",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
-                "reference": "9d8c970a49352327c309db16625803e7b8fc28e0"
+                "reference": "f963c5df97ab655886631889349f03a8fa95f3d6"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8073,11 +8155,11 @@
         },
         {
             "name": "misaf/vendra-product",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
-                "reference": "ce971e894f0ec6ae0738b7f26df5c3fafc4e66a8"
+                "reference": "c7321abeaf6a1374398c6595d9330c380e0fc9e8"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8181,11 +8263,11 @@
         },
         {
             "name": "misaf/vendra-product-api",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "b6a92395e0b2e5cc7d9624d0dfc1dd66e72262d2"
+                "reference": "df0ff8a4b4e8d92b97e10094abf3f5a5425bbcfd"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8275,11 +8357,11 @@
         },
         {
             "name": "misaf/vendra-socialite",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-socialite",
-                "reference": "b5bf2437196c0f87907c0e25227079034aec3206"
+                "reference": "82db958b7ca1320a461a54dbf7acd95a789beb09"
             },
             "require": {
                 "dutchcodingcompany/filament-socialite": "^3.2",
@@ -8366,11 +8448,11 @@
         },
         {
             "name": "misaf/vendra-subscription",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "619f9bca2dc108ff4ea67b68c96aefa6d19809f0"
+                "reference": "58fb8781b3a70317ec69f6a7c3c1b5804b6448ce"
             },
             "require": {
                 "illuminate/console": "^13.0",
@@ -8434,16 +8516,22 @@
             "authors": [
                 {
                     "name": "Ehsan Mahmoodi",
-                    "email": "misaf.1990@gmail.com"
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
                 }
             ],
             "description": "Tenant provisioning orchestration for Vendra applications",
+            "homepage": "https://github.com/misaf/vendra-subscription",
             "keywords": [
                 "filamentphp",
                 "laravel",
                 "subscription",
                 "tenant"
             ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-subscription/issues",
+                "source": "https://github.com/misaf/vendra-subscription"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -8451,11 +8539,11 @@
         },
         {
             "name": "misaf/vendra-support",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
-                "reference": "f5ba4c8203fd410a1e0b3b668b2ce43c29e94172"
+                "reference": "9a4f098f2dfba2d9ea049e2e59b4a96e9764f142"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8545,11 +8633,11 @@
         },
         {
             "name": "misaf/vendra-tagger",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "e308123cfee3d544479ed6b336858545d8c2eaf9"
+                "reference": "8b4b3053960d00fb7b2e83ef298418a42b39b8c8"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8642,11 +8730,11 @@
         },
         {
             "name": "misaf/vendra-tenant",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "cf2c18e24af4a767de4d65a94b9395f5e6a6b8e6"
+                "reference": "83f7a28fcd6522be914836a104775455a1317f9d"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8713,15 +8801,21 @@
             "authors": [
                 {
                     "name": "Ehsan Mahmoodi",
-                    "email": "misaf.1990@gmail.com"
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
                 }
             ],
             "description": "Multi-tenancy management system with isolated data and configuration per tenant",
+            "homepage": "https://github.com/misaf/vendra-tenant",
             "keywords": [
                 "filamentphp",
                 "laravel",
                 "tenant"
             ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-tenant/issues",
+                "source": "https://github.com/misaf/vendra-tenant"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -8729,11 +8823,11 @@
         },
         {
             "name": "misaf/vendra-testing",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
-                "reference": "49567ac41588ebd9359fbca15b71372074ae2e83"
+                "reference": "49f6b1889ac9e8ddc18fe0fed56aea8c5608751a"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8816,20 +8910,24 @@
         },
         {
             "name": "misaf/vendra-transaction",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "03e4418e02bff2886f5ed5e430ad9d8774ba0a58"
+                "reference": "0af7f2e7d0aa39a94a297fa2170ed030a5b71a7c"
             },
             "require": {
                 "filament/filament": "^5.6.8",
+                "flowframe/laravel-trend": "^0.5.0",
                 "illuminate/support": "^13.0",
+                "lara-zeus/spatie-translatable": "^2.0.1",
+                "misaf/vendra-currency": "self.version",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-activitylog": "^4.12.3",
+                "spatie/laravel-model-states": "^2.11",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-queueable-action": "^2.17",
                 "spatie/laravel-sluggable": "^4.0.2"
@@ -8887,15 +8985,21 @@
             "authors": [
                 {
                     "name": "Ehsan Mahmoodi",
-                    "email": "misaf.1990@gmail.com"
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
                 }
             ],
-            "description": "Financial transaction management system with multi-gateway support, status tracking and comprehensive metadata handling",
+            "description": "Wallet and ledger based financial transaction system with multi-gateway support, state-machine lifecycle and per-currency balances",
+            "homepage": "https://github.com/misaf/vendra-transaction",
             "keywords": [
                 "filamentphp",
                 "laravel",
                 "transaction"
             ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-transaction/issues",
+                "source": "https://github.com/misaf/vendra-transaction"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -8903,11 +9007,11 @@
         },
         {
             "name": "misaf/vendra-user",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "d456a73728b22feab5ef36976159fef63aeb5811"
+                "reference": "c8e7b6651f0a7354762631cfab87ebf719e3bf4c"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8982,11 +9086,16 @@
                 }
             ],
             "description": "Comprehensive user management module with profiles, authentication, media handling and multi-tenant support",
+            "homepage": "https://github.com/misaf/vendra-user",
             "keywords": [
                 "filamentphp",
                 "laravel",
                 "user"
             ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-user/issues",
+                "source": "https://github.com/misaf/vendra-user"
+            },
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -8994,11 +9103,11 @@
         },
         {
             "name": "misaf/vendra-user-profile",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
-                "reference": "6b30ac8b1997aac515c03d267f1241a5ee665d68"
+                "reference": "86e068ded958b14345165dec665135a9a83ea0e6"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -9095,11 +9204,11 @@
         },
         {
             "name": "misaf/vendra-verification",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
-                "reference": "57ffab7968d4098587aecac178774ac66ccb82c3"
+                "reference": "fcbe851f08a1eda475b656c6180665eb47707b6f"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -12120,6 +12229,87 @@
             "time": "2026-07-09T13:26:15+00:00"
         },
         {
+            "name": "spatie/laravel-model-states",
+            "version": "2.14.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-model-states.git",
+                "reference": "772703a62478f578c1476aa2e6dcdc25339542df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-model-states/zipball/772703a62478f578c1476aa2e6dcdc25339542df",
+                "reference": "772703a62478f578c1476aa2e6dcdc25339542df",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "facade/ignition-contracts": "^1.0.2|^2.0",
+                "illuminate/contracts": "^12.0|^13.0",
+                "illuminate/database": "^12.0|^13.0",
+                "illuminate/support": "^12.0|^13.0",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.19",
+                "spatie/php-attribute-reader": "^1.0",
+                "spatie/php-structure-discoverer": "^2.3.1"
+            },
+            "require-dev": {
+                "illuminate/contracts": "^12.0|^13.0",
+                "illuminate/database": "^12.0|^13.0",
+                "illuminate/support": "^12.0|^13.0",
+                "orchestra/testbench": "^10.0|^11.0",
+                "pestphp/pest": "^4.1.4",
+                "spatie/laravel-package-tools": "^1.9",
+                "spatie/php-structure-discoverer": "^2.2",
+                "symfony/var-dumper": "^7.3.5|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ModelStates\\ModelStatesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ModelStates\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "State support for Eloquent models",
+            "homepage": "https://github.com/spatie/laravel-model-states",
+            "keywords": [
+                "spatie",
+                "state"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-model-states/tree/2.14.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-04-22T07:41:05+00:00"
+        },
+        {
             "name": "spatie/laravel-multitenancy",
             "version": "4.1.4",
             "source": {
@@ -12896,6 +13086,143 @@
                 }
             ],
             "time": "2026-06-04T08:27:51+00:00"
+        },
+        {
+            "name": "spatie/php-attribute-reader",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/php-attribute-reader.git",
+                "reference": "46e7484d7b51f5b22d672745c541e48c5a385404"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/php-attribute-reader/zipball/46e7484d7b51f5b22d672745c541e48c5a385404",
+                "reference": "46e7484d7b51f5b22d672745c541e48c5a385404",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.0|^2.0|^3.0|^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Attributes\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A clean API for working with PHP attributes",
+            "homepage": "https://github.com/spatie/php-attribute-reader",
+            "keywords": [
+                "attributes",
+                "php-attribute-reader",
+                "reflection",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/php-attribute-reader/issues",
+                "source": "https://github.com/spatie/php-attribute-reader/tree/1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-23T09:01:55+00:00"
+        },
+        {
+            "name": "spatie/php-structure-discoverer",
+            "version": "2.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/php-structure-discoverer.git",
+                "reference": "fa2b7dae8e8a22c0306154c4b052420e054f7e2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/php-structure-discoverer/zipball/fa2b7dae8e8a22c0306154c4b052420e054f7e2b",
+                "reference": "fa2b7dae8e8a22c0306154c4b052420e054f7e2b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/collections": "^11.0|^12.0|^13.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.92.7",
+                "symfony/finder": "^6.0|^7.3.5|^8.0"
+            },
+            "require-dev": {
+                "amphp/parallel": "^2.3.2",
+                "illuminate/console": "^11.0|^12.0|^13.0",
+                "nunomaduro/collision": "^7.0|^8.8.3",
+                "orchestra/testbench": "^9.5|^10.8|^11.0",
+                "pestphp/pest": "^3.8|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.2|^4.0",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan-deprecation-rules": "^1.2.1",
+                "phpstan/phpstan-phpunit": "^1.4.2",
+                "spatie/laravel-ray": "^1.43.1"
+            },
+            "suggest": {
+                "amphp/parallel": "When you want to use the Parallel discover worker"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\StructureDiscoverer\\StructureDiscovererServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\StructureDiscoverer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruben Van Assche",
+                    "email": "ruben@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Automatically discover structures within your PHP application",
+            "homepage": "https://github.com/spatie/php-structure-discoverer",
+            "keywords": [
+                "discover",
+                "laravel",
+                "php",
+                "php-structure-discoverer"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/php-structure-discoverer/issues",
+                "source": "https://github.com/spatie/php-structure-discoverer/tree/2.4.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/LaravelAutoDiscoverer",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-06-15T07:14:32+00:00"
         },
         {
             "name": "spatie/shiki-php",
@@ -18579,11 +18906,11 @@
         },
         {
             "name": "misaf/vendra-developer-logins",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-developer-logins",
-                "reference": "ef83b8a95d590b5756957bb9df92f7014048e8ac"
+                "reference": "e19630285eafc85da7b73c3cdfdbac8fff0ca755"
             },
             "require": {
                 "dutchcodingcompany/filament-developer-logins": "^2.1",
