@@ -13,6 +13,8 @@ return [
     'namespace'            => 'Paket',
     'namespace_help'       => 'Uebersetzungspaket, zum Beispiel vendra-product. Fuer Anwendungsuebersetzungen leer lassen.',
     'namespace_none'       => 'Anwendungsuebersetzungen (kein Paket)',
+    'position'             => 'Position',
+    'status'               => 'Status',
     'text'                 => 'Text',
     'translation'          => 'Uebersetzung',
     'translation_coverage' => 'Ueberschreibungsabdeckung',

@@ -19,6 +19,7 @@ final class TenantLocaleResolver implements LocaleResolver
     public function resolve(Request $request): ?string
     {
         $locale = Language::query()
+            ->enabled()
             ->where('is_default', true)
             ->ordered()
             ->value('locale');

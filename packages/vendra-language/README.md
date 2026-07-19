@@ -30,13 +30,13 @@ The service provider and Filament plugin are discovered automatically.
 
 ## Locale catalog
 
-Configure the platform locales that tenants may enable in `config/vendra-language.php`:
+Every locale exposed by Symfony Intl may be installed for a tenant from the searchable Languages resource. The preferred locale subset for host integrations may still be configured in `config/vendra-language.php`:
 
 ```php
 'locales' => ['en', 'de', 'fa', 'pt-BR'],
 ```
 
-Values use canonical web/BCP-47 tags and must exist in the ICU locale catalog. Tenant language records store only the locale, default flag, and display position; localized names are derived from ICU.
+Values use canonical web/BCP-47 tags and must exist in the ICU locale catalog. This preferred subset does not limit which locales may be installed. Tenant language records store the locale, enabled status, default flag, and display position; localized names are derived from ICU.
 
 ## Usage
 
@@ -47,6 +47,7 @@ use Misaf\VendraLanguage\Models\Language;
 
 $language = Language::query()->create([
     'locale' => 'en',
+    'status' => true,
     'is_default' => true,
     'position' => 1,
 ]);
@@ -103,7 +104,7 @@ When `misaf/vendra-localization` is installed, this package supplies its support
 
 ## Filament
 
-The configured panels expose Languages and Language Lines within the Localization cluster. Language lines can override keys discovered in application and Vendra package translation files. Their form displays all enabled tenant locales together and retains stored values for locales that are later disabled. The Languages table reports override coverage per locale, while the Language Lines table reports enabled-locale completion and identifies missing locales.
+The configured panels expose Languages and Language Lines within the Localization cluster. Language lines can override keys discovered in application and Vendra package translation files. Their form displays all enabled tenant locales together and retains stored values for locales that are later disabled. Installed languages can be temporarily disabled from the Languages table without deleting them. The Languages table reports override coverage per locale, while the Language Lines table reports enabled-locale completion and identifies missing locales.
 
 The global language switcher uses the current tenant's enabled languages in display order and falls back to `config('app.fallback_locale')` when none are enabled.
 

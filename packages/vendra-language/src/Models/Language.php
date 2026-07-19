@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -20,20 +21,20 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
 /**
- * A locale a tenant has enabled, drawn from the platform catalog in
- * `config('vendra-language.locales')`. Display names derive from the ICU
- * catalog, so only the tag, default flag, and order are persisted.
+ * A locale a tenant has installed from the ICU catalog. Display names derive
+ * from that catalog, while status controls whether the locale is active.
  *
  * @property int $id
  * @property int $tenant_id
  * @property string $locale
+ * @property bool $status
  * @property bool $is_default
  * @property int $position
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read string $name
  */
-#[Fillable(['locale', 'is_default', 'position'])]
+#[Fillable(['locale', 'status', 'is_default', 'position'])]
 #[Hidden(['tenant_id', 'default_guard'])]
 #[ObservedBy([LanguageObserver::class])]
 #[UseFactory(LanguageFactory::class)]
@@ -60,6 +61,7 @@ final class Language extends Model implements Sortable, ShouldLogActivity
 
     /** @var array<string, mixed> */
     protected $attributes = [
+        'status'     => true,
         'is_default' => false,
     ];
 
@@ -72,6 +74,15 @@ final class Language extends Model implements Sortable, ShouldLogActivity
     }
 
     /**
+     * @param  Builder<Language>  $query
+     * @return Builder<Language>
+     */
+    public function scopeEnabled(Builder $query): Builder
+    {
+        return $query->where('status', true);
+    }
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -80,6 +91,7 @@ final class Language extends Model implements Sortable, ShouldLogActivity
             'id'         => 'integer',
             'tenant_id'  => 'integer',
             'locale'     => 'string',
+            'status'     => 'boolean',
             'is_default' => 'boolean',
             'position'   => 'integer',
         ];

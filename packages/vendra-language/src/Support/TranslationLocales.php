@@ -14,6 +14,7 @@ final class TranslationLocales
     public static function enabled(): array
     {
         $locales = Language::query()
+            ->enabled()
             ->ordered()
             ->pluck('locale')
             ->filter(fn(mixed $locale): bool => is_string($locale))

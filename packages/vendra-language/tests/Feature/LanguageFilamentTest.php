@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 use Filament\Actions\Testing\TestAction;
+use Filament\Forms\Components\Select;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\CreateLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\EditLanguageLine;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ListLanguageLines;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\CreateLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguages;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Models\LanguageLine;
@@ -30,6 +32,49 @@ it('exposes package translation synchronization from both language pages', funct
 
     livewire(ListLanguageLines::class)
         ->assertActionExists('syncLanguageLines');
+});
+
+it('offers every uninstalled Symfony Intl locale for installation', function (): void {
+    config()->set('vendra-language.locales', ['en']);
+
+    Language::query()->create(['locale' => 'en', 'position' => 1]);
+
+    livewire(CreateLanguage::class)
+        ->assertFormFieldExists('locale', function (Select $field): bool {
+            $options = $field->getOptions();
+
+            return ! isset($options['en'])
+                && isset($options['pt-BR'])
+                && count($options) > 100;
+        });
+});
+
+it('installs a Symfony Intl locale outside the configured catalog', function (): void {
+    config()->set('vendra-language.locales', ['en']);
+
+    livewire(CreateLanguage::class)
+        ->fillForm([
+            'locale'     => 'pt-BR',
+            'is_default' => false,
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    expect(Language::query()->where('locale', 'pt-BR')->exists())->toBeTrue();
+});
+
+it('temporarily disables an installed language from the table', function (): void {
+    $language = Language::query()->create(['locale' => 'en', 'position' => 1]);
+
+    livewire(ListLanguages::class)
+        ->call('updateTableColumnState', 'status', (string) $language->getKey(), false);
+
+    expect($language->refresh()->status)->toBeFalse();
+
+    livewire(ListLanguages::class)
+        ->loadTable()
+        ->assertCanSeeTableRecords([$language])
+        ->assertTableColumnStateSet('status', false, $language);
 });
 
 it('creates a discovered translation override for enabled locales', function (): void {
@@ -146,6 +191,21 @@ it('sets a language as default from the table action', function (): void {
 
     expect($english->refresh()->is_default)->toBeFalse()
         ->and($german->refresh()->is_default)->toBeTrue();
+});
+
+it('sets a language as default from the table toggle', function (): void {
+    $english = Language::query()->create(['locale' => 'en', 'position' => 1]);
+    $german = Language::query()->create(['locale' => 'de', 'position' => 2]);
+
+    livewire(ListLanguages::class)
+        ->call('updateTableColumnState', 'is_default', (string) $german->getKey(), true);
+
+    expect($english->refresh()->is_default)->toBeFalse()
+        ->and($german->refresh()->is_default)->toBeTrue();
+
+    livewire(ListLanguages::class)
+        ->loadTable()
+        ->assertTableColumnStateSet('is_default', true, $german);
 });
 
 it('shows locale coverage and language line progress in the tables', function (): void {

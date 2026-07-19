@@ -23,13 +23,19 @@ final class LanguageForm
                     ->columnSpanFull()
                     ->label(__('vendra-language::attributes.locale'))
                     ->native(false)
-                    ->options(fn(): array => Locales::names(static::catalog()))
+                    ->options(fn(?Language $record): array => static::installableLocaleOptions($record))
                     ->required()
-                    ->rule(Rule::in(static::catalog()))
+                    ->rule(Rule::in(Locales::all()))
                     ->searchable()
                     ->unique(
                         modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule),
                     ),
+
+                Toggle::make('status')
+                    ->columnSpanFull()
+                    ->default(true)
+                    ->label(__('vendra-language::attributes.status'))
+                    ->required(),
 
                 Toggle::make('is_default')
                     ->columnSpanFull()
@@ -40,13 +46,21 @@ final class LanguageForm
             ]);
     }
 
-    /**
-     * The platform-supported locales a tenant may enable.
-     *
-     * @return array<int, string>
-     */
-    private static function catalog(): array
+    /** @return array<string, string> */
+    private static function installableLocaleOptions(?Language $record): array
     {
-        return Locales::configured();
+        $installedLanguagesQuery = Language::query();
+
+        if (null !== $record) {
+            $installedLanguagesQuery->whereKeyNot($record->getKey());
+        }
+
+        $installedLocales = $installedLanguagesQuery
+            ->get(['locale'])
+            ->map(fn(Language $language): string => $language->locale);
+
+        return collect(Locales::options())
+            ->except($installedLocales)
+            ->all();
     }
 }

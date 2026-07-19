@@ -23,6 +23,7 @@ use Misaf\VendraLocalization\Contracts\LocaleResolver;
 use Misaf\VendraLocalization\Resolvers\QueryLocaleResolver;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -66,6 +67,7 @@ final class LanguageServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->app->make(TenantTableRegistry::class)->register('languages', 'language_lines');
         $this->app->make(TenantSeeders::class)->register('vendra-language:seed', priority: 80);
 
         $this->configureLanguageSwitch();
@@ -120,7 +122,7 @@ final class LanguageServiceProvider extends PackageServiceProvider
             return;
         }
 
-        config(['vendra-localization.supported_locales' => Locales::configured()]);
+        config(['vendra-localization.supported_locales' => Locales::all()]);
 
         $resolvers = config()->array('vendra-localization.resolvers');
 

@@ -16,7 +16,10 @@ final class SetDefaultLanguage
                 ->lockForUpdate()
                 ->get(['id']);
 
-            $language->update(['is_default' => true]);
+            $language->update([
+                'status'     => true,
+                'is_default' => true,
+            ]);
         });
     }
 }

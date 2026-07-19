@@ -10,16 +10,19 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
+use Misaf\VendraLanguage\Actions\SetDefaultLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions\SetDefaultLanguageAction;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\LanguageResource;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraLanguage\Support\TranslationProgress;
@@ -47,9 +50,22 @@ final class LanguageTable
                 ->label(__('vendra-language::attributes.name'))
                 ->state(fn(Language $record): string => Locales::name($record->locale)),
 
-            IconColumn::make('is_default')
-                ->boolean()
-                ->label(__('vendra-language::attributes.is_default')),
+            ToggleColumn::make('status')
+                ->label(__('vendra-language::attributes.status'))
+                ->onIcon(Heroicon::Bolt)
+                ->disabled(fn(Language $record): bool => ! LanguageResource::canEdit($record)),
+
+            ToggleColumn::make('is_default')
+                ->disabled(fn(Language $record): bool => $record->is_default || ! LanguageResource::canEdit($record))
+                ->label(__('vendra-language::attributes.is_default'))
+                ->onIcon(Heroicon::Bolt)
+                ->updateStateUsing(function (Language $record, bool $state, SetDefaultLanguage $setDefaultLanguage): bool {
+                    if ($state) {
+                        $setDefaultLanguage->execute($record);
+                    }
+
+                    return $record->refresh()->is_default;
+                }),
 
             TextColumn::make('translation_coverage')
                 ->badge()
@@ -79,7 +95,6 @@ final class LanguageTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -92,7 +107,6 @@ final class LanguageTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -106,6 +120,9 @@ final class LanguageTable
                 [
                     QueryBuilder::make()
                         ->constraints([
+                            BooleanConstraint::make('status')
+                                ->label(__('vendra-language::attributes.status')),
+
                             BooleanConstraint::make('is_default')
                                 ->label(__('vendra-language::attributes.is_default')),
 

@@ -13,6 +13,8 @@ return [
     'namespace'            => 'Package',
     'namespace_help'       => 'Translation package, such as vendra-product. Leave empty for application translations.',
     'namespace_none'       => 'Application translations (no package)',
+    'position'             => 'Position',
+    'status'               => 'Status',
     'text'                 => 'Text',
     'translation'          => 'Translation',
     'translation_coverage' => 'Override Coverage',

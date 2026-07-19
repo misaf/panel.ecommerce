@@ -98,7 +98,6 @@ final class LanguageLineTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.created_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
@@ -111,7 +110,6 @@ final class LanguageLineTable
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-language::attributes.updated_at'))
                 ->sinceTooltip()
-                ->toggleable(isToggledHiddenByDefault: true)
                 ->when(
                     app()->isLocale('fa'),
                     fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),

@@ -63,6 +63,25 @@ it('promotes the first ordered language when the default is deleted', function (
     expect($next->refresh()->is_default)->toBeTrue();
 });
 
+it('promotes the first enabled language when the default is disabled', function (): void {
+    $default = Language::query()->create([
+        'locale'     => 'en',
+        'is_default' => true,
+        'position'   => 2,
+    ]);
+
+    $next = Language::query()->create([
+        'locale'   => 'de',
+        'position' => 1,
+    ]);
+
+    $default->update(['status' => false]);
+
+    expect($default->refresh()->status)->toBeFalse()
+        ->and($default->is_default)->toBeFalse()
+        ->and($next->refresh()->is_default)->toBeTrue();
+});
+
 it('switches the default language through the domain action', function (): void {
     $english = Language::query()->create([
         'locale'     => 'en',
@@ -128,6 +147,7 @@ it('creates the fresh language schema expected by the model', function (): void 
     $columns = [
         'id',
         'locale',
+        'status',
         'is_default',
         'default_guard',
         'position',
@@ -141,7 +161,6 @@ it('creates the fresh language schema expected by the model', function (): void 
 
     expect(Schema::hasColumns('languages', $columns))->toBeTrue()
         ->and(Schema::hasColumn('languages', 'iso_code'))->toBeFalse()
-        ->and(Schema::hasColumn('languages', 'status'))->toBeFalse()
         ->and(Schema::hasColumn('languages', 'deleted_at'))->toBeFalse();
 });
 

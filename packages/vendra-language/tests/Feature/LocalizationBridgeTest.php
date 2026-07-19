@@ -16,7 +16,7 @@ beforeEach(function (): void {
 
 it('feeds the localization supported locales from the language catalog', function (): void {
     expect(config('vendra-localization.supported_locales'))
-        ->toBe(Locales::configured());
+        ->toBe(Locales::all());
 });
 
 it('appends the tenant locale resolver as the lowest-priority chain link', function (): void {

@@ -21,11 +21,20 @@ beforeEach(function (): void {
 it('returns enabled locales in display order', function (): void {
     $english = Language::query()->create(['locale' => 'en', 'position' => 2]);
     $german = Language::query()->create(['locale' => 'de', 'position' => 1]);
+    Language::query()->create(['locale' => 'fa', 'status' => false, 'position' => 3]);
 
     Language::query()->whereKey($english->getKey())->update(['position' => 2]);
     Language::query()->whereKey($german->getKey())->update(['position' => 1]);
 
     expect(TranslationLocales::enabled())->toBe(['de', 'en']);
+});
+
+it('falls back when every installed language is disabled', function (): void {
+    config()->set('app.fallback_locale', 'fa');
+
+    Language::query()->create(['locale' => 'en', 'status' => false, 'position' => 1]);
+
+    expect(TranslationLocales::enabled())->toBe(['fa']);
 });
 
 it('falls back to the application fallback locale when none are enabled', function (): void {

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Misaf\VendraLanguage\Localization;
 
 use Illuminate\Http\Request;
+use Misaf\VendraLanguage\Support\Locales;
+use Misaf\VendraLanguage\Support\TranslationLocales;
 use Misaf\VendraLocalization\Contracts\LocaleResolver;
 
 final class LanguageSwitchLocaleResolver implements LocaleResolver
@@ -17,6 +19,10 @@ final class LanguageSwitchLocaleResolver implements LocaleResolver
 
         $locale ??= $request->cookie('filament_language_switch_locale');
 
-        return is_string($locale) && '' !== $locale ? $locale : null;
+        if ( ! is_string($locale) || null === ($locale = Locales::normalize($locale))) {
+            return null;
+        }
+
+        return in_array($locale, TranslationLocales::enabled(), true) ? $locale : null;
     }
 }

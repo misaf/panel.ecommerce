@@ -13,6 +13,8 @@ return [
     'namespace'            => 'بسته',
     'namespace_help'       => 'بسته ترجمه، مانند vendra-product. برای ترجمه‌های برنامه خالی بگذارید.',
     'namespace_none'       => 'ترجمه‌های برنامه (بدون بسته)',
+    'position'             => 'موقعیت',
+    'status'               => 'وضعیت',
     'text'                 => 'متن',
     'translation'          => 'ترجمه',
     'translation_coverage' => 'پوشش بازنویسی',
