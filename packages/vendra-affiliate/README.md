@@ -20,8 +20,11 @@ stats widgets.
    - **Signup** — a fixed bounty per attributed registration.
    - **Checkout** — host applications call `RecordCartConversion` from their
      checkout flow (vendra-cart has no checkout event yet).
-5. `ProcessAffiliatePayout` settles approved commissions into an
-   `AffiliatePayout` and creates a pending Commission transaction.
+5. `ProcessAffiliatePayout` settles approved commissions atomically: it
+   groups them into an `AffiliatePayout`, marks them paid, and credits the
+   affiliate's default-currency wallet through an approved Commission
+   transaction. If the transaction cannot be created or settled, everything
+   rolls back and the commissions remain payable.
 
 Each conversion type is toggled in `config/vendra-affiliate.php`, alongside
 the attribution cookie, payout minimum, and defaults.
