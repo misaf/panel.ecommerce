@@ -54,6 +54,7 @@ it('orders navigation resources by centralized priority', function (
     'attributes'                 => [Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\AttributeResource::class, NavigationPriority::Attributes],
     'transactions'               => [Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource::class, NavigationPriority::Transactions],
     'transaction gateways'       => [Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\TransactionGatewayResource::class, NavigationPriority::TransactionGateways],
+    'wallets'                    => [Misaf\VendraTransaction\Filament\Clusters\Resources\Wallets\WalletResource::class, NavigationPriority::Wallets],
     'currencies'                 => [Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource::class, NavigationPriority::Currencies],
     'currency categories'        => [Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\CurrencyCategoryResource::class, NavigationPriority::CurrencyCategories],
     'carts'                      => [CartResource::class, NavigationPriority::Carts],
@@ -139,6 +140,7 @@ it('uses concise singular and plural resource labels in every configured locale'
     'payment gateways'       => [Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\TransactionGatewayResource::class, 'vendra-transaction::navigation.transaction_gateway', 'vendra-transaction::navigation.transaction_gateways'],
     'users'                  => [Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource::class, 'vendra-user::navigation.user', 'vendra-user::navigation.users'],
     'user profiles'          => [Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource::class, 'vendra-user-profile::navigation.user_profile', 'vendra-user-profile::navigation.user_profiles'],
+    'wallets'                => [Misaf\VendraTransaction\Filament\Clusters\Resources\Wallets\WalletResource::class, 'vendra-transaction::navigation.wallet', 'vendra-transaction::navigation.wallets'],
 ]);
 
 it('uses the domain label and icon for each cluster', function (
@@ -188,6 +190,7 @@ it('keeps cluster resources ungrouped so priority controls visible order', funct
     'attributes'               => Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\AttributeResource::class,
     'transactions'             => Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource::class,
     'transaction gateways'     => Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\TransactionGatewayResource::class,
+    'wallets'                  => Misaf\VendraTransaction\Filament\Clusters\Resources\Wallets\WalletResource::class,
     'currencies'               => Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource::class,
     'currency categories'      => Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\CurrencyCategoryResource::class,
     'carts'                    => CartResource::class,
@@ -245,4 +248,5 @@ it('uses semantic icons for domain resources', function (string $resource, Heroi
     'transactions'            => [Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource::class, Heroicon::OutlinedArrowsRightLeft],
     'user profiles'           => [Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource::class, Heroicon::OutlinedIdentification],
     'users'                   => [Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource::class, Heroicon::OutlinedUserGroup],
+    'wallets'                 => [Misaf\VendraTransaction\Filament\Clusters\Resources\Wallets\WalletResource::class, Heroicon::OutlinedWallet],
 ]);

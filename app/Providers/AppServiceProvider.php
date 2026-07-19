@@ -15,10 +15,12 @@ use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
 
 final class AppServiceProvider extends ServiceProvider
@@ -32,6 +34,11 @@ final class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $settingsTable = Config::get('settings.repositories.database.table');
+
+        $this->app->make(TenantTableRegistry::class)->register(
+            is_string($settingsTable) ? $settingsTable : 'settings',
+        );
         URL::forceScheme('https');
         Model::shouldBeStrict();
         // DB::prohibitDestructiveCommands(app()->isProduction());
@@ -53,7 +60,14 @@ final class AppServiceProvider extends ServiceProvider
         DateTimePicker::configureUsing(function (DateTimePicker $dateTimePicker) {
             return $dateTimePicker
                 ->firstDayOfWeek(6)
-                ->when(app()->isLocale('fa'), fn(DateTimePicker $component): DateTimePicker => $component->jalali())
+                ->when(
+                    app()->isLocale('fa'),
+                    fn(DateTimePicker $component): DateTimePicker => $component
+                        ->jalali()
+                        ->viewData(fn(DateTimePicker $component): array => [
+                            'defaultFocusedDate' => $component->getDefaultFocusedDate(),
+                        ]),
+                )
                 ->native(false);
         });
 

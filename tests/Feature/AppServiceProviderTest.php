@@ -21,8 +21,10 @@ it('uses Jalali date and date-time pickers only for the Persian locale', functio
 
         expect($persianDatePicker->getView())->toBe('filament-jalali::jalali-date-time-picker')
             ->and($persianDateTimePicker->getView())->toBe('filament-jalali::jalali-date-time-picker')
-            ->and($englishDatePicker->getView())->toBe('filament-forms::components.date-time-picker')
-            ->and($englishDateTimePicker->getView())->toBe('filament-forms::components.date-time-picker');
+            ->and($persianDatePicker->getViewData())->toHaveKey('defaultFocusedDate')
+            ->and($persianDateTimePicker->getViewData())->toHaveKey('defaultFocusedDate')
+            ->and($englishDatePicker->hasView())->toBeFalse()
+            ->and($englishDateTimePicker->hasView())->toBeFalse();
     } finally {
         app()->setLocale($originalLocale);
     }

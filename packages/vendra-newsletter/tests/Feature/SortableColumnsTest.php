@@ -29,3 +29,19 @@ it('sorts the newsletter subscribers table by every sortable column following th
     expect(livewire(ListNewsletterSubscribers::class)->call('loadTable'))
         ->toSortByEverySortableColumn([$first, $second]);
 });
+
+it('updates newsletter subscription state from the table toggle', function (): void {
+    $subscriber = NewsletterSubscriberFactory::new()->unsubscribed()->createOne();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->call('updateTableColumnState', 'subscribed', (string) $subscriber->getKey(), true);
+
+    expect($subscriber->refresh()->isSubscribed())->toBeTrue()
+        ->and($subscriber->subscribed_at)->not->toBeNull();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->call('updateTableColumnState', 'subscribed', (string) $subscriber->getKey(), false);
+
+    expect($subscriber->refresh()->isSubscribed())->toBeFalse()
+        ->and($subscriber->unsubscribed_at)->not->toBeNull();
+});

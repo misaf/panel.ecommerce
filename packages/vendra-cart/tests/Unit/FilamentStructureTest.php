@@ -16,5 +16,6 @@ it('registers a cart plugin and catalog resource', function (): void {
         ->and(CartResource::getCluster())->toBe(CatalogCluster::class)
         ->and(Gate::getPolicyFor(Cart::class))->toBeInstanceOf(CartPolicy::class)
         ->and(CartResource::getRelations())->toContain(CartItemsRelationManager::class)
+        ->and(CartItemsRelationManager::isBadgeDeferred(new Cart(), ''))->toBeTrue()
         ->and(CartResource::getPages())->toHaveKeys(['index', 'view']);
 });

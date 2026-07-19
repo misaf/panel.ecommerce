@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Schema;
+use Misaf\VendraSupport\Support\TenantTableRegistry;
 
 it('contains every package table in the fresh database baseline', function (): void {
     expect(Schema::hasTable('authify_logs'))->toBeTrue()
@@ -27,13 +28,14 @@ it('enforces required relational integrity', function (string $table, string $co
     ['faqs', 'faq_category_id'],
     ['currencies', 'currency_category_id'],
     ['transactions', 'transaction_gateway_id'],
-    ['transactions', 'user_id'],
+    ['transactions', 'wallet_id'],
+    ['transactions', 'counterparty_wallet_id'],
+    ['wallets', 'user_id'],
+    ['wallets', 'currency_id'],
+    ['ledger_entries', 'wallet_id'],
     ['transaction_fees', 'transaction_id'],
-    ['transaction_transfers', 'transaction_id'],
-    ['transaction_transfers', 'user_id'],
     ['transaction_metadata', 'transaction_id'],
-    ['transaction_checks', 'transaction_id'],
-    ['transaction_limits', 'user_id'],
+    ['transaction_limits', 'wallet_id'],
     ['attribute_values', 'attribute_id'],
     ['affiliates', 'user_id'],
     ['affiliate_clicks', 'affiliate_id'],
@@ -74,6 +76,39 @@ it('uses final create migrations instead of fresh-install follow-ups', function 
     expect(array_values($followUpMigrations))->toBe([]);
 });
 
+it('keeps package migration stubs identical to application baselines', function (): void {
+    $rootMigrations = collect(glob(database_path('migrations/*.php')) ?: [])
+        ->keyBy(fn(string $migration): string => preg_replace('/^\d{4}_\d{2}_\d{2}_\d{6}_/', '', basename($migration)) ?? basename($migration));
+
+    $packageMigrations = glob(base_path('packages/*/database/migrations/*.stub')) ?: [];
+
+    expect($packageMigrations)->not->toBeEmpty();
+
+    foreach ($packageMigrations as $packageMigration) {
+        $migrationName = str_replace('.stub', '', basename($packageMigration));
+        $rootMigration = $rootMigrations->get($migrationName);
+
+        expect($rootMigration)
+            ->not->toBeNull("Missing application baseline for [{$packageMigration}].")
+            ->and(file_get_contents($packageMigration))
+            ->toBe(file_get_contents($rootMigration), "Package migration [{$packageMigration}] has drifted from its application baseline.");
+    }
+});
+
+it('registers every tenant-aware application table for legacy schema retrofits', function (): void {
+    $registeredTables = collect(app(TenantTableRegistry::class)->all())
+        ->where('connection', null)
+        ->pluck('table')
+        ->values();
+
+    $tenantAwareTables = collect(Schema::getTableListing(schemaQualified: false))
+        ->filter(fn(string $table): bool => Schema::hasColumn($table, 'tenant_id'))
+        ->reject(fn(string $table): bool => in_array($table, ['tenant_domains', 'tenant_user'], true))
+        ->values();
+
+    expect($registeredTables->all())->toEqualCanonicalizing($tenantAwareTables->all());
+});
+
 it('keeps corrected SQL types in package and application baselines', function (string $migration, array $declarations): void {
     $contents = file_get_contents(base_path($migration));
 
@@ -105,11 +140,11 @@ it('keeps corrected SQL types in package and application baselines', function (s
     ],
     'package transaction gateway' => [
         'packages/vendra-transaction/database/migrations/create_transactions_table.php.stub',
-        ["json('name')", "json('description')", "json('slug')"],
+        ["json('name')", "json('description')", "string('slug')"],
     ],
     'application transaction gateway' => [
         'database/migrations/0001_01_01_000018_create_transactions_table.php',
-        ["json('name')", "json('description')", "json('slug')"],
+        ["json('name')", "json('description')", "string('slug')"],
     ],
     'package product price' => [
         'packages/vendra-product/database/migrations/create_products_table.php.stub',

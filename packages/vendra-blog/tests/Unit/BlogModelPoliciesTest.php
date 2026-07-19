@@ -91,7 +91,8 @@ it('resolves blog post relation manager badges from loaded relations or counts',
     $categoryWithCount->setAttribute('blog_posts_count', '7');
 
     expect(BlogPostRelationManager::getBadge($categoryWithLoadedPosts, ''))->toBe('3')
-        ->and(BlogPostRelationManager::getBadge($categoryWithCount, ''))->toBe('7');
+        ->and(BlogPostRelationManager::getBadge($categoryWithCount, ''))->toBe('7')
+        ->and(BlogPostRelationManager::isBadgeDeferred($categoryWithCount, ''))->toBeTrue();
 });
 
 it('registers the cascade observer on blog post categories', function (): void {

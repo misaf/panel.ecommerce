@@ -83,8 +83,7 @@ final class AdminPanelServiceProvider extends PanelProvider
             ->profile()
             ->spa(hasPrefetching: true)
             ->strictAuthorization()
-            ->unsavedChangesAlerts()
-            // ->viteTheme('resources/css/filament/admin/theme.css')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins($this->plugins());
     }
 

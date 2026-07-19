@@ -16,8 +16,8 @@ use Misaf\VendraCurrency\Observers\CurrencyCategoryObserver;
 it('defines the expected currency models', function (): void {
     expect((new CurrencyCategory())->getFillable())->toContain('name', 'description', 'slug', 'position', 'status')
         ->and((new Currency())->getFillable())->toContain('currency_category_id', 'name', 'description', 'slug', 'iso_code', 'conversion_rate', 'decimal_place', 'buy_price', 'sell_price', 'is_default', 'position', 'status')
-        ->and((new CurrencyCategory())->getHidden())->toContain('tenant_id')
-        ->and((new Currency())->getHidden())->toContain('tenant_id');
+        ->and((new CurrencyCategory())->getHidden())->toContain('tenant_id', 'active_name_guard', 'active_slug_guard')
+        ->and((new Currency())->getHidden())->toContain('tenant_id', 'active_slug_guard');
 });
 
 it('normalizes and generates three-letter currency codes', function (): void {

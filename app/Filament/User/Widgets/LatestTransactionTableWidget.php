@@ -13,10 +13,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
-use Misaf\VendraTransaction\Enums\TransactionStatusEnum;
-use Misaf\VendraTransaction\Facades\TransactionService;
+use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Models\Transaction;
+use Misaf\VendraTransaction\States\Review;
 
 final class LatestTransactionTableWidget extends BaseWidget
 {
@@ -47,11 +48,12 @@ final class LatestTransactionTableWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->heading(__('vendra-transaction::widgets.latest_transaction_table'))
+            ->heading(__('vendra-transaction::widgets.recent_transaction_table'))
             ->query(
                 Transaction::query()
-                    ->where('user_id', $this->getAuthenticatedUser()?->getAuthIdentifier())
-                    ->where('created_at', '>=', now()->subDays(30)),
+                    ->whereHas('wallet', fn(Builder $query) => $query->where('user_id', $this->getAuthenticatedUser()?->getAuthIdentifier()))
+                    ->where('created_at', '>=', now()->subDays(30))
+                    ->with(['transactionGateway', 'wallet.currency']),
             )
             ->columns([
                 TextColumn::make('transactionGateway.name')
@@ -84,19 +86,22 @@ final class LatestTransactionTableWidget extends BaseWidget
 
                 TextColumn::make('status')
                     ->alignStart()
+                    ->badge()
+                    ->color(fn(Transaction $record): array => $record->status->getColor())
+                    ->formatStateUsing(fn(Transaction $record): string => $record->status->getLabel())
                     ->label(__('vendra-transaction::attributes.status')),
 
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->label(__('vendra-transaction::attributes.status')),
+                    ->label(__('vendra-transaction::attributes.created_at')),
             ])
             ->recordActions([
-                Action::make(TransactionStatusEnum::Declined->value)
+                Action::make('decline')
                     ->action(function (Transaction $record): void {
                         try {
                             $this->rateLimit(1);
 
-                            TransactionService::updateTransactionStatus($record, TransactionStatusEnum::Declined);
+                            $record->decline();
                         } catch (TooManyRequestsException $exception) {
                             $this->sendRateLimitNotification($exception);
                         }
@@ -108,8 +113,8 @@ final class LatestTransactionTableWidget extends BaseWidget
                     ->requiresConfirmation()
                     ->size(Size::ExtraSmall)
                     ->visible(function (Transaction $record): bool {
-                        return TransactionService::isWithdrawal($record)
-                            && TransactionService::isReview($record);
+                        return TransactionTypeEnum::Withdrawal === $record->transaction_type
+                            && $record->status instanceof Review;
                     }),
             ]);
     }

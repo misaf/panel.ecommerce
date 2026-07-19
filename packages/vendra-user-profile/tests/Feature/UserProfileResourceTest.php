@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Pennant\Feature;
 use Misaf\VendraUser\Models\User;
+use Misaf\VendraUserProfile\Database\Factories\UserProfileFactory;
 use Misaf\VendraUserProfile\Features\ModuleEnabled;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 use Misaf\VendraUserProfile\Models\UserProfile;
@@ -77,4 +79,37 @@ it('renders user profiles in the Filament resource table', function (): void {
         ->assertOk()
         ->call('loadTable')
         ->assertCanSeeTableRecords([$profile]);
+});
+
+it('toggles a user profile status from the Filament resource table', function (): void {
+    UserProfileModuleTestContext::setUpFilamentAdminContext();
+
+    $profile = UserProfileFactory::new()
+        ->disabled()
+        ->createOne();
+
+    livewire(ListUserProfiles::class)
+        ->call('updateTableColumnState', 'status', (string) $profile->getKey(), true);
+
+    expect($profile->refresh()->status)->toBeTrue();
+
+    livewire(ListUserProfiles::class)
+        ->loadTable()
+        ->assertCanSeeTableRecords([$profile])
+        ->assertTableColumnStateSet('status', true, $profile);
+});
+
+it('exposes the default toggle and keeps one default profile per user', function (): void {
+    UserProfileModuleTestContext::setUpFilamentAdminContext();
+
+    $user = User::factory()->create();
+    $firstProfile = UserProfileFactory::new()->forUser($user)->createOne(['is_default' => true]);
+    $secondProfile = UserProfileFactory::new()->forUser($user)->createOne(['is_default' => true]);
+
+    expect($firstProfile->refresh()->is_default)->toBeFalse()
+        ->and($secondProfile->refresh()->is_default)->toBeTrue();
+
+    livewire(CreateUserProfile::class)
+        ->assertOk()
+        ->assertFormFieldExists('is_default');
 });

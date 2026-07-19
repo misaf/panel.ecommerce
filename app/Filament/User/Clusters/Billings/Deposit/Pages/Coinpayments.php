@@ -28,7 +28,7 @@ final class Coinpayments extends Page
 
     public static function getNavigationLabel(): string
     {
-        $name = TransactionGateway::whereJsonContainsLocale('slug', app()->getLocale(), 'coinpayments', '=')
+        $name = TransactionGateway::where('slug', 'coinpayments')
             ->value('name');
 
         return is_string($name) ? $name : __('payment.coinpayments');
@@ -36,7 +36,7 @@ final class Coinpayments extends Page
 
     public static function getNavigationSort(): int
     {
-        $position = TransactionGateway::whereJsonContainsLocale('slug', app()->getLocale(), 'coinpayments', '=')
+        $position = TransactionGateway::where('slug', 'coinpayments')
             ->value('position');
 
         return is_numeric($position) ? (int) $position : 0;

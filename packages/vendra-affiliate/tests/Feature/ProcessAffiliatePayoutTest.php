@@ -8,11 +8,12 @@ use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
+use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
-use Misaf\VendraTransaction\Enums\TransactionStatusEnum;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Models\Transaction;
+use Misaf\VendraTransaction\States\Approved;
 
 beforeEach(function (): void {
     Tenant::factory()->enabled()->create()->makeCurrent();
@@ -35,10 +36,9 @@ function affiliateWithApprovedBalance(int ...$amounts): Affiliate
 
 function internalGateway(): void
 {
-    TransactionGatewayFactory::new()->create([
-        'slug'   => [app()->getLocale() => 'internal-transactions'],
-        'status' => true,
-    ]);
+    TransactionGatewayFactory::new()->internal()->enabled()->create();
+
+    Currency::factory()->create(['is_default' => true, 'status' => true]);
 }
 
 it('settles approved commissions into a completed payout and commission transaction', function (): void {
@@ -60,8 +60,37 @@ it('settles approved commissions into a completed payout and commission transact
 
     expect($transaction->transaction_type)->toBe(TransactionTypeEnum::Commission)
         ->and($transaction->amount)->toBe(4_000)
-        ->and($transaction->status)->toBe(TransactionStatusEnum::Pending)
-        ->and($transaction->user_id)->toBe($affiliate->user_id);
+        ->and($transaction->status)->toBeInstanceOf(Approved::class)
+        ->and($transaction->wallet->user_id)->toBe($affiliate->user_id)
+        ->and($transaction->wallet->refresh()->balance)->toBe(4_000);
+});
+
+it('rolls back the payout entirely when the commission transaction cannot be created', function (): void {
+    config()->set('vendra-affiliate.payout.minimum', 0);
+
+    $affiliate = affiliateWithApprovedBalance(1_500);
+
+    expect(fn(): mixed => app(ProcessAffiliatePayout::class)->execute($affiliate))
+        ->toThrow(RuntimeException::class)
+        ->and($affiliate->payouts()->count())->toBe(0)
+        ->and($affiliate->commissions()->where('status', CommissionStatusEnum::Approved)->whereNull('affiliate_payout_id')->count())->toBe(1)
+        ->and(Transaction::count())->toBe(0);
+});
+
+it('records a failed payout without consuming commissions when the affiliate user is missing', function (): void {
+    config()->set('vendra-affiliate.payout.minimum', 0);
+    internalGateway();
+
+    $affiliate = affiliateWithApprovedBalance(1_500);
+    $affiliate->user?->delete();
+    $affiliate->unsetRelation('user');
+
+    $payout = app(ProcessAffiliatePayout::class)->execute($affiliate);
+
+    expect($payout->status)->toBe(PayoutStatusEnum::Failed)
+        ->and($payout->transaction_id)->toBeNull()
+        ->and($affiliate->commissions()->where('status', CommissionStatusEnum::Approved)->whereNull('affiliate_payout_id')->count())->toBe(1)
+        ->and(Transaction::count())->toBe(0);
 });
 
 it('refuses to pay out below the configured minimum', function (): void {

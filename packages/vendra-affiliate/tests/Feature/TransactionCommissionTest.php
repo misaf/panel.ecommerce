@@ -10,9 +10,9 @@ use Misaf\VendraAffiliate\Listeners\TransactionCommissionSubscriber;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTransaction\Database\Factories\TransactionFactory;
-use Misaf\VendraTransaction\Enums\TransactionStatusEnum;
-use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
+use Misaf\VendraTransaction\Database\Factories\WalletFactory;
 use Misaf\VendraTransaction\Models\Transaction;
+use Misaf\VendraTransaction\States\Declined;
 use Misaf\VendraUser\Models\User;
 
 beforeEach(function (): void {
@@ -33,12 +33,11 @@ function referredDeposit(int $amount, int $commissionPercent = 20): Transaction
         ->forUser($user)
         ->create();
 
-    return TransactionFactory::new()->create([
-        'user_id'          => $user->id,
-        'transaction_type' => TransactionTypeEnum::Deposit,
-        'amount'           => $amount,
-        'status'           => TransactionStatusEnum::Approved,
-    ]);
+    return TransactionFactory::new()
+        ->forWallet(WalletFactory::new()->forUser($user)->create())
+        ->deposit()
+        ->approved()
+        ->create(['amount' => $amount]);
 }
 
 it('credits a commission when a referred deposit is approved', function (): void {
@@ -76,7 +75,7 @@ it('reverses the unpaid commission when the deposit leaves the approved state', 
 
     $subscriber->transactionUpdated($transaction);
 
-    $transaction->update(['status' => TransactionStatusEnum::Declined]);
+    $transaction->update(['status' => Declined::class]);
     $subscriber->transactionUpdated($transaction->refresh());
 
     expect(AffiliateCommission::sole()->status)->toBe(CommissionStatusEnum::Reversed);
@@ -95,11 +94,10 @@ it('ignores deposits when the deposit conversion is disabled', function (): void
 it('ignores deposits from users without a referral', function (): void {
     config()->set('vendra-affiliate.conversions.deposit.enabled', true);
 
-    $transaction = TransactionFactory::new()->create([
-        'transaction_type' => TransactionTypeEnum::Deposit,
-        'amount'           => 10_000,
-        'status'           => TransactionStatusEnum::Approved,
-    ]);
+    $transaction = TransactionFactory::new()
+        ->deposit()
+        ->approved()
+        ->create(['amount' => 10_000]);
 
     app(TransactionCommissionSubscriber::class)->transactionUpdated($transaction);
 

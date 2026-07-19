@@ -25,6 +25,18 @@ it('sorts the affiliates table by every sortable column following the stored val
         ->toSortByEverySortableColumn([$first, $second]);
 });
 
+it('loads pending affiliate balances as a table aggregate', function (): void {
+    $affiliate = AffiliateFactory::new()->createOne();
+
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->approved()->createOne(['amount' => 1_500]);
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->approved()->createOne(['amount' => 2_500]);
+    AffiliateCommissionFactory::new()->forAffiliate($affiliate)->pending()->createOne(['amount' => 9_000]);
+
+    livewire(ListAffiliates::class)
+        ->call('loadTable')
+        ->assertTableColumnStateSet('pending_balance', 4_000, $affiliate);
+});
+
 it('sorts the affiliate commissions table by every sortable column following the stored values', function (): void {
     $first = AffiliateCommissionFactory::new()->forAffiliate(AffiliateFactory::new()->createOne(['code' => 'AAA11111']))->createOne(['amount' => 100]);
     $second = AffiliateCommissionFactory::new()->forAffiliate(AffiliateFactory::new()->createOne(['code' => 'BBB22222']))->createOne(['amount' => 90_000]);

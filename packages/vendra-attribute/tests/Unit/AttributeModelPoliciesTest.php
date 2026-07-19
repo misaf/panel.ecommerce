@@ -15,7 +15,7 @@ it('applies shared tenant ownership and soft deletes to attribute models', funct
 });
 
 it('hides the tenant association from attribute serialization', function (): void {
-    expect((new Attribute())->getHidden())->toContain('tenant_id')
+    expect((new Attribute())->getHidden())->toContain('tenant_id', 'active_name_guard')
         ->and((new AttributeValue())->getHidden())->toContain('tenant_id', 'attributable_type', 'attributable_id');
 });
 
