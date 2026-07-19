@@ -10,6 +10,8 @@ The `misaf/vendra-custom-page` package owns CMS custom pages and page categories
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 - Keep custom-page domain code inside `packages/vendra-custom-page` using the `Misaf\VendraCustomPage` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, observers, Filament resources, translations, config, and package bootstrapping.
 - Keep JSON:API schemas, resources, queries, routes, and server wiring in `misaf/vendra-custom-page-api`; do not add API transport code to this domain package.

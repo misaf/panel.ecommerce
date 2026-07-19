@@ -10,6 +10,8 @@ The `misaf/vendra-authify-log` package owns authentication activity logging (buf
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 - Keep authify-log domain code inside `packages/vendra-authify-log` using the `Misaf\VendraAuthifyLog` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, observers, Filament resources, translations, config, and package bootstrapping.
 - Log entries are buffered to Redis and drained by the channel command; the write path sets `tenant_id` explicitly via `TenantAwareness::currentId()` because it does not go through Eloquent's `BelongsToTenant` hook.

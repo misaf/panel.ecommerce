@@ -1,6 +1,6 @@
 ---
 name: vendra-user-profile-development
-description: "Create, modify, review, or test the Vendra User Profile package in packages/vendra-user-profile. Use for UserProfile, dynamic User relations registered by the service provider, profile traits, migrations, factories, policies, Filament resources, configuration, translations, permission integration, package wiring, and tests."
+description: "Create, modify, review, or test the Vendra User Profile package in packages/vendra-user-profile. Use for UserProfile, dynamic User relations registered by the service provider, TenantTableRegistry wiring, profile traits, migrations, factories, policies, Filament resources, configuration, translations, permission integration, package wiring, and tests."
 ---
 
 # Vendra User Profile
@@ -68,7 +68,7 @@ Use policy enums and policies as the permission source.
 Migrations, factories, seeders, and translation files are part of the contract.
 
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.
-- `TenantSchema::addTenantColumn()` is evaluated when migrations run. Install a tenant provider before migrating when profiles must be tenant-scoped; enabling tenancy later does not retrofit `tenant_id`.
+- Register `user_profiles` with `TenantTableRegistry` in `UserProfileServiceProvider` whenever its migration uses `TenantSchema::addTenantColumn()`. If the table was migrated before tenancy was enabled, use `php artisan vendra-tenant:enable {tenant}` to add and backfill tenant ownership explicitly.
 - Use factories under `database/factories` and seeders under `database/seeders`. Keep them tenant-safe: import no concrete tenant provider and set no `tenant_id` directly; let `BelongsToTenant` assign it from the current tenant so they work with tenancy on or off.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.

@@ -10,6 +10,8 @@ The `misaf/vendra-tagger` package owns tagging and taxonomy and the Filament adm
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 - Keep tagger domain code inside `packages/vendra-tagger` using the `Misaf\VendraTagger` namespace.
 - Use this package for the `Tagger` model, final tag schema, factory, permission policy, Filament resource, translations, config, and package bootstrapping.
 - Extend `Spatie\Tags\Tag`, preserve translated `name` and `slug` values, generate missing slugs from names, and preserve explicitly supplied slugs.

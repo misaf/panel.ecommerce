@@ -13,6 +13,8 @@ description: "Create, modify, review, or test the Vendra Attribute package in pa
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 Use `laravel-best-practices` for Laravel PHP, `pest-testing` when tests change, and `tailwindcss-development` only for Blade or Tailwind UI. Before editing, inspect sibling code and use Laravel Boost `application-info` and `search-docs` for affected Laravel or Filament APIs.
 
 ## Domain Boundary

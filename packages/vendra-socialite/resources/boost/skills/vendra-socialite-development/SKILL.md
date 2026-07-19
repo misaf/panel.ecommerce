@@ -13,6 +13,8 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 Use `socialite-development` for OAuth flows, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, inspect the installed package versions and search Laravel Boost documentation for Socialite and Filament integration behavior.
 
 ## Module Boundary

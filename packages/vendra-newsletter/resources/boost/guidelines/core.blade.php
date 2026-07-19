@@ -10,6 +10,8 @@ The `misaf/vendra-newsletter` package owns newsletter domain behavior and the Fi
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 - Keep newsletter domain code inside `packages/vendra-newsletter` using the `Misaf\VendraNewsletter` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, Filament resources, mail, jobs, actions, the unsubscribe controller/route, console commands, translations, config, and package bootstrapping.
 - Follow existing model conventions: tenant ownership, soft deletes, typed casts, the `NewsletterStatusEnum` lifecycle (`draft` → `scheduled` → `sent`), factories, and typed query scopes (`Newsletter::due()`, `NewsletterSubscriber::subscribed()` / `unsubscribed()`).

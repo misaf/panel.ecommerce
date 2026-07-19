@@ -10,6 +10,8 @@ The `misaf/vendra-socialite` package adds optional OAuth social login (Google, G
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 - Keep socialite code inside `packages/vendra-socialite` using the `Misaf\VendraSocialite` namespace.
 - This module owns the `SocialiteUser` model (tenant-aware, mapping the `socialite_users` table), the `create_socialite_users_table` migration, the `Support\SocialiteRegistrar` plugin factory, and `SocialiteServiceProvider`.
 - Never move socialite behaviour back into `misaf/vendra-user`; the whole point is that requiring this package — and only this package — enables social login.

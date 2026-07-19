@@ -10,6 +10,8 @@ The `misaf/vendra-cart` package owns temporary shopping selections before checko
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+- Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
+
 - Keep cart domain code inside `packages/vendra-cart` using the `Misaf\VendraCart` namespace.
 - `Cart` owns lifecycle data such as its token, optional polymorphic owner, expiration, and items. `CartItem` stores quantity and optional selection metadata.
 - Reference products, variants, and other purchasable records only through the `sellable` polymorphic relationship. Never copy catalog ownership, pricing, stock, names, or product-specific classes into this module.
