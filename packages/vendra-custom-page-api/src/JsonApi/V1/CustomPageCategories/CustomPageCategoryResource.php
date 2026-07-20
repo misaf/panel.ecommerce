@@ -18,9 +18,9 @@ final class CustomPageCategoryResource extends JsonApiResource
     public function attributes($request): iterable
     {
         return [
-            'name'        => $this->getTranslations('name'),
-            'description' => $this->getTranslations('description'),
-            'slug'        => $this->getTranslations('slug'),
+            'name'        => $this->name,
+            'description' => $this->description,
+            'slug'        => $this->slug,
             'position'    => $this->position,
             'status'      => $this->status,
             'created_at'  => $this->created_at,

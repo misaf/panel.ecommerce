@@ -18,7 +18,7 @@ final class Server extends BaseServer
     }
 
     /**
-     * @return array<int, class-string>
+     * @return list<class-string>
      */
     public function allSchemas(): array
     {

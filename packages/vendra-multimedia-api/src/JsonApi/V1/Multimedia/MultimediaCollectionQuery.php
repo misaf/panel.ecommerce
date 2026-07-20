@@ -10,8 +10,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 final class MultimediaCollectionQuery extends ResourceQuery
 {
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, mixed>
      */
     public function rules(): array
@@ -27,25 +25,12 @@ final class MultimediaCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::filter(),
             ],
-            'filter.id'                   => 'array',
-            'filter.id.*'                 => 'integer',
-            'filter.exclude'              => 'array',
-            'filter.exclude.*'            => 'integer',
-            'filter.slug'                 => 'array',
-            'filter.slug.*'               => 'string',
-            'filter.status'               => 'boolean',
-            'filter.has-faqs'             => 'boolean',
-            'filter.with-faqs'            => 'array',
-            'filter.with-faqs.*'          => 'string',
-            'filter.without-faqs'         => 'array',
-            'filter.without-faqs.*'       => 'string',
-            'filter.has-multimedia'       => 'boolean',
-            'filter.with-multimedia'      => 'array',
-            'filter.with-multimedia.*'    => 'string',
-            'filter.without-multimedia'   => 'array',
-            'filter.without-multimedia.*' => 'string',
-            'filter.with-trashed'         => 'boolean',
-            'filter.only-trashed'         => 'boolean',
+            ...$this->sharedFilterRules(),
+            'filter.collection'           => 'string',
+            'filter.with-collection'      => 'array',
+            'filter.with-collection.*'    => 'string',
+            'filter.without-collection'   => 'array',
+            'filter.without-collection.*' => 'string',
             'include'                     => [
                 'nullable',
                 'string',
@@ -68,6 +53,20 @@ final class MultimediaCollectionQuery extends ResourceQuery
                 'string',
                 JsonApiRule::countable(),
             ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sharedFilterRules(): array
+    {
+        return [
+            'filter.id'                   => 'array',
+            'filter.id.*'                 => 'integer',
+            'filter.exclude'              => 'array',
+            'filter.exclude.*'            => 'integer',
+            'filter.name'                 => 'string',
         ];
     }
 }

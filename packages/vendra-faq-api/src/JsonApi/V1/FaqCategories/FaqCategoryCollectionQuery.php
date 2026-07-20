@@ -10,8 +10,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 final class FaqCategoryCollectionQuery extends ResourceQuery
 {
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, mixed>
      */
     public function rules(): array
@@ -27,25 +25,12 @@ final class FaqCategoryCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::filter(),
             ],
-            'filter.id'                   => 'array',
-            'filter.id.*'                 => 'integer',
-            'filter.exclude'              => 'array',
-            'filter.exclude.*'            => 'integer',
-            'filter.name'                 => 'string',
-            'filter.slug'                 => 'string',
-            'filter.status'               => 'boolean',
+            ...$this->sharedFilterRules(),
             'filter.has-faqs'             => 'boolean',
             'filter.with-faqs'            => 'array',
             'filter.with-faqs.*'          => 'string',
             'filter.without-faqs'         => 'array',
             'filter.without-faqs.*'       => 'string',
-            'filter.has-multimedia'       => 'boolean',
-            'filter.with-multimedia'      => 'array',
-            'filter.with-multimedia.*'    => 'string',
-            'filter.without-multimedia'   => 'array',
-            'filter.without-multimedia.*' => 'string',
-            'filter.with-trashed'         => 'boolean',
-            'filter.only-trashed'         => 'boolean',
             'include'                     => [
                 'nullable',
                 'string',
@@ -68,6 +53,29 @@ final class FaqCategoryCollectionQuery extends ResourceQuery
                 'string',
                 JsonApiRule::countable(),
             ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sharedFilterRules(): array
+    {
+        return [
+            'filter.id'                   => 'array',
+            'filter.id.*'                 => 'integer',
+            'filter.exclude'              => 'array',
+            'filter.exclude.*'            => 'integer',
+            'filter.name'                 => 'string',
+            'filter.slug'                 => 'string',
+            'filter.status'               => 'boolean',
+            'filter.has-multimedia'       => 'boolean',
+            'filter.with-multimedia'      => 'array',
+            'filter.with-multimedia.*'    => 'string',
+            'filter.without-multimedia'   => 'array',
+            'filter.without-multimedia.*' => 'string',
+            'filter.with-trashed'         => 'boolean',
+            'filter.only-trashed'         => 'boolean',
         ];
     }
 }

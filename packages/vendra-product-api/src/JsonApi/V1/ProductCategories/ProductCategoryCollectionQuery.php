@@ -10,8 +10,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 final class ProductCategoryCollectionQuery extends ResourceQuery
 {
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, mixed>
      */
     public function rules(): array
@@ -27,30 +25,17 @@ final class ProductCategoryCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::filter(),
             ],
-            'filter.id'                       => 'array',
-            'filter.id.*'                     => 'integer',
-            'filter.exclude'                  => 'array',
-            'filter.exclude.*'                => 'integer',
-            'filter.name'                     => 'string',
-            'filter.slug'                     => 'string',
-            'filter.status'                   => 'boolean',
+            ...$this->sharedFilterRules(),
             'filter.has-product-prices'       => 'boolean',
             'filter.with-product-prices'      => 'array',
             'filter.with-product-prices.*'    => 'string',
             'filter.without-product-prices'   => 'array',
             'filter.without-product-prices.*' => 'string',
-            'filter.has-multimedia'           => 'boolean',
-            'filter.with-multimedia'          => 'array',
-            'filter.with-multimedia.*'        => 'string',
-            'filter.without-multimedia'       => 'array',
-            'filter.without-multimedia.*'     => 'string',
             'filter.has-products'             => 'boolean',
             'filter.with-products'            => 'array',
             'filter.with-products.*'          => 'string',
             'filter.without-products'         => 'array',
             'filter.without-products.*'       => 'string',
-            'filter.with-trashed'             => 'boolean',
-            'filter.only-trashed'             => 'boolean',
             'include'                         => [
                 'nullable',
                 'string',
@@ -73,6 +58,29 @@ final class ProductCategoryCollectionQuery extends ResourceQuery
                 'string',
                 JsonApiRule::countable(),
             ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sharedFilterRules(): array
+    {
+        return [
+            'filter.id'                   => 'array',
+            'filter.id.*'                 => 'integer',
+            'filter.exclude'              => 'array',
+            'filter.exclude.*'            => 'integer',
+            'filter.name'                 => 'string',
+            'filter.slug'                 => 'string',
+            'filter.status'               => 'boolean',
+            'filter.has-multimedia'       => 'boolean',
+            'filter.with-multimedia'      => 'array',
+            'filter.with-multimedia.*'    => 'string',
+            'filter.without-multimedia'   => 'array',
+            'filter.without-multimedia.*' => 'string',
+            'filter.with-trashed'         => 'boolean',
+            'filter.only-trashed'         => 'boolean',
         ];
     }
 }

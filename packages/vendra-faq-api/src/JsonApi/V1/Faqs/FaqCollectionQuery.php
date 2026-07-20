@@ -10,8 +10,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 final class FaqCollectionQuery extends ResourceQuery
 {
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, mixed>
      */
     public function rules(): array
@@ -27,27 +25,14 @@ final class FaqCollectionQuery extends ResourceQuery
                 'array',
                 JsonApiRule::filter(),
             ],
-            'filter.id'                     => 'array',
-            'filter.id.*'                   => 'integer',
-            'filter.exclude'                => 'array',
-            'filter.exclude.*'              => 'integer',
+            ...$this->sharedFilterRules(),
             'filter.faq-category'           => 'integer',
-            'filter.name'                   => 'string',
-            'filter.slug'                   => 'string',
-            'filter.status'                 => 'boolean',
             'filter.with-faq-category'      => 'array',
             'filter.with-faq-category.*'    => 'string',
             'filter.without-faq-category'   => 'array',
             'filter.without-faq-category.*' => 'string',
             'filter.in-faq-category.*'      => 'integer',
             'filter.not-in-faq-category.*'  => 'integer',
-            'filter.has-multimedia'         => 'boolean',
-            'filter.with-multimedia'        => 'array',
-            'filter.with-multimedia.*'      => 'string',
-            'filter.without-multimedia'     => 'array',
-            'filter.without-multimedia.*'   => 'string',
-            'filter.with-trashed'           => 'boolean',
-            'filter.only-trashed'           => 'boolean',
             'include'                       => [
                 'nullable',
                 'string',
@@ -70,6 +55,29 @@ final class FaqCollectionQuery extends ResourceQuery
                 'string',
                 JsonApiRule::countable(),
             ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sharedFilterRules(): array
+    {
+        return [
+            'filter.id'                   => 'array',
+            'filter.id.*'                 => 'integer',
+            'filter.exclude'              => 'array',
+            'filter.exclude.*'            => 'integer',
+            'filter.name'                 => 'string',
+            'filter.slug'                 => 'string',
+            'filter.status'               => 'boolean',
+            'filter.has-multimedia'       => 'boolean',
+            'filter.with-multimedia'      => 'array',
+            'filter.with-multimedia.*'    => 'string',
+            'filter.without-multimedia'   => 'array',
+            'filter.without-multimedia.*' => 'string',
+            'filter.with-trashed'         => 'boolean',
+            'filter.only-trashed'         => 'boolean',
         ];
     }
 }
