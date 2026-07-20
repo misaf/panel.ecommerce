@@ -23,7 +23,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraUserProfile\Models\UserProfile;
 
 final class UserProfileTable
 {
@@ -49,10 +48,13 @@ final class UserProfileTable
 
             TextColumn::make('name')
                 ->alignStart()
-                ->description(fn(UserProfile $record): ?string => $record->description)
                 ->label(__('vendra-user-profile::table.columns.name'))
                 ->searchable()
                 ->sortable(),
+
+            TextColumn::make('description')
+                ->label(__('vendra-user-profile::table.columns.description'))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')
                 ->label(__('vendra-user-profile::attributes.status'))

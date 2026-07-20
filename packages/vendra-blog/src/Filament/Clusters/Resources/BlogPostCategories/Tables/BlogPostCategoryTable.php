@@ -61,10 +61,6 @@ final class BlogPostCategoryTable
 
             BadgeableColumn::make('name')
                 ->alignStart()
-                ->description(function (Livewire $livewire, BlogPostCategory $record): string {
-                    return static::translatedAttribute($record, 'description', $livewire);
-                })
-                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-blog::attributes.name'))
                 ->suffixBadges([
                     Badge::make('count')
@@ -72,6 +68,11 @@ final class BlogPostCategoryTable
                         ->size(Size::Small),
                 ])
                 ->suffix(''),
+
+            TextColumn::make('description')
+                ->label(__('vendra-blog::attributes.description'))
+                ->state(fn(BlogPostCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()

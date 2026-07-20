@@ -57,8 +57,6 @@ final class CurrencyCategoryTable
 
             BadgeableColumn::make('name')
                 ->alignStart()
-                ->description(fn(CurrencyCategory $record): string => $record->description)
-                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-currency::attributes.name'))
                 ->searchable()
                 ->suffixBadges([
@@ -67,6 +65,10 @@ final class CurrencyCategoryTable
                         ->size(Size::Small),
                 ])
                 ->suffix(''),
+
+            TextColumn::make('description')
+                ->label(__('vendra-currency::attributes.description'))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()

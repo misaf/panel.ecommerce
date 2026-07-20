@@ -63,6 +63,11 @@ final class BlogPostTable
                 ->alignStart()
                 ->label(__('vendra-blog::attributes.name')),
 
+            TextColumn::make('description')
+                ->label(__('vendra-blog::attributes.description'))
+                ->state(fn(BlogPost $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->toggleable(isToggledHiddenByDefault: true),
+
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-blog::attributes.slug'))

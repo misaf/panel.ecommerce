@@ -43,11 +43,14 @@ final class ActivityLogTable
 
             BadgeableColumn::make('log_name')
                 ->alignCenter()
-                ->description(fn(ActivityLog $record): string => $record->description)
                 ->icon(Heroicon::QueueList)
                 ->label(__('vendra-activity-log::tables.log_name'))
                 ->searchable()
                 ->sortable(),
+
+            TextColumn::make('description')
+                ->label(__('vendra-activity-log::tables.description'))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             BadgeableColumn::make('subject_type')
                 ->alignStart()

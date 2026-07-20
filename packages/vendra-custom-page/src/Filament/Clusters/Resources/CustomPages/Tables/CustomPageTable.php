@@ -61,6 +61,11 @@ final class CustomPageTable
                 ->alignStart()
                 ->label(__('vendra-custom-page::attributes.name')),
 
+            TextColumn::make('description')
+                ->label(__('vendra-custom-page::attributes.description'))
+                ->state(fn(CustomPage $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->toggleable(isToggledHiddenByDefault: true),
+
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-custom-page::attributes.slug'))

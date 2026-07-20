@@ -61,10 +61,6 @@ final class CustomPageCategoryTable
 
             BadgeableColumn::make('name')
                 ->alignStart()
-                ->description(function (Livewire $livewire, CustomPageCategory $record): string {
-                    return static::translatedAttribute($record, 'description', $livewire);
-                })
-                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-custom-page::attributes.name'))
                 ->suffixBadges([
                     Badge::make('count')
@@ -72,6 +68,11 @@ final class CustomPageCategoryTable
                         ->size(Size::Small),
                 ])
                 ->suffix(''),
+
+            TextColumn::make('description')
+                ->label(__('vendra-custom-page::attributes.description'))
+                ->state(fn(CustomPageCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()

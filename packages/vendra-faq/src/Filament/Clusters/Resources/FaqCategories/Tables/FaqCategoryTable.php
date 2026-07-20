@@ -61,10 +61,6 @@ final class FaqCategoryTable
 
             BadgeableColumn::make('name')
                 ->alignStart()
-                ->description(function (Livewire $livewire, FaqCategory $record): string {
-                    return static::translatedAttribute($record, 'description', $livewire);
-                })
-                ->icon(Heroicon::FolderPlus)
                 ->label(__('vendra-faq::attributes.name'))
                 ->suffixBadges([
                     Badge::make('count')
@@ -72,6 +68,11 @@ final class FaqCategoryTable
                         ->size(Size::Small),
                 ])
                 ->suffix(''),
+
+            TextColumn::make('description')
+                ->label(__('vendra-faq::attributes.description'))
+                ->state(fn(FaqCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()

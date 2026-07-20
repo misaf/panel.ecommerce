@@ -63,6 +63,11 @@ final class FaqTable
                 ->alignStart()
                 ->label(__('vendra-faq::attributes.name')),
 
+            TextColumn::make('description')
+                ->label(__('vendra-faq::attributes.description'))
+                ->state(fn(Faq $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->toggleable(isToggledHiddenByDefault: true),
+
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-faq::attributes.slug'))

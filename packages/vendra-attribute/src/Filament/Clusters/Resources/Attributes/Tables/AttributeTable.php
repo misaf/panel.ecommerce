@@ -36,10 +36,13 @@ final class AttributeTable
                 ->sortable(['id']),
 
             TextColumn::make('name')
-                ->description(fn(Attribute $record): ?string => $record->description)
                 ->label(__('vendra-attribute::attributes.name'))
                 ->searchable()
                 ->sortable(),
+
+            TextColumn::make('description')
+                ->label(__('vendra-attribute::attributes.description'))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('unit')
                 ->badge()
