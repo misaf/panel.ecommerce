@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraSupport\Providers;
 
 use Filament\Panel;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Misaf\VendraSupport\Contracts\AttributeResolver;

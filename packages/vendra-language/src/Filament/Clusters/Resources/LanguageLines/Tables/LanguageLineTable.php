@@ -56,8 +56,7 @@ final class LanguageLineTable
             TextColumn::make('text')
                 ->alignStart()
                 ->label(__('vendra-language::attributes.text'))
-                ->state(fn(LanguageLine $record): ?string => $record->getTranslation(app()->getLocale()))
-                ->wrap(),
+                ->state(fn(LanguageLine $record): ?string => $record->getTranslation(app()->getLocale())),
 
             TextColumn::make('translation_progress')
                 ->badge()

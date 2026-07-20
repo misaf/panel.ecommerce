@@ -64,8 +64,7 @@ final class CartItemsRelationManager extends RelationManager
 
                 TextColumn::make('metadata')
                     ->formatStateUsing(fn(?array $state): string => $state ? json_encode($state, JSON_THROW_ON_ERROR) : '—')
-                    ->label(__('vendra-cart::attributes.metadata'))
-                    ->wrap(),
+                    ->label(__('vendra-cart::attributes.metadata')),
 
                 TextColumn::make('created_at')
                     ->alignCenter()

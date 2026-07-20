@@ -34,8 +34,7 @@ final class NewsletterTable
                     ->alignStart()
                     ->label(__('vendra-newsletter::attributes.subject'))
                     ->limit(60)
-                    ->searchable()
-                    ->wrap(),
+                    ->searchable(),
 
                 TextColumn::make('status')
                     ->alignCenter()
