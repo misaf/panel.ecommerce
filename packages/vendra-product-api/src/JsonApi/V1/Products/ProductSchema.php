@@ -29,6 +29,7 @@ use LaravelJsonApi\Eloquent\Pagination\PagePagination;
 use LaravelJsonApi\Eloquent\Schema;
 use Misaf\VendraApi\JsonApi\Sorting\RandomPositionSort;
 use Misaf\VendraProduct\Models\Product;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 final class ProductSchema extends Schema
 {
@@ -224,7 +225,7 @@ final class ProductSchema extends Schema
      */
     private function getAttributeValueFilters(): array
     {
-        if ( ! class_exists('Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema')) {
+        if ( ! AttributeApiIntegration::isAvailable()) {
             return [];
         }
 
@@ -251,7 +252,7 @@ final class ProductSchema extends Schema
      */
     private function getAttributeValueFields(): array
     {
-        if ( ! class_exists('Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema')) {
+        if ( ! AttributeApiIntegration::isAvailable()) {
             return [];
         }
 
@@ -274,7 +275,7 @@ final class ProductSchema extends Schema
             'multimedia',
         ];
 
-        if (class_exists('Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema')) {
+        if (AttributeApiIntegration::isAvailable()) {
             $paths[] = 'attributeValues';
         }
 

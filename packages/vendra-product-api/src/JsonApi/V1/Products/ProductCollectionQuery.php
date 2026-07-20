@@ -6,6 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\Products;
 
 use LaravelJsonApi\Laravel\Http\Requests\ResourceQuery;
 use LaravelJsonApi\Validation\Rule as JsonApiRule;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 final class ProductCollectionQuery extends ResourceQuery
 {
@@ -105,7 +106,7 @@ final class ProductCollectionQuery extends ResourceQuery
             ],
         ];
 
-        if (class_exists('Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema')) {
+        if (AttributeApiIntegration::isAvailable()) {
             $rules['filter.has-attribute-values'] = 'boolean';
             $rules['filter.with-attribute-values'] = 'array';
             $rules['filter.with-attribute-values.*'] = 'string';

@@ -9,6 +9,7 @@ use Misaf\VendraMultimediaApi\JsonApi\V1\Multimedia\MultimediaSchema;
 use Misaf\VendraProductApi\JsonApi\V1\ProductCategories\ProductCategorySchema;
 use Misaf\VendraProductApi\JsonApi\V1\ProductPrices\ProductPriceSchema;
 use Misaf\VendraProductApi\JsonApi\V1\Products\ProductSchema;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 final class Server extends BaseServer
 {
@@ -29,10 +30,8 @@ final class Server extends BaseServer
             MultimediaSchema::class,
         ];
 
-        $attributeSchema = 'Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema';
-
-        if (class_exists($attributeSchema)) {
-            $schemas[] = $attributeSchema;
+        if (AttributeApiIntegration::isAvailable()) {
+            $schemas[] = AttributeApiIntegration::attributeValueSchema();
         }
 
         return $schemas;

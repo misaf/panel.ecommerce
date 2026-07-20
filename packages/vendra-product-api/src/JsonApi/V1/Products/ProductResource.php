@@ -6,6 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\Products;
 
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 use Misaf\VendraProduct\Models\Product;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 /** @mixin Product */
 final class ProductResource extends JsonApiResource
@@ -44,7 +45,7 @@ final class ProductResource extends JsonApiResource
             $this->relation('multimedia'),
         ];
 
-        if (class_exists('Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema')) {
+        if (AttributeApiIntegration::isAvailable()) {
             $relations[] = $this->relation('attributeValues');
         }
 
