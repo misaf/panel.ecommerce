@@ -38,7 +38,7 @@ use Misaf\VendraSupport\Filament\Clusters\LocalizationCluster;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
 use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
-use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\TaggerResource;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\TransactionGatewayResource;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource;

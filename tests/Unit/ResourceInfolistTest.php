@@ -28,7 +28,7 @@ use Misaf\VendraPermission\Filament\Clusters\Resources\Permissions\PermissionRes
 use Misaf\VendraPermission\Filament\Clusters\Resources\Roles\RoleResource;
 use Misaf\VendraProduct\Filament\Clusters\Resources\ProductCategories\ProductCategoryResource;
 use Misaf\VendraProduct\Filament\Clusters\Resources\Products\ProductResource;
-use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\TaggerResource;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\TransactionGatewayResource;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Wallets\WalletResource;

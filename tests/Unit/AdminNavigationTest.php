@@ -22,7 +22,7 @@ use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 use Misaf\VendraSupport\Filament\Navigation\NavigationGroup;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
-use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\TaggerResource;
 
 it('uses domain clusters as top-level navigation without redundant groups', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());

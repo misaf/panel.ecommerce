@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Clusters\Resources;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Taggers;
 
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -12,13 +12,13 @@ use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\CreateTagger;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\EditTagger;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ListTaggers;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ViewTagger;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Schemas\TaggerForm;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Schemas\TaggerInfolist;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Tables\TaggerTable;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\CreateTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\EditTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\ListTaggers;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\ViewTagger;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Schemas\TaggerForm;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Schemas\TaggerInfolist;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Tables\TaggerTable;
 use Misaf\VendraTagger\Models\Tagger;
 
 final class TaggerResource extends Resource

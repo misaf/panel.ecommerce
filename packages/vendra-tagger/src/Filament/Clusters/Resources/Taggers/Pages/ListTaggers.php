@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Clusters\Resources\Pages;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
 use LaraZeus\SpatieTranslatable\Resources\Pages\ListRecords\Concerns\Translatable;
-use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\TaggerResource;
 
 final class ListTaggers extends ListRecords
 {

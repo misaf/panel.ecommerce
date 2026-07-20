@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Clusters\Resources\Schemas;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;

@@ -6,7 +6,7 @@ use Filament\Facades\Filament;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 use Misaf\VendraTagger\Database\Factories\TaggerFactory;
-use Misaf\VendraTagger\Filament\Clusters\Resources\Pages\ListTaggers;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\ListTaggers;
 
 use function Pest\Livewire\livewire;
 

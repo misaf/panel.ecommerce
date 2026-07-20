@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Filament\Clusters\Resources\Pages;
+namespace Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
 use LaraZeus\SpatieTranslatable\Resources\Pages\CreateRecord\Concerns\Translatable;
-use Misaf\VendraTagger\Filament\Clusters\Resources\TaggerResource;
+use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\TaggerResource;
 
 final class CreateTagger extends CreateRecord
 {
