@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Support\NullTenantResolver;
+use Misaf\VendraTesting\Tests\Unit\HelpersTestUser;
 
 beforeEach(function (): void {
     $this->app->instance(TenantResolver::class, new NullTenantResolver());
@@ -27,5 +28,3 @@ it('resolves the user model from the auth configuration', function (): void {
 
     expect(testUserModel())->toBe(HelpersTestUser::class);
 });
-
-final class HelpersTestUser extends Model {}
