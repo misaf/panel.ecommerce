@@ -23,6 +23,6 @@ final class ApiServiceProvider extends PackageServiceProvider
             return;
         }
 
-        AboutCommand::add('Vendra API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-api')]);
+        AboutCommand::add('Vendra API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-api')]);
     }
 }

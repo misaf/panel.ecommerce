@@ -27,6 +27,6 @@ final class ProductApiServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Product API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-product-api')]);
+        AboutCommand::add('Vendra Product API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-product-api')]);
     }
 }

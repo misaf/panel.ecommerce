@@ -74,7 +74,7 @@ final class LanguageServiceProvider extends PackageServiceProvider
 
         $this->configureLocalization();
 
-        AboutCommand::add('Vendra Language', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-language')]);
+        AboutCommand::add('Vendra Language', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-language')]);
     }
 
     /**

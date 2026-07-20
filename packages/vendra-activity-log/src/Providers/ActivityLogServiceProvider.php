@@ -59,7 +59,7 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
         );
         $this->app->make(TenantSeeders::class)->register('vendra-activity-log:seed', priority: 85);
 
-        AboutCommand::add('Vendra Activity Log', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-activity-log')]);
+        AboutCommand::add('Vendra Activity Log', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-activity-log')]);
 
         $this->registerActivityLogListeners();
     }

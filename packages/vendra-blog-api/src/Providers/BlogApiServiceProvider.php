@@ -27,6 +27,6 @@ final class BlogApiServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Blog API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog-api')]);
+        AboutCommand::add('Vendra Blog API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog-api')]);
     }
 }

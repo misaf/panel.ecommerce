@@ -85,6 +85,6 @@ final class MultimediaServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         $this->app->make(TenantTableRegistry::class)->register('media');
-        AboutCommand::add('Vendra Multimedia', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-multimedia')]);
+        AboutCommand::add('Vendra Multimedia', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-multimedia')]);
     }
 }

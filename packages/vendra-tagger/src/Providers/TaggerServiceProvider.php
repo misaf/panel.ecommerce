@@ -77,6 +77,6 @@ final class TaggerServiceProvider extends PackageServiceProvider
         $this->app->make(TenantTableRegistry::class)->register('tags');
         $this->app->make(TenantSeeders::class)->register('vendra-tagger:seed', priority: 70);
 
-        AboutCommand::add('Vendra Tagger', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-tagger')]);
+        AboutCommand::add('Vendra Tagger', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-tagger')]);
     }
 }

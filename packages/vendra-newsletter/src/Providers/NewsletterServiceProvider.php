@@ -69,6 +69,6 @@ final class NewsletterServiceProvider extends PackageServiceProvider
                 ->withoutOverlapping();
         });
 
-        AboutCommand::add('Vendra Newsletter', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-newsletter')]);
+        AboutCommand::add('Vendra Newsletter', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-newsletter')]);
     }
 }

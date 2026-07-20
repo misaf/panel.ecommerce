@@ -44,6 +44,6 @@ final class SocialiteServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         $this->app->make(TenantTableRegistry::class)->register('socialite_users');
-        AboutCommand::add('Vendra Socialite', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-socialite')]);
+        AboutCommand::add('Vendra Socialite', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-socialite')]);
     }
 }

@@ -73,7 +73,7 @@ final class AffiliateServiceProvider extends PackageServiceProvider
         );
         $this->app->make(TenantSeeders::class)->register('vendra-affiliate:seed', priority: 75);
 
-        AboutCommand::add('Vendra Affiliate', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-affiliate')]);
+        AboutCommand::add('Vendra Affiliate', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-affiliate')]);
 
         Event::subscribe(RegistrationSubscriber::class);
         Event::subscribe(TransactionCommissionSubscriber::class);

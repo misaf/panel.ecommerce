@@ -41,6 +41,6 @@ final class DeveloperLoginsServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Developer Logins', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-developer-logins')]);
+        AboutCommand::add('Vendra Developer Logins', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-developer-logins')]);
     }
 }

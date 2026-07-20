@@ -59,6 +59,6 @@ final class CurrencyServiceProvider extends PackageServiceProvider
         $this->app->make(TenantTableRegistry::class)->register('currency_categories', 'currencies');
         $this->app->make(TenantSeeders::class)->register('vendra-currency:seed', priority: 30);
 
-        AboutCommand::add('Vendra Currency', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-currency')]);
+        AboutCommand::add('Vendra Currency', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-currency')]);
     }
 }

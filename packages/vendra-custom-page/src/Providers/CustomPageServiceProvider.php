@@ -51,6 +51,6 @@ final class CustomPageServiceProvider extends PackageServiceProvider
         $this->app->make(TenantTableRegistry::class)->register('custom_page_categories', 'custom_pages');
         $this->app->make(TenantSeeders::class)->register('vendra-custom-page:seed', priority: 60);
 
-        AboutCommand::add('Vendra Custom Page', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-custom-page')]);
+        AboutCommand::add('Vendra Custom Page', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-custom-page')]);
     }
 }

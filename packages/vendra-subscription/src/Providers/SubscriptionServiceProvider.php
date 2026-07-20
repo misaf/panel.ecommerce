@@ -28,6 +28,6 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Subscription', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-subscription')]);
+        AboutCommand::add('Vendra Subscription', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-subscription')]);
     }
 }

@@ -27,6 +27,6 @@ final class FaqApiServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Faq API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-faq-api')]);
+        AboutCommand::add('Vendra Faq API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-faq-api')]);
     }
 }

@@ -31,8 +31,8 @@ final class AttributeServiceProvider extends PackageServiceProvider
             ->name('vendra-attribute')
             ->hasConfigFile()
             ->hasTranslations()
-            ->hasMigration('create_attributes_table')
-            ->hasCommand(SeedCommand::class)
+            ->hasMigrations(['create_attributes_table'])
+            ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-attribute');
             });
@@ -59,7 +59,7 @@ final class AttributeServiceProvider extends PackageServiceProvider
         $this->app->make(TenantTableRegistry::class)->register('attributes', 'attribute_values');
         $this->app->make(TenantSeeders::class)->register('vendra-attribute:seed', priority: 35);
 
-        AboutCommand::add('Vendra Attribute', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-attribute')]);
+        AboutCommand::add('Vendra Attribute', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-attribute')]);
     }
 
 }

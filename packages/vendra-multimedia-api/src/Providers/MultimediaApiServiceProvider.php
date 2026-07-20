@@ -27,6 +27,6 @@ final class MultimediaApiServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Multimedia API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-multimedia-api')]);
+        AboutCommand::add('Vendra Multimedia API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-multimedia-api')]);
     }
 }

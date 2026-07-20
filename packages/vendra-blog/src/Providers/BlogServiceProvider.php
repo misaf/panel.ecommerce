@@ -52,8 +52,6 @@ final class BlogServiceProvider extends PackageServiceProvider
         $this->app->make(TenantTableRegistry::class)->register('blog_post_categories', 'blog_posts');
         $this->app->make(TenantSeeders::class)->register('vendra-blog:seed', priority: 55);
 
-        AboutCommand::add('Vendra Blog', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog')]);
+        AboutCommand::add('Vendra Blog', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-blog')]);
     }
-
-
 }

@@ -26,6 +26,6 @@ final class CustomPageApiServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Custom Page API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-custom-page-api')]);
+        AboutCommand::add('Vendra Custom Page API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-custom-page-api')]);
     }
 }

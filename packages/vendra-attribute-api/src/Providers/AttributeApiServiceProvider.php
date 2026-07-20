@@ -27,6 +27,6 @@ final class AttributeApiServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        AboutCommand::add('Vendra Attribute API', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-attribute-api')]);
+        AboutCommand::add('Vendra Attribute API', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-attribute-api')]);
     }
 }

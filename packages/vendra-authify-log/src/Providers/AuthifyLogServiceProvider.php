@@ -59,7 +59,7 @@ final class AuthifyLogServiceProvider extends PackageServiceProvider
         $this->app->make(TenantTableRegistry::class)->register('authify_logs');
         $this->app->make(TenantSeeders::class)->register('vendra-authify-log:seed', priority: 90);
 
-        AboutCommand::add('Vendra Authify Log', fn() => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-authify-log')]);
+        AboutCommand::add('Vendra Authify Log', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-authify-log')]);
 
         $userModel = AuthifyLogUsers::model();
         $userModel::resolveRelationUsing('authifyLogs', fn(Model $user) => $user->hasMany(AuthifyLog::class));
