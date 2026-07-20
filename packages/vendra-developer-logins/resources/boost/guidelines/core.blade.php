@@ -16,4 +16,5 @@ The `misaf/vendra-developer-logins` package provides local-only login shortcuts 
 - Read the credential and label columns from configuration, discard blank or non-string values, and never log or persist credentials.
 - Register the plugin only on panels allowed by `ResolvesConfiguredPanels`; preserve host panel overrides.
 - Keep the package UI-only and tenant-provider agnostic. Never reference `Misaf\VendraTenant`.
+- Stay decoupled from any concrete user module: resolve the authenticatable model through `Support\DeveloperLoginsUsers::model()` (`auth.providers.users.model`) and never import `Misaf\VendraUser` in `src/`. Tests may use the concrete user via the `require-dev` dependency; enforce the source constraint with `arch()->expect('Misaf\VendraDeveloperLogins')->not->toUse('Misaf\VendraUser')`.
 - Cover environment gating, role/guard selection, configured columns, empty datasets, panel registration, and architecture constraints with Pest.
