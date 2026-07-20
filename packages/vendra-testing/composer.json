@@ -24,7 +24,7 @@
     },
     "require": {
         "php": "^8.3",
-        "illuminate/support": "^13.0",
+        "misaf/vendra-support": "self.version",
         "symfony/finder": "^7.4.14"
     },
     "require-dev": {
@@ -52,7 +52,8 @@
             "Misaf\\VendraTesting\\": "src/"
         },
         "files": [
-            "src/Expectations.php"
+            "src/Expectations.php",
+            "src/Helpers.php"
         ]
     },
     "autoload-dev": {

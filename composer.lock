@@ -8844,10 +8844,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
-                "reference": "49f6b1889ac9e8ddc18fe0fed56aea8c5608751a"
+                "reference": "979ec59078b06680a6b9fa5a96bc1451e29fb9b4"
             },
             "require": {
                 "illuminate/support": "^13.0",
+                "misaf/vendra-support": "self.version",
                 "php": "^8.3",
                 "symfony/finder": "^7.4.14"
             },
@@ -8875,7 +8876,8 @@
                     "Misaf\\VendraTesting\\": "src/"
                 },
                 "files": [
-                    "src/Expectations.php"
+                    "src/Expectations.php",
+                    "src/Helpers.php"
                 ]
             },
             "autoload-dev": {
