@@ -2,8 +2,13 @@
 
 declare(strict_types=1);
 
+use Filament\Facades\Filament;
+use Filament\Panel;
+use Filament\PanelRegistry;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Livewire;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Support\TenantAwareness;
 use PHPUnit\Framework\Assert;
@@ -135,6 +140,108 @@ function createTestUser(array $attributes = []): Model
     }
 
     return $user;
+}
+
+/**
+ * Create the current tenant with a deterministic Pennant feature state.
+ *
+ * Every feature key configured by an installed permission provider is
+ * deactivated unless explicitly requested, so tenant state never depends on
+ * published feature defaults. Fails when no tenant provider is installed.
+ *
+ * @param  list<string>  $features
+ */
+function makeCurrentTestTenantWithFeatures(array $features = []): Model
+{
+    $tenant = makeCurrentTestTenant();
+
+    if ( ! $tenant instanceof Model) {
+        Assert::fail('This helper requires an installed tenant provider.');
+    }
+
+    if (class_exists(Laravel\Pennant\Feature::class)) {
+        $configuredFeatures = array_keys((array) config('vendra-permission.features.defaults', []));
+
+        Laravel\Pennant\Feature::for($tenant)->deactivate(array_values(array_diff($configuredFeatures, $features)));
+        Laravel\Pennant\Feature::for($tenant)->activate($features);
+    }
+
+    return $tenant;
+}
+
+/**
+ * Boot a default Filament admin panel acting as a super-admin user.
+ *
+ * The super-admin role is resolved through the Spatie permission and
+ * vendra-permission configuration instead of importing a concrete permission
+ * package, so any module test suite can use this helper without declaring a
+ * permission dependency. Returns the current tenant.
+ *
+ * @param  list<class-string>  $resources
+ * @param  list<string>  $features
+ */
+function setUpFilamentSuperAdminTestContext(array $resources = [], ?array $features = null): Model
+{
+    $tenant = makeCurrentTestTenantWithFeatures(
+        $features ?? array_keys((array) config('vendra-permission.features.defaults', [])),
+    );
+
+    $user = vendraTestingModelFactory(testUserModel());
+
+    if (method_exists($user, 'forTenant')) {
+        $user = $user->forTenant($tenant);
+    }
+
+    $user = $user->create([
+        'username' => 'super-admin',
+        'email'    => 'super-admin@example.test',
+    ]);
+
+    if ( ! $user instanceof Model) {
+        Assert::fail('The user factory did not create a single user model.');
+    }
+
+    $roleModel = config('permission.models.role');
+
+    if (is_string($roleModel) && is_a($roleModel, Model::class, true) && method_exists($user, 'assignRole')) {
+        $role = vendraTestingModelFactory($roleModel);
+
+        if (method_exists($role, 'forTenant')) {
+            $role = $role->forTenant($tenant);
+        }
+
+        if (method_exists($role, 'forGuard')) {
+            $role = $role->forGuard('web');
+        }
+
+        $user->assignRole($role->create([
+            'name' => config('vendra-permission.super_admin_role', 'super-admin'),
+        ]));
+    }
+
+    app(PanelRegistry::class)->register(
+        Panel::make()
+            ->default()
+            ->id('admin')
+            ->path('admin')
+            ->resources($resources)
+            ->tenant(testTenantModel()),
+    );
+
+    Table::configureUsing(function (Table $table) {
+        return $table
+            ->paginationPageOptions([10, 25, 50])
+            ->deferLoading();
+    });
+
+    Filament::setCurrentPanel('admin');
+    Livewire::actingAs($user);
+    Filament::setTenant($tenant);
+    Filament::bootCurrentPanel();
+
+    app('url')->resolveMissingNamedRoutesUsing(static fn(): string => '/');
+
+    return $tenant;
 }
 
 /**
