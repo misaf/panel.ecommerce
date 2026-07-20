@@ -5889,7 +5889,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
-                "reference": "81c7bac65be8700a65a113906bf7b691337790d4"
+                "reference": "4e157a2a466f6d73e3a9fc5494004050b984bed0"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -5905,7 +5905,10 @@
                 "misaf/vendra-testing": "self.version",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -5976,7 +5979,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "990a67f63b37ec7edc2303ce0d87fa113834007c"
+                "reference": "5319579bd6c8f9ea410de8c3963fd81e5fd97d4e"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -5998,6 +6001,8 @@
                 "pestphp/pest": "^4.7.5",
                 "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
@@ -6439,7 +6444,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "530c8567fc33dd54b731f017c3d180b75ff54530"
+                "reference": "6b1d60f282a5c14f38ba04ec86c6bcaf74350911"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
@@ -6458,6 +6463,7 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
                 "pestphp/pest-plugin-profanity": "^4.2.1",
                 "pestphp/pest-plugin-type-coverage": "^4.0.4",
@@ -7195,7 +7201,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "78d4695310dcdaf56f1de784724602c9a0b658ec"
+                "reference": "745ebc77ce0d14f399c811f0e2ef5cb5f490fe38"
             },
             "require": {
                 "misaf/vendra-multimedia": "self.version",
@@ -7212,7 +7218,10 @@
                 "misaf/vendra-testing": "self.version",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -7573,7 +7582,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "a632df88fbd110f1a98734f26bf5e54c6f2f454a"
+                "reference": "921fad5fc331a0152cf4f58c3eb867ae59c8dae4"
             },
             "require": {
                 "illuminate/contracts": "^13.0",
@@ -7590,7 +7599,10 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -8032,7 +8044,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
-                "reference": "50aea2a5db5cf99f6bedddc892fd91e808faf3c9"
+                "reference": "88043c75c76afa776cdd7d512329a6ac6620517a"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -8049,7 +8061,10 @@
                 "misaf/vendra-testing": "self.version",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -8323,7 +8338,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-socialite",
-                "reference": "0d9e29b165bbf6ed4dfcd573d8ace5c27df1ff90"
+                "reference": "42d19f3f41db6ac288708fdd1d825d85da416a77"
             },
             "require": {
                 "dutchcodingcompany/filament-socialite": "^3.2",
@@ -8342,7 +8357,10 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -8412,7 +8430,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "50b7e54d0696563c9228e29340e681e4c85802cc"
+                "reference": "4bd6fff2a60edb0d03c8db3f68ab193da0b36f3b"
             },
             "require": {
                 "misaf/vendra-permission": "self.version",
@@ -8431,7 +8449,10 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -8483,8 +8504,10 @@
             "keywords": [
                 "filamentphp",
                 "laravel",
+                "misaf",
                 "subscription",
-                "tenant"
+                "tenant",
+                "vendra"
             ],
             "support": {
                 "issues": "https://github.com/misaf/vendra-subscription/issues",
@@ -8594,7 +8617,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "2cfe0236329fc64b1f626c276e79532d14d99361"
+                "reference": "d850121673a7ad79dd2e614a8edc46bd34199d54"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8607,6 +8630,7 @@
                 "spatie/laravel-tags": "^4.0"
             },
             "require-dev": {
+                "fakerphp/faker": "^1.24.1",
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
@@ -8689,7 +8713,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "99376c0392b7d96a1e6447f22c51e925aad78b5c"
+                "reference": "09916ca547df4fef444c731b66b74f3a4de14a3a"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -8711,7 +8735,10 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -8868,7 +8895,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "f66b2ca1c1f28f81d43793efad1a59a1b87e38c6"
+                "reference": "591c81a3c6ce4fbf74ccf578d7e5c64bf0e91fe0"
             },
             "require": {
                 "flowframe/laravel-trend": "^0.5.0",
@@ -8894,7 +8921,10 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -8946,7 +8976,9 @@
             "keywords": [
                 "filamentphp",
                 "laravel",
-                "transaction"
+                "misaf",
+                "transaction",
+                "vendra"
             ],
             "support": {
                 "issues": "https://github.com/misaf/vendra-transaction/issues",
@@ -8963,7 +8995,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "1103f79624e3714a10e48fbf21d0603530e33fa4"
+                "reference": "b13b95b7acef063f70e22df35738266151146d28"
             },
             "require": {
                 "laravel/pennant": "^1.24",
@@ -8985,7 +9017,10 @@
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
@@ -9156,7 +9191,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
-                "reference": "305acf84a06eddcbc004bc027450fddf6f17e78a"
+                "reference": "641bc165fe74a0abdc8b7cea1638c6f12d4b9049"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -9172,7 +9207,10 @@
                 "misaf/vendra-testing": "self.version",
                 "orchestra/testbench": "^11.1",
                 "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
@@ -18856,7 +18894,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-developer-logins",
-                "reference": "1640c07a207e57712330846176373351e325a71a"
+                "reference": "7f9e5c4b37af87aff1aa8d2afc7b86b9239bb326"
             },
             "require": {
                 "dutchcodingcompany/filament-developer-logins": "^2.1",
@@ -18878,6 +18916,8 @@
                 "pestphp/pest": "^4.7.5",
                 "pestphp/pest-plugin-arch": "^4.0.2",
                 "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
                 "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
