@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Number;
 use Misaf\VendraAuthifyLog\Filament\Clusters\Resources\AuthifyLogResource;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
-use Misaf\VendraUser\Models\User;
+use Misaf\VendraAuthifyLog\Support\AuthifyLogUsers;
 
 final class AuthifyLogRelationManager extends RelationManager
 {
@@ -40,7 +40,7 @@ final class AuthifyLogRelationManager extends RelationManager
 
     public static function getBadge(Model $ownerRecord, string $pageClass): string
     {
-        if ( ! $ownerRecord instanceof User) {
+        if ( ! is_a($ownerRecord, AuthifyLogUsers::model())) {
             return (string) Number::format(0);
         }
 

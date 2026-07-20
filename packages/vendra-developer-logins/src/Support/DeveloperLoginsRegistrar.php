@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Misaf\VendraDeveloperLogins\Support;
 
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraPermission\Models\Role;
-use Misaf\VendraUser\Models\User;
 
 final class DeveloperLoginsRegistrar
 {
@@ -19,7 +19,7 @@ final class DeveloperLoginsRegistrar
             ->switchable(Config::boolean('vendra-developer-logins.switchable', true))
             ->column(Config::string('vendra-developer-logins.column', 'email'))
             ->users(fn(): array => self::users())
-            ->modelClass(User::class);
+            ->modelClass(DeveloperLoginsUsers::model());
     }
 
     /**
@@ -36,10 +36,12 @@ final class DeveloperLoginsRegistrar
         $credentialColumn = Config::string('vendra-developer-logins.column', 'email');
         $labelColumn = Config::string('vendra-developer-logins.label_column', 'username');
 
-        return User::query()
+        $userModel = DeveloperLoginsUsers::model();
+
+        return $userModel::query()
             ->role($role)
             ->get([$labelColumn, $credentialColumn])
-            ->mapWithKeys(static function (User $user) use ($credentialColumn, $labelColumn): array {
+            ->mapWithKeys(static function (Model $user) use ($credentialColumn, $labelColumn): array {
                 $credential = $user->getAttribute($credentialColumn);
                 $label = $user->getAttribute($labelColumn);
 
