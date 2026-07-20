@@ -65,6 +65,96 @@ it('keeps package-only namespaces out of production autoloading', function (): v
     }
 });
 
+it('declares vendra-tenant in every package whose tests import it', function (): void {
+    $undeclared = [];
+
+    foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
+        $packagePath = dirname($manifestPath);
+
+        if ('vendra-tenant' === basename($packagePath)) {
+            continue;
+        }
+
+        $testFiles = glob("{$packagePath}/tests/{,*/,*/*/}*.php", GLOB_BRACE) ?: [];
+
+        $importsTenant = array_any(
+            $testFiles,
+            fn(string $testFile): bool => 1 === preg_match(
+                '/^use Misaf\\\\VendraTenant\\\\/m',
+                (string) file_get_contents($testFile),
+            ),
+        );
+
+        if ( ! $importsTenant) {
+            continue;
+        }
+
+        $manifest = json_decode(
+            file_get_contents($manifestPath),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        );
+        $declared = ($manifest['require'] ?? []) + ($manifest['require-dev'] ?? []);
+
+        if ( ! array_key_exists('misaf/vendra-tenant', $declared)) {
+            $undeclared[] = basename($packagePath);
+        }
+    }
+
+    expect($undeclared)->toBe([]);
+});
+
+it('requires vendra-multimedia in every package whose src uses the Spatie media surface', function (): void {
+    $undeclared = [];
+
+    foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
+        $packagePath = dirname($manifestPath);
+        $sourcePath = "{$packagePath}/src";
+
+        if ('vendra-multimedia' === basename($packagePath) || ! is_dir($sourcePath)) {
+            continue;
+        }
+
+        $usesSpatieMediaSurface = false;
+        $sourceFiles = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($sourcePath, FilesystemIterator::SKIP_DOTS),
+        );
+
+        foreach ($sourceFiles as $sourceFile) {
+            if ('php' !== $sourceFile->getExtension()) {
+                continue;
+            }
+
+            $matchesSurface = preg_match(
+                '/^use (?:Spatie\\\\MediaLibrary\\\\|Filament\\\\[\w\\\\]+\\\\SpatieMediaLibrary)/m',
+                (string) file_get_contents($sourceFile->getPathname()),
+            );
+
+            if (1 === $matchesSurface) {
+                $usesSpatieMediaSurface = true;
+
+                break;
+            }
+        }
+
+        if ( ! $usesSpatieMediaSurface) {
+            continue;
+        }
+
+        $manifest = json_decode(
+            file_get_contents($manifestPath),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        );
+
+        if ( ! array_key_exists('misaf/vendra-multimedia', $manifest['require'] ?? [])) {
+            $undeclared[] = basename($packagePath);
+        }
+    }
+
+    expect($undeclared)->toBe([]);
+});
+
 it('does not keep package-level Composer lock files', function (): void {
     expect(array_values(glob(base_path('packages/*/composer.lock')) ?: []))->toBe([]);
 });
