@@ -7,12 +7,11 @@ use Misaf\VendraAttribute\Database\Factories\AttributeFactory;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\CreateAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\EditAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ListAttributes;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the create attribute page under strict authorization', function (): void {

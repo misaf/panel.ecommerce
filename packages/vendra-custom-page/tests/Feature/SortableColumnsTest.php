@@ -9,12 +9,11 @@ use Misaf\VendraCustomPage\Database\Factories\CustomPageCategoryFactory;
 use Misaf\VendraCustomPage\Database\Factories\CustomPageFactory;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\Pages\ListCustomPageCategories;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\ListCustomPages;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 
     Filament::getPanel('admin')->plugin(
         SpatieTranslatablePlugin::make()->defaultLocales(['en', 'de']),

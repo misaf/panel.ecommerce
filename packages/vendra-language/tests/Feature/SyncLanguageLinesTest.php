@@ -8,10 +8,9 @@ use Illuminate\Translation\Translator;
 use Misaf\VendraLanguage\Actions\SyncLanguageLines;
 use Misaf\VendraLanguage\Models\LanguageLine;
 use Misaf\VendraLanguage\Support\TranslationCatalog;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('imports missing package lines and locales without overwriting database translations', function (): void {

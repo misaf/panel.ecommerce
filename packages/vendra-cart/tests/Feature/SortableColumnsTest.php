@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 use Misaf\VendraCart\Database\Factories\CartFactory;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Pages\ListCarts;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('sorts the carts table by every sortable column following the stored values', function (): void {

@@ -5,12 +5,11 @@ declare(strict_types=1);
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\CreateNewsletter;
 use Misaf\VendraNewsletter\Models\Newsletter;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('shows the schedule field when the scheduled status is selected', function (): void {

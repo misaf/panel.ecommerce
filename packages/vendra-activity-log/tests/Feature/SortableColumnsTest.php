@@ -5,12 +5,11 @@ declare(strict_types=1);
 use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Misaf\VendraActivityLog\Filament\Clusters\Resources\Pages\ListActivityLogs;
 use Misaf\VendraActivityLog\Models\ActivityLog;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('sorts the activity logs table by every sortable column following the stored values', function (): void {

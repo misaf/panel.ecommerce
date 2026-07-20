@@ -15,12 +15,11 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\Cr
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\EditCurrencyCategory;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\ListCurrencyCategories;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\ViewCurrencyCategory;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the create currency page under strict authorization', function (): void {

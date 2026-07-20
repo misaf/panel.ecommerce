@@ -6,12 +6,11 @@ use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Illuminate\Support\Str;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\Pages\ListMultimedia;
 use Misaf\VendraMultimedia\Models\Multimedia;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 function createMultimediaRecord(string $collectionName, int $size): Multimedia

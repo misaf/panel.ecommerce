@@ -11,12 +11,11 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\CreateLangu
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguages;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Models\LanguageLine;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('shows package before group in the language line table', function (): void {

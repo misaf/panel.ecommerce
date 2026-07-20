@@ -12,12 +12,11 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\CreateC
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\EditCustomPage;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\ListCustomPages;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Pages\ViewCustomPage;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 
     Filament::getPanel('admin')->plugin(
         SpatieTranslatablePlugin::make()->defaultLocales(['en', 'de']),

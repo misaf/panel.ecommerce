@@ -5,12 +5,11 @@ declare(strict_types=1);
 use Filament\Facades\Filament;
 use Misaf\VendraActivityLog\Filament\Clusters\Resources\Pages\ViewActivityLog;
 use Misaf\VendraActivityLog\Models\ActivityLog;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the view activity log page under strict authorization', function (): void {

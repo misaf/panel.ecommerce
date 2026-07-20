@@ -12,12 +12,11 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\CreateLangu
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\EditLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguages;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ViewLanguage;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the create language page under strict authorization', function (): void {

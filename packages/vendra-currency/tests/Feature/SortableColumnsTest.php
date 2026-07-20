@@ -7,12 +7,11 @@ use Misaf\VendraCurrency\Database\Factories\CurrencyCategoryFactory;
 use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ListCurrencies;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\Pages\ListCurrencyCategories;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('sorts the currencies table by every sortable column following the stored values', function (): void {

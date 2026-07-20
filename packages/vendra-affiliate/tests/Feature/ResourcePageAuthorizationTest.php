@@ -11,12 +11,11 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\Vie
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\CreateAffiliate;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\EditAffiliate;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\ViewAffiliate;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the create affiliate page under strict authorization', function (): void {

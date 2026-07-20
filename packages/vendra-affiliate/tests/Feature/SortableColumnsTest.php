@@ -8,13 +8,12 @@ use Misaf\VendraAffiliate\Database\Factories\AffiliatePayoutFactory;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Pages\ListAffiliateCommissions;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ListAffiliatePayouts;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\ListAffiliates;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 use Misaf\VendraUser\Database\Factories\UserFactory;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('sorts the affiliates table by every sortable column following the stored values', function (): void {

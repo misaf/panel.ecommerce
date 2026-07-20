@@ -5,12 +5,11 @@ declare(strict_types=1);
 use Filament\Facades\Filament;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\Pages\ViewMultimedia;
 use Misaf\VendraMultimedia\Models\Multimedia;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the view multimedia page under strict authorization', function (): void {

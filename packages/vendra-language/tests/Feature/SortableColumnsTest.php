@@ -6,12 +6,11 @@ use Misaf\VendraLanguage\Database\Factories\LanguageFactory;
 use Misaf\VendraLanguage\Database\Factories\LanguageLineFactory;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages\ListLanguageLines;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguages;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('sorts the languages table by every sortable column following the stored values', function (): void {

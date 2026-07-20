@@ -11,12 +11,11 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\ViewNew
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\CreateNewsletterSubscriber;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\EditNewsletterSubscriber;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\ViewNewsletterSubscriber;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('renders the create newsletter page under strict authorization', function (): void {

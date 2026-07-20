@@ -12,12 +12,11 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\CreateBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\EditBlogPost;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\ListBlogPosts;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Pages\ViewBlogPost;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 
     Filament::getPanel('admin')->plugin(
         SpatieTranslatablePlugin::make()->defaultLocales(['en', 'de']),

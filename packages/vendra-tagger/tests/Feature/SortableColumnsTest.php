@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 use Filament\Facades\Filament;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 use Misaf\VendraTagger\Database\Factories\TaggerFactory;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\ListTaggers;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 
     Filament::getPanel('admin')->plugin(
         SpatieTranslatablePlugin::make()->defaultLocales(['en', 'de']),

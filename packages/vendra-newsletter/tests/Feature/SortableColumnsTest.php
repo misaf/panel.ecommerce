@@ -6,12 +6,11 @@ use Misaf\VendraNewsletter\Database\Factories\NewsletterFactory;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\ListNewsletters;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pages\ListNewsletterSubscribers;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 });
 
 it('sorts the newsletters table by every sortable column following the stored values', function (): void {

@@ -7,12 +7,11 @@ use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\CreateBlogPostCategory;
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Pages\EditBlogPostCategory;
 use Misaf\VendraBlog\Models\BlogPostCategory;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext();
 
     $this->activeLocale = app()->getLocale();
     $this->otherLocale = 'en' === $this->activeLocale ? 'de' : 'en';
