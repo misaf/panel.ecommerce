@@ -7,8 +7,10 @@ namespace Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Schemas;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
+use Livewire\Component as Livewire;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraSupport\Support\TenantAwareness;
@@ -32,17 +34,22 @@ final class LanguageForm
                     ),
 
                 Toggle::make('status')
-                    ->columnSpanFull()
-                    ->default(true)
-                    ->label(__('vendra-language::attributes.status'))
-                    ->required(),
-
-                Toggle::make('is_default')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->columnSpanFull()
                     ->default(false)
-                    ->disabled(fn(?Language $record): bool => null !== $record && $record->is_default)
+                    ->label(__('vendra-language::attributes.status'))
+                    ->onIcon(Heroicon::Bolt)
+                    ->required()
+                    ->rules(['boolean']),
+
+                Toggle::make('is_default')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.is_default'))
+                    ->columnSpanFull()
+                    ->default(false)
                     ->label(__('vendra-language::attributes.is_default'))
-                    ->required(),
+                    ->onIcon(Heroicon::Bolt)
+                    ->required()
+                    ->rules(['boolean']),
             ]);
     }
 

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCart;
 
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
+use Illuminate\Support\Facades\Config;
 
 final class CartPlugin implements Plugin
 {
     public const string ID = 'vendra-cart';
+
+    protected string|Closure|null $navigationGroup = null;
 
     public function getId(): string
     {
@@ -20,16 +23,42 @@ final class CartPlugin implements Plugin
     public static function make(): static
     {
         /** @var static $plugin */
-        $plugin = app(static::class);
+        $plugin = app(self::class);
 
         return $plugin;
     }
 
+    public function navigationGroup(string|Closure|null $group): static
+    {
+        $this->navigationGroup = $group;
+
+        return $this;
+    }
+
+    public function getNavigationGroup(): string
+    {
+        $group = $this->navigationGroup;
+
+        if (null === $group) {
+            $configuredGroup = Config::get('vendra-cart.navigation_group');
+            $group = is_string($configuredGroup) ? $configuredGroup : null;
+        }
+
+        if ($group instanceof Closure) {
+            $group = $group();
+        }
+
+        return is_string($group) && '' !== $group
+            ? trans_choice($group, 1)
+            : __('vendra-support::navigation.groups.Sales');
+    }
+
     public function register(Panel $panel): void
     {
-        $panel->resources([
-            CartResource::class,
-        ]);
+        $panel->discoverResources(
+            in: __DIR__ . '/Filament/Clusters/Resources',
+            for: 'Misaf\\VendraCart\\Filament\\Clusters\\Resources',
+        );
     }
 
     public function boot(Panel $panel): void {}
