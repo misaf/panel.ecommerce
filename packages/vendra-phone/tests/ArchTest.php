@@ -6,6 +6,6 @@ arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
 
-arch('the phone module derives tenancy from the support layer')
+arch('the phone module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraPhone')
     ->not->toUse('Misaf\VendraTenant');

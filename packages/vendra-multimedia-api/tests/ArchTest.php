@@ -6,6 +6,6 @@ arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
 
-arch('the multimedia api module derives tenancy from the support layer, never a concrete tenant provider')
+arch('the multimedia API module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraMultimediaApi')
     ->not->toUse('Misaf\VendraTenant');

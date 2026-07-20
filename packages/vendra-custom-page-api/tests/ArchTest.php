@@ -6,6 +6,6 @@ arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
 
-arch('the custom page API module inherits tenancy from domain models')
+arch('the custom page API module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraCustomPageApi')
     ->not->toUse('Misaf\VendraTenant');

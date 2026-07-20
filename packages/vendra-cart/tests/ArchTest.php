@@ -6,7 +6,7 @@ arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
 
-arch('the cart module derives tenancy from support, never a concrete tenant provider')
+arch('the cart module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraCart')
     ->not->toUse('Misaf\VendraTenant');
 

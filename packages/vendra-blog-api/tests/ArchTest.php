@@ -6,6 +6,6 @@ arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
 
-arch('the blog API module inherits tenancy from the domain models, never a concrete tenant provider')
+arch('the blog API module derives tenancy from the support layer, never a concrete tenant provider')
     ->expect('Misaf\VendraBlogApi')
     ->not->toUse('Misaf\VendraTenant');
