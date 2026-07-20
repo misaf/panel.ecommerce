@@ -90,30 +90,26 @@ it('keeps package test suites tenant-provider agnostic', function (): void {
     expect($offending)->toBe([]);
 });
 
-it('declares vendra-user in every package whose tests import it', function (): void {
-    $undeclared = [];
+it('declares every Vendra module whose namespace its tests import', function (): void {
+    $manifestPaths = glob(base_path('packages/*/composer.json')) ?: [];
+    $namespacesByPackage = [];
 
-    foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
-        $packagePath = dirname($manifestPath);
-
-        if ('vendra-user' === basename($packagePath)) {
-            continue;
-        }
-
-        $testFiles = glob("{$packagePath}/tests/{,*/,*/*/}*.php", GLOB_BRACE) ?: [];
-
-        $importsUser = array_any(
-            $testFiles,
-            fn(string $testFile): bool => 1 === preg_match(
-                '/^use Misaf\\\\VendraUser\\\\/m',
-                (string) file_get_contents($testFile),
-            ),
+    foreach ($manifestPaths as $manifestPath) {
+        $manifest = json_decode(
+            file_get_contents($manifestPath),
+            true,
+            flags: JSON_THROW_ON_ERROR,
         );
 
-        if ( ! $importsUser) {
-            continue;
+        foreach (array_keys($manifest['autoload']['psr-4'] ?? []) as $namespace) {
+            $namespacesByPackage[$manifest['name']][] = mb_rtrim($namespace, '\\');
         }
+    }
 
+    $undeclared = [];
+
+    foreach ($manifestPaths as $manifestPath) {
+        $packagePath = dirname($manifestPath);
         $manifest = json_decode(
             file_get_contents($manifestPath),
             true,
@@ -121,12 +117,58 @@ it('declares vendra-user in every package whose tests import it', function (): v
         );
         $declared = ($manifest['require'] ?? []) + ($manifest['require-dev'] ?? []);
 
-        if ( ! array_key_exists('misaf/vendra-user', $declared)) {
-            $undeclared[] = basename($packagePath);
+        foreach (glob("{$packagePath}/tests/{,*/,*/*/}*.php", GLOB_BRACE) ?: [] as $testFile) {
+            $contents = (string) file_get_contents($testFile);
+
+            foreach ($namespacesByPackage as $package => $namespaces) {
+                if ($package === $manifest['name'] || array_key_exists($package, $declared)) {
+                    continue;
+                }
+
+                foreach ($namespaces as $namespace) {
+                    $importsNamespace = 1 === preg_match(
+                        '/^use ' . preg_quote($namespace, '/') . '\\\\/m',
+                        $contents,
+                    );
+
+                    if ($importsNamespace) {
+                        $undeclared[basename($packagePath) . ' → ' . $package] = true;
+                    }
+                }
+            }
         }
     }
 
-    expect($undeclared)->toBe([]);
+    expect(array_keys($undeclared))->toBe([]);
+});
+
+it('mirrors every package test and factory namespace in root autoload-dev', function (): void {
+    $rootManifest = json_decode(
+        file_get_contents(base_path('composer.json')),
+        true,
+        flags: JSON_THROW_ON_ERROR,
+    );
+    $rootAutoloadDev = $rootManifest['autoload-dev']['psr-4'] ?? [];
+    $missing = [];
+
+    foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
+        $package = basename(dirname($manifestPath));
+        $manifest = json_decode(
+            file_get_contents($manifestPath),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        );
+
+        foreach ($manifest['autoload-dev']['psr-4'] ?? [] as $namespace => $path) {
+            $expectedPath = "packages/{$package}/{$path}";
+
+            if (($rootAutoloadDev[$namespace] ?? null) !== $expectedPath) {
+                $missing[] = "{$namespace} => {$expectedPath}";
+            }
+        }
+    }
+
+    expect($missing)->toBe([]);
 });
 
 it('requires vendra-multimedia in every package whose src uses the Spatie media surface', function (): void {
