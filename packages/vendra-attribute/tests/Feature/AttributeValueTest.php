@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Tests\Fixtures\AttributableRecord;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
     Schema::create('attributable_records', function (Blueprint $table): void {
@@ -15,7 +14,7 @@ beforeEach(function (): void {
         $table->timestamps();
     });
 
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('attaches reusable attribute values to any model', function (): void {

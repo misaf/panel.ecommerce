@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 use Misaf\VendraAttribute\Database\Factories\AttributeValueFactory;
 use Misaf\VendraProduct\Database\Factories\ProductFactory;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('serves attribute values and validates query parameters', function (): void {

@@ -65,27 +65,52 @@ it('keeps package-only namespaces out of production autoloading', function (): v
     }
 });
 
-it('declares vendra-tenant in every package whose tests import it', function (): void {
+it('keeps package test suites tenant-provider agnostic', function (): void {
+    $offending = [];
+
+    foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
+        $packagePath = dirname($manifestPath);
+
+        if (in_array(basename($packagePath), ['vendra-tenant', 'vendra-subscription'], true)) {
+            continue;
+        }
+
+        foreach (glob("{$packagePath}/tests/{,*/,*/*/}*.php", GLOB_BRACE) ?: [] as $testFile) {
+            $importsTenant = 1 === preg_match(
+                '/^use Misaf\\\\VendraTenant\\\\/m',
+                (string) file_get_contents($testFile),
+            );
+
+            if ($importsTenant) {
+                $offending[] = basename($packagePath) . '/' . basename($testFile);
+            }
+        }
+    }
+
+    expect($offending)->toBe([]);
+});
+
+it('declares vendra-user in every package whose tests import it', function (): void {
     $undeclared = [];
 
     foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
         $packagePath = dirname($manifestPath);
 
-        if ('vendra-tenant' === basename($packagePath)) {
+        if ('vendra-user' === basename($packagePath)) {
             continue;
         }
 
         $testFiles = glob("{$packagePath}/tests/{,*/,*/*/}*.php", GLOB_BRACE) ?: [];
 
-        $importsTenant = array_any(
+        $importsUser = array_any(
             $testFiles,
             fn(string $testFile): bool => 1 === preg_match(
-                '/^use Misaf\\\\VendraTenant\\\\/m',
+                '/^use Misaf\\\\VendraUser\\\\/m',
                 (string) file_get_contents($testFile),
             ),
         );
 
-        if ( ! $importsTenant) {
+        if ( ! $importsUser) {
             continue;
         }
 
@@ -96,7 +121,7 @@ it('declares vendra-tenant in every package whose tests import it', function ():
         );
         $declared = ($manifest['require'] ?? []) + ($manifest['require-dev'] ?? []);
 
-        if ( ! array_key_exists('misaf/vendra-tenant', $declared)) {
+        if ( ! array_key_exists('misaf/vendra-user', $declared)) {
             $undeclared[] = basename($packagePath);
         }
     }

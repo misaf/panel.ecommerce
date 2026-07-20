@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 use Misaf\VendraFaq\Models\Faq;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('generates translatable slugs from the name when none is provided', function (): void {

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::forgetCurrent();
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    forgetCurrentTestTenant();
+    makeCurrentTestTenant();
     app()->setLocale('en');
 });
 
 afterEach(function (): void {
-    Tenant::forgetCurrent();
+    forgetCurrentTestTenant();
 });
 
 it('filters localized custom page attributes and includes their category', function (): void {

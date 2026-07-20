@@ -5,14 +5,13 @@ declare(strict_types=1);
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Support\EloquentCurrencyResolver;
-use Misaf\VendraTenant\Models\Tenant;
 
 it('binds the shared currency resolver contract', function (): void {
     expect(app(CurrencyResolver::class))->toBeInstanceOf(EloquentCurrencyResolver::class);
 });
 
 it('provides active currency options through the shared resolver', function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 
     Currency::factory()->create([
         'name'       => 'US Dollar',

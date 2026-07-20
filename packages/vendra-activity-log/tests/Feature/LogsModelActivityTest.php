@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraActivityLog\Tests\Fixtures\LoggableWidget;
 use Misaf\VendraActivityLog\Tests\Fixtures\PlainWidget;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
     if ( ! Schema::hasTable('activity_log_widgets')) {
         (require __DIR__ . '/../database/migrations/0001_01_01_000000_create_activity_log_widgets_table.php')->up();
     }
 
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 
     config(['activitylog.enabled' => true]);
 });

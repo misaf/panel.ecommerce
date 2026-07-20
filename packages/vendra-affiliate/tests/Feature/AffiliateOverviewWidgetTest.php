@@ -16,7 +16,6 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\Widge
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\AffiliatePayoutOverviewWidget;
 use Misaf\VendraAffiliate\Filament\Widgets\AffiliateOverviewWidget;
 use Misaf\VendraAffiliate\Filament\Widgets\UserAffiliateOverviewWidget;
-use Misaf\VendraTenant\Database\Factories\TenantFactory;
 use Misaf\VendraUser\Database\Factories\UserFactory;
 
 use function Pest\Laravel\actingAs;
@@ -38,8 +37,8 @@ it('registers admin management separately from the personal user widget', functi
 });
 
 it('shows tenant-scoped affiliate metrics and earned commissions', function (): void {
-    $tenant = TenantFactory::new()->enabled()->createOne();
-    $tenant->makeCurrent();
+    $tenant = createTestTenant();
+    switchToTestTenant($tenant);
 
     $affiliate = AffiliateFactory::new()->createOne();
 
@@ -76,8 +75,8 @@ it('shows tenant-scoped affiliate metrics and earned commissions', function (): 
         ->state(['amount' => 16_000])
         ->createOne();
 
-    $otherTenant = TenantFactory::new()->enabled()->createOne();
-    $otherTenant->makeCurrent();
+    $otherTenant = createTestTenant();
+    switchToTestTenant($otherTenant);
 
     $otherAffiliate = AffiliateFactory::new()->createOne();
 
@@ -97,7 +96,7 @@ it('shows tenant-scoped affiliate metrics and earned commissions', function (): 
         ->state(['amount' => 32_000])
         ->createOne();
 
-    $tenant->makeCurrent();
+    switchToTestTenant($tenant);
 
     livewire(AffiliateOverviewWidget::class)
         ->assertSeeInOrder([
@@ -120,8 +119,8 @@ it('shows tenant-scoped affiliate metrics and earned commissions', function (): 
 });
 
 it('shows tenant-scoped commission and payout resource metrics', function (): void {
-    $tenant = TenantFactory::new()->enabled()->createOne();
-    $tenant->makeCurrent();
+    $tenant = createTestTenant();
+    switchToTestTenant($tenant);
 
     $affiliate = AffiliateFactory::new()->createOne();
 
@@ -134,15 +133,15 @@ it('shows tenant-scoped commission and payout resource metrics', function (): vo
     AffiliatePayoutFactory::new()->forAffiliate($affiliate)->completed()->createOne();
     AffiliatePayoutFactory::new()->forAffiliate($affiliate)->failed()->createOne();
 
-    $otherTenant = TenantFactory::new()->enabled()->createOne();
-    $otherTenant->makeCurrent();
+    $otherTenant = createTestTenant();
+    switchToTestTenant($otherTenant);
 
     $otherAffiliate = AffiliateFactory::new()->createOne();
 
     AffiliateCommissionFactory::new()->forAffiliate($otherAffiliate)->approved()->createOne();
     AffiliatePayoutFactory::new()->forAffiliate($otherAffiliate)->completed()->createOne();
 
-    $tenant->makeCurrent();
+    switchToTestTenant($tenant);
 
     /** @var array<int, Stat> $commissionStats */
     $commissionStats = (new ReflectionMethod(AffiliateCommissionOverviewWidget::class, 'getStats'))
@@ -178,7 +177,7 @@ it('shows tenant-scoped commission and payout resource metrics', function (): vo
 });
 
 it('shows only the signed-in users affiliate metrics', function (): void {
-    TenantFactory::new()->enabled()->createOne()->makeCurrent();
+    makeCurrentTestTenant();
 
     $user = UserFactory::new()->createOne();
     $affiliate = AffiliateFactory::new()->forUser($user)->createOne();
@@ -244,7 +243,7 @@ it('shows only the signed-in users affiliate metrics', function (): void {
 });
 
 it('hides the personal affiliate widget from users without an affiliate', function (): void {
-    TenantFactory::new()->enabled()->createOne()->makeCurrent();
+    makeCurrentTestTenant();
 
     actingAs(UserFactory::new()->createOne());
 

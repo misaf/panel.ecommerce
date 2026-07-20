@@ -5,11 +5,10 @@ declare(strict_types=1);
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use Misaf\VendraSocialite\Support\SocialiteRegistrar;
-use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 /**

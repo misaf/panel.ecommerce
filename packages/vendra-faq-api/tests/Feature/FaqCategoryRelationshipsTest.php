@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('serves faqs as a to-many relationship of faq categories', function (): void {

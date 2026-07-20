@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Models\AffiliateClick;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('records a click, drops the attribution cookie, and redirects', function (): void {

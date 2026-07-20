@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('serves only active affiliates and only their code and created_at', function (): void {

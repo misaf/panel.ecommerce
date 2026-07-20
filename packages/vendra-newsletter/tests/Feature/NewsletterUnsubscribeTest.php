@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriber;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
-use Misaf\VendraTenant\Models\Tenant;
 use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
 
 beforeEach(function (): void {
@@ -16,7 +15,7 @@ beforeEach(function (): void {
         )),
     ]);
 
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('unsubscribes a subscriber when their unsubscribe link is visited', function (): void {

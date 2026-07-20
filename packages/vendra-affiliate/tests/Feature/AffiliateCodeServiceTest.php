@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Services\AffiliateCodeService;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('generates codes from the unambiguous alphabet', function (): void {

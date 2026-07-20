@@ -8,10 +8,9 @@ use Illuminate\Support\Str;
 use Misaf\VendraCart\Actions\AddCartItemAction;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCart\Models\CartItem;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('adds a sellable to the cart', function (): void {

@@ -16,7 +16,6 @@ use Misaf\VendraNewsletter\Jobs\SendNewsletterBatchJob;
 use Misaf\VendraNewsletter\Jobs\SendNewsletterEmailJob;
 use Misaf\VendraNewsletter\Mail\NewsletterMail;
 use Misaf\VendraNewsletter\Models\Newsletter;
-use Misaf\VendraTenant\Models\Tenant;
 use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
 
 beforeEach(function (): void {
@@ -27,7 +26,7 @@ beforeEach(function (): void {
         )),
     ]);
 
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('keeps production demo newsletters from being scheduled automatically', function (): void {
@@ -214,10 +213,10 @@ it('sends scheduled newsletters that are due and leaves future ones untouched', 
 
 it('scopes each tenant\'s scheduled send to its own subscribers across all tenants', function (): void {
     Queue::fake();
-    Tenant::forgetCurrent();
+    forgetCurrentTestTenant();
 
-    $tenantA = Tenant::factory()->enabled()->create();
-    $tenantB = Tenant::factory()->enabled()->create();
+    $tenantA = createTestTenant();
+    $tenantB = createTestTenant();
 
     /** @var array{0: Newsletter, 1: list<int>} $contextA */
     $contextA = $tenantA->execute(function (): array {

@@ -7,11 +7,10 @@ use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraDeveloperLogins\Support\DeveloperLoginsRegistrar;
 use Misaf\VendraPermission\Models\Role;
-use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    makeCurrentTestTenant();
 });
 
 it('registers developer logins only on configured panels', function (): void {

@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
-    Tenant::forgetCurrent();
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    forgetCurrentTestTenant();
+    makeCurrentTestTenant();
 });
 
 afterEach(function (): void {
-    Tenant::forgetCurrent();
+    forgetCurrentTestTenant();
 });
 
 it('serves custom pages as a to-many relationship of categories', function (): void {
