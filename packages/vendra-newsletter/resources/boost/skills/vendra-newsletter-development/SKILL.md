@@ -97,7 +97,7 @@ Migrations, factories, seeders, and translation files are part of the contract.
 Prefer focused Pest tests in the module.
 
 - Add or update tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config/schedule behavior, translation parity, the send pipeline (batch fan-out, per-recipient delivery, durable replay suppression, and failed-send rollback), cross-tenant send isolation, soft-deleted subscriber restoration, and the unsubscribe flow.
-- Fake the queue and mail (`Queue::fake()`, `Mail::fake()`) when asserting the send pipeline; use `Tenant::factory()->enabled()->create()->makeCurrent()` in feature tests that need a real tenant context.
+- Fake the queue and mail (`Queue::fake()`, `Mail::fake()`) when asserting the send pipeline; use the vendra-testing `makeCurrentTestTenant()` helper in feature tests that need a real tenant context.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraNewsletter')->not->toUse('Misaf\VendraTenant')`.
 - Run module checks from the package when possible: `composer --working-dir=packages/vendra-newsletter test` and `composer --working-dir=packages/vendra-newsletter analyse`.
 - If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent`.

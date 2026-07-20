@@ -21,7 +21,9 @@ Treat `packages/vendra-testing` as shared, module-agnostic test utilities.
 
 - Use namespace `Misaf\VendraTesting`.
 - Own reusable Pest expectations and helpers (`Expectations`, `TranslationParity`) here.
-- Keep utilities generic: no dependency on a specific domain module and no concrete tenant provider reference (`Misaf\VendraTenant`).
+- Own the provider-agnostic helpers in `src/Helpers.php` (files-autoloaded): `testTenantModel()`, `createTestTenant()`, `makeCurrentTestTenant()`, `switchToTestTenant()`, `currentTestTenant()`, `forgetCurrentTestTenant()` (via the `misaf/vendra-support` `TenantResolver` / `TenantAwareness` contracts) and `testUserModel()` / `createTestUser()` (via `auth.providers.users.model`). They no-op (returning null) when tenancy is disabled.
+- Module test suites must use these helpers instead of importing `Misaf\VendraTenant`; only `vendra-tenant` and `vendra-subscription` tests may import the concrete provider (enforced by the root `PackageManifestConsistencyTest`).
+- Keep utilities generic: no dependency on a specific domain module and no concrete tenant provider reference (`Misaf\VendraTenant`). `misaf/vendra-support` is the one sanctioned dependency.
 - Keep cross-module dependencies explicit in `composer.json`.
 
 ## Utility Standards
