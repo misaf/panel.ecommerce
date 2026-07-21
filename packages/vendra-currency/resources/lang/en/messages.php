@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-    'buy_price_changed_successfully'  => ':iso_code buy price changed successfully',
-    'sell_price_changed_successfully' => ':iso_code sell price changed successfully',
-    'update_name'                     => 'Update :name',
+    'currencies_installed'     => 'Currencies added from the catalog',
+    'default_currency_updated' => 'Default currency updated',
 ];

@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Schemas;
 
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
-use Misaf\VendraCurrency\Models\Currency;
 
 final class CurrencyInfolist
 {
@@ -16,37 +14,24 @@ final class CurrencyInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('currencyCategory.name')
-                    ->label(__('vendra-currency::navigation.currency_category')),
-                TextEntry::make('name')->label(__('vendra-currency::attributes.name')),
-                TextEntry::make('slug')->label(__('vendra-currency::attributes.slug')),
-                TextEntry::make('iso_code')
+                TextEntry::make('code')
                     ->badge()
-                    ->label(__('vendra-currency::attributes.iso_code')),
-                TextEntry::make('conversion_rate')
-                    ->label(__('vendra-currency::attributes.conversion_rate'))
-                    ->numeric(locale: 'en'),
-                TextEntry::make('decimal_place')
-                    ->label(__('vendra-currency::attributes.decimal_place')),
-                TextEntry::make('buy_price')
-                    ->label(__('vendra-currency::attributes.buy_price'))
-                    ->numeric(locale: 'en'),
-                TextEntry::make('sell_price')
-                    ->label(__('vendra-currency::attributes.sell_price'))
-                    ->numeric(locale: 'en'),
-                IconEntry::make('is_default')
-                    ->boolean()
-                    ->label(__('vendra-currency::attributes.is_default')),
+                    ->label(__('vendra-currency::attributes.code')),
+                TextEntry::make('name')->label(__('vendra-currency::attributes.name')),
+                TextEntry::make('symbol')
+                    ->label(__('vendra-currency::attributes.symbol'))
+                    ->placeholder('—'),
+                TextEntry::make('type')
+                    ->badge()
+                    ->label(__('vendra-currency::attributes.type')),
+                TextEntry::make('decimal_places')
+                    ->label(__('vendra-currency::attributes.decimal_places')),
                 IconEntry::make('status')
                     ->boolean()
                     ->label(__('vendra-currency::attributes.status')),
-                TextEntry::make('description')
-                    ->columnSpanFull()
-                    ->label(__('vendra-currency::attributes.description')),
-                SpatieMediaLibraryImageEntry::make('image')
-                    ->collection(Currency::MEDIA_COLLECTION)
-                    ->columnSpanFull()
-                    ->label(__('vendra-currency::attributes.image')),
+                IconEntry::make('is_default')
+                    ->boolean()
+                    ->label(__('vendra-currency::attributes.is_default')),
                 self::dateEntry('created_at'),
                 self::dateEntry('updated_at'),
             ])

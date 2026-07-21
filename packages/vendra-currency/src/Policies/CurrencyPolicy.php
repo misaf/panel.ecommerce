@@ -7,9 +7,7 @@ namespace Misaf\VendraCurrency\Policies;
 use Misaf\VendraCurrency\Enums\CurrencyPolicyEnum;
 use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesReorderAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 use Misaf\VendraSupport\Concerns\AuthorizesUpdateAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
@@ -19,9 +17,7 @@ final class CurrencyPolicy
 {
     use AuthorizesCreateAbilities;
     use AuthorizesDeleteAbilities;
-    use AuthorizesForceDeleteAbilities;
     use AuthorizesReorderAbilities;
-    use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
     use AuthorizesUpdateAbilities;
     use AuthorizesViewAbilities;

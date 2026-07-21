@@ -2,48 +2,47 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraCurrency\Models\Currency;
+use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
-use Misaf\VendraSupport\Support\EloquentCurrencyResolver;
+use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Support\CurrencyIntegration;
 
-it('binds the shared currency resolver contract', function (): void {
-    expect(app(CurrencyResolver::class))->toBeInstanceOf(EloquentCurrencyResolver::class);
+use function Pest\Laravel\mock;
+
+beforeEach(function (): void {
+    $tenantResolver = mock(TenantResolver::class);
+
+    $tenantResolver->shouldReceive('available')->andReturnTrue();
+    $tenantResolver->shouldReceive('current')->andReturnNull();
+    $tenantResolver->shouldReceive('currentId')->andReturn(1);
+
+    app()->instance(TenantResolver::class, $tenantResolver);
 });
 
-it('provides active currency options through the shared resolver', function (): void {
-    makeCurrentTestTenant();
+it('resolves the default currency code from the database', function (): void {
+    CurrencyFactory::new()->code('EUR')->createOne(['position' => 1]);
+    CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 2]);
 
-    Currency::factory()->create([
-        'name'       => 'US Dollar',
-        'iso_code'   => 'USD',
-        'is_default' => true,
-        'position'   => 1,
-        'status'     => true,
-    ]);
+    expect(app(CurrencyResolver::class)->defaultCode())->toBe('USD');
+});
 
-    Currency::factory()->create([
-        'name'       => 'Euro',
-        'iso_code'   => 'EUR',
-        'is_default' => false,
-        'position'   => 2,
-        'status'     => true,
-    ]);
-
-    Currency::factory()->create([
-        'name'       => 'British Pound',
-        'iso_code'   => 'GBP',
-        'is_default' => false,
-        'position'   => 3,
-        'status'     => false,
-    ]);
+it('resolves options and active codes from enabled currencies only', function (): void {
+    CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 1]);
+    CurrencyFactory::new()->code('EUR')->createOne(['position' => 2]);
+    CurrencyFactory::new()->code('GBP')->disabled()->createOne(['position' => 3]);
 
     $resolver = app(CurrencyResolver::class);
 
-    expect($resolver->available())->toBeTrue()
-        ->and($resolver->defaultCode())->toBe('USD')
-        ->and($resolver->options())->toBe([
-            'EUR' => 'Euro',
-            'USD' => 'US Dollar',
-        ])
-        ->and($resolver->activeCodes())->toBe(['USD', 'EUR']);
+    expect($resolver->options())->toBe([
+        'EUR' => 'Euro',
+        'USD' => 'US Dollar',
+    ])
+        ->and($resolver->activeCodes())->toEqualCanonicalizing(['USD', 'EUR']);
+});
+
+it('integrates with the shared currency facade', function (): void {
+    CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 1]);
+
+    expect(CurrencyIntegration::isAvailable())->toBeTrue()
+        ->and(CurrencyIntegration::defaultCode())->toBe('USD');
 });

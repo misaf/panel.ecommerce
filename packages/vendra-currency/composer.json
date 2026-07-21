@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-currency",
-    "description": "Multi-currency support system with hierarchical currency categories",
+    "description": "Currency management with a fiat and crypto catalog, per-tenant activation, and a single default currency",
     "license": "MIT",
     "type": "vendra-module",
     "keywords": [
@@ -8,7 +8,9 @@
         "filamentphp",
         "misaf",
         "vendra",
-        "currency"
+        "currency",
+        "money",
+        "crypto"
     ],
     "authors": [
         {
@@ -24,14 +26,12 @@
     },
     "require": {
         "php": "^8.3",
-        "awcodes/filament-badgeable-column": "^4.0",
+        "cknow/laravel-money": "^8.5",
         "misaf/filament-jalali": "^5.1.4",
-        "misaf/vendra-multimedia": "self.version",
         "misaf/vendra-support": "self.version",
+        "moneyphp/crypto-currencies": "^1.1.0",
         "spatie/eloquent-sortable": "^5.0.1",
-        "spatie/laravel-package-tools": "^1.93.1",
-        "spatie/laravel-sluggable": "^4.0.2",
-        "staudenmeir/belongs-to-through": "^2.18"
+        "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",

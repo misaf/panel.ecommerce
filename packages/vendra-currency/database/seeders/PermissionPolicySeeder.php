@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraCurrency\Database\Seeders;
 
 use Misaf\VendraCurrency\CurrencyPlugin;
-use Misaf\VendraCurrency\Enums\CurrencyCategoryPolicyEnum;
 use Misaf\VendraCurrency\Enums\CurrencyPolicyEnum;
 use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
@@ -18,9 +17,6 @@ final class PermissionPolicySeeder extends BasePermissionPolicySeeder
      */
     protected function policies(): array
     {
-        return [
-            ...array_column(CurrencyCategoryPolicyEnum::cases(), 'value'),
-            ...array_column(CurrencyPolicyEnum::cases(), 'value'),
-        ];
+        return array_column(CurrencyPolicyEnum::cases(), 'value');
     }
 }

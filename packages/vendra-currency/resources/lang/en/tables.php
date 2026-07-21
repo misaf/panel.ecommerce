@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 return [
     'description' => [
-        'currencies'          => 'Manage supported currencies and exchange rates.',
-        'currency_categories' => 'Organize currencies into categories.',
+        'currencies' => 'Enable the currencies your store accepts and choose the default one.',
     ],
 
     'empty_state' => [
-        'heading' => [
-            'currencies'          => 'No currencies yet',
-            'currency_categories' => 'No currency categories yet',
+        'description' => [
+            'currencies' => 'Add fiat or crypto currencies from the catalog to start selling in them.',
         ],
 
-        'description' => [
-            'currencies'          => 'Add at least one currency to enable financial operations.',
-            'currency_categories' => 'Create categories to organize your currencies.',
+        'heading' => [
+            'currencies' => 'No currencies yet',
         ],
     ],
 ];

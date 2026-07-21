@@ -6,6 +6,7 @@ namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\InstallCurrenciesAction;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
 
 final class ListCurrencies extends ListRecords
@@ -20,6 +21,8 @@ final class ListCurrencies extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            InstallCurrenciesAction::make(),
+
             CreateAction::make(),
         ];
     }

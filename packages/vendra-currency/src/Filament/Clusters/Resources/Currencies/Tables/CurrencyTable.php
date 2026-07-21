@@ -4,48 +4,35 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Tables;
 
-use Awcodes\BadgeableColumn\Components\Badge;
-use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
-use Filament\Tables\Columns\ColumnGroup;
-use Filament\Tables\Columns\Layout\Component as LayoutComponent;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Tables\Columns\Summarizers\Average;
-use Filament\Tables\Columns\Summarizers\Range;
-use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
+use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraCurrency\Actions\SetDefaultCurrencyAction;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\UpdateBuyPriceAction;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\UpdateSellPriceAction;
+use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
+use Misaf\VendraCurrency\Enums\CurrencyType;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetDefaultCurrencyAction;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
 use Misaf\VendraCurrency\Models\Currency;
-use Misaf\VendraCurrency\Models\CurrencyCategory;
-use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
 
 final class CurrencyTable
 {
-    use HasDefaultAvatarImageUrl;
-
     public static function configure(Table $table): Table
     {
         /**
-         * @var array<int, Column|ColumnGroup|LayoutComponent> $columns
+         * @var array<int, Column> $columns
          */
         $columns = [
             TextColumn::make('row')
@@ -53,76 +40,46 @@ final class CurrencyTable
                 ->rowIndex()
                 ->sortable(['id']),
 
-            SpatieMediaLibraryImageColumn::make('image')
-                ->alignCenter()
-                ->collection(Currency::MEDIA_COLLECTION)
-                ->conversion('thumb-table')
-                ->defaultImageUrl(fn(Currency $record): string => static::defaultAvatarImageUrl($record->name))
-                ->extraImgAttributes(['class' => 'saturate-50', 'loading' => 'lazy'])
-                ->label(__('vendra-product::attributes.image'))
-                ->stacked(),
+            TextColumn::make('code')
+                ->badge()
+                ->label(__('vendra-currency::attributes.code'))
+                ->searchable()
+                ->sortable(),
 
-            BadgeableColumn::make('name')
-                ->alignStart()
+            TextColumn::make('name')
                 ->label(__('vendra-currency::attributes.name'))
                 ->searchable()
-                ->suffixBadges([
-                    Badge::make('status')
-                        ->label(fn(Currency $record) => $record->iso_code)
-                        ->size(Size::Small),
-                ])
-                ->suffix(''),
+                ->sortable(),
 
-            TextColumn::make('description')
-                ->label(__('vendra-currency::attributes.description'))
-                ->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make('symbol')
+                ->label(__('vendra-currency::attributes.symbol'))
+                ->placeholder('—'),
 
-            TextColumn::make('slug')
-                ->alignStart()
-                ->label(__('vendra-currency::attributes.slug'))
-                ->searchable()
-                ->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make('type')
+                ->badge()
+                ->color(fn(CurrencyType $state): string => CurrencyType::Fiat === $state ? 'success' : 'warning')
+                ->label(__('vendra-currency::attributes.type')),
 
-            TextColumn::make('iso_code')
-                ->alignStart()
-                ->label(__('vendra-currency::attributes.iso_code'))
-                ->searchable()
-                ->toggleable(isToggledHiddenByDefault: true),
-
-            TextColumn::make('conversion_rate')
-                ->alignStart()
-                ->label(__('vendra-currency::attributes.conversion_rate'))
-                ->toggleable(isToggledHiddenByDefault: true),
-
-            TextColumn::make('decimal_place')
-                ->alignStart()
-                ->label(__('vendra-currency::attributes.decimal_place'))
-                ->toggleable(isToggledHiddenByDefault: true),
-
-            TextColumn::make('buy_price')
-                ->label(__('vendra-currency::attributes.buy_price'))
-                ->numeric()
-                ->action(UpdateBuyPriceAction::make())
-                ->summarize([Sum::make(), Average::make(), Range::make()]),
-
-            TextColumn::make('sell_price')
-                ->label(__('vendra-currency::attributes.sell_price'))
-                ->numeric()
-                ->action(UpdateSellPriceAction::make())
-                ->summarize([Sum::make(), Average::make(), Range::make()]),
-
-            ToggleColumn::make('is_default')
-                ->afterStateUpdated(function (Currency $record, ?string $state): void {
-                    if ($state) {
-                        (new SetDefaultCurrencyAction())->execute($record);
-                    }
-                })
-                ->label(__('vendra-currency::attributes.is_default'))
-                ->onIcon(Heroicon::Bolt),
+            TextColumn::make('decimal_places')
+                ->alignCenter()
+                ->label(__('vendra-currency::attributes.decimal_places')),
 
             ToggleColumn::make('status')
                 ->label(__('vendra-currency::attributes.status'))
-                ->onIcon(Heroicon::Bolt),
+                ->onIcon(Heroicon::Bolt)
+                ->disabled(fn(Currency $record): bool => ! CurrencyResource::canEdit($record)),
+
+            ToggleColumn::make('is_default')
+                ->disabled(fn(Currency $record): bool => $record->is_default || ! CurrencyResource::canEdit($record))
+                ->label(__('vendra-currency::attributes.is_default'))
+                ->onIcon(Heroicon::Bolt)
+                ->updateStateUsing(function (Currency $record, bool $state, SetDefaultCurrency $setDefaultCurrency): bool {
+                    if ($state) {
+                        $setDefaultCurrency->execute($record);
+                    }
+
+                    return $record->refresh()->is_default;
+                }),
 
             TextColumn::make('created_at')
                 ->alignCenter()
@@ -150,52 +107,44 @@ final class CurrencyTable
         ];
 
         return $table
-            ->description(__('vendra-currency::tables.description.currencies'))
-            ->emptyStateHeading(__('vendra-currency::tables.empty_state.heading.currencies'))
-            ->emptyStateDescription(__('vendra-currency::tables.empty_state.description.currencies'))
-            ->emptyStateIcon(Heroicon::OutlinedBanknotes)
             ->columns($columns)
             ->filters(
                 [
                     QueryBuilder::make()
                         ->constraints([
-                            RelationshipConstraint::make('currencyCategory')
-                                ->label(__('vendra-currency::navigation.currency_category'))
-                                ->selectable(
-                                    IsRelatedToOperator::make()
-                                        ->getOptionLabelFromRecordUsing(function (CurrencyCategory $record) {
-                                            return $record->getAttributeValue('name');
-                                        })
-                                        ->preload()
-                                        ->searchable()
-                                        ->titleAttribute('name'),
-                                ),
+                            TextConstraint::make('code')
+                                ->label(__('vendra-currency::attributes.code')),
 
                             TextConstraint::make('name')
                                 ->label(__('vendra-currency::attributes.name')),
 
-                            TextConstraint::make('slug')
-                                ->label(__('vendra-currency::attributes.slug')),
-
-                            TextConstraint::make('iso_code')
-                                ->label(__('vendra-currency::attributes.iso_code')),
-
-                            BooleanConstraint::make('is_default')
-                                ->label(__('vendra-currency::attributes.is_default')),
+                            SelectConstraint::make('type')
+                                ->label(__('vendra-currency::attributes.type'))
+                                ->options(CurrencyType::class),
 
                             BooleanConstraint::make('status')
                                 ->label(__('vendra-currency::attributes.status')),
 
-                            NumberConstraint::make('position'),
+                            BooleanConstraint::make('is_default')
+                                ->label(__('vendra-currency::attributes.is_default')),
+
+                            NumberConstraint::make('position')
+                                ->label(__('vendra-currency::attributes.position')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-currency::tables.description.currencies'))
+            ->emptyStateHeading(__('vendra-currency::tables.empty_state.heading.currencies'))
+            ->emptyStateDescription(__('vendra-currency::tables.empty_state.description.currencies'))
+            ->emptyStateIcon(Heroicon::OutlinedBanknotes)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),
 
                     EditAction::make(),
+
+                    SetDefaultCurrencyAction::make(),
 
                     DeleteAction::make(),
                 ]),
@@ -206,6 +155,6 @@ final class CurrencyTable
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc')
-            ->reorderable(column: 'position', direction: 'desc');
+            ->reorderable(column: 'position');
     }
 }

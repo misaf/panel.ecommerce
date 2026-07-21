@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Schemas;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
+use Misaf\VendraCurrency\Enums\CurrencyType;
 use Misaf\VendraCurrency\Models\Currency;
+use Misaf\VendraCurrency\Support\CurrencyRegistry;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class CurrencyForm
@@ -26,118 +24,60 @@ final class CurrencyForm
     {
         return $schema
             ->components([
-                Select::make('currency_category_id')
-                    ->columnSpanFull()
-                    ->label(__('vendra-currency::navigation.currency_category'))
+                Select::make('code')
+                    ->afterStateUpdated(function (Set $set, ?string $state): void {
+                        if (null === $state || ! CurrencyRegistry::isSupported($state)) {
+                            return;
+                        }
+
+                        $set('name', CurrencyRegistry::nameFor($state));
+                        $set('decimal_places', CurrencyRegistry::minorUnitFor($state));
+                        $set('type', CurrencyRegistry::typeFor($state)?->value);
+                    })
+                    ->label(__('vendra-currency::attributes.code'))
+                    ->live()
                     ->native(false)
-                    ->preload()
-                    ->relationship('currencyCategory', 'name')
+                    ->options(fn(?Currency $record): array => static::installableCurrencyOptions($record))
                     ->required()
-                    ->searchable(),
+                    ->rule(Rule::in(CurrencyRegistry::codes()))
+                    ->searchable()
+                    ->unique(
+                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule),
+                    ),
 
                 TextInput::make('name')
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
-                        if (($get->string('slug', isNullable: true) ?? '') === Str::slug($old ?? '')) {
-                            $set('slug', Str::slug($state ?? ''));
-                        }
-                    })
-                    ->autofocus()
-                    ->columnSpan(['lg' => 1])
                     ->label(__('vendra-currency::attributes.name'))
-                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required(),
 
-                TextInput::make('slug')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.slug'))
-                    ->columnSpan(['lg' => 1])
-                    ->helperText(__('vendra-currency::attributes.slug_helper_text'))
-                    ->label(__('vendra-currency::attributes.slug'))
-                    ->maxLength(255)
-                    ->required()
-                    ->unique(
-                        modifyRuleUsing: fn(Unique $rule): Unique => TenantAwareness::constrainUniqueRule($rule)
-                            ->withoutTrashed(),
-                    ),
+                TextInput::make('symbol')
+                    ->label(__('vendra-currency::attributes.symbol'))
+                    ->maxLength(16),
 
-                Fieldset::make('currency_setting')
-                    ->columns(3)
-                    ->label(__('vendra-currency::attributes.currency_setting'))
-                    ->schema([
-                        TextInput::make('iso_code')
-                            ->columnSpan([
-                                'lg' => 1,
-                            ])
-                            ->extraInputAttributes(['dir' => 'ltr'])
-                            ->label(__('vendra-currency::attributes.iso_code'))
-                            ->length(3)
-                            ->required()
-                            ->rules(['alpha:ascii']),
+                TextInput::make('decimal_places')
+                    ->integer()
+                    ->label(__('vendra-currency::attributes.decimal_places'))
+                    ->maxValue(255)
+                    ->minValue(0)
+                    ->required(),
 
-                        TextInput::make('conversion_rate')
-                            ->columnSpan([
-                                'lg' => 1,
-                            ])
-                            ->extraInputAttributes(['dir' => 'ltr'])
-                            ->inputMode('decimal')
-                            ->label(__('vendra-currency::attributes.conversion_rate'))
-                            ->minValue(0)
-                            ->numeric()
-                            ->required()
-                            ->rules(['decimal:0,8']),
+                Select::make('type')
+                    ->default(CurrencyType::Fiat->value)
+                    ->dehydrated()
+                    ->disabled()
+                    ->label(__('vendra-currency::attributes.type'))
+                    ->native(false)
+                    ->options(CurrencyType::class)
+                    ->required(),
 
-                        TextInput::make('decimal_place')
-                            ->columnSpan([
-                                'lg' => 1,
-                            ])
-                            ->extraInputAttributes(['dir' => 'ltr'])
-                            ->inputMode('numeric')
-                            ->integer()
-                            ->label(__('vendra-currency::attributes.decimal_place'))
-                            ->maxValue(255)
-                            ->minValue(0)
-                            ->required(),
-                    ]),
-
-                Fieldset::make('exchange_setting')
-                    ->columns(2)
-                    ->label(__('vendra-currency::attributes.exchange_setting'))
-                    ->schema([
-                        TextInput::make('buy_price')
-                            ->columnSpan([
-                                'lg' => 1,
-                            ])
-                            ->extraInputAttributes(['dir' => 'ltr'])
-                            ->inputMode('numeric')
-                            ->label(__('vendra-currency::attributes.buy_price'))
-                            ->required()
-                            ->numeric(),
-
-                        TextInput::make('sell_price')
-                            ->columnSpan([
-                                'lg' => 1,
-                            ])
-                            ->extraInputAttributes(['dir' => 'ltr'])
-                            ->inputMode('numeric')
-                            ->label(__('vendra-currency::attributes.sell_price'))
-                            ->required()
-                            ->numeric(),
-                    ]),
-
-                Textarea::make('description')
+                Toggle::make('status')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->columnSpanFull()
-                    ->label(__('vendra-currency::attributes.description'))
-                    ->maxLength(255)
+                    ->default(true)
+                    ->label(__('vendra-currency::attributes.status'))
+                    ->onIcon(Heroicon::Bolt)
                     ->required()
-                    ->rows(5),
-
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->collection(Currency::MEDIA_COLLECTION)
-                    ->columnSpanFull()
-                    ->image()
-                    ->label(__('vendra-currency::attributes.image'))
-                    ->panelLayout('grid')
-                    ->responsiveImages(),
+                    ->rules(['boolean']),
 
                 Toggle::make('is_default')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.is_default'))
@@ -146,20 +86,26 @@ final class CurrencyForm
                     ->label(__('vendra-currency::attributes.is_default'))
                     ->onIcon(Heroicon::Bolt)
                     ->required()
-                    ->rules([
-                        'boolean',
-                    ]),
+                    ->rules(['boolean']),
+            ])
+            ->columns(2);
+    }
 
-                Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
-                    ->columnSpanFull()
-                    ->default(false)
-                    ->label(__('vendra-currency::attributes.status'))
-                    ->onIcon(Heroicon::Bolt)
-                    ->required()
-                    ->rules([
-                        'boolean',
-                    ]),
-            ]);
+    /** @return array<string, string> */
+    private static function installableCurrencyOptions(?Currency $record): array
+    {
+        $installedCurrenciesQuery = Currency::query();
+
+        if (null !== $record) {
+            $installedCurrenciesQuery->whereKeyNot($record->getKey());
+        }
+
+        $installedCodes = $installedCurrenciesQuery
+            ->get(['code'])
+            ->map(fn(Currency $currency): string => $currency->code);
+
+        return collect(CurrencyRegistry::options())
+            ->except($installedCodes)
+            ->all();
     }
 }

@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 return [
     'description' => [
-        'currencies'          => 'Unterstützte Währungen und Wechselkurse verwalten.',
-        'currency_categories' => 'Währungen in Kategorien organisieren.',
+        'currencies' => 'Aktivieren Sie die Währungen, die Ihr Shop akzeptiert, und wählen Sie die Standardwährung.',
     ],
 
     'empty_state' => [
-        'heading' => [
-            'currencies'          => 'Noch keine Währungen',
-            'currency_categories' => 'Noch keine Währungskategorien',
+        'description' => [
+            'currencies' => 'Fügen Sie Fiat- oder Kryptowährungen aus dem Katalog hinzu, um damit zu verkaufen.',
         ],
 
-        'description' => [
-            'currencies'          => 'Fügen Sie mindestens eine Währung hinzu, um finanzielle Vorgänge zu ermöglichen.',
-            'currency_categories' => 'Erstellen Sie Kategorien, um Ihre Währungen zu organisieren.',
+        'heading' => [
+            'currencies' => 'Noch keine Währungen',
         ],
     ],
 ];

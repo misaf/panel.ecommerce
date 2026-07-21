@@ -28,6 +28,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('vendra-currency')
+            ->hasConfigFile()
             ->hasTranslations()
             ->hasMigrations([
                 'create_currencies_table',
@@ -42,7 +43,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(
             CurrencyResolver::class,
-            fn(): EloquentCurrencyResolver => new EloquentCurrencyResolver(Currency::class),
+            fn(): EloquentCurrencyResolver => new EloquentCurrencyResolver(Currency::class, codeColumn: 'code'),
         );
 
         Panel::configureUsing(function (Panel $panel): void {
@@ -56,7 +57,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        $this->app->make(TenantTableRegistry::class)->register('currency_categories', 'currencies');
+        $this->app->make(TenantTableRegistry::class)->register('currencies');
         $this->app->make(TenantSeeders::class)->register('vendra-currency:seed', priority: 30);
 
         AboutCommand::add('Vendra Currency', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-currency')]);

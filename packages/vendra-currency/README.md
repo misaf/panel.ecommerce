@@ -4,20 +4,18 @@ Tenant-aware currency management for Vendra applications.
 
 ## Features
 
-- Currency categories
-- Currencies with buy/sell pricing and conversion rate
-- Filament resources on the `admin` panel
+- Catalog of installable currencies: ISO 4217 fiat (via `moneyphp/money`) and crypto currencies (via `moneyphp/crypto-currencies`)
+- Enable/disable installed currencies per tenant with a single enforced default currency
+- Money formatting through `cknow/laravel-money`
+- Filament resource on the `admin` panel
 
 ## Requirements
 
-- PHP 8.2+
+- PHP 8.3+
 - Laravel 12
 - Filament 5
 - Livewire 4
 - Pest 4
-- Tailwind CSS 4
-- `misaf/vendra-tenant`
-- `misaf/vendra-activity-log`
 
 ## Installation
 
@@ -37,56 +35,49 @@ The service provider and Filament plugin are auto-registered.
 
 ## Usage
 
-Create a currency category:
-
-```php
-use Misaf\VendraCurrency\Models\CurrencyCategory;
-
-$category = CurrencyCategory::query()->create([
-    'name' => 'Fiat',
-    'description' => 'Government-issued currencies',
-    'slug' => 'fiat',
-    'position' => 1,
-    'status' => true,
-]);
-```
-
-Create a currency:
+Install a currency from the catalog:
 
 ```php
 use Misaf\VendraCurrency\Models\Currency;
+use Misaf\VendraCurrency\Support\CurrencyRegistry;
 
 Currency::query()->create([
-    'currency_category_id' => $category->id,
-    'name' => 'US Dollar',
-    'description' => 'United States Dollar',
-    'slug' => 'usd',
-    'iso_code' => 'USD',
-    'conversion_rate' => 1,
-    'decimal_place' => 2,
-    'buy_price' => 100000,
-    'sell_price' => 99500,
+    'code' => 'USD',
+    'name' => CurrencyRegistry::nameFor('USD'),
+    'symbol' => '$',
+    'decimal_places' => CurrencyRegistry::minorUnitFor('USD'),
+    'type' => CurrencyRegistry::typeFor('USD'),
     'is_default' => true,
-    'position' => 1,
-    'status' => true,
 ]);
 ```
 
-Load currencies with their category:
+Browse the catalog:
 
 ```php
-$currencies = Currency::query()
-    ->with('currencyCategory')
-    ->where('status', true)
-    ->get();
+CurrencyRegistry::options();      // ['USD' => 'US Dollar (USD)', ..., 'BTC' => 'BTC', ...]
+CurrencyRegistry::isSupported('BTC'); // true
+```
+
+Format an amount stored in minor units:
+
+```php
+$currency = Currency::query()->where('code', 'USD')->firstOrFail();
+
+$currency->formatAmount(1050); // "$10.50"
+$currency->money(1050);        // Cknow\Money\Money instance
+```
+
+Exactly one enabled currency is the default at any time; use the domain action to switch it:
+
+```php
+use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
+
+(new SetDefaultCurrency())->execute($currency);
 ```
 
 ## Filament
 
-Resources are available in the `Currencies` cluster on the `admin` panel:
-
-- Currency Categories
-- Currencies
+The `Currencies` resource lives in the Sales cluster on the `admin` panel. Install currencies from the searchable catalog, toggle their status, reorder them, and pick the default via the table toggle or row action.
 
 ## Testing
 

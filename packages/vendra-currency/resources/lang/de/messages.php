@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-    'buy_price_changed_successfully'  => 'Kaufpreis für :iso_code erfolgreich geändert',
-    'sell_price_changed_successfully' => 'Verkaufspreis für :iso_code erfolgreich geändert',
-    'update_name'                     => ':name aktualisieren',
+    'currencies_installed'     => 'Währungen aus dem Katalog hinzugefügt',
+    'default_currency_updated' => 'Standardwährung aktualisiert',
 ];

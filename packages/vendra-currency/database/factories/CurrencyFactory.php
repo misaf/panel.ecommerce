@@ -6,11 +6,9 @@ namespace Misaf\VendraCurrency\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Misaf\VendraCurrency\Enums\CurrencyType;
 use Misaf\VendraCurrency\Models\Currency;
-use Misaf\VendraCurrency\Models\CurrencyCategory;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraCurrency\Support\CurrencyRegistry;
 
 /**
  * @extends Factory<Currency>
@@ -18,53 +16,60 @@ use Misaf\VendraSupport\Support\TenantAwareness;
 #[UseModel(Currency::class)]
 final class CurrencyFactory extends Factory
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
-        $name = fake()->sentence();
+        $code = $this->faker->unique()->randomElement(
+            array_keys(CurrencyRegistry::options(CurrencyType::Fiat)),
+        );
 
         return [
-            'currency_category_id' => CurrencyCategory::factory(),
-            'name'                 => $name,
-            'description'          => fake()->realTextBetween(100, 200),
-            'slug'                 => Str::slug($name),
-            'iso_code'             => fake()->unique()->currencyCode(),
-            'conversion_rate'      => fake()->randomFloat(2, 0.1, 10),
-            'decimal_place'        => fake()->numberBetween(0, 4),
-            'is_default'           => fake()->boolean(1),
-            'buy_price'            => fake()->numberBetween(70000, 100000),
-            'sell_price'           => fake()->numberBetween(70000, 100000),
-            'status'               => fake()->boolean(80),
+            'code'           => $code,
+            'name'           => CurrencyRegistry::nameFor($code),
+            'symbol'         => null,
+            'decimal_places' => CurrencyRegistry::minorUnitFor($code) ?? 2,
+            'type'           => CurrencyType::Fiat,
+            'status'         => true,
+            'is_default'     => false,
+            'position'       => $this->faker->numberBetween(1, 1000),
         ];
     }
 
-    /**
-     * No-op without a tenant provider, since there is no `tenant_id` column.
-     */
-    public function forTenant(Model|int $tenant): static
+    public function default(): static
     {
-        if ( ! TenantAwareness::enabled()) {
-            return $this;
-        }
-
-        return $this->state(fn(): array => [
-            'tenant_id' => $tenant instanceof Model ? $tenant->getKey() : $tenant,
-        ]);
-    }
-
-    public function forCategory(CurrencyCategory $currencyCategory): static
-    {
-        return $this->state(fn(): array => [
-            'currency_category_id' => $currencyCategory->id,
-        ]);
-    }
-
-    public function enabled(): static
-    {
-        return $this->state(fn(): array => ['status' => true]);
+        return $this->state(fn(): array => ['is_default' => true]);
     }
 
     public function disabled(): static
     {
         return $this->state(fn(): array => ['status' => false]);
+    }
+
+    public function crypto(): static
+    {
+        return $this->state(function (): array {
+            $code = $this->faker->unique()->randomElement(
+                array_keys(CurrencyRegistry::options(CurrencyType::Crypto)),
+            );
+
+            return [
+                'code'           => $code,
+                'name'           => CurrencyRegistry::nameFor($code),
+                'decimal_places' => CurrencyRegistry::minorUnitFor($code) ?? 8,
+                'type'           => CurrencyType::Crypto,
+            ];
+        });
+    }
+
+    public function code(string $code): static
+    {
+        return $this->state(fn(): array => [
+            'code'           => $code,
+            'name'           => CurrencyRegistry::nameFor($code),
+            'decimal_places' => CurrencyRegistry::minorUnitFor($code) ?? 2,
+            'type'           => CurrencyRegistry::typeFor($code) ?? CurrencyType::Fiat,
+        ]);
     }
 }
