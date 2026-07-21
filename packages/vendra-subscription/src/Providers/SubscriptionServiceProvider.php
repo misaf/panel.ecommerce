@@ -7,6 +7,7 @@ namespace Misaf\VendraSubscription\Providers;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
+use Misaf\VendraSubscription\Console\Commands\EnforceSubscriptionsCommand;
 use Misaf\VendraSubscription\Console\Commands\ProvisionTenantCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -18,8 +19,14 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('vendra-subscription')
+            ->hasMigrations([
+                'create_accounts_table',
+                'create_plans_table',
+                'create_subscriptions_table',
+            ])
             ->hasCommands(
                 ProvisionTenantCommand::class,
+                EnforceSubscriptionsCommand::class,
             )
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-subscription');

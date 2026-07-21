@@ -1,0 +1,162 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraSubscription\Models;
+
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Misaf\VendraSubscription\Database\Factories\SubscriptionFactory;
+use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSupport\Contracts\ShouldLogActivity;
+
+/**
+ * @property int $id
+ * @property int $account_id
+ * @property int $plan_id
+ * @property SubscriptionStatus $status
+ * @property int $price
+ * @property string|null $currency_code
+ * @property Carbon|null $trial_ends_at
+ * @property Carbon $starts_at
+ * @property Carbon|null $ends_at
+ * @property Carbon|null $expiry_reminder_sent_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon|null $deleted_at
+ */
+#[Fillable(['account_id', 'plan_id', 'status', 'price', 'currency_code', 'trial_ends_at', 'starts_at', 'ends_at', 'expiry_reminder_sent_at'])]
+#[UseFactory(SubscriptionFactory::class)]
+final class Subscription extends Model implements ShouldLogActivity
+{
+    /** @use HasFactory<SubscriptionFactory> */
+    use HasFactory;
+
+    use SoftDeletes;
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'id'                      => 'integer',
+            'account_id'              => 'integer',
+            'plan_id'                 => 'integer',
+            'status'                  => SubscriptionStatus::class,
+            'price'                   => 'integer',
+            'currency_code'           => 'string',
+            'trial_ends_at'           => 'datetime',
+            'starts_at'               => 'datetime',
+            'ends_at'                 => 'datetime',
+            'expiry_reminder_sent_at' => 'datetime',
+        ];
+    }
+
+    /**
+     * @return BelongsTo<Account, $this>
+     */
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    /**
+     * @return BelongsTo<Plan, $this>
+     */
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
+    /**
+     * Limit the query to subscriptions that are active right now.
+     *
+     * @param  Builder<Subscription>  $query
+     * @return Builder<Subscription>
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query
+            ->where('status', SubscriptionStatus::Active)
+            ->where('starts_at', '<=', now())
+            ->where(function (Builder $query): void {
+                $query
+                    ->whereNull('ends_at')
+                    ->orWhere('ends_at', '>=', now());
+            });
+    }
+
+    /**
+     * Limit the query to active subscriptions whose period has already lapsed.
+     *
+     * @param  Builder<Subscription>  $query
+     * @return Builder<Subscription>
+     */
+    public function scopeLapsed(Builder $query): Builder
+    {
+        return $query
+            ->where('status', SubscriptionStatus::Active)
+            ->whereNotNull('ends_at')
+            ->where('ends_at', '<', now());
+    }
+
+    /**
+     * Limit the query to active subscriptions expiring within the given number
+     * of days that have not yet had an expiry reminder sent.
+     *
+     * @param  Builder<Subscription>  $query
+     * @return Builder<Subscription>
+     */
+    public function scopeExpiringWithin(Builder $query, int $days): Builder
+    {
+        return $query
+            ->where('status', SubscriptionStatus::Active)
+            ->whereNull('expiry_reminder_sent_at')
+            ->whereNotNull('ends_at')
+            ->whereBetween('ends_at', [now(), now()->addDays($days)]);
+    }
+
+    /**
+     * The moment this subscription's websites should be suspended, taking the
+     * plan's grace window into account. Null when it never expires.
+     */
+    public function suspendAt(): ?Carbon
+    {
+        if (null === $this->ends_at) {
+            return null;
+        }
+
+        return $this->plan->resolveSuspendDate($this->ends_at);
+    }
+
+    /**
+     * Whether this subscription is currently within its trial period.
+     */
+    public function isOnTrial(): bool
+    {
+        return null !== $this->trial_ends_at && $this->trial_ends_at->isFuture();
+    }
+
+    /**
+     * Whether this subscription is active right now (status and period).
+     */
+    public function isActive(): bool
+    {
+        if (SubscriptionStatus::Active !== $this->status) {
+            return false;
+        }
+
+        if ($this->starts_at->isFuture()) {
+            return false;
+        }
+
+        return null === $this->ends_at || $this->ends_at->isFuture();
+    }
+}
