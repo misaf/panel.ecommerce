@@ -7,6 +7,7 @@ namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Schemas;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -55,6 +56,9 @@ final class CurrencyForm
                     ->maxLength(16),
 
                 TextInput::make('decimal_places')
+                    ->dehydrated()
+                    ->disabled(fn(Get $get): bool => CurrencyType::Fiat->value === $get('type'))
+                    ->helperText(__('vendra-currency::messages.decimal_places_fiat_hint'))
                     ->integer()
                     ->label(__('vendra-currency::attributes.decimal_places'))
                     ->maxValue(255)

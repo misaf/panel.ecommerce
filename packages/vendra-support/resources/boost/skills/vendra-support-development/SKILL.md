@@ -22,7 +22,7 @@ Treat `packages/vendra-support` as the shared support and tenant-awareness core.
 - Use namespace `Misaf\VendraSupport`.
 - Own the tenant abstraction here and nowhere else: the `TenantResolver` contract, the default `NullTenantResolver`, `TenantAwareness`, `BelongsToTenant`, `TenantScope`/`TeamScope`, `TenantSchema`, `TenantTableRegistry`, `RequiresCurrentTenant`, `TenantSeeders`, the base seeders and seed commands, shared Filament concerns, and the shared policy authorization concerns (`ResolvesPolicyPermissions` plus the `Authorizes*Abilities` traits).
 - Never depend on a concrete tenant provider (`Misaf\VendraTenant`) or any domain module. Support sits at the bottom of the dependency graph and must build and run standalone.
-- Own small optional-provider boundaries here. Tag consumers use `TagResolver`, `TagIntegration`, and `TagRelationship`; the concrete Tagger module binds the available resolver.
+- Own small optional-provider boundaries here. Tag consumers use `TagResolver`, `TagIntegration`, and `TagRelationship`; the concrete Tagger module binds the available resolver. `SubscriptionCharger` (null default `NullSubscriptionCharger`) is the payment-collection capability — subscription consumers call it while the host app binds a real charger (e.g. backed by `misaf/vendra-transaction`).
 - Keep `TagRelationship` limited to Eloquent polymorphic relationship metadata. Do not leak Spatie Tags or a domain model into Support.
 - Keep the reusable consumer relation in `HasOptionalTags`; require each model to return a stable domain-specific type and keep unavailable-provider failure behavior consistent.
 

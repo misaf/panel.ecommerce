@@ -12,7 +12,7 @@ Tenant-aware currency management for Vendra applications.
 ## Requirements
 
 - PHP 8.3+
-- Laravel 12
+- Laravel 13
 - Filament 5
 - Livewire 4
 - Pest 4
