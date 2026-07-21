@@ -78,3 +78,15 @@ it('detaches selections when a product is force deleted', function (): void {
 
     expect(DB::table('attribute_value_selections')->where('attribute_value_id', $attributeValue->getKey())->exists())->toBeFalse();
 })->skip(fn(): bool => ! AttributeIntegration::isAvailable(), 'vendra-attribute is not installed');
+
+it('cleans up selections when a category is force deleted and its attribute values are destroyed', function (): void {
+    $productCategory = ProductCategoryFactory::new()->create();
+    $product = ProductFactory::new()->forCategory($productCategory)->create();
+
+    $attributeValue = createCategoryAttributeValueForCascadeTest($productCategory);
+    $product->selectedAttributeValues()->attach($attributeValue->getKey());
+
+    $productCategory->forceDelete();
+
+    expect(DB::table('attribute_value_selections')->where('attribute_value_id', $attributeValue->getKey())->exists())->toBeFalse();
+})->skip(fn(): bool => ! AttributeIntegration::isAvailable(), 'vendra-attribute is not installed');

@@ -13,7 +13,7 @@ use Misaf\VendraProductApi\JsonApi\V1\ProductPrices\ProductPriceResource;
 it('serializes product price as raw integer and structured money', function (): void {
     $app = new Container();
     $config = new Repository([
-        'app'   => ['currency' => 'USD', 'locale' => 'en_US'],
+        'app' => ['currency' => 'USD', 'locale' => 'en_US'],
     ]);
 
     $app->instance('config', $config);

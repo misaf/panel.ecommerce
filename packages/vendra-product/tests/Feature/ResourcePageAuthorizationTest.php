@@ -30,7 +30,6 @@ it('renders the create product page under strict authorization', function (): vo
         ->assertOk();
 });
 
-
 it('renders the create product category page under strict authorization', function (): void {
     Filament::getPanel('admin')->strictAuthorization();
 
