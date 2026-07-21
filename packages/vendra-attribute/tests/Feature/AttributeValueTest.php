@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraAttribute\Models\Attribute;
@@ -46,7 +47,7 @@ it('rejects duplicate values for the same attribute and attributable', function 
     expect(fn() => $record->attributeValues()->create([
         'attribute_id' => $attribute->id,
         'value'        => 'Red',
-    ]))->toThrow(Illuminate\Database\QueryException::class);
+    ]))->toThrow(QueryException::class);
 });
 
 it('allows reusing a value after the previous one is soft deleted', function (): void {

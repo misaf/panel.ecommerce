@@ -7,6 +7,7 @@ use Misaf\VendraAttribute\Enums\AttributePolicyEnum;
 use Misaf\VendraAttribute\Enums\AttributeValuePolicyEnum;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Models\AttributeValue;
+use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 
 it('applies shared tenant ownership and soft deletes to attribute models', function (): void {
@@ -43,6 +44,6 @@ it('uses kebab-case permission names scoped per model', function (): void {
 });
 
 it('logs activity for attribute models', function (): void {
-    expect(new Attribute())->toBeInstanceOf(Misaf\VendraSupport\Contracts\ShouldLogActivity::class)
-        ->and(new AttributeValue())->toBeInstanceOf(Misaf\VendraSupport\Contracts\ShouldLogActivity::class);
+    expect(new Attribute())->toBeInstanceOf(ShouldLogActivity::class)
+        ->and(new AttributeValue())->toBeInstanceOf(ShouldLogActivity::class);
 });

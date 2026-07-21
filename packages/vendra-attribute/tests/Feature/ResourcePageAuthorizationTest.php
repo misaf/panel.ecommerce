@@ -7,6 +7,7 @@ use Misaf\VendraAttribute\Database\Factories\AttributeFactory;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\CreateAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\EditAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ListAttributes;
+use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ViewAttribute;
 
 use function Pest\Livewire\livewire;
 
@@ -46,7 +47,7 @@ it('renders the view attribute page under strict authorization', function (): vo
 
     $attribute = AttributeFactory::new()->createOne();
 
-    livewire(Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ViewAttribute::class, ['record' => $attribute->getKey()])
+    livewire(ViewAttribute::class, ['record' => $attribute->getKey()])
         ->assertOk()
         ->assertSee($attribute->name);
 });
