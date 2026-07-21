@@ -111,6 +111,10 @@ final class FaqTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-faq::tables.description.faqs'))
+            ->emptyStateHeading(__('vendra-faq::tables.empty_state.heading.faqs'))
+            ->emptyStateDescription(__('vendra-faq::tables.empty_state.description.faqs'))
+            ->emptyStateIcon(Heroicon::OutlinedQuestionMarkCircle)
             ->filters(
                 [
                     QueryBuilder::make()

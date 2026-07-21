@@ -102,6 +102,10 @@ final class CustomPageTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-custom-page::tables.description.custom_pages'))
+            ->emptyStateHeading(__('vendra-custom-page::tables.empty_state.heading.custom_pages'))
+            ->emptyStateDescription(__('vendra-custom-page::tables.empty_state.description.custom_pages'))
+            ->emptyStateIcon(Heroicon::OutlinedDocument)
             ->filters(
                 [
                     QueryBuilder::make()

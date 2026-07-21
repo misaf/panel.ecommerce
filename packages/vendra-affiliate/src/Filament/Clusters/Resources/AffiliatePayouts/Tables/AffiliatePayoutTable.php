@@ -6,6 +6,7 @@ namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Tab
 
 use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -99,6 +100,10 @@ final class AffiliatePayoutTable
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-affiliate::tables.description.affiliate_payouts'))
+            ->emptyStateHeading(__('vendra-affiliate::tables.empty_state.heading.affiliate_payouts'))
+            ->emptyStateDescription(__('vendra-affiliate::tables.empty_state.description.affiliate_payouts'))
+            ->emptyStateIcon(Heroicon::OutlinedBanknotes)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

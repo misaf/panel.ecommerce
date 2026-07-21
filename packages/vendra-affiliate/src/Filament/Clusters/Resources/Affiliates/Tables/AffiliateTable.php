@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\SpatieTagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -112,6 +113,10 @@ final class AffiliateTable
                     ->whereNull('affiliate_payout_id'),
             ], 'amount'))
             ->columns($columns)
+            ->description(__('vendra-affiliate::tables.description.affiliates'))
+            ->emptyStateHeading(__('vendra-affiliate::tables.empty_state.heading.affiliates'))
+            ->emptyStateDescription(__('vendra-affiliate::tables.empty_state.description.affiliates'))
+            ->emptyStateIcon(Heroicon::OutlinedLink)
             ->filters(
                 [
                     SelectFilter::make('status')

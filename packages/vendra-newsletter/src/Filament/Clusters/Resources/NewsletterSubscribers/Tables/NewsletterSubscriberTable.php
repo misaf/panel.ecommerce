@@ -112,6 +112,10 @@ final class NewsletterSubscriberTable
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-newsletter::tables.description.newsletter_subscribers'))
+            ->emptyStateHeading(__('vendra-newsletter::tables.empty_state.heading.newsletter_subscribers'))
+            ->emptyStateDescription(__('vendra-newsletter::tables.empty_state.description.newsletter_subscribers'))
+            ->emptyStateIcon(Heroicon::OutlinedUserGroup)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

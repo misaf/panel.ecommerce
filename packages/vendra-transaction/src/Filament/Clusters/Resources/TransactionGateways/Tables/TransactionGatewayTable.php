@@ -32,6 +32,10 @@ final class TransactionGatewayTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->description(__('vendra-transaction::tables.description.transaction_gateways'))
+            ->emptyStateHeading(__('vendra-transaction::tables.empty_state.heading.transaction_gateways'))
+            ->emptyStateDescription(__('vendra-transaction::tables.empty_state.description.transaction_gateways'))
+            ->emptyStateIcon(Heroicon::OutlinedCreditCard)
             ->columns([
                 TextColumn::make('row')
                     ->label('#')

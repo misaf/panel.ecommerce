@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -92,6 +93,10 @@ final class NewsletterTable
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-newsletter::tables.description.newsletters'))
+            ->emptyStateHeading(__('vendra-newsletter::tables.empty_state.heading.newsletters'))
+            ->emptyStateDescription(__('vendra-newsletter::tables.empty_state.description.newsletters'))
+            ->emptyStateIcon(Heroicon::OutlinedEnvelope)
             ->recordActions([
                 SendNewsletterAction::make(),
 

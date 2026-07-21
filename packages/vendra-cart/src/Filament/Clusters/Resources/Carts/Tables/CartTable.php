@@ -9,6 +9,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -69,6 +70,10 @@ final class CartTable
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i'),
                     ),
             ])
+            ->description(__('vendra-cart::tables.description.carts'))
+            ->emptyStateHeading(__('vendra-cart::tables.empty_state.heading.carts'))
+            ->emptyStateDescription(__('vendra-cart::tables.empty_state.description.carts'))
+            ->emptyStateIcon(Heroicon::OutlinedShoppingCart)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

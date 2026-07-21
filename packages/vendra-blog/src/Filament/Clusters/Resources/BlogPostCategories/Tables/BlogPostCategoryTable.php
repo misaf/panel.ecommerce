@@ -109,6 +109,10 @@ final class BlogPostCategoryTable
         ];
 
         return $table
+            ->description(__('vendra-blog::tables.description.blog_post_categories'))
+            ->emptyStateHeading(__('vendra-blog::tables.empty_state.heading.blog_post_categories'))
+            ->emptyStateDescription(__('vendra-blog::tables.empty_state.description.blog_post_categories'))
+            ->emptyStateIcon(Heroicon::OutlinedFolder)
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('blogPosts'))
             ->columns($columns)
             ->filters(

@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -69,6 +70,10 @@ final class TaggerTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-tagger::tables.description.taggers'))
+            ->emptyStateHeading(__('vendra-tagger::tables.empty_state.heading.taggers'))
+            ->emptyStateDescription(__('vendra-tagger::tables.empty_state.description.taggers'))
+            ->emptyStateIcon(Heroicon::OutlinedHashtag)
             ->filters(
                 [
                     QueryBuilder::make()

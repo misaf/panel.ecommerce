@@ -18,6 +18,9 @@ use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Range;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -99,12 +102,14 @@ final class CurrencyTable
             TextColumn::make('buy_price')
                 ->label(__('vendra-currency::attributes.buy_price'))
                 ->numeric()
-                ->action(UpdateBuyPriceAction::make()),
+                ->action(UpdateBuyPriceAction::make())
+                ->summarize([Sum::make(), Average::make(), Range::make()]),
 
             TextColumn::make('sell_price')
                 ->label(__('vendra-currency::attributes.sell_price'))
                 ->numeric()
-                ->action(UpdateSellPriceAction::make()),
+                ->action(UpdateSellPriceAction::make())
+                ->summarize([Sum::make(), Average::make(), Range::make()]),
 
             ToggleColumn::make('is_default')
                 ->afterStateUpdated(function (Currency $record, ?string $state): void {
@@ -145,6 +150,10 @@ final class CurrencyTable
         ];
 
         return $table
+            ->description(__('vendra-currency::tables.description.currencies'))
+            ->emptyStateHeading(__('vendra-currency::tables.empty_state.heading.currencies'))
+            ->emptyStateDescription(__('vendra-currency::tables.empty_state.description.currencies'))
+            ->emptyStateIcon(Heroicon::OutlinedBanknotes)
             ->columns($columns)
             ->filters(
                 [

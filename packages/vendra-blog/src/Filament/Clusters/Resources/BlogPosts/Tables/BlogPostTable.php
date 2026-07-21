@@ -110,6 +110,10 @@ final class BlogPostTable
         }
 
         return $table
+            ->description(__('vendra-blog::tables.description.blog_posts'))
+            ->emptyStateHeading(__('vendra-blog::tables.empty_state.heading.blog_posts'))
+            ->emptyStateDescription(__('vendra-blog::tables.empty_state.description.blog_posts'))
+            ->emptyStateIcon(Heroicon::OutlinedDocumentText)
             ->columns($columns)
             ->filters(
                 [

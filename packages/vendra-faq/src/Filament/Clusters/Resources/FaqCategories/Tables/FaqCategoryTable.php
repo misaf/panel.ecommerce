@@ -111,6 +111,10 @@ final class FaqCategoryTable
         return $table
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('faqs'))
             ->columns($columns)
+            ->description(__('vendra-faq::tables.description.faq_categories'))
+            ->emptyStateHeading(__('vendra-faq::tables.empty_state.heading.faq_categories'))
+            ->emptyStateDescription(__('vendra-faq::tables.empty_state.description.faq_categories'))
+            ->emptyStateIcon(Heroicon::OutlinedFolder)
             ->filters(
                 [
                     QueryBuilder::make()

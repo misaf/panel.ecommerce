@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -134,6 +135,10 @@ final class LanguageLineTable
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-language::tables.description.language_lines'))
+            ->emptyStateHeading(__('vendra-language::tables.empty_state.heading.language_lines'))
+            ->emptyStateDescription(__('vendra-language::tables.empty_state.description.language_lines'))
+            ->emptyStateIcon(Heroicon::OutlinedChatBubbleBottomCenterText)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

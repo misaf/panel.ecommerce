@@ -107,6 +107,10 @@ final class CurrencyCategoryTable
 
         return $table
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('currencies'))
+            ->description(__('vendra-currency::tables.description.currency_categories'))
+            ->emptyStateHeading(__('vendra-currency::tables.empty_state.heading.currency_categories'))
+            ->emptyStateDescription(__('vendra-currency::tables.empty_state.description.currency_categories'))
+            ->emptyStateIcon(Heroicon::OutlinedCircleStack)
             ->columns($columns)
             ->filters(
                 [

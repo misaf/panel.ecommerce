@@ -105,6 +105,10 @@ final class MultimediaTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-multimedia::tables.description.media_items'))
+            ->emptyStateHeading(__('vendra-multimedia::tables.empty_state.heading.media_items'))
+            ->emptyStateDescription(__('vendra-multimedia::tables.empty_state.description.media_items'))
+            ->emptyStateIcon(Heroicon::OutlinedPhoto)
             ->filters(
                 [
                     QueryBuilder::make()

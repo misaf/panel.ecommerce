@@ -7,6 +7,7 @@ namespace Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Tables;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Layout\Component as LayoutComponent;
@@ -78,6 +79,10 @@ final class AuthifyLogTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-authify-log::tables.description.authify_logs'))
+            ->emptyStateHeading(__('vendra-authify-log::tables.empty_state.heading.authify_logs'))
+            ->emptyStateDescription(__('vendra-authify-log::tables.empty_state.description.authify_logs'))
+            ->emptyStateIcon(Heroicon::OutlinedShieldCheck)
             ->filters(
                 [
                     QueryBuilder::make()

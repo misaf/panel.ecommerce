@@ -111,6 +111,10 @@ final class CustomPageCategoryTable
         return $table
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('customPages'))
             ->columns($columns)
+            ->description(__('vendra-custom-page::tables.description.custom_page_categories'))
+            ->emptyStateHeading(__('vendra-custom-page::tables.empty_state.heading.custom_page_categories'))
+            ->emptyStateDescription(__('vendra-custom-page::tables.empty_state.description.custom_page_categories'))
+            ->emptyStateIcon(Heroicon::OutlinedFolder)
             ->filters(
                 [
                     QueryBuilder::make()

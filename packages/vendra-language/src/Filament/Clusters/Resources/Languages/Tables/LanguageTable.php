@@ -135,6 +135,10 @@ final class LanguageTable
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-language::tables.description.languages'))
+            ->emptyStateHeading(__('vendra-language::tables.empty_state.heading.languages'))
+            ->emptyStateDescription(__('vendra-language::tables.empty_state.description.languages'))
+            ->emptyStateIcon(Heroicon::OutlinedLanguage)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),

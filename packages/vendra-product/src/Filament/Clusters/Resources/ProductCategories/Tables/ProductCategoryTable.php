@@ -65,14 +65,14 @@ final class ProductCategoryTable
                 ->label(__('vendra-product::attributes.name'))
                 ->suffixBadges([
                     Badge::make('count')
-                        ->label(fn(ProductCategory $record): string => (string) Number::format(static::integerAttribute($record, 'products_count')))
+                        ->label(fn(ProductCategory $record): string => (string) Number::format(self::integerAttribute($record, 'products_count')))
                         ->size(Size::Small),
                 ])
                 ->suffix(''),
 
             TextColumn::make('description')
                 ->label(__('vendra-product::attributes.description'))
-                ->state(fn(ProductCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
+                ->state(fn(ProductCategory $record, Livewire $livewire): string => self::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
@@ -118,6 +118,10 @@ final class ProductCategoryTable
         }
 
         return $table
+            ->description(__('vendra-product::tables.description.product_categories'))
+            ->emptyStateHeading(__('vendra-product::tables.empty_state.heading.product_categories'))
+            ->emptyStateDescription(__('vendra-product::tables.empty_state.description.product_categories'))
+            ->emptyStateIcon(Heroicon::OutlinedSquares2x2)
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('products'))
             ->columns($columns)
             ->filters(

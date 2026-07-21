@@ -103,6 +103,10 @@ final class ActivityLogTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-activity-log::tables.description.activity_logs'))
+            ->emptyStateHeading(__('vendra-activity-log::tables.empty_state.heading.activity_logs'))
+            ->emptyStateDescription(__('vendra-activity-log::tables.empty_state.description.activity_logs'))
+            ->emptyStateIcon(Heroicon::OutlinedClipboardDocumentList)
             ->filters(
                 [
                     QueryBuilder::make()

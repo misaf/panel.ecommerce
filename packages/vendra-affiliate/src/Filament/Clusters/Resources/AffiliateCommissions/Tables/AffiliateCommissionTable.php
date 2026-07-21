@@ -8,6 +8,9 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Range;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -48,7 +51,8 @@ final class AffiliateCommissionTable
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.amount'))
                     ->numeric(locale: 'en', maxDecimalPlaces: 0)
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize([Sum::make(), Average::make(), Range::make()]),
 
                 TextColumn::make('status')
                     ->alignCenter()
@@ -96,6 +100,10 @@ final class AffiliateCommissionTable
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
             )
+            ->description(__('vendra-affiliate::tables.description.affiliate_commissions'))
+            ->emptyStateHeading(__('vendra-affiliate::tables.empty_state.heading.affiliate_commissions'))
+            ->emptyStateDescription(__('vendra-affiliate::tables.empty_state.description.affiliate_commissions'))
+            ->emptyStateIcon(Heroicon::OutlinedReceiptPercent)
             ->recordActions([
                 ActionGroup::make([
                     self::approveAction(),

@@ -87,6 +87,10 @@ final class UserProfileTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-user-profile::tables.description.user_profiles'))
+            ->emptyStateHeading(__('vendra-user-profile::tables.empty_state.heading.user_profiles'))
+            ->emptyStateDescription(__('vendra-user-profile::tables.empty_state.description.user_profiles'))
+            ->emptyStateIcon(Heroicon::OutlinedIdentification)
             ->filters(
                 [
                     QueryBuilder::make()
