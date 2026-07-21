@@ -112,6 +112,11 @@ final class ProductCollectionQuery extends ResourceQuery
             $rules['filter.with-attribute-values.*'] = 'string';
             $rules['filter.without-attribute-values'] = 'array';
             $rules['filter.without-attribute-values.*'] = 'string';
+            $rules['filter.has-selected-attribute-values'] = 'boolean';
+            $rules['filter.with-selected-attribute-values'] = 'array';
+            $rules['filter.with-selected-attribute-values.*'] = 'string';
+            $rules['filter.without-selected-attribute-values'] = 'array';
+            $rules['filter.without-selected-attribute-values.*'] = 'string';
         }
 
         return $rules;

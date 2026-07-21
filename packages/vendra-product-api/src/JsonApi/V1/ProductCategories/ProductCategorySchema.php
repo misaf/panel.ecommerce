@@ -26,6 +26,7 @@ use LaravelJsonApi\Eloquent\Pagination\PagePagination;
 use LaravelJsonApi\Eloquent\Schema;
 use Misaf\VendraApi\JsonApi\Sorting\RandomPositionSort;
 use Misaf\VendraProduct\Models\ProductCategory;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 final class ProductCategorySchema extends Schema
 {
@@ -72,6 +73,23 @@ final class ProductCategorySchema extends Schema
                 ->readOnly(),
 
             BelongsToMany::make('multimedia')
+                ->readOnly(),
+
+            ...$this->getAttributeValueFields(),
+        ];
+    }
+
+    /**
+     * @return array<int, Field>
+     */
+    private function getAttributeValueFields(): array
+    {
+        if ( ! AttributeApiIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            HasMany::make('attributeValues')
                 ->readOnly(),
         ];
     }
@@ -138,6 +156,24 @@ final class ProductCategorySchema extends Schema
             Has::make($this, 'multimedia', 'has-multimedia'),
             WhereHas::make($this, 'multimedia', 'with-multimedia'),
             WhereDoesntHave::make($this, 'multimedia', 'without-multimedia'),
+
+            ...$this->getAttributeValueFilters(),
+        ];
+    }
+
+    /**
+     * @return array<int, Filter>
+     */
+    private function getAttributeValueFilters(): array
+    {
+        if ( ! AttributeApiIntegration::isAvailable()) {
+            return [];
+        }
+
+        return [
+            Has::make($this, 'attributeValues', 'has-attribute-values'),
+            WhereHas::make($this, 'attributeValues', 'with-attribute-values'),
+            WhereDoesntHave::make($this, 'attributeValues', 'without-attribute-values'),
         ];
     }
 
@@ -157,11 +193,17 @@ final class ProductCategorySchema extends Schema
      */
     public function includePaths(): iterable
     {
-        return [
+        $paths = [
             'products',
             'productPrices',
             'multimedia',
         ];
+
+        if (AttributeApiIntegration::isAvailable()) {
+            $paths[] = 'attributeValues';
+        }
+
+        return $paths;
     }
 
     public function pagination(): PagePagination

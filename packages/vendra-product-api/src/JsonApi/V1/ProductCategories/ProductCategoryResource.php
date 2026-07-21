@@ -6,6 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\ProductCategories;
 
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 use Misaf\VendraProduct\Models\ProductCategory;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 /**
  * @mixin ProductCategory
@@ -33,10 +34,16 @@ final class ProductCategoryResource extends JsonApiResource
      */
     public function relationships($request): iterable
     {
-        return [
+        $relations = [
             $this->relation('products'),
             $this->relation('productPrices'),
             $this->relation('multimedia'),
         ];
+
+        if (AttributeApiIntegration::isAvailable()) {
+            $relations[] = $this->relation('attributeValues');
+        }
+
+        return $relations;
     }
 }

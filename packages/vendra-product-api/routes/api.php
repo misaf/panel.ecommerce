@@ -7,6 +7,7 @@ use LaravelJsonApi\Laravel\Facades\JsonApiRoute;
 use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
 use LaravelJsonApi\Laravel\Routing\Relationships;
 use LaravelJsonApi\Laravel\Routing\ResourceRegistrar;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 Route::middleware('api')->group(function (): void {
     JsonApiRoute::server('vendra-product')->prefix('v1')->resources(function (ResourceRegistrar $server): void {
@@ -16,6 +17,10 @@ Route::middleware('api')->group(function (): void {
                 $relations->hasMany('products')->readOnly();
                 $relations->hasMany('productPrices')->readOnly();
                 $relations->hasMany('multimedia')->readOnly();
+
+                if (AttributeApiIntegration::isAvailable()) {
+                    $relations->hasMany('attributeValues')->readOnly();
+                }
             });
 
         $server->resource('products', JsonApiController::class)
@@ -27,8 +32,9 @@ Route::middleware('api')->group(function (): void {
                 $relations->hasOne('oldestProductPrice')->readOnly();
                 $relations->hasMany('multimedia')->readOnly();
 
-                if (class_exists('Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema')) {
+                if (AttributeApiIntegration::isAvailable()) {
                     $relations->hasMany('attributeValues')->readOnly();
+                    $relations->hasMany('selectedAttributeValues')->readOnly();
                 }
             });
 

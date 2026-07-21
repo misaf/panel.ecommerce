@@ -6,6 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\ProductCategories;
 
 use LaravelJsonApi\Laravel\Http\Requests\ResourceQuery;
 use LaravelJsonApi\Validation\Rule as JsonApiRule;
+use Misaf\VendraProductApi\Support\AttributeApiIntegration;
 
 final class ProductCategoryCollectionQuery extends ResourceQuery
 {
@@ -14,7 +15,7 @@ final class ProductCategoryCollectionQuery extends ResourceQuery
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'fields' => [
                 'nullable',
                 'array',
@@ -59,6 +60,16 @@ final class ProductCategoryCollectionQuery extends ResourceQuery
                 JsonApiRule::countable(),
             ],
         ];
+
+        if (AttributeApiIntegration::isAvailable()) {
+            $rules['filter.has-attribute-values'] = 'boolean';
+            $rules['filter.with-attribute-values'] = 'array';
+            $rules['filter.with-attribute-values.*'] = 'string';
+            $rules['filter.without-attribute-values'] = 'array';
+            $rules['filter.without-attribute-values.*'] = 'string';
+        }
+
+        return $rules;
     }
 
     /**

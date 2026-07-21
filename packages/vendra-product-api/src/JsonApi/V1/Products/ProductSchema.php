@@ -233,6 +233,10 @@ final class ProductSchema extends Schema
             Has::make($this, 'attributeValues', 'has-attribute-values'),
             WhereHas::make($this, 'attributeValues', 'with-attribute-values'),
             WhereDoesntHave::make($this, 'attributeValues', 'without-attribute-values'),
+
+            Has::make($this, 'selectedAttributeValues', 'has-selected-attribute-values'),
+            WhereHas::make($this, 'selectedAttributeValues', 'with-selected-attribute-values'),
+            WhereDoesntHave::make($this, 'selectedAttributeValues', 'without-selected-attribute-values'),
         ];
     }
 
@@ -259,6 +263,10 @@ final class ProductSchema extends Schema
         return [
             HasMany::make('attributeValues')
                 ->readOnly(),
+
+            BelongsToMany::make('selectedAttributeValues')
+                ->type('attribute-values')
+                ->readOnly(),
         ];
     }
 
@@ -277,6 +285,7 @@ final class ProductSchema extends Schema
 
         if (AttributeApiIntegration::isAvailable()) {
             $paths[] = 'attributeValues';
+            $paths[] = 'selectedAttributeValues';
         }
 
         return $paths;

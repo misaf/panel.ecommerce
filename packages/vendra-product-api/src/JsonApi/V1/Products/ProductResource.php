@@ -47,6 +47,7 @@ final class ProductResource extends JsonApiResource
 
         if (AttributeApiIntegration::isAvailable()) {
             $relations[] = $this->relation('attributeValues');
+            $relations[] = $this->relation('selectedAttributeValues');
         }
 
         return $relations;
