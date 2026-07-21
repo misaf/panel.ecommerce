@@ -58,10 +58,9 @@ use Spatie\Translatable\HasTranslations;
 #[Hidden(['tenant_id'])]
 #[ObservedBy([ProductObserver::class])]
 #[UseFactory(ProductFactory::class)]
-final class Product extends Model implements HasMedia, Sortable, ShouldLogActivity
+final class Product extends Model implements HasMedia, ShouldLogActivity, Sortable
 {
     use BelongsToTenant;
-
     use HasDefaultMediaConversions, InteractsWithMedia {
         HasDefaultMediaConversions::registerMediaConversions insteadof InteractsWithMedia;
     }
@@ -74,7 +73,9 @@ final class Product extends Model implements HasMedia, Sortable, ShouldLogActivi
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+
     public const string TAG_TYPE = 'product';
+
     public const string MEDIA_COLLECTION = 'products';
 
     /**

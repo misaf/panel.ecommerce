@@ -163,5 +163,4 @@ final class ProductCategoryForm
             }
         };
     }
-
 }

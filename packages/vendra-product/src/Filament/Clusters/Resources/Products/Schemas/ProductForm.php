@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
+use Misaf\VendraProduct\Filament\Clusters\Resources\ProductCategories\Schemas\ProductCategoryForm;
 use Misaf\VendraProduct\Models\Product;
 use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraProduct\Models\ProductPrice;
@@ -55,7 +56,8 @@ final class ProductForm
                                     ->preload()
                                     ->relationship('productCategory', 'name')
                                     ->required()
-                                    ->searchable(),
+                                    ->searchable()
+                                    ->createOptionForm(fn(Schema $schema): Schema => ProductCategoryForm::configure($schema)),
 
                                 TextInput::make('name')
                                     ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
@@ -242,5 +244,4 @@ final class ProductForm
                 ]),
         ];
     }
-
 }

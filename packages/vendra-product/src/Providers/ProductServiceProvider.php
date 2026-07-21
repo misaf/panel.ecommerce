@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraProduct\Providers;
 
 use Composer\InstalledVersions;
-
 use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraProduct\Console\Commands\SeedCommand;
@@ -55,6 +54,4 @@ final class ProductServiceProvider extends PackageServiceProvider
 
         AboutCommand::add('Vendra Product', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-product')]);
     }
-
-
 }

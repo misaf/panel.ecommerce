@@ -70,5 +70,4 @@ final class ProductCategoryInfolist
                 fn(TextEntry $entry): TextEntry => $entry->dateTime('Y-m-d H:i'),
             );
     }
-
 }

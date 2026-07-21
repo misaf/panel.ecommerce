@@ -48,22 +48,22 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 #[Hidden(['tenant_id'])]
 #[ObservedBy([ProductCategoryObserver::class])]
 #[UseFactory(ProductCategoryFactory::class)]
-final class ProductCategory extends Model implements HasMedia, Sortable, ShouldLogActivity
+final class ProductCategory extends Model implements HasMedia, ShouldLogActivity, Sortable
 {
     use BelongsToTenant;
-
     use HasDefaultMediaConversions, InteractsWithMedia {
         HasDefaultMediaConversions::registerMediaConversions insteadof InteractsWithMedia;
     }
+
     /** @use HasFactory<ProductCategoryFactory> */
     use HasFactory;
 
     use HasRecursiveRelationships;
-
     use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
+
     public const string MEDIA_COLLECTION = 'products/categories';
 
     /**

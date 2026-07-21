@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Misaf\VendraProduct\Filament\Clusters\Resources\Products\Actions;
 
 use Filament\Actions\ReplicateAction;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Misaf\VendraProduct\Filament\Clusters\Resources\Products\ProductResource;
 use Misaf\VendraProduct\Models\Product;
 use Misaf\VendraProduct\Models\ProductPrice;
+use Misaf\VendraSupport\Support\TenantAwareness;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 final class DuplicateProductAction extends ReplicateAction
@@ -46,10 +48,73 @@ final class DuplicateProductAction extends ReplicateAction
      */
     private function mutateReplicaData(array $data): array
     {
-        $data['name'] = $this->duplicateTranslations($data['name'] ?? [], ' Copy');
-        $data['slug'] = $this->duplicateTranslations($data['slug'] ?? [], '-copy', slug: true);
+        $transformed = [];
 
-        return $data;
+        if (isset($data['name'])) {
+            $name = $this->duplicateTranslations($data['name'], ' Copy');
+            $transformed['name'] = $this->ensureUniqueTranslatedValue('name', $name, ' Copy');
+        }
+
+        if (isset($data['slug'])) {
+            $slug = $this->duplicateTranslations($data['slug'], '-copy', slug: true);
+            $transformed['slug'] = $this->ensureUniqueTranslatedValue('slug', $slug, '-copy', slug: true);
+        }
+
+        return $transformed;
+    }
+
+    /**
+     * @param  array<string, string>  $translations
+     * @return array<string, string>
+     */
+    private function ensureUniqueTranslatedValue(string $column, array $translations, string $suffix, bool $slug = false): array
+    {
+        if ([] === $translations) {
+            return $translations;
+        }
+
+        $baseTranslations = $translations;
+        $counter = 1;
+
+        while ($this->translatedValueExists($column, $translations)) {
+            $counter++;
+            $translations = [];
+
+            foreach ($baseTranslations as $locale => $value) {
+                if ($slug) {
+                    $translations[$locale] = Str::slug("{$value}-{$counter}");
+                } else {
+                    $translations[$locale] = "{$value} {$counter}";
+                }
+            }
+        }
+
+        return $translations;
+    }
+
+    /**
+     * @param  array<string, string>  $values
+     */
+    private function translatedValueExists(string $column, array $values): bool
+    {
+        $query = Product::withTrashed();
+
+        if (TenantAwareness::enabled()) {
+            $query->where('tenant_id', TenantAwareness::currentId());
+        }
+
+        $originalRecord = $this->getRecord();
+        if (null !== $originalRecord && $originalRecord->exists) {
+            $query->whereKeyNot($originalRecord->getKey());
+        }
+
+        $query->where(function (Builder $query) use ($column, $values): void {
+            foreach ($values as $locale => $value) {
+                $query->orWhere("{$column}->{$locale}", $value);
+            }
+        });
+
+        return $query->exists();
     }
 
     /**
