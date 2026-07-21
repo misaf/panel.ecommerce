@@ -6,22 +6,17 @@ namespace Misaf\VendraActivityLog;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesPluginInstances;
 
 final class ActivityLogPlugin implements Plugin
 {
+    use ResolvesPluginInstances;
+
     public const string ID = 'vendra-activity-log';
 
     public function getId(): string
     {
         return self::ID;
-    }
-
-    public static function make(): static
-    {
-        /** @var static $plugin */
-        $plugin = app(static::class);
-
-        return $plugin;
     }
 
     public function register(Panel $panel): void

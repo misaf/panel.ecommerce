@@ -4,58 +4,26 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlog;
 
-use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Illuminate\Support\Facades\Config;
+use Misaf\VendraSupport\Filament\Concerns\HasPluginNavigationGroup;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesPluginInstances;
 
 final class BlogPlugin implements Plugin
 {
-    public const string ID = 'vendra-blog';
+    use HasPluginNavigationGroup;
+    use ResolvesPluginInstances;
 
-    protected string|Closure|null $navigationGroup = null;
+    public const string ID = 'vendra-blog';
 
     public function getId(): string
     {
         return self::ID;
     }
 
-    public static function make(): static
+    protected function defaultNavigationGroup(): string
     {
-        /** @var static $plugin */
-        $plugin = app(self::class);
-
-        return $plugin;
-    }
-
-    public static function get(): static
-    {
-        /** @var static $plugin */
-        $plugin = filament(self::ID);
-
-        return $plugin;
-    }
-
-    public function navigationGroup(string|Closure|null $group): static
-    {
-        $this->navigationGroup = $group;
-
-        return $this;
-    }
-
-    public function getNavigationGroup(): string
-    {
-        $group = $this->navigationGroup ?? Config::get('vendra-blog.navigation_group');
-
-        if ($group instanceof Closure) {
-            $group = $group();
-        }
-
-        if ( ! is_string($group) || '' === $group) {
-            $group = 'vendra-support::navigation.groups.Content';
-        }
-
-        return (string) __($group);
+        return 'vendra-support::navigation.groups.Content';
     }
 
     public function register(Panel $panel): void

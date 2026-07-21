@@ -6,20 +6,15 @@ namespace Misaf\VendraUserProfile;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesPluginInstances;
 
 final class UserProfilePlugin implements Plugin
 {
+    use ResolvesPluginInstances;
+
     public function getId(): string
     {
         return 'vendra-user-profile';
-    }
-
-    public static function make(): static
-    {
-        /** @var static $plugin */
-        $plugin = app(static::class);
-
-        return $plugin;
     }
 
     public function register(Panel $panel): void

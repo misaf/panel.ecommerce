@@ -4,53 +4,26 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttribute;
 
-use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Illuminate\Support\Facades\Config;
+use Misaf\VendraSupport\Filament\Concerns\HasPluginNavigationGroup;
+use Misaf\VendraSupport\Filament\Concerns\ResolvesPluginInstances;
 
 final class AttributePlugin implements Plugin
 {
+    use HasPluginNavigationGroup;
+    use ResolvesPluginInstances;
+
     public const string ID = 'vendra-attribute';
-
-    protected string|Closure|null $navigationGroup = null;
-
-    public static function make(): static
-    {
-        /** @var static $plugin */
-        $plugin = app(self::class);
-
-        return $plugin;
-    }
 
     public function getId(): string
     {
         return self::ID;
     }
 
-    public function navigationGroup(string|Closure|null $group): static
+    protected function defaultNavigationGroup(): string
     {
-        $this->navigationGroup = $group;
-
-        return $this;
-    }
-
-    public function getNavigationGroup(): string
-    {
-        $group = $this->navigationGroup;
-
-        if (null === $group) {
-            $configuredGroup = Config::get('vendra-attribute.navigation_group');
-            $group = is_string($configuredGroup) ? $configuredGroup : null;
-        }
-
-        if ($group instanceof Closure) {
-            $group = $group();
-        }
-
-        return is_string($group) && '' !== $group
-            ? trans_choice($group, 1)
-            : __('vendra-support::navigation.groups.Catalog');
+        return 'vendra-support::navigation.groups.Catalog';
     }
 
     public function register(Panel $panel): void
