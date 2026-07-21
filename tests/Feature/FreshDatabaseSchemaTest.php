@@ -26,7 +26,6 @@ it('enforces required relational integrity', function (string $table, string $co
     ['products', 'product_category_id'],
     ['product_prices', 'product_id'],
     ['faqs', 'faq_category_id'],
-    ['currencies', 'currency_category_id'],
     ['transactions', 'transaction_gateway_id'],
     ['transactions', 'wallet_id'],
     ['transactions', 'counterparty_wallet_id'],
@@ -121,21 +120,15 @@ it('keeps corrected SQL types in package and application baselines', function (s
     'package currency' => [
         'packages/vendra-currency/database/migrations/create_currencies_table.php.stub',
         [
-            "char('iso_code', 3)",
-            "decimal('conversion_rate', 20, 8)",
-            "unsignedTinyInteger('decimal_place')",
-            "unsignedBigInteger('buy_price')",
-            "unsignedBigInteger('sell_price')",
+            "string('code', 16)",
+            "unsignedTinyInteger('decimal_places')",
         ],
     ],
     'application currency' => [
         'database/migrations/0001_01_01_000017_create_currencies_table.php',
         [
-            "char('iso_code', 3)",
-            "decimal('conversion_rate', 20, 8)",
-            "unsignedTinyInteger('decimal_place')",
-            "unsignedBigInteger('buy_price')",
-            "unsignedBigInteger('sell_price')",
+            "string('code', 16)",
+            "unsignedTinyInteger('decimal_places')",
         ],
     ],
     'package transaction gateway' => [

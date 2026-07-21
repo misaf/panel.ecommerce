@@ -14,7 +14,6 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\BlogPostCate
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\BlogPostResource;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\CurrencyCategoryResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\CustomPageCategoryResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\CustomPageResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\FaqCategoryResource;
@@ -58,7 +57,6 @@ it('uses an infolist for every resource view page', function (string $resource):
     BlogPostResource::class,
     CartResource::class,
     CurrencyResource::class,
-    CurrencyCategoryResource::class,
     CustomPageCategoryResource::class,
     CustomPageResource::class,
     FaqCategoryResource::class,

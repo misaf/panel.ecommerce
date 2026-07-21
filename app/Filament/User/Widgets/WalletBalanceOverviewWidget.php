@@ -39,7 +39,7 @@ final class WalletBalanceOverviewWidget extends StatsOverviewWidget
                 ->description(__('vendra-transaction::widgets.wallet_balance_stats_description'))
                 ->descriptionIcon(Heroicon::Banknotes, IconPosition::Before)
                 ->icon(Heroicon::OutlinedWallet)
-                ->label($wallet->currency->iso_code))
+                ->label($wallet->currency->code))
             ->all();
     }
 

@@ -9,7 +9,6 @@ dataset('boolean status tables', [
     'blog post category'   => 'packages/vendra-blog/src/Filament/Clusters/Resources/BlogPostCategories/Tables/BlogPostCategoryTable.php',
     'blog post'            => 'packages/vendra-blog/src/Filament/Clusters/Resources/BlogPosts/Tables/BlogPostTable.php',
     'currency'             => 'packages/vendra-currency/src/Filament/Clusters/Resources/Currencies/Tables/CurrencyTable.php',
-    'currency category'    => 'packages/vendra-currency/src/Filament/Clusters/Resources/CurrencyCategories/Tables/CurrencyCategoryTable.php',
     'custom page category' => 'packages/vendra-custom-page/src/Filament/Clusters/Resources/CustomPageCategories/Tables/CustomPageCategoryTable.php',
     'custom page'          => 'packages/vendra-custom-page/src/Filament/Clusters/Resources/CustomPages/Tables/CustomPageTable.php',
     'FAQ category'         => 'packages/vendra-faq/src/Filament/Clusters/Resources/FaqCategories/Tables/FaqCategoryTable.php',

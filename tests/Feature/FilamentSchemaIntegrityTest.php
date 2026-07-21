@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Schema;
 use Misaf\VendraAttribute\Database\Factories\AttributeFactory;
 use Misaf\VendraAttribute\Database\Factories\AttributeValueFactory;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\RelationManagers\AttributeValueRelationManager;
-use Misaf\VendraCurrency\Database\Factories\CurrencyCategoryFactory;
-use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\RelationManagers\CurrencyRelationManager;
 use Misaf\VendraCustomPage\Database\Factories\CustomPageCategoryFactory;
 use Misaf\VendraCustomPage\Database\Factories\CustomPageFactory;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\RelationManagers\CustomPageRelationManager;
@@ -52,9 +49,6 @@ it('counts relation manager badges without preloaded relations', function (): vo
     $customPageCategory = CustomPageCategoryFactory::new()->createOne();
     CustomPageFactory::new()->count(3)->forCategory($customPageCategory)->create();
 
-    $currencyCategory = CurrencyCategoryFactory::new()->createOne();
-    CurrencyFactory::new()->count(4)->forCategory($currencyCategory)->create();
-
     $faqCategory = FaqCategoryFactory::new()->createOne();
     FaqFactory::new()->count(5)->forCategory($faqCategory)->create();
 
@@ -68,7 +62,6 @@ it('counts relation manager badges without preloaded relations', function (): vo
 
     expect(AttributeValueRelationManager::getBadge($attribute, ''))->toBe('2')
         ->and(CustomPageRelationManager::getBadge($customPageCategory, ''))->toBe('3')
-        ->and(CurrencyRelationManager::getBadge($currencyCategory, ''))->toBe('4')
         ->and(FaqRelationManager::getBadge($faqCategory, ''))->toBe('5')
         ->and(PermissionRelationManager::getBadge($role, ''))->toBe('2')
         ->and(ProductRelationManager::getBadge($productCategory, ''))->toBe('3')
@@ -83,12 +76,8 @@ it('enforces active form uniqueness with tenant-aware database indexes', functio
             'user_profiles_one_default_per_user_unique',
         )
         ->and(indexNames('attributes'))->toContain('attributes_active_name_unique')
-        ->and(indexNames('currency_categories'))->toContain(
-            'currency_categories_active_name_unique',
-            'currency_categories_active_slug_unique',
-        )
         ->and(indexNames('currencies'))->toContain(
-            'currencies_active_slug_unique',
+            'currencies_one_default_unique',
         );
 });
 

@@ -16,7 +16,6 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\BlogPostCate
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\BlogPostResource;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\CurrencyCategories\CurrencyCategoryResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\CustomPageCategoryResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\CustomPageResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\FaqCategoryResource;
@@ -108,7 +107,6 @@ it('uses the full resource name as the resource slug', function (string $resourc
     BlogPostCategoryResource::class,
     BlogPostResource::class,
     CartResource::class,
-    CurrencyCategoryResource::class,
     CurrencyResource::class,
     CustomPageCategoryResource::class,
     CustomPageResource::class,
@@ -145,7 +143,6 @@ it('assigns each admin resource to its domain cluster', function (string $resour
     'sales / transactions'              => [TransactionResource::class, SalesCluster::class],
     'sales / transaction gateways'      => [TransactionGatewayResource::class, SalesCluster::class],
     'sales / currencies'                => [CurrencyResource::class, SalesCluster::class],
-    'sales / currency categories'       => [CurrencyCategoryResource::class, SalesCluster::class],
     'customers / users'                 => [UserResource::class, CustomersCluster::class],
     'customers / profiles'              => [UserProfileResource::class, CustomersCluster::class],
     'customers / roles'                 => [RoleResource::class, CustomersCluster::class],

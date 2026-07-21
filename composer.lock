@@ -6914,18 +6914,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
-                "reference": "05ec65f2b667d6d99f553344c6d59025b4a64a5c"
+                "reference": "0e1dbda4b9e0b2dcad485b6bcdaf8663275fbca3"
             },
             "require": {
-                "awcodes/filament-badgeable-column": "^4.0",
+                "cknow/laravel-money": "^8.5",
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
+                "moneyphp/crypto-currencies": "^1.1.0",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
-                "spatie/laravel-package-tools": "^1.93.1",
-                "spatie/laravel-sluggable": "^4.0.2",
-                "staudenmeir/belongs-to-through": "^2.18"
+                "spatie/laravel-package-tools": "^1.93.1"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
@@ -6987,13 +6985,15 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Multi-currency support system with hierarchical currency categories",
+            "description": "Currency management with a fiat and crypto catalog, per-tenant activation, and a single default currency",
             "homepage": "https://github.com/misaf/vendra-currency",
             "keywords": [
+                "crypto",
                 "currency",
                 "filamentphp",
                 "laravel",
                 "misaf",
+                "money",
                 "vendra"
             ],
             "support": {
@@ -9278,6 +9278,47 @@
                 "symlink": true,
                 "relative": true
             }
+        },
+        {
+            "name": "moneyphp/crypto-currencies",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moneyphp/crypto-currencies.git",
+                "reference": "158855e6329f2c1b3d5ac4e29b48aa4f1e07257f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moneyphp/crypto-currencies/zipball/158855e6329f2c1b3d5ac4e29b48aa4f1e07257f",
+                "reference": "158855e6329f2c1b3d5ac4e29b48aa4f1e07257f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MoneyPHP\\CryptoCurrencies\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serhiy Lunak",
+                    "email": "serhiy.lunak@gmail.com"
+                }
+            ],
+            "description": "Provides up-to-date list of cryptocurrencies retrieved from various crypto exchanges.",
+            "support": {
+                "issues": "https://github.com/moneyphp/crypto-currencies/issues",
+                "source": "https://github.com/moneyphp/crypto-currencies/tree/1.4.0"
+            },
+            "time": "2025-10-23T07:40:25+00:00"
         },
         {
             "name": "moneyphp/money",
