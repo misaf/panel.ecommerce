@@ -170,9 +170,9 @@ final class ProductTable
         ];
 
         if (AttributeIntegration::isAvailable()) {
-            $columns[] = TextColumn::make('attribute_values_count')
+            $columns[] = TextColumn::make('selected_attribute_values_count')
                 ->badge()
-                ->counts('attributeValues')
+                ->counts('selectedAttributeValues')
                 ->label(__('vendra-product::attributes.attributes'))
                 ->toggleable(isToggledHiddenByDefault: true);
         }

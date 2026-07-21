@@ -10,7 +10,6 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
-use Misaf\VendraProduct\Filament\Clusters\Resources\ProductPrices\RelationManagers\ProductPriceRelationManager;
 use Misaf\VendraProduct\Filament\Clusters\Resources\Products\Pages\CreateProduct;
 use Misaf\VendraProduct\Filament\Clusters\Resources\Products\Pages\EditProduct;
 use Misaf\VendraProduct\Filament\Clusters\Resources\Products\Pages\ListProducts;
@@ -55,13 +54,6 @@ final class ProductResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-product::navigation.products');
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            // ProductPriceRelationManager::class,
-        ];
     }
 
     public static function getPages(): array
