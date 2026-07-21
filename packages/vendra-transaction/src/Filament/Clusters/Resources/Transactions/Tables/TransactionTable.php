@@ -56,7 +56,7 @@ final class TransactionTable
                             ?? "#{$record->wallet->user_id}");
                     }),
 
-                TextColumn::make('wallet.currency.iso_code')
+                TextColumn::make('wallet.currency.code')
                     ->badge()
                     ->label(__('vendra-transaction::attributes.currency')),
 

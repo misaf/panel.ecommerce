@@ -40,7 +40,7 @@ final class WalletTable
                             ?? "#{$record->user_id}");
                     }),
 
-                TextColumn::make('currency.iso_code')
+                TextColumn::make('currency.code')
                     ->badge()
                     ->label(__('vendra-transaction::attributes.currency')),
 

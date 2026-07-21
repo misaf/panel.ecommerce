@@ -22,6 +22,8 @@ use Filament\Tables\Table;
 use Livewire\Component as Livewire;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
+use Misaf\VendraTransaction\Actions\SetDefaultTransactionGateway;
+use Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\Actions\SetDefaultTransactionGatewayAction;
 use Misaf\VendraTransaction\Models\TransactionGateway;
 
 final class TransactionGatewayTable
@@ -77,6 +79,18 @@ final class TransactionGatewayTable
                     ->label(__('vendra-transaction::attributes.status'))
                     ->onIcon(Heroicon::Bolt),
 
+                ToggleColumn::make('is_default')
+                    ->disabled(fn(TransactionGateway $record): bool => $record->is_default)
+                    ->label(__('vendra-transaction::attributes.is_default'))
+                    ->onIcon(Heroicon::Bolt)
+                    ->updateStateUsing(function (TransactionGateway $record, bool $state, SetDefaultTransactionGateway $setDefaultTransactionGateway): bool {
+                        if ($state) {
+                            $setDefaultTransactionGateway->execute($record);
+                        }
+
+                        return $record->refresh()->is_default;
+                    }),
+
                 TextColumn::make('created_at')
                     ->alignCenter()
                     ->badge()
@@ -113,6 +127,9 @@ final class TransactionGatewayTable
 
                             BooleanConstraint::make('status')
                                 ->label(__('vendra-transaction::attributes.status')),
+
+                            BooleanConstraint::make('is_default')
+                                ->label(__('vendra-transaction::attributes.is_default')),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
@@ -122,6 +139,8 @@ final class TransactionGatewayTable
                     ViewAction::make(),
 
                     EditAction::make(),
+
+                    SetDefaultTransactionGatewayAction::make(),
 
                     DeleteAction::make(),
                 ]),
