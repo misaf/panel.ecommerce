@@ -40,10 +40,11 @@ final class Attribute extends Model implements ShouldLogActivity, Sortable
 
     /** @use HasFactory<AttributeFactory> */
     use HasFactory;
-    use HasOptionalTags;
 
+    use HasOptionalTags;
     use SoftDeletes;
     use SortableTrait;
+
     public const string TAG_TYPE = 'attribute';
 
     /** @var array{order_column_name: string, sort_when_creating: bool} */

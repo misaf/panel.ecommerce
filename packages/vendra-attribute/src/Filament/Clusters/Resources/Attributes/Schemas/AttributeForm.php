@@ -67,5 +67,4 @@ final class AttributeForm
             ->components($components)
             ->columns(2);
     }
-
 }

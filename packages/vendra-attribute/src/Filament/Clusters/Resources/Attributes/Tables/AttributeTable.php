@@ -92,6 +92,10 @@ final class AttributeTable
 
         return $table
             ->columns($columns)
+            ->description(__('vendra-attribute::tables.description.attributes'))
+            ->emptyStateHeading(__('vendra-attribute::tables.empty_state.heading.attributes'))
+            ->emptyStateDescription(__('vendra-attribute::tables.empty_state.description.attributes'))
+            ->emptyStateIcon(Heroicon::OutlinedAdjustmentsHorizontal)
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),
@@ -116,6 +120,4 @@ final class AttributeTable
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->reorderable('position', direction: 'desc');
     }
-
-
 }

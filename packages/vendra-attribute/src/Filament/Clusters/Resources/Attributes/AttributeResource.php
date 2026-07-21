@@ -19,7 +19,6 @@ use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Schemas\Attribu
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Tables\AttributeTable;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
-
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class AttributeResource extends Resource

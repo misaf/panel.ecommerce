@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -60,6 +61,17 @@ final class AttributeValue extends Model implements ShouldLogActivity, Sortable
     public function attributable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * The entities that selected this attribute value through the
+     * attribute_value_selections pivot.
+     *
+     * @return HasMany<AttributeValueSelection, $this>
+     */
+    public function selections(): HasMany
+    {
+        return $this->hasMany(AttributeValueSelection::class);
     }
 
     /** @return array<string, string> */
