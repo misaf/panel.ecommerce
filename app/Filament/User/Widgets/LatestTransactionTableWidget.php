@@ -53,7 +53,7 @@ final class LatestTransactionTableWidget extends BaseWidget
                 Transaction::query()
                     ->whereHas('wallet', fn(Builder $query) => $query->where('user_id', $this->getAuthenticatedUser()?->getAuthIdentifier()))
                     ->where('created_at', '>=', now()->subDays(30))
-                    ->with(['transactionGateway', 'wallet.currency']),
+                    ->with(['transactionGateway', 'wallet']),
             )
             ->columns([
                 TextColumn::make('transactionGateway.name')

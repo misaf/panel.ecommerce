@@ -30,7 +30,6 @@ it('enforces required relational integrity', function (string $table, string $co
     ['transactions', 'wallet_id'],
     ['transactions', 'counterparty_wallet_id'],
     ['wallets', 'user_id'],
-    ['wallets', 'currency_id'],
     ['ledger_entries', 'wallet_id'],
     ['transaction_fees', 'transaction_id'],
     ['transaction_metadata', 'transaction_id'],

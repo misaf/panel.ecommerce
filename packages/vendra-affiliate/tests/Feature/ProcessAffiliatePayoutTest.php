@@ -8,7 +8,6 @@ use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
-use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Models\Transaction;
@@ -36,8 +35,6 @@ function affiliateWithApprovedBalance(int ...$amounts): Affiliate
 function internalGateway(): void
 {
     TransactionGatewayFactory::new()->internal()->enabled()->create();
-
-    Currency::factory()->create(['is_default' => true, 'status' => true]);
 }
 
 it('settles approved commissions into a completed payout and commission transaction', function (): void {

@@ -39,7 +39,7 @@ final class WalletBalanceOverviewWidget extends StatsOverviewWidget
                 ->description(__('vendra-transaction::widgets.wallet_balance_stats_description'))
                 ->descriptionIcon(Heroicon::Banknotes, IconPosition::Before)
                 ->icon(Heroicon::OutlinedWallet)
-                ->label($wallet->currency->code))
+                ->label($wallet->currency_code))
             ->all();
     }
 
@@ -50,7 +50,6 @@ final class WalletBalanceOverviewWidget extends StatsOverviewWidget
     {
         return Wallet::query()
             ->where('user_id', filament()->auth()->user()?->getAuthIdentifier())
-            ->with('currency')
             ->orderBy('id')
             ->get();
     }
