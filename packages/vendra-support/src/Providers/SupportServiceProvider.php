@@ -7,6 +7,7 @@ namespace Misaf\VendraSupport\Providers;
 use Filament\Panel;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Misaf\VendraSupport\Contracts\AttributeApiResolver;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Contracts\TagResolver;
@@ -14,6 +15,7 @@ use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Events\TenantProvisioned;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
 use Misaf\VendraSupport\Listeners\RunTenantSeeders;
+use Misaf\VendraSupport\Support\NullAttributeApiResolver;
 use Misaf\VendraSupport\Support\NullAttributeResolver;
 use Misaf\VendraSupport\Support\NullCurrencyResolver;
 use Misaf\VendraSupport\Support\NullTagResolver;
@@ -32,6 +34,7 @@ final class SupportServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../../config/vendra-support.php', 'vendra-support');
 
         $this->app->singletonIf(TenantResolver::class, NullTenantResolver::class);
+        $this->app->singletonIf(AttributeApiResolver::class, NullAttributeApiResolver::class);
         $this->app->singletonIf(AttributeResolver::class, NullAttributeResolver::class);
         $this->app->singletonIf(CurrencyResolver::class, NullCurrencyResolver::class);
         $this->app->singletonIf(TagResolver::class, NullTagResolver::class);
