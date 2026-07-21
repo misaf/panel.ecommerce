@@ -38,11 +38,18 @@ return new class () extends Migration {
                 ->constrained()
                 ->cascadeOnDelete();
             $table->morphs('attributable');
-            $table->text('value');
+            $table->string('value');
             $table->unsignedBigInteger('position');
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('active_value_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN value ELSE NULL END');
 
+            $table->unique(
+                TenantSchema::tenantIndex(['attribute_id', 'attributable_type', 'attributable_id', 'active_value_guard']),
+                'attribute_values_active_value_unique',
+            );
             $table->index(TenantSchema::tenantIndex(['attribute_id']));
             $table->index(TenantSchema::tenantIndex(['position']));
         });
