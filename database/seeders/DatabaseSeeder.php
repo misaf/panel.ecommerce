@@ -11,5 +11,8 @@ final class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    public function run(): void {}
+    public function run(): void
+    {
+        $this->call(PlatformUserSeeder::class);
+    }
 }

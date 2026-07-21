@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -32,7 +33,10 @@ final class PlatformPanelServiceProvider extends PanelProvider
     {
         return $panel
             ->id('platform')
+            ->brandLogo(asset('images/vendra-logo.svg'))
+            ->brandLogoHeight('2rem')
             ->brandName('Vendra Platform')
+            ->darkModeBrandLogo(asset('images/vendra-logo-dark.svg'))
             ->databaseNotifications()
             ->databaseTransactions()
             ->discoverResources(app_path('Filament/Platform/Resources'), 'App\\Filament\\Platform\\Resources')
@@ -42,7 +46,11 @@ final class PlatformPanelServiceProvider extends PanelProvider
             ->globalSearchFieldKeyBindingSuffix()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->homeUrl('/platform')
+            ->authGuard('platform')
+            ->authPasswordBroker('platform_users')
             ->login()
+            ->passwordReset()
+            ->emailVerification(isRequired: true)
             ->maxContentWidth(Width::Full)
             ->middleware([
                 EncryptCookies::class,
@@ -59,6 +67,10 @@ final class PlatformPanelServiceProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->font(
+                fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
+                provider: SpatieGoogleFontProvider::class,
+            )
             ->path('/platform')
             ->profile()
             ->sidebarCollapsibleOnDesktop()

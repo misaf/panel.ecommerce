@@ -11,6 +11,7 @@ use App\Filament\User\Pages\Auth\Register;
 use App\Settings\GeneralSettings;
 use Filament\Enums\ThemeMode;
 use Filament\FontProviders\LocalFontProvider;
+use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -42,6 +43,8 @@ final class UserPanelServiceProvider extends PanelProvider
             ->default()
             ->id('user')
             ->path('user')
+            ->authGuard('web')
+            ->authPasswordBroker('users')
             ->login()
             ->authMiddleware([Authenticate::class])
             ->brandLogoHeight('10rem')
@@ -93,7 +96,10 @@ final class UserPanelServiceProvider extends PanelProvider
             ->profile(EditProfile::class, isSimple: false)
             ->registration(Register::class)
             ->spa()
-            ->unsavedChangesAlerts()
+            ->font(
+                fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
+                provider: SpatieGoogleFontProvider::class,
+            )
             // ->userMenuItems([
             //     'profile' => MenuItem::make()
             //         ->label(fn(): string => filament()->auth()->user()->username),

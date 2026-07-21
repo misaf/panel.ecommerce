@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Filament\Account\Resources\Websites\Pages\CreateWebsite;
 use App\Filament\Account\Resources\Websites\Pages\ListWebsites;
+use App\Filament\Account\Resources\Websites\WebsiteResource;
 use App\Filament\Account\Widgets\AccountOverview;
 use App\Filament\Account\Widgets\LatestWebsites;
 use App\Filament\Account\Widgets\SubscriptionDetail;
@@ -46,6 +47,15 @@ function actAsAccountOwner(Account $account): User
     return $owner;
 }
 
+it('uses the Vendra logo in light and dark modes', function (): void {
+    $panel = Filament::getPanel('account');
+
+    expect($panel->getBrandName())->toBe('Vendra Account')
+        ->and($panel->getBrandLogo())->toBe(asset('images/vendra-logo.svg'))
+        ->and($panel->getDarkModeBrandLogo())->toBe(asset('images/vendra-logo-dark.svg'))
+        ->and($panel->getBrandLogoHeight())->toBe('2rem');
+});
+
 it('renders the account dashboard with its widgets for an owner', function (): void {
     $account = Account::factory()->create();
     Subscription::factory()->for($account)->for(Plan::factory()->maxWebsites(3))->create();
@@ -86,6 +96,21 @@ it('grants account panel access only to account owners', function (): void {
 
     expect($owner->canAccessPanel($panel))->toBeTrue()
         ->and($regular->canAccessPanel($panel))->toBeFalse();
+});
+
+it('keeps disabled owners in the panel but blocks website operations', function (): void {
+    $account = Account::factory()->create(['status' => false]);
+    Subscription::factory()->for($account)->for(Plan::factory()->maxWebsites(2))->create();
+    $website = Tenant::factory()->create(['account_id' => $account->getKey(), 'status' => true]);
+
+    $owner = actAsAccountOwner($account);
+
+    expect($owner->canAccessPanel(Filament::getPanel('account')))->toBeTrue()
+        ->and(WebsiteResource::canCreate())->toBeFalse();
+
+    livewire(ListWebsites::class)
+        ->assertActionHidden(TestAction::make('replaceDomain')->table($website))
+        ->assertActionHidden(TestAction::make('delete')->table($website));
 });
 
 it('shows an owner only their own account websites', function (): void {

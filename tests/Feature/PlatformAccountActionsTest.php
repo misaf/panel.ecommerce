@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 use App\Filament\Platform\Resources\Accounts\Pages\EditAccount;
 use App\Filament\Platform\Widgets\PlatformOverview;
+use App\Models\PlatformUser;
 use Filament\Facades\Filament;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;
-use Misaf\VendraUser\Models\User;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 
-function actingPlatformAdmin(): User
+function actingPlatformAdmin(): PlatformUser
 {
-    $admin = User::factory()->forTenant(createTestTenant())->platformAdmin()->create();
-    actingAs($admin);
+    $admin = PlatformUser::factory()->create();
+    actingAs($admin, 'platform');
     Filament::setCurrentPanel(Filament::getPanel('platform'));
 
     return $admin;

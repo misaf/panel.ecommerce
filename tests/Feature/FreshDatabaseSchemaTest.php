@@ -12,7 +12,10 @@ it('contains every package table in the fresh database baseline', function (): v
         ->and(Schema::hasColumns('roles', ['tenant_id', 'description']))->toBeTrue()
         ->and(Schema::hasColumns('permissions', ['tenant_id', 'description']))->toBeTrue()
         ->and(Schema::hasColumn('tags', 'position'))->toBeTrue()
-        ->and(Schema::hasColumn('tags', 'order_column'))->toBeFalse();
+        ->and(Schema::hasColumn('tags', 'order_column'))->toBeFalse()
+        ->and(Schema::hasColumns('platform_users', ['username', 'email', 'email_verified_at', 'password']))->toBeTrue()
+        ->and(Schema::hasColumns('platform_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
+        ->and(Schema::hasColumn('users', 'is_platform_admin'))->toBeFalse();
 });
 
 it('enforces required relational integrity', function (string $table, string $column): void {

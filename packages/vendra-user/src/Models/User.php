@@ -44,7 +44,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $password_fingerprint
- * @property bool $is_platform_admin
  * @property string|null $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -91,7 +90,6 @@ final class User extends Authenticatable implements
             'email_verified_at'    => 'datetime',
             'password'             => 'string',
             'password_fingerprint' => 'string',
-            'is_platform_admin'    => 'boolean',
             'remember_token'       => 'string',
         ];
     }
@@ -99,7 +97,6 @@ final class User extends Authenticatable implements
     public function canAccessPanel(Panel $panel): bool
     {
         return match ($panel->getId()) {
-            'platform' => (bool) $this->is_platform_admin,
             'account'  => $this->isAccountOwner(),
             'admin'    => $this->hasRole('super-admin') || $this->hasRole('admin'),
             'user'     => $this->hasAnyRole(['super-admin', 'admin', 'reseller']),

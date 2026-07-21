@@ -42,9 +42,6 @@ return new class () extends Migration {
             $table->string('password_fingerprint', 64)
                 ->nullable();
             $table->rememberToken();
-            $table->boolean('is_platform_admin')
-                ->default(false)
-                ->index();
             $table->timestampsTz();
             $table->softDeletesTz();
             $table->string('active_email_guard')

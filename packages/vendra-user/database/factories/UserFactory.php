@@ -44,13 +44,6 @@ final class UserFactory extends Factory
         ]);
     }
 
-    public function platformAdmin(): static
-    {
-        return $this->state(fn(): array => [
-            'is_platform_admin' => true,
-        ]);
-    }
-
     public function forAccount(int $accountId): static
     {
         return $this->state(fn(): array => [
