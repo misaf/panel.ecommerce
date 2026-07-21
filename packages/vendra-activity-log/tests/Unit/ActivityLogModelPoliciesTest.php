@@ -17,7 +17,7 @@ it('hides the tenant association from activity log serialization', function (): 
 it('defines policy permissions for the activity log resource', function (): void {
     $permissions = array_column(ActivityLogPolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(11);
+    expect($permissions)->toHaveCount(10);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {

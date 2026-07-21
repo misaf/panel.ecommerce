@@ -12,7 +12,6 @@ enum BlogPostCategoryPolicyEnum: string
     case ForceDelete = 'force-delete-blog-post-category';
     case ForceDeleteAny = 'force-delete-any-blog-post-category';
     case Reorder = 'reorder-blog-post-category';
-    case Replicate = 'replicate-blog-post-category';
     case Restore = 'restore-blog-post-category';
     case RestoreAny = 'restore-any-blog-post-category';
     case Update = 'update-blog-post-category';

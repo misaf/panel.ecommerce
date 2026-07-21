@@ -17,7 +17,7 @@ it('hides the tenant association from authify log serialization', function (): v
 it('defines policy permissions for the authify log resource', function (): void {
     $permissions = array_column(AuthifyLogPolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(11);
+    expect($permissions)->toHaveCount(10);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {

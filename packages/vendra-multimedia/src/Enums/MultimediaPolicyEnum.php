@@ -11,7 +11,6 @@ enum MultimediaPolicyEnum: string
     case DeleteAny = 'delete-any-multimedia';
     case ForceDelete = 'force-delete-multimedia';
     case ForceDeleteAny = 'force-delete-any-multimedia';
-    case Replicate = 'replicate-multimedia';
     case Restore = 'restore-multimedia';
     case RestoreAny = 'restore-any-multimedia';
     case Update = 'update-multimedia';

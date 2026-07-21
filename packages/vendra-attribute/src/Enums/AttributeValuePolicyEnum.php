@@ -12,7 +12,6 @@ enum AttributeValuePolicyEnum: string
     case ForceDelete = 'force-delete-attribute-value';
     case ForceDeleteAny = 'force-delete-any-attribute-value';
     case Reorder = 'reorder-attribute-value';
-    case Replicate = 'replicate-attribute-value';
     case Restore = 'restore-attribute-value';
     case RestoreAny = 'restore-any-attribute-value';
     case Update = 'update-attribute-value';

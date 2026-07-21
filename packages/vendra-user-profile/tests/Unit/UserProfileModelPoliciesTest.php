@@ -18,7 +18,7 @@ it('hides the tenant association from user profile serialization', function (): 
 it('defines policy permissions for the user profile resource', function (): void {
     $permissions = array_column(UserProfilePolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(11);
+    expect($permissions)->toHaveCount(10);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {

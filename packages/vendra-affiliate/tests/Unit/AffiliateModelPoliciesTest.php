@@ -25,7 +25,7 @@ it('applies shared tenant ownership to affiliate models', function (string $mode
 ]);
 
 it('defines policy permissions for all affiliate resources', function (): void {
-    expect(array_column(AffiliatePolicyEnum::cases(), 'value'))->toHaveCount(11)
+    expect(array_column(AffiliatePolicyEnum::cases(), 'value'))->toHaveCount(10)
         ->and(array_column(AffiliateClickPolicyEnum::cases(), 'value'))->toHaveCount(4)
         ->and(array_column(AffiliateReferralPolicyEnum::cases(), 'value'))->toHaveCount(5)
         ->and(array_column(AffiliateCommissionPolicyEnum::cases(), 'value'))->toHaveCount(8)

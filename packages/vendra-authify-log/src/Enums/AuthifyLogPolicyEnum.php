@@ -11,7 +11,6 @@ enum AuthifyLogPolicyEnum: string
     case DeleteAny = 'delete-any-authify-log';
     case ForceDelete = 'force-delete-authify-log';
     case ForceDeleteAny = 'force-delete-any-authify-log';
-    case Replicate = 'replicate-authify-log';
     case Restore = 'restore-authify-log';
     case RestoreAny = 'restore-any-authify-log';
     case Update = 'update-authify-log';

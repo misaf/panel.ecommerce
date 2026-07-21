@@ -22,13 +22,13 @@ it('hides the tenant association from attribute serialization', function (): voi
 it('defines policy permissions for the attribute resource', function (): void {
     $permissions = array_column(AttributePolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(12);
+    expect($permissions)->toHaveCount(11);
 });
 
 it('defines policy permissions for the attribute value resource', function (): void {
     $permissions = array_column(AttributeValuePolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(12);
+    expect($permissions)->toHaveCount(11);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {
@@ -40,4 +40,9 @@ it('uses kebab-case permission names scoped per model', function (): void {
 
     expect($valuePermissions)->toHaveCount(count(array_unique($valuePermissions)))
         ->each->toMatch('/^[a-z]+(-[a-z]+)*$/');
+});
+
+it('logs activity for attribute models', function (): void {
+    expect(new Attribute())->toBeInstanceOf(Misaf\VendraSupport\Contracts\ShouldLogActivity::class)
+        ->and(new AttributeValue())->toBeInstanceOf(Misaf\VendraSupport\Contracts\ShouldLogActivity::class);
 });

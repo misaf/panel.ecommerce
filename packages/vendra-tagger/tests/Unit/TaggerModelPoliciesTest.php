@@ -47,7 +47,6 @@ it('defines all permissions exposed by the tag resource', function (): void {
         'force-delete-tagger',
         'force-delete-any-tagger',
         'reorder-tagger',
-        'replicate-tagger',
         'restore-tagger',
         'restore-any-tagger',
         'update-tagger',

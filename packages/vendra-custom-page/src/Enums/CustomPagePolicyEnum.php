@@ -12,7 +12,6 @@ enum CustomPagePolicyEnum: string
     case ForceDelete = 'force-delete-custom-page';
     case ForceDeleteAny = 'force-delete-any-custom-page';
     case Reorder = 'reorder-custom-page';
-    case Replicate = 'replicate-custom-page';
     case Restore = 'restore-custom-page';
     case RestoreAny = 'restore-any-custom-page';
     case Update = 'update-custom-page';

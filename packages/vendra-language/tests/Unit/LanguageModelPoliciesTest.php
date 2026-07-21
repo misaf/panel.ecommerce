@@ -27,7 +27,7 @@ it('defines policy permissions for the language resource', function (): void {
 it('defines policy permissions for the language line resource', function (): void {
     $permissions = array_column(LanguageLinePolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(7);
+    expect($permissions)->toHaveCount(6);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {

@@ -11,7 +11,6 @@ enum PhoneNumberPolicyEnum: string
     case DeleteAny = 'delete-any-phone-number';
     case ForceDelete = 'force-delete-phone-number';
     case ForceDeleteAny = 'force-delete-any-phone-number';
-    case Replicate = 'replicate-phone-number';
     case Restore = 'restore-phone-number';
     case RestoreAny = 'restore-any-phone-number';
     case Update = 'update-phone-number';

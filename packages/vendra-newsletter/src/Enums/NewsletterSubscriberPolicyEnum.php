@@ -11,7 +11,6 @@ enum NewsletterSubscriberPolicyEnum: string
     case DeleteAny = 'delete-any-newsletter-subscriber';
     case ForceDelete = 'force-delete-newsletter-subscriber';
     case ForceDeleteAny = 'force-delete-any-newsletter-subscriber';
-    case Replicate = 'replicate-newsletter-subscriber';
     case Restore = 'restore-newsletter-subscriber';
     case RestoreAny = 'restore-any-newsletter-subscriber';
     case Update = 'update-newsletter-subscriber';

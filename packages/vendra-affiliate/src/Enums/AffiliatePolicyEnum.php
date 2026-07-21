@@ -11,7 +11,6 @@ enum AffiliatePolicyEnum: string
     case DeleteAny = 'delete-any-affiliate';
     case ForceDelete = 'force-delete-affiliate';
     case ForceDeleteAny = 'force-delete-any-affiliate';
-    case Replicate = 'replicate-affiliate';
     case Restore = 'restore-affiliate';
     case RestoreAny = 'restore-any-affiliate';
     case Update = 'update-affiliate';

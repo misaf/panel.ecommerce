@@ -27,13 +27,13 @@ it('hides the tenant association from custom page serialization', function (): v
 it('defines policy permissions for the custom page resource', function (): void {
     $permissions = array_column(CustomPagePolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(12);
+    expect($permissions)->toHaveCount(11);
 });
 
 it('defines policy permissions for the custom page category resource', function (): void {
     $permissions = array_column(CustomPageCategoryPolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(12);
+    expect($permissions)->toHaveCount(11);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {

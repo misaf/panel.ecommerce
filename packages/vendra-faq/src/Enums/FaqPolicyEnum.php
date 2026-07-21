@@ -12,7 +12,6 @@ enum FaqPolicyEnum: string
     case ForceDelete = 'force-delete-faq';
     case ForceDeleteAny = 'force-delete-any-faq';
     case Reorder = 'reorder-faq';
-    case Replicate = 'replicate-faq';
     case Restore = 'restore-faq';
     case RestoreAny = 'restore-any-faq';
     case Update = 'update-faq';

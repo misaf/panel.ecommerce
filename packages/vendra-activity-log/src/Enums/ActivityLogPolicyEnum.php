@@ -11,7 +11,6 @@ enum ActivityLogPolicyEnum: string
     case DeleteAny = 'delete-any-activity-log';
     case ForceDelete = 'force-delete-activity-log';
     case ForceDeleteAny = 'force-delete-any-activity-log';
-    case Replicate = 'replicate-activity-log';
     case Restore = 'restore-activity-log';
     case RestoreAny = 'restore-any-activity-log';
     case Update = 'update-activity-log';

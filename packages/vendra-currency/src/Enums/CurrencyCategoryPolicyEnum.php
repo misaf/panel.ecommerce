@@ -12,7 +12,6 @@ enum CurrencyCategoryPolicyEnum: string
     case ForceDelete = 'force-delete-currency-category';
     case ForceDeleteAny = 'force-delete-any-currency-category';
     case Reorder = 'reorder-currency-category';
-    case Replicate = 'replicate-currency-category';
     case Restore = 'restore-currency-category';
     case RestoreAny = 'restore-any-currency-category';
     case Update = 'update-currency-category';

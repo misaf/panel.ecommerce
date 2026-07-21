@@ -11,7 +11,6 @@ use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesReplicateAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
 use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
 use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
@@ -22,7 +21,6 @@ final class NewsletterPolicy
     use AuthorizesCreateAbilities;
     use AuthorizesDeleteAbilities;
     use AuthorizesForceDeleteAbilities;
-    use AuthorizesReplicateAbilities;
     use AuthorizesRestoreAbilities;
     use AuthorizesSandboxMode;
     use AuthorizesViewAbilities;

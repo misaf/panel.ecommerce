@@ -12,7 +12,6 @@ enum TaggerPolicyEnum: string
     case ForceDelete = 'force-delete-tagger';
     case ForceDeleteAny = 'force-delete-any-tagger';
     case Reorder = 'reorder-tagger';
-    case Replicate = 'replicate-tagger';
     case Restore = 'restore-tagger';
     case RestoreAny = 'restore-any-tagger';
     case Update = 'update-tagger';

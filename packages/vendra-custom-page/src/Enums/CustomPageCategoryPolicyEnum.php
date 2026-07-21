@@ -12,7 +12,6 @@ enum CustomPageCategoryPolicyEnum: string
     case ForceDelete = 'force-delete-custom-page-category';
     case ForceDeleteAny = 'force-delete-any-custom-page-category';
     case Reorder = 'reorder-custom-page-category';
-    case Replicate = 'replicate-custom-page-category';
     case Restore = 'restore-custom-page-category';
     case RestoreAny = 'restore-any-custom-page-category';
     case Update = 'update-custom-page-category';

@@ -11,7 +11,6 @@ enum VerificationPolicyEnum: string
     case DeleteAny = 'delete-any-verification';
     case ForceDelete = 'force-delete-verification';
     case ForceDeleteAny = 'force-delete-any-verification';
-    case Replicate = 'replicate-verification';
     case Restore = 'restore-verification';
     case RestoreAny = 'restore-any-verification';
     case Update = 'update-verification';

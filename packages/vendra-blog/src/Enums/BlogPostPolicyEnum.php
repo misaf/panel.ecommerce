@@ -12,7 +12,6 @@ enum BlogPostPolicyEnum: string
     case ForceDelete = 'force-delete-blog-post';
     case ForceDeleteAny = 'force-delete-any-blog-post';
     case Reorder = 'reorder-blog-post';
-    case Replicate = 'replicate-blog-post';
     case Restore = 'restore-blog-post';
     case RestoreAny = 'restore-any-blog-post';
     case Update = 'update-blog-post';

@@ -17,7 +17,7 @@ it('hides the tenant association from multimedia serialization', function (): vo
 it('defines policy permissions for the multimedia resource', function (): void {
     $permissions = array_column(MultimediaPolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(11);
+    expect($permissions)->toHaveCount(10);
 });
 
 it('uses kebab-case permission names scoped per model', function (): void {

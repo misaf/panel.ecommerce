@@ -31,7 +31,7 @@ it('defines the user profile relationship', function (): void {
 it('defines policy permissions for the verification resource', function (): void {
     $permissions = array_column(VerificationPolicyEnum::cases(), 'value');
 
-    expect($permissions)->toHaveCount(11)
+    expect($permissions)->toHaveCount(10)
         ->toHaveCount(count(array_unique($permissions)))
         ->each->toMatch('/^[a-z]+(-[a-z]+)*$/');
 });
