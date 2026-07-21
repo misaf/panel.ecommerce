@@ -35,6 +35,10 @@ class TeamScope implements Scope
             return;
         }
 
+        if ( ! array_key_exists('tenant_id', $user->getAttributes())) {
+            return;
+        }
+
         $tenantId = $user->getAttribute('tenant_id');
 
         if (is_int($tenantId) || is_string($tenantId)) {

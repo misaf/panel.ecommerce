@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraSupport\Tests\Feature\TeamScopePlainRecord;
 use Misaf\VendraSupport\Tests\Feature\TeamScopeTenantRecord;
@@ -45,4 +46,18 @@ it('constrains tenant-aware models to the authenticated user tenant when no tena
 
     expect($records)->toHaveCount(1)
         ->and($records->sole()->getAttribute('tenant_id'))->toBe(1);
+});
+
+it('does not constrain tenant-aware models for an authenticated identity without a tenant', function (): void {
+    TeamScopeTenantRecord::query()->insert([
+        ['id' => 1, 'tenant_id' => 1],
+        ['id' => 2, 'tenant_id' => 2],
+    ]);
+
+    $platformUser = new class () extends Authenticatable {};
+    $platformUser->setAttribute('id', 1);
+
+    $this->actingAs($platformUser);
+
+    expect(TeamScopeTenantRecord::query()->count())->toBe(2);
 });
