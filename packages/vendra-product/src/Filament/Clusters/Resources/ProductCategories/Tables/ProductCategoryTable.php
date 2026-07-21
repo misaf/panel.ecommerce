@@ -31,6 +31,7 @@ use Livewire\Component as Livewire;
 use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
+use Misaf\VendraSupport\Support\AttributeIntegration;
 
 final class ProductCategoryTable
 {
@@ -107,6 +108,14 @@ final class ProductCategoryTable
                     fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
                 ),
         ];
+
+        if (AttributeIntegration::isAvailable()) {
+            $columns[] = TextColumn::make('attribute_values_count')
+                ->badge()
+                ->counts('attributeValues')
+                ->label(__('vendra-product::attributes.attributes'))
+                ->toggleable(isToggledHiddenByDefault: true);
+        }
 
         return $table
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->withCount('products'))
