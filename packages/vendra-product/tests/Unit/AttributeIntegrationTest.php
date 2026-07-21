@@ -10,6 +10,11 @@ use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
 use Misaf\VendraSupport\Support\AttributeIntegration;
 
+it('persists morph types through stable aliases instead of class names', function (): void {
+    expect((new Product())->getMorphClass())->toBe('product')
+        ->and((new ProductCategory())->getMorphClass())->toBe('product_category');
+});
+
 it('keeps attribute integration disabled without an attribute provider', function (): void {
     app()->instance(AttributeResolver::class, new class () implements AttributeResolver {
         public function available(): bool
@@ -84,7 +89,7 @@ it('inherits product attribute values from the product category', function (): v
         ->and($attributeValues->getLocalKeyName())->toBe('product_category_id')
         ->and(collect($attributeValues->getQuery()->getQuery()->wheres)->contains(
             fn(array $where): bool => 'attributable_type' === ($where['column'] ?? null)
-                && ProductCategory::class === ($where['value'] ?? null),
+                && (new ProductCategory())->getMorphClass() === ($where['value'] ?? null),
         ))->toBeTrue();
 });
 

@@ -28,6 +28,7 @@
         "misaf/vendra-api": "self.version",
         "misaf/vendra-multimedia-api": "self.version",
         "misaf/vendra-product": "self.version",
+        "misaf/vendra-support": "self.version",
         "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {
