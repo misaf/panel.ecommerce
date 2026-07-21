@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 return [
     'collection_name'       => 'Sammlungsname',
+    'description'           => [
+        'media_items' => 'Hochgeladene Mediendateien durchsuchen und verwalten.',
+    ],
+
+    'empty_state'           => [
+        'heading' => [
+            'media_items' => 'Noch keine Mediendateien',
+        ],
+
+        'description' => [
+            'media_items' => 'Laden Sie Bilder, Dokumente und andere Mediendateien hoch, um sie in Ihrer Anwendung zu verwenden.',
+        ],
+    ],
     'conversions_disk'      => 'Konvertierungsdatenträger',
     'created_at'            => 'Erstellt am',
     'custom_properties'     => 'Benutzerdefinierte Eigenschaften',
