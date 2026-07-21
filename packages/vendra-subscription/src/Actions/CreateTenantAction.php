@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Misaf\VendraSubscription\Actions;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Support\WebsiteQuota;
 use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Actions\CreateUserAction;
 use Misaf\VendraUser\Models\User;
 
@@ -29,6 +31,12 @@ final class CreateTenantAction
         string $password,
         ?Account $account = null,
     ): array {
+        $domain = TenantDomain::normalizeDomain($domain);
+        Validator::make(
+            ['domain' => $domain],
+            ['domain' => TenantDomain::activeDomainRules()],
+        )->validate();
+
         return DB::transaction(function () use (
             $name,
             $domain,

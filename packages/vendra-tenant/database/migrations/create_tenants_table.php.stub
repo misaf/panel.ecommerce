@@ -69,6 +69,10 @@ return new class () extends Migration {
                 ->index();
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('active_name_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN status = 1 AND deleted_at IS NULL THEN name ELSE NULL END');
+            $table->unique('active_name_guard', 'tenant_domains_active_name_unique');
         });
     }
 

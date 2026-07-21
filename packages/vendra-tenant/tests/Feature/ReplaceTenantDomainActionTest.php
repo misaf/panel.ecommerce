@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Validation\ValidationException;
 use Misaf\VendraTenant\Actions\ReplaceTenantDomainAction;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
@@ -50,3 +51,13 @@ it('keeps replaced history when the website is soft-deleted and restored', funct
     expect($website->execute(fn() => $website->tenantDomains()->where('status', true)->value('name')))->toBe('new.test')
         ->and($website->execute(fn() => $website->tenantDomains()->onlyTrashed()->count()))->toBe(1);
 });
+
+it('rejects a domain already active on another website', function (): void {
+    $website = Tenant::factory()->create();
+    TenantDomain::factory()->for($website)->create(['name' => 'old.test', 'status' => true]);
+
+    $otherWebsite = Tenant::factory()->create();
+    TenantDomain::factory()->for($otherWebsite)->create(['name' => 'taken.test', 'status' => true]);
+
+    app(ReplaceTenantDomainAction::class)->execute($website, 'taken.test');
+})->throws(ValidationException::class);

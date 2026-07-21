@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use Illuminate\Validation\ValidationException;
 use Misaf\VendraSubscription\Actions\CreateTenantAction;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraTenant\Models\TenantDomain;
 
 function subscribedAccount(int $maxWebsites): Account
 {
@@ -96,3 +98,19 @@ it('still creates a tenant with no account for the legacy path', function (): vo
     expect($result['tenant'])->toBeInstanceOf(Tenant::class)
         ->and($result['tenant']->account_id)->toBeNull();
 });
+
+it('rejects invalid and duplicate active domains outside Filament', function (string $domain): void {
+    $existingWebsite = Tenant::factory()->create();
+    TenantDomain::factory()->for($existingWebsite)->create(['name' => 'taken.test', 'status' => true]);
+
+    app(CreateTenantAction::class)->execute(
+        name: 'Rejected Store',
+        domain: $domain,
+        username: 'admin_rejected',
+        email: 'admin@rejected.test',
+        password: 'secret-password',
+    );
+})->with([
+    'invalid format'   => 'not a domain',
+    'duplicate domain' => 'taken.test',
+])->throws(ValidationException::class);
