@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Misaf\VendraSupport\Contracts\AttributeApiResolver;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
+use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Contracts\TagResolver;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Events\TenantProvisioned;
@@ -18,6 +19,7 @@ use Misaf\VendraSupport\Listeners\RunTenantSeeders;
 use Misaf\VendraSupport\Support\NullAttributeApiResolver;
 use Misaf\VendraSupport\Support\NullAttributeResolver;
 use Misaf\VendraSupport\Support\NullCurrencyResolver;
+use Misaf\VendraSupport\Support\NullSubscriptionCharger;
 use Misaf\VendraSupport\Support\NullTagResolver;
 use Misaf\VendraSupport\Support\NullTenantResolver;
 use Misaf\VendraSupport\Support\TenantSeeders;
@@ -38,6 +40,7 @@ final class SupportServiceProvider extends ServiceProvider
         $this->app->singletonIf(AttributeResolver::class, NullAttributeResolver::class);
         $this->app->singletonIf(CurrencyResolver::class, NullCurrencyResolver::class);
         $this->app->singletonIf(TagResolver::class, NullTagResolver::class);
+        $this->app->singletonIf(SubscriptionCharger::class, NullSubscriptionCharger::class);
         $this->app->singleton(TenantSeeders::class);
         $this->app->singleton(TenantTableRegistry::class);
 

@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
+use App\Support\TransactionSubscriptionCharger;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Filament\Auth\Notifications\ResetPassword;
 use Filament\Auth\Notifications\VerifyEmail;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Support\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
 
@@ -30,6 +32,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(Authenticatable::class, User::class);
         $this->app->bind(ResetPassword::class, ResetPasswordNotification::class);
         $this->app->bind(VerifyEmail::class, VerifyEmailNotification::class);
+        $this->app->singleton(SubscriptionCharger::class, TransactionSubscriptionCharger::class);
     }
 
     public function boot(): void
