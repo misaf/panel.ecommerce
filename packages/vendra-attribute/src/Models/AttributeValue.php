@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Misaf\VendraAttribute\Database\Factories\AttributeValueFactory;
+use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Traits\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -31,9 +32,9 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property Carbon|null $deleted_at
  */
 #[Fillable(['attribute_id', 'value', 'position'])]
-#[Hidden(['tenant_id', 'attributable_type', 'attributable_id'])]
+#[Hidden(['tenant_id', 'attributable_type', 'attributable_id', 'active_value_guard'])]
 #[UseFactory(AttributeValueFactory::class)]
-final class AttributeValue extends Model implements Sortable
+final class AttributeValue extends Model implements ShouldLogActivity, Sortable
 {
     use BelongsToTenant;
 

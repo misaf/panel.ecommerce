@@ -40,3 +40,13 @@ it('renders the reorderable attributes table under strict authorization', functi
         ->call('loadTable')
         ->assertCanSeeTableRecords([$attribute]);
 });
+
+it('renders the view attribute page under strict authorization', function (): void {
+    Filament::getPanel('admin')->strictAuthorization();
+
+    $attribute = AttributeFactory::new()->createOne();
+
+    livewire(Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ViewAttribute::class, ['record' => $attribute->getKey()])
+        ->assertOk()
+        ->assertSee($attribute->name);
+});

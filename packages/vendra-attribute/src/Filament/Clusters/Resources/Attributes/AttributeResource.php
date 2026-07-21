@@ -12,8 +12,10 @@ use Filament\Tables\Table;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\CreateAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\EditAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ListAttributes;
+use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ViewAttribute;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\RelationManagers\AttributeValueRelationManager;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Schemas\AttributeForm;
+use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Schemas\AttributeInfolist;
 use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Tables\AttributeTable;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
@@ -64,6 +66,7 @@ final class AttributeResource extends Resource
         return [
             'index'  => ListAttributes::route('/'),
             'create' => CreateAttribute::route('/create'),
+            'view'   => ViewAttribute::route('/{record}'),
             'edit'   => EditAttribute::route('/{record}/edit'),
         ];
     }
@@ -71,6 +74,11 @@ final class AttributeResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return AttributeForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AttributeInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
