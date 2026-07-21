@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Schemas;
 
-use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\SpatieTagsEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Misaf\VendraFaq\Models\Faq;
+use Misaf\VendraSupport\Filament\Concerns\RendersRichContent;
 use Misaf\VendraSupport\Support\TagIntegration;
 
 final class FaqInfolist
 {
+    use RendersRichContent;
+
     public static function configure(Schema $schema): Schema
     {
         $components = [
@@ -27,7 +29,7 @@ final class FaqInfolist
                 ->label(__('vendra-faq::attributes.status')),
             TextEntry::make('description')
                 ->columnSpanFull()
-                ->formatStateUsing(fn(array|string|null $state): RichContentRenderer => self::renderRichContent($state))
+                ->formatStateUsing(fn(array|string|null $state): string => self::renderRichContent($state))
                 ->html()
                 ->label(__('vendra-faq::attributes.description')),
             SpatieMediaLibraryImageEntry::make('image')
@@ -61,19 +63,4 @@ final class FaqInfolist
             );
     }
 
-    /** @param array<array-key, mixed>|string|null $state */
-    private static function renderRichContent(array|string|null $state): RichContentRenderer
-    {
-        if ( ! is_array($state)) {
-            return RichContentRenderer::make($state);
-        }
-
-        $content = [];
-
-        foreach ($state as $key => $value) {
-            $content[(string) $key] = $value;
-        }
-
-        return RichContentRenderer::make($content);
-    }
 }
