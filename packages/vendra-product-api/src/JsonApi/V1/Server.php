@@ -9,7 +9,7 @@ use Misaf\VendraMultimediaApi\JsonApi\V1\Multimedia\MultimediaSchema;
 use Misaf\VendraProductApi\JsonApi\V1\ProductCategories\ProductCategorySchema;
 use Misaf\VendraProductApi\JsonApi\V1\ProductPrices\ProductPriceSchema;
 use Misaf\VendraProductApi\JsonApi\V1\Products\ProductSchema;
-use Misaf\VendraProductApi\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Support\AttributeApiIntegration;
 
 final class Server extends BaseServer
 {

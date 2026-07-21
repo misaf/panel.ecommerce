@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraProductApi\Providers;
 
 use Composer\InstalledVersions;
-
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraProductApi\JsonApi\V1\Server as ProductServer;

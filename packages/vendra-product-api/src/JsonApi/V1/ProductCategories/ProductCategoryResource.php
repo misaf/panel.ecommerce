@@ -6,7 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\ProductCategories;
 
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 use Misaf\VendraProduct\Models\ProductCategory;
-use Misaf\VendraProductApi\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Support\AttributeApiIntegration;
 
 /**
  * @mixin ProductCategory

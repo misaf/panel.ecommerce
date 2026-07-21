@@ -6,7 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\Products;
 
 use LaravelJsonApi\Laravel\Http\Requests\ResourceQuery;
 use LaravelJsonApi\Validation\Rule as JsonApiRule;
-use Misaf\VendraProductApi\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Support\AttributeApiIntegration;
 
 final class ProductCollectionQuery extends ResourceQuery
 {
@@ -68,21 +68,21 @@ final class ProductCollectionQuery extends ResourceQuery
             'filter.without-multimedia.*'           => 'string',
             'filter.with-product-category'          => 'array',
             // 'filter.with-product-category.*'        => 'string',
-            'filter.without-product-category'       => 'array',
-            'filter.without-product-category.*'     => 'string',
-            'filter.with-in-product-category'       => 'array',
-            'filter.with-in-product-category.slug'  => 'string',
-            'filter.with-in-product-category.*'     => 'string',
-            'filter.in-product-category.*'          => 'integer',
-            'filter.not-in-product-category.*'      => 'integer',
-            'filter.has-product-prices'             => 'boolean',
-            'filter.with-product-prices'            => 'array',
-            'filter.with-product-prices.*'          => 'string',
-            'filter.without-product-prices'         => 'array',
-            'filter.without-product-prices.*'       => 'string',
-            'filter.with-trashed'                   => 'boolean',
-            'filter.only-trashed'                   => 'boolean',
-            'include'                               => [
+            'filter.without-product-category'      => 'array',
+            'filter.without-product-category.*'    => 'string',
+            'filter.with-in-product-category'      => 'array',
+            'filter.with-in-product-category.slug' => 'string',
+            'filter.with-in-product-category.*'    => 'string',
+            'filter.in-product-category.*'         => 'integer',
+            'filter.not-in-product-category.*'     => 'integer',
+            'filter.has-product-prices'            => 'boolean',
+            'filter.with-product-prices'           => 'array',
+            'filter.with-product-prices.*'         => 'string',
+            'filter.without-product-prices'        => 'array',
+            'filter.without-product-prices.*'      => 'string',
+            'filter.with-trashed'                  => 'boolean',
+            'filter.only-trashed'                  => 'boolean',
+            'include'                              => [
                 'nullable',
                 'string',
                 JsonApiRule::includePaths(),
