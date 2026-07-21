@@ -5979,7 +5979,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "5319579bd6c8f9ea410de8c3963fd81e5fd97d4e"
+                "reference": "2fee732c273d1a7c541d775dc1b882e41bff7107"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -5994,6 +5994,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
+                "misaf/vendra-currency": "self.version",
                 "misaf/vendra-testing": "self.version",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
@@ -6352,7 +6353,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "49f9c42a8c46ce91d2b1c845f8f4b1dcdb30755f"
+                "reference": "7ca72e471fa67749b50d595c31230e2cc79de0e5"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6367,6 +6368,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
+                "misaf/vendra-product": "self.version",
                 "misaf/vendra-testing": "self.version",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
@@ -7485,7 +7487,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
-                "reference": "5b6c93f7981eeed7c07dc9c04bb499bdcd934686"
+                "reference": "36c5ddcd45613ab182e73bd781f0acb54ab050b1"
             },
             "require": {
                 "bezhansalleh/filament-language-switch": "^4.3",
@@ -7500,6 +7502,7 @@
                 "larastan/larastan": "^3.10.0",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
+                "misaf/vendra-localization": "self.version",
                 "misaf/vendra-testing": "self.version",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
@@ -8240,7 +8243,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "972a4cdf5384f96f8790b313cf102baa8e2280aa"
+                "reference": "ffd428d0c122926bb55fc76cc5945c1d7c27b163"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8256,6 +8259,7 @@
                 "laravel-json-api/testing": "^3.2",
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
+                "misaf/vendra-attribute": "self.version",
                 "misaf/vendra-attribute-api": "self.version",
                 "misaf/vendra-testing": "self.version",
                 "mockery/mockery": "^1.6.12",
