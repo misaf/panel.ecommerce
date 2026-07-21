@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Queue;
@@ -36,6 +37,20 @@ it('generates a random owner password when none is provided', function (): void 
 
     expect($result['password'])->toHaveLength(8)
         ->and(Hash::check($result['password'], $result['user']->password))->toBeTrue();
+});
+
+it('assigns the owner role for the user guard when another guard is active', function (): void {
+    Config::set('auth.defaults.guard', 'platform');
+
+    $result = app(ProvisionTenantAction::class)->execute([
+        'name'     => 'Acme',
+        'domain'   => 'acme.test',
+        'username' => 'admin_acme',
+        'email'    => 'admin@acme.test',
+    ]);
+
+    expect($result['user']->roles)->toHaveCount(1)
+        ->and($result['user']->roles->sole()->guard_name)->toBe('web');
 });
 
 it('stamps the domain with the newly provisioned tenant even when another tenant is current', function (): void {

@@ -25,12 +25,13 @@ final class CreateAccountAction
         ?Carbon $startsAt = null,
         ?string $ownerName = null,
         ?string $ownerEmail = null,
+        bool $status = true,
     ): array {
-        return DB::transaction(function () use ($name, $plan, $startsAt, $ownerName, $ownerEmail): array {
+        return DB::transaction(function () use ($name, $plan, $startsAt, $ownerName, $ownerEmail, $status): array {
             $account = Account::query()->create([
                 'name'        => $name,
                 'slug'        => $name,
-                'status'      => true,
+                'status'      => $status,
                 'owner_name'  => $ownerName,
                 'owner_email' => $ownerEmail,
             ]);

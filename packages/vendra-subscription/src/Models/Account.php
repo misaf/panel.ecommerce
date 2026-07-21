@@ -151,7 +151,7 @@ final class Account extends Model implements ShouldLogActivity
      */
     public function allows(string $feature): bool
     {
-        return (bool) $this->activeSubscription()?->plan->allows($feature);
+        return $this->activeSubscription()?->plan?->allows($feature) ?? false;
     }
 
     public function getSlugOptions(): SlugOptions

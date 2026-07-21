@@ -14,13 +14,18 @@ final class WebsiteQuota
      */
     public function canCreateWebsite(Account $account): bool
     {
-        $subscription = $account->activeSubscription();
-
-        if (null === $subscription) {
+        if ( ! $account->status) {
             return false;
         }
 
-        return $account->tenants()->count() < $subscription->plan->max_websites;
+        $subscription = $account->activeSubscription();
+        $plan = $subscription?->plan;
+
+        if (null === $plan) {
+            return false;
+        }
+
+        return $account->tenants()->count() < $plan->max_websites;
     }
 
     /**
@@ -28,13 +33,18 @@ final class WebsiteQuota
      */
     public function remainingWebsites(Account $account): int
     {
-        $subscription = $account->activeSubscription();
-
-        if (null === $subscription) {
+        if ( ! $account->status) {
             return 0;
         }
 
-        return max(0, $subscription->plan->max_websites - $account->tenants()->count());
+        $subscription = $account->activeSubscription();
+        $plan = $subscription?->plan;
+
+        if (null === $plan) {
+            return 0;
+        }
+
+        return max(0, $plan->max_websites - $account->tenants()->count());
     }
 
     /**
@@ -42,14 +52,19 @@ final class WebsiteQuota
      */
     public function assertCanCreateWebsite(Account $account): void
     {
-        $subscription = $account->activeSubscription();
+        if ( ! $account->status) {
+            throw SubscriptionLimitException::accountDisabled($account);
+        }
 
-        if (null === $subscription) {
+        $subscription = $account->activeSubscription();
+        $plan = $subscription?->plan;
+
+        if (null === $plan) {
             throw SubscriptionLimitException::noActiveSubscription($account);
         }
 
-        if ($account->tenants()->count() >= $subscription->plan->max_websites) {
-            throw SubscriptionLimitException::websiteQuotaReached($account, $subscription->plan->max_websites);
+        if ($account->tenants()->count() >= $plan->max_websites) {
+            throw SubscriptionLimitException::websiteQuotaReached($account, $plan->max_websites);
         }
     }
 }

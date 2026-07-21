@@ -8,20 +8,20 @@ use App\Filament\Platform\Resources\Plans\Pages\CreatePlan;
 use App\Filament\Platform\Resources\Plans\Pages\EditPlan;
 use App\Filament\Platform\Resources\Plans\Pages\ListPlans;
 use BackedEnum;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Models\Plan;
 
@@ -93,11 +93,23 @@ final class PlanResource extends Resource
                     ->integer()
                     ->minValue(0)
                     ->default(0)
+                    ->live()
                     ->required(),
 
                 TextInput::make('currency_code')
                     ->label(__('platform.currency'))
-                    ->maxLength(3)
+                    ->length(3)
+                    ->alpha()
+                    ->required(function (Get $get): bool {
+                        $price = $get('price');
+
+                        if (is_int($price) || is_float($price)) {
+                            return $price > 0;
+                        }
+
+                        return is_string($price) && (int) $price > 0;
+                    })
+                    ->dehydrateStateUsing(fn(?string $state): ?string => filled($state) ? Str::upper($state) : null)
                     ->placeholder('USD'),
 
                 TextInput::make('trial_days')
@@ -155,12 +167,8 @@ final class PlanResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                DeleteAction::make()
+                    ->hidden(fn(Plan $record): bool => $record->isInUse()),
             ])
             ->defaultSort('id', 'desc');
     }

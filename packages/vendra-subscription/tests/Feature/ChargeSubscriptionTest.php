@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
 use Misaf\VendraSubscription\Actions\SubscribeAccountAction;
+use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
@@ -12,11 +14,13 @@ use Misaf\VendraUser\Models\User;
 /**
  * Recording fake charger bound in place of the real payment provider.
  */
-function fakeSubscriptionCharger(): object
+function fakeSubscriptionCharger(bool $succeeds = true): object
 {
-    $charger = new class () implements SubscriptionCharger {
+    $charger = new class ($succeeds) implements SubscriptionCharger {
         /** @var array<int, array<string, mixed>> */
         public array $charges = [];
+
+        public function __construct(private readonly bool $succeeds) {}
 
         public function available(): bool
         {
@@ -32,7 +36,7 @@ function fakeSubscriptionCharger(): object
                 'reference'    => $reference,
             ];
 
-            return true;
+            return $this->succeeds;
         }
     };
 
@@ -97,4 +101,19 @@ it('subscribes without charging when no payment provider is available', function
         ->execute($account, Plan::factory()->priced(1000, 'USD')->create());
 
     expect($subscription->isActive())->toBeTrue();
+});
+
+it('rolls back activation when the payment provider declines the charge', function (): void {
+    $charger = fakeSubscriptionCharger(succeeds: false);
+    $account = accountWithOwner();
+    $action = new SubscribeAccountAction(new ChargeSubscriptionAction($charger));
+    $current = $action->execute($account, Plan::factory()->create());
+
+    $paidPlan = Plan::factory()->priced(1500, 'USD')->create();
+
+    expect(fn() => $action->execute($account, $paidPlan))
+        ->toThrow(SubscriptionPaymentException::class);
+
+    expect($account->subscriptions()->count())->toBe(1)
+        ->and($account->activeSubscription()?->is($current))->toBeTrue();
 });

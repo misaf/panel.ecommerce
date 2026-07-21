@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Actions;
 
+use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
@@ -39,11 +40,17 @@ final class ChargeSubscriptionAction
             return false;
         }
 
-        return $this->subscriptionCharger->charge(
+        $collected = $this->subscriptionCharger->charge(
             $owner,
             $subscription->price,
             $subscription->currency_code,
-            'subscription:' . $subscription->getKey(),
+            'subscription:' . $subscription->id,
         );
+
+        if ( ! $collected) {
+            throw SubscriptionPaymentException::collectionFailed($subscription);
+        }
+
+        return true;
     }
 }

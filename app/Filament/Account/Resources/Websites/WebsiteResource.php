@@ -21,9 +21,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rule;
+use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraTenant\Actions\ReplaceTenantDomainAction;
 use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
 
 final class WebsiteResource extends Resource
@@ -54,9 +55,25 @@ final class WebsiteResource extends Resource
      */
     public static function currentAccountId(): ?int
     {
+        return self::currentAccount()?->id;
+    }
+
+    public static function currentAccount(): ?Account
+    {
         $user = Filament::auth()->user();
 
-        return $user instanceof User ? $user->account_id : null;
+        if ( ! $user instanceof User || null === $user->account_id) {
+            return null;
+        }
+
+        return Account::query()->find($user->account_id);
+    }
+
+    public static function canCreate(): bool
+    {
+        $account = self::currentAccount();
+
+        return null !== $account && $account->status;
     }
 
     public static function form(Schema $schema): Schema
@@ -71,7 +88,11 @@ final class WebsiteResource extends Resource
                 TextInput::make('domain')
                     ->label(__('platform.domain'))
                     ->maxLength(255)
-                    ->required(),
+                    ->required()
+                    ->rules(TenantDomain::activeDomainRules())
+                    ->dehydrateStateUsing(fn(?string $state): ?string => null === $state
+                        ? null
+                        : TenantDomain::normalizeDomain($state)),
 
                 TextInput::make('owner_username')
                     ->label(__('platform.owner_username'))
@@ -112,11 +133,13 @@ final class WebsiteResource extends Resource
             ])
             ->recordActions([
                 self::replaceDomainAction(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->authorize(fn(): bool => self::canCreate()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorize(fn(): bool => self::canCreate()),
                 ]),
             ])
             ->defaultSort('id', 'desc');
@@ -139,13 +162,16 @@ final class WebsiteResource extends Resource
         return Action::make('replaceDomain')
             ->label(__('platform.replace_domain'))
             ->icon(Heroicon::OutlinedArrowPath)
+            ->authorize(fn(): bool => self::canCreate())
             ->schema([
                 TextInput::make('domain')
                     ->label(__('platform.new_domain'))
                     ->required()
                     ->maxLength(255)
-                    ->rule('regex:/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))+$/')
-                    ->rule(Rule::unique('tenant_domains', 'name')->where('status', true)->withoutTrashed()),
+                    ->rules(TenantDomain::activeDomainRules())
+                    ->dehydrateStateUsing(fn(?string $state): ?string => null === $state
+                        ? null
+                        : TenantDomain::normalizeDomain($state)),
             ])
             ->action(function (Tenant $record, array $data): void {
                 $domain = $data['domain'];

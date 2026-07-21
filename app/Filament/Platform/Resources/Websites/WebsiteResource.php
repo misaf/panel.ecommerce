@@ -29,10 +29,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Illuminate\Validation\Rule;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraTenant\Actions\ReplaceTenantDomainAction;
 use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraTenant\Models\TenantDomain;
 
 final class WebsiteResource extends Resource
 {
@@ -82,6 +82,10 @@ final class WebsiteResource extends Resource
                     ->label(__('platform.domain'))
                     ->maxLength(255)
                     ->required()
+                    ->rules(TenantDomain::activeDomainRules())
+                    ->dehydrateStateUsing(fn(?string $state): ?string => null === $state
+                        ? null
+                        : TenantDomain::normalizeDomain($state))
                     ->visibleOn('create'),
 
                 TextInput::make('owner_username')
@@ -183,8 +187,10 @@ final class WebsiteResource extends Resource
                     ->label(__('platform.new_domain'))
                     ->required()
                     ->maxLength(255)
-                    ->rule('regex:/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))+$/')
-                    ->rule(Rule::unique('tenant_domains', 'name')->where('status', true)->withoutTrashed()),
+                    ->rules(TenantDomain::activeDomainRules())
+                    ->dehydrateStateUsing(fn(?string $state): ?string => null === $state
+                        ? null
+                        : TenantDomain::normalizeDomain($state)),
             ])
             ->action(function (Tenant $record, array $data): void {
                 $domain = $data['domain'];

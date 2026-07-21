@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Carbon;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
+use Misaf\VendraSubscription\Exceptions\PlanInUseException;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -57,3 +58,10 @@ it('resolves the plan end date from its period', function (): void {
 
     expect($plan->resolveEndDate($start)->toDateString())->toBe('2026-04-01');
 });
+
+it('prevents deleting a plan referenced by a subscription', function (): void {
+    $plan = Plan::factory()->create();
+    Subscription::factory()->for($plan)->create();
+
+    $plan->delete();
+})->throws(PlanInUseException::class);

@@ -129,11 +129,13 @@ final class Subscription extends Model implements ShouldLogActivity
      */
     public function suspendAt(): ?Carbon
     {
-        if (null === $this->ends_at) {
+        $plan = $this->plan;
+
+        if (null === $this->ends_at || null === $plan) {
             return null;
         }
 
-        return $this->plan->resolveSuspendDate($this->ends_at);
+        return $plan->resolveSuspendDate($this->ends_at);
     }
 
     /**

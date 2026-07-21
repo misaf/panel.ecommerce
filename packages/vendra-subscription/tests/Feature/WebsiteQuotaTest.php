@@ -58,6 +58,18 @@ it('blocks website creation when no subscription is active', function (): void {
     $quota->assertCanCreateWebsite($account);
 })->throws(SubscriptionLimitException::class);
 
+it('blocks website creation for a disabled account with an active subscription', function (): void {
+    $account = accountWithPlan(maxWebsites: 2);
+    $account->update(['status' => false]);
+
+    $quota = app(WebsiteQuota::class);
+
+    expect($quota->canCreateWebsite($account))->toBeFalse()
+        ->and($quota->remainingWebsites($account))->toBe(0);
+
+    $quota->assertCanCreateWebsite($account);
+})->throws(SubscriptionLimitException::class, 'is disabled');
+
 it('creates an account subscribed to a plan for its period', function (): void {
     $plan = Plan::factory()->period(PeriodUnit::Month, 1)->create();
 
@@ -70,4 +82,14 @@ it('creates an account subscribed to a plan for its period', function (): void {
         ->and($result['subscription']->ends_at->toDateString())
         ->toBe($result['subscription']->starts_at->copy()->addMonth()->toDateString())
         ->and($result['account']->activeSubscription()?->getKey())->toBe($result['subscription']->getKey());
+});
+
+it('creates an account with the requested status', function (): void {
+    $result = app(CreateAccountAction::class)->execute(
+        name: 'Paused',
+        plan: Plan::factory()->create(),
+        status: false,
+    );
+
+    expect($result['account']->status)->toBeFalse();
 });

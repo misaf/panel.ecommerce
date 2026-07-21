@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
+use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
 use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -26,6 +27,10 @@ final class SubscribeAccountAction
      */
     public function execute(Account $account, Plan $plan, ?Carbon $startsAt = null): Subscription
     {
+        if ($plan->price > 0 && null === $plan->currency_code) {
+            throw SubscriptionPaymentException::missingCurrency($plan);
+        }
+
         $currentWebsites = $account->tenants()->count();
 
         if ($currentWebsites > $plan->max_websites) {
@@ -57,10 +62,10 @@ final class SubscribeAccountAction
             // Restore any websites suspended while the account had no active plan.
             $account->tenants()->where('status', false)->update(['status' => true]);
 
+            $this->chargeSubscriptionAction->execute($account, $subscription);
+
             return $subscription;
         });
-
-        $this->chargeSubscriptionAction->execute($account, $subscription);
 
         if ($account->hasOwnerContact()) {
             $account->notify(new SubscriptionActivatedNotification($plan));

@@ -9,11 +9,19 @@ use RuntimeException;
 
 final class SubscriptionLimitException extends RuntimeException
 {
+    public static function accountDisabled(Account $account): self
+    {
+        return new self(sprintf(
+            'Account [%s] is disabled.',
+            $account->id,
+        ));
+    }
+
     public static function noActiveSubscription(Account $account): self
     {
         return new self(sprintf(
             'Account [%s] has no active subscription.',
-            $account->getKey(),
+            $account->id,
         ));
     }
 
@@ -21,7 +29,7 @@ final class SubscriptionLimitException extends RuntimeException
     {
         return new self(sprintf(
             'Account [%s] has reached its website limit of [%d].',
-            $account->getKey(),
+            $account->id,
             $maxWebsites,
         ));
     }
@@ -30,7 +38,7 @@ final class SubscriptionLimitException extends RuntimeException
     {
         return new self(sprintf(
             'Account [%s] has %d website(s), which exceeds the [%d] allowed by the selected plan.',
-            $account->getKey(),
+            $account->id,
             $currentWebsites,
             $maxWebsites,
         ));

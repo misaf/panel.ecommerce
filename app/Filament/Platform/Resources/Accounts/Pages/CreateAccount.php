@@ -24,6 +24,7 @@ final class CreateAccount extends CreateRecord
         $planId = $data['plan_id'] ?? null;
         $ownerName = $data['owner_name'] ?? null;
         $ownerEmail = $data['owner_email'] ?? null;
+        $status = $data['status'] ?? true;
 
         if ( ! is_string($name) || '' === $name) {
             throw new InvalidArgumentException('Invalid account name provided.');
@@ -40,6 +41,7 @@ final class CreateAccount extends CreateRecord
             plan: $plan,
             ownerName: is_string($ownerName) ? $ownerName : null,
             ownerEmail: is_string($ownerEmail) ? $ownerEmail : null,
+            status: is_bool($status) ? $status : true,
         )['account'];
     }
 }

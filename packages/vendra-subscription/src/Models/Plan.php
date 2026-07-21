@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Misaf\VendraSubscription\Database\Factories\PlanFactory;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
+use Misaf\VendraSubscription\Exceptions\PlanInUseException;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -45,6 +46,15 @@ final class Plan extends Model implements ShouldLogActivity
 
     use HasSlug;
     use SoftDeletes;
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Plan $plan): void {
+            if ($plan->isInUse()) {
+                throw PlanInUseException::forPlan($plan);
+            }
+        });
+    }
 
     /**
      * @return array<string, string>
@@ -92,6 +102,11 @@ final class Plan extends Model implements ShouldLogActivity
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function isInUse(): bool
+    {
+        return $this->subscriptions()->withTrashed()->exists();
     }
 
     /**

@@ -13,6 +13,7 @@ use Misaf\VendraSupport\Events\TenantProvisioned;
 use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
+use Spatie\Permission\Guard;
 
 final class ProvisionTenantAction
 {
@@ -47,6 +48,7 @@ final class ProvisionTenantAction
             $role = $this->createRoleAction->execute(
                 tenant: $result['tenant'],
                 name: Config::string('vendra-permission.super_admin_role'),
+                guardName: Guard::getDefaultName(User::class),
             );
 
             $result['tenant']->execute(fn() => $result['user']->assignRole($role));
