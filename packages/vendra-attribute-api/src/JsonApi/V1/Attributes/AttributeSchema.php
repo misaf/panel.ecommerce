@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttributeApi\JsonApi\V1\Attributes;
 
+use Illuminate\Database\Eloquent\Builder;
 use LaravelJsonApi\Contracts\Schema\Field;
 use LaravelJsonApi\Eloquent\Fields\Boolean;
 use LaravelJsonApi\Eloquent\Fields\DateTime;
@@ -13,6 +14,7 @@ use LaravelJsonApi\Eloquent\Fields\Str;
 use LaravelJsonApi\Eloquent\Filters\WhereIdIn;
 use LaravelJsonApi\Eloquent\Filters\WhereIdNotIn;
 use LaravelJsonApi\Eloquent\Pagination\PagePagination;
+use LaravelJsonApi\Eloquent\QueryBuilder\JsonApiBuilder;
 use LaravelJsonApi\Eloquent\Schema;
 use Misaf\VendraAttribute\Models\Attribute;
 
@@ -66,5 +68,17 @@ final class AttributeSchema extends Schema
     public function pagination(): PagePagination
     {
         return PagePagination::make();
+    }
+
+    /**
+     * The public read API must never serve inactive attributes.
+     *
+     * @param  Builder|null  $query
+     */
+    public function newQuery($query = null): JsonApiBuilder
+    {
+        $query ??= $this->newInstance()->newQuery();
+
+        return parent::newQuery($query->where('status', true));
     }
 }

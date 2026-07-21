@@ -51,6 +51,18 @@ final class AttributeValue extends Model implements ShouldLogActivity, Sortable
         'sort_when_creating' => true,
     ];
 
+    /**
+     * The DB-level cascade on attribute_value_selections only fires on hard
+     * deletes, so soft deletes must detach selections themselves; restoring
+     * a value intentionally does not resurrect them.
+     */
+    protected static function booted(): void
+    {
+        self::deleted(function (self $attributeValue): void {
+            $attributeValue->selections()->delete();
+        });
+    }
+
     /** @return BelongsTo<Attribute, $this> */
     public function attribute(): BelongsTo
     {

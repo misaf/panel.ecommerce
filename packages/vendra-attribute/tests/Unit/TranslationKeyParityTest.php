@@ -13,4 +13,4 @@ it('keeps translation keys aligned across locales', function (string $file): voi
 
         expect($localizedKeys)->toBe($englishKeys);
     }
-})->with(['attributes.php', 'navigation.php']);
+})->with(['attributes.php', 'navigation.php', 'tables.php']);

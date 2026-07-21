@@ -83,6 +83,47 @@ it('can query selections from the attribute value side', function (): void {
     expect($value->selections()->count())->toBe(2);
 });
 
+it('removes selections when the attribute value is soft deleted', function (): void {
+    $attribute = Attribute::factory()->create(['name' => 'Length']);
+    $record = AttributableRecord::query()->create(['name' => 'Example']);
+
+    $value = AttributeValue::factory()->forAttributable($record)->create([
+        'attribute_id' => $attribute->id,
+        'value'        => '30',
+    ]);
+
+    $value->selections()->create([
+        'selectable_type' => $record->getMorphClass(),
+        'selectable_id'   => $record->id,
+    ]);
+
+    $value->delete();
+
+    expect($value->fresh()->trashed())->toBeTrue()
+        ->and(AttributeValueSelection::query()->where('attribute_value_id', $value->id)->exists())->toBeFalse();
+});
+
+it('does not resurrect selections when a soft deleted attribute value is restored', function (): void {
+    $attribute = Attribute::factory()->create(['name' => 'Width']);
+    $record = AttributableRecord::query()->create(['name' => 'Example']);
+
+    $value = AttributeValue::factory()->forAttributable($record)->create([
+        'attribute_id' => $attribute->id,
+        'value'        => '20',
+    ]);
+
+    $value->selections()->create([
+        'selectable_type' => $record->getMorphClass(),
+        'selectable_id'   => $record->id,
+    ]);
+
+    $value->delete();
+    $value->restore();
+
+    expect($value->fresh()->trashed())->toBeFalse()
+        ->and(AttributeValueSelection::query()->where('attribute_value_id', $value->id)->exists())->toBeFalse();
+});
+
 it('cascades selections when the attribute value is deleted', function (): void {
     $attribute = Attribute::factory()->create(['name' => 'Weight']);
     $record = AttributableRecord::query()->create(['name' => 'Example']);
