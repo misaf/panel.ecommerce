@@ -73,7 +73,6 @@ final class PlatformPanelServiceProvider extends PanelProvider
             )
             ->path('/platform')
             ->profile()
-            ->sidebarCollapsibleOnDesktop()
             ->topNavigation();
     }
 }
