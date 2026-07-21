@@ -12,7 +12,7 @@ it('provides active currency values from an eloquent model', function (): void {
     Schema::create('support_test_currencies', function (Blueprint $table): void {
         $table->id();
         $table->string('name');
-        $table->string('iso_code');
+        $table->string('code');
         $table->boolean('is_default')
             ->default(false);
         $table->unsignedBigInteger('position')
@@ -24,21 +24,21 @@ it('provides active currency values from an eloquent model', function (): void {
     SupportTestCurrency::query()->insert([
         [
             'name'       => 'US Dollar',
-            'iso_code'   => 'USD',
+            'code'       => 'USD',
             'is_default' => true,
             'position'   => 1,
             'status'     => true,
         ],
         [
             'name'       => 'Euro',
-            'iso_code'   => 'EUR',
+            'code'       => 'EUR',
             'is_default' => false,
             'position'   => 2,
             'status'     => true,
         ],
         [
             'name'       => 'British Pound',
-            'iso_code'   => 'GBP',
+            'code'       => 'GBP',
             'is_default' => false,
             'position'   => 3,
             'status'     => false,

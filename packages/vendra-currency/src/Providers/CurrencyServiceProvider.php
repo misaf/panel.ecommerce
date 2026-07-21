@@ -43,7 +43,7 @@ final class CurrencyServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(
             CurrencyResolver::class,
-            fn(): EloquentCurrencyResolver => new EloquentCurrencyResolver(Currency::class, codeColumn: 'code'),
+            fn(): EloquentCurrencyResolver => new EloquentCurrencyResolver(Currency::class),
         );
 
         Panel::configureUsing(function (Panel $panel): void {

@@ -17,7 +17,7 @@ final class EloquentCurrencyResolver implements CurrencyResolver
     public function __construct(
         private readonly string $currencyModel,
         private readonly CurrencyResolver $fallback = new NullCurrencyResolver(),
-        private readonly string $codeColumn = 'iso_code',
+        private readonly string $codeColumn = 'code',
         private readonly string $nameColumn = 'name',
         private readonly string $statusColumn = 'status',
         private readonly string $defaultColumn = 'is_default',
