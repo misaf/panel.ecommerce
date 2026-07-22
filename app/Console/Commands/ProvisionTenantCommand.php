@@ -10,6 +10,7 @@ use App\Models\Reseller;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraTenant\Models\TenantDomain;
@@ -62,13 +63,16 @@ final class ProvisionTenantCommand extends Command implements PromptsForMissingI
         }
 
         $shouldSeed = $this->shouldSeedTenant();
-        $password = $this->validatedPassword();
+        $validatedPassword = $this->validatedPassword();
 
-        if (false === $password) {
+        if (false === $validatedPassword) {
             return self::FAILURE;
         }
 
-        $reseller = $this->resolveReseller($data['name']);
+        $passwordWasProvided = null !== $validatedPassword;
+        $password = $validatedPassword
+            ?? Str::password(length: 8, letters: true, numbers: true, symbols: false);
+        $reseller = $this->resolveReseller($data, $password);
 
         if (false === $reseller) {
             return self::FAILURE;
@@ -82,7 +86,7 @@ final class ProvisionTenantCommand extends Command implements PromptsForMissingI
             ['Reseller', null === $reseller ? '[none]' : $reseller->name],
             ['Username', $result['user']->username],
             ['Email', $result['user']->email],
-            ['Password', null === $password ? $result['password'] : '[provided]'],
+            ['Password', $passwordWasProvided ? '[provided]' : $result['password']],
             ['Seeders', $shouldSeed ? 'Run' : 'Skipped'],
         ]);
 
@@ -95,7 +99,10 @@ final class ProvisionTenantCommand extends Command implements PromptsForMissingI
      * Returns null when neither option is given (legacy reseller-less path),
      * or false when an option references something that cannot be resolved.
      */
-    private function resolveReseller(string $tenantName): Reseller|false|null
+    /**
+     * @param array{name: string, domain: string, username: string, email: string} $data
+     */
+    private function resolveReseller(array $data, string $password): Reseller|false|null
     {
         $resellerOption = $this->option('reseller');
 
@@ -128,7 +135,12 @@ final class ProvisionTenantCommand extends Command implements PromptsForMissingI
                 return false;
             }
 
-            return $this->createResellerAction->execute($tenantName, $plan)['reseller'];
+            return $this->createResellerAction->execute(
+                plan: $plan,
+                username: $data['username'],
+                email: $data['email'],
+                password: $password,
+            )['reseller'];
         }
 
         return null;

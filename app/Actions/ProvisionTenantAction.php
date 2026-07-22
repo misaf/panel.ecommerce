@@ -12,6 +12,7 @@ use Misaf\VendraPermission\Actions\CreateRoleAction;
 use Misaf\VendraSupport\Events\TenantProvisioned;
 use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
 use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
 use Spatie\Permission\Guard;
 
@@ -24,22 +25,25 @@ final class ProvisionTenantAction
 
     /**
      * @param array{
-     *     name: string,
      *     domain: string,
-     *     username: string,
-     *     email: string
+     *     email: string,
+     *     name?: string,
+     *     username?: string
      * } $data
      * @return array{tenant: Tenant, user: User, password: string}
      */
     public function execute(array $data, bool $shouldSeed = false, ?string $password = null, ?Reseller $reseller = null): array
     {
         $password ??= Str::password(length: 8, letters: true, numbers: true, symbols: false);
+        $domain = TenantDomain::normalizeDomain($data['domain']);
+        $name = $data['name'] ?? Str::headline(Str::before($domain, '.'));
+        $username = $data['username'] ?? $this->usernameFromEmail($data['email']);
 
-        $result = DB::transaction(function () use ($data, $password, $reseller): array {
+        $result = DB::transaction(function () use ($data, $domain, $name, $username, $password, $reseller): array {
             $result = $this->createTenantAction->execute(
-                name: $data['name'],
-                domain: $data['domain'],
-                username: $data['username'],
+                name: $name,
+                domain: $domain,
+                username: $username,
                 email: $data['email'],
                 password: $password,
                 reseller: $reseller,
@@ -64,5 +68,19 @@ final class ProvisionTenantAction
         CacheTenantRoutesJob::dispatch($result['tenant']->id);
 
         return $result;
+    }
+
+    private function usernameFromEmail(string $email): string
+    {
+        $username = Str::of($email)
+            ->before('@')
+            ->ascii()
+            ->lower()
+            ->replaceMatches('/[^a-z0-9_]+/', '_')
+            ->trim('_')
+            ->limit(12, '')
+            ->toString();
+
+        return Str::length($username) >= 3 ? $username : 'owner';
     }
 }

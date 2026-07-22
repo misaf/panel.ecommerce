@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Notifications\Auth;
 
 use Filament\Auth\Notifications\ResetPassword;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use InvalidArgumentException;
-use Misaf\VendraUser\Models\User;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-final class ResetPasswordNotification extends ResetPassword implements ShouldQueue
+final class ResetPasswordNotification extends ResetPassword implements NotTenantAware, ShouldQueue
 {
     use Queueable;
 
@@ -22,8 +23,11 @@ final class ResetPasswordNotification extends ResetPassword implements ShouldQue
 
     public function toMail(mixed $notifiable): MailMessage
     {
-        if ( ! $notifiable instanceof User) {
-            throw new InvalidArgumentException(sprintf('Expected %s, got %s.', User::class, get_debug_type($notifiable)));
+        if ( ! $notifiable instanceof HasName) {
+            throw new InvalidArgumentException(sprintf(
+                'Expected a Filament user, got %s.',
+                get_debug_type($notifiable),
+            ));
         }
 
         $guard = config('auth.defaults.passwords');
@@ -31,7 +35,7 @@ final class ResetPasswordNotification extends ResetPassword implements ShouldQue
 
         return (new MailMessage())
             ->subject(__('mail.reset_password.subject'))
-            ->line(__('mail.reset_password.greeting', ['user' => $notifiable->username]))
+            ->line(__('mail.reset_password.greeting', ['user' => $notifiable->getFilamentName()]))
             ->line(__('mail.reset_password.line'))
             ->action(__('mail.reset_password.action'), $this->url)
             ->line(__('mail.reset_password.expire', [

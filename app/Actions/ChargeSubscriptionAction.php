@@ -4,53 +4,103 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Models\Reseller;
+use Illuminate\Support\Facades\DB;
+use LogicException;
+use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
-use Misaf\VendraSubscription\Models\Subscription;
+use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
+use Misaf\VendraSupport\Data\SubscriptionCharge;
 
 final class ChargeSubscriptionAction
 {
-    public function __construct(private readonly SubscriptionCharger $subscriptionCharger) {}
+    public function __construct(
+        private readonly SubscriptionCharger $subscriptionCharger,
+        private readonly ApplySubscriptionPaymentResultAction $applySubscriptionPaymentResultAction,
+        private readonly ActivatePaidSubscriptionAction $activatePaidSubscriptionAction,
+    ) {}
 
     /**
-     * Collect payment for a subscription period from the reseller owner, when a
-     * payment provider is available and the plan is not free. No-op (returns
-     * false) for free plans, when no charger is bound, or when the reseller has
-     * no owner to bill.
+     * Process one durable payment operation without retaining its claim lock
+     * during provider I/O, then apply the provider lifecycle result.
      */
-    public function execute(Reseller $reseller, Subscription $subscription): bool
+    public function execute(SubscriptionPayment $payment): void
     {
-        if ($subscription->price <= 0 || null === $subscription->currency_code) {
-            return false;
+        if (SubscriptionPaymentStatus::Paid === $payment->status) {
+            $this->activatePaidSubscriptionAction->execute($payment);
+
+            return;
         }
 
-        // Payment is deferred until the trial ends.
-        if ($subscription->isOnTrial()) {
-            return false;
+        if ($payment->status->isTerminal()) {
+            return;
+        }
+
+        if (null !== $payment->next_retry_at && $payment->next_retry_at->isFuture()) {
+            return;
         }
 
         if ( ! $this->subscriptionCharger->available()) {
-            return false;
+            throw SubscriptionPaymentException::providerUnavailable();
         }
 
-        $owner = $reseller->ownerUser()->first();
-
-        if (null === $owner) {
-            return false;
+        if ($payment->provider !== $this->subscriptionCharger->provider()) {
+            throw new LogicException("Subscription payment [{$payment->id}] belongs to provider [{$payment->provider}], not [{$this->subscriptionCharger->provider()}].");
         }
 
-        $collected = $this->subscriptionCharger->charge(
-            $owner,
-            $subscription->price,
-            $subscription->currency_code,
-            'subscription:' . $subscription->id,
+        $payment = DB::transaction(function () use ($payment): SubscriptionPayment {
+            $lockedPayment = SubscriptionPayment::query()
+                ->whereKey($payment->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($lockedPayment->status->isTerminal()
+                || (null !== $lockedPayment->next_retry_at && $lockedPayment->next_retry_at->isFuture())) {
+                return $lockedPayment;
+            }
+
+            $lockedPayment->forceFill([
+                'status'          => SubscriptionPaymentStatus::Processing,
+                'attempt_count'   => $lockedPayment->attempt_count + 1,
+                'processing_at'   => now(),
+                'next_retry_at'   => null,
+                'failure_code'    => null,
+                'failure_message' => null,
+            ])->save();
+
+            return $lockedPayment;
+        });
+
+        if (SubscriptionPaymentStatus::Paid === $payment->status) {
+            $this->activatePaidSubscriptionAction->execute($payment);
+
+            return;
+        }
+
+        if ($payment->status->isTerminal()
+            || (null !== $payment->next_retry_at && $payment->next_retry_at->isFuture())) {
+            return;
+        }
+
+        if ( ! app()->runningUnitTests() && 0 !== DB::transactionLevel()) {
+            throw new LogicException('Subscription providers must be called outside database transactions.');
+        }
+
+        $charge = new SubscriptionCharge(
+            payer: $payment->payer()->firstOrFail(),
+            amount: $payment->amount,
+            currencyCode: $payment->currency_code,
+            reference: $payment->idempotency_key,
+            providerReference: $payment->provider_reference,
         );
 
-        if ( ! $collected) {
-            throw SubscriptionPaymentException::collectionFailed($subscription);
-        }
+        $result = null === $payment->provider_reference
+            ? $this->subscriptionCharger->charge($charge)
+            : $this->subscriptionCharger->retrieve($charge);
+        $payment = $this->applySubscriptionPaymentResultAction->execute($payment, $result);
 
-        return true;
+        if (SubscriptionPaymentStatus::Paid === $payment->status) {
+            $this->activatePaidSubscriptionAction->execute($payment);
+        }
     }
 }

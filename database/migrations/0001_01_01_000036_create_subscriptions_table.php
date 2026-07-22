@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
+        $this->createSubscriptionsTable();
+        $this->createSubscriptionPaymentsTable();
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('subscription_payments');
+        Schema::dropIfExists('subscriptions');
+    }
+
+    private function createSubscriptionsTable(): void
+    {
         Schema::create('subscriptions', function (Blueprint $table): void {
             $table->id();
             $table->morphs('subscriber');
@@ -37,8 +49,43 @@ return new class () extends Migration {
         });
     }
 
-    public function down(): void
+    private function createSubscriptionPaymentsTable(): void
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::create('subscription_payments', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignId('subscription_id')
+                ->constrained()
+                ->restrictOnDelete();
+            $table->morphs('payer');
+            $table->string('provider');
+            $table->uuid('idempotency_key')
+                ->unique();
+            $table->string('provider_reference')
+                ->nullable();
+            $table->unsignedBigInteger('amount');
+            $table->char('currency_code', 3);
+            $table->string('status')
+                ->default('pending');
+            $table->unsignedInteger('attempt_count')
+                ->default(0);
+            $table->string('failure_code')
+                ->nullable();
+            $table->text('failure_message')
+                ->nullable();
+            $table->json('metadata')
+                ->nullable();
+            $table->timestampTz('processing_at')
+                ->nullable();
+            $table->timestampTz('paid_at')
+                ->nullable();
+            $table->timestampTz('failed_at')
+                ->nullable();
+            $table->timestampTz('next_retry_at')
+                ->nullable();
+            $table->timestampsTz();
+
+            $table->unique(['provider', 'provider_reference']);
+            $table->index(['status', 'next_retry_at']);
+        });
     }
 };

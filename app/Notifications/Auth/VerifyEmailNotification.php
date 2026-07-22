@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Notifications\Auth;
 
-use Illuminate\Auth\Notifications\VerifyEmail as LaravelVerifyEmail;
+use Filament\Auth\Notifications\VerifyEmail;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use InvalidArgumentException;
-use Misaf\VendraUser\Models\User;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-final class VerifyEmailNotification extends LaravelVerifyEmail implements ShouldQueue
+final class VerifyEmailNotification extends VerifyEmail implements NotTenantAware, ShouldQueue
 {
     use Queueable;
 
@@ -22,18 +24,20 @@ final class VerifyEmailNotification extends LaravelVerifyEmail implements Should
 
     public function toMail(mixed $notifiable): MailMessage
     {
-        if ( ! $notifiable instanceof User) {
-            throw new InvalidArgumentException(sprintf('Expected %s, got %s.', User::class, get_debug_type($notifiable)));
+        if ( ! $notifiable instanceof MustVerifyEmail || ! $notifiable instanceof HasName) {
+            throw new InvalidArgumentException(sprintf(
+                'Expected a verifiable Filament user, got %s.',
+                get_debug_type($notifiable),
+            ));
         }
 
-        $verificationUrl = $this->verificationUrl($notifiable);
         $appName = config('app.name');
 
         return (new MailMessage())
             ->subject(__('mail.verify_email.subject'))
-            ->greeting(__('mail.verify_email.greeting', ['user' => $notifiable->username]))
+            ->greeting(__('mail.verify_email.greeting', ['user' => $notifiable->getFilamentName()]))
             ->line(__('mail.verify_email.line'))
-            ->action(__('mail.verify_email.action'), $verificationUrl)
+            ->action(__('mail.verify_email.action'), $this->url)
             ->line(__('mail.verify_email.no_action'))
             ->salutation(__('mail.verify_email.salutation') . "\n" . (is_string($appName) ? $appName : ''));
     }

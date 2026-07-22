@@ -47,9 +47,11 @@ final class SubscriptionDetail extends StatsOverviewWidget
     private function statusColor(SubscriptionStatus $status): string
     {
         return match ($status) {
-            SubscriptionStatus::Active    => 'success',
-            SubscriptionStatus::Expired   => 'danger',
-            SubscriptionStatus::Cancelled => 'gray',
+            SubscriptionStatus::Active         => 'success',
+            SubscriptionStatus::PendingPayment => 'warning',
+            SubscriptionStatus::PastDue,
+            SubscriptionStatus::Expired        => 'danger',
+            SubscriptionStatus::Cancelled      => 'gray',
         };
     }
 }

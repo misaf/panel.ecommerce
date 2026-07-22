@@ -45,7 +45,6 @@ final class CreateTenantAction
             $password,
             $reseller,
         ): array {
-            $isFirstProperty = false;
             $lockedReseller = null;
 
             if (null !== $reseller) {
@@ -55,8 +54,6 @@ final class CreateTenantAction
                     ->firstOrFail();
 
                 $this->propertyQuota->assertCanCreateProperty($lockedReseller);
-                $isFirstProperty = 0 === $lockedReseller->tenants()->count()
-                    && ! $lockedReseller->ownerUser()->exists();
             }
 
             $createdTenant = Tenant::query()->create([
@@ -81,11 +78,6 @@ final class CreateTenantAction
             );
 
             $createdUser->tenants()->syncWithoutDetaching([$createdTenant->getKey()]);
-
-            // The owner of a reseller's first property operates the whole reseller.
-            if ($isFirstProperty && null !== $lockedReseller) {
-                $createdUser->forceFill(['reseller_id' => $lockedReseller->getKey()])->save();
-            }
 
             return [
                 'tenant' => $createdTenant,

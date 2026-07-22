@@ -25,16 +25,14 @@ final class ResellerFactory extends Factory
             'description' => fake()->text(),
             'slug'        => fn(array $attributes) => Str::slug($attributes['name']),
             'status'      => true,
-            'owner_name'  => fake()->name(),
-            'owner_email' => fake()->unique()->safeEmail(),
+            'email'       => fake()->unique()->safeEmail(),
         ];
     }
 
     public function withoutOwner(): static
     {
         return $this->state(fn(): array => [
-            'owner_name'  => null,
-            'owner_email' => null,
+            'email' => null,
         ]);
     }
 

@@ -21,13 +21,13 @@ final class TenantSchema
         return app(TenantResolver::class)->available();
     }
 
-    public static function addTenantColumn(Blueprint $table): void
+    public static function addTenantColumn(Blueprint $table, bool $nullable = false): void
     {
         if ( ! self::enabled()) {
             return;
         }
 
-        $table->unsignedBigInteger('tenant_id');
+        $table->unsignedBigInteger('tenant_id')->nullable($nullable);
     }
 
     public static function addTenantIndex(Blueprint $table): void
