@@ -6,6 +6,7 @@ use Illuminate\Database\QueryException;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
+use Misaf\VendraSubscription\Models\SubscriptionPayment;
 
 it('scopes to subscriptions that are active right now', function (): void {
     $active = Subscription::factory()->create();
@@ -68,4 +69,22 @@ it('allows a second subscription for a subscriber once the first is inactive', f
     $replacement = Subscription::factory()->forSubscriber(7)->create();
 
     expect($replacement->isActive())->toBeTrue();
+});
+
+it('persists auditable payment lifecycle data for a subscription', function (): void {
+    $subscription = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+    $payment = SubscriptionPayment::factory()->for($subscription)->create();
+
+    expect($payment->subscription->is($subscription))->toBeTrue()
+        ->and($subscription->payments()->sole()->is($payment))->toBeTrue()
+        ->and($payment->attempt_count)->toBe(0)
+        ->and($payment->status->value)->toBe('pending')
+        ->and($payment->idempotency_key)->toBeUuid();
+});
+
+it('prevents hard deletion of a subscription with payment history', function (): void {
+    $subscription = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+    SubscriptionPayment::factory()->for($subscription)->create();
+
+    expect(fn(): ?bool => $subscription->forceDelete())->toThrow(QueryException::class);
 });

@@ -12,6 +12,7 @@ use App\Filament\Console\Resources\Properties\RelationManagers\DomainsRelationMa
 use App\Filament\Console\Resources\Resellers\Pages\CreateReseller;
 use App\Models\ConsoleUser;
 use App\Models\Reseller;
+use App\Models\ResellerUser;
 use Database\Seeders\ConsoleUserSeeder;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Testing\TestAction;
@@ -73,9 +74,8 @@ it('isolates console operators from application users', function (): void {
         ->and($panel->getAuthPasswordBroker())->toBe('console_users')
         ->and(config('auth.guards.console.provider'))->toBe('console_users')
         ->and(config('auth.providers.console_users.model'))->toBe(ConsoleUser::class)
-        ->and(Filament::getPanel('reseller')->getAuthGuard())->toBe('web')
-        ->and(Filament::getPanel('admin')->getAuthGuard())->toBe('web')
-        ->and(Filament::getPanel('user')->getAuthGuard())->toBe('web');
+        ->and(Filament::getPanel('reseller')->getAuthGuard())->toBe('reseller')
+        ->and(Filament::getPanel('admin')->getAuthGuard())->toBe('web');
 
     actingAs($admin, 'console');
 
@@ -86,14 +86,14 @@ it('isolates console operators from application users', function (): void {
 it('redirects an application user away from the console panel', function (): void {
     actingAs(User::factory()->forTenant(createTestTenant())->create());
 
-    $this->get('/console')
-        ->assertRedirect('/console/login');
+    $this->get('https://console.vendra.test')
+        ->assertRedirect('https://console.vendra.test/login');
 });
 
 it('allows a verified console operator into the console panel', function (): void {
     actingAs(ConsoleUser::factory()->create(), 'console');
 
-    $this->get('/console')->assertOk();
+    $this->get('https://console.vendra.test')->assertOk();
 });
 
 it('seeds the initial console operator only from explicit credentials', function (): void {
@@ -156,14 +156,21 @@ it('honors a disabled status when creating a reseller', function (): void {
 
     livewire(CreateReseller::class)
         ->fillForm([
-            'name'    => 'Paused Reseller',
-            'plan_id' => Plan::factory()->create()->getKey(),
-            'status'  => false,
+            'plan_id'               => Plan::factory()->create()->getKey(),
+            'username'              => 'paused_owner',
+            'email'                 => 'owner@paused.test',
+            'password'              => 'Secure123',
+            'password_confirmation' => 'Secure123',
+            'status'                => false,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
 
-    expect(Reseller::query()->where('name', 'Paused Reseller')->sole()->status)->toBeFalse();
+    $reseller = Reseller::query()->where('name', 'paused_owner')->sole();
+
+    expect($reseller->status)->toBeFalse()
+        ->and($reseller->ownerUser()->sole())->toBeInstanceOf(ResellerUser::class)
+        ->and(Hash::check('Secure123', $reseller->ownerUser()->sole()->password))->toBeTrue();
 });
 
 it('prevents deleting a plan used by subscriptions from list and edit pages', function (): void {
@@ -200,10 +207,8 @@ it('creates a property for a reseller within its plan limit', function (): void 
     livewire(CreateProperty::class)
         ->fillForm([
             'reseller_id'     => $reseller->getKey(),
-            'name'            => 'Acme',
             'domain'          => 'acme.test',
-            'owner_username'  => 'admin_acme',
-            'owner_email'     => 'admin@acme.test',
+            'email'           => 'admin@acme.test',
             'status'          => true,
         ])
         ->call('create')
@@ -212,6 +217,10 @@ it('creates a property for a reseller within its plan limit', function (): void 
     assertDatabaseHas('tenants', [
         'name'        => 'Acme',
         'reseller_id' => $reseller->getKey(),
+    ]);
+    assertDatabaseHas('users', [
+        'username' => 'admin',
+        'email'    => 'admin@acme.test',
     ]);
 });
 
@@ -225,15 +234,13 @@ it('blocks property creation once the reseller reaches its plan limit', function
     livewire(CreateProperty::class)
         ->fillForm([
             'reseller_id'     => $reseller->getKey(),
-            'name'            => 'Second Store',
             'domain'          => 'second.test',
-            'owner_username'  => 'admin_second',
-            'owner_email'     => 'admin@second.test',
+            'email'           => 'admin@second.test',
             'status'          => true,
         ])
         ->call('create');
 
-    assertDatabaseMissing('tenants', ['name' => 'Second Store']);
+    assertDatabaseMissing('tenant_domains', ['name' => 'second.test']);
     expect($reseller->tenants()->count())->toBe(1);
 });
 
@@ -248,10 +255,8 @@ it('validates property domains during creation', function (): void {
     livewire(CreateProperty::class)
         ->fillForm([
             'reseller_id'     => $reseller->getKey(),
-            'name'            => 'Invalid Domain',
             'domain'          => 'not a domain',
-            'owner_username'  => 'invalid_domain',
-            'owner_email'     => 'invalid@example.test',
+            'email'           => 'invalid@example.test',
             'status'          => true,
         ])
         ->call('create')
@@ -260,10 +265,8 @@ it('validates property domains during creation', function (): void {
     livewire(CreateProperty::class)
         ->fillForm([
             'reseller_id'     => $reseller->getKey(),
-            'name'            => 'Duplicate Domain',
             'domain'          => 'taken.test',
-            'owner_username'  => 'duplicate_domain',
-            'owner_email'     => 'duplicate@example.test',
+            'email'           => 'duplicate@example.test',
             'status'          => true,
         ])
         ->call('create')

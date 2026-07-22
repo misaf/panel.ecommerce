@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Actions\CreateTenantAction;
 use App\Exceptions\SubscriptionLimitException;
 use App\Models\Reseller;
+use App\Models\ResellerUser;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Misaf\VendraSubscription\Models\Plan;
@@ -63,8 +64,9 @@ it('rejects creating a property once the reseller reaches its plan limit', funct
     );
 })->throws(SubscriptionLimitException::class);
 
-it('links the first property owner to the reseller but not later ones', function (): void {
+it('keeps property owners separate from the reseller owner account', function (): void {
     $reseller = subscribedReseller(maxUnits: 3);
+    $owner = ResellerUser::factory()->forReseller($reseller)->create();
 
     $first = app(CreateTenantAction::class)->execute(
         name: 'First Store',
@@ -84,44 +86,26 @@ it('links the first property owner to the reseller but not later ones', function
         reseller: $reseller,
     );
 
-    expect($first['user']->reseller_id)->toBe($reseller->getKey())
-        ->and($second['user']->reseller_id)->toBeNull();
+    expect($owner->reseller_id)->toBe($reseller->getKey())
+        ->and($first['user'])->toBeInstanceOf(User::class)
+        ->and($second['user'])->toBeInstanceOf(User::class);
 });
 
 it('rejects assigning a second active owner to a reseller', function (): void {
     $reseller = subscribedReseller(maxUnits: 2);
+    ResellerUser::factory()->forReseller($reseller)->create();
 
-    $first = app(CreateTenantAction::class)->execute(
-        name: 'First Store',
-        domain: 'first.test',
-        username: 'admin_first',
-        email: 'admin@first.test',
-        password: 'secret-password',
-        reseller: $reseller,
-    );
-
-    expect(fn(): User => $first['tenant']->execute(
-        fn(): User => User::factory()->forReseller($reseller->getKey())->create(),
-    ))->toThrow(QueryException::class);
+    expect(fn(): ResellerUser => ResellerUser::factory()->forReseller($reseller)->create())
+        ->toThrow(QueryException::class);
 });
 
 it('allows replacing a soft-deleted reseller owner', function (): void {
     $reseller = subscribedReseller(maxUnits: 2);
+    $owner = ResellerUser::factory()->forReseller($reseller)->create();
 
-    $first = app(CreateTenantAction::class)->execute(
-        name: 'First Store',
-        domain: 'first.test',
-        username: 'admin_first',
-        email: 'admin@first.test',
-        password: 'secret-password',
-        reseller: $reseller,
-    );
+    $owner->delete();
 
-    $first['user']->delete();
-
-    $replacement = $first['tenant']->execute(
-        fn(): User => User::factory()->forReseller($reseller->getKey())->create(),
-    );
+    $replacement = ResellerUser::factory()->forReseller($reseller)->create();
 
     expect($replacement->reseller_id)->toBe($reseller->getKey());
 });

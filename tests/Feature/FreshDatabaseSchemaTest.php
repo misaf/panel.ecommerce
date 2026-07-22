@@ -15,7 +15,13 @@ it('contains every package table in the fresh database baseline', function (): v
         ->and(Schema::hasColumn('tags', 'order_column'))->toBeFalse()
         ->and(Schema::hasColumns('console_users', ['username', 'email', 'email_verified_at', 'password']))->toBeTrue()
         ->and(Schema::hasColumns('console_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
-        ->and(Schema::hasColumn('users', 'is_console_admin'))->toBeFalse();
+        ->and(Schema::hasColumns('reseller_users', ['reseller_id', 'username', 'email', 'email_verified_at', 'password']))->toBeTrue()
+        ->and(Schema::hasColumns('reseller_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
+        ->and(Schema::hasColumns('resellers', ['name', 'email']))->toBeTrue()
+        ->and(Schema::hasColumn('resellers', 'owner_name'))->toBeFalse()
+        ->and(Schema::hasColumn('resellers', 'owner_email'))->toBeFalse()
+        ->and(Schema::hasColumn('users', 'is_console_admin'))->toBeFalse()
+        ->and(Schema::hasColumn('users', 'reseller_id'))->toBeFalse();
 });
 
 it('enforces required relational integrity', function (string $table, string $column): void {
@@ -66,9 +72,40 @@ it('prevents duplicate tenant memberships', function (): void {
     expect(Schema::hasIndex('tenant_user', ['tenant_id', 'user_id'], 'unique'))->toBeTrue();
 });
 
+it('enforces transaction idempotency keys per tenant', function (): void {
+    expect(Schema::hasColumn('transactions', 'idempotency_key'))->toBeTrue()
+        ->and(Schema::hasIndex('transactions', ['tenant_id', 'idempotency_key'], 'unique'))->toBeTrue();
+});
+
+it('stores durable subscription payment operations with provider identities', function (): void {
+    expect(Schema::hasColumns('subscription_payments', [
+        'subscription_id',
+        'payer_type',
+        'payer_id',
+        'provider',
+        'idempotency_key',
+        'provider_reference',
+        'amount',
+        'currency_code',
+        'status',
+        'attempt_count',
+        'failure_code',
+        'failure_message',
+        'processing_at',
+        'paid_at',
+        'failed_at',
+        'next_retry_at',
+    ]))->toBeTrue()
+        ->and(Schema::hasIndex('subscription_payments', ['idempotency_key'], 'unique'))->toBeTrue()
+        ->and(Schema::hasIndex('subscription_payments', ['provider', 'provider_reference'], 'unique'))->toBeTrue()
+        ->and(Schema::hasForeignKey('subscription_payments', ['subscription_id']))->toBeTrue();
+});
+
 it('enforces one active owner and subscription per reseller', function (): void {
-    expect(Schema::hasColumn('users', 'active_reseller_guard'))->toBeTrue()
-        ->and(Schema::hasIndex('users', ['active_reseller_guard'], 'unique'))->toBeTrue()
+    expect(Schema::hasIndex('reseller_users', ['active_reseller_guard'], 'unique'))->toBeTrue()
+        ->and(Schema::hasIndex('reseller_users', ['active_username_guard'], 'unique'))->toBeTrue()
+        ->and(Schema::hasIndex('reseller_users', ['active_email_guard'], 'unique'))->toBeTrue()
+        ->and(Schema::hasForeignKey('reseller_users', ['reseller_id']))->toBeTrue()
         ->and(Schema::hasColumn('subscriptions', 'active_subscriber_guard'))->toBeTrue()
         ->and(Schema::hasIndex('subscriptions', ['subscriber_type', 'active_subscriber_guard'], 'unique'))->toBeTrue();
 });

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Filament\Admin\Pages\Dashboard as AdminDashboard;
-use App\Filament\User\Widgets\LatestTransactionTableWidget as UserLatestTransactionTableWidget;
 use Filament\Facades\Filament;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
@@ -13,7 +12,6 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Misaf\VendraActivityLog\Filament\Widgets\LatestActivityLogTableWidget;
 use Misaf\VendraAffiliate\Filament\Widgets\AffiliateOverviewWidget;
-use Misaf\VendraAffiliate\Filament\Widgets\UserAffiliateOverviewWidget;
 use Misaf\VendraMultimedia\Filament\Widgets\LatestMultimediaTableWidget;
 use Misaf\VendraProduct\Filament\Widgets\ProductOverviewWidget;
 use Misaf\VendraTransaction\Filament\Widgets\LatestTransactionTableWidget;
@@ -42,24 +40,6 @@ it('orders admin dashboard widgets by unique priority', function (): void {
         ))->toBe(range(1, 6));
 });
 
-it('orders user dashboard widgets by unique priority', function (): void {
-    $expectedWidgets = [
-        UserAffiliateOverviewWidget::class,
-        UserLatestTransactionTableWidget::class,
-    ];
-
-    $registeredWidgets = array_values(array_filter(
-        Filament::getPanel('user')->getWidgets(),
-        fn(mixed $widget): bool => is_string($widget) && in_array($widget, $expectedWidgets, true),
-    ));
-
-    expect($registeredWidgets)->toBe($expectedWidgets)
-        ->and(array_map(
-            fn(string $widget): int => $widget::getSort(),
-            $expectedWidgets,
-        ))->toBe(range(1, 2));
-});
-
 it('uses the registered widgets directly on the admin dashboard', function (): void {
     $currentPanel = Filament::getCurrentPanel();
 
@@ -77,7 +57,6 @@ it('does not poll dashboard widgets', function (): void {
         ProductOverviewWidget::class,
         TransactionTypeChartWidget::class,
         AffiliateOverviewWidget::class,
-        UserAffiliateOverviewWidget::class,
     ];
 
     foreach ($statsWidgets as $widgetClass) {
@@ -92,7 +71,6 @@ it('does not poll dashboard widgets', function (): void {
         LatestUsersWidget::class,
         LatestActivityLogTableWidget::class,
         LatestMultimediaTableWidget::class,
-        UserLatestTransactionTableWidget::class,
     ];
 
     $locale = app()->getLocale();

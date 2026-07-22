@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Filament\Reseller\Pages\Auth\Login;
+use App\Filament\Reseller\Pages\Auth\Register;
 use App\Filament\Reseller\Resources\Properties\Pages\CreateProperty;
 use App\Filament\Reseller\Resources\Properties\Pages\ListProperties;
 use App\Filament\Reseller\Resources\Properties\PropertyResource;
@@ -9,10 +11,14 @@ use App\Filament\Reseller\Widgets\LatestProperties;
 use App\Filament\Reseller\Widgets\ResellerOverview;
 use App\Filament\Reseller\Widgets\SubscriptionDetail;
 use App\Models\Reseller;
+use App\Models\ResellerUser;
 use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Events\TenantProvisioned;
@@ -30,18 +36,17 @@ beforeEach(function (): void {
     Artisan::shouldReceive('call')->andReturn(0);
 });
 
-function resellerOwner(Reseller $reseller): User
+function resellerOwner(Reseller $reseller): ResellerUser
 {
-    return User::factory()
-        ->forTenant(createTestTenant())
+    return ResellerUser::factory()
         ->forReseller($reseller->getKey())
         ->create();
 }
 
-function actAsResellerOwner(Reseller $reseller): User
+function actAsResellerOwner(Reseller $reseller): ResellerUser
 {
     $owner = resellerOwner($reseller);
-    actingAs($owner);
+    actingAs($owner, 'reseller');
     Filament::setCurrentPanel(Filament::getPanel('reseller'));
 
     return $owner;
@@ -57,15 +62,108 @@ it('uses the Vendra logo in light and dark modes', function (): void {
 });
 
 it('renders the reseller login without a current tenant', function (): void {
-    $this->get('/reseller/login')->assertSuccessful();
+    $this->get('https://reseller.vendra.test/login')->assertSuccessful();
+});
+
+it('renders reseller password recovery without a current tenant', function (): void {
+    $this->get('https://reseller.vendra.test/password-reset/request')->assertSuccessful();
+});
+
+it('renders reseller registration without a current tenant', function (): void {
+    $this->get('https://reseller.vendra.test/register')->assertSuccessful();
+});
+
+it('verifies the authenticated reseller owner from a signed email link', function (): void {
+    $reseller = Reseller::factory()->create();
+    $owner = ResellerUser::factory()
+        ->forReseller($reseller)
+        ->unverified()
+        ->create();
+    actingAs($owner, 'reseller');
+
+    $verificationUrl = URL::temporarySignedRoute(
+        'filament.reseller.auth.email-verification.verify',
+        now()->addHour(),
+        [
+            'id'   => $owner->getKey(),
+            'hash' => sha1($owner->getEmailForVerification()),
+        ],
+    );
+
+    $this->get($verificationUrl)->assertRedirect();
+
+    expect($owner->fresh()?->hasVerifiedEmail())->toBeTrue();
+});
+
+it('registers a reseller with an initial subscription', function (): void {
+    Notification::fake();
+    $plan = Plan::factory()->maxUnits(2)->create();
+    Filament::setCurrentPanel(Filament::getPanel('reseller'));
+
+    livewire(Register::class)
+        ->fillForm([
+            'username'             => 'new_reseller',
+            'email'                => 'new@reseller.test',
+            'password'             => 'Secure123',
+            'passwordConfirmation' => 'Secure123',
+            'plan_id'              => $plan->getKey(),
+        ])
+        ->call('register')
+        ->assertHasNoFormErrors();
+
+    $owner = ResellerUser::query()->where('email', 'new@reseller.test')->sole();
+    $reseller = $owner->reseller()->sole();
+
+    expect(auth('reseller')->id())->toBe($owner->getKey())
+        ->and($owner->email_verified_at)->toBeNull()
+        ->and(Hash::check('Secure123', $owner->password))->toBeTrue()
+        ->and($reseller->name)->toBe('new_reseller')
+        ->and($reseller->activeSubscription()?->plan_id)->toBe($plan->getKey());
+});
+
+it('rejects disabled plans during reseller registration', function (): void {
+    $plan = Plan::factory()->create(['status' => false]);
+    Filament::setCurrentPanel(Filament::getPanel('reseller'));
+
+    livewire(Register::class)
+        ->fillForm([
+            'username'             => 'new_reseller',
+            'email'                => 'new@reseller.test',
+            'password'             => 'Secure123',
+            'passwordConfirmation' => 'Secure123',
+            'plan_id'              => $plan->getKey(),
+        ])
+        ->call('register')
+        ->assertHasFormErrors(['plan_id']);
+
+    expect(ResellerUser::query()->count())->toBe(0);
 });
 
 it('allows a reseller owner to open the reseller dashboard without a current tenant', function (): void {
     $reseller = Reseller::factory()->create();
 
-    actingAs(resellerOwner($reseller));
+    actingAs(resellerOwner($reseller), 'reseller');
 
-    $this->get('/reseller')->assertSuccessful();
+    $this->get('https://reseller.vendra.test')->assertSuccessful();
+});
+
+it('allows a tenant-independent reseller owner to sign in', function (): void {
+    $reseller = Reseller::factory()->create();
+    $owner = ResellerUser::factory()->forReseller($reseller)->create([
+        'email' => 'owner@reseller.test',
+    ]);
+    Filament::setCurrentPanel(Filament::getPanel('reseller'));
+
+    livewire(Login::class)
+        ->fillForm([
+            'email'    => 'owner@reseller.test',
+            'password' => 'password',
+        ])
+        ->call('authenticate')
+        ->assertHasNoFormErrors();
+
+    expect(auth('reseller')->id())->toBe($owner->getKey())
+        ->and(auth()->id())->toBeNull();
 });
 
 it('renders the reseller dashboard with its widgets for an owner', function (): void {
@@ -147,10 +245,8 @@ it('lets an owner create a property within the plan limit', function (): void {
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'name'           => 'Acme',
-            'domain'         => 'acme.test',
-            'owner_username' => 'admin_acme',
-            'owner_email'    => 'admin@acme.test',
+            'domain' => 'acme.test',
+            'email'  => 'admin@acme.test',
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -158,6 +254,10 @@ it('lets an owner create a property within the plan limit', function (): void {
     assertDatabaseHas('tenants', [
         'name'        => 'Acme',
         'reseller_id' => $reseller->getKey(),
+    ]);
+    assertDatabaseHas('users', [
+        'username' => 'admin',
+        'email'    => 'admin@acme.test',
     ]);
 });
 
@@ -217,12 +317,10 @@ it('blocks an owner from exceeding the plan limit', function (): void {
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'name'           => 'Second Store',
-            'domain'         => 'second.test',
-            'owner_username' => 'admin_second',
-            'owner_email'    => 'admin@second.test',
+            'domain' => 'second.test',
+            'email'  => 'admin@second.test',
         ])
         ->call('create');
 
-    assertDatabaseMissing('tenants', ['name' => 'Second Store']);
+    assertDatabaseMissing('tenant_domains', ['name' => 'second.test']);
 });

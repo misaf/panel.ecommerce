@@ -21,6 +21,22 @@ it('relates a reseller to its properties and subscriptions', function (): void {
         ->and($reseller->subscriptions)->toHaveCount(1);
 });
 
+it('stores and resolves the stable reseller morph alias', function (): void {
+    $reseller = Reseller::factory()->create();
+    $subscription = Subscription::factory()->forSubscriber($reseller)->create();
+
+    expect($reseller->getMorphClass())->toBe('reseller')
+        ->and($subscription->subscriber_type)->toBe('reseller')
+        ->and($subscription->subscriber)->toBeInstanceOf(Reseller::class)
+        ->and($subscription->subscriber->is($reseller))->toBeTrue();
+});
+
+it('does not require a reseller morph follow-up migration', function (): void {
+    $followUpMigrations = glob(database_path('migrations/*_normalize_reseller_subscription_morph_type.php')) ?: [];
+
+    expect($followUpMigrations)->toBeEmpty();
+});
+
 it('returns the active subscription and ignores expired or cancelled ones', function (): void {
     $reseller = Reseller::factory()->create();
 

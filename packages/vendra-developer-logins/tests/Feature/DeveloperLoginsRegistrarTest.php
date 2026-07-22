@@ -15,7 +15,7 @@ beforeEach(function (): void {
 
 it('registers developer logins only on configured panels', function (): void {
     expect(Filament::getPanel('admin')->hasPlugin('filament-developer-logins'))->toBeTrue()
-        ->and(Filament::getPanel('user')->hasPlugin('filament-developer-logins'))->toBeFalse();
+        ->and(Filament::getPanels())->not->toHaveKey('user');
 });
 
 it('builds the upstream plugin with the Vendra user model', function (): void {

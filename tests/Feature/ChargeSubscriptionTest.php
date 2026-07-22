@@ -2,41 +2,73 @@
 
 declare(strict_types=1);
 
+use App\Actions\ActivatePaidSubscriptionAction;
 use App\Actions\ChargeSubscriptionAction;
 use App\Actions\SubscribeResellerAction;
+use App\Jobs\ProcessSubscriptionPayment;
 use App\Models\Reseller;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\ResellerUser;
+use App\Support\TransactionSubscriptionCharger;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
+use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
+use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
 use Misaf\VendraSubscription\Models\Plan;
+use Misaf\VendraSubscription\Models\Subscription;
+use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
+use Misaf\VendraSupport\Data\SubscriptionCharge;
+use Misaf\VendraSupport\Data\SubscriptionChargeResult;
+use Misaf\VendraSupport\Enums\SubscriptionChargeStatus;
+use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
+use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
+use Misaf\VendraTransaction\Facades\TransactionService;
+use Misaf\VendraTransaction\Models\Transaction;
+use Misaf\VendraTransaction\Services\TransactionService as TransactionServiceClass;
 use Misaf\VendraUser\Models\User;
 
-/**
- * Recording fake charger bound in place of the real payment provider.
- */
-function fakeSubscriptionCharger(bool $succeeds = true): object
-{
-    $charger = new class ($succeeds) implements SubscriptionCharger {
-        /** @var array<int, array<string, mixed>> */
+function fakeSubscriptionCharger(
+    SubscriptionChargeStatus $status = SubscriptionChargeStatus::Paid,
+    bool $available = true,
+): object {
+    $charger = new class ($status, $available) implements SubscriptionCharger {
+        /** @var array<int, SubscriptionCharge> */
         public array $charges = [];
 
-        public function __construct(private readonly bool $succeeds) {}
+        /** @var array<int, int> */
+        public array $transactionLevels = [];
+
+        public function __construct(
+            private readonly SubscriptionChargeStatus $status,
+            private readonly bool $isAvailable,
+        ) {}
+
+        public function provider(): string
+        {
+            return 'testing';
+        }
 
         public function available(): bool
         {
-            return true;
+            return $this->isAvailable;
         }
 
-        public function charge(Model $payer, int $amount, string $currencyCode, string $reference): bool
+        public function charge(SubscriptionCharge $charge): SubscriptionChargeResult
         {
-            $this->charges[] = [
-                'payer'        => $payer->getKey(),
-                'amount'       => $amount,
-                'currencyCode' => $currencyCode,
-                'reference'    => $reference,
-            ];
+            $this->charges[] = $charge;
+            $this->transactionLevels[] = DB::transactionLevel();
 
-            return $this->succeeds;
+            return new SubscriptionChargeResult(
+                $this->status,
+                providerReference: 'provider-payment-1',
+                errorCode: SubscriptionChargeStatus::Failed === $this->status ? 'declined' : null,
+            );
+        }
+
+        public function retrieve(SubscriptionCharge $charge): SubscriptionChargeResult
+        {
+            return $this->charge($charge);
         }
     };
 
@@ -48,72 +80,181 @@ function fakeSubscriptionCharger(bool $succeeds = true): object
 function resellerWithOwner(): Reseller
 {
     $reseller = Reseller::factory()->create();
-    User::factory()->forTenant(createTestTenant())->forReseller($reseller->getKey())->create();
+    ResellerUser::factory()->forReseller($reseller)->create();
 
     return $reseller;
 }
 
-it('charges the reseller owner for a paid plan', function (): void {
+function processSubscriptionPayment(SubscriptionPayment $payment): void
+{
+    (new ProcessSubscriptionPayment($payment->getKey()))->handle(
+        app(ChargeSubscriptionAction::class),
+        app(ActivatePaidSubscriptionAction::class),
+    );
+}
+
+it('persists and processes a paid subscription without holding a database transaction during collection', function (): void {
+    Queue::fake();
     $charger = fakeSubscriptionCharger();
     $reseller = resellerWithOwner();
-    $plan = Plan::factory()->priced(1500, 'USD')->create();
+    $oldSubscription = Subscription::factory()->forSubscriber($reseller)->create();
+    $plan = Plan::factory()->priced(1_500, 'USD')->create();
 
     $subscription = app(SubscribeResellerAction::class)->execute($reseller, $plan);
+    $payment = $subscription->payments()->sole();
+
+    expect($subscription->status)->toBe(SubscriptionStatus::PendingPayment)
+        ->and($oldSubscription->refresh()->status)->toBe(SubscriptionStatus::Active)
+        ->and($payment->status)->toBe(SubscriptionPaymentStatus::Pending)
+        ->and($payment->provider)->toBe('testing')
+        ->and($payment->idempotency_key)->toBeUuid();
+    Queue::assertPushed(
+        ProcessSubscriptionPayment::class,
+        fn(ProcessSubscriptionPayment $job): bool => $job->paymentId === $payment->getKey(),
+    );
+
+    processSubscriptionPayment($payment);
 
     expect($charger->charges)->toHaveCount(1)
-        ->and($charger->charges[0]['amount'])->toBe(1500)
-        ->and($charger->charges[0]['currencyCode'])->toBe('USD')
-        ->and($charger->charges[0]['payer'])->toBe($reseller->ownerUser()->sole()->getKey())
-        ->and($charger->charges[0]['reference'])->toBe('subscription:' . $subscription->getKey());
+        ->and($charger->charges[0]->reference)->toBe($payment->idempotency_key)
+        ->and($charger->transactionLevels)->toBe([DB::transactionLevel()])
+        ->and($payment->refresh()->status)->toBe(SubscriptionPaymentStatus::Paid)
+        ->and($payment->provider_reference)->toBe('provider-payment-1')
+        ->and($subscription->refresh()->status)->toBe(SubscriptionStatus::Active)
+        ->and($oldSubscription->refresh()->status)->toBe(SubscriptionStatus::Cancelled);
 });
 
-it('does not charge for a free plan', function (): void {
-    $charger = fakeSubscriptionCharger();
+it('collects an internal subscription payment only once and settles it before reporting paid', function (): void {
+    makeCurrentTestTenant();
+    TransactionGatewayFactory::new()->internal()->create();
+    $payer = User::factory()->create();
+    $wallet = TransactionService::walletFor($payer, 'USD');
+    TransactionService::createTransaction(
+        TransactionServiceClass::INTERNAL_GATEWAY_SLUG,
+        $wallet,
+        TransactionTypeEnum::Bonus,
+        5_000,
+    )->approve();
+    $charger = app(TransactionSubscriptionCharger::class);
+    $charge = new SubscriptionCharge($payer, 1_500, 'USD', 'subscription-payment-idempotency');
+
+    $firstResult = $charger->charge($charge);
+    $retriedResult = $charger->charge($charge);
+
+    expect($firstResult->status)->toBe(SubscriptionChargeStatus::Paid)
+        ->and($retriedResult->status)->toBe(SubscriptionChargeStatus::Paid)
+        ->and($wallet->refresh()->balance)->toBe(3_500)
+        ->and(Transaction::query()->where('idempotency_key', 'subscription-payment-idempotency')->count())->toBe(1);
+});
+
+it('does not create a payment for a free plan', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger();
     $reseller = resellerWithOwner();
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
+    $subscription = app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
 
-    expect($charger->charges)->toHaveCount(0);
+    expect($subscription->status)->toBe(SubscriptionStatus::Active)
+        ->and($subscription->payments()->count())->toBe(0);
+    Queue::assertNothingPushed();
 });
 
-it('does not charge when the reseller has no owner', function (): void {
-    $charger = fakeSubscriptionCharger();
+it('persists a paid trial payment but defers collection until the trial ends', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger();
+    $reseller = resellerWithOwner();
+    $subscription = app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->priced(1_500, 'USD')->trialDays(14)->create(),
+    );
+    $payment = $subscription->payments()->sole();
+
+    expect($subscription->status)->toBe(SubscriptionStatus::Active)
+        ->and($payment->status)->toBe(SubscriptionPaymentStatus::Pending)
+        ->and($payment->next_retry_at?->equalTo($subscription->trial_ends_at))->toBeTrue();
+    Queue::assertNothingPushed();
+});
+
+it('rejects a paid subscription when no payment provider is available', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger(available: false);
+    $reseller = resellerWithOwner();
+
+    expect(fn() => app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->priced(1_000, 'USD')->create(),
+    ))->toThrow(SubscriptionPaymentException::class, 'No subscription payment provider');
+
+    expect($reseller->subscriptions()->count())->toBe(0);
+    Queue::assertNothingPushed();
+});
+
+it('rejects a paid subscription when the reseller has no payer', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger();
     $reseller = Reseller::factory()->create();
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->priced(1000, 'USD')->create());
+    expect(fn() => app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->priced(1_000, 'USD')->create(),
+    ))->toThrow(SubscriptionPaymentException::class, 'no payer');
 
-    expect($charger->charges)->toHaveCount(0);
+    expect($reseller->subscriptions()->count())->toBe(0);
 });
 
-it('does not charge during the trial period', function (): void {
-    $charger = fakeSubscriptionCharger();
+it('keeps the existing subscription active when payment is declined', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger(SubscriptionChargeStatus::Failed);
     $reseller = resellerWithOwner();
+    $current = Subscription::factory()->forSubscriber($reseller)->create();
+    $replacement = app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->priced(1_500, 'USD')->create(),
+    );
+    $payment = $replacement->payments()->sole();
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->priced(1500, 'USD')->trialDays(14)->create());
+    processSubscriptionPayment($payment);
 
-    expect($charger->charges)->toHaveCount(0);
-});
-
-it('subscribes without charging when no payment provider is available', function (): void {
-    $reseller = resellerWithOwner();
-
-    $subscription = app(SubscribeResellerAction::class)
-        ->execute($reseller, Plan::factory()->priced(1000, 'USD')->create());
-
-    expect($subscription->isActive())->toBeTrue();
-});
-
-it('rolls back activation when the payment provider declines the charge', function (): void {
-    $charger = fakeSubscriptionCharger(succeeds: false);
-    $reseller = resellerWithOwner();
-    $action = new SubscribeResellerAction(new ChargeSubscriptionAction($charger));
-    $current = $action->execute($reseller, Plan::factory()->create());
-
-    $paidPlan = Plan::factory()->priced(1500, 'USD')->create();
-
-    expect(fn() => $action->execute($reseller, $paidPlan))
-        ->toThrow(SubscriptionPaymentException::class);
-
-    expect($reseller->subscriptions()->count())->toBe(1)
+    expect($payment->refresh()->status)->toBe(SubscriptionPaymentStatus::Failed)
+        ->and($payment->failure_code)->toBe('declined')
+        ->and($replacement->refresh()->status)->toBe(SubscriptionStatus::Cancelled)
+        ->and($current->refresh()->status)->toBe(SubscriptionStatus::Active)
         ->and($reseller->activeSubscription()?->is($current))->toBeTrue();
+});
+
+it('marks an active trial past due when its deferred payment is declined', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger(SubscriptionChargeStatus::Failed);
+    $reseller = resellerWithOwner();
+    $subscription = app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->priced(1_500, 'USD')->trialDays(14)->create(),
+    );
+    $subscription->update(['trial_ends_at' => now()->subMinute()]);
+    $subscription->payments()->update(['next_retry_at' => now()->subMinute()]);
+
+    processSubscriptionPayment($subscription->payments()->sole());
+
+    expect($subscription->refresh()->status)->toBe(SubscriptionStatus::PastDue)
+        ->and($reseller->activeSubscription())->toBeNull();
+});
+
+it('rejects overlapping subscription changes while a payment is unresolved', function (): void {
+    Queue::fake();
+    fakeSubscriptionCharger();
+    $reseller = resellerWithOwner();
+    app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->priced(1_500, 'USD')->create(),
+    );
+    $reseller->subscriptions()->sole()->payments()->sole()->update([
+        'status' => SubscriptionPaymentStatus::Processing,
+    ]);
+
+    expect(fn() => app(SubscribeResellerAction::class)->execute(
+        $reseller,
+        Plan::factory()->create(),
+    ))->toThrow(SubscriptionPaymentException::class, 'already in progress');
+
+    expect($reseller->subscriptions()->count())->toBe(1);
 });

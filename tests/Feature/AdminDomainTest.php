@@ -1,0 +1,59 @@
+<?php
+
+declare(strict_types=1);
+
+use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraTenant\Models\TenantDomain;
+use Misaf\VendraTenant\Services\DomainTenantFinder;
+
+beforeEach(function (): void {
+    config()->set('app.url', 'https://vendra.test');
+    config()->set('vendra-tenant.central_host', 'vendra.test');
+});
+
+it('resolves canonical and custom admin hosts to the property', function (): void {
+    $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    TenantDomain::factory()->for($tenant)->create([
+        'name'   => 'acme.example.com',
+        'status' => true,
+    ]);
+
+    $tenantFinder = app(DomainTenantFinder::class);
+
+    expect($tenantFinder->findForAdminHost('acme.admin.vendra.test')?->getKey())->toBe($tenant->getKey())
+        ->and($tenantFinder->findForAdminHost('admin.acme.example.com')?->getKey())->toBe($tenant->getKey())
+        ->and($tenantFinder->findForAdminHost('acme.example.com'))->toBeNull()
+        ->and($tenantFinder->findForAdminHost('acme.admin.example.com'))->toBeNull();
+});
+
+it('serves the admin login on canonical and custom property hosts without a root route', function (string $host): void {
+    $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    TenantDomain::factory()->for($tenant)->create([
+        'name'   => 'acme.example.com',
+        'status' => true,
+    ]);
+
+    $this->get("https://{$host}")->assertNotFound();
+    $this->get("https://{$host}/login")->assertSuccessful();
+})->with([
+    'canonical host' => 'acme.admin.vendra.test',
+    'custom host'    => 'admin.acme.example.com',
+]);
+
+it('serves the canonical admin host after tenant switching changes the application URL', function (): void {
+    Tenant::factory()->enabled()->create(['slug' => 'acme']);
+
+    config()->set('app.url', 'https://acme.admin.vendra.test');
+
+    $this->get('https://acme.admin.vendra.test/login')->assertSuccessful();
+});
+
+it('does not serve the admin panel on the storefront host', function (): void {
+    $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    TenantDomain::factory()->for($tenant)->create([
+        'name'   => 'acme.example.com',
+        'status' => true,
+    ]);
+
+    $this->get('https://acme.example.com/login')->assertNotFound();
+});

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use App\Actions\SubscribeResellerAction;
 use App\Models\Reseller;
+use App\Models\ResellerUser;
 use Misaf\VendraSubscription\Models\Plan;
+use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
 
 it('stores a plan price and currency', function (): void {
     $plan = Plan::factory()->priced(1500, 'USD')->create();
@@ -22,7 +24,10 @@ it('treats a zero-price plan as free', function (): void {
 
 it('snapshots the plan price onto the subscription when subscribing', function (): void {
     $reseller = Reseller::factory()->create();
-    $plan = Plan::factory()->priced(2999, 'EUR')->create();
+    makeCurrentTestTenant();
+    TransactionGatewayFactory::new()->internal()->create();
+    ResellerUser::factory()->forReseller($reseller)->create();
+    $plan = Plan::factory()->priced(2999, 'EUR')->trialDays(1)->create();
 
     $subscription = app(SubscribeResellerAction::class)->execute($reseller, $plan);
 

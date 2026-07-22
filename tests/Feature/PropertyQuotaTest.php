@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Actions\CreateResellerAction;
 use App\Exceptions\SubscriptionLimitException;
 use App\Models\Reseller;
+use App\Models\ResellerUser;
 use App\Support\PropertyQuota;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
@@ -73,10 +74,17 @@ it('blocks property creation for a disabled reseller with an active subscription
 it('creates a reseller subscribed to a plan for its period', function (): void {
     $plan = Plan::factory()->period(PeriodUnit::Month, 1)->create();
 
-    $result = app(CreateResellerAction::class)->execute('Acme', $plan);
+    $result = app(CreateResellerAction::class)->execute(
+        plan: $plan,
+        username: 'acme_owner',
+        email: 'owner@acme.test',
+        password: 'Secure123',
+    );
 
     expect($result['reseller'])->toBeInstanceOf(Reseller::class)
         ->and($result['reseller']->exists)->toBeTrue()
+        ->and($result['owner'])->toBeInstanceOf(ResellerUser::class)
+        ->and($result['owner']->reseller_id)->toBe($result['reseller']->getKey())
         ->and($result['subscription']->status)->toBe(SubscriptionStatus::Active)
         ->and($result['subscription']->plan_id)->toBe($plan->getKey())
         ->and($result['subscription']->ends_at->toDateString())
@@ -86,8 +94,10 @@ it('creates a reseller subscribed to a plan for its period', function (): void {
 
 it('creates a reseller with the requested status', function (): void {
     $result = app(CreateResellerAction::class)->execute(
-        name: 'Paused',
         plan: Plan::factory()->create(),
+        username: 'paused_owner',
+        email: 'owner@paused.test',
+        password: 'Secure123',
         status: false,
     );
 

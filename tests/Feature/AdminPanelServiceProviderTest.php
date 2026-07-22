@@ -15,14 +15,51 @@ it('uses a compact sidebar width', function (): void {
     expect($panel->getSidebarWidth())->toBe('14rem');
 });
 
-it('uses the application host for central panel domains', function (): void {
+it('uses dedicated domains and root paths for central panels', function (): void {
     config()->set('app.url', 'https://vendra.test');
 
     $resellerPanel = (new ResellerPanelServiceProvider(app()))->panel(Panel::make());
     $consolePanel = (new ConsolePanelServiceProvider(app()))->panel(Panel::make());
 
-    expect($resellerPanel->getDomains())->toBe(['vendra.test'])
-        ->and($consolePanel->getDomains())->toBe(['vendra.test']);
+    expect($resellerPanel->getDomains())->toBe(['reseller.vendra.test'])
+        ->and($resellerPanel->getPath())->toBe('')
+        ->and($resellerPanel->getAuthGuard())->toBe('reseller')
+        ->and($resellerPanel->getAuthPasswordBroker())->toBe('reseller_users')
+        ->and($consolePanel->getDomains())->toBe(['console.vendra.test'])
+        ->and($consolePanel->getPath())->toBe('')
+        ->and(config('session.domain'))->toBeNull();
+});
+
+it('issues host-only session cookies for central panels', function (string $url): void {
+    $sessionCookie = collect($this->get($url)->headers->getCookies())
+        ->first(fn(Symfony\Component\HttpFoundation\Cookie $cookie): bool => $cookie->getName() === config('session.cookie'));
+
+    expect($sessionCookie)->not->toBeNull()
+        ->and($sessionCookie?->getDomain())->toBeNull();
+})->with([
+    'console'  => 'https://console.vendra.test/login',
+    'reseller' => 'https://reseller.vendra.test/login',
+]);
+
+it('generates central panel assets from the current panel domain', function (string $url, string $origin): void {
+    $this->get($url)
+        ->assertSuccessful()
+        ->assertSee($origin . '/images/vendra-logo.svg', escape: false)
+        ->assertSee('src="' . $origin . '/livewire-', escape: false)
+        ->assertSee('data-update-uri="' . $origin . '/livewire-', escape: false);
+
+    expect(config('app.url'))->toBe('https://vendra.test')
+        ->and(config('app.asset_url'))->toBe('https://vendra.test')
+        ->and(asset('images/vendra-logo.svg'))->toBe('https://vendra.test/images/vendra-logo.svg');
+})->with([
+    'console'  => ['https://console.vendra.test/login', 'https://console.vendra.test'],
+    'reseller' => ['https://reseller.vendra.test/login', 'https://reseller.vendra.test'],
+]);
+
+it('isolates reseller authentication configuration', function (): void {
+    expect(config('auth.guards.reseller.provider'))->toBe('reseller_users')
+        ->and(config('auth.providers.reseller_users.model'))->toBe(App\Models\ResellerUser::class)
+        ->and(config('auth.passwords.reseller_users.table'))->toBe('reseller_password_reset_tokens');
 });
 
 it('uses the full content width for localized navigation and pages', function (): void {

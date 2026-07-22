@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Filament\User\Clusters\Billings\Deposit\DepositCluster\DepositCluster;
-use App\Filament\User\Clusters\Billings\Withdrawal\WithdrawalCluster\WithdrawalCluster;
 use App\Providers\Filament\AdminPanelServiceProvider;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Panel;
@@ -172,12 +170,6 @@ it('renders domain resources as top sub-navigation tabs', function (string $clus
     SystemCluster::class,
 ]);
 
-it('uses semantic icons for billing clusters', function (string $cluster, Heroicon $icon): void {
-    expect($cluster::getNavigationIcon())->toBe($icon);
-})->with([
-    'deposit'    => [DepositCluster::class, Heroicon::OutlinedArrowDownTray],
-    'withdrawal' => [WithdrawalCluster::class, Heroicon::OutlinedArrowUpTray],
-]);
 
 it('keeps cluster resources ungrouped so priority controls visible order', function (string $resource): void {
     expect($resource::getNavigationGroup())->toBeNull();
