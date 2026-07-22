@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraSubscription\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 
 /**
  * @property int $id
- * @property int $account_id
+ * @property int $subscriber_id
  * @property int $plan_id
  * @property SubscriptionStatus $status
  * @property int $price
@@ -31,7 +32,8 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['account_id', 'plan_id', 'status', 'price', 'currency_code', 'trial_ends_at', 'starts_at', 'ends_at', 'expiry_reminder_sent_at'])]
+#[Fillable(['subscriber_id', 'plan_id', 'status', 'price', 'currency_code', 'trial_ends_at', 'starts_at', 'ends_at', 'expiry_reminder_sent_at'])]
+#[Hidden(['active_subscriber_guard'])]
 #[UseFactory(SubscriptionFactory::class)]
 final class Subscription extends Model implements ShouldLogActivity
 {
@@ -46,28 +48,25 @@ final class Subscription extends Model implements ShouldLogActivity
     protected function casts(): array
     {
         return [
-            'id'                      => 'integer',
-            'account_id'              => 'integer',
-            'plan_id'                 => 'integer',
-            'status'                  => SubscriptionStatus::class,
-            'price'                   => 'integer',
-            'currency_code'           => 'string',
-            'trial_ends_at'           => 'datetime',
-            'starts_at'               => 'datetime',
-            'ends_at'                 => 'datetime',
-            'expiry_reminder_sent_at' => 'datetime',
+            'id'                       => 'integer',
+            'subscriber_id'            => 'integer',
+            'plan_id'                  => 'integer',
+            'status'                   => SubscriptionStatus::class,
+            'price'                    => 'integer',
+            'currency_code'            => 'string',
+            'trial_ends_at'            => 'datetime',
+            'starts_at'                => 'datetime',
+            'ends_at'                  => 'datetime',
+            'expiry_reminder_sent_at'  => 'datetime',
         ];
     }
 
     /**
-     * @return BelongsTo<Account, $this>
-     */
-    public function account(): BelongsTo
-    {
-        return $this->belongsTo(Account::class);
-    }
-
-    /**
+     * The subscriber that owns this subscription (e.g. the host app's billing
+     * entity). Kept as a plain `subscriber_id` column with no relation here so
+     * the subscription package stays agnostic of the concrete subscriber; the
+     * owning model defines the inverse relation on its own side.
+     *
      * @return BelongsTo<Plan, $this>
      */
     public function plan(): BelongsTo
@@ -124,7 +123,7 @@ final class Subscription extends Model implements ShouldLogActivity
     }
 
     /**
-     * The moment this subscription's websites should be suspended, taking the
+     * The moment this subscription's properties should be suspended, taking the
      * plan's grace window into account. Null when it never expires.
      */
     public function suspendAt(): ?Carbon

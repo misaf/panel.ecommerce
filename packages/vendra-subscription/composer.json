@@ -25,10 +25,7 @@
     },
     "require": {
         "php": "^8.3",
-        "misaf/vendra-permission": "self.version",
         "misaf/vendra-support": "self.version",
-        "misaf/vendra-tenant": "self.version",
-        "misaf/vendra-user": "self.version",
         "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {

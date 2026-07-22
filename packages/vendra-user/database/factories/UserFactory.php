@@ -44,10 +44,10 @@ final class UserFactory extends Factory
         ]);
     }
 
-    public function forAccount(int $accountId): static
+    public function forReseller(int $resellerId): static
     {
         return $this->state(fn(): array => [
-            'account_id' => $accountId,
+            'reseller_id' => $resellerId,
         ]);
     }
 

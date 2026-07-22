@@ -22,18 +22,18 @@ final class PlanFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'          => fake()->unique()->words(2, true),
-            'slug'          => fn(array $attributes) => Str::slug($attributes['name']),
-            'description'   => fake()->text(),
-            'max_websites'  => fake()->numberBetween(1, 10),
-            'period_unit'   => PeriodUnit::Month,
-            'period_count'  => 1,
-            'grace_days'    => 0,
-            'price'         => 0,
-            'currency_code' => null,
-            'trial_days'    => 0,
-            'features'      => null,
-            'status'        => true,
+            'name'            => fake()->unique()->words(2, true),
+            'slug'            => fn(array $attributes) => Str::slug($attributes['name']),
+            'description'     => fake()->text(),
+            'max_units'       => fake()->numberBetween(1, 10),
+            'period_unit'     => PeriodUnit::Month,
+            'period_count'    => 1,
+            'grace_days'      => 0,
+            'price'           => 0,
+            'currency_code'   => null,
+            'trial_days'      => 0,
+            'features'        => null,
+            'status'          => true,
         ];
     }
 
@@ -63,9 +63,9 @@ final class PlanFactory extends Factory
         ]);
     }
 
-    public function maxWebsites(int $count): static
+    public function maxUnits(int $count): static
     {
-        return $this->state(fn(): array => ['max_websites' => $count]);
+        return $this->state(fn(): array => ['max_units' => $count]);
     }
 
     public function period(PeriodUnit $unit, int $count): static

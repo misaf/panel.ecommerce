@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Actions\EnforceSubscriptionsAction;
+use App\Actions\SubscribeResellerAction;
+use App\Models\Reseller;
+use App\Notifications\PropertiesSuspendedNotification;
+use App\Notifications\SubscriptionActivatedNotification;
+use App\Notifications\SubscriptionExpiringNotification;
+use Illuminate\Support\Facades\Notification;
+use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Models\Plan;
+use Misaf\VendraSubscription\Models\Subscription;
+use Misaf\VendraTenant\Models\Tenant;
+
+it('notifies the owner when a subscription is activated', function (): void {
+    Notification::fake();
+
+    $reseller = Reseller::factory()->create();
+
+    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
+
+    Notification::assertSentTo($reseller, SubscriptionActivatedNotification::class);
+});
+
+it('does not notify a reseller without an owner contact', function (): void {
+    Notification::fake();
+
+    $reseller = Reseller::factory()->withoutOwner()->create();
+
+    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
+
+    Notification::assertNothingSent();
+});
+
+it('reminds the owner once about a soon-to-expire subscription', function (): void {
+    Notification::fake();
+
+    $reseller = Reseller::factory()->create();
+    $subscription = Subscription::factory()->forSubscriber($reseller)->for(Plan::factory())->create([
+        'status'    => SubscriptionStatus::Active,
+        'starts_at' => now()->subDays(20),
+        'ends_at'   => now()->addDays(3),
+    ]);
+
+    app(EnforceSubscriptionsAction::class)->execute();
+    app(EnforceSubscriptionsAction::class)->execute();
+
+    Notification::assertSentToTimes($reseller, SubscriptionExpiringNotification::class, 1);
+    expect($subscription->refresh()->expiry_reminder_sent_at)->not->toBeNull();
+});
+
+it('notifies the owner when properties are suspended', function (): void {
+    Notification::fake();
+
+    $reseller = Reseller::factory()->create();
+    Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->graceDays(0))->create([
+        'status'    => SubscriptionStatus::Active,
+        'starts_at' => now()->subMonths(2),
+        'ends_at'   => now()->subDays(2),
+    ]);
+    Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+
+    app(EnforceSubscriptionsAction::class)->execute();
+
+    Notification::assertSentTo($reseller, PropertiesSuspendedNotification::class);
+});

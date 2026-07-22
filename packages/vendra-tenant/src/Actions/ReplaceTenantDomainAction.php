@@ -12,7 +12,7 @@ use UnexpectedValueException;
 final class ReplaceTenantDomainAction
 {
     /**
-     * Replace a website's active domain, retaining the previous one as history.
+     * Replace a property's active domain, retaining the previous one as history.
      *
      * The current active domain (status = true) is demoted to a replaced
      * history record (status = false) and soft-deleted, so it stops resolving

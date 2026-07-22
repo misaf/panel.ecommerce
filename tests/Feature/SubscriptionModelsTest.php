@@ -1,0 +1,71 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Models\Reseller;
+use Illuminate\Support\Carbon;
+use Misaf\VendraSubscription\Enums\PeriodUnit;
+use Misaf\VendraSubscription\Exceptions\PlanInUseException;
+use Misaf\VendraSubscription\Models\Plan;
+use Misaf\VendraSubscription\Models\Subscription;
+use Misaf\VendraTenant\Models\Tenant;
+
+it('relates a reseller to its properties and subscriptions', function (): void {
+    $reseller = Reseller::factory()
+        ->has(Tenant::factory()->count(2))
+        ->has(Subscription::factory())
+        ->create();
+
+    expect($reseller->tenants)->toHaveCount(2)
+        ->and($reseller->tenants->first())->toBeInstanceOf(Tenant::class)
+        ->and($reseller->subscriptions)->toHaveCount(1);
+});
+
+it('returns the active subscription and ignores expired or cancelled ones', function (): void {
+    $reseller = Reseller::factory()->create();
+
+    Subscription::factory()->expired()->forSubscriber($reseller)->create();
+    Subscription::factory()->cancelled()->forSubscriber($reseller)->create();
+    $active = Subscription::factory()->forSubscriber($reseller)->create();
+
+    expect($reseller->activeSubscription()?->getKey())->toBe($active->getKey());
+});
+
+it('reports no active subscription when none are active', function (): void {
+    $reseller = Reseller::factory()->create();
+
+    Subscription::factory()->expired()->forSubscriber($reseller)->create();
+
+    expect($reseller->activeSubscription())->toBeNull();
+});
+
+it('treats a subscription without an end date as active', function (): void {
+    $subscription = Subscription::factory()->neverExpires()->create();
+
+    expect($subscription->isActive())->toBeTrue();
+});
+
+it('treats an expired subscription as inactive', function (): void {
+    $subscription = Subscription::factory()->expired()->create();
+
+    expect($subscription->isActive())->toBeFalse();
+});
+
+it('resolves the plan end date from its period', function (): void {
+    $plan = Plan::factory()->period(PeriodUnit::Month, 3)->create();
+
+    $start = Carbon::parse('2026-01-01 00:00:00');
+
+    expect($plan->resolveEndDate($start)->toDateString())->toBe('2026-04-01');
+});
+
+it('prevents deleting a plan referenced by a subscription', function (): void {
+    $plan = Plan::factory()->create();
+    Subscription::factory()->for($plan)->create();
+
+    $plan->delete();
+})->throws(PlanInUseException::class);
+
+it('hides the generated active-reseller guard', function (): void {
+    expect((new Subscription())->getHidden())->toContain('active_subscriber_guard');
+});

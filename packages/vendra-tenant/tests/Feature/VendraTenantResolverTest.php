@@ -68,7 +68,7 @@ it('uses the current tenant domain as the asset origin', function (): void {
 
     expect(Storage::disk('public')->url('fonts/inter.woff2'))->toBe('/storage/fonts/inter.woff2');
 
-    $this->app->instance('request', Request::create('https://seomasters.test/account'));
+    $this->app->instance('request', Request::create('https://seomasters.test/reseller'));
 
     $task = new SwitchAppTask();
     $task->makeCurrent(Tenant::factory()->enabled()->create());

@@ -6,8 +6,8 @@ namespace Misaf\VendraSubscription\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
-use Misaf\VendraSubscription\Models\Account;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 
@@ -23,12 +23,22 @@ final class SubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'account_id' => Account::factory(),
-            'plan_id'    => Plan::factory(),
-            'status'     => SubscriptionStatus::Active,
-            'starts_at'  => now()->subDay(),
-            'ends_at'    => now()->addMonth(),
+            'subscriber_id' => fake()->unique()->numberBetween(1, 2_000_000_000),
+            'plan_id'       => Plan::factory(),
+            'status'        => SubscriptionStatus::Active,
+            'starts_at'     => now()->subDay(),
+            'ends_at'       => now()->addMonth(),
         ];
+    }
+
+    /**
+     * Attach the subscription to a subscriber (its id or the model instance).
+     */
+    public function forSubscriber(Model|int $subscriber): static
+    {
+        $id = $subscriber instanceof Model ? $subscriber->getKey() : $subscriber;
+
+        return $this->state(fn(): array => ['subscriber_id' => $id]);
     }
 
     public function expired(): static

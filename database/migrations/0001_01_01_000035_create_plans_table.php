@@ -17,7 +17,7 @@ return new class () extends Migration {
                 ->index();
             $table->text('description')
                 ->nullable();
-            $table->unsignedInteger('max_websites');
+            $table->unsignedInteger('max_units');
             $table->string('period_unit');
             $table->unsignedInteger('period_count');
             $table->unsignedInteger('grace_days')

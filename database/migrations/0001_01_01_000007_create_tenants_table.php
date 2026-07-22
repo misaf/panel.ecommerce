@@ -20,7 +20,7 @@ return new class () extends Migration {
     {
         Schema::create('tenants', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('account_id')
+            $table->unsignedBigInteger('reseller_id')
                 ->nullable()
                 ->index();
             $table->string('name')

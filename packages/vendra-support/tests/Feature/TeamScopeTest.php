@@ -54,10 +54,10 @@ it('does not constrain tenant-aware models for an authenticated identity without
         ['id' => 2, 'tenant_id' => 2],
     ]);
 
-    $platformUser = new class () extends Authenticatable {};
-    $platformUser->setAttribute('id', 1);
+    $consoleUser = new class () extends Authenticatable {};
+    $consoleUser->setAttribute('id', 1);
 
-    $this->actingAs($platformUser);
+    $this->actingAs($consoleUser);
 
     expect(TeamScopeTenantRecord::query()->count())->toBe(2);
 });
