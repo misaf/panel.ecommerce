@@ -19,6 +19,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Misaf\VendraTenant\Models\Tenant;
 
 final class PropertyTable
@@ -34,7 +36,9 @@ final class PropertyTable
 
                 TextColumn::make('reseller')
                     ->label(__('console.reseller'))
-                    ->state(fn(Tenant $record): ?string => Reseller::query()->find($record->reseller_id)?->name)
+                    ->state(fn(Tenant $record): ?string => null === $record->reseller_id
+                        ? null
+                        : self::resellerNames()->get($record->reseller_id))
                     ->placeholder('—'),
 
                 TextColumn::make('domain')
@@ -44,11 +48,11 @@ final class PropertyTable
 
                 TextColumn::make('admin_access')
                     ->label(__('console.admin_url'))
-                    ->state(fn(Tenant $record): string => 'https://' . $record->slug . '.' . config('vendra-tenant.central_host'))
+                    ->state(fn(Tenant $record): string => 'https://' . $record->slug . '.' . Config::string('vendra-tenant.central_host'))
                     ->description(fn(Tenant $record): ?string => $record->activeDomainName()
                         ? 'https://admin.' . $record->activeDomainName()
                         : null)
-                    ->url(fn(Tenant $record): string => 'https://' . $record->slug . '.' . config('vendra-tenant.central_host'))
+                    ->url(fn(Tenant $record): string => 'https://' . $record->slug . '.' . Config::string('vendra-tenant.central_host'))
                     ->openUrlInNewTab()
                     ->copyable()
                     ->copyMessage('URL copied')
@@ -82,5 +86,18 @@ final class PropertyTable
                 ]),
             ])
             ->defaultSort('id', 'desc');
+    }
+
+    /**
+     * Reseller names keyed by id, resolved once per request to avoid a
+     * per-row query when rendering the reseller column.
+     *
+     * @return Collection<int, string>
+     */
+    private static function resellerNames(): Collection
+    {
+        return once(fn(): Collection => Reseller::query()
+            ->get(['id', 'name'])
+            ->mapWithKeys(fn(Reseller $reseller): array => [$reseller->id => $reseller->name]));
     }
 }
