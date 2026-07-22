@@ -48,6 +48,11 @@ return [
             'provider' => 'console_users',
         ],
 
+        'reseller' => [
+            'driver'   => 'session',
+            'provider' => 'reseller_users',
+        ],
+
         'sanctum' => [
             'driver'   => 'sanctum',
             'provider' => 'users',
@@ -81,6 +86,11 @@ return [
             'driver' => 'eloquent',
             'model'  => App\Models\ConsoleUser::class,
         ],
+
+        'reseller_users' => [
+            'driver' => 'eloquent',
+            'model'  => App\Models\ResellerUser::class,
+        ],
     ],
 
     /*
@@ -113,7 +123,14 @@ return [
         'console_users' => [
             'provider' => 'console_users',
             'table'    => 'console_password_reset_tokens',
-            'expire'   => 30,
+            'expire'   => 60,
+            'throttle' => 60,
+        ],
+
+        'reseller_users' => [
+            'provider' => 'reseller_users',
+            'table'    => 'reseller_password_reset_tokens',
+            'expire'   => 60,
             'throttle' => 60,
         ],
     ],

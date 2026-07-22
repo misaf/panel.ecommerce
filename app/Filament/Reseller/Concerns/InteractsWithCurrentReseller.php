@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Reseller\Concerns;
 
 use App\Models\Reseller;
+use App\Models\ResellerUser;
 use Filament\Facades\Filament;
-use Misaf\VendraUser\Models\User;
 
 trait InteractsWithCurrentReseller
 {
@@ -17,7 +17,7 @@ trait InteractsWithCurrentReseller
     {
         $user = Filament::auth()->user();
 
-        if ( ! $user instanceof User || null === $user->reseller_id) {
+        if ( ! $user instanceof ResellerUser) {
             return null;
         }
 

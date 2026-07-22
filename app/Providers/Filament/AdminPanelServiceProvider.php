@@ -24,6 +24,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Misaf\VendraTenant\Http\Middleware\EnsureAdminDomain;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
@@ -41,6 +42,7 @@ final class AdminPanelServiceProvider extends PanelProvider
         );
 
         return $panel
+            ->default()
             ->id('admin')
             ->brandLogo(fn() => asset('images/vendra-logo.svg'))
             ->brandLogoHeight('2rem')
@@ -68,6 +70,7 @@ final class AdminPanelServiceProvider extends PanelProvider
                 ShareErrorsFromSession::class,
                 PreventRequestForgery::class,
                 SubstituteBindings::class,
+                EnsureAdminDomain::class,
                 NeedsTenant::class,
                 EnsureValidTenantSession::class,
                 DisableBladeIconComponents::class,
@@ -81,7 +84,7 @@ final class AdminPanelServiceProvider extends PanelProvider
                 fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
                 provider: SpatieGoogleFontProvider::class,
             )
-            ->path('/admin')
+            ->path('')
             ->profile()
             ->spa(hasPrefetching: true)
             ->strictAuthorization()

@@ -34,10 +34,10 @@ final class ConsolePanelServiceProvider extends PanelProvider
     {
         return $panel
             ->id('console')
-            ->brandLogo(asset('images/vendra-logo.svg'))
+            ->brandLogo(fn(): string => asset('images/vendra-logo.svg'))
             ->brandLogoHeight('2rem')
             ->brandName('Vendra Console')
-            ->darkModeBrandLogo(asset('images/vendra-logo-dark.svg'))
+            ->darkModeBrandLogo(fn(): string => asset('images/vendra-logo-dark.svg'))
             ->databaseNotifications()
             ->databaseTransactions()
             ->discoverResources(app_path('Filament/Console/Resources'), 'App\\Filament\\Console\\Resources')
@@ -49,7 +49,7 @@ final class ConsolePanelServiceProvider extends PanelProvider
             ->homeUrl('/')
             ->authGuard('console')
             ->authPasswordBroker('console_users')
-            ->domain(Uri::of(config()->string('app.url'))->host())
+            ->domain('console.' . Uri::of(config()->string('app.url'))->host())
             ->login()
             ->passwordReset()
             ->emailVerification(isRequired: true)
@@ -73,7 +73,7 @@ final class ConsolePanelServiceProvider extends PanelProvider
                 fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
                 provider: SpatieGoogleFontProvider::class,
             )
-            ->path('/console')
+            ->path('')
             ->profile()
             ->topNavigation();
     }

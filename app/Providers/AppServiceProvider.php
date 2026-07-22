@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Reseller;
+use App\Models\ResellerUser;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
 use App\Support\TransactionSubscriptionCharger;
@@ -16,6 +18,7 @@ use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -37,6 +40,11 @@ final class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Relation::morphMap([
+            'reseller'      => Reseller::class,
+            'reseller_user' => ResellerUser::class,
+        ]);
+
         $settingsTable = Config::get('settings.repositories.database.table');
 
         $this->app->make(TenantTableRegistry::class)->register(

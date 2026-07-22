@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Reseller\Pages\Auth\Login;
+use App\Filament\Reseller\Pages\Auth\Register;
 use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -35,10 +37,10 @@ final class ResellerPanelServiceProvider extends PanelProvider
     {
         return $panel
             ->id('reseller')
-            ->brandLogo(asset('images/vendra-logo.svg'))
+            ->brandLogo(fn(): string => asset('images/vendra-logo.svg'))
             ->brandLogoHeight('2rem')
             ->brandName('Vendra Reseller')
-            ->darkModeBrandLogo(asset('images/vendra-logo-dark.svg'))
+            ->darkModeBrandLogo(fn(): string => asset('images/vendra-logo-dark.svg'))
             ->databaseNotifications()
             ->databaseTransactions()
             ->discoverResources(app_path('Filament/Reseller/Resources'), 'App\\Filament\\Reseller\\Resources')
@@ -46,10 +48,13 @@ final class ResellerPanelServiceProvider extends PanelProvider
             ->discoverWidgets(app_path('Filament/Reseller/Widgets'), 'App\\Filament\\Reseller\\Widgets')
             ->pages([Dashboard::class])
             ->homeUrl('/')
-            ->authGuard('web')
-            ->authPasswordBroker('users')
-            ->domain(Uri::of(config()->string('app.url'))->host())
-            ->login()
+            ->authGuard('reseller')
+            ->authPasswordBroker('reseller_users')
+            ->domain('reseller.' . Uri::of(config()->string('app.url'))->host())
+            ->login(Login::class)
+            ->registration(Register::class)
+            ->passwordReset()
+            ->emailVerification(isRequired: true)
             ->maxContentWidth(Width::Full)
             ->middleware([
                 EncryptCookies::class,
@@ -70,7 +75,7 @@ final class ResellerPanelServiceProvider extends PanelProvider
                 fn(): string => app()->isLocale('fa') ? 'Vazirmatn' : 'Google',
                 provider: SpatieGoogleFontProvider::class,
             )
-            ->path('/reseller')
+            ->path('')
             ->profile()
             ->spa(hasPrefetching: true)
             ->topNavigation();
