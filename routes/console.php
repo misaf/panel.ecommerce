@@ -13,3 +13,8 @@ Artisan::command('inspire', function (): void {
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
 
 Schedule::command('vendra-subscription:enforce-subscriptions')->daily();
+
+Schedule::command('vendra-subscription:recover-payments')
+    ->everyFiveMinutes()
+    ->withoutOverlapping()
+    ->onOneServer();
