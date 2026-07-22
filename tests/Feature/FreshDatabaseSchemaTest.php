@@ -70,7 +70,7 @@ it('enforces one active owner and subscription per reseller', function (): void 
     expect(Schema::hasColumn('users', 'active_reseller_guard'))->toBeTrue()
         ->and(Schema::hasIndex('users', ['active_reseller_guard'], 'unique'))->toBeTrue()
         ->and(Schema::hasColumn('subscriptions', 'active_subscriber_guard'))->toBeTrue()
-        ->and(Schema::hasIndex('subscriptions', ['active_subscriber_guard'], 'unique'))->toBeTrue();
+        ->and(Schema::hasIndex('subscriptions', ['subscriber_type', 'active_subscriber_guard'], 'unique'))->toBeTrue();
 });
 
 it('uses final create migrations instead of fresh-install follow-ups', function (): void {

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Misaf\VendraSubscription\Database\Factories\SubscriptionFactory;
@@ -19,6 +20,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 
 /**
  * @property int $id
+ * @property string $subscriber_type
  * @property int $subscriber_id
  * @property int $plan_id
  * @property SubscriptionStatus $status
@@ -32,7 +34,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['subscriber_id', 'plan_id', 'status', 'price', 'currency_code', 'trial_ends_at', 'starts_at', 'ends_at', 'expiry_reminder_sent_at'])]
+#[Fillable(['subscriber_type', 'subscriber_id', 'plan_id', 'status', 'price', 'currency_code', 'trial_ends_at', 'starts_at', 'ends_at', 'expiry_reminder_sent_at'])]
 #[Hidden(['active_subscriber_guard'])]
 #[UseFactory(SubscriptionFactory::class)]
 final class Subscription extends Model implements ShouldLogActivity
@@ -49,6 +51,7 @@ final class Subscription extends Model implements ShouldLogActivity
     {
         return [
             'id'                       => 'integer',
+            'subscriber_type'          => 'string',
             'subscriber_id'            => 'integer',
             'plan_id'                  => 'integer',
             'status'                   => SubscriptionStatus::class,
@@ -62,11 +65,21 @@ final class Subscription extends Model implements ShouldLogActivity
     }
 
     /**
-     * The subscriber that owns this subscription (e.g. the host app's billing
-     * entity). Kept as a plain `subscriber_id` column with no relation here so
-     * the subscription package stays agnostic of the concrete subscriber; the
-     * owning model defines the inverse relation on its own side.
+     * The subscriber that owns this subscription — any model, resolved
+     * polymorphically via `subscriber_type`/`subscriber_id`. The package stays
+     * agnostic of concrete subscriber classes; the `(subscriber_type,
+     * active_subscriber_guard)` unique index enforces one active subscription
+     * per subscriber, keyed by type so different subscriber models never
+     * conflate ids.
      *
+     * @return MorphTo<Model, $this>
+     */
+    public function subscriber(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
      * @return BelongsTo<Plan, $this>
      */
     public function plan(): BelongsTo

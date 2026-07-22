@@ -23,22 +23,29 @@ final class SubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'subscriber_id' => fake()->unique()->numberBetween(1, 2_000_000_000),
-            'plan_id'       => Plan::factory(),
-            'status'        => SubscriptionStatus::Active,
-            'starts_at'     => now()->subDay(),
-            'ends_at'       => now()->addMonth(),
+            'subscriber_type' => 'subscriber',
+            'subscriber_id'   => fake()->unique()->numberBetween(1, 2_000_000_000),
+            'plan_id'         => Plan::factory(),
+            'status'          => SubscriptionStatus::Active,
+            'starts_at'       => now()->subDay(),
+            'ends_at'         => now()->addMonth(),
         ];
     }
 
     /**
-     * Attach the subscription to a subscriber (its id or the model instance).
+     * Attach the subscription to a subscriber — a model (resolved
+     * polymorphically) or a bare id under the default subscriber type.
      */
     public function forSubscriber(Model|int $subscriber): static
     {
-        $id = $subscriber instanceof Model ? $subscriber->getKey() : $subscriber;
+        if ($subscriber instanceof Model) {
+            return $this->state(fn(): array => [
+                'subscriber_type' => $subscriber->getMorphClass(),
+                'subscriber_id'   => $subscriber->getKey(),
+            ]);
+        }
 
-        return $this->state(fn(): array => ['subscriber_id' => $id]);
+        return $this->state(fn(): array => ['subscriber_id' => $subscriber]);
     }
 
     public function expired(): static

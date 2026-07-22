@@ -11,8 +11,7 @@ return new class () extends Migration {
     {
         Schema::create('subscriptions', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('subscriber_id')
-                ->index();
+            $table->morphs('subscriber');
             $table->unsignedBigInteger('plan_id')
                 ->index();
             $table->string('status')
@@ -34,7 +33,7 @@ return new class () extends Migration {
                 ->nullable()
                 ->virtualAs("CASE WHEN status = 'active' AND deleted_at IS NULL THEN subscriber_id ELSE NULL END");
 
-            $table->unique('active_subscriber_guard', 'subscriptions_active_subscriber_unique');
+            $table->unique(['subscriber_type', 'active_subscriber_guard'], 'subscriptions_active_subscriber_unique');
         });
     }
 

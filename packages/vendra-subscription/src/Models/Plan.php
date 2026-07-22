@@ -142,7 +142,7 @@ final class Plan extends Model implements ShouldLogActivity
     }
 
     /**
-     * The moment a lapsed subscription's properties should be suspended:
+     * The moment a lapsed subscription should fall out of grace:
      * the period end plus the plan's grace window.
      */
     public function resolveSuspendDate(Carbon $endsAt): Carbon

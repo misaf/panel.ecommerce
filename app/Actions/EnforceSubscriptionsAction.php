@@ -52,18 +52,21 @@ final class EnforceSubscriptionsAction
     private function remindExpiringSubscriptions(): int
     {
         $reminded = 0;
+        $resellerType = (new Reseller())->getMorphClass();
 
         Subscription::query()
             ->expiringWithin(self::EXPIRY_REMINDER_DAYS)
-            ->chunkById(100, function (Collection $subscriptions) use (&$reminded): void {
+            ->chunkById(100, function (Collection $subscriptions) use (&$reminded, $resellerType): void {
                 /** @var Collection<int, Subscription> $subscriptions */
                 $resellers = Reseller::query()
-                    ->whereIn('id', $subscriptions->pluck('subscriber_id')->all())
+                    ->whereIn('id', $subscriptions->where('subscriber_type', $resellerType)->pluck('subscriber_id')->all())
                     ->get()
                     ->keyBy('id');
 
                 foreach ($subscriptions as $subscription) {
-                    $reseller = $resellers->get($subscription->subscriber_id);
+                    $reseller = $subscription->subscriber_type === $resellerType
+                        ? $resellers->get($subscription->subscriber_id)
+                        : null;
 
                     if (null !== $reseller && $reseller->hasOwnerContact()) {
                         $reseller->notify(new SubscriptionExpiringNotification($subscription));
