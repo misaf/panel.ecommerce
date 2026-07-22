@@ -13,6 +13,11 @@ use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
+
+it('is not tenant aware so it survives dispatch from host-level flows without a current tenant', function (): void {
+    expect(new ProcessSubscriptionPayment(1))->toBeInstanceOf(NotTenantAware::class);
+});
 
 it('requeues stale payment operations and paid subscriptions awaiting activation', function (): void {
     Queue::fake();

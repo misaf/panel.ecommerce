@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
 use Throwable;
 
-final class ProcessSubscriptionPayment implements ShouldBeUnique, ShouldQueue
+final class ProcessSubscriptionPayment implements NotTenantAware, ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
