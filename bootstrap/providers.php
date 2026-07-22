@@ -7,7 +7,6 @@ return [
     App\Providers\Filament\ResellerPanelServiceProvider::class,
     App\Providers\Filament\AdminPanelServiceProvider::class,
     App\Providers\Filament\ConsolePanelServiceProvider::class,
-    App\Providers\Filament\UserPanelServiceProvider::class,
     App\Providers\HorizonServiceProvider::class,
     App\Providers\PulseServiceProvider::class,
 ];
