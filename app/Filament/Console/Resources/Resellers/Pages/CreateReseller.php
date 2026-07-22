@@ -20,27 +20,27 @@ final class CreateReseller extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
-        $name = $data['name'] ?? null;
         $planId = $data['plan_id'] ?? null;
-        $ownerName = $data['owner_name'] ?? null;
-        $ownerEmail = $data['owner_email'] ?? null;
+        $email = $data['email'] ?? null;
+        $username = $data['username'] ?? null;
+        $password = $data['password'] ?? null;
         $status = $data['status'] ?? true;
-
-        if ( ! is_string($name) || '' === $name) {
-            throw new InvalidArgumentException('Invalid reseller name provided.');
-        }
 
         if ( ! is_numeric($planId)) {
             throw new InvalidArgumentException('Invalid plan provided.');
         }
 
+        if ( ! is_string($email) || ! is_string($username) || ! is_string($password)) {
+            throw new InvalidArgumentException('Invalid reseller owner credentials provided.');
+        }
+
         $plan = Plan::query()->findOrFail((int) $planId);
 
         return app(CreateResellerAction::class)->execute(
-            name: $name,
             plan: $plan,
-            ownerName: is_string($ownerName) ? $ownerName : null,
-            ownerEmail: is_string($ownerEmail) ? $ownerEmail : null,
+            username: $username,
+            email: $email,
+            password: $password,
             status: is_bool($status) ? $status : true,
         )['reseller'];
     }

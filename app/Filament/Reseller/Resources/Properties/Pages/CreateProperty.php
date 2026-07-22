@@ -29,12 +29,10 @@ final class CreateProperty extends CreateRecord
             throw new InvalidArgumentException('No billing reseller for the current user.');
         }
 
-        $name = $data['name'] ?? null;
         $domain = $data['domain'] ?? null;
-        $username = $data['owner_username'] ?? null;
-        $email = $data['owner_email'] ?? null;
+        $email = $data['email'] ?? null;
 
-        if ( ! is_string($name) || ! is_string($domain) || ! is_string($username) || ! is_string($email)) {
+        if ( ! is_string($domain) || ! is_string($email)) {
             throw new InvalidArgumentException('Invalid property details provided.');
         }
 
@@ -43,10 +41,8 @@ final class CreateProperty extends CreateRecord
         try {
             $result = app(ProvisionTenantAction::class)->execute(
                 data: [
-                    'name'     => $name,
-                    'domain'   => $domain,
-                    'username' => $username,
-                    'email'    => $email,
+                    'domain' => $domain,
+                    'email'  => $email,
                 ],
                 reseller: $reseller,
             );
@@ -63,7 +59,10 @@ final class CreateProperty extends CreateRecord
         Notification::make()
             ->success()
             ->title(__('console.property_created'))
-            ->body(__('console.owner_password', ['password' => $result['password']]))
+            ->body(__('console.owner_credentials', [
+                'username' => $result['user']->username,
+                'password' => $result['password'],
+            ]))
             ->persistent()
             ->send();
 
