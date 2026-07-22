@@ -10,6 +10,12 @@ The `misaf/vendra-testing` package provides shared Pest testing utilities reused
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+### Vendra Transitive API Policy
+
+- Treat a Vendra dependency intentionally exposed through the public API of a directly required Vendra platform package as part of the supported public contract of that package.
+- Do not add a redundant direct Composer requirement solely because source code imports a type from that exposed dependency.
+- Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
+
 - Keep shared testing code inside `packages/vendra-testing` using the `Misaf\VendraTesting` namespace.
 - This package owns reusable test helpers such as custom `Expectations` (e.g. sorted translation-key expectations) and `TranslationParity` helpers.
 - This package also owns the provider-agnostic test helpers in `src/Helpers.php` (files-autoloaded): `testTenantModel()`, `createTestTenant()`, `makeCurrentTestTenant()`, `switchToTestTenant()`, `currentTestTenant()`, `forgetCurrentTestTenant()` resolve tenancy through the `misaf/vendra-support` contracts (`TenantResolver`, `TenantAwareness`), and `testUserModel()` / `createTestUser()` resolve the user model from `auth.providers.users.model`. They no-op (returning null) when tenancy is disabled.

@@ -10,6 +10,12 @@ The `misaf/vendra-developer-logins` package provides local-only login shortcuts 
 - Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
 - A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
 
+### Vendra Transitive API Policy
+
+- Treat a Vendra dependency intentionally exposed through the public API of a directly required Vendra platform package as part of the supported public contract of that package.
+- Do not add a redundant direct Composer requirement solely because source code imports a type from that exposed dependency.
+- Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
+
 - Keep developer-login code inside `packages/vendra-developer-logins` using the `Misaf\VendraDeveloperLogins` namespace.
 - Treat local-environment gating as a security boundary. The plugin must stay disabled outside `local`, when configuration disables it, or when no eligible users exist.
 - Resolve eligible users through the configured role and authentication guard. Do not broaden the query to arbitrary users or bypass Spatie Permission role scoping.
