@@ -8434,7 +8434,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "e480bb4fbed442aa59cd7931323263042980e10c"
+                "reference": "c9b4bbaef19074122022a07c8b4ec02e054ad2cf"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -8466,8 +8466,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Misaf\\VendraSubscription\\": "src/",
-                    "Misaf\\VendraSubscription\\Database\\Seeders\\": "database/seeders/"
+                    "Misaf\\VendraSubscription\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -19688,16 +19687,16 @@
         },
         {
             "name": "orchestra/workbench",
-            "version": "v11.1.0",
+            "version": "v11.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "e750c7bcae4405e054ff286475502e23274de04b"
+                "reference": "78f27959b8e5caa72c996c6ccd0ddfeff462cb2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/e750c7bcae4405e054ff286475502e23274de04b",
-                "reference": "e750c7bcae4405e054ff286475502e23274de04b",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/78f27959b8e5caa72c996c6ccd0ddfeff462cb2b",
+                "reference": "78f27959b8e5caa72c996c6ccd0ddfeff462cb2b",
                 "shasum": ""
             },
             "require": {
@@ -19749,9 +19748,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v11.1.0"
+                "source": "https://github.com/orchestral/workbench/tree/v11.2.0"
             },
-            "time": "2026-03-24T23:09:55+00:00"
+            "time": "2026-07-22T09:55:13+00:00"
         },
         {
             "name": "pestphp/pest",

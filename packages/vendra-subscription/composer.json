@@ -47,8 +47,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Misaf\\VendraSubscription\\": "src/",
-            "Misaf\\VendraSubscription\\Database\\Seeders\\": "database/seeders/"
+            "Misaf\\VendraSubscription\\": "src/"
         }
     },
     "autoload-dev": {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Actions\SubscribeResellerAction;
 use App\Models\Reseller;
-use Misaf\VendraSubscription\Database\Seeders\PlanSeeder;
+use Database\Seeders\PlanSeeder;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 

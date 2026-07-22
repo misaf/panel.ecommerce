@@ -1,6 +1,6 @@
 ---
 name: vendra-subscription-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Subscription module in packages/vendra-subscription — a generic, subscriber-agnostic subscription engine. Trigger for the Plan and Subscription models, PeriodUnit/SubscriptionStatus enums, PlanInUseException/SubscriptionPaymentException, plan pricing/trials/entitlements, subscription scopes and lifecycle state, the subscriber_id decoupling, PlanSeeder, and subscription service-provider wiring. NOT for Reseller, quota, provisioning, or reseller actions/notifications — those live in the host app."
+description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Subscription module in packages/vendra-subscription — a generic, subscriber-agnostic subscription engine. Trigger for the Plan and Subscription models, PeriodUnit/SubscriptionStatus enums, PlanInUseException/SubscriptionPaymentException, plan pricing/trials/entitlements, subscription scopes and lifecycle state, the subscriber_id decoupling, and subscription service-provider wiring. NOT for Reseller, quota, provisioning, PlanSeeder, or reseller actions/notifications — those live in the host app."
 ---
 
 # Vendra Subscription
@@ -19,7 +19,7 @@ Always use this skill together with `laravel-best-practices` for Laravel PHP and
 
 Treat `packages/vendra-subscription` as a **generic subscription engine**: plans and subscriptions and their lifecycle, with NO knowledge of the concrete subscriber.
 
-- Use namespace `Misaf\VendraSubscription`. Own only `Models\{Plan,Subscription}`, `Enums\{PeriodUnit,SubscriptionStatus}`, `Exceptions\{PlanInUseException,SubscriptionPaymentException}`, `Database\Seeders\PlanSeeder`, and `SubscriptionServiceProvider`.
+- Use namespace `Misaf\VendraSubscription`. Own only `Models\{Plan,Subscription}`, `Enums\{PeriodUnit,SubscriptionStatus}`, `Exceptions\{PlanInUseException,SubscriptionPaymentException}`, and `SubscriptionServiceProvider`. Concrete `PlanSeeder` data is app business config and lives in the host app.
 - Depend only on `misaf/vendra-support` (`ShouldLogActivity`, and the `SubscriptionCharger` contract the app implements) plus framework/Spatie packages. NEVER depend on `misaf/vendra-tenant`, `misaf/vendra-user`, `misaf/vendra-permission`, or `misaf/vendra-transaction`.
 - **Subscriber decoupling:** `Subscription` links to its owner via a plain `subscriptions.subscriber_id` column with NO relation here. The owning model (the host app's `App\Models\Reseller`) defines `hasMany(Subscription::class, 'subscriber_id')`. `SubscriptionFactory::forSubscriber($idOrModel)` sets it; `active_subscriber_guard` (unique) enforces one active subscription per subscriber.
 - Reseller, quota (`PropertyQuota`), provisioning (`Create/ProvisionTenantAction`), reseller actions (`Create/SubscribeResellerAction`, `ChargeSubscriptionAction`, `EnforceSubscriptionsAction`), owner notifications, and the provision/enforce commands all live in the **host app** (`app/…`), not here. Console/reseller Filament panels are app-level (`app/Filament/{Console,Reseller}`).
