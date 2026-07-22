@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'navigation_group' => 'Konsole',
+
+    'plan'                  => 'Tarif',
+    'plans'                 => 'Tarife',
+    'reseller'              => 'Konto',
+    'resellers'             => 'Konten',
+    'property'              => 'Property',
+    'properties'            => 'Properties',
+    'remaining_properties'  => 'Verbleibende Properties',
+
+    'name'                   => 'Name',
+    'status'                 => 'Aktiv',
+    'max_units'              => 'Max. Properties',
+    'period'                 => 'Zeitraum',
+    'period_unit'            => 'Zeitraumeinheit',
+    'period_count'           => 'Zeitraumlänge',
+    'grace_days'             => 'Kulanztage',
+    'price'                  => 'Preis',
+    'price_hint'             => 'Betrag in kleinster Einheit (z. B. Cent). 0 = kostenlos.',
+    'currency'               => 'Währung',
+    'free'                   => 'Kostenlos',
+    'trial_days'             => 'Testtage',
+    'active_subscriptions'   => 'Aktive Abonnements',
+    'expiring_soon'          => 'Läuft in 7 Tagen ab',
+    'description'            => 'Beschreibung',
+
+    'subscription_plan'      => 'Abonnement-Tarif',
+    'no_plan'                => 'Kein Tarif',
+    'subscription_status'    => 'Status',
+    'status_active'          => 'Aktiv',
+    'status_expired'         => 'Abgelaufen',
+    'status_cancelled'       => 'Storniert',
+    'renews_on'              => 'Verlängert am',
+    'never'                  => 'Nie',
+    'trial'                  => 'Testphase',
+    'trial_until'            => 'Bis :date',
+    'no_trial'               => 'Keine Testphase',
+    'properties_count'       => 'Properties',
+    'current_subscription'   => 'Aktuelles Abonnement',
+    'ends_at'                => 'Endet am',
+
+    'domain'         => 'Domain',
+    'owner_username' => 'Benutzername des Inhabers',
+    'owner_name'     => 'Name des Inhabers',
+    'owner_email'    => 'E-Mail des Inhabers',
+
+    'change_plan'            => 'Tarif ändern',
+    'renew'                  => 'Verlängern',
+    'plan_changed'           => 'Abonnement-Tarif aktualisiert.',
+    'downgrade_blocked'      => 'Tarifwechsel blockiert',
+    'subscription_renewed'   => 'Abonnement verlängert.',
+    'no_active_subscription' => 'Dieses Konto hat kein Abonnement zum Verlängern.',
+
+    'property_created'       => 'Property erstellt',
+    'property_limit_reached' => 'Property-Limit erreicht',
+    'owner_password'         => 'Inhaber-Passwort: :password',
+
+    'replace_domain'  => 'Domain ersetzen',
+    'new_domain'      => 'Neue Domain',
+    'domain_replaced' => 'Domain ersetzt',
+    'domain_history'  => 'Domain-Verlauf',
+    'created_at'      => 'Erstellt am',
+    'domains'         => 'Domains',
+    'active'          => 'Aktiv',
+    'replaced'        => 'Ersetzt',
+    'replaced_at'     => 'Ersetzt am',
+];

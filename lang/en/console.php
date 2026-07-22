@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'navigation_group' => 'Console',
+
+    'plan'                  => 'Plan',
+    'plans'                 => 'Plans',
+    'reseller'              => 'Reseller',
+    'resellers'             => 'Resellers',
+    'property'              => 'Property',
+    'properties'            => 'Properties',
+    'remaining_properties'  => 'Remaining properties',
+
+    'name'                   => 'Name',
+    'status'                 => 'Active',
+    'max_units'              => 'Max properties',
+    'period'                 => 'Period',
+    'period_unit'            => 'Period unit',
+    'period_count'           => 'Period length',
+    'grace_days'             => 'Grace days',
+    'price'                  => 'Price',
+    'price_hint'             => 'Amount in minor units (e.g. cents). 0 = free.',
+    'currency'               => 'Currency',
+    'free'                   => 'Free',
+    'trial_days'             => 'Trial days',
+    'active_subscriptions'   => 'Active subscriptions',
+    'expiring_soon'          => 'Expiring in 7 days',
+    'description'            => 'Description',
+
+    'subscription_plan'      => 'Subscription plan',
+    'no_plan'                => 'No plan',
+    'subscription_status'    => 'Status',
+    'status_active'          => 'Active',
+    'status_expired'         => 'Expired',
+    'status_cancelled'       => 'Cancelled',
+    'renews_on'              => 'Renews on',
+    'never'                  => 'Never',
+    'trial'                  => 'Trial',
+    'trial_until'            => 'Until :date',
+    'no_trial'               => 'No trial',
+    'properties_count'       => 'Properties',
+    'current_subscription'   => 'Current subscription',
+    'ends_at'                => 'Ends at',
+
+    'domain'         => 'Domain',
+    'owner_username' => 'Owner username',
+    'owner_name'     => 'Owner name',
+    'owner_email'    => 'Owner email',
+
+    'change_plan'            => 'Change plan',
+    'renew'                  => 'Renew',
+    'plan_changed'           => 'Subscription plan updated.',
+    'downgrade_blocked'      => 'Plan change blocked',
+    'subscription_renewed'   => 'Subscription renewed.',
+    'no_active_subscription' => 'This reseller has no subscription to renew.',
+
+    'property_created'       => 'Property created',
+    'property_limit_reached' => 'Property limit reached',
+    'owner_password'         => 'Owner password: :password',
+
+    'replace_domain'  => 'Replace domain',
+    'new_domain'      => 'New domain',
+    'domain_replaced' => 'Domain replaced',
+    'domain_history'  => 'Domain history',
+    'created_at'      => 'Created at',
+    'domains'         => 'Domains',
+    'active'          => 'Active',
+    'replaced'        => 'Replaced',
+    'replaced_at'     => 'Replaced at',
+];

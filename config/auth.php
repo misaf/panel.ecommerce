@@ -43,9 +43,9 @@ return [
             'provider' => 'users',
         ],
 
-        'platform' => [
+        'console' => [
             'driver'   => 'session',
-            'provider' => 'platform_users',
+            'provider' => 'console_users',
         ],
 
         'sanctum' => [
@@ -77,9 +77,9 @@ return [
             'model'  => env('AUTH_MODEL', Misaf\VendraUser\Models\User::class),
         ],
 
-        'platform_users' => [
+        'console_users' => [
             'driver' => 'eloquent',
-            'model'  => App\Models\PlatformUser::class,
+            'model'  => App\Models\ConsoleUser::class,
         ],
     ],
 
@@ -110,9 +110,9 @@ return [
             'throttle' => 60,
         ],
 
-        'platform_users' => [
-            'provider' => 'platform_users',
-            'table'    => 'platform_password_reset_tokens',
+        'console_users' => [
+            'provider' => 'console_users',
+            'table'    => 'console_password_reset_tokens',
             'expire'   => 30,
             'throttle' => 60,
         ],

@@ -13,9 +13,9 @@ it('contains every package table in the fresh database baseline', function (): v
         ->and(Schema::hasColumns('permissions', ['tenant_id', 'description']))->toBeTrue()
         ->and(Schema::hasColumn('tags', 'position'))->toBeTrue()
         ->and(Schema::hasColumn('tags', 'order_column'))->toBeFalse()
-        ->and(Schema::hasColumns('platform_users', ['username', 'email', 'email_verified_at', 'password']))->toBeTrue()
-        ->and(Schema::hasColumns('platform_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
-        ->and(Schema::hasColumn('users', 'is_platform_admin'))->toBeFalse();
+        ->and(Schema::hasColumns('console_users', ['username', 'email', 'email_verified_at', 'password']))->toBeTrue()
+        ->and(Schema::hasColumns('console_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
+        ->and(Schema::hasColumn('users', 'is_console_admin'))->toBeFalse();
 });
 
 it('enforces required relational integrity', function (string $table, string $column): void {
@@ -64,6 +64,13 @@ it('enforces required relational integrity', function (string $table, string $co
 
 it('prevents duplicate tenant memberships', function (): void {
     expect(Schema::hasIndex('tenant_user', ['tenant_id', 'user_id'], 'unique'))->toBeTrue();
+});
+
+it('enforces one active owner and subscription per reseller', function (): void {
+    expect(Schema::hasColumn('users', 'active_reseller_guard'))->toBeTrue()
+        ->and(Schema::hasIndex('users', ['active_reseller_guard'], 'unique'))->toBeTrue()
+        ->and(Schema::hasColumn('subscriptions', 'active_subscriber_guard'))->toBeTrue()
+        ->and(Schema::hasIndex('subscriptions', ['active_subscriber_guard'], 'unique'))->toBeTrue();
 });
 
 it('uses final create migrations instead of fresh-install follow-ups', function (): void {

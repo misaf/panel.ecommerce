@@ -8434,13 +8434,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "4bd6fff2a60edb0d03c8db3f68ab193da0b36f3b"
+                "reference": "e480bb4fbed442aa59cd7931323263042980e10c"
             },
             "require": {
-                "misaf/vendra-permission": "self.version",
                 "misaf/vendra-support": "self.version",
-                "misaf/vendra-tenant": "self.version",
-                "misaf/vendra-user": "self.version",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -12152,16 +12149,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.23.2",
+            "version": "11.23.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "cc1fdc4a9a9007101df610cd4a6733be71db4828"
+                "reference": "b578814b8c81a68c8ec9c9005246df5d417fe0f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/cc1fdc4a9a9007101df610cd4a6733be71db4828",
-                "reference": "cc1fdc4a9a9007101df610cd4a6733be71db4828",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/b578814b8c81a68c8ec9c9005246df5d417fe0f9",
+                "reference": "b578814b8c81a68c8ec9c9005246df5d417fe0f9",
                 "shasum": ""
             },
             "require": {
@@ -12246,7 +12243,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.23.2"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.23.3"
             },
             "funding": [
                 {
@@ -12258,20 +12255,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-09T13:26:15+00:00"
+            "time": "2026-07-22T07:06:25+00:00"
         },
         {
             "name": "spatie/laravel-model-states",
-            "version": "2.14.1",
+            "version": "2.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-model-states.git",
-                "reference": "772703a62478f578c1476aa2e6dcdc25339542df"
+                "reference": "a4a8451a28181005b90f1d79ed4e502573f50309"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-model-states/zipball/772703a62478f578c1476aa2e6dcdc25339542df",
-                "reference": "772703a62478f578c1476aa2e6dcdc25339542df",
+                "url": "https://api.github.com/repos/spatie/laravel-model-states/zipball/a4a8451a28181005b90f1d79ed4e502573f50309",
+                "reference": "a4a8451a28181005b90f1d79ed4e502573f50309",
                 "shasum": ""
             },
             "require": {
@@ -12327,7 +12324,7 @@
                 "state"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-model-states/tree/2.14.1"
+                "source": "https://github.com/spatie/laravel-model-states/tree/2.14.2"
             },
             "funding": [
                 {
@@ -12339,7 +12336,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-22T07:41:05+00:00"
+            "time": "2026-07-22T06:47:35+00:00"
         },
         {
             "name": "spatie/laravel-multitenancy",

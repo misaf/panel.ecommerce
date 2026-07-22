@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'navigation_group' => 'کنسول',
+
+    'plan'                  => 'طرح',
+    'plans'                 => 'طرح‌ها',
+    'reseller'              => 'حساب',
+    'resellers'             => 'حساب‌ها',
+    'property'              => 'ملک',
+    'properties'            => 'املاک',
+    'remaining_properties'  => 'املاک باقی‌مانده',
+
+    'name'                   => 'نام',
+    'status'                 => 'فعال',
+    'max_units'              => 'حداکثر املاک',
+    'period'                 => 'دوره',
+    'period_unit'            => 'واحد دوره',
+    'period_count'           => 'طول دوره',
+    'grace_days'             => 'مهلت (روز)',
+    'price'                  => 'قیمت',
+    'price_hint'             => 'مبلغ به واحد خرد (مثلاً سِنت). ۰ = رایگان.',
+    'currency'               => 'واحد پول',
+    'free'                   => 'رایگان',
+    'trial_days'             => 'روزهای آزمایشی',
+    'active_subscriptions'   => 'اشتراک‌های فعال',
+    'expiring_soon'          => 'انقضا در ۷ روز',
+    'description'            => 'توضیحات',
+
+    'subscription_plan'      => 'طرح اشتراک',
+    'no_plan'                => 'بدون طرح',
+    'subscription_status'    => 'وضعیت',
+    'status_active'          => 'فعال',
+    'status_expired'         => 'منقضی‌شده',
+    'status_cancelled'       => 'لغوشده',
+    'renews_on'              => 'تمدید در',
+    'never'                  => 'هرگز',
+    'trial'                  => 'دوره آزمایشی',
+    'trial_until'            => 'تا :date',
+    'no_trial'               => 'بدون دوره آزمایشی',
+    'properties_count'       => 'املاک',
+    'current_subscription'   => 'اشتراک فعلی',
+    'ends_at'                => 'پایان در',
+
+    'domain'         => 'دامنه',
+    'owner_username' => 'نام کاربری مالک',
+    'owner_name'     => 'نام مالک',
+    'owner_email'    => 'ایمیل مالک',
+
+    'change_plan'            => 'تغییر طرح',
+    'renew'                  => 'تمدید',
+    'plan_changed'           => 'طرح اشتراک به‌روزرسانی شد.',
+    'downgrade_blocked'      => 'تغییر طرح مسدود شد',
+    'subscription_renewed'   => 'اشتراک تمدید شد.',
+    'no_active_subscription' => 'این حساب اشتراکی برای تمدید ندارد.',
+
+    'property_created'       => 'ملک ایجاد شد',
+    'property_limit_reached' => 'محدودیت تعداد املاک',
+    'owner_password'         => 'رمز عبور مالک: :password',
+
+    'replace_domain'  => 'جایگزینی دامنه',
+    'new_domain'      => 'دامنه جدید',
+    'domain_replaced' => 'دامنه جایگزین شد',
+    'domain_history'  => 'تاریخچه دامنه',
+    'created_at'      => 'ایجاد شده در',
+    'domains'         => 'دامنه‌ها',
+    'active'          => 'فعال',
+    'replaced'        => 'جایگزین‌شده',
+    'replaced_at'     => 'جایگزین‌شده در',
+];

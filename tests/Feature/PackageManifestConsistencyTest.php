@@ -71,7 +71,7 @@ it('keeps package test suites tenant-provider agnostic', function (): void {
     foreach (glob(base_path('packages/*/composer.json')) ?: [] as $manifestPath) {
         $packagePath = dirname($manifestPath);
 
-        if (in_array(basename($packagePath), ['vendra-tenant', 'vendra-subscription'], true)) {
+        if (in_array(basename($packagePath), ['vendra-tenant'], true)) {
             continue;
         }
 

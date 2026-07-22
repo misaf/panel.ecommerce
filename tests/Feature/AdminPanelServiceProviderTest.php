@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Providers\Filament\AdminPanelServiceProvider;
+use App\Providers\Filament\ConsolePanelServiceProvider;
+use App\Providers\Filament\ResellerPanelServiceProvider;
 use Filament\Panel;
 use Filament\Support\Enums\Width;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
@@ -11,6 +13,16 @@ it('uses a compact sidebar width', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
 
     expect($panel->getSidebarWidth())->toBe('14rem');
+});
+
+it('uses the application host for central panel domains', function (): void {
+    config()->set('app.url', 'https://vendra.test');
+
+    $resellerPanel = (new ResellerPanelServiceProvider(app()))->panel(Panel::make());
+    $consolePanel = (new ConsolePanelServiceProvider(app()))->panel(Panel::make());
+
+    expect($resellerPanel->getDomains())->toBe(['vendra.test'])
+        ->and($consolePanel->getDomains())->toBe(['vendra.test']);
 });
 
 it('uses the full content width for localized navigation and pages', function (): void {

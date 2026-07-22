@@ -42,10 +42,10 @@ final class AdminPanelServiceProvider extends PanelProvider
 
         return $panel
             ->id('admin')
-            ->brandLogo(asset('images/vendra-logo.svg'))
+            ->brandLogo(fn() => asset('images/vendra-logo.svg'))
             ->brandLogoHeight('2rem')
             ->brandName('Vendra')
-            ->darkModeBrandLogo(asset('images/vendra-logo-dark.svg'))
+            ->darkModeBrandLogo(fn() => asset('images/vendra-logo-dark.svg'))
             ->databaseNotifications()
             ->databaseTransactions()
             ->discoverClusters(app_path('Filament/Admin/Clusters'), 'App\\Filament\\Admin\\Clusters')
