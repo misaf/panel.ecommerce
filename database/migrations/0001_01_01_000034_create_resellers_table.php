@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
+        $this->createResellersTable();
+        $this->createResellerUsersTable();
+        $this->createPasswordResetTokensTable();
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('reseller_password_reset_tokens');
+        Schema::dropIfExists('reseller_users');
+        Schema::dropIfExists('resellers');
+    }
+
+    private function createResellersTable(): void
+    {
         Schema::create('resellers', function (Blueprint $table): void {
             $table->id();
             $table->string('name')
@@ -19,9 +33,7 @@ return new class () extends Migration {
                 ->index();
             $table->boolean('status')
                 ->index();
-            $table->string('owner_name')
-                ->nullable();
-            $table->string('owner_email')
+            $table->string('email')
                 ->nullable()
                 ->index();
             $table->timestampsTz();
@@ -29,8 +41,42 @@ return new class () extends Migration {
         });
     }
 
-    public function down(): void
+    private function createResellerUsersTable(): void
     {
-        Schema::dropIfExists('resellers');
+        Schema::create('reseller_users', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignId('reseller_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->string('username');
+            $table->string('email');
+            $table->timestampTz('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestampsTz();
+            $table->softDeletesTz();
+            $table->unsignedBigInteger('active_reseller_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN reseller_id ELSE NULL END');
+            $table->string('active_username_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN username ELSE NULL END');
+            $table->string('active_email_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN deleted_at IS NULL THEN email ELSE NULL END');
+
+            $table->unique('active_reseller_guard', 'reseller_users_active_reseller_unique');
+            $table->unique('active_username_guard', 'reseller_users_active_username_unique');
+            $table->unique('active_email_guard', 'reseller_users_active_email_unique');
+        });
+    }
+
+    private function createPasswordResetTokensTable(): void
+    {
+        Schema::create('reseller_password_reset_tokens', function (Blueprint $table): void {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestampTz('created_at')->nullable();
+        });
     }
 };

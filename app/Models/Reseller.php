@@ -20,7 +20,6 @@ use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraTenant\Models\Tenant;
-use Misaf\VendraUser\Models\User;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -30,13 +29,12 @@ use Spatie\Sluggable\SlugOptions;
  * @property string|null $description
  * @property string $slug
  * @property bool $status
- * @property string|null $owner_name
- * @property string|null $owner_email
+ * @property string|null $email
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'description', 'slug', 'status', 'owner_name', 'owner_email'])]
+#[Fillable(['name', 'description', 'slug', 'status', 'email'])]
 #[UseFactory(ResellerFactory::class)]
 final class Reseller extends Model implements ShouldLogActivity
 {
@@ -70,8 +68,7 @@ final class Reseller extends Model implements ShouldLogActivity
             'description' => 'string',
             'slug'        => 'string',
             'status'      => 'boolean',
-            'owner_name'  => 'string',
-            'owner_email' => 'string',
+            'email'       => 'string',
         ];
     }
 
@@ -80,7 +77,7 @@ final class Reseller extends Model implements ShouldLogActivity
      */
     public function routeNotificationForMail(): ?string
     {
-        return $this->owner_email;
+        return $this->email;
     }
 
     /**
@@ -88,7 +85,7 @@ final class Reseller extends Model implements ShouldLogActivity
      */
     public function hasOwnerContact(): bool
     {
-        return null !== $this->owner_email;
+        return null !== $this->email;
     }
 
     /**
@@ -128,13 +125,11 @@ final class Reseller extends Model implements ShouldLogActivity
     }
 
     /**
-     * The user who operates this reseller (owner of its first property).
-     *
-     * @return HasOne<User, $this>
+     * @return HasOne<ResellerUser, $this>
      */
     public function ownerUser(): HasOne
     {
-        return $this->hasOne(User::class, 'reseller_id');
+        return $this->hasOne(ResellerUser::class);
     }
 
     /**
