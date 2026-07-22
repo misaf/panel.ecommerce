@@ -1,0 +1,71 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\QueryException;
+use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Models\Plan;
+use Misaf\VendraSubscription\Models\Subscription;
+
+it('scopes to subscriptions that are active right now', function (): void {
+    $active = Subscription::factory()->create();
+    $future = Subscription::factory()->create(['starts_at' => now()->addWeek()]);
+    $ended = Subscription::factory()->create(['ends_at' => now()->subDay()]);
+    $expired = Subscription::factory()->expired()->create();
+
+    $ids = Subscription::query()->active()->pluck('id');
+
+    expect($ids)->toContain($active->id)
+        ->not->toContain($future->id)
+        ->not->toContain($ended->id)
+        ->not->toContain($expired->id);
+});
+
+it('scopes to active subscriptions whose period has lapsed', function (): void {
+    $lapsed = Subscription::factory()->create(['ends_at' => now()->subDay()]);
+    $current = Subscription::factory()->create();
+
+    expect(Subscription::query()->lapsed()->pluck('id'))
+        ->toContain($lapsed->id)->not->toContain($current->id);
+});
+
+it('scopes to un-reminded subscriptions expiring within a window', function (): void {
+    $soon = Subscription::factory()->create(['ends_at' => now()->addDays(3)]);
+    $reminded = Subscription::factory()->create(['ends_at' => now()->addDays(3), 'expiry_reminder_sent_at' => now()]);
+    $later = Subscription::factory()->create(['ends_at' => now()->addDays(30)]);
+
+    expect(Subscription::query()->expiringWithin(7)->pluck('id'))
+        ->toContain($soon->id)->not->toContain($reminded->id)->not->toContain($later->id);
+});
+
+it('reports trial and active state', function (): void {
+    expect(Subscription::factory()->create(['trial_ends_at' => now()->addWeek()])->isOnTrial())->toBeTrue()
+        ->and(Subscription::factory()->create(['trial_ends_at' => now()->subDay()])->isOnTrial())->toBeFalse()
+        ->and(Subscription::factory()->create()->isActive())->toBeTrue()
+        ->and(Subscription::factory()->expired()->create()->isActive())->toBeFalse();
+});
+
+it('derives the suspend date from its plan grace window', function (): void {
+    $plan = Plan::factory()->graceDays(5)->create();
+    $subscription = Subscription::factory()->for($plan)->create(['ends_at' => now()->addDays(10)]);
+
+    expect($subscription->suspendAt()->toDateString())
+        ->toBe(now()->addDays(15)->toDateString());
+
+    expect(Subscription::factory()->neverExpires()->create()->suspendAt())->toBeNull();
+});
+
+it('enforces one active subscription per subscriber', function (): void {
+    Subscription::factory()->forSubscriber(42)->create();
+
+    expect(fn(): Subscription => Subscription::factory()->forSubscriber(42)->create())
+        ->toThrow(QueryException::class);
+});
+
+it('allows a second subscription for a subscriber once the first is inactive', function (): void {
+    Subscription::factory()->forSubscriber(7)->create(['status' => SubscriptionStatus::Cancelled]);
+
+    $replacement = Subscription::factory()->forSubscriber(7)->create();
+
+    expect($replacement->isActive())->toBeTrue();
+});
