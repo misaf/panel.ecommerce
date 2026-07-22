@@ -1,24 +1,22 @@
 # Vendra Subscription
 
-Tenant provisioning orchestration for Vendra applications.
+Generic plans and polymorphic subscriptions for Vendra applications.
 
 ## Features
 
-- Creates a tenant and its primary domain
-- Creates the initial administrator and super-admin role
-- Optionally runs registered tenant seeders
-- Dispatches the shared tenant-provisioned event
-- Supports idempotent provisioning with `--if-missing`
+- Defines plans with periods, pricing, trials, grace windows, feature entitlements, and usage limits
+- Stores price and currency snapshots for each subscription period
+- Persists provider-neutral subscription payment operations with stable idempotency keys and lifecycle states
+- Supports any Eloquent subscriber through a polymorphic relationship
+- Enforces one active subscription per subscriber
+- Provides pending-payment, active, past-due, lapsed, and expiry-reminder lifecycle primitives
 
-This package currently owns tenant provisioning only. It does not provide plan, billing, or recurring subscription models.
+Subscriber-specific orchestration such as provisioning, quota enforcement, queued payment processing, provider webhooks, and notifications belongs to the host application. Provider adapters implement the `SubscriptionCharger` contract exposed by `misaf/vendra-support`; they must never collect more than once for the same idempotency key and financial payload.
 
 ## Requirements
 
 - PHP 8.3+
 - Laravel 13
-- `misaf/vendra-tenant`
-- `misaf/vendra-user`
-- `misaf/vendra-permission`
 - `misaf/vendra-support`
 
 ## Installation
@@ -27,19 +25,9 @@ This package currently owns tenant provisioning only. It does not provide plan, 
 composer require misaf/vendra-subscription
 ```
 
-Provision a tenant interactively:
+Publish and run the package migration through the host application's normal deployment workflow.
 
-```bash
-php artisan vendra-subscription:provision
-```
-
-For repeatable provisioning, use `--if-missing` to return successfully without creating another tenant when the domain already exists:
-
-```bash
-php artisan vendra-subscription:provision --if-missing
-```
-
-Use `php artisan vendra-subscription:provision --help` for the available arguments and options.
+The host application defines the inverse `morphMany` relationship and registers stable morph aliases for its subscriber models.
 
 ## Testing
 

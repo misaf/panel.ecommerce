@@ -25,4 +25,22 @@ final class SubscriptionPaymentException extends RuntimeException
             $plan->id,
         ));
     }
+
+    public static function missingPayer(Subscription $subscription): self
+    {
+        return new self(sprintf(
+            'Subscription [%s] has no payer available for collection.',
+            $subscription->id,
+        ));
+    }
+
+    public static function providerUnavailable(): self
+    {
+        return new self('No subscription payment provider is available.');
+    }
+
+    public static function paymentInProgress(): self
+    {
+        return new self('A subscription payment is already in progress.');
+    }
 }

@@ -1,6 +1,6 @@
 {
     "name": "misaf/vendra-subscription",
-    "description": "Tenant provisioning orchestration for Vendra applications",
+    "description": "Generic plans and polymorphic subscriptions for Vendra applications",
     "license": "MIT",
     "type": "vendra-module",
     "keywords": [
@@ -9,7 +9,8 @@
         "misaf",
         "vendra",
         "subscription",
-        "tenant"
+        "billing",
+        "plans"
     ],
     "authors": [
         {
