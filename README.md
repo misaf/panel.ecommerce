@@ -41,7 +41,10 @@ cp .env.example .env
 
 cd docker
 docker compose up -d --build
+# or, from the repo root: docker compose -f docker/docker-compose.yml up -d --build
 ```
+
+See `docker/README.md` for details.
 
 Startup runs migrations, provisions the default tenant, and warms caches via
 the container entrypoint; no manual setup commands are required inside the

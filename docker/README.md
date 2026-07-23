@@ -19,18 +19,32 @@ named volumes.
 
 ## Setup
 
+The `php` container loads the repository root `.env` for application config
+(`env_file: ../.env` — `APP_KEY`, domains, mail, console operator, etc.).
+
 ```sh
-cd docker
-cp .env.example .env
+cp ../.env.example ../.env
 echo "base64:$(openssl rand -base64 32)"
-# Put the generated value in APP_KEY, then review passwords and domains.
+# Put the generated value in APP_KEY, then review domains and other settings.
 
 docker compose build
 docker compose up -d
 ```
 
-`APP_KEY`, database credentials, and other settings are documented in
-`.env.example`. Compose refuses to start without the required values.
+Database credentials (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`,
+`DB_ROOT_PASSWORD`) default to insecure placeholder values baked into
+`docker-compose.yml`, fine for local use. To change them, create `docker/.env`
+with your own values — Compose loads it automatically and it overrides the
+defaults.
+
+All commands above assume the working directory is `docker/`. Compose resolves
+relative paths (`env_file: ../.env`, `build.context: ..`) against the compose
+file's own directory, not your shell's `pwd`, so running from the repository
+root works identically as long as you point at the file:
+
+```sh
+docker compose -f docker/docker-compose.yml up -d --build
+```
 
 The image is built from the repository's committed `composer.lock`, so a
 given commit always produces the same image.
@@ -92,7 +106,8 @@ Application logs go to container stderr; read them with `docker compose logs`.
 The `/horizon` and `/pulse` dashboards require an authenticated user with the
 configured super-admin role. Pulse ingest runs over Redis
 (`PULSE_INGEST_DRIVER=redis` on the cache connection); the monitor's stable
-server name comes from `PULSE_SERVER_NAME`.
+server name comes from the `pulse` container's pinned `hostname`, not an env
+var.
 
 MySQL is bound to `127.0.0.1` by default. Use an SSH tunnel for remote access:
 
