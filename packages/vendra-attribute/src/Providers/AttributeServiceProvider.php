@@ -30,7 +30,7 @@ final class AttributeServiceProvider extends PackageServiceProvider
             ->name('vendra-attribute')
             ->hasConfigFile()
             ->hasTranslations()
-            ->hasMigrations(['create_attributes_table', 'create_attribute_value_selections_table'])
+            ->hasMigrations(['create_attributes_table'])
             ->hasCommands(SeedCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-attribute');
