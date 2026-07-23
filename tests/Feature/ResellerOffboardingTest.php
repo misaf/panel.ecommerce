@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Actions\SubscribeResellerAction;
-use App\Exceptions\SubscriptionLimitException;
 use App\Models\Reseller;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;
@@ -15,14 +15,14 @@ it('blocks changing to a plan that cannot hold the current properties', function
     $reseller = Reseller::factory()->create();
     Tenant::factory()->count(2)->create(['reseller_id' => $reseller->getKey()]);
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->maxUnits(1)->create());
+    app(SubscribeAction::class)->execute($reseller, Plan::factory()->maxUnits(1)->create());
 })->throws(SubscriptionLimitException::class);
 
 it('allows renewing the same plan while at capacity', function (): void {
     $reseller = Reseller::factory()->create();
     Tenant::factory()->count(2)->create(['reseller_id' => $reseller->getKey()]);
 
-    $subscription = app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->maxUnits(2)->create());
+    $subscription = app(SubscribeAction::class)->execute($reseller, Plan::factory()->maxUnits(2)->create());
 
     expect($subscription->isActive())->toBeTrue();
 });

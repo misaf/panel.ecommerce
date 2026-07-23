@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use App\Actions\CreateResellerAction;
-use App\Exceptions\SubscriptionLimitException;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
 use App\Support\PropertyQuota;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;

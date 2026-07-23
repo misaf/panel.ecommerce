@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Actions\SubscribeResellerAction;
 use App\Models\Reseller;
 use Illuminate\Database\QueryException;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -15,7 +15,7 @@ it('cancels the previous active subscription when changing plans', function (): 
     $old = Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(1))->create();
     $newPlan = Plan::factory()->maxUnits(5)->create();
 
-    $new = app(SubscribeResellerAction::class)->execute($reseller, $newPlan);
+    $new = app(SubscribeAction::class)->execute($reseller, $newPlan);
 
     expect($old->refresh()->status)->toBe(SubscriptionStatus::Cancelled)
         ->and($new->status)->toBe(SubscriptionStatus::Active)
@@ -29,7 +29,7 @@ it('renews by creating a fresh active subscription for the same plan', function 
     $plan = Plan::factory()->maxUnits(2)->create();
     Subscription::factory()->expired()->forSubscriber($reseller)->for($plan)->create();
 
-    $renewed = app(SubscribeResellerAction::class)->execute($reseller, $plan);
+    $renewed = app(SubscribeAction::class)->execute($reseller, $plan);
 
     expect($renewed->isActive())->toBeTrue()
         ->and($reseller->activeSubscription()?->getKey())->toBe($renewed->getKey());
@@ -39,7 +39,7 @@ it('reactivates suspended properties when the reseller resubscribes', function (
     $reseller = Reseller::factory()->create();
     $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => false]);
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
+    app(SubscribeAction::class)->execute($reseller, Plan::factory()->create());
 
     expect($property->refresh()->status)->toBeTrue();
 });

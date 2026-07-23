@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Actions\SubscribeResellerAction;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
 
@@ -29,7 +29,7 @@ it('snapshots the plan price onto the subscription when subscribing', function (
     ResellerUser::factory()->forReseller($reseller)->create();
     $plan = Plan::factory()->priced(2999, 'EUR')->trialDays(1)->create();
 
-    $subscription = app(SubscribeResellerAction::class)->execute($reseller, $plan);
+    $subscription = app(SubscribeAction::class)->execute($reseller, $plan);
 
     expect($subscription->price)->toBe(2999)
         ->and($subscription->currency_code)->toBe('EUR');

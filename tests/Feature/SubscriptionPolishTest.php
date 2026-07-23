@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-use App\Actions\SubscribeResellerAction;
 use App\Models\Reseller;
 use Database\Seeders\PlanSeeder;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 
 it('starts a trial on the reseller\'s first subscription only', function (): void {
     $reseller = Reseller::factory()->create();
 
-    $first = app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->trialDays(14)->create());
-    $second = app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->trialDays(14)->create());
+    $first = app(SubscribeAction::class)->execute($reseller, Plan::factory()->trialDays(14)->create());
+    $second = app(SubscribeAction::class)->execute($reseller, Plan::factory()->trialDays(14)->create());
 
     expect($first->trial_ends_at)->not->toBeNull()
         ->and($first->isOnTrial())->toBeTrue()

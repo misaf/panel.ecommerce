@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-use App\Actions\ActivatePaidSubscriptionAction;
-use App\Jobs\ProcessSubscriptionPayment;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
+use Misaf\VendraSubscription\Actions\ActivateSubscriptionAction;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Jobs\ProcessSubscriptionPayment;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
-use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-it('is not tenant aware so it survives dispatch from host-level flows without a current tenant', function (): void {
-    expect(new ProcessSubscriptionPayment(1))->toBeInstanceOf(NotTenantAware::class);
+it('is registered as not tenant aware so it survives dispatch from host-level flows without a current tenant', function (): void {
+    expect(config('multitenancy.not_tenant_aware_jobs'))->toContain(ProcessSubscriptionPayment::class);
 });
 
 it('requeues stale payment operations and paid subscriptions awaiting activation', function (): void {
@@ -83,7 +82,7 @@ it('activates a paid subscription idempotently', function (): void {
         ->for($replacement)
         ->forPayer($payer)
         ->create(['status' => SubscriptionPaymentStatus::Paid]);
-    $action = app(ActivatePaidSubscriptionAction::class);
+    $action = app(ActivateSubscriptionAction::class);
 
     $action->execute($payment);
     $action->execute($payment->refresh());

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Actions\EnforceSubscriptionsAction;
-use App\Actions\SubscribeResellerAction;
 use App\Models\Reseller;
 use App\Notifications\PropertiesSuspendedNotification;
 use App\Notifications\SubscriptionActivatedNotification;
 use App\Notifications\SubscriptionExpiringNotification;
 use Illuminate\Support\Facades\Notification;
+use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -19,7 +19,7 @@ it('notifies the owner when a subscription is activated', function (): void {
 
     $reseller = Reseller::factory()->create();
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
+    app(SubscribeAction::class)->execute($reseller, Plan::factory()->create());
 
     Notification::assertSentTo($reseller, SubscriptionActivatedNotification::class);
 });
@@ -29,7 +29,7 @@ it('does not notify a reseller without an owner contact', function (): void {
 
     $reseller = Reseller::factory()->withoutOwner()->create();
 
-    app(SubscribeResellerAction::class)->execute($reseller, Plan::factory()->create());
+    app(SubscribeAction::class)->execute($reseller, Plan::factory()->create());
 
     Notification::assertNothingSent();
 });

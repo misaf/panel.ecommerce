@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Actions\EnforceSubscriptionsAction;
 use App\Models\Reseller;
 use Illuminate\Support\Carbon;
+use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -43,8 +43,7 @@ it('suspends properties once the grace period has passed', function (): void {
     $result = app(EnforceSubscriptionsAction::class)->execute();
 
     expect($property->refresh()->status)->toBeFalse()
-        ->and($result['suspended_properties'])->toBe(1)
-        ->and($result['suspended_resellers'])->toBe(1);
+        ->and($result['grace_expired'])->toBe(1);
 });
 
 it('keeps properties live while still within the grace period', function (): void {
@@ -64,5 +63,5 @@ it('leaves properties of resellers with an active subscription untouched', funct
     $result = app(EnforceSubscriptionsAction::class)->execute();
 
     expect($property->refresh()->status)->toBeTrue()
-        ->and($result['suspended_properties'])->toBe(0);
+        ->and($result['grace_expired'])->toBe(0);
 });

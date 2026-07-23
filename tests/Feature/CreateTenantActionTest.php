@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use App\Actions\CreateTenantAction;
-use App\Exceptions\SubscriptionLimitException;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;
