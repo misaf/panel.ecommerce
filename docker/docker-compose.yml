@@ -1,19 +1,14 @@
 name: "${APP_NAME:-vendra}"
 
+# Docker-specific overrides — these win over root .env values.
+# Most Laravel env vars come from the root .env via env_file below.
 x-php-environment: &php-environment
   APP_KEY: "${APP_KEY:-}"
-  APP_ENV: "${APP_ENV:-production}"
-  APP_DEBUG: "${APP_DEBUG:-false}"
-  APP_URL: "${APP_URL:-https://${APP_NAME:-vendra}.test}"
   DB_HOST: "${DB_HOST:-mysql}"
-  DB_DATABASE: "${DB_DATABASE:?DB_DATABASE is required}"
-  DB_USERNAME: "${DB_USERNAME:?DB_USERNAME is required}"
-  DB_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD is required}"
   REDIS_HOST: "${REDIS_HOST:-redis}"
   SESSION_DRIVER: "${SESSION_DRIVER:-redis}"
   QUEUE_CONNECTION: "${QUEUE_CONNECTION:-redis}"
   CACHE_STORE: "${CACHE_STORE:-redis}"
-  TZ: "${TIMEZONE:-UTC}"
 
 x-php-service: &php-service
   build:
@@ -22,6 +17,7 @@ x-php-service: &php-service
     target: app
     args:
       ALPINE_MIRROR: "${ALPINE_MIRROR:-https://dl-cdn.alpinelinux.org/alpine}"
+  env_file: ../.env
   environment: *php-environment
   volumes:
     - storage-data:/app/storage/app
