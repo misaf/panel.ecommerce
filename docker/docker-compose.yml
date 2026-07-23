@@ -12,6 +12,10 @@ x-php-environment: &php-environment
   SESSION_DRIVER: "${SESSION_DRIVER:-redis}"
   QUEUE_CONNECTION: "${QUEUE_CONNECTION:-redis}"
   CACHE_STORE: "${CACHE_STORE:-redis}"
+  MAIL_MAILER: "${MAIL_MAILER:-smtp}"
+  MAIL_HOST: "${MAIL_HOST:-mailpit}"
+  MAIL_PORT: "${MAIL_PORT:-1025}"
+  MAIL_ENCRYPTION: "${MAIL_ENCRYPTION:-null}"
   TZ: "${TIMEZONE:-UTC}"
 
 x-php-service: &php-service
@@ -145,12 +149,30 @@ services:
     <<: *redis-worker
     command: ["php", "artisan", "pulse:work"]
 
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    environment:
+      TZ: "${TIMEZONE:-UTC}"
+    volumes:
+      - mailpit-data:/data
+    networks:
+      - net
+    ports:
+      - "${MAILPIT_UI_BIND_ADDRESS:-127.0.0.1}:${MAILPIT_UI_PORT:-8025}:8025"
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://127.0.0.1:8025/readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 volumes:
   storage-data:
   caddy-data:
   caddy-config:
   mysql-data:
   redis-data:
+  mailpit-data:
 
 networks:
   net:
