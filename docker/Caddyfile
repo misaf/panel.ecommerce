@@ -29,7 +29,7 @@ https:// {
 }
 
 # Plain-HTTP listener for container healthchecks (not published by compose).
-http://:8080 {
+http://127.0.0.1:8080 {
 	root * /app/public
 	php_server
 }
