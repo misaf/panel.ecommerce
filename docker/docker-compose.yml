@@ -1,7 +1,12 @@
 name: "${APP_NAME:-vendra}"
 
 # Docker-specific overrides — these win over root .env values.
-# Most Laravel env vars come from the root .env via env_file below.
+# Most Laravel env vars come from the root .env via env_file below. required: false
+# keeps `docker compose config` from failing in CI, where no .env exists.
+x-env-file: &env-file
+  - path: ../.env
+    required: false
+
 x-php-environment: &php-environment
   APP_KEY: "${APP_KEY:-}"
   DB_HOST: "${DB_HOST:-mysql}"
@@ -25,6 +30,7 @@ x-php-service: &php-service
     target: app
     args:
       ALPINE_MIRROR: "${ALPINE_MIRROR:-https://mirror.mobinhost.com/alpine}"
+  env_file: *env-file
   environment: *php-environment
   volumes:
     - storage-data:/app/storage/app
