@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Actions\EnforceSubscriptionsAction;
 use Illuminate\Console\Command;
+use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
 
 final class EnforceSubscriptionsCommand extends Command
 {
@@ -26,8 +26,7 @@ final class EnforceSubscriptionsCommand extends Command
         $this->table(['Metric', 'Count'], [
             ['Expired subscriptions', $result['expired']],
             ['Expiry reminders sent', $result['reminded']],
-            ['Suspended properties', $result['suspended_properties']],
-            ['Affected resellers', $result['suspended_resellers']],
+            ['Subscribers past grace', $result['grace_expired']],
         ]);
 
         return self::SUCCESS;

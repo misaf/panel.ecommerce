@@ -2,34 +2,39 @@
 
 declare(strict_types=1);
 
-namespace App\Actions;
+namespace Misaf\VendraSubscription\Actions;
 
-use App\Exceptions\SubscriptionLimitException;
-use App\Jobs\ProcessSubscriptionPayment;
-use App\Models\Reseller;
-use App\Notifications\SubscriptionActivatedNotification;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Events\SubscriptionActivated;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
+use Misaf\VendraSubscription\Jobs\ProcessSubscriptionPayment;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 
-final class SubscribeResellerAction
+final class SubscribeAction
 {
     public function __construct(private readonly SubscriptionCharger $subscriptionCharger) {}
 
     /**
-     * Create a subscription period. Paid periods remain pending without
-     * replacing current access until their durable payment succeeds.
+     * Create a subscription period for any subscriber. Paid periods remain
+     * pending without replacing current access until their durable payment
+     * succeeds; immediately active periods raise SubscriptionActivated so
+     * consumers can react (e.g. notifying the owner).
      *
-     * @throws SubscriptionLimitException when the plan cannot hold the reseller's current properties
+     * @param  Model&SubscriptionSubscriber  $subscriber
+     *
+     * @throws SubscriptionLimitException when the plan cannot hold the subscriber's current properties
      */
-    public function execute(Reseller $reseller, Plan $plan, ?Carbon $startsAt = null): Subscription
+    public function execute(SubscriptionSubscriber $subscriber, Plan $plan, ?Carbon $startsAt = null): Subscription
     {
         if ($plan->price > 0 && null === $plan->currency_code) {
             throw SubscriptionPaymentException::missingCurrency($plan);
@@ -37,28 +42,16 @@ final class SubscribeResellerAction
 
         $startsAt ??= Carbon::now();
 
-        $result = DB::transaction(function () use ($reseller, $plan, $startsAt): array {
-            $lockedReseller = Reseller::query()
-                ->whereKey($reseller->getKey())
-                ->lockForUpdate()
-                ->firstOrFail();
+        $result = DB::transaction(function () use ($subscriber, $plan, $startsAt): array {
+            $lockedSubscriber = $subscriber->lockForSubscription();
 
-            $currentProperties = $lockedReseller->tenants()->count();
+            $currentProperties = $lockedSubscriber->subscribedPropertyCount();
 
             if ($currentProperties > $plan->max_units) {
-                throw SubscriptionLimitException::planBelowUsage($lockedReseller, $plan->max_units, $currentProperties);
+                throw SubscriptionLimitException::planBelowUsage($lockedSubscriber, $plan->max_units, $currentProperties);
             }
 
-            $openPayments = SubscriptionPayment::query()
-                ->whereIn('subscription_id', $lockedReseller->subscriptions()->select('id'))
-                ->whereIn('status', [
-                    SubscriptionPaymentStatus::Pending,
-                    SubscriptionPaymentStatus::Processing,
-                    SubscriptionPaymentStatus::RequiresAction,
-                    SubscriptionPaymentStatus::NeedsReconciliation,
-                ])
-                ->lockForUpdate()
-                ->get();
+            $openPayments = $lockedSubscriber->lockOpenSubscriptionPayments();
 
             if ($openPayments->contains(fn(SubscriptionPayment $payment): bool => SubscriptionPaymentStatus::Pending !== $payment->status)) {
                 throw SubscriptionPaymentException::paymentInProgress();
@@ -68,26 +61,23 @@ final class SubscribeResellerAction
                 SubscriptionPayment::query()
                     ->whereKey($openPayments->modelKeys())
                     ->update(['status' => SubscriptionPaymentStatus::Cancelled->value]);
-                $lockedReseller->subscriptions()
-                    ->whereKey($openPayments->pluck('subscription_id'))
-                    ->where('status', SubscriptionStatus::PendingPayment)
-                    ->update(['status' => SubscriptionStatus::Cancelled->value]);
+                $lockedSubscriber->cancelPendingPaymentSubscriptions(
+                    $openPayments->map(fn(SubscriptionPayment $payment): int => $payment->subscription_id)->all(),
+                );
             }
 
-            // A trial only applies to the reseller's very first subscription.
-            $trialEndsAt = $plan->hasTrial() && ! $lockedReseller->subscriptions()->exists()
+            // A trial only applies to the subscriber's very first subscription.
+            $trialEndsAt = $plan->hasTrial() && ! $lockedSubscriber->hasSubscriptions()
                 ? $startsAt->copy()->addDays($plan->trial_days)
                 : null;
             $requiresCollection = $plan->price > 0;
             $requiresImmediatePayment = $requiresCollection && null === $trialEndsAt;
 
             if ( ! $requiresImmediatePayment) {
-                $lockedReseller->subscriptions()
-                    ->where('status', SubscriptionStatus::Active->value)
-                    ->update(['status' => SubscriptionStatus::Cancelled->value]);
+                $lockedSubscriber->cancelActiveSubscriptions();
             }
 
-            $subscription = $lockedReseller->subscriptions()->create([
+            $subscription = $lockedSubscriber->createSubscription([
                 'plan_id'       => $plan->getKey(),
                 'status'        => $requiresImmediatePayment ? SubscriptionStatus::PendingPayment : SubscriptionStatus::Active,
                 'price'         => $plan->price,
@@ -98,7 +88,7 @@ final class SubscribeResellerAction
             ]);
 
             if ( ! $requiresImmediatePayment) {
-                $lockedReseller->tenants()->where('status', false)->update(['status' => true]);
+                $lockedSubscriber->reactivateSuspendedProperties();
 
                 if ( ! $requiresCollection) {
                     return ['subscription' => $subscription, 'payment' => null];
@@ -109,7 +99,7 @@ final class SubscribeResellerAction
                 throw SubscriptionPaymentException::providerUnavailable();
             }
 
-            $payer = $lockedReseller->ownerUser()->first();
+            $payer = $lockedSubscriber->subscriptionPayer();
 
             if (null === $payer) {
                 throw SubscriptionPaymentException::missingPayer($subscription);
@@ -135,8 +125,8 @@ final class SubscribeResellerAction
             ProcessSubscriptionPayment::dispatch($payment->id)->afterCommit();
         }
 
-        if (SubscriptionStatus::Active === $subscription->status && $reseller->hasOwnerContact()) {
-            $reseller->notify(new SubscriptionActivatedNotification($plan));
+        if (SubscriptionStatus::Active === $subscription->status) {
+            SubscriptionActivated::dispatch($subscription);
         }
 
         return $subscription;

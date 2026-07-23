@@ -7,6 +7,7 @@ use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Notifications\SendQueuedNotifications;
 use Illuminate\Queue\CallQueuedClosure;
+use Misaf\VendraSubscription\Jobs\ProcessSubscriptionPayment;
 use Spatie\Multitenancy\Actions\ForgetCurrentTenantAction;
 use Spatie\Multitenancy\Actions\MakeQueueTenantAwareAction;
 use Spatie\Multitenancy\Actions\MakeTenantCurrentAction;
@@ -134,6 +135,9 @@ return [
      * Jobs not tenant aware even if these don't implement the NotTenantAware interface.
      */
     'not_tenant_aware_jobs' => [
-        // ...
+        // The subscription payment engine is dispatched from host-level/reseller
+        // flows that have no current tenant; it stays multitenancy agnostic and
+        // is marked not-tenant-aware here rather than coupling to this provider.
+        ProcessSubscriptionPayment::class,
     ],
 ];

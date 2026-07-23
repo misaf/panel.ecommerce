@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace Misaf\VendraSubscription\Console\Commands;
 
-use App\Jobs\ProcessSubscriptionPayment;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Jobs\ProcessSubscriptionPayment;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 
 final class RecoverSubscriptionPaymentsCommand extends Command

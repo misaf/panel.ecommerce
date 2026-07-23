@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Console\Resources\Resellers\Pages;
 
 use App\Actions\CreateResellerOwnerAction;
-use App\Actions\SubscribeResellerAction;
-use App\Exceptions\SubscriptionLimitException;
 use App\Filament\Console\Resources\Resellers\ResellerResource;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
@@ -21,6 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;
 
 final class EditReseller extends EditRecord
@@ -175,7 +175,7 @@ final class EditReseller extends EditRecord
                 $plan = Plan::query()->findOrFail((int) $planId);
 
                 try {
-                    app(SubscribeResellerAction::class)->execute($record, $plan);
+                    app(SubscribeAction::class)->execute($record, $plan);
                 } catch (SubscriptionLimitException $exception) {
                     Notification::make()
                         ->danger()
@@ -219,7 +219,7 @@ final class EditReseller extends EditRecord
                     return;
                 }
 
-                app(SubscribeResellerAction::class)->execute($record, $plan);
+                app(SubscribeAction::class)->execute($record, $plan);
 
                 Notification::make()
                     ->success()

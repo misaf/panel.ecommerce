@@ -35,6 +35,11 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(Authenticatable::class, User::class);
         $this->app->bind(ResetPassword::class, ResetPasswordNotification::class);
         $this->app->bind(VerifyEmail::class, VerifyEmailNotification::class);
+
+        // vendra-support owns the SubscriptionCharger contract and its null default;
+        // vendra-transaction stays unaware of subscription semantics. As the
+        // composition root, the host app supplies the transaction-backed adapter
+        // and binds it over the null charger.
         $this->app->singleton(SubscriptionCharger::class, TransactionSubscriptionCharger::class);
     }
 

@@ -8,6 +8,7 @@ use Database\Factories\ResellerFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,9 +16,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
+use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Subscription;
+use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraTenant\Models\Tenant;
 use Spatie\Sluggable\HasSlug;
@@ -36,7 +41,7 @@ use Spatie\Sluggable\SlugOptions;
  */
 #[Fillable(['name', 'description', 'slug', 'status', 'email'])]
 #[UseFactory(ResellerFactory::class)]
-final class Reseller extends Model implements ShouldLogActivity
+final class Reseller extends Model implements ShouldLogActivity, SubscriptionSubscriber
 {
     /** @use HasFactory<ResellerFactory> */
     use HasFactory;
@@ -124,6 +129,63 @@ final class Reseller extends Model implements ShouldLogActivity
         return $this->morphMany(Subscription::class, 'subscriber');
     }
 
+    public function latestSubscription(): ?Subscription
+    {
+        return $this->subscriptions()->latest('starts_at')->first();
+    }
+
+    public function hasSubscriptions(): bool
+    {
+        return $this->subscriptions()->exists();
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    public function createSubscription(array $attributes): Subscription
+    {
+        return $this->subscriptions()->create($attributes);
+    }
+
+    public function cancelActiveSubscriptions(?int $exceptKey = null): int
+    {
+        $query = $this->subscriptions()->where('status', SubscriptionStatus::Active->value);
+
+        if (null !== $exceptKey) {
+            $query->whereKeyNot($exceptKey);
+        }
+
+        return $query->update(['status' => SubscriptionStatus::Cancelled->value]);
+    }
+
+    /**
+     * @param  array<int, int>  $keys
+     */
+    public function cancelPendingPaymentSubscriptions(array $keys): int
+    {
+        return $this->subscriptions()
+            ->whereKey($keys)
+            ->where('status', SubscriptionStatus::PendingPayment->value)
+            ->update(['status' => SubscriptionStatus::Cancelled->value]);
+    }
+
+    /**
+     * @return Collection<int, SubscriptionPayment>
+     */
+    public function lockOpenSubscriptionPayments(): Collection
+    {
+        return SubscriptionPayment::query()
+            ->whereIn('subscription_id', $this->subscriptions()->select('id'))
+            ->whereIn('status', [
+                SubscriptionPaymentStatus::Pending,
+                SubscriptionPaymentStatus::Processing,
+                SubscriptionPaymentStatus::RequiresAction,
+                SubscriptionPaymentStatus::NeedsReconciliation,
+            ])
+            ->lockForUpdate()
+            ->get();
+    }
+
     /**
      * @return HasOne<ResellerUser, $this>
      */
@@ -141,6 +203,49 @@ final class Reseller extends Model implements ShouldLogActivity
             ->active()
             ->latest('starts_at')
             ->first();
+    }
+
+    public function isSubscriptionEnabled(): bool
+    {
+        return $this->status;
+    }
+
+    public function notifyOwner(Notification $notification): void
+    {
+        $this->notify($notification);
+    }
+
+    public function subscriptionPayer(): ?ResellerUser
+    {
+        return $this->ownerUser()->first();
+    }
+
+    public function subscribedPropertyCount(): int
+    {
+        return $this->tenants()->count();
+    }
+
+    public function activeSubscribedPropertyCount(): int
+    {
+        return $this->tenants()->where('status', true)->count();
+    }
+
+    public function suspendActiveProperties(): int
+    {
+        return $this->tenants()->where('status', true)->update(['status' => false]);
+    }
+
+    public function reactivateSuspendedProperties(): int
+    {
+        return $this->tenants()->where('status', false)->update(['status' => true]);
+    }
+
+    public function lockForSubscription(): static
+    {
+        return static::query()
+            ->whereKey($this->getKey())
+            ->lockForUpdate()
+            ->firstOrFail();
     }
 
     /**

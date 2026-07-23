@@ -8,6 +8,7 @@ use App\Models\Reseller;
 use App\Models\ResellerUser;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 
@@ -15,7 +16,7 @@ final class CreateResellerAction
 {
     public function __construct(
         private readonly CreateResellerOwnerAction $createResellerOwnerAction,
-        private readonly SubscribeResellerAction $subscribeResellerAction,
+        private readonly SubscribeAction $subscribeAction,
     ) {}
 
     /**
@@ -48,7 +49,7 @@ final class CreateResellerAction
                 $emailVerified,
             );
 
-            $subscription = $this->subscribeResellerAction->execute($reseller, $plan, $startsAt);
+            $subscription = $this->subscribeAction->execute($reseller, $plan, $startsAt);
 
             return [
                 'reseller'      => $reseller,

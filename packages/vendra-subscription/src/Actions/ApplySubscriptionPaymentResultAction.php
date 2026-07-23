@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Actions;
+namespace Misaf\VendraSubscription\Actions;
 
 use Illuminate\Support\Facades\DB;
 use LogicException;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
+use Misaf\VendraSubscription\Events\SubscriptionPaymentFailed;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Data\SubscriptionChargeResult;
 use Misaf\VendraSupport\Enums\SubscriptionChargeStatus;
@@ -16,7 +17,7 @@ final class ApplySubscriptionPaymentResultAction
 {
     public function execute(SubscriptionPayment $payment, SubscriptionChargeResult $result): SubscriptionPayment
     {
-        return DB::transaction(function () use ($payment, $result): SubscriptionPayment {
+        [$payment, $failed] = DB::transaction(function () use ($payment, $result): array {
             $payment = SubscriptionPayment::query()
                 ->whereKey($payment->getKey())
                 ->lockForUpdate()
@@ -36,7 +37,7 @@ final class ApplySubscriptionPaymentResultAction
             };
 
             if ($payment->status->isTerminal() && $payment->status !== $status) {
-                return $payment;
+                return [$payment, false];
             }
 
             $payment->forceFill([
@@ -49,7 +50,10 @@ final class ApplySubscriptionPaymentResultAction
                 'next_retry_at'      => SubscriptionPaymentStatus::Processing === $status ? now()->addMinutes(5) : null,
             ])->save();
 
+            $failed = false;
+
             if (SubscriptionPaymentStatus::Failed === $status) {
+                $failed = true;
                 $subscription = $payment->subscription()->firstOrFail();
 
                 if (SubscriptionStatus::PendingPayment === $subscription->status) {
@@ -59,7 +63,13 @@ final class ApplySubscriptionPaymentResultAction
                 }
             }
 
-            return $payment;
+            return [$payment, $failed];
         });
+
+        if ($failed) {
+            SubscriptionPaymentFailed::dispatch($payment);
+        }
+
+        return $payment;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Reseller\Resources\Properties\Pages;
 
 use App\Actions\ProvisionTenantAction;
-use App\Exceptions\SubscriptionLimitException;
 use App\Filament\Reseller\Resources\Properties\PropertyResource;
 use App\Models\Reseller;
 use Filament\Notifications\Notification;
@@ -13,6 +12,7 @@ use Filament\Resources\Pages\CreateRecord;
 use Filament\Support\Exceptions\Halt;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 
 final class CreateProperty extends CreateRecord
 {

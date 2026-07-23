@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Actions;
+namespace Misaf\VendraSubscription\Actions;
 
 use Illuminate\Support\Facades\DB;
 use LogicException;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
+use Misaf\VendraSubscription\Events\SubscriptionPaymentPaid;
 use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
@@ -17,17 +18,18 @@ final class ChargeSubscriptionAction
     public function __construct(
         private readonly SubscriptionCharger $subscriptionCharger,
         private readonly ApplySubscriptionPaymentResultAction $applySubscriptionPaymentResultAction,
-        private readonly ActivatePaidSubscriptionAction $activatePaidSubscriptionAction,
     ) {}
 
     /**
      * Process one durable payment operation without retaining its claim lock
-     * during provider I/O, then apply the provider lifecycle result.
+     * during provider I/O, then apply the provider lifecycle result. A payment
+     * reaching the Paid state raises SubscriptionPaymentPaid so consumers can
+     * react (e.g. activating the subscriber) outside the payment engine.
      */
     public function execute(SubscriptionPayment $payment): void
     {
         if (SubscriptionPaymentStatus::Paid === $payment->status) {
-            $this->activatePaidSubscriptionAction->execute($payment);
+            SubscriptionPaymentPaid::dispatch($payment);
 
             return;
         }
@@ -72,7 +74,7 @@ final class ChargeSubscriptionAction
         });
 
         if (SubscriptionPaymentStatus::Paid === $payment->status) {
-            $this->activatePaidSubscriptionAction->execute($payment);
+            SubscriptionPaymentPaid::dispatch($payment);
 
             return;
         }
@@ -100,7 +102,7 @@ final class ChargeSubscriptionAction
         $payment = $this->applySubscriptionPaymentResultAction->execute($payment, $result);
 
         if (SubscriptionPaymentStatus::Paid === $payment->status) {
-            $this->activatePaidSubscriptionAction->execute($payment);
+            SubscriptionPaymentPaid::dispatch($payment);
         }
     }
 }

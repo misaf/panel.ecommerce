@@ -4,67 +4,71 @@ declare(strict_types=1);
 
 namespace App\Support;
 
-use App\Exceptions\SubscriptionLimitException;
-use App\Models\Reseller;
+use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 
 final class PropertyQuota
 {
     /**
-     * Whether the reseller may create another property right now.
+     * Whether the subscriber may create another property right now.
+     *
+     * @param  Model&SubscriptionSubscriber  $subscriber
      */
-    public function canCreateProperty(Reseller $reseller): bool
+    public function canCreateProperty(SubscriptionSubscriber $subscriber): bool
     {
-        if ( ! $reseller->status) {
+        if ( ! $subscriber->isSubscriptionEnabled()) {
             return false;
         }
 
-        $subscription = $reseller->activeSubscription();
-        $plan = $subscription?->plan;
+        $plan = $subscriber->activeSubscription()?->plan;
 
         if (null === $plan) {
             return false;
         }
 
-        return $reseller->tenants()->count() < $plan->max_units;
+        return $subscriber->subscribedPropertyCount() < $plan->max_units;
     }
 
     /**
-     * The number of additional properties the reseller may still create.
+     * The number of additional properties the subscriber may still create.
+     *
+     * @param  Model&SubscriptionSubscriber  $subscriber
      */
-    public function remainingProperties(Reseller $reseller): int
+    public function remainingProperties(SubscriptionSubscriber $subscriber): int
     {
-        if ( ! $reseller->status) {
+        if ( ! $subscriber->isSubscriptionEnabled()) {
             return 0;
         }
 
-        $subscription = $reseller->activeSubscription();
-        $plan = $subscription?->plan;
+        $plan = $subscriber->activeSubscription()?->plan;
 
         if (null === $plan) {
             return 0;
         }
 
-        return max(0, $plan->max_units - $reseller->tenants()->count());
+        return max(0, $plan->max_units - $subscriber->subscribedPropertyCount());
     }
 
     /**
-     * @throws SubscriptionLimitException when the reseller may not create a property
+     * @param  Model&SubscriptionSubscriber  $subscriber
+     *
+     * @throws SubscriptionLimitException when the subscriber may not create a property
      */
-    public function assertCanCreateProperty(Reseller $reseller): void
+    public function assertCanCreateProperty(SubscriptionSubscriber $subscriber): void
     {
-        if ( ! $reseller->status) {
-            throw SubscriptionLimitException::resellerDisabled($reseller);
+        if ( ! $subscriber->isSubscriptionEnabled()) {
+            throw SubscriptionLimitException::resellerDisabled($subscriber);
         }
 
-        $subscription = $reseller->activeSubscription();
-        $plan = $subscription?->plan;
+        $plan = $subscriber->activeSubscription()?->plan;
 
         if (null === $plan) {
-            throw SubscriptionLimitException::noActiveSubscription($reseller);
+            throw SubscriptionLimitException::noActiveSubscription($subscriber);
         }
 
-        if ($reseller->tenants()->count() >= $plan->max_units) {
-            throw SubscriptionLimitException::propertyQuotaReached($reseller, $plan->max_units);
+        if ($subscriber->subscribedPropertyCount() >= $plan->max_units) {
+            throw SubscriptionLimitException::propertyQuotaReached($subscriber, $plan->max_units);
         }
     }
 }
