@@ -1,7 +1,7 @@
 name: "${APP_NAME:-vendra}"
 
 x-php-environment: &php-environment
-  APP_KEY: "${APP_KEY:?APP_KEY is required}"
+  APP_KEY: "${APP_KEY:-}"
   APP_ENV: "${APP_ENV:-production}"
   APP_DEBUG: "${APP_DEBUG:-false}"
   APP_URL: "${APP_URL:-https://${APP_NAME:-vendra}.test}"

@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
 
+ensure_app_key() {
+    if [ -z "${APP_KEY}" ] || [ "${APP_KEY}" = "base64:" ]; then
+        export APP_KEY="base64:$(openssl rand -base64 32)"
+    fi
+}
+
 run_migrations() {
     php artisan migrate --force --isolated --seed
 }
@@ -16,6 +22,7 @@ warm_application_caches() {
 cd /app
 
 if [ "$1" = "frankenphp" ]; then
+    ensure_app_key
     run_migrations
     warm_application_caches
 fi
