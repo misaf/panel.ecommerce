@@ -21,8 +21,9 @@ warm_application_caches() {
 
 cd /app
 
+ensure_app_key
+
 if [ "$1" = "frankenphp" ]; then
-    ensure_app_key
     run_migrations
     warm_application_caches
 fi
