@@ -31,13 +31,15 @@ Composer install from the committed lock file, Vite asset build). Pushing a
 `ghcr.io/misaf/vendra` (`:1.0.0`, `:1.0`, `:latest`).
 
 A full local stack (php, MySQL, Redis, Horizon, scheduler, Pulse) lives in
-`docker/`; its `.env` holds compose and infrastructure settings and is
-separate from the root application `.env`:
+`docker/`. The `php` container loads the root `.env` for application config
+(`env_file: ../.env`); database credentials default to insecure placeholders
+in `docker-compose.yml` — create `docker/.env` to override them if needed.
 
 ```bash
-cd docker
 cp .env.example .env
-# Set APP_KEY (echo "base64:$(openssl rand -base64 32)") and passwords.
+# Set APP_KEY (echo "base64:$(openssl rand -base64 32)") and other settings.
+
+cd docker
 docker compose up -d --build
 ```
 
