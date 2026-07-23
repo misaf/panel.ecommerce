@@ -10,6 +10,20 @@ use Misaf\VendraSupport\Support\TenantSchema;
 return new class () extends Migration {
     public function up(): void
     {
+        $this->createAttributesTable();
+        $this->createAttributeValuesTable();
+        $this->createAttributeValueSelectionsTable();
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('attribute_value_selections');
+        Schema::dropIfExists('attribute_values');
+        Schema::dropIfExists('attributes');
+    }
+
+    private function createAttributesTable(): void
+    {
         Schema::create('attributes', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
@@ -30,7 +44,10 @@ return new class () extends Migration {
             $table->index(TenantSchema::tenantIndex(['position']));
             $table->index(TenantSchema::tenantIndex(['status']));
         });
+    }
 
+    private function createAttributeValuesTable(): void
+    {
         Schema::create('attribute_values', function (Blueprint $table): void {
             $table->id();
             TenantSchema::addTenantColumn($table);
@@ -55,9 +72,20 @@ return new class () extends Migration {
         });
     }
 
-    public function down(): void
+    private function createAttributeValueSelectionsTable(): void
     {
-        Schema::dropIfExists('attribute_values');
-        Schema::dropIfExists('attributes');
+        Schema::create('attribute_value_selections', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignId('attribute_value_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->morphs('selectable');
+            $table->timestampsTz();
+
+            $table->unique(
+                ['attribute_value_id', 'selectable_type', 'selectable_id'],
+                'attribute_value_selections_unique',
+            );
+        });
     }
 };
