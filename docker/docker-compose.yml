@@ -5,6 +5,9 @@ name: "${APP_NAME:-vendra}"
 x-php-environment: &php-environment
   APP_KEY: "${APP_KEY:-}"
   DB_HOST: "${DB_HOST:-mysql}"
+  DB_DATABASE: "${DB_DATABASE:-vendra}"
+  DB_USERNAME: "${DB_USERNAME:-vendra}"
+  DB_PASSWORD: "${DB_PASSWORD:-change-this-db-password}"
   REDIS_HOST: "${REDIS_HOST:-redis}"
   SESSION_DRIVER: "${SESSION_DRIVER:-redis}"
   QUEUE_CONNECTION: "${QUEUE_CONNECTION:-redis}"
@@ -98,7 +101,7 @@ services:
     healthcheck:
       test:
         - "CMD-SHELL"
-        - "wget -qO /dev/null http://127.0.0.1:8080/ready"
+        - "wget -qO /dev/null http://127.0.0.1:8080/up"
       interval: 10s
       timeout: 5s
       retries: 3
