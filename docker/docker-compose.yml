@@ -3,11 +3,19 @@ name: "${APP_NAME:-vendra}"
 x-php-environment: &php-environment
   APP_KEY: "${APP_KEY:?APP_KEY is required}"
   BASE_APP_URL: "${APP_URL:-https://${APP_NAME:-vendra}.test}"
-  LARAVEL_ENV_FILE: "/run/${APP_NAME:-vendra}/.env"
+  APP_ENV: "${APP_ENV:-production}"
+  APP_DEBUG: "${APP_DEBUG:-false}"
+  APP_URL: "${APP_URL:-https://${APP_NAME:-vendra}.test}"
+  DB_HOST: "${DB_HOST:-mysql}"
+  DB_DATABASE: "${DB_DATABASE:?DB_DATABASE is required}"
+  DB_USERNAME: "${DB_USERNAME:?DB_USERNAME is required}"
+  DB_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD is required}"
+  REDIS_HOST: "${REDIS_HOST:-redis}"
+  SESSION_DRIVER: "${SESSION_DRIVER:-redis}"
+  QUEUE_CONNECTION: "${QUEUE_CONNECTION:-redis}"
+  CACHE_STORE: "${CACHE_STORE:-redis}"
   TZ: "${TIMEZONE:-UTC}"
 
-# The image is built from the repository root; the .env mounted below is
-# docker/.env (compose/infrastructure settings), not the root Herd dev .env.
 x-php-service: &php-service
   build:
     context: ..
@@ -18,7 +26,6 @@ x-php-service: &php-service
   environment: *php-environment
   volumes:
     - storage-data:/app/storage/app
-    - ./.env:/run/${APP_NAME:-vendra}/.env:ro
   networks:
     - net
 
@@ -79,15 +86,10 @@ services:
       <<: *php-environment
       SERVER_NAME: "${SERVER_NAME:-${APP_NAME:-vendra}.test}"
       SERVER_TLS_MODE: "${SERVER_TLS_MODE:-internal}"
-      TENANT_NAME: "${TENANT_NAME:-vendra}"
-      TENANT_ADMIN_USERNAME: "${TENANT_ADMIN_USERNAME:-admin}"
-      TENANT_ADMIN_EMAIL: "${TENANT_ADMIN_EMAIL:-admin@gmail.com}"
-      TENANT_ADMIN_PASSWORD: "${TENANT_ADMIN_PASSWORD:-}"
     volumes:
       - storage-data:/app/storage/app
       - caddy-data:/data
       - caddy-config:/config
-      - ./.env:/run/${APP_NAME:-vendra}/.env:ro
     ports:
       - "80:80"
       - "443:443"

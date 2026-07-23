@@ -30,9 +30,7 @@ docker compose up -d
 ```
 
 `APP_KEY`, database credentials, and other settings are documented in
-`.env.example`. Compose refuses to start without the required values. This
-`.env` holds compose and infrastructure settings; it is separate from the
-application `.env` at the repository root used for non-Docker development.
+`.env.example`. Compose refuses to start without the required values.
 
 The image is built from the repository's committed `composer.lock`, so a
 given commit always produces the same image.
@@ -41,15 +39,8 @@ given commit always produces the same image.
 
 The `php` container waits for MySQL and Redis, then:
 
-1. Copies the mounted `.env`, dropping Compose-only settings such as
-   `DB_ROOT_PASSWORD` so they never reach Laravel.
-2. Runs `php artisan migrate --force --isolated`.
-3. Ensures the default tenant exists with
-   `vendra-subscription:provision --if-missing`, using the hostname from
-   `APP_URL`. Set `TENANT_ADMIN_PASSWORD` to choose the administrator
-   password; when empty, a random one is generated and printed once in the
-   `php` container log.
-4. Warms Laravel and Filament caches; a warmup failure stops the container.
+1. Runs `php artisan migrate --force --isolated --seed`.
+2. Warms Laravel and Filament caches; a warmup failure stops the container.
 
 Horizon, the scheduler, and Pulse start only after the
 application reports ready. `/up` answers liveness; `/ready` also verifies MySQL
