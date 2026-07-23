@@ -81,10 +81,6 @@ services:
   php:
     <<: *php-service
     restart: unless-stopped
-    environment:
-      <<: *php-environment
-      SERVER_NAME: "${SERVER_NAME:-${APP_NAME:-vendra}.test}"
-      SERVER_TLS_MODE: "${SERVER_TLS_MODE:-internal}"
     volumes:
       - storage-data:/app/storage/app
       - caddy-data:/data
