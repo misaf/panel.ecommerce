@@ -62,6 +62,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@06fb636fac595d6fb4b28a5dfcb21a6f5091859c # v4.5.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Split branch
         if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         uses: danharrin/monorepo-split-github-action@14e42e2437f674b8987c1f50ca3689116aea1893 # v2.4.5
