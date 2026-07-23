@@ -56,9 +56,8 @@ The `php` container waits for MySQL and Redis, then:
 1. Runs `php artisan migrate --force --isolated --seed`.
 2. Warms Laravel and Filament caches; a warmup failure stops the container.
 
-Horizon, the scheduler, and Pulse start only after the
-application reports ready. `/up` answers liveness; `/ready` also verifies MySQL
-and Redis connectivity and backs the container healthcheck.
+Horizon, the scheduler, and Pulse start only after the `php` container reports
+healthy. Laravel's built-in `/up` backs the container healthcheck.
 
 ## Laravel Drivers
 
