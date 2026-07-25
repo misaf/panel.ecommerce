@@ -13,12 +13,11 @@ Tenant-aware media management for Vendra applications.
 ## Requirements
 
 - PHP 8.3+
-- Laravel 12 or 13
+- Laravel 13
 - Filament 5
 - Livewire 4
 - Pest 4
-- `misaf/vendra-tenant`
-- `misaf/vendra-user`
+- `misaf/vendra-support`
 - `spatie/laravel-medialibrary`
 
 ## Installation
@@ -71,6 +70,7 @@ In Filament, media records are available on the `admin` panel.
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

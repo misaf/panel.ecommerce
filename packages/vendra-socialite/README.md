@@ -13,16 +13,36 @@ credentials are set.
 - PHP 8.3+
 - Laravel 13
 - Filament 5
+- `misaf/vendra-support`
 - `misaf/vendra-user`
+
+## Installation
+
+```bash
+composer require misaf/vendra-socialite
+php artisan vendor:publish --tag=vendra-socialite-migrations
+php artisan migrate
+```
+
+The service provider registers social login on the configured Filament panels.
 
 ## Configuration
 
-Publish the config with `php artisan vendor:publish --tag=vendra-socialite-config`
-and set the OAuth credentials in `config/services.php` / `.env`:
+Publish the package configuration and set the OAuth credentials in
+`config/services.php` / `.env`:
 
+```bash
+php artisan vendor:publish --tag=vendra-socialite-config
 ```
-GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / GOOGLE_REDIRECT_URI=https://<app>/admin/oauth/callback/google
-GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET / GITHUB_REDIRECT_URI=https://<app>/admin/oauth/callback/github
+
+```env
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=https://example.test/admin/oauth/callback/google
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GITHUB_REDIRECT_URI=https://example.test/admin/oauth/callback/github
 ```
 
 Optional environment values:
@@ -35,6 +55,7 @@ Optional environment values:
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

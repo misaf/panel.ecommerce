@@ -25,16 +25,24 @@ The engine is subscriber-agnostic: subscribe, activate, charge, and enforce all 
 
 ```bash
 composer require misaf/vendra-subscription
+php artisan vendor:publish --tag=vendra-subscription-migrations
+php artisan migrate
 ```
 
-Publish and run the package migration through the host application's normal deployment workflow.
-
 The host application defines the inverse `morphMany` relationship and registers stable morph aliases for its subscriber models.
+
+Requeue stale, interrupted, or reconciliation-ready payment operations after
+an outage with:
+
+```bash
+php artisan vendra-subscription:recover-payments
+```
 
 ## Testing
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

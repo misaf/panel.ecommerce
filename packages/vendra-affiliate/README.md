@@ -29,6 +29,15 @@ stats widgets.
 Each conversion type is toggled in `config/vendra-affiliate.php`, alongside
 the attribution cookie, payout minimum, and defaults.
 
+## Requirements
+
+- PHP 8.3+
+- Laravel 13
+- Filament 5
+- `misaf/vendra-support`
+- `misaf/vendra-transaction`
+- `misaf/vendra-user`
+
 ## Optional tags
 
 Install `misaf/vendra-tagger` to assign `affiliate`-typed tags from the affiliate form and display them in the table. Affiliate imports neither Vendra Tagger nor Spatie Tags; the optional relationship is resolved through `misaf/vendra-support`.
@@ -48,10 +57,18 @@ php artisan migrate
 php artisan vendra-affiliate:seed
 ```
 
+Optionally publish the configuration and translations:
+
+```bash
+php artisan vendor:publish --tag=vendra-affiliate-config
+php artisan vendor:publish --tag=vendra-affiliate-translations
+```
+
 ## Testing
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

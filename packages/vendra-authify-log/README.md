@@ -10,14 +10,13 @@ Tenant-aware authentication event logging for Vendra applications.
 
 ## Requirements
 
-- PHP 8.2+
-- Laravel 12
+- PHP 8.3+
+- Laravel 13
 - Filament 5
 - Livewire 4
 - Pest 4
 - Tailwind CSS 4
-- `misaf/vendra-user`
-- `misaf/vendra-tenant`
+- `misaf/vendra-support`
 - `misaf/laravel-authify-log`
 
 ## Installation
@@ -32,7 +31,7 @@ Optional publishes:
 
 ```bash
 php artisan vendor:publish --tag=vendra-authify-log-config
-php artisan vendor:publish --tag=vendra-authify-log-lang
+php artisan vendor:publish --tag=vendra-authify-log-translations
 ```
 
 The service provider and Filament plugin are auto-registered.
@@ -47,6 +46,7 @@ If needed, update configuration in `config/vendra-authify-log.php`.
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

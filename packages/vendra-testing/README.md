@@ -8,6 +8,8 @@ Shared Pest utilities for Vendra package test suites.
 - `toHaveTranslationsInSync()` expectation
 - `toHaveSortedTranslationKeys()` expectation
 - Deterministic translation file and key parity checks
+- Provider-neutral tenant helpers that no-op when tenancy is disabled
+- User factory helpers resolved from the configured authentication provider
 
 ## Requirements
 
@@ -29,10 +31,15 @@ expect(__DIR__ . '/../../resources/lang')
     ->toHaveSortedTranslationKeys('vendra-example');
 ```
 
+Tenant-aware package tests should use `makeCurrentTestTenant()`,
+`switchToTestTenant()`, and the related helpers instead of importing the
+concrete Vendra Tenant provider.
+
 ## Testing
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

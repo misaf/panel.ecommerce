@@ -7,9 +7,10 @@ Shared support infrastructure used by every Vendra module.
 - Provider-neutral tenant resolution and tenant-awareness helpers
 - Tenant-aware Eloquent traits, scopes, and migration helpers
 - Optional tag, attribute, and currency integration contracts
+- Provider-neutral subscription charging with idempotent operation results
 - Shared tenant seeders and console commands
 - Shared Filament clusters, navigation taxonomy, and concerns
-- Sandbox authorization helpers and shared events
+- Composable policy authorization, sandbox helpers, and shared events
 
 The package binds null capability resolvers by default. Concrete providers can replace those bindings without coupling domain packages to their implementations.
 
@@ -27,10 +28,17 @@ composer require misaf/vendra-support
 
 The service provider is auto-registered.
 
+Optionally publish the shared panel configuration:
+
+```bash
+php artisan vendor:publish --tag=vendra-support-config
+```
+
 ## Testing
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

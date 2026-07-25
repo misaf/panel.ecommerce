@@ -10,15 +10,14 @@ Tenant-aware FAQ management for Vendra applications.
 
 ## Requirements
 
-- PHP 8.2+
-- Laravel 12
+- PHP 8.3+
+- Laravel 13
 - Filament 5
 - Livewire 4
 - Pest 4
 - Tailwind CSS 4
-- `misaf/vendra-tenant`
-- `misaf/vendra-user`
-- `misaf/vendra-activity-log`
+- `misaf/vendra-multimedia`
+- `misaf/vendra-support`
 
 Optional:
 
@@ -101,6 +100,7 @@ Resources are available in the `Faqs` cluster on the `admin` panel:
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

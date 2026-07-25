@@ -4,6 +4,13 @@ Tenant-aware carts for Vendra applications, with guest UUID tokens, optional
 polymorphic owners, polymorphic sellables, quantities, metadata, expiration,
 Filament administration, permissions, and demo-content seeding.
 
+## Requirements
+
+- PHP 8.3+
+- Laravel 13
+- Filament 5
+- `misaf/vendra-support`
+
 ## Installation
 
 ```bash
@@ -12,9 +19,20 @@ php artisan vendor:publish --tag=vendra-cart-migrations
 php artisan migrate
 ```
 
+Optionally publish the configuration and translations:
+
+```bash
+php artisan vendor:publish --tag=vendra-cart-config
+php artisan vendor:publish --tag=vendra-cart-translations
+```
+
 The standalone Filament resource is registered on the configured panels. Cart
 creation and mutation remain application concerns; the administration UI is
 limited to viewing and deletion.
+
+Expired carts are pruned daily by default. Change the schedule in the
+published configuration or run `php artisan vendra-cart:prune-expired`
+manually.
 
 ## Testing
 
