@@ -1,10 +1,13 @@
 # Vendra
 
-Vendra is a modular Laravel application for e-commerce and marketplace use cases.
+Vendra is a modular Laravel 13 application for commerce, content, customer
+management, and multi-tenant platform development. This repository contains the
+host application and every first-party Vendra package in one Composer monorepo.
 
 ## Requirements
 
-- PHP 8.2+
+- PHP 8.3+
+- Laravel 13
 - Composer
 - Node.js and npm
 - MySQL or another Laravel-supported database
@@ -12,16 +15,32 @@ Vendra is a modular Laravel application for e-commerce and marketplace use cases
 ## Local Development
 
 ```bash
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-npm install
-npm run build
+composer setup
 composer dev
 ```
 
-`composer dev` starts the web server, queue listener, logs, and Vite in watch mode.
+`composer setup` installs PHP and JavaScript dependencies, creates `.env`,
+generates the application key, runs migrations, and builds frontend assets.
+`composer dev` starts the web server, queue listener, logs, and Vite in watch
+mode.
+
+## Package Catalog
+
+Packages are independently installable through Composer and are auto-discovered
+by Laravel unless their README says otherwise.
+
+| Area | Packages |
+| --- | --- |
+| Foundation | [Support](packages/vendra-support), [API](packages/vendra-api), [Tenant](packages/vendra-tenant), [Testing](packages/vendra-testing) |
+| Catalog and sales | [Product](packages/vendra-product), [Attribute](packages/vendra-attribute), [Currency](packages/vendra-currency), [Cart](packages/vendra-cart), [Transaction](packages/vendra-transaction), [Subscription](packages/vendra-subscription) |
+| Content and marketing | [Blog](packages/vendra-blog), [Custom Page](packages/vendra-custom-page), [FAQ](packages/vendra-faq), [Multimedia](packages/vendra-multimedia), [Tagger](packages/vendra-tagger), [Newsletter](packages/vendra-newsletter), [Affiliate](packages/vendra-affiliate) |
+| Customers and access | [User](packages/vendra-user), [User Profile](packages/vendra-user-profile), [Address](packages/vendra-address), [Phone](packages/vendra-phone), [Document](packages/vendra-document), [Verification](packages/vendra-verification), [Permission](packages/vendra-permission), [Socialite](packages/vendra-socialite) |
+| Operations and localization | [Activity Log](packages/vendra-activity-log), [Authify Log](packages/vendra-authify-log), [Developer Logins](packages/vendra-developer-logins), [Language](packages/vendra-language), [Localization](packages/vendra-localization) |
+| JSON:API modules | [Affiliate API](packages/vendra-affiliate-api), [Attribute API](packages/vendra-attribute-api), [Blog API](packages/vendra-blog-api), [Cart API](packages/vendra-cart-api), [Custom Page API](packages/vendra-custom-page-api), [FAQ API](packages/vendra-faq-api), [Multimedia API](packages/vendra-multimedia-api), [Product API](packages/vendra-product-api) |
+
+Domain packages depend on the provider-neutral contracts in Vendra Support.
+Installing Vendra Tenant activates tenant awareness by binding the concrete
+resolver; domain and API packages do not depend on the tenant provider.
 
 ## Docker
 
@@ -61,14 +80,15 @@ SETTINGS_CACHE_ENABLED=true
 
 ## Module Development
 
-Modules are developed locally through Composer path repositories in `packages/*`.
+Modules are developed locally through symlinked Composer path repositories in
+`packages/*`.
 
 Typical workflow:
 
 1. Edit the module inside `packages/<module-name>`.
 2. Ensure the package is required in root `composer.json`.
 3. Run `composer update <vendor/package>` or `composer dump-autoload` when needed.
-4. Run the relevant tests or static analysis.
+4. Run the package's tests and static analysis as documented in its README.
 
 For production builds, rely on installed Composer packages rather than local path repository workflows.
 
