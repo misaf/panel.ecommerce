@@ -2,6 +2,13 @@
 
 Read-only JSON:API resources for tenant-scoped Vendra carts.
 
+## Requirements
+
+- PHP 8.3+
+- Laravel 13
+- `misaf/vendra-api`
+- `misaf/vendra-cart`
+
 ## Installation
 
 ```bash

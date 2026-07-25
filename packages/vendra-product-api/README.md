@@ -31,6 +31,7 @@ The service provider, server, and routes are auto-registered.
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License
