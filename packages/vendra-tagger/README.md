@@ -13,11 +13,11 @@ Translated, sortable, and tenant-compatible tag management for Vendra applicatio
 
 ## Requirements
 
-- PHP `^8.3`
-- Laravel `^13.0`
-- Filament `^5.6.8`
-- `filament/spatie-laravel-tags-plugin` `^5.6.8`
-- `misaf/vendra-support` `^1.0`
+- PHP 8.3+
+- Laravel 13
+- Filament 5
+- `misaf/vendra-support`
+- `spatie/laravel-tags`
 
 ## Installation
 

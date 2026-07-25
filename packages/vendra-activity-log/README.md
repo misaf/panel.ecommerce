@@ -18,8 +18,8 @@ Tenant-aware activity logging for Vendra applications.
 - Pest 4
 - Tailwind CSS 4
 - `awcodes/filament-badgeable-column`
-- `misaf/vendra-tenant`
-- `mokhosh/filament-jalali`
+- `misaf/filament-jalali`
+- `misaf/vendra-support`
 - `spatie/laravel-activitylog`
 
 ## Installation
@@ -75,6 +75,7 @@ In Filament, logs are available on the `admin` panel.
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

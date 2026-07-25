@@ -15,7 +15,7 @@ Request locale resolution for Laravel applications.
 ## Requirements
 
 - PHP 8.3+
-- Laravel 12 or 13
+- Laravel 13
 - Pest 4
 
 ## Installation
@@ -138,6 +138,7 @@ Laravel dispatches `Illuminate\Foundation\Events\LocaleUpdated` whenever `App::s
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

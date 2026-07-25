@@ -31,6 +31,7 @@ Configure the eligible panels, role, credential column, and label column in `con
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

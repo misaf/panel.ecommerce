@@ -29,6 +29,7 @@ The service provider is auto-registered.
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License
