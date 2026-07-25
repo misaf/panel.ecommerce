@@ -16,6 +16,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\Unique;
 use Misaf\VendraSubscription\Models\Plan;
+use Misaf\VendraSupport\Filament\Actions\GeneratePasswordAction;
+use Misaf\VendraSupport\Rules\EmailValidation;
 
 final class ResellerForm
 {
@@ -40,19 +42,29 @@ final class ResellerForm
                 TextInput::make('email')
                     ->label(__('console.email'))
                     ->email()
+                    ->extraAttributes(['dir' => 'ltr'])
                     ->maxLength(255)
                     ->required(fn(string $operation): bool => 'create' === $operation)
                     ->rules(fn(string $operation): array => 'create' === $operation
-                        ? [Rule::unique(ResellerUser::class, 'email')->withoutTrashed()]
+                        ? [
+                            'bail',
+                            'email:rfc,strict,spoof,filter,filter_unicode',
+                            new EmailValidation(app()->isProduction()),
+                            Rule::unique(ResellerUser::class, 'email')->withoutTrashed(),
+                        ]
                         : []),
 
                 TextInput::make('password')
                     ->label(__('console.new_password'))
                     ->password()
                     ->revealable(filament()->arePasswordsRevealable())
+                    ->extraAttributes(['dir' => 'ltr'])
                     ->required()
                     ->confirmed()
                     ->rule(Password::default())
+                    ->hintAction(
+                        GeneratePasswordAction::make()->confirmationField('password_confirmation'),
+                    )
                     ->visibleOn('create'),
 
                 TextInput::make('password_confirmation')
