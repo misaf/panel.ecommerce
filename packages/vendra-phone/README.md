@@ -27,7 +27,10 @@ php artisan vendor:publish --tag=vendra-phone-migrations
 php artisan migrate
 ```
 
-Tenant columns are determined when the migration runs. If phone numbers must be tenant-scoped, install a tenant provider such as `misaf/vendra-tenant` before running the migration. Enabling tenancy later does not add a tenant column to an existing table.
+Tenant columns are added automatically when a tenant provider is active. If
+tenancy is enabled after this migration has run, use
+`php artisan vendra-tenant:enable {tenant}` to retrofit the table and assign
+existing unscoped records.
 
 The service provider and the user-profile relation manager are auto-registered.
 
@@ -43,6 +46,7 @@ php artisan vendra-phone:seed {tenant}
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

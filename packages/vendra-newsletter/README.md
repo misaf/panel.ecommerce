@@ -26,9 +26,10 @@ php artisan vendor:publish --tag=vendra-newsletter-migrations
 php artisan migrate
 ```
 
-Optional translations publish:
+Optional configuration and translations:
 
 ```bash
+php artisan vendor:publish --tag=vendra-newsletter-config
 php artisan vendor:publish --tag=vendra-newsletter-translations
 ```
 
@@ -80,6 +81,7 @@ Resources are available in the `Newsletters` cluster on the `admin` panel:
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

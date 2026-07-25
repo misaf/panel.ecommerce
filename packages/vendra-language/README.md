@@ -26,6 +26,13 @@ php artisan vendor:publish --tag=vendra-language-migrations
 php artisan migrate
 ```
 
+Optionally publish the configuration and translations:
+
+```bash
+php artisan vendor:publish --tag=vendra-language-config
+php artisan vendor:publish --tag=vendra-language-translations
+```
+
 The service provider and Filament plugin are discovered automatically.
 
 ## Locale catalog
@@ -112,6 +119,7 @@ The global language switcher uses the current tenant's enabled languages in disp
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License

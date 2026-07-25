@@ -25,9 +25,10 @@ php artisan vendor:publish --tag=vendra-currency-migrations
 php artisan migrate
 ```
 
-Optional translations publish:
+Optional configuration and translations:
 
 ```bash
+php artisan vendor:publish --tag=vendra-currency-config
 php artisan vendor:publish --tag=vendra-currency-translations
 ```
 
@@ -83,6 +84,7 @@ The `Currencies` resource lives in the Sales cluster on the `admin` panel. Insta
 
 ```bash
 composer test
+composer analyse
 ```
 
 ## License
