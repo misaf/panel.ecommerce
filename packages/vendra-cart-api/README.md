@@ -2,6 +2,12 @@
 
 Read-only JSON:API resources for tenant-scoped Vendra carts.
 
+## Features
+
+- Read-only cart collection and detail endpoints
+- Cart items exposed only through their parent cart relationship
+- Tenant scope inherited from the parent cart query
+
 ## Requirements
 
 - PHP 8.3+

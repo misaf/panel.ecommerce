@@ -2,7 +2,7 @@
 
 Read-only JSON:API resources for Vendra FAQ content.
 
-## Resources
+## Features
 
 - `GET /v1/faq-categories`
 - `GET /v1/faqs`

@@ -5,7 +5,7 @@ signup attribution, a per-conversion commission ledger, and payout settlement
 into the `misaf/vendra-transaction` wallet — with a Filament admin cluster and
 stats widgets.
 
-## How it works
+## Features
 
 1. Each affiliate gets a unique referral code and a `/r/{code}` redirect link.
 2. Visiting the link records an `AffiliateClick` and drops an attribution
@@ -38,16 +38,6 @@ the attribution cookie, payout minimum, and defaults.
 - `misaf/vendra-transaction`
 - `misaf/vendra-user`
 
-## Optional tags
-
-Install `misaf/vendra-tagger` to assign `affiliate`-typed tags from the affiliate form and display them in the table. Affiliate imports neither Vendra Tagger nor Spatie Tags; the optional relationship is resolved through `misaf/vendra-support`.
-
-```php
-use Misaf\VendraTagger\Models\Tagger;
-
-Tagger::findOrCreate('Top performer', type: 'affiliate', locale: 'en');
-```
-
 ## Installation
 
 ```bash
@@ -62,6 +52,16 @@ Optionally publish the configuration and translations:
 ```bash
 php artisan vendor:publish --tag=vendra-affiliate-config
 php artisan vendor:publish --tag=vendra-affiliate-translations
+```
+
+## Optional tags
+
+Install `misaf/vendra-tagger` to assign `affiliate`-typed tags from the affiliate form and display them in the table. Affiliate imports neither Vendra Tagger nor Spatie Tags; the optional relationship is resolved through `misaf/vendra-support`.
+
+```php
+use Misaf\VendraTagger\Models\Tagger;
+
+Tagger::findOrCreate('Top performer', type: 'affiliate', locale: 'en');
 ```
 
 ## Testing

@@ -2,7 +2,7 @@
 
 Read-only JSON:API resources for Vendra custom pages.
 
-## Resources
+## Features
 
 - `GET /v1/custom-page-categories`
 - `GET /v1/custom-pages`

@@ -8,6 +8,13 @@ has no dependency on it. Social buttons render on the login form of the panels
 listed in `config/vendra-socialite.php` and only appear once their provider
 credentials are set.
 
+## Features
+
+- Google and GitHub login on configured Filament panels
+- Existing-user sign-in by email with optional account registration
+- Optional email-domain allow list
+- Tenant-aware storage for linked social identities
+
 ## Requirements
 
 - PHP 8.3+

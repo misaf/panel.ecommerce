@@ -2,7 +2,7 @@
 
 Read-only JSON:API resources for the Vendra product catalog.
 
-## Resources
+## Features
 
 - `GET /v1/product-categories`
 - `GET /v1/products`

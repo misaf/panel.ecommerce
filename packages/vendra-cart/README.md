@@ -4,6 +4,14 @@ Tenant-aware carts for Vendra applications, with guest UUID tokens, optional
 polymorphic owners, polymorphic sellables, quantities, metadata, expiration,
 Filament administration, permissions, and demo-content seeding.
 
+## Features
+
+- Guest carts identified by UUID tokens
+- Optional polymorphic owners and polymorphic sellable items
+- Quantity, metadata, and expiration tracking
+- Tenant-aware Filament administration and permission seeding
+- Scheduled pruning of expired carts
+
 ## Requirements
 
 - PHP 8.3+

@@ -2,7 +2,7 @@
 
 Read-only JSON:API resources for Vendra media records.
 
-## Resources
+## Features
 
 - `GET /v1/multimedia`
 - Individual media record retrieval

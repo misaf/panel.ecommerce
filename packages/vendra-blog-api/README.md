@@ -2,7 +2,7 @@
 
 Read-only JSON:API resources for Vendra blog content.
 
-## Resources
+## Features
 
 - `GET /v1/blog-post-categories`
 - `GET /v1/blog-posts`

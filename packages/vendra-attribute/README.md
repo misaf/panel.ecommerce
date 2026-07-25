@@ -132,7 +132,7 @@ When tenancy is enabled, an optional tenant ID or slug may be supplied:
 php artisan vendra-attribute:seed tenant-slug
 ```
 
-## Testing and Analysis
+## Testing
 
 ```bash
 composer test

@@ -52,7 +52,7 @@ When `misaf/vendra-product-api` detects this package, it conditionally registers
 
 Tenancy is inherited from `misaf/vendra-attribute` domain models, which derive tenant behavior from `misaf/vendra-support`. The API module stays tenant-agnostic and never references a concrete tenant provider.
 
-## Testing and Analysis
+## Testing
 
 ```bash
 composer test
