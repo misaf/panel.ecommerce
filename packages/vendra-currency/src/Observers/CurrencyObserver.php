@@ -10,7 +10,7 @@ final class CurrencyObserver
 {
     public function creating(Currency $currency): void
     {
-        if ( ! $currency->status) {
+        if ( ! $currency->active) {
             $currency->is_default = false;
 
             return;
@@ -23,7 +23,7 @@ final class CurrencyObserver
 
     public function saving(Currency $currency): void
     {
-        if ( ! $currency->status) {
+        if ( ! $currency->active) {
             $currency->is_default = false;
 
             return;
@@ -53,7 +53,7 @@ final class CurrencyObserver
 
     public function saved(Currency $currency): void
     {
-        if ($currency->wasChanged(['status', 'is_default'])) {
+        if ($currency->wasChanged(['active', 'is_default'])) {
             $this->ensureEnabledDefault();
         }
     }

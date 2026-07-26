@@ -10,7 +10,7 @@ final class PlanObserver
 {
     public function creating(Plan $plan): void
     {
-        if ( ! $plan->status) {
+        if ( ! $plan->active) {
             $plan->is_default = false;
 
             return;
@@ -23,7 +23,7 @@ final class PlanObserver
 
     public function saving(Plan $plan): void
     {
-        if ( ! $plan->status) {
+        if ( ! $plan->active) {
             $plan->is_default = false;
 
             return;
@@ -53,7 +53,7 @@ final class PlanObserver
 
     public function saved(Plan $plan): void
     {
-        if ($plan->wasChanged(['status', 'is_default'])) {
+        if ($plan->wasChanged(['active', 'is_default'])) {
             $this->ensureEnabledDefault();
         }
     }

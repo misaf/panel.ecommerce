@@ -24,7 +24,7 @@ final class CreateReseller extends CreateRecord
         $email = $data['email'] ?? null;
         $username = $data['username'] ?? null;
         $password = $data['password'] ?? null;
-        $status = $data['status'] ?? true;
+        $active = $data['active'] ?? true;
 
         if ( ! is_numeric($planId)) {
             throw new InvalidArgumentException('Invalid plan provided.');
@@ -41,7 +41,7 @@ final class CreateReseller extends CreateRecord
             username: $username,
             email: $email,
             password: $password,
-            status: is_bool($status) ? $status : true,
+            active: is_bool($active) ? $active : true,
         )['reseller'];
     }
 }

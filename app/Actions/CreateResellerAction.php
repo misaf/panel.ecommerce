@@ -30,14 +30,14 @@ final class CreateResellerAction
         string $email,
         string $password,
         ?Carbon $startsAt = null,
-        bool $status = true,
+        bool $active = true,
         bool $emailVerified = true,
     ): array {
-        return DB::transaction(function () use ($plan, $username, $email, $password, $startsAt, $status, $emailVerified): array {
+        return DB::transaction(function () use ($plan, $username, $email, $password, $startsAt, $active, $emailVerified): array {
             $reseller = Reseller::query()->create([
                 'name'   => $username,
                 'slug'   => $username,
-                'status' => $status,
+                'active' => $active,
                 'email'  => $email,
             ]);
 

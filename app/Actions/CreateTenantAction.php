@@ -60,13 +60,13 @@ final class CreateTenantAction
                 'reseller_id' => $lockedReseller?->getKey(),
                 'name'        => $name,
                 'slug'        => $name,
-                'status'      => true,
+                'active'      => true,
             ]);
 
             $createdTenant->execute(fn() => $createdTenant->tenantDomains()->create([
                 'name'   => $domain,
                 'slug'   => $domain,
-                'status' => true,
+                'active' => true,
             ]));
 
             $createdUser = $this->createUserAction->execute(

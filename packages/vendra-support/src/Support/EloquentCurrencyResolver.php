@@ -19,7 +19,7 @@ final class EloquentCurrencyResolver implements CurrencyResolver
         private readonly CurrencyResolver $fallback = new NullCurrencyResolver(),
         private readonly string $codeColumn = 'code',
         private readonly string $nameColumn = 'name',
-        private readonly string $statusColumn = 'status',
+        private readonly string $activeColumn = 'active',
         private readonly string $defaultColumn = 'is_default',
         private readonly string $positionColumn = 'position',
     ) {}
@@ -33,7 +33,7 @@ final class EloquentCurrencyResolver implements CurrencyResolver
     {
         try {
             $defaultCode = $this->query()
-                ->where($this->statusColumn, true)
+                ->where($this->activeColumn, true)
                 ->where($this->defaultColumn, true)
                 ->value($this->codeColumn);
 
@@ -54,7 +54,7 @@ final class EloquentCurrencyResolver implements CurrencyResolver
     {
         try {
             $options = $this->query()
-                ->where($this->statusColumn, true)
+                ->where($this->activeColumn, true)
                 ->orderBy($this->positionColumn, 'desc')
                 ->pluck($this->nameColumn, $this->codeColumn)
                 ->mapWithKeys(fn(mixed $name, mixed $code): array => is_string($code) && '' !== $code
@@ -79,7 +79,7 @@ final class EloquentCurrencyResolver implements CurrencyResolver
     {
         try {
             $currencyCodes = $this->query()
-                ->where($this->statusColumn, true)
+                ->where($this->activeColumn, true)
                 ->pluck($this->codeColumn)
                 ->filter(fn(mixed $code): bool => is_string($code) && '' !== $code)
                 ->values()

@@ -21,7 +21,7 @@ final class EloquentAttributeResolver implements AttributeResolver
         private readonly AttributeResolver $fallback = new NullAttributeResolver(),
         private readonly string $nameColumn = 'name',
         private readonly string $unitColumn = 'unit',
-        private readonly string $statusColumn = 'status',
+        private readonly string $activeColumn = 'active',
         private readonly string $positionColumn = 'position',
     ) {}
 
@@ -40,7 +40,7 @@ final class EloquentAttributeResolver implements AttributeResolver
     {
         try {
             $options = $this->query()
-                ->where($this->statusColumn, true)
+                ->where($this->activeColumn, true)
                 ->orderBy($this->positionColumn, 'desc')
                 ->get()
                 ->mapWithKeys(function (Model $attribute): array {

@@ -10,7 +10,7 @@ final class LanguageObserver
 {
     public function creating(Language $language): void
     {
-        if ( ! $language->status) {
+        if ( ! $language->active) {
             $language->is_default = false;
 
             return;
@@ -23,7 +23,7 @@ final class LanguageObserver
 
     public function saving(Language $language): void
     {
-        if ( ! $language->status) {
+        if ( ! $language->active) {
             $language->is_default = false;
 
             return;
@@ -53,7 +53,7 @@ final class LanguageObserver
 
     public function saved(Language $language): void
     {
-        if ($language->wasChanged(['status', 'is_default'])) {
+        if ($language->wasChanged(['active', 'is_default'])) {
             $this->ensureEnabledDefault();
         }
     }

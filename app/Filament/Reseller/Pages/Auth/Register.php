@@ -78,7 +78,7 @@ final class Register extends \Filament\Auth\Pages\Register
         return Select::make('plan_id')
             ->label(__('console.subscription_plan'))
             ->options(fn(): array => Plan::query()->enabled()->pluck('name', 'id')->all())
-            ->rule(Rule::exists(Plan::class, 'id')->where('status', true))
+            ->rule(Rule::exists(Plan::class, 'id')->where('active', true))
             ->required()
             ->native(false);
     }
