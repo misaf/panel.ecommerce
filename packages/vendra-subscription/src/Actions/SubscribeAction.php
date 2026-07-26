@@ -18,11 +18,15 @@ use Misaf\VendraSubscription\Jobs\ProcessSubscriptionPayment;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Misaf\VendraSubscription\Support\SubscriptionRegistry;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 
 final class SubscribeAction
 {
-    public function __construct(private readonly SubscriptionCharger $subscriptionCharger) {}
+    public function __construct(
+        private readonly SubscriptionCharger $subscriptionCharger,
+        private readonly SubscriptionRegistry $subscriptionRegistry,
+    ) {}
 
     /**
      * Create a subscription period for any subscriber. Paid periods remain
@@ -43,7 +47,7 @@ final class SubscribeAction
         $startsAt ??= Carbon::now();
 
         $result = DB::transaction(function () use ($subscriber, $plan, $startsAt): array {
-            $lockedSubscriber = $subscriber->lockForSubscription();
+            $lockedSubscriber = $this->subscriptionRegistry->lockSubscriber($subscriber);
 
             $currentProperties = $lockedSubscriber->subscribedPropertyCount();
 
@@ -51,7 +55,7 @@ final class SubscribeAction
                 throw SubscriptionLimitException::planBelowUsage($lockedSubscriber, $plan->max_units, $currentProperties);
             }
 
-            $openPayments = $lockedSubscriber->lockOpenSubscriptionPayments();
+            $openPayments = $this->subscriptionRegistry->lockOpenPayments($lockedSubscriber);
 
             if ($openPayments->contains(fn(SubscriptionPayment $payment): bool => SubscriptionPaymentStatus::Pending !== $payment->status)) {
                 throw SubscriptionPaymentException::paymentInProgress();
@@ -61,7 +65,8 @@ final class SubscribeAction
                 SubscriptionPayment::query()
                     ->whereKey($openPayments->modelKeys())
                     ->update(['status' => SubscriptionPaymentStatus::Cancelled->value]);
-                $lockedSubscriber->cancelPendingPaymentSubscriptions(
+                $this->subscriptionRegistry->cancelPending(
+                    $lockedSubscriber,
                     $openPayments->map(fn(SubscriptionPayment $payment): int => $payment->subscription_id)->all(),
                 );
             }
@@ -74,10 +79,10 @@ final class SubscribeAction
             $requiresImmediatePayment = $requiresCollection && null === $trialEndsAt;
 
             if ( ! $requiresImmediatePayment) {
-                $lockedSubscriber->cancelActiveSubscriptions();
+                $this->subscriptionRegistry->cancelActive($lockedSubscriber);
             }
 
-            $subscription = $lockedSubscriber->createSubscription([
+            $subscription = $this->subscriptionRegistry->create($lockedSubscriber, [
                 'plan_id'       => $plan->getKey(),
                 'status'        => $requiresImmediatePayment ? SubscriptionStatus::PendingPayment : SubscriptionStatus::Active,
                 'price'         => $plan->price,

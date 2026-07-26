@@ -12,9 +12,12 @@ use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Events\SubscriptionActivated;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Misaf\VendraSubscription\Support\SubscriptionRegistry;
 
 final class ActivateSubscriptionAction
 {
+    public function __construct(private readonly SubscriptionRegistry $subscriptionRegistry) {}
+
     /**
      * Activate the subscription of a paid payment: supersede the subscriber's
      * other active subscriptions and reactivate its properties atomically, then
@@ -34,7 +37,7 @@ final class ActivateSubscriptionAction
                 throw new LogicException("Subscription [{$subscription->id}] has unsupported subscriber type [{$subscription->subscriber_type}]; subscribers must implement SubscriptionSubscriber to be activated.");
             }
 
-            $lockedSubscriber = $subscriber->lockForSubscription();
+            $lockedSubscriber = $this->subscriptionRegistry->lockSubscriber($subscriber);
             $lockedPayment = SubscriptionPayment::query()
                 ->whereKey($payment->id)
                 ->lockForUpdate()
@@ -49,7 +52,7 @@ final class ActivateSubscriptionAction
                 return null;
             }
 
-            $lockedSubscriber->cancelActiveSubscriptions($lockedSubscription->id);
+            $this->subscriptionRegistry->cancelActive($lockedSubscriber, $lockedSubscription->id);
             $lockedSubscription->update(['status' => SubscriptionStatus::Active]);
             $lockedSubscriber->reactivateSuspendedProperties();
 

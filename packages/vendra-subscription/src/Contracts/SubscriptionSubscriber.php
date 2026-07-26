@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notification;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraSubscription\Models\SubscriptionPayment;
 
 /**
  * A billing entity that can hold plan-limited subscriptions. Subscriptions are
@@ -38,35 +36,6 @@ interface SubscriptionSubscriber
      * Whether the subscriber has ever held a subscription.
      */
     public function hasSubscriptions(): bool;
-
-    /**
-     * Create a subscription period owned by this subscriber.
-     *
-     * @param  array<string, mixed>  $attributes
-     */
-    public function createSubscription(array $attributes): Subscription;
-
-    /**
-     * Cancel the subscriber's active subscriptions, optionally keeping one.
-     *
-     * @return int the number of subscriptions cancelled
-     */
-    public function cancelActiveSubscriptions(?int $exceptKey = null): int;
-
-    /**
-     * Cancel the subscriber's pending-payment subscriptions with the given keys.
-     *
-     * @param  array<int, int>  $keys
-     * @return int the number of subscriptions cancelled
-     */
-    public function cancelPendingPaymentSubscriptions(array $keys): int;
-
-    /**
-     * Lock and return the subscriber's open (non-terminal) subscription payments.
-     *
-     * @return Collection<int, SubscriptionPayment>
-     */
-    public function lockOpenSubscriptionPayments(): Collection;
 
     /**
      * Whether the subscriber is enabled to create and hold properties.
@@ -111,9 +80,4 @@ interface SubscriptionSubscriber
      * @return int the number of properties reactivated
      */
     public function reactivateSuspendedProperties(): int;
-
-    /**
-     * Re-fetch this subscriber under a row lock for a subscription transaction.
-     */
-    public function lockForSubscription(): static;
 }

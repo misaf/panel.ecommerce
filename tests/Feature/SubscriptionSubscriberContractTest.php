@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Reseller;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
+use Misaf\VendraSubscription\Support\SubscriptionRegistry;
 
 it('binds the reseller as a subscription subscriber', function (): void {
     $reseller = Reseller::factory()->create();
@@ -17,7 +18,7 @@ it('binds the reseller as a subscription subscriber', function (): void {
 it('locks the subscriber to its own row for a subscription transaction', function (): void {
     $reseller = Reseller::factory()->create();
 
-    $locked = $reseller->lockForSubscription();
+    $locked = app(SubscriptionRegistry::class)->lockSubscriber($reseller);
 
     expect($locked)
         ->toBeInstanceOf(Reseller::class)

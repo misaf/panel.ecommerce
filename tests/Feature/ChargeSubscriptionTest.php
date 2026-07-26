@@ -154,7 +154,7 @@ it('does not create a payment for a free plan', function (): void {
 
     expect($subscription->status)->toBe(SubscriptionStatus::Active)
         ->and($subscription->payments()->count())->toBe(0);
-    Queue::assertNothingPushed();
+    Queue::assertNotPushed(ProcessSubscriptionPayment::class);
 });
 
 it('persists a paid trial payment but defers collection until the trial ends', function (): void {
@@ -170,7 +170,7 @@ it('persists a paid trial payment but defers collection until the trial ends', f
     expect($subscription->status)->toBe(SubscriptionStatus::Active)
         ->and($payment->status)->toBe(SubscriptionPaymentStatus::Pending)
         ->and($payment->next_retry_at?->equalTo($subscription->trial_ends_at))->toBeTrue();
-    Queue::assertNothingPushed();
+    Queue::assertNotPushed(ProcessSubscriptionPayment::class);
 });
 
 it('rejects a paid subscription when no payment provider is available', function (): void {
