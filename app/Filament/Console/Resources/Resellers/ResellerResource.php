@@ -15,12 +15,16 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 final class ResellerResource extends Resource
 {
     protected static ?string $model = Reseller::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
+
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $slug = 'resellers';
 
@@ -54,6 +58,26 @@ final class ResellerResource extends Resource
         return ResellerTable::configure($table);
     }
 
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'slug', 'email'];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $reseller = self::reseller($record);
+
+        return [
+            __('console.email') => $reseller->email ?? '—',
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
@@ -61,5 +85,14 @@ final class ResellerResource extends Resource
             'create' => CreateReseller::route('/create'),
             'edit'   => EditReseller::route('/{record}/edit'),
         ];
+    }
+
+    private static function reseller(Model $record): Reseller
+    {
+        if ( ! $record instanceof Reseller) {
+            throw new InvalidArgumentException('Reseller resources require a Reseller record.');
+        }
+
+        return $record;
     }
 }
