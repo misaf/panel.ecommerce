@@ -11,9 +11,9 @@ use Closure;
 final class ReplaceDomainAction extends BaseReplaceDomainAction
 {
     /**
-     * @return (Closure(): bool)|null
+     * @return Closure(): bool
      */
-    protected function authorizationCallback(): ?Closure
+    protected function authorizationCallback(): Closure
     {
         return fn(): bool => PropertyResource::canCreate();
     }
