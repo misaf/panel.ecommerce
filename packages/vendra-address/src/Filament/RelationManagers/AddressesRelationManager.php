@@ -73,7 +73,9 @@ final class AddressesRelationManager extends RelationManager
             Textarea::make('notes')
                 ->label(__('vendra-address::address.fields.notes'))
                 ->columnSpanFull(),
-            Toggle::make('is_primary')->label(__('vendra-address::address.fields.is_primary')),
+            Toggle::make('is_primary')
+                ->label(__('vendra-address::address.fields.is_primary'))
+                ->onIcon(Heroicon::Bolt),
         ]);
     }
 

@@ -69,7 +69,9 @@ final class PhoneNumbersRelationManager extends RelationManager
             Textarea::make('notes')
                 ->label(__('vendra-phone::phone.fields.notes'))
                 ->columnSpanFull(),
-            Toggle::make('is_primary')->label(__('vendra-phone::phone.fields.is_primary')),
+            Toggle::make('is_primary')
+                ->label(__('vendra-phone::phone.fields.is_primary'))
+                ->onIcon(Heroicon::Bolt),
         ]);
     }
 
