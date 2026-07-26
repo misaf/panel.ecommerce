@@ -31,7 +31,7 @@ return new class () extends Migration {
             $table->text('description')->nullable();
             $table->string('unit', 64)->nullable();
             $table->unsignedBigInteger('position');
-            $table->boolean('status')->default(true);
+            $table->boolean('active')->default(true);
             $table->timestampsTz();
             $table->softDeletesTz();
             $table->string('active_name_guard')
@@ -42,7 +42,7 @@ return new class () extends Migration {
             $table->index(TenantSchema::tenantIndex(['name']));
             $table->index(TenantSchema::tenantIndex(['unit']));
             $table->index(TenantSchema::tenantIndex(['position']));
-            $table->index(TenantSchema::tenantIndex(['status']));
+            $table->index(TenantSchema::tenantIndex(['active']));
         });
     }
 

@@ -31,7 +31,7 @@ return new class () extends Migration {
                 ->nullable();
             $table->string('slug')
                 ->index();
-            $table->boolean('status')
+            $table->boolean('active')
                 ->index();
             $table->string('email')
                 ->nullable()

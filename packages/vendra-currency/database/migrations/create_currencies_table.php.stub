@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->string('symbol', 16)->nullable();
             $table->unsignedTinyInteger('decimal_places');
             $table->string('type', 8)->default('fiat');
-            $table->boolean('status')->default(true);
+            $table->boolean('active')->default(true);
             $table->boolean('is_default')->default(false);
             $table->unsignedBigInteger('default_guard')
                 ->nullable()
@@ -31,7 +31,7 @@ return new class () extends Migration {
             $table->unique(TenantSchema::tenantIndex(['code']));
             $table->unique('default_guard', 'currencies_one_default_unique');
             $table->index(TenantSchema::tenantIndex(['type']));
-            $table->index(TenantSchema::tenantIndex(['status']));
+            $table->index(TenantSchema::tenantIndex(['active']));
             $table->index(TenantSchema::tenantIndex(['is_default']));
             $table->index(TenantSchema::tenantIndex(['position']));
         });

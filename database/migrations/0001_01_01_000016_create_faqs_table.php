@@ -26,13 +26,13 @@ return new class () extends Migration {
                 ->nullable();
             $table->json('slug');
             $table->unsignedBigInteger('position');
-            $table->boolean('status')
+            $table->boolean('active')
                 ->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
 
             $table->index(TenantSchema::tenantIndex(['position']));
-            $table->index(TenantSchema::tenantIndex(['status']));
+            $table->index(TenantSchema::tenantIndex(['active']));
         });
     }
 
@@ -49,14 +49,14 @@ return new class () extends Migration {
                 ->nullable();
             $table->json('slug');
             $table->unsignedBigInteger('position');
-            $table->boolean('status')
+            $table->boolean('active')
                 ->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
 
             $table->index(TenantSchema::tenantIndex(['faq_category_id']));
             $table->index(TenantSchema::tenantIndex(['position']));
-            $table->index(TenantSchema::tenantIndex(['status']));
+            $table->index(TenantSchema::tenantIndex(['active']));
         });
     }
 

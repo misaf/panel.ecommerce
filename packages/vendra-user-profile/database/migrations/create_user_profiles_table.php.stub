@@ -29,7 +29,7 @@ return new class () extends Migration {
             $table->string('slug');
             $table->boolean('is_default')
                 ->default(false);
-            $table->boolean('status')
+            $table->boolean('active')
                 ->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
@@ -50,7 +50,7 @@ return new class () extends Migration {
             $table->index(TenantSchema::tenantIndex(['name']));
             $table->index(TenantSchema::tenantIndex(['slug']));
             $table->index(TenantSchema::tenantIndex(['is_default']));
-            $table->index(TenantSchema::tenantIndex(['status']));
+            $table->index(TenantSchema::tenantIndex(['active']));
         });
     }
 
