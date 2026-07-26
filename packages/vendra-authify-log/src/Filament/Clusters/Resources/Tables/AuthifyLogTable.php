@@ -53,8 +53,6 @@ final class AuthifyLogTable
                 ->searchable(),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-authify-log::attributes.created_at'))
                 ->sinceTooltip()
@@ -65,8 +63,6 @@ final class AuthifyLogTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-authify-log::attributes.updated_at'))
                 ->sinceTooltip()

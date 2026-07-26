@@ -77,8 +77,6 @@ final class AffiliateTable
                 ->label(__('vendra-affiliate::attributes.status')),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-affiliate::attributes.created_at'))
                 ->sinceTooltip()
@@ -89,8 +87,6 @@ final class AffiliateTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-affiliate::attributes.updated_at'))
                 ->sinceTooltip()

@@ -79,8 +79,6 @@ final class ActivityLogTable
                 ->label(__('vendra-activity-log::tables.batch_uuid')),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-activity-log::tables.created_at'))
                 ->sinceTooltip()
@@ -91,8 +89,6 @@ final class ActivityLogTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-activity-log::tables.updated_at'))
                 ->sinceTooltip()

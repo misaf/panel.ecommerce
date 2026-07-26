@@ -83,8 +83,6 @@ final class CurrencyTable
                 ->disabled(fn(Currency $record): bool => ! CurrencyResource::canEdit($record)),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-currency::attributes.created_at'))
                 ->sinceTooltip()
@@ -95,8 +93,6 @@ final class CurrencyTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-currency::attributes.updated_at'))
                 ->sinceTooltip()

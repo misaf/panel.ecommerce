@@ -46,8 +46,6 @@ final class TaggerTable
                 ->icon(Heroicon::Tag),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-tagger::attributes.created_at'))
                 ->sinceTooltip()
@@ -59,8 +57,6 @@ final class TaggerTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-tagger::attributes.updated_at'))
                 ->sinceTooltip()

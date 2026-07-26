@@ -61,8 +61,6 @@ final class AttributeTable
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-attribute::attributes.created_at'))
                 ->sinceTooltip()
@@ -73,8 +71,6 @@ final class AttributeTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-attribute::attributes.updated_at'))
                 ->sinceTooltip()

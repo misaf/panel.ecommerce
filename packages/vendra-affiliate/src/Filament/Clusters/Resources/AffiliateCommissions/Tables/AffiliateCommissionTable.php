@@ -62,8 +62,6 @@ final class AffiliateCommissionTable
                     ->label(__('vendra-affiliate::attributes.status')),
 
                 TextColumn::make('created_at')
-                    ->alignCenter()
-                    ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.created_at'))
                     ->sinceTooltip()

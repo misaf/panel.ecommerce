@@ -59,8 +59,6 @@ final class CartTable
                     ),
 
                 TextColumn::make('created_at')
-                    ->alignCenter()
-                    ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-cart::attributes.created_at'))
                     ->sinceTooltip()

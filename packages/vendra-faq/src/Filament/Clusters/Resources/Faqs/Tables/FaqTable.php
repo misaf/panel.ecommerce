@@ -81,8 +81,6 @@ final class FaqTable
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-faq::attributes.created_at'))
                 ->sinceTooltip()
@@ -93,8 +91,6 @@ final class FaqTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-faq::attributes.updated_at'))
                 ->sinceTooltip()

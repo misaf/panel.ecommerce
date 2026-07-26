@@ -65,8 +65,6 @@ final class LatestAuthifyLogTableWidget extends BaseWidget
                     }),
 
                 TextColumn::make('created_at')
-                    ->alignCenter()
-                    ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-authify-log::attributes.created_at'))
                     ->sinceTooltip()

@@ -80,8 +80,6 @@ final class MultimediaTable
                 ->toggleable(),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-multimedia::tables.created_at'))
                 ->sinceTooltip()
@@ -92,8 +90,6 @@ final class MultimediaTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-multimedia::tables.updated_at'))
                 ->sinceTooltip()

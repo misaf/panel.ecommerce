@@ -90,8 +90,6 @@ final class NewsletterSubscriberTable
                     ),
 
                 TextColumn::make('created_at')
-                    ->alignCenter()
-                    ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-newsletter::attributes.created_at'))
                     ->sinceTooltip()

@@ -63,8 +63,6 @@ final class UserProfileTable
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-user-profile::table.columns.created_at'))
                 ->sinceTooltip()
@@ -75,8 +73,6 @@ final class UserProfileTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-user-profile::table.columns.updated_at'))
                 ->sinceTooltip()

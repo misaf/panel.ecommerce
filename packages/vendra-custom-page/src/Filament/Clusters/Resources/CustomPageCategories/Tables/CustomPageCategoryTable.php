@@ -87,8 +87,6 @@ final class CustomPageCategoryTable
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-custom-page::attributes.created_at'))
                 ->sinceTooltip()
@@ -99,8 +97,6 @@ final class CustomPageCategoryTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-custom-page::attributes.updated_at'))
                 ->sinceTooltip()

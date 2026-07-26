@@ -81,8 +81,6 @@ final class BlogPostTable
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-blog::attributes.created_at'))
                 ->sinceTooltip()
@@ -93,8 +91,6 @@ final class BlogPostTable
                 ),
 
             TextColumn::make('updated_at')
-                ->alignCenter()
-                ->badge()
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-blog::attributes.updated_at'))
                 ->sinceTooltip()

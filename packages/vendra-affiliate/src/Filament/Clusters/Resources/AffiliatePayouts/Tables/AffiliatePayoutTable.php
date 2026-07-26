@@ -65,8 +65,6 @@ final class AffiliatePayoutTable
                     ),
 
                 TextColumn::make('created_at')
-                    ->alignCenter()
-                    ->badge()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-affiliate::attributes.created_at'))
                     ->sinceTooltip()
