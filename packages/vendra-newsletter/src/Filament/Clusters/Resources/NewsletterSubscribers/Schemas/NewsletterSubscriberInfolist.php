@@ -21,7 +21,7 @@ final class NewsletterSubscriberInfolist
                 TextEntry::make('name')->label(__('vendra-newsletter::attributes.name')),
                 IconEntry::make('subscribed')
                     ->boolean()
-                    ->label(__('vendra-newsletter::attributes.status'))
+                    ->label(__('vendra-newsletter::attributes.active'))
                     ->state(fn(NewsletterSubscriber $record): bool => $record->isSubscribed()),
                 self::dateEntry('subscribed_at'),
                 self::dateEntry('unsubscribed_at'),

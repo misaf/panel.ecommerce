@@ -10,7 +10,6 @@ return [
     'image'      => 'Image',
     'ip_address' => 'IP Address',
     'name'       => 'Name',
-    'status'     => 'Status',
     'tenant_id'  => 'Tenant',
     'updated_at' => 'Updated At',
 ];

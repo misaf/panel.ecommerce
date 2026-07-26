@@ -10,7 +10,6 @@ return [
     'image'      => 'تصویر',
     'ip_address' => 'آدرس IP',
     'name'       => 'نام',
-    'status'     => 'وضعیت',
     'tenant_id'  => 'مستاجر',
     'updated_at' => 'تاریخ بروزرسانی',
 ];

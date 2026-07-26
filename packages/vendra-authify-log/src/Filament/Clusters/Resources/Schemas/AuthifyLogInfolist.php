@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAuthifyLog\Filament\Clusters\Resources\Schemas;
 
-use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -29,10 +28,6 @@ final class AuthifyLogInfolist
 
                 TextEntry::make('user_agent')
                     ->columnSpanFull(),
-
-                IconEntry::make('status')
-                    ->boolean()
-                    ->label(__('vendra-authify-log::attributes.status')),
 
                 self::dateEntry('created_at'),
                 self::dateEntry('updated_at'),

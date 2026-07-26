@@ -18,6 +18,7 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 
@@ -50,7 +51,7 @@ final class NewsletterSubscriberTable
                 ToggleColumn::make('subscribed')
                     ->alignCenter()
                     ->disabled(fn(NewsletterSubscriber $record): bool => ! NewsletterSubscriberResource::canEdit($record))
-                    ->label(__('vendra-newsletter::attributes.status'))
+                    ->label(__('vendra-newsletter::attributes.active'))
                     ->onIcon(Heroicon::Bolt)
                     ->state(fn(NewsletterSubscriber $record): bool => $record->isSubscribed())
                     ->updateStateUsing(function (NewsletterSubscriber $record, bool $state): bool {
@@ -101,9 +102,14 @@ final class NewsletterSubscriberTable
             ])
             ->filters(
                 [
-                    TernaryFilter::make('unsubscribed_at')
-                        ->label(__('vendra-newsletter::attributes.status'))
-                        ->nullable(),
+                    TernaryFilter::make('subscribed')
+                        ->label(__('vendra-newsletter::attributes.active'))
+                        ->trueLabel(__('vendra-newsletter::attributes.active'))
+                        ->falseLabel(__('vendra-newsletter::attributes.inactive'))
+                        ->queries(
+                            true: fn(Builder $query): Builder => $query->whereNull('unsubscribed_at'),
+                            false: fn(Builder $query): Builder => $query->whereNotNull('unsubscribed_at'),
+                        ),
                     QueryBuilder::make()
                         ->constraints([
                             TextConstraint::make('email')
