@@ -12,9 +12,9 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Misaf\Tenant\Models\Tenant;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
-
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class ManageGeneralSettings extends SettingsPage
@@ -77,8 +77,8 @@ final class ManageGeneralSettings extends SettingsPage
                             ->schema([
                                 // Toggle::make('user_email_verification')
                                 //     ->columnSpanFull()
-                                //     ->inline(false)
                                 //     ->label(__('auth.email_verification'))
+                                //     ->onIcon(Heroicon::Bolt)
                                 //     ->rules('required'),
                             ]),
                     ])
