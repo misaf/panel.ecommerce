@@ -50,9 +50,15 @@ final class LatestProperties extends BaseWidget
                     ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
+                    ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('console.created_at'))
-                    ->dateTime('Y-m-d H:i')
-                    ->sortable(),
+                    ->sinceTooltip()
+                    ->sortable()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->defaultSort('id', 'desc')
             ->paginated([5, 10, 25]);

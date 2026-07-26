@@ -40,15 +40,27 @@ final class DomainsRelationManager extends RelationManager
                     ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
+                    ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('console.created_at'))
-                    ->dateTime('Y-m-d H:i')
-                    ->sortable(),
+                    ->sinceTooltip()
+                    ->sortable()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
 
                 TextColumn::make('deleted_at')
+                    ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('console.replaced_at'))
-                    ->dateTime('Y-m-d H:i')
+                    ->sinceTooltip()
                     ->placeholder('—')
-                    ->sortable(),
+                    ->sortable()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->filters([
                 TrashedFilter::make(),

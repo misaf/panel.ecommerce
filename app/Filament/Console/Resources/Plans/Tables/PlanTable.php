@@ -55,8 +55,14 @@ final class PlanTable
                     ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
-                    ->dateTime('Y-m-d H:i')
-                    ->sortable(),
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->sinceTooltip()
+                    ->sortable()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
             ->recordActions([
                 ActionGroup::make([
