@@ -6,6 +6,7 @@ use App\Models\Reseller;
 use App\Notifications\PropertiesSuspendedNotification;
 use App\Notifications\SubscriptionActivatedNotification;
 use App\Notifications\SubscriptionExpiringNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
@@ -13,6 +14,7 @@ use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
 
 it('notifies the owner when a subscription is activated', function (): void {
     Notification::fake();
@@ -65,4 +67,28 @@ it('notifies the owner when properties are suspended', function (): void {
     app(EnforceSubscriptionsAction::class)->execute();
 
     Notification::assertSentTo($reseller, PropertiesSuspendedNotification::class);
+});
+
+it('queues subscription notifications off the request lifecycle', function (string $notification): void {
+    expect(new ReflectionClass($notification))
+        ->implementsInterface(ShouldQueue::class)->toBeTrue()
+        ->and((new ReflectionClass($notification))->implementsInterface(NotTenantAware::class))->toBeTrue();
+})->with([
+    SubscriptionActivatedNotification::class,
+    SubscriptionExpiringNotification::class,
+    PropertiesSuspendedNotification::class,
+]);
+
+it('sends subscription notifications on the transactional-email queue', function (): void {
+    Notification::fake();
+
+    $reseller = Reseller::factory()->create();
+
+    app(SubscribeAction::class)->execute($reseller, Plan::factory()->create());
+
+    Notification::assertSentTo(
+        $reseller,
+        SubscriptionActivatedNotification::class,
+        fn(SubscriptionActivatedNotification $notification): bool => 'transactional-email' === $notification->queue,
+    );
 });

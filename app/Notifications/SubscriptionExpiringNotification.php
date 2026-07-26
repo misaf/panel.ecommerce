@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Misaf\VendraSubscription\Models\Subscription;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-final class SubscriptionExpiringNotification extends Notification
+final class SubscriptionExpiringNotification extends Notification implements NotTenantAware, ShouldQueue
 {
-    public function __construct(private readonly Subscription $subscription) {}
+    use Queueable;
+
+    public function __construct(private readonly Subscription $subscription)
+    {
+        $this->onQueue('transactional-email');
+    }
 
     /**
      * @return array<int, string>
