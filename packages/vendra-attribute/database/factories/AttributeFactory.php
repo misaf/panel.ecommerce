@@ -20,7 +20,7 @@ final class AttributeFactory extends Factory
             'name'        => fake()->unique()->word(),
             'description' => fake()->optional()->sentence(),
             'unit'        => fake()->optional()->randomElement(['kg', 'cm', 'item', 'month']),
-            'status'      => true,
+            'active'      => true,
         ];
     }
 
@@ -37,11 +37,11 @@ final class AttributeFactory extends Factory
 
     public function enabled(): static
     {
-        return $this->state(fn(): array => ['status' => true]);
+        return $this->state(fn(): array => ['active' => true]);
     }
 
     public function disabled(): static
     {
-        return $this->state(fn(): array => ['status' => false]);
+        return $this->state(fn(): array => ['active' => false]);
     }
 }

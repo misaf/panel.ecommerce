@@ -24,7 +24,7 @@ final class ResellerFactory extends Factory
             'name'        => fake()->unique()->company(),
             'description' => fake()->text(),
             'slug'        => fn(array $attributes) => Str::slug($attributes['name']),
-            'status'      => true,
+            'active'      => true,
             'email'       => fake()->unique()->safeEmail(),
         ];
     }
@@ -38,11 +38,11 @@ final class ResellerFactory extends Factory
 
     public function enabled(): static
     {
-        return $this->state(fn(): array => ['status' => true]);
+        return $this->state(fn(): array => ['active' => true]);
     }
 
     public function disabled(): static
     {
-        return $this->state(fn(): array => ['status' => false]);
+        return $this->state(fn(): array => ['active' => false]);
     }
 }

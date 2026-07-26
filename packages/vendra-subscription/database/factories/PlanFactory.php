@@ -33,7 +33,7 @@ final class PlanFactory extends Factory
             'currency_code'  => null,
             'trial_days'     => 0,
             'features'       => null,
-            'status'         => true,
+            'active'         => true,
             'is_default'     => false,
         ];
     }

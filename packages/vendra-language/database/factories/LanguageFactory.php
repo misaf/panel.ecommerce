@@ -22,7 +22,7 @@ final class LanguageFactory extends Factory
     {
         return [
             'locale'     => $this->faker->unique()->randomElement(Locales::configured()),
-            'status'     => true,
+            'active'     => true,
             'is_default' => false,
             'position'   => $this->faker->numberBetween(1, 1000),
         ];

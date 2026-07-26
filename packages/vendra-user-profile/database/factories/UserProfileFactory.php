@@ -26,7 +26,7 @@ final class UserProfileFactory extends Factory
             'description' => fake()->realTextBetween(100, 200),
             'slug'        => fn(array $attributes) => Str::slug($attributes['name']),
             'is_default'  => fake()->boolean(1),
-            'status'      => fake()->boolean(80),
+            'active'      => fake()->boolean(80),
         ];
     }
 
@@ -53,11 +53,11 @@ final class UserProfileFactory extends Factory
 
     public function enabled(): static
     {
-        return $this->state(fn(): array => ['status' => true]);
+        return $this->state(fn(): array => ['active' => true]);
     }
 
     public function disabled(): static
     {
-        return $this->state(fn(): array => ['status' => false]);
+        return $this->state(fn(): array => ['active' => false]);
     }
 }

@@ -23,7 +23,7 @@ final class CustomPageFactory extends Factory
             'custom_page_category_id' => CustomPageCategory::factory(),
             'name'                    => ['en' => fake()->sentences(1, true)],
             'description'             => ['en' => fake()->realTextBetween(100, 200)],
-            'status'                  => fake()->boolean(80),
+            'active'                  => fake()->boolean(80),
         ];
     }
 
@@ -50,11 +50,11 @@ final class CustomPageFactory extends Factory
 
     public function enabled(): static
     {
-        return $this->state(fn(): array => ['status' => true]);
+        return $this->state(fn(): array => ['active' => true]);
     }
 
     public function disabled(): static
     {
-        return $this->state(fn(): array => ['status' => false]);
+        return $this->state(fn(): array => ['active' => false]);
     }
 }

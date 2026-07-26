@@ -31,7 +31,7 @@ final class CurrencyFactory extends Factory
             'symbol'         => null,
             'decimal_places' => CurrencyRegistry::minorUnitFor($code) ?? 2,
             'type'           => CurrencyType::Fiat,
-            'status'         => true,
+            'active'         => true,
             'is_default'     => false,
             'position'       => $this->faker->numberBetween(1, 1000),
         ];
@@ -44,7 +44,7 @@ final class CurrencyFactory extends Factory
 
     public function disabled(): static
     {
-        return $this->state(fn(): array => ['status' => false]);
+        return $this->state(fn(): array => ['active' => false]);
     }
 
     public function crypto(): static
