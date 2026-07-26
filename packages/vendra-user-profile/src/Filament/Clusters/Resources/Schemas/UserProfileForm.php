@@ -24,8 +24,10 @@ final class UserProfileForm
         return $schema
             ->components([
                 Select::make('user_id')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.user_id'))
                     ->columnSpanFull()
                     ->label(__('vendra-user-profile::attributes.user'))
+                    ->live()
                     ->native(false)
                     ->preload()
                     ->relationship('user', 'username')
@@ -33,7 +35,9 @@ final class UserProfileForm
                     ->searchable(),
 
                 TextInput::make('name')
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                    ->afterStateUpdated(function (Livewire $livewire, Get $get, Set $set, ?string $old, ?string $state): void {
+                        $livewire->validateOnly('data.name');
+
                         if (($get->string('slug', isNullable: true) ?? '') === Str::slug($old ?? '')) {
                             $set('slug', Str::slug($state ?? ''));
                         }
@@ -54,6 +58,7 @@ final class UserProfileForm
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-user-profile::attributes.slug_helper_text'))
                     ->label(__('vendra-user-profile::attributes.slug'))
+                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required()
                     ->unique(
@@ -62,8 +67,10 @@ final class UserProfileForm
                     ),
 
                 Textarea::make('description')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.description'))
                     ->columnSpanFull()
                     ->label(__('vendra-user-profile::attributes.description'))
+                    ->live(onBlur: true)
                     ->maxLength(255),
 
                 Toggle::make('is_default')
@@ -71,6 +78,7 @@ final class UserProfileForm
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-user-profile::attributes.is_default'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([
@@ -82,6 +90,7 @@ final class UserProfileForm
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-user-profile::attributes.status'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([

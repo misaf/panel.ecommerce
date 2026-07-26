@@ -24,8 +24,10 @@ final class AttributeForm
     {
         $components = [
             TextInput::make('name')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.name'))
                 ->autofocus()
                 ->label(__('vendra-attribute::attributes.name'))
+                ->live(onBlur: true)
                 ->maxLength(255)
                 ->required()
                 ->unique(
@@ -34,14 +36,19 @@ final class AttributeForm
                 ),
 
             Select::make('unit')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.unit'))
                 ->label(__('vendra-attribute::attributes.unit'))
+                ->live()
                 ->native(false)
                 ->options(AttributeUnits::options())
                 ->searchable(),
 
             Textarea::make('description')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.description'))
                 ->columnSpanFull()
                 ->label(__('vendra-attribute::attributes.description'))
+                ->live(onBlur: true)
+                ->maxLength(65535)
                 ->rows(4),
 
             Toggle::make('status')
@@ -49,6 +56,7 @@ final class AttributeForm
                 ->columnSpanFull()
                 ->default(true)
                 ->label(__('vendra-attribute::attributes.status'))
+                ->live()
                 ->onIcon(Heroicon::Bolt)
                 ->required()
                 ->rules([
@@ -58,8 +66,10 @@ final class AttributeForm
 
         if (TagIntegration::isAvailable()) {
             $components[] = SpatieTagsInput::make('tags')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.tags'))
                 ->columnSpanFull()
                 ->label(__('vendra-support::attributes.tags'))
+                ->live()
                 ->type(Attribute::TAG_TYPE);
         }
 

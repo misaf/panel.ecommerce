@@ -33,7 +33,9 @@ final class LanguageLineForm
                     ->placeholder(__('vendra-language::attributes.namespace_none'))
                     ->preload()
                     ->searchable()
-                    ->afterStateUpdated(function (Set $set): void {
+                    ->afterStateUpdated(function (Livewire $livewire, Set $set): void {
+                        $livewire->validateOnly('data.namespace');
+
                         $set('group', null);
                         $set('key', null);
                     }),
@@ -50,7 +52,9 @@ final class LanguageLineForm
                     ->preload()
                     ->required()
                     ->searchable()
-                    ->afterStateUpdated(function (Set $set): void {
+                    ->afterStateUpdated(function (Livewire $livewire, Set $set): void {
+                        $livewire->validateOnly('data.group');
+
                         $set('key', null);
                     }),
 
@@ -61,6 +65,7 @@ final class LanguageLineForm
                     ->autofocus()
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-language::attributes.key'))
+                    ->live()
                     ->native(false)
                     ->options(fn(Get $get, TranslationCatalog $catalog): array => $catalog->keyOptions(
                         $get->string('namespace', isNullable: true),
@@ -91,6 +96,8 @@ final class LanguageLineForm
 
                 KeyValue::make('text')
                     ->addable(false)
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.text'))
+                    ->live()
                     ->afterStateHydrated(function (KeyValue $component, mixed $state): void {
                         $translations = [];
 

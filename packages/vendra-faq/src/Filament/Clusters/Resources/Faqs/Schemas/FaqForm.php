@@ -30,8 +30,10 @@ final class FaqForm
     {
         $components = [
             Select::make('faq_category_id')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.faq_category_id'))
                 ->columnSpanFull()
                 ->label(__('vendra-faq::navigation.faq_category'))
+                ->live()
                 ->native(false)
                 ->preload()
                 ->relationship('faqCategory', 'name')
@@ -39,7 +41,9 @@ final class FaqForm
                 ->searchable(),
 
             TextInput::make('name')
-                ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                ->afterStateUpdated(function (Livewire $livewire, Get $get, Set $set, ?string $old, ?string $state): void {
+                    $livewire->validateOnly('data.name');
+
                     if (($get->string('slug', isNullable: true) ?? '') === Str::slug($old ?? '')) {
                         $set('slug', Str::slug($state ?? ''));
                     }
@@ -48,6 +52,7 @@ final class FaqForm
                 ->columnSpan(['lg' => 1])
                 ->label(__('vendra-faq::attributes.name'))
                 ->live(onBlur: true)
+                ->maxLength(255)
                 ->required()
                 ->unique(
                     column: fn(Livewire $livewire): string => 'name->' . self::activeFormLocale($livewire),
@@ -60,6 +65,8 @@ final class FaqForm
                 ->columnSpan(['lg' => 1])
                 ->helperText(__('vendra-faq::attributes.slug_helper_text'))
                 ->label(__('vendra-faq::attributes.slug'))
+                ->live(onBlur: true)
+                ->maxLength(255)
                 ->required()
                 ->unique(
                     column: fn(Livewire $livewire): string => 'slug->' . self::activeFormLocale($livewire),
@@ -68,16 +75,20 @@ final class FaqForm
                 ),
 
             RichEditor::make('description')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.description'))
                 ->columnSpanFull()
                 ->label(__('vendra-faq::attributes.description'))
+                ->live(onBlur: true)
                 ->required()
                 ->json(),
 
             SpatieMediaLibraryFileUpload::make('image')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.image'))
                 ->collection(Faq::MEDIA_COLLECTION)
                 ->columnSpanFull()
                 ->image()
                 ->label(__('vendra-faq::attributes.image'))
+                ->live()
                 ->panelLayout('grid')
                 ->responsiveImages(),
 
@@ -86,6 +97,7 @@ final class FaqForm
                 ->columnSpanFull()
                 ->default(false)
                 ->label(__('vendra-faq::attributes.status'))
+                ->live()
                 ->onIcon(Heroicon::Bolt)
                 ->required()
                 ->rules([
@@ -95,8 +107,10 @@ final class FaqForm
 
         if (TagIntegration::isAvailable()) {
             $components[] = SpatieTagsInput::make('tags')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.tags'))
                 ->columnSpanFull()
                 ->label(__('vendra-support::attributes.tags'))
+                ->live()
                 ->type(Faq::TAG_TYPE);
         }
 

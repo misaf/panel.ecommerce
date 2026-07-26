@@ -28,7 +28,9 @@ final class FaqCategoryForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                    ->afterStateUpdated(function (Livewire $livewire, Get $get, Set $set, ?string $old, ?string $state): void {
+                        $livewire->validateOnly('data.name');
+
                         if (($get->string('slug', isNullable: true) ?? '') === Str::slug($old ?? '')) {
                             $set('slug', Str::slug($state ?? ''));
                         }
@@ -37,6 +39,7 @@ final class FaqCategoryForm
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-faq::attributes.name'))
                     ->live(onBlur: true)
+                    ->maxLength(255)
                     ->required()
                     ->unique(
                         column: fn(Livewire $livewire): string => 'name->' . self::activeFormLocale($livewire),
@@ -49,6 +52,8 @@ final class FaqCategoryForm
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-faq::attributes.slug_helper_text'))
                     ->label(__('vendra-faq::attributes.slug'))
+                    ->live(onBlur: true)
+                    ->maxLength(255)
                     ->required()
                     ->unique(
                         column: fn(Livewire $livewire): string => 'slug->' . self::activeFormLocale($livewire),
@@ -57,15 +62,20 @@ final class FaqCategoryForm
                     ),
 
                 Textarea::make('description')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.description'))
                     ->columnSpanFull()
                     ->label(__('vendra-faq::attributes.description'))
+                    ->live(onBlur: true)
+                    ->maxLength(65535)
                     ->rows(5),
 
                 SpatieMediaLibraryFileUpload::make('image')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.image'))
                     ->collection(FaqCategory::MEDIA_COLLECTION)
                     ->columnSpanFull()
                     ->image()
                     ->label(__('vendra-faq::attributes.image'))
+                    ->live()
                     ->panelLayout('grid')
                     ->responsiveImages(),
 
@@ -74,6 +84,7 @@ final class FaqCategoryForm
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-faq::attributes.status'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules([

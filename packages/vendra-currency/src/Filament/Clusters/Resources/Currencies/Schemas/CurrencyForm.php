@@ -26,7 +26,9 @@ final class CurrencyForm
         return $schema
             ->components([
                 Select::make('code')
-                    ->afterStateUpdated(function (Set $set, ?string $state): void {
+                    ->afterStateUpdated(function (Livewire $livewire, Set $set, ?string $state): void {
+                        $livewire->validateOnly('data.code');
+
                         if (null === $state || ! CurrencyRegistry::isSupported($state)) {
                             return;
                         }
@@ -47,20 +49,27 @@ final class CurrencyForm
                     ),
 
                 TextInput::make('name')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.name'))
                     ->label(__('vendra-currency::attributes.name'))
+                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required(),
 
                 TextInput::make('symbol')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.symbol'))
+                    ->helperText(__('vendra-currency::attributes.symbol_helper_text'))
                     ->label(__('vendra-currency::attributes.symbol'))
+                    ->live(onBlur: true)
                     ->maxLength(16),
 
                 TextInput::make('decimal_places')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.decimal_places'))
                     ->dehydrated()
                     ->disabled(fn(Get $get): bool => CurrencyType::Fiat->value === $get('type'))
                     ->helperText(__('vendra-currency::messages.decimal_places_fiat_hint'))
                     ->integer()
                     ->label(__('vendra-currency::attributes.decimal_places'))
+                    ->live(onBlur: true)
                     ->maxValue(255)
                     ->minValue(0)
                     ->required(),
@@ -79,6 +88,7 @@ final class CurrencyForm
                     ->columnSpanFull()
                     ->default(true)
                     ->label(__('vendra-currency::attributes.status'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules(['boolean']),
@@ -87,7 +97,9 @@ final class CurrencyForm
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.is_default'))
                     ->columnSpanFull()
                     ->default(false)
+                    ->helperText(__('vendra-currency::attributes.is_default_helper_text'))
                     ->label(__('vendra-currency::attributes.is_default'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules(['boolean']),

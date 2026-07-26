@@ -22,8 +22,10 @@ final class LanguageForm
         return $schema
             ->components([
                 Select::make('locale')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.locale'))
                     ->columnSpanFull()
                     ->label(__('vendra-language::attributes.locale'))
+                    ->live()
                     ->native(false)
                     ->options(fn(?Language $record): array => static::installableLocaleOptions($record))
                     ->required()
@@ -38,6 +40,7 @@ final class LanguageForm
                     ->columnSpanFull()
                     ->default(false)
                     ->label(__('vendra-language::attributes.status'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules(['boolean']),
@@ -46,7 +49,9 @@ final class LanguageForm
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.is_default'))
                     ->columnSpanFull()
                     ->default(false)
+                    ->helperText(__('vendra-language::attributes.is_default_helper_text'))
                     ->label(__('vendra-language::attributes.is_default'))
+                    ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()
                     ->rules(['boolean']),

@@ -159,10 +159,10 @@ final class LanguageLineTable
     private static function progressColor(int $percentage, int $total): string
     {
         return match (true) {
-            0 === $total          => 'gray',
-            100 === $percentage   => 'success',
-            $percentage > 0       => 'warning',
-            default               => 'danger',
+            0 === $total         => 'gray',
+            100 === $percentage  => 'success',
+            $percentage > 0      => 'warning',
+            default              => 'danger',
         };
     }
 }

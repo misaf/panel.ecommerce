@@ -7,6 +7,7 @@ namespace Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribe
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rules\Unique;
+use Livewire\Component as Livewire;
 use Misaf\VendraSupport\Support\TenantAwareness;
 
 final class NewsletterSubscriberForm
@@ -16,10 +17,12 @@ final class NewsletterSubscriberForm
         return $schema
             ->components([
                 TextInput::make('email')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.email'))
                     ->autofocus()
                     ->columnSpan(['lg' => 1])
                     ->email()
                     ->label(__('vendra-newsletter::attributes.email'))
+                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required()
                     ->unique(
@@ -28,8 +31,10 @@ final class NewsletterSubscriberForm
                     ),
 
                 TextInput::make('name')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.name'))
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-newsletter::attributes.name'))
+                    ->live(onBlur: true)
                     ->maxLength(255),
             ]);
     }

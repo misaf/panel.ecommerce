@@ -50,6 +50,7 @@ final class TaggerForm
                     ->columnSpan(['lg' => 1])
                     ->helperText(__('vendra-tagger::attributes.slug_helper_text'))
                     ->label(__('vendra-tagger::attributes.slug'))
+                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required()
                     ->unique(
@@ -67,6 +68,7 @@ final class TaggerForm
                 TextInput::make('type')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.type'))
                     ->columnSpanFull()
+                    ->helperText(__('vendra-tagger::attributes.type_helper_text'))
                     ->label(__('vendra-tagger::attributes.type'))
                     ->live(onBlur: true)
                     ->maxLength(255),

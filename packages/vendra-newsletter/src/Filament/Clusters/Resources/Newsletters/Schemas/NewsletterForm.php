@@ -10,6 +10,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Livewire\Component as Livewire;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 
 final class NewsletterForm
@@ -19,13 +20,16 @@ final class NewsletterForm
         return $schema
             ->components([
                 TextInput::make('subject')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.subject'))
                     ->autofocus()
                     ->columnSpanFull()
                     ->label(__('vendra-newsletter::attributes.subject'))
+                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required(),
 
                 Select::make('status')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->columnSpan(['lg' => 1])
                     ->default(NewsletterStatusEnum::Draft)
                     ->label(__('vendra-newsletter::attributes.status'))
@@ -37,8 +41,10 @@ final class NewsletterForm
                     ->selectablePlaceholder(false),
 
                 DateTimePicker::make('scheduled_at')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.scheduled_at'))
                     ->columnSpan(['lg' => 1])
                     ->label(__('vendra-newsletter::attributes.scheduled_at'))
+                    ->live()
                     ->minDate(now())
                     ->required(fn(Get $get): bool => NewsletterStatusEnum::Scheduled === $get('status'))
                     ->seconds(false)
