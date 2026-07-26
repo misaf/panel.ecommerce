@@ -47,6 +47,8 @@ final class ResellerPanelServiceProvider extends PanelProvider
             ->discoverPages(app_path('Filament/Reseller/Pages'), 'App\\Filament\\Reseller\\Pages')
             ->discoverWidgets(app_path('Filament/Reseller/Widgets'), 'App\\Filament\\Reseller\\Widgets')
             ->pages([Dashboard::class])
+            ->globalSearchFieldKeyBindingSuffix()
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->homeUrl('/')
             ->authGuard('reseller')
             ->authPasswordBroker('reseller_users')
