@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
@@ -28,7 +28,7 @@ final class HorizonServiceProvider extends HorizonApplicationServiceProvider
                 return true;
             }
 
-            return $user?->hasRole(Config::string('vendra-permission.super_admin_role')) ?? false;
+            return Auth::guard('console')->check();
         });
     }
 }
