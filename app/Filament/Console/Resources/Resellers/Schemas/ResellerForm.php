@@ -15,9 +15,10 @@ use Filament\Schemas\Schema;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\Unique;
+use Livewire\Component as Livewire;
+use Misaf\LaravelEmailValidation\Rules\EmailValidation;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSupport\Filament\Actions\GeneratePasswordAction;
-use Misaf\VendraSupport\Rules\EmailValidation;
 
 final class ResellerForm
 {
@@ -26,7 +27,9 @@ final class ResellerForm
         return $schema
             ->components([
                 TextInput::make('username')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.username'))
                     ->label(__('console.username'))
+                    ->live(onBlur: true)
                     ->minLength(3)
                     ->maxLength(12)
                     ->rules(['alpha_dash'])
@@ -40,16 +43,18 @@ final class ResellerForm
                     ->visibleOn('create'),
 
                 TextInput::make('email')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.email'))
                     ->label(__('console.email'))
                     ->email()
                     ->extraAttributes(['dir' => 'ltr'])
+                    ->live(onBlur: true)
                     ->maxLength(255)
                     ->required(fn(string $operation): bool => 'create' === $operation)
                     ->rules(fn(string $operation): array => 'create' === $operation
                         ? [
                             'bail',
                             'email:rfc,strict,spoof,filter,filter_unicode',
-                            new EmailValidation(app()->isProduction()),
+                            new EmailValidation(),
                             Rule::unique(ResellerUser::class, 'email')->withoutTrashed(),
                         ]
                         : []),
@@ -76,16 +81,28 @@ final class ResellerForm
                     ->visibleOn('create'),
 
                 Select::make('plan_id')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.plan_id'))
                     ->label(__('console.subscription_plan'))
-                    ->options(fn(): array => Plan::query()->enabled()->pluck('name', 'id')->all())
+                    ->live()
+                    ->options(fn(): array => Plan::query()
+                        ->enabled()
+                        ->get()
+                        ->mapWithKeys(fn(Plan $plan): array => [
+                            $plan->id => "{$plan->name} — " . ($plan->isFree()
+                                ? __('console.free')
+                                : $plan->formattedPrice()),
+                        ])
+                        ->all())
                     ->required()
                     ->native(false)
                     ->visibleOn('create'),
 
                 Toggle::make('status')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
                     ->label(__('console.status'))
                     ->columnSpanFull()
                     ->default(true)
+                    ->live()
                     ->required(),
 
                 Section::make(__('console.current_subscription'))

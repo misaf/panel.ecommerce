@@ -246,7 +246,7 @@ it('lets an owner create a property within the plan limit', function (): void {
     livewire(CreateProperty::class)
         ->fillForm([
             'domain' => 'acme.test',
-            'email'  => 'admin@acme.test',
+            'email'  => 'admin@gmail.com',
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -257,7 +257,7 @@ it('lets an owner create a property within the plan limit', function (): void {
     ]);
     assertDatabaseHas('users', [
         'username' => 'admin',
-        'email'    => 'admin@acme.test',
+        'email'    => 'admin@gmail.com',
     ]);
 });
 

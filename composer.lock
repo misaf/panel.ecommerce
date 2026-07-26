@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77b03b7c54058a537c9b7afd8d86fcc2",
+    "content-hash": "26c753cc819a0603196359414055c52f",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5723,6 +5723,153 @@
             "time": "2026-02-04T21:19:07+00:00"
         },
         {
+            "name": "misaf/laravel-email-validation",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/misaf/laravel-email-validation.git",
+                "reference": "0017dd3dcf532af488dbd2c235bf65ae94faafc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/misaf/laravel-email-validation/zipball/0017dd3dcf532af488dbd2c235bf65ae94faafc6",
+                "reference": "0017dd3dcf532af488dbd2c235bf65ae94faafc6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^13.0",
+                "illuminate/support": "^13.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.10.0",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "mockery/mockery": "^1.6.12",
+                "nunomaduro/collision": "^8.9.4",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
+                "phpstan/extension-installer": "^1.4.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\LaravelEmailValidation\\Providers\\EmailValidationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\LaravelEmailValidation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Provider-neutral email domain and deliverability validation for Laravel applications",
+            "homepage": "https://github.com/misaf/laravel-email-validation",
+            "keywords": [
+                "deliverability",
+                "email",
+                "laravel",
+                "misaf",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/laravel-email-validation/issues",
+                "source": "https://github.com/misaf/laravel-email-validation"
+            },
+            "time": "2026-07-26T00:38:12+00:00"
+        },
+        {
+            "name": "misaf/laravel-email-validation-emailable",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/misaf/laravel-email-validation-emailable.git",
+                "reference": "9150c56a7c758848e15d8df74da37652de856650"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/misaf/laravel-email-validation-emailable/zipball/9150c56a7c758848e15d8df74da37652de856650",
+                "reference": "9150c56a7c758848e15d8df74da37652de856650",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^13.0",
+                "illuminate/support": "^13.0",
+                "misaf/laravel-email-validation": "^1.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.10.0",
+                "laravel/boost": "^2.4.12",
+                "laravel/pint": "^1.29.3",
+                "mockery/mockery": "^1.6.12",
+                "nunomaduro/collision": "^8.9.4",
+                "orchestra/testbench": "^11.1",
+                "pestphp/pest": "^4.7.5",
+                "pestphp/pest-plugin-arch": "^4.0.2",
+                "pestphp/pest-plugin-laravel": "^4.1",
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.4",
+                "phpstan/extension-installer": "^1.4.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\LaravelEmailValidationEmailable\\Providers\\EmailableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\LaravelEmailValidationEmailable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Emailable deliverability driver for Laravel email validation",
+            "homepage": "https://github.com/misaf/laravel-email-validation-emailable",
+            "keywords": [
+                "email",
+                "emailable",
+                "laravel",
+                "misaf",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/laravel-email-validation-emailable/issues",
+                "source": "https://github.com/misaf/laravel-email-validation-emailable"
+            },
+            "time": "2026-07-26T00:38:53+00:00"
+        },
+        {
             "name": "misaf/laravel-email-webhooks",
             "version": "v1.0.1",
             "source": {
@@ -8434,9 +8581,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "2fac23c7c374c29460a87a44f655f95326edd97b"
+                "reference": "8caa80d5502e094502c42989a5a414e4913e0dcf"
             },
             "require": {
+                "cknow/laravel-money": "^8.5",
                 "misaf/vendra-support": "self.version",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
@@ -8999,11 +9147,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "b13b95b7acef063f70e22df35738266151146d28"
+                "reference": "68ef49b45ef3cc6a5a9b8db6ace21807ecf6691f"
             },
             "require": {
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
+                "misaf/laravel-email-validation": "^1.0",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
                 "php": "^8.3",

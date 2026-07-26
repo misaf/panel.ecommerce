@@ -118,19 +118,19 @@ it('lets a console admin create a plan', function (): void {
 
     livewire(CreatePlan::class)
         ->fillForm([
-            'name'           => 'Pro',
-            'max_units'      => 3,
-            'period_unit'    => 'month',
-            'period_count'   => 1,
-            'status'         => true,
+            'name'          => 'Pro',
+            'max_units'     => 3,
+            'period_unit'   => 'month',
+            'period_count'  => 1,
+            'status'        => true,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
 
     assertDatabaseHas('plans', [
-        'name'           => 'Pro',
-        'max_units'      => 3,
-        'period_unit'    => 'month',
+        'name'          => 'Pro',
+        'max_units'     => 3,
+        'period_unit'   => 'month',
     ]);
 });
 
@@ -139,13 +139,13 @@ it('requires a currency for a paid plan', function (): void {
 
     livewire(CreatePlan::class)
         ->fillForm([
-            'name'            => 'Paid',
-            'max_units'       => 3,
-            'period_unit'     => 'month',
-            'period_count'    => 1,
-            'price'           => 1500,
-            'currency_code'   => null,
-            'status'          => true,
+            'name'           => 'Paid',
+            'max_units'      => 3,
+            'period_unit'    => 'month',
+            'period_count'   => 1,
+            'price'          => 1500,
+            'currency_code'  => null,
+            'status'         => true,
         ])
         ->call('create')
         ->assertHasFormErrors(['currency_code' => 'required']);
@@ -158,7 +158,7 @@ it('honors a disabled status when creating a reseller', function (): void {
         ->fillForm([
             'plan_id'               => Plan::factory()->create()->getKey(),
             'username'              => 'paused_owner',
-            'email'                 => 'owner@paused.test',
+            'email'                 => 'owner@gmail.com',
             'password'              => 'Secure123',
             'password_confirmation' => 'Secure123',
             'status'                => false,
@@ -206,10 +206,10 @@ it('creates a property for a reseller within its plan limit', function (): void 
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'reseller_id'     => $reseller->getKey(),
-            'domain'          => 'acme.test',
-            'email'           => 'admin@acme.test',
-            'status'          => true,
+            'reseller_id'    => $reseller->getKey(),
+            'domain'         => 'acme.test',
+            'email'          => 'admin@gmail.com',
+            'status'         => true,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -220,7 +220,7 @@ it('creates a property for a reseller within its plan limit', function (): void 
     ]);
     assertDatabaseHas('users', [
         'username' => 'admin',
-        'email'    => 'admin@acme.test',
+        'email'    => 'admin@gmail.com',
     ]);
 });
 
@@ -233,10 +233,10 @@ it('blocks property creation once the reseller reaches its plan limit', function
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'reseller_id'     => $reseller->getKey(),
-            'domain'          => 'second.test',
-            'email'           => 'admin@second.test',
-            'status'          => true,
+            'reseller_id'    => $reseller->getKey(),
+            'domain'         => 'second.test',
+            'email'          => 'admin@second.test',
+            'status'         => true,
         ])
         ->call('create');
 
@@ -254,20 +254,20 @@ it('validates property domains during creation', function (): void {
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'reseller_id'     => $reseller->getKey(),
-            'domain'          => 'not a domain',
-            'email'           => 'invalid@example.test',
-            'status'          => true,
+            'reseller_id'    => $reseller->getKey(),
+            'domain'         => 'not a domain',
+            'email'          => 'invalid@example.test',
+            'status'         => true,
         ])
         ->call('create')
         ->assertHasFormErrors(['domain' => 'regex']);
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'reseller_id'     => $reseller->getKey(),
-            'domain'          => 'taken.test',
-            'email'           => 'duplicate@example.test',
-            'status'          => true,
+            'reseller_id'    => $reseller->getKey(),
+            'domain'         => 'taken.test',
+            'email'          => 'duplicate@example.test',
+            'status'         => true,
         ])
         ->call('create')
         ->assertHasFormErrors(['domain' => 'unique']);

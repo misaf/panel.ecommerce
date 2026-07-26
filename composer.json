@@ -63,6 +63,8 @@
         "misaf/vendra-custom-page": "self.version",
         "misaf/vendra-custom-page-api": "self.version",
         "misaf/vendra-document": "self.version",
+        "misaf/laravel-email-validation": "^1.0",
+        "misaf/laravel-email-validation-emailable": "^1.0",
         "misaf/vendra-faq": "self.version",
         "misaf/vendra-faq-api": "self.version",
         "misaf/vendra-language": "self.version",

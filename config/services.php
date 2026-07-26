@@ -17,21 +17,6 @@ return [
     */
 
     'email' => [
-        'allowed_domains' => [
-            'gmail.com',
-            'yahoo.com',
-            'yahoo.de',
-            'hotmail.com',
-            'outlook.com',
-            'aol.com',
-            'icloud.com',
-            'protonmail.com',
-            'mail.com',
-            'gmx.com',
-            'live.com',
-            'msn.com',
-            'ymail.com',
-        ],
         'webhooks' => [
             'default_provider' => env('EMAIL_WEBHOOKS_DEFAULT_PROVIDER', 'resend'),
             'resend'           => [
@@ -62,11 +47,6 @@ return [
         'host'   => env('COINPAYMENTS_HOST'),
         'key'    => env('COINPAYMENTS_KEY'),
         'secret' => env('COINPAYMENTS_SECRET'),
-    ],
-
-    'emailable' => [
-        'host'    => env('EMAILABLE_HOST'),
-        'api_key' => env('EMAILABLE_API_KEY'),
     ],
 
     'resend' => [

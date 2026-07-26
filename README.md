@@ -32,6 +32,7 @@ by Laravel unless their README says otherwise.
 | Area | Packages |
 | --- | --- |
 | Foundation | [Support](packages/vendra-support), [API](packages/vendra-api), [Tenant](packages/vendra-tenant), [Testing](packages/vendra-testing) |
+| Standalone dependencies | [Email Validation](https://github.com/misaf/laravel-email-validation), [Emailable Driver](https://github.com/misaf/laravel-email-validation-emailable) |
 | Catalog and sales | [Product](packages/vendra-product), [Attribute](packages/vendra-attribute), [Currency](packages/vendra-currency), [Cart](packages/vendra-cart), [Transaction](packages/vendra-transaction), [Subscription](packages/vendra-subscription) |
 | Content and marketing | [Blog](packages/vendra-blog), [Custom Page](packages/vendra-custom-page), [FAQ](packages/vendra-faq), [Multimedia](packages/vendra-multimedia), [Tagger](packages/vendra-tagger), [Newsletter](packages/vendra-newsletter), [Affiliate](packages/vendra-affiliate) |
 | Customers and access | [User](packages/vendra-user), [User Profile](packages/vendra-user-profile), [Address](packages/vendra-address), [Phone](packages/vendra-phone), [Document](packages/vendra-document), [Verification](packages/vendra-verification), [Permission](packages/vendra-permission), [Socialite](packages/vendra-socialite) |
