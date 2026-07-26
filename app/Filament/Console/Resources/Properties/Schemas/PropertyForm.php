@@ -57,9 +57,9 @@ final class PropertyForm
                     ])
                     ->visibleOn('create'),
 
-                Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
-                    ->label(__('console.status'))
+                Toggle::make('active')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
+                    ->label(__('console.active'))
                     ->columnSpanFull()
                     ->default(true)
                     ->live()

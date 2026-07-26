@@ -35,7 +35,7 @@ final class DomainsRelationManager extends RelationManager
                     ->icon(Heroicon::GlobeAlt)
                     ->searchable(),
 
-                ToggleColumn::make('status')
+                ToggleColumn::make('active')
                     ->label(__('console.active'))
                     ->onIcon(Heroicon::Bolt),
 

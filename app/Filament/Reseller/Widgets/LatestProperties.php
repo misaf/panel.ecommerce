@@ -45,8 +45,8 @@ final class LatestProperties extends BaseWidget
                     ->state(fn(Tenant $record): ?string => $record->activeDomainName())
                     ->placeholder('—'),
 
-                ToggleColumn::make('status')
-                    ->label(__('console.status'))
+                ToggleColumn::make('active')
+                    ->label(__('console.active'))
                     ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')

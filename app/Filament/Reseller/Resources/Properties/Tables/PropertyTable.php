@@ -13,6 +13,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
@@ -25,6 +27,11 @@ final class PropertyTable
         return $table
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('reseller_id', PropertyResource::currentResellerId()))
             ->columns([
+                TextColumn::make('row')
+                    ->label('#')
+                    ->rowIndex()
+                    ->sortable(['id']),
+
                 TextColumn::make('name')
                     ->label(__('console.name'))
                     ->icon(Heroicon::Tag)
@@ -46,15 +53,16 @@ final class PropertyTable
                     ->url(fn(Tenant $record): string => 'https://' . $record->slug . '.' . Config::string('vendra-tenant.central_host'))
                     ->openUrlInNewTab()
                     ->copyable()
-                    ->copyMessage('URL copied')
+                    ->copyMessage(__('console.url_copied'))
                     ->placeholder('—'),
 
-                ToggleColumn::make('status')
-                    ->label(__('console.status'))
+                ToggleColumn::make('active')
+                    ->label(__('console.active'))
                     ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('console.created_at'))
                     ->sinceTooltip()
                     ->sortable()
                     ->when(
@@ -62,10 +70,39 @@ final class PropertyTable
                         fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
                         fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
                     ),
+
+                TextColumn::make('updated_at')
+                    ->extraCellAttributes(['dir' => 'ltr'])
+                    ->label(__('console.updated_at'))
+                    ->sinceTooltip()
+                    ->when(
+                        app()->isLocale('fa'),
+                        fn(TextColumn $column) => $column->jalaliDateTime('Y-m-d H:i', latinNumbers: true),
+                        fn(TextColumn $column) => $column->dateTime('Y-m-d H:i')
+                    ),
             ])
+            ->description(__('console.tables.description.properties'))
+            ->emptyStateHeading(__('console.tables.empty_state.heading.properties'))
+            ->emptyStateDescription(__('console.tables.empty_state.description.properties'))
+            ->emptyStateIcon(Heroicon::OutlinedGlobeAlt)
+            ->filters(
+                [
+                    TernaryFilter::make('active')
+                        ->label(__('console.active'))
+                        ->trueLabel(__('console.active'))
+                        ->falseLabel(__('console.inactive'))
+                        ->queries(
+                            true: fn(Builder $query): Builder => $query->where('active', true),
+                            false: fn(Builder $query): Builder => $query->where('active', false),
+                            blank: fn(Builder $query): Builder => $query,
+                        ),
+                ],
+                layout: FiltersLayout::AboveContentCollapsible,
+            )
             ->recordActions([
                 ActionGroup::make([
                     ReplaceDomainAction::make(),
+
                     DeleteAction::make()
                         ->authorize(fn(): bool => PropertyResource::canCreate()),
                 ]),
@@ -76,6 +113,6 @@ final class PropertyTable
                         ->authorize(fn(): bool => PropertyResource::canCreate()),
                 ]),
             ])
-            ->defaultSort('id', 'desc');
+            ->defaultSort(column: 'id', direction: 'desc');
     }
 }

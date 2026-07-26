@@ -105,9 +105,9 @@ final class PlanForm
                     ->live(onBlur: true)
                     ->maxLength(1000),
 
-                Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
-                    ->label(__('console.status'))
+                Toggle::make('active')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
+                    ->label(__('console.active'))
                     ->columnSpanFull()
                     ->default(true)
                     ->live()
@@ -121,7 +121,7 @@ final class PlanForm
                     ->columnSpanFull()
                     ->default(false)
                     ->onIcon(Heroicon::Bolt)
-                    ->visible(fn(Get $get): bool => (bool) $get('status'))
+                    ->visible(fn(Get $get): bool => (bool) $get('active'))
                     ->live()
                     ->required(),
             ])
