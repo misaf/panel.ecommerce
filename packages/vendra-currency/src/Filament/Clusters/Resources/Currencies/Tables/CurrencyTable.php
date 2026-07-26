@@ -77,8 +77,8 @@ final class CurrencyTable
                 ->alignCenter()
                 ->label(__('vendra-currency::attributes.decimal_places')),
 
-            ToggleColumn::make('status')
-                ->label(__('vendra-currency::attributes.status'))
+            ToggleColumn::make('active')
+                ->label(__('vendra-currency::attributes.active'))
                 ->onIcon(Heroicon::Bolt)
                 ->disabled(fn(Currency $record): bool => ! CurrencyResource::canEdit($record)),
 
@@ -119,8 +119,8 @@ final class CurrencyTable
                                 ->label(__('vendra-currency::attributes.type'))
                                 ->options(CurrencyType::class),
 
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-currency::attributes.status')),
+                            BooleanConstraint::make('active')
+                                ->label(__('vendra-currency::attributes.active')),
 
                             BooleanConstraint::make('is_default')
                                 ->label(__('vendra-currency::attributes.is_default')),

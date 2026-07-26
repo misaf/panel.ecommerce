@@ -21,9 +21,9 @@ final class FaqCategoryInfolist
                 TextEntry::make('description')
                     ->columnSpanFull()
                     ->label(__('vendra-faq::attributes.description')),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-faq::attributes.status')),
+                    ->label(__('vendra-faq::attributes.active')),
                 SpatieMediaLibraryImageEntry::make('image')
                     ->collection(FaqCategory::MEDIA_COLLECTION)
                     ->columnSpanFull()

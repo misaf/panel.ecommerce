@@ -79,11 +79,11 @@ final class FaqCategoryForm
                     ->panelLayout('grid')
                     ->responsiveImages(),
 
-                Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
+                Toggle::make('active')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
                     ->columnSpanFull()
                     ->default(false)
-                    ->label(__('vendra-faq::attributes.status'))
+                    ->label(__('vendra-faq::attributes.active'))
                     ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()

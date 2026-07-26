@@ -23,9 +23,9 @@ final class CustomPageInfolist
                     ->label(__('vendra-custom-page::navigation.custom_page_category')),
                 TextEntry::make('name')->label(__('vendra-custom-page::attributes.name')),
                 TextEntry::make('slug')->label(__('vendra-custom-page::attributes.slug')),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-custom-page::attributes.status')),
+                    ->label(__('vendra-custom-page::attributes.active')),
                 TextEntry::make('description')
                     ->columnSpanFull()
                     ->formatStateUsing(fn(array|string|null $state): string => self::renderRichContent($state))

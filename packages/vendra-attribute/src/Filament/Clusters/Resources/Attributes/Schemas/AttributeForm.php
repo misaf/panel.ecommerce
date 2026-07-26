@@ -51,11 +51,11 @@ final class AttributeForm
                 ->maxLength(65535)
                 ->rows(4),
 
-            Toggle::make('status')
-                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
+            Toggle::make('active')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
                 ->columnSpanFull()
                 ->default(true)
-                ->label(__('vendra-attribute::attributes.status'))
+                ->label(__('vendra-attribute::attributes.active'))
                 ->live()
                 ->onIcon(Heroicon::Bolt)
                 ->required()

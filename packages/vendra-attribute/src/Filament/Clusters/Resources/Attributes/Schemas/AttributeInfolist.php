@@ -24,9 +24,9 @@ final class AttributeInfolist
                 ->label(__('vendra-attribute::attributes.unit'))
                 ->placeholder('-'),
 
-            IconEntry::make('status')
+            IconEntry::make('active')
                 ->boolean()
-                ->label(__('vendra-attribute::attributes.status')),
+                ->label(__('vendra-attribute::attributes.active')),
 
             TextEntry::make('values_count')
                 ->badge()

@@ -26,9 +26,9 @@ final class BlogPostCategoryInfolist
                     ->columnSpanFull()
                     ->label(__('vendra-blog::attributes.description')),
 
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-blog::attributes.status')),
+                    ->label(__('vendra-blog::attributes.active')),
 
                 SpatieMediaLibraryImageEntry::make('image')
                     ->collection(BlogPostCategory::MEDIA_COLLECTION)

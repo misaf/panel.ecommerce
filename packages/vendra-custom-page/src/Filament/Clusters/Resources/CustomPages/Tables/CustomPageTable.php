@@ -74,8 +74,8 @@ final class CustomPageTable
                 ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            ToggleColumn::make('status')
-                ->label(__('vendra-custom-page::attributes.status'))
+            ToggleColumn::make('active')
+                ->label(__('vendra-custom-page::attributes.active'))
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
@@ -121,8 +121,8 @@ final class CustomPageTable
                                         ->titleAttribute('name'),
                                 ),
 
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-custom-page::attributes.status')),
+                            BooleanConstraint::make('active')
+                                ->label(__('vendra-custom-page::attributes.active')),
 
                             NumberConstraint::make('position'),
                         ]),

@@ -29,9 +29,9 @@ final class BlogPostInfolist
             TextEntry::make('slug')
                 ->label(__('vendra-blog::attributes.slug')),
 
-            IconEntry::make('status')
+            IconEntry::make('active')
                 ->boolean()
-                ->label(__('vendra-blog::attributes.status')),
+                ->label(__('vendra-blog::attributes.active')),
 
             TextEntry::make('description')
                 ->columnSpanFull()

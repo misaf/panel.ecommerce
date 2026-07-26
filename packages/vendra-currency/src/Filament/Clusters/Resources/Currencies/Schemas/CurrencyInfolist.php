@@ -26,9 +26,9 @@ final class CurrencyInfolist
                     ->label(__('vendra-currency::attributes.type')),
                 TextEntry::make('decimal_places')
                     ->label(__('vendra-currency::attributes.decimal_places')),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-currency::attributes.status')),
+                    ->label(__('vendra-currency::attributes.active')),
                 IconEntry::make('is_default')
                     ->boolean()
                     ->label(__('vendra-currency::attributes.is_default')),

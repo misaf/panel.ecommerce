@@ -23,9 +23,9 @@ final class UserProfileInfolist
                 IconEntry::make('is_default')
                     ->boolean()
                     ->label(__('vendra-user-profile::attributes.is_default')),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-user-profile::attributes.status')),
+                    ->label(__('vendra-user-profile::attributes.active')),
                 self::dateEntry('created_at'),
                 self::dateEntry('updated_at'),
             ])

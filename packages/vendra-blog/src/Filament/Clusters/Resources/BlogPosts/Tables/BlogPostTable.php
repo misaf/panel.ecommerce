@@ -76,8 +76,8 @@ final class BlogPostTable
                 ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            ToggleColumn::make('status')
-                ->label(__('vendra-blog::attributes.status'))
+            ToggleColumn::make('active')
+                ->label(__('vendra-blog::attributes.active'))
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
@@ -130,8 +130,8 @@ final class BlogPostTable
                                         ->titleAttribute('name'),
                                 ),
 
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-blog::attributes.status')),
+                            BooleanConstraint::make('active')
+                                ->label(__('vendra-blog::attributes.active')),
 
                             NumberConstraint::make('position'),
                         ]),

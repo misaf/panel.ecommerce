@@ -16,9 +16,9 @@ final class LanguageInfolist
             ->components([
                 TextEntry::make('locale')->label(__('vendra-language::attributes.locale')),
                 TextEntry::make('name')->label(__('vendra-language::attributes.name')),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-language::attributes.status')),
+                    ->label(__('vendra-language::attributes.active')),
                 IconEntry::make('is_default')
                     ->boolean()
                     ->label(__('vendra-language::attributes.is_default')),

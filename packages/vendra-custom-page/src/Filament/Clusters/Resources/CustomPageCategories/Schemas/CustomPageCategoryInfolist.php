@@ -21,9 +21,9 @@ final class CustomPageCategoryInfolist
                 TextEntry::make('description')
                     ->columnSpanFull()
                     ->label(__('vendra-custom-page::attributes.description')),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->boolean()
-                    ->label(__('vendra-custom-page::attributes.status')),
+                    ->label(__('vendra-custom-page::attributes.active')),
                 SpatieMediaLibraryImageEntry::make('image')
                     ->collection(CustomPageCategory::MEDIA_COLLECTION)
                     ->columnSpanFull()

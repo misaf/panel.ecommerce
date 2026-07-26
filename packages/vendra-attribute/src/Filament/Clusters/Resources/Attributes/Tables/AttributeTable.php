@@ -56,8 +56,8 @@ final class AttributeTable
                 ->counts('values')
                 ->label(__('vendra-attribute::attributes.values')),
 
-            ToggleColumn::make('status')
-                ->label(__('vendra-attribute::attributes.status'))
+            ToggleColumn::make('active')
+                ->label(__('vendra-attribute::attributes.active'))
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
@@ -112,7 +112,7 @@ final class AttributeTable
                     ->constraints([
                         TextConstraint::make('name'),
                         TextConstraint::make('unit'),
-                        BooleanConstraint::make('status'),
+                        BooleanConstraint::make('active'),
                         NumberConstraint::make('position'),
                     ]),
             ], layout: FiltersLayout::AboveContentCollapsible)

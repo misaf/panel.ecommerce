@@ -85,11 +85,11 @@ final class UserProfileForm
                         'boolean',
                     ]),
 
-                Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
+                Toggle::make('active')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
                     ->columnSpanFull()
                     ->default(false)
-                    ->label(__('vendra-user-profile::attributes.status'))
+                    ->label(__('vendra-user-profile::attributes.active'))
                     ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()

@@ -83,11 +83,11 @@ final class CurrencyForm
                     ->options(CurrencyType::class)
                     ->required(),
 
-                Toggle::make('status')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.status'))
+                Toggle::make('active')
+                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
                     ->columnSpanFull()
                     ->default(true)
-                    ->label(__('vendra-currency::attributes.status'))
+                    ->label(__('vendra-currency::attributes.active'))
                     ->live()
                     ->onIcon(Heroicon::Bolt)
                     ->required()

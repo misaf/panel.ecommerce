@@ -82,8 +82,8 @@ final class FaqCategoryTable
                 ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            ToggleColumn::make('status')
-                ->label(__('vendra-faq::attributes.status'))
+            ToggleColumn::make('active')
+                ->label(__('vendra-faq::attributes.active'))
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
@@ -118,8 +118,8 @@ final class FaqCategoryTable
                 [
                     QueryBuilder::make()
                         ->constraints([
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-faq::attributes.status')),
+                            BooleanConstraint::make('active')
+                                ->label(__('vendra-faq::attributes.active')),
 
                             NumberConstraint::make('position'),
                         ]),

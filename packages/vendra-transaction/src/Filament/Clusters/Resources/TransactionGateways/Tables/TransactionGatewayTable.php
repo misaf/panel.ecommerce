@@ -87,8 +87,8 @@ final class TransactionGatewayTable
                     ->counts('transactions')
                     ->label(__('vendra-transaction::navigation.transactions')),
 
-                ToggleColumn::make('status')
-                    ->label(__('vendra-transaction::attributes.status'))
+                ToggleColumn::make('active')
+                    ->label(__('vendra-transaction::attributes.active'))
                     ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
@@ -121,8 +121,8 @@ final class TransactionGatewayTable
                             TextConstraint::make('slug')
                                 ->label(__('vendra-transaction::attributes.slug')),
 
-                            BooleanConstraint::make('status')
-                                ->label(__('vendra-transaction::attributes.status')),
+                            BooleanConstraint::make('active')
+                                ->label(__('vendra-transaction::attributes.active')),
 
                             BooleanConstraint::make('is_default')
                                 ->label(__('vendra-transaction::attributes.is_default')),

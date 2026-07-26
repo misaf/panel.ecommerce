@@ -58,8 +58,8 @@ final class UserProfileTable
                 ->icon(Heroicon::DocumentText)
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            ToggleColumn::make('status')
-                ->label(__('vendra-user-profile::attributes.status'))
+            ToggleColumn::make('active')
+                ->label(__('vendra-user-profile::attributes.active'))
                 ->onIcon(Heroicon::Bolt),
 
             TextColumn::make('created_at')
@@ -105,7 +105,7 @@ final class UserProfileTable
                                 ),
                             TextConstraint::make('slug'),
                             BooleanConstraint::make('is_default'),
-                            BooleanConstraint::make('status'),
+                            BooleanConstraint::make('active'),
                         ]),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,

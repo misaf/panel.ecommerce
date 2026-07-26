@@ -24,9 +24,9 @@ final class FaqInfolist
                 ->label(__('vendra-faq::navigation.faq_category')),
             TextEntry::make('name')->label(__('vendra-faq::attributes.name')),
             TextEntry::make('slug')->label(__('vendra-faq::attributes.slug')),
-            IconEntry::make('status')
+            IconEntry::make('active')
                 ->boolean()
-                ->label(__('vendra-faq::attributes.status')),
+                ->label(__('vendra-faq::attributes.active')),
             TextEntry::make('description')
                 ->columnSpanFull()
                 ->formatStateUsing(fn(array|string|null $state): string => self::renderRichContent($state))
