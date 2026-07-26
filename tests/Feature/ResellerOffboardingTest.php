@@ -30,8 +30,8 @@ it('allows renewing the same plan while at capacity', function (): void {
 it('soft-deletes properties and cancels the subscription when a reseller is deleted', function (): void {
     $reseller = Reseller::factory()->create();
     $subscription = Subscription::factory()->forSubscriber($reseller)->for(Plan::factory())->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
-    $domain = TenantDomain::factory()->for($property)->create(['status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    $domain = TenantDomain::factory()->for($property)->create(['active' => true]);
 
     $reseller->delete();
 

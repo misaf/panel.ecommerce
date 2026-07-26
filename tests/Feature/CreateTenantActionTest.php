@@ -125,7 +125,7 @@ it('still creates a tenant with no reseller for the legacy path', function (): v
 
 it('rejects invalid and duplicate active domains outside Filament', function (string $domain): void {
     $existingProperty = Tenant::factory()->create();
-    TenantDomain::factory()->for($existingProperty)->create(['name' => 'taken.test', 'status' => true]);
+    TenantDomain::factory()->for($existingProperty)->create(['name' => 'taken.test', 'active' => true]);
 
     app(CreateTenantAction::class)->execute(
         name: 'Rejected Store',

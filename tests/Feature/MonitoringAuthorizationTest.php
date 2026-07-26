@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Config;
+use App\Models\ConsoleUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Misaf\VendraPermission\Models\Role;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
 
@@ -22,27 +22,22 @@ it('denies guests outside the local environment', function (string $gate): void 
     expect(Gate::forUser(null)->allows($gate))->toBeFalse();
 })->with('monitoring gates');
 
-it('denies users without the super admin role outside the local environment', function (string $gate): void {
+it('denies tenant users outside the local environment', function (string $gate): void {
     app()->detectEnvironment(fn(): string => 'production');
 
     $tenant = Tenant::factory()->create();
     $tenant->makeCurrent();
 
     $user = User::factory()->forTenant($tenant)->create();
+    Auth::guard('web')->setUser($user);
 
     expect(Gate::forUser($user)->allows($gate))->toBeFalse();
 })->with('monitoring gates');
 
-it('allows super admins outside the local environment', function (string $gate): void {
+it('allows console users outside the local environment', function (string $gate): void {
     app()->detectEnvironment(fn(): string => 'production');
 
-    $tenant = Tenant::factory()->create();
-    $tenant->makeCurrent();
+    Auth::guard('console')->setUser(ConsoleUser::factory()->create());
 
-    $user = User::factory()->forTenant($tenant)->create();
-    $user->assignRole(Role::factory()->forTenant($tenant)->forGuard('web')->create([
-        'name' => Config::string('vendra-permission.super_admin_role'),
-    ]));
-
-    expect(Gate::forUser($user)->allows($gate))->toBeTrue();
+    expect(Gate::forUser(null)->allows($gate))->toBeTrue();
 })->with('monitoring gates');

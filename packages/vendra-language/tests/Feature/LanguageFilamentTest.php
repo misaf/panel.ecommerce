@@ -69,14 +69,14 @@ it('temporarily disables an installed language from the table', function (): voi
     $language = Language::query()->create(['locale' => 'en', 'position' => 1]);
 
     livewire(ListLanguages::class)
-        ->call('updateTableColumnState', 'status', (string) $language->getKey(), false);
+        ->call('updateTableColumnState', 'active', (string) $language->getKey(), false);
 
-    expect($language->refresh()->status)->toBeFalse();
+    expect($language->refresh()->active)->toBeFalse();
 
     livewire(ListLanguages::class)
         ->loadTable()
         ->assertCanSeeTableRecords([$language])
-        ->assertTableColumnStateSet('status', false, $language);
+        ->assertTableColumnStateSet('active', false, $language);
 });
 
 it('creates a discovered translation override for enabled locales', function (): void {

@@ -14,13 +14,13 @@ it('provides enabled attribute options and the value model', function (): void {
         $table->string('name');
         $table->string('unit')->nullable();
         $table->unsignedBigInteger('position')->default(0);
-        $table->boolean('status')->default(false);
+        $table->boolean('active')->default(false);
     });
 
     SupportTestAttribute::query()->insert([
-        ['name' => 'Material', 'unit' => null, 'position' => 1, 'status' => true],
-        ['name' => 'Weight', 'unit' => 'kg', 'position' => 2, 'status' => true],
-        ['name' => 'Warranty', 'unit' => 'month', 'position' => 3, 'status' => false],
+        ['name' => 'Material', 'unit' => null, 'position' => 1, 'active' => true],
+        ['name' => 'Weight', 'unit' => 'kg', 'position' => 2, 'active' => true],
+        ['name' => 'Warranty', 'unit' => 'month', 'position' => 3, 'active' => false],
     ]);
 
     $resolver = new EloquentAttributeResolver(

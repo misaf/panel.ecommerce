@@ -42,7 +42,7 @@ it('falls back to the language switch cookie', function (): void {
 it('ignores a language switch preference for a disabled language', function (): void {
     Language::query()->create([
         'locale'   => 'de',
-        'status'   => false,
+        'active'   => false,
         'position' => 1,
     ]);
 

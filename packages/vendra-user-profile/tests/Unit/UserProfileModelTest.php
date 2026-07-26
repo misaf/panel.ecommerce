@@ -18,7 +18,7 @@ it('defines the expected profile model attributes', function (): void {
     $profile = new UserProfile();
 
     expect($profile->getFillable())
-        ->toBe(['tenant_id', 'user_id', 'name', 'description', 'slug', 'is_default', 'status'])
+        ->toBe(['tenant_id', 'user_id', 'name', 'description', 'slug', 'is_default', 'active'])
         ->and($profile->getHidden())
         ->toBe(['tenant_id', 'active_name_guard', 'active_slug_guard', 'default_user_guard'])
         ->and($profile->getCasts())

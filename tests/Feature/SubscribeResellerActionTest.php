@@ -37,11 +37,11 @@ it('renews by creating a fresh active subscription for the same plan', function 
 
 it('reactivates suspended properties when the reseller resubscribes', function (): void {
     $reseller = Reseller::factory()->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => false]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => false]);
 
     app(SubscribeAction::class)->execute($reseller, Plan::factory()->create());
 
-    expect($property->refresh()->status)->toBeTrue();
+    expect($property->refresh()->active)->toBeTrue();
 });
 
 it('rejects a second active subscription for the same reseller', function (): void {

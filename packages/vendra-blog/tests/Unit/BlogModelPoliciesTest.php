@@ -33,8 +33,8 @@ function fakeTenantResolver(bool $available, ?int $currentId = null): TenantReso
 it('defines the expected translatable blog models', function (): void {
     expect((new BlogPostCategory())->translatable)->toBe(['name', 'description', 'slug'])
         ->and((new BlogPost())->translatable)->toBe(['name', 'description', 'slug'])
-        ->and((new BlogPostCategory())->getFillable())->toContain('name', 'description', 'slug', 'position', 'status')
-        ->and((new BlogPost())->getFillable())->toContain('blog_post_category_id', 'name', 'description', 'slug', 'position', 'status')
+        ->and((new BlogPostCategory())->getFillable())->toContain('name', 'description', 'slug', 'position', 'active')
+        ->and((new BlogPost())->getFillable())->toContain('blog_post_category_id', 'name', 'description', 'slug', 'position', 'active')
         ->and((new BlogPostCategory())->getHidden())->toContain('tenant_id')
         ->and((new BlogPost())->getHidden())->toContain('tenant_id');
 });

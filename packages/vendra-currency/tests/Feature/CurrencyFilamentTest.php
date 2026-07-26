@@ -107,14 +107,14 @@ it('temporarily disables an installed currency from the table', function (): voi
     $currency = CurrencyFactory::new()->code('USD')->createOne(['position' => 1]);
 
     livewire(ListCurrencies::class)
-        ->call('updateTableColumnState', 'status', (string) $currency->getKey(), false);
+        ->call('updateTableColumnState', 'active', (string) $currency->getKey(), false);
 
-    expect($currency->refresh()->status)->toBeFalse();
+    expect($currency->refresh()->active)->toBeFalse();
 
     livewire(ListCurrencies::class)
         ->loadTable()
         ->assertCanSeeTableRecords([$currency])
-        ->assertTableColumnStateSet('status', false, $currency);
+        ->assertTableColumnStateSet('active', false, $currency);
 });
 
 it('sets a currency as default from the table action', function (): void {

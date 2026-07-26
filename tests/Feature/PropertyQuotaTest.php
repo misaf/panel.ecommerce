@@ -61,7 +61,7 @@ it('blocks property creation when no subscription is active', function (): void 
 
 it('blocks property creation for a disabled reseller with an active subscription', function (): void {
     $reseller = resellerWithPlan(maxUnits: 2);
-    $reseller->update(['status' => false]);
+    $reseller->update(['active' => false]);
 
     $quota = app(PropertyQuota::class);
 
@@ -92,14 +92,14 @@ it('creates a reseller subscribed to a plan for its period', function (): void {
         ->and($result['reseller']->activeSubscription()?->getKey())->toBe($result['subscription']->getKey());
 });
 
-it('creates a reseller with the requested status', function (): void {
+it('creates a reseller with the requested active state', function (): void {
     $result = app(CreateResellerAction::class)->execute(
         plan: Plan::factory()->create(),
         username: 'paused_owner',
         email: 'owner@paused.test',
         password: 'Secure123',
-        status: false,
+        active: false,
     );
 
-    expect($result['reseller']->status)->toBeFalse();
+    expect($result['reseller']->active)->toBeFalse();
 });

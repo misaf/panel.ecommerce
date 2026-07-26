@@ -20,5 +20,5 @@ it('defaults new attributes to active, matching the schema default', function ()
         ->assertHasNoFormErrors();
 
     expect(Attribute::query()->sole())
-        ->status->toBeTrue();
+        ->active->toBeTrue();
 });

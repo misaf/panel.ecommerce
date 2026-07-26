@@ -72,7 +72,7 @@ it('renders user profiles in the Filament resource table', function (): void {
         'description' => 'Primary user profile',
         'slug'        => 'primary-profile',
         'is_default'  => true,
-        'status'      => true,
+        'active'      => true,
     ]);
 
     livewire(ListUserProfiles::class)
@@ -81,7 +81,7 @@ it('renders user profiles in the Filament resource table', function (): void {
         ->assertCanSeeTableRecords([$profile]);
 });
 
-it('toggles a user profile status from the Filament resource table', function (): void {
+it('toggles a user profile active state from the Filament resource table', function (): void {
     UserProfileModuleTestContext::setUpFilamentAdminContext();
 
     $profile = UserProfileFactory::new()
@@ -89,14 +89,14 @@ it('toggles a user profile status from the Filament resource table', function ()
         ->createOne();
 
     livewire(ListUserProfiles::class)
-        ->call('updateTableColumnState', 'status', (string) $profile->getKey(), true);
+        ->call('updateTableColumnState', 'active', (string) $profile->getKey(), true);
 
-    expect($profile->refresh()->status)->toBeTrue();
+    expect($profile->refresh()->active)->toBeTrue();
 
     livewire(ListUserProfiles::class)
         ->loadTable()
         ->assertCanSeeTableRecords([$profile])
-        ->assertTableColumnStateSet('status', true, $profile);
+        ->assertTableColumnStateSet('active', true, $profile);
 });
 
 it('exposes the default toggle and keeps one default profile per user', function (): void {

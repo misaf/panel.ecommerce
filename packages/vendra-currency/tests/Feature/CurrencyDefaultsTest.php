@@ -50,9 +50,9 @@ it('promotes the first enabled currency when the default is disabled', function 
     $default = CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 2]);
     $next = CurrencyFactory::new()->code('EUR')->createOne(['position' => 1]);
 
-    $default->update(['status' => false]);
+    $default->update(['active' => false]);
 
-    expect($default->refresh()->status)->toBeFalse()
+    expect($default->refresh()->active)->toBeFalse()
         ->and($default->is_default)->toBeFalse()
         ->and($next->refresh()->is_default)->toBeTrue();
 });
@@ -79,7 +79,7 @@ it('enables a disabled currency when it becomes the default', function (): void 
 
     (new SetDefaultCurrency())->execute($euro);
 
-    expect($euro->refresh()->status)->toBeTrue()
+    expect($euro->refresh()->active)->toBeTrue()
         ->and($euro->is_default)->toBeTrue();
 });
 
@@ -99,7 +99,7 @@ it('creates the fresh currency schema expected by the model', function (): void 
         'symbol',
         'decimal_places',
         'type',
-        'status',
+        'active',
         'is_default',
         'default_guard',
         'position',

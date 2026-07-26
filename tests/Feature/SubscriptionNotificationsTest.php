@@ -62,7 +62,7 @@ it('notifies the owner when properties are suspended', function (): void {
         'starts_at' => now()->subMonths(2),
         'ends_at'   => now()->subDays(2),
     ]);
-    Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+    Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     app(EnforceSubscriptionsAction::class)->execute();
 

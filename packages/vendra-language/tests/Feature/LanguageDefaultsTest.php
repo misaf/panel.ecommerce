@@ -75,9 +75,9 @@ it('promotes the first enabled language when the default is disabled', function 
         'position' => 1,
     ]);
 
-    $default->update(['status' => false]);
+    $default->update(['active' => false]);
 
-    expect($default->refresh()->status)->toBeFalse()
+    expect($default->refresh()->active)->toBeFalse()
         ->and($default->is_default)->toBeFalse()
         ->and($next->refresh()->is_default)->toBeTrue();
 });
@@ -147,7 +147,7 @@ it('creates the fresh language schema expected by the model', function (): void 
     $columns = [
         'id',
         'locale',
-        'status',
+        'active',
         'is_default',
         'default_guard',
         'position',

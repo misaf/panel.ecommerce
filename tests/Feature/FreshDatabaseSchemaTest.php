@@ -24,6 +24,28 @@ it('contains every package table in the fresh database baseline', function (): v
         ->and(Schema::hasColumn('users', 'reseller_id'))->toBeFalse();
 });
 
+it('names boolean availability columns active', function (string $table): void {
+    expect(Schema::hasColumn($table, 'active'))->toBeTrue()
+        ->and(Schema::hasColumn($table, 'status'))->toBeFalse();
+})->with([
+    'attributes',
+    'blog_post_categories',
+    'blog_posts',
+    'currencies',
+    'custom_page_categories',
+    'custom_pages',
+    'faq_categories',
+    'faqs',
+    'languages',
+    'plans',
+    'product_categories',
+    'resellers',
+    'tenant_domains',
+    'tenants',
+    'transaction_gateways',
+    'user_profiles',
+]);
+
 it('enforces required relational integrity', function (string $table, string $column): void {
     expect(Schema::hasForeignKey($table, [$column]))->toBeTrue();
 })->with([

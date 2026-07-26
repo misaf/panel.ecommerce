@@ -29,7 +29,7 @@ it('filters localized custom page attributes and includes their category', funct
     ]);
 
     $this->getJson(
-        '/v1/custom-pages?filter[name]=Getting&filter[status]=true&include=customPageCategory',
+        '/v1/custom-pages?filter[name]=Getting&filter[active]=true&include=customPageCategory',
         ['Accept' => 'application/vnd.api+json'],
     )
         ->assertOk()

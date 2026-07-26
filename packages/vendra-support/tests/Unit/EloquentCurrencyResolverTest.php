@@ -17,7 +17,7 @@ it('provides active currency values from an eloquent model', function (): void {
             ->default(false);
         $table->unsignedBigInteger('position')
             ->default(0);
-        $table->boolean('status')
+        $table->boolean('active')
             ->default(false);
     });
 
@@ -27,21 +27,21 @@ it('provides active currency values from an eloquent model', function (): void {
             'code'       => 'USD',
             'is_default' => true,
             'position'   => 1,
-            'status'     => true,
+            'active'     => true,
         ],
         [
             'name'       => 'Euro',
             'code'       => 'EUR',
             'is_default' => false,
             'position'   => 2,
-            'status'     => true,
+            'active'     => true,
         ],
         [
             'name'       => 'British Pound',
             'code'       => 'GBP',
             'is_default' => false,
             'position'   => 3,
-            'status'     => false,
+            'active'     => false,
         ],
     ]);
 

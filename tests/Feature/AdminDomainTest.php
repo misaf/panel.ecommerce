@@ -15,7 +15,7 @@ it('resolves canonical and custom admin hosts to the property', function (): voi
     $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
-        'status' => true,
+        'active' => true,
     ]);
 
     $tenantFinder = app(DomainTenantFinder::class);
@@ -30,7 +30,7 @@ it('serves the admin login on canonical and custom property hosts without a root
     $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
-        'status' => true,
+        'active' => true,
     ]);
 
     $this->get("https://{$host}")->assertNotFound();
@@ -52,7 +52,7 @@ it('does not serve the admin panel on the storefront host', function (): void {
     $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
-        'status' => true,
+        'active' => true,
     ]);
 
     $this->get('https://acme.example.com/login')->assertNotFound();

@@ -38,30 +38,30 @@ it('expires subscriptions whose period has lapsed', function (): void {
 
 it('suspends properties once the grace period has passed', function (): void {
     $reseller = lapsedReseller(graceDays: 0, endsAt: now()->subDays(2));
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     $result = app(EnforceSubscriptionsAction::class)->execute();
 
-    expect($property->refresh()->status)->toBeFalse()
+    expect($property->refresh()->active)->toBeFalse()
         ->and($result['grace_expired'])->toBe(1);
 });
 
 it('keeps properties live while still within the grace period', function (): void {
     $reseller = lapsedReseller(graceDays: 10, endsAt: now()->subDay());
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     app(EnforceSubscriptionsAction::class)->execute();
 
-    expect($property->refresh()->status)->toBeTrue();
+    expect($property->refresh()->active)->toBeTrue();
 });
 
 it('leaves properties of resellers with an active subscription untouched', function (): void {
     $reseller = Reseller::factory()->create();
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->graceDays(0))->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     $result = app(EnforceSubscriptionsAction::class)->execute();
 
-    expect($property->refresh()->status)->toBeTrue()
+    expect($property->refresh()->active)->toBeTrue()
         ->and($result['grace_expired'])->toBe(0);
 });

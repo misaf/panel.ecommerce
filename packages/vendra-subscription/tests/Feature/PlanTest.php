@@ -33,9 +33,9 @@ it('resolves the period end and the grace-adjusted suspend date', function (): v
         ->and($plan->resolveSuspendDate(Carbon::parse('2026-03-01'))->toDateString())->toBe('2026-03-08');
 });
 
-it('filters by enabled and disabled status', function (): void {
-    $enabled = Plan::factory()->create(['status' => true]);
-    $disabled = Plan::factory()->create(['status' => false]);
+it('filters by active state', function (): void {
+    $enabled = Plan::factory()->create(['active' => true]);
+    $disabled = Plan::factory()->create(['active' => false]);
 
     expect(Plan::query()->enabled()->pluck('id'))->toContain($enabled->id)->not->toContain($disabled->id)
         ->and(Plan::query()->disabled()->pluck('id'))->toContain($disabled->id)->not->toContain($enabled->id);
@@ -72,7 +72,7 @@ it('marks the first enabled plan as the default', function (): void {
 });
 
 it('never marks a disabled plan as the default', function (): void {
-    $plan = Plan::factory()->create(['status' => false, 'is_default' => true]);
+    $plan = Plan::factory()->create(['active' => false, 'is_default' => true]);
 
     expect($plan->refresh()->is_default)->toBeFalse()
         ->and(Plan::query()->default()->exists())->toBeFalse();

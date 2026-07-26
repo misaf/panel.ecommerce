@@ -14,6 +14,8 @@ use App\Models\Reseller;
 use App\Models\ResellerUser;
 use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
@@ -51,6 +53,55 @@ function actAsResellerOwner(Reseller $reseller): ResellerUser
 
     return $owner;
 }
+
+it('uses the package table presentation conventions for properties', function (): void {
+    $reseller = Reseller::factory()->create();
+    actAsResellerOwner($reseller);
+
+    $component = livewire(ListProperties::class)
+        ->assertTableColumnExists('row')
+        ->assertTableColumnExists('created_at')
+        ->assertTableColumnExists('updated_at');
+    $table = $component->instance()->getTable();
+
+    expect($table->getDescription())->toBe(__('console.tables.description.properties'))
+        ->and($table->getEmptyStateHeading())->toBe(__('console.tables.empty_state.heading.properties'))
+        ->and($table->getEmptyStateDescription())->toBe(__('console.tables.empty_state.description.properties'))
+        ->and($table->getEmptyStateIcon())->toBe(Heroicon::OutlinedGlobeAlt)
+        ->and($table->getFiltersLayout())->toBe(FiltersLayout::AboveContentCollapsible);
+});
+
+it('globally searches only the authenticated reseller properties', function (): void {
+    $reseller = Reseller::factory()->create();
+    $otherReseller = Reseller::factory()->create();
+    actAsResellerOwner($reseller);
+
+    $property = Tenant::factory()->create([
+        'reseller_id' => $reseller->getKey(),
+        'name'        => 'Owned Search Property',
+    ]);
+    $otherProperty = Tenant::factory()->create([
+        'reseller_id' => $otherReseller->getKey(),
+        'name'        => 'Other Search Property',
+    ]);
+    TenantDomain::factory()->for($property)->create([
+        'name'   => 'owned-global-search.test',
+        'active' => true,
+    ]);
+
+    $result = PropertyResource::getGlobalSearchResults('owned-global-search.test')->sole();
+
+    expect($result->title)->toBe($property->name)
+        ->and($result->url)->toBe(PropertyResource::getUrl('index', ['search' => $property->name]))
+        ->and($result->details)->toBe([
+            __('console.domain') => 'owned-global-search.test',
+        ])
+        ->and(PropertyResource::getGlobalSearchResults($otherProperty->name))->toBeEmpty()
+        ->and(Filament::getCurrentPanel()?->getGlobalSearchKeyBindings())->toBe([
+            'command+k',
+            'ctrl+k',
+        ]);
+});
 
 it('uses the Vendra logo in light and dark modes', function (): void {
     $panel = Filament::getPanel('reseller');
@@ -122,7 +173,7 @@ it('registers a reseller with an initial subscription', function (): void {
 });
 
 it('rejects disabled plans during reseller registration', function (): void {
-    $plan = Plan::factory()->create(['status' => false]);
+    $plan = Plan::factory()->create(['active' => false]);
     Filament::setCurrentPanel(Filament::getPanel('reseller'));
 
     livewire(Register::class)
@@ -169,8 +220,8 @@ it('allows a tenant-independent reseller owner to sign in', function (): void {
 it('renders the reseller dashboard with its widgets for an owner', function (): void {
     $reseller = Reseller::factory()->create();
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(3))->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
-    TenantDomain::factory()->for($property)->create(['name' => 'shop.test', 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    TenantDomain::factory()->for($property)->create(['name' => 'shop.test', 'active' => true]);
 
     actAsResellerOwner($reseller);
 
@@ -209,9 +260,9 @@ it('grants reseller panel access only to reseller owners', function (): void {
 });
 
 it('keeps disabled owners in the panel but blocks property operations', function (): void {
-    $reseller = Reseller::factory()->create(['status' => false]);
+    $reseller = Reseller::factory()->create(['active' => false]);
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(2))->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     $owner = actAsResellerOwner($reseller);
 
@@ -226,8 +277,8 @@ it('keeps disabled owners in the panel but blocks property operations', function
 it('shows an owner only their own reseller properties', function (): void {
     $resellerA = Reseller::factory()->create();
     $resellerB = Reseller::factory()->create();
-    $propertyA = Tenant::factory()->create(['reseller_id' => $resellerA->getKey(), 'status' => true]);
-    $propertyB = Tenant::factory()->create(['reseller_id' => $resellerB->getKey(), 'status' => true]);
+    $propertyA = Tenant::factory()->create(['reseller_id' => $resellerA->getKey(), 'active' => true]);
+    $propertyB = Tenant::factory()->create(['reseller_id' => $resellerB->getKey(), 'active' => true]);
 
     actAsResellerOwner($resellerA);
 
@@ -263,7 +314,7 @@ it('lets an owner create a property within the plan limit', function (): void {
 
 it('lets an owner soft-delete their own property', function (): void {
     $reseller = Reseller::factory()->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     actAsResellerOwner($reseller);
 
@@ -276,8 +327,8 @@ it('lets an owner soft-delete their own property', function (): void {
 
 it('lets an owner replace their property domain, keeping the old one as trashed history', function (): void {
     $reseller = Reseller::factory()->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
-    TenantDomain::factory()->for($property)->create(['name' => 'old.test', 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    TenantDomain::factory()->for($property)->create(['name' => 'old.test', 'active' => true]);
 
     actAsResellerOwner($reseller);
 
@@ -285,17 +336,17 @@ it('lets an owner replace their property domain, keeping the old one as trashed 
         ->callAction(TestAction::make('replaceDomain')->table($property), ['domain' => 'new.test'])
         ->assertHasNoErrors();
 
-    expect($property->execute(fn() => $property->tenantDomains()->where('status', true)->value('name')))->toBe('new.test')
+    expect($property->execute(fn() => $property->tenantDomains()->where('active', true)->value('name')))->toBe('new.test')
         ->and($property->execute(fn() => $property->tenantDomains()->onlyTrashed()->where('name', 'old.test')->exists()))->toBeTrue();
 });
 
 it('validates the replacement domain format and active-domain uniqueness', function (): void {
     $reseller = Reseller::factory()->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'status' => true]);
-    TenantDomain::factory()->for($property)->create(['name' => 'current.test', 'status' => true]);
+    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    TenantDomain::factory()->for($property)->create(['name' => 'current.test', 'active' => true]);
 
     $other = Tenant::factory()->create();
-    TenantDomain::factory()->for($other)->create(['name' => 'taken.test', 'status' => true]);
+    TenantDomain::factory()->for($other)->create(['name' => 'taken.test', 'active' => true]);
 
     actAsResellerOwner($reseller);
 
