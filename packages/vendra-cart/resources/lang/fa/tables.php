@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 return [
     'description' => [
-        'carts' => 'مشاهده و مدیریت سبدهای خرید.',
+        'carts'       => 'مشاهده و مدیریت سبدهای خرید.',
     ],
 
     'empty_state' => [
-        'heading' => [
+        'heading'     => [
             'carts' => 'هنوز هیچ سبد خریدی وجود ندارد',
         ],
 

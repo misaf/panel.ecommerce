@@ -26,12 +26,12 @@ final class FaqCategoryCollectionQuery extends ResourceQuery
                 JsonApiRule::filter(),
             ],
             ...$this->sharedFilterRules(),
-            'filter.has-faqs'             => 'boolean',
-            'filter.with-faqs'            => 'array',
-            'filter.with-faqs.*'          => 'string',
-            'filter.without-faqs'         => 'array',
-            'filter.without-faqs.*'       => 'string',
-            'include'                     => [
+            'filter.has-faqs'            => 'boolean',
+            'filter.with-faqs'           => 'array',
+            'filter.with-faqs.*'         => 'string',
+            'filter.without-faqs'        => 'array',
+            'filter.without-faqs.*'      => 'string',
+            'include'                    => [
                 'nullable',
                 'string',
                 JsonApiRule::includePaths(),

@@ -53,8 +53,8 @@ final class AuthifyLogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListAuthifyLogs::route('/'),
-            'view'   => ViewAuthifyLog::route('/{record}'),
+            'index' => ListAuthifyLogs::route('/'),
+            'view'  => ViewAuthifyLog::route('/{record}'),
         ];
     }
 

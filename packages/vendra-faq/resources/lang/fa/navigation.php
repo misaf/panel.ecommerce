@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-return  [
+return [
     'faq'                     => 'پرسش متداول',
     'faq_categories'          => 'دسته‌بندی‌های پرسش‌ها',
     'faq_category'            => 'دسته‌بندی پرسش',

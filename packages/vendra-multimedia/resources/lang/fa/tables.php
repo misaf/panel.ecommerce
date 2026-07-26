@@ -9,7 +9,7 @@ return [
     ],
 
     'empty_state'           => [
-        'heading' => [
+        'heading'     => [
             'media_items' => 'هنوز فایل چندرسانه‌ای وجود ندارد',
         ],
 

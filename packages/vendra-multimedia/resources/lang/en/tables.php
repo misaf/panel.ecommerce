@@ -9,7 +9,7 @@ return [
     ],
 
     'empty_state'           => [
-        'heading' => [
+        'heading'     => [
             'media_items' => 'No media items yet',
         ],
 

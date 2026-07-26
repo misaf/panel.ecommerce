@@ -62,11 +62,11 @@ final class MultimediaCollectionQuery extends ResourceQuery
     private function sharedFilterRules(): array
     {
         return [
-            'filter.id'                   => 'array',
-            'filter.id.*'                 => 'integer',
-            'filter.exclude'              => 'array',
-            'filter.exclude.*'            => 'integer',
-            'filter.name'                 => 'string',
+            'filter.id'                  => 'array',
+            'filter.id.*'                => 'integer',
+            'filter.exclude'             => 'array',
+            'filter.exclude.*'           => 'integer',
+            'filter.name'                => 'string',
         ];
     }
 }

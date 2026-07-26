@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-return  [
+return [
     'faq'                     => 'FAQ',
     'faq_categories'          => 'FAQ-Kategorien',
     'faq_category'            => 'FAQ-Kategorie',

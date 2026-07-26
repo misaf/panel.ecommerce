@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'nested'  => [
+    'nested' => [
         'label' => 'Bezeichnung',
     ],
     'welcome' => 'Willkommen',

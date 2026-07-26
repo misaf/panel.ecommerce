@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-return  [
+return [
     'created_at'              => 'Erstellt am',
     'deleted_at'              => 'Gelöscht am',
     'description'             => 'Beschreibung',

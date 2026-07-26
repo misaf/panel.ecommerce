@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 return [
     'description' => [
-        'attributes' => 'Produktattribute und ihre Werte verwalten.',
+        'attributes'  => 'Produktattribute und ihre Werte verwalten.',
     ],
 
     'empty_state' => [
-        'heading' => [
+        'heading'     => [
             'attributes' => 'Noch keine Attribute',
         ],
 

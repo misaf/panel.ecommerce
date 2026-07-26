@@ -8,11 +8,11 @@ return [
     ],
 
     'empty_state' => [
-        'heading' => [
+        'heading'      => [
             'authify_logs' => 'هنوز لاگ احراز هویتی وجود ندارد',
         ],
 
-        'description' => [
+        'description'  => [
             'authify_logs' => 'لاگ‌های احراز هویت هنگام ورود یا خروج کاربران ثبت می‌شوند.',
         ],
     ],

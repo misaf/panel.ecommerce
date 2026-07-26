@@ -67,7 +67,7 @@ final class ProductCollectionQuery extends ResourceQuery
             'filter.without-multimedia'             => 'array',
             'filter.without-multimedia.*'           => 'string',
             'filter.with-product-category'          => 'array',
-            // 'filter.with-product-category.*'        => 'string',
+            // 'filter.with-product-category.*'       => 'string',
             'filter.without-product-category'      => 'array',
             'filter.without-product-category.*'    => 'string',
             'filter.with-in-product-category'      => 'array',

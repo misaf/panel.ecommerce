@@ -3,17 +3,19 @@
 declare(strict_types=1);
 
 return [
-    'code'           => 'Code',
-    'created_at'     => 'Erstellt am',
-    'decimal_places' => 'Dezimalstellen',
-    'is_default'     => 'Standard',
-    'name'           => 'Name',
-    'position'       => 'Position',
-    'status'         => 'Status',
-    'symbol'         => 'Symbol',
-    'type'           => 'Typ',
+    'code'                   => 'Code',
+    'created_at'             => 'Erstellt am',
+    'decimal_places'         => 'Dezimalstellen',
+    'is_default'             => 'Standard',
+    'is_default_helper_text' => 'Aktivieren, um dies als Standardwährung für neue Ressourcen zu verwenden.',
+    'name'                   => 'Name',
+    'position'               => 'Position',
+    'status'                 => 'Status',
+    'symbol'                 => 'Symbol',
+    'symbol_helper_text'     => 'Das Währungssymbol für die Anzeige (z. B. $, €).',
+    'type'                   => 'Typ',
 
-    'types' => [
+    'types'          => [
         'crypto' => 'Krypto',
         'fiat'   => 'Fiat',
     ],

@@ -8,11 +8,11 @@ return [
     ],
 
     'empty_state' => [
-        'heading' => [
+        'heading'      => [
             'authify_logs' => 'No authentication logs yet',
         ],
 
-        'description' => [
+        'description'  => [
             'authify_logs' => 'Authentication logs are recorded when users log in or out.',
         ],
     ],

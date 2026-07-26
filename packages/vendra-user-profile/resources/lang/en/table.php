@@ -9,7 +9,7 @@ return [
         'updated_at' => 'Updated At',
         'user'       => 'User',
     ],
-    'groups' => [
-        'user' => 'User',
+    'groups'  => [
+        'user'       => 'User',
     ],
 ];

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 return [
     'description' => [
-        'carts' => 'View and manage shopping carts.',
+        'carts'       => 'View and manage shopping carts.',
     ],
 
     'empty_state' => [
-        'heading' => [
+        'heading'     => [
             'carts' => 'No carts yet',
         ],
 
