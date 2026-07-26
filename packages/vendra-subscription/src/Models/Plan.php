@@ -157,14 +157,23 @@ final class Plan extends Model implements ShouldLogActivity
     public function formattedPrice(): string
     {
         if (null === $this->currency_code) {
-            return Number::format($this->price, locale: 'en');
+            return $this->formatPlainPrice();
         }
 
         try {
-            return Money::{$this->currency_code}($this->price)->format();
+            return (new Money($this->price, $this->currency_code))->format();
         } catch (Throwable) {
-            return Number::format($this->price, locale: 'en') . ' ' . $this->currency_code;
+            return $this->formatPlainPrice() . ' ' . $this->currency_code;
         }
+    }
+
+    /**
+     * The price rendered as a plain localized number, falling back to the raw
+     * value when the formatter cannot render it.
+     */
+    private function formatPlainPrice(): string
+    {
+        return Number::format($this->price, locale: 'en') ?: (string) $this->price;
     }
 
     /**
