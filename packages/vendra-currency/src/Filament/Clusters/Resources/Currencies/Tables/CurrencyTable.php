@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Tables;
 
+use Awcodes\BadgeableColumn\Components\Badge;
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
@@ -21,7 +24,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
 use Misaf\VendraCurrency\Enums\CurrencyType;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetDefaultCurrencyAction;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
@@ -43,22 +45,33 @@ final class CurrencyTable
             TextColumn::make('code')
                 ->badge()
                 ->label(__('vendra-currency::attributes.code'))
+                ->icon(Heroicon::CodeBracket)
                 ->searchable()
                 ->sortable(),
 
-            TextColumn::make('name')
+            BadgeableColumn::make('name')
                 ->label(__('vendra-currency::attributes.name'))
+                ->icon(Heroicon::Tag)
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->prefixBadges([
+                    Badge::make('is_default')
+                        ->label(__('vendra-currency::attributes.is_default'))
+                        ->color('success')
+                        ->size(Size::ExtraSmall)
+                        ->hidden(fn(Currency $record): bool => ! $record->is_default),
+                ]),
 
             TextColumn::make('symbol')
                 ->label(__('vendra-currency::attributes.symbol'))
+                ->icon(Heroicon::AtSymbol)
                 ->placeholder('—'),
 
             TextColumn::make('type')
                 ->badge()
                 ->color(fn(CurrencyType $state): string => CurrencyType::Fiat === $state ? 'success' : 'warning')
-                ->label(__('vendra-currency::attributes.type')),
+                ->label(__('vendra-currency::attributes.type'))
+                ->icon(Heroicon::Tag),
 
             TextColumn::make('decimal_places')
                 ->alignCenter()
@@ -68,18 +81,6 @@ final class CurrencyTable
                 ->label(__('vendra-currency::attributes.status'))
                 ->onIcon(Heroicon::Bolt)
                 ->disabled(fn(Currency $record): bool => ! CurrencyResource::canEdit($record)),
-
-            ToggleColumn::make('is_default')
-                ->disabled(fn(Currency $record): bool => $record->is_default || ! CurrencyResource::canEdit($record))
-                ->label(__('vendra-currency::attributes.is_default'))
-                ->onIcon(Heroicon::Bolt)
-                ->updateStateUsing(function (Currency $record, bool $state, SetDefaultCurrency $setDefaultCurrency): bool {
-                    if ($state) {
-                        $setDefaultCurrency->execute($record);
-                    }
-
-                    return $record->refresh()->is_default;
-                }),
 
             TextColumn::make('created_at')
                 ->alignCenter()

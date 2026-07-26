@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ToggleColumn;
@@ -20,25 +21,36 @@ it('provides a notes field', function (): void {
         ->and($field->getColumnSpan())->toBe(['default' => 'full']);
 });
 
-it('updates primary and verification states from table toggles', function (): void {
+it('updates verification state from table toggle', function (): void {
     UserProfileModuleTestContext::createCurrentTenant();
 
     $relationManager = new PhoneNumbersRelationManager();
     $table = $relationManager->table(Table::make($relationManager));
     $phoneNumber = PhoneNumberFactory::new()->createOne();
-    $primaryColumn = $table->getColumn('is_primary');
     $verifiedColumn = $table->getColumn('verified_at');
 
-    expect($primaryColumn)->toBeInstanceOf(ToggleColumn::class)
-        ->and($verifiedColumn)->toBeInstanceOf(ToggleColumn::class);
+    expect($verifiedColumn)->toBeInstanceOf(ToggleColumn::class);
 
-    $primaryColumn->record($phoneNumber)->updateState(true);
     $verifiedColumn->record($phoneNumber)->updateState(true);
 
-    expect($phoneNumber->refresh()->is_primary)->toBeTrue()
-        ->and($phoneNumber->verified_at)->not->toBeNull();
+    expect($phoneNumber->refresh()->verified_at)->not->toBeNull();
 
     $verifiedColumn->record($phoneNumber)->updateState(false);
 
     expect($phoneNumber->refresh()->verified_at)->toBeNull();
+});
+
+it('shows primary badge on label column for primary phone numbers', function (): void {
+    UserProfileModuleTestContext::createCurrentTenant();
+
+    $relationManager = new PhoneNumbersRelationManager();
+    $table = $relationManager->table(Table::make($relationManager));
+    $phoneNumber = PhoneNumberFactory::new()->createOne(['is_primary' => true]);
+    $labelColumn = $table->getColumn('label');
+
+    expect($labelColumn)->toBeInstanceOf(BadgeableColumn::class);
+
+    $state = $labelColumn->record($phoneNumber)->formatState($phoneNumber->label)->toHtml();
+
+    expect($state)->toContain('badgeable-column-badge');
 });

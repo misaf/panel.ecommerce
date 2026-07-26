@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAddress\Filament\RelationManagers;
 
+use Awcodes\BadgeableColumn\Components\Badge;
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -14,6 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
@@ -83,14 +86,20 @@ final class AddressesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('label')->label(__('vendra-address::address.fields.label'))->default('—'),
-                TextColumn::make('line_one')->label(__('vendra-address::address.fields.line_one'))->searchable(),
-                TextColumn::make('locality')->label(__('vendra-address::address.fields.locality'))->searchable(),
-                TextColumn::make('country_code')->label(__('vendra-address::address.fields.country_code'))->badge(),
-                ToggleColumn::make('is_primary')
-                    ->disabled(fn(Address $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
-                    ->label(__('vendra-address::address.fields.is_primary'))
-                    ->onIcon(Heroicon::Bolt),
+                BadgeableColumn::make('label')
+                    ->label(__('vendra-address::address.fields.label'))
+                    ->icon(Heroicon::Tag)
+                    ->default('—')
+                    ->prefixBadges([
+                        Badge::make('is_primary')
+                            ->label(__('vendra-address::address.fields.is_primary'))
+                            ->color('success')
+                            ->size(Size::ExtraSmall)
+                            ->hidden(fn(Address $record): bool => ! $record->is_primary),
+                    ]),
+                TextColumn::make('line_one')->label(__('vendra-address::address.fields.line_one'))->icon(Heroicon::MapPin)->searchable(),
+                TextColumn::make('locality')->label(__('vendra-address::address.fields.locality'))->icon(Heroicon::MapPin)->searchable(),
+                TextColumn::make('country_code')->label(__('vendra-address::address.fields.country_code'))->icon(Heroicon::GlobeAlt)->badge(),
                 ToggleColumn::make('verified_at')
                     ->disabled(fn(Address $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
                     ->label(__('vendra-address::address.fields.verified_at'))

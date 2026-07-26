@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Tables;
 
+use Awcodes\BadgeableColumn\Components\Badge;
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
@@ -20,7 +23,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraLanguage\Actions\SetDefaultLanguage;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions\SetDefaultLanguageAction;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\LanguageResource;
 use Misaf\VendraLanguage\Models\Language;
@@ -43,29 +45,26 @@ final class LanguageTable
             TextColumn::make('locale')
                 ->badge()
                 ->label(__('vendra-language::attributes.locale'))
+                ->icon(Heroicon::GlobeAlt)
                 ->searchable()
                 ->sortable(),
 
-            TextColumn::make('name')
+            BadgeableColumn::make('name')
                 ->label(__('vendra-language::attributes.name'))
-                ->state(fn(Language $record): string => Locales::name($record->locale)),
+                ->icon(Heroicon::Tag)
+                ->state(fn(Language $record): string => Locales::name($record->locale))
+                ->prefixBadges([
+                    Badge::make('is_default')
+                        ->label(__('vendra-language::attributes.is_default'))
+                        ->color('success')
+                        ->size(Size::ExtraSmall)
+                        ->hidden(fn(Language $record): bool => ! $record->is_default),
+                ]),
 
             ToggleColumn::make('status')
                 ->label(__('vendra-language::attributes.status'))
                 ->onIcon(Heroicon::Bolt)
                 ->disabled(fn(Language $record): bool => ! LanguageResource::canEdit($record)),
-
-            ToggleColumn::make('is_default')
-                ->disabled(fn(Language $record): bool => $record->is_default || ! LanguageResource::canEdit($record))
-                ->label(__('vendra-language::attributes.is_default'))
-                ->onIcon(Heroicon::Bolt)
-                ->updateStateUsing(function (Language $record, bool $state, SetDefaultLanguage $setDefaultLanguage): bool {
-                    if ($state) {
-                        $setDefaultLanguage->execute($record);
-                    }
-
-                    return $record->refresh()->is_default;
-                }),
 
             TextColumn::make('translation_coverage')
                 ->badge()

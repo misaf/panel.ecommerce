@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraPhone\Filament\RelationManagers;
 
+use Awcodes\BadgeableColumn\Components\Badge;
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -13,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
@@ -79,17 +82,26 @@ final class PhoneNumbersRelationManager extends RelationManager
     {
         /** @var array<int, Column|ColumnGroup|LayoutComponent> $columns */
         $columns = [
-            TextColumn::make('label')->label(__('vendra-phone::phone.fields.label'))->default('—'),
-            TextColumn::make('type')->label(__('vendra-phone::phone.fields.type'))->badge(),
+            BadgeableColumn::make('label')
+                ->label(__('vendra-phone::phone.fields.label'))
+                ->icon(Heroicon::Tag)
+                ->default('—')
+                ->prefixBadges([
+                    Badge::make('is_primary')
+                        ->label(__('vendra-phone::phone.fields.is_primary'))
+                        ->color('success')
+                        ->size(Size::ExtraSmall)
+                        ->hidden(fn(PhoneNumber $record): bool => ! $record->is_primary),
+                ]),
+            TextColumn::make('type')
+                ->label(__('vendra-phone::phone.fields.type'))
+                ->icon(Heroicon::Tag)
+                ->badge(),
             PhoneColumn::make('number')
                 ->label(__('vendra-phone::phone.fields.number'))
                 ->countryColumn('country_code')
                 ->displayFormat(PhoneInputNumberType::INTERNATIONAL),
             TextColumn::make('extension')->label(__('vendra-phone::phone.fields.extension')),
-            ToggleColumn::make('is_primary')
-                ->disabled(fn(PhoneNumber $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
-                ->label(__('vendra-phone::phone.fields.is_primary'))
-                ->onIcon(Heroicon::Bolt),
             ToggleColumn::make('verified_at')
                 ->disabled(fn(PhoneNumber $record): bool => ! (auth()->user()?->can('update', $record) ?? false))
                 ->label(__('vendra-phone::phone.fields.verified_at'))

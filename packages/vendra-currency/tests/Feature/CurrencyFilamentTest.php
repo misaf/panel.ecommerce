@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\Testing\TestAction;
 use Filament\Forms\Components\Select;
 use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraCurrency\Enums\CurrencyType;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\CreateCurrency;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ListCurrencies;
+
 use Misaf\VendraCurrency\Models\Currency;
 
 use function Pest\Livewire\livewire;
@@ -127,17 +129,18 @@ it('sets a currency as default from the table action', function (): void {
         ->and($euro->refresh()->is_default)->toBeTrue();
 });
 
-it('sets a currency as default from the table toggle', function (): void {
+it('shows default badge on the default currency', function (): void {
     $dollar = CurrencyFactory::new()->code('USD')->createOne(['position' => 1]);
     $euro = CurrencyFactory::new()->code('EUR')->createOne(['position' => 2]);
 
-    livewire(ListCurrencies::class)
-        ->call('updateTableColumnState', 'is_default', (string) $euro->getKey(), true);
-
-    expect($dollar->refresh()->is_default)->toBeFalse()
-        ->and($euro->refresh()->is_default)->toBeTrue();
+    $euro->update(['is_default' => true]);
+    $dollar->update(['is_default' => false]);
 
     livewire(ListCurrencies::class)
         ->loadTable()
-        ->assertTableColumnStateSet('is_default', true, $euro);
+        ->assertTableColumnExists('name', function (BadgeableColumn $column) use ($euro): bool {
+            $euroState = $column->record($euro)->formatState($euro->name)->toHtml();
+
+            return str_contains($euroState, 'badgeable-column-badge');
+        }, $euro);
 });

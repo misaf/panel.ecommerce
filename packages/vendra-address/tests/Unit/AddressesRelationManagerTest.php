@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -30,25 +31,36 @@ it('uses a localized country select and free-text administrative fields', functi
         ->and($fields['notes']->getColumnSpan())->toBe(['default' => 'full']);
 });
 
-it('updates primary and verification states from table toggles', function (): void {
+it('updates verification state from table toggle', function (): void {
     UserProfileModuleTestContext::createCurrentTenant();
 
     $relationManager = new AddressesRelationManager();
     $table = $relationManager->table(Table::make($relationManager));
     $address = AddressFactory::new()->createOne();
-    $primaryColumn = $table->getColumn('is_primary');
     $verifiedColumn = $table->getColumn('verified_at');
 
-    expect($primaryColumn)->toBeInstanceOf(ToggleColumn::class)
-        ->and($verifiedColumn)->toBeInstanceOf(ToggleColumn::class);
+    expect($verifiedColumn)->toBeInstanceOf(ToggleColumn::class);
 
-    $primaryColumn->record($address)->updateState(true);
     $verifiedColumn->record($address)->updateState(true);
 
-    expect($address->refresh()->is_primary)->toBeTrue()
-        ->and($address->verified_at)->not->toBeNull();
+    expect($address->refresh()->verified_at)->not->toBeNull();
 
     $verifiedColumn->record($address)->updateState(false);
 
     expect($address->refresh()->verified_at)->toBeNull();
+});
+
+it('shows primary badge on label column for primary addresses', function (): void {
+    UserProfileModuleTestContext::createCurrentTenant();
+
+    $relationManager = new AddressesRelationManager();
+    $table = $relationManager->table(Table::make($relationManager));
+    $address = AddressFactory::new()->createOne(['is_primary' => true]);
+    $labelColumn = $table->getColumn('label');
+
+    expect($labelColumn)->toBeInstanceOf(BadgeableColumn::class);
+
+    $state = $labelColumn->record($address)->formatState($address->label)->toHtml();
+
+    expect($state)->toContain('badgeable-column-badge');
 });
