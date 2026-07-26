@@ -26,6 +26,7 @@
     },
     "require": {
         "php": "^8.3",
+        "cknow/laravel-money": "^8.5",
         "misaf/vendra-support": "self.version",
         "spatie/laravel-package-tools": "^1.93.1"
     },

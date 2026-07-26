@@ -52,9 +52,9 @@ final class CreateResellerAction
             $subscription = $this->subscribeAction->execute($reseller, $plan, $startsAt);
 
             return [
-                'reseller'      => $reseller,
-                'owner'         => $owner,
-                'subscription'  => $subscription,
+                'reseller'     => $reseller,
+                'owner'        => $owner,
+                'subscription' => $subscription,
             ];
         });
     }

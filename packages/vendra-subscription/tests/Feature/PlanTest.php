@@ -52,3 +52,47 @@ it('blocks deletion while any subscription references it, even a trashed one', f
     expect($plan->isInUse())->toBeTrue()
         ->and(fn(): bool => $plan->delete())->toThrow(PlanInUseException::class);
 });
+
+it('formats the price using the plan currency', function (): void {
+    $plan = Plan::factory()->priced(2900, 'USD')->create();
+
+    expect($plan->formattedPrice())->toBe('$29.00');
+});
+
+it('falls back to a plain number and code for unknown currencies', function (): void {
+    $plan = Plan::factory()->priced(2900, 'ZZZ')->create();
+
+    expect($plan->formattedPrice())->toBe('2,900 ZZZ');
+});
+
+it('marks the first enabled plan as the default', function (): void {
+    $plan = Plan::factory()->create();
+
+    expect($plan->refresh()->is_default)->toBeTrue();
+});
+
+it('never marks a disabled plan as the default', function (): void {
+    $plan = Plan::factory()->create(['status' => false, 'is_default' => true]);
+
+    expect($plan->refresh()->is_default)->toBeFalse()
+        ->and(Plan::query()->default()->exists())->toBeFalse();
+});
+
+it('keeps only one default plan when a new default is set', function (): void {
+    $first = Plan::factory()->default()->create();
+    $second = Plan::factory()->create();
+
+    $second->update(['is_default' => true]);
+
+    expect(Plan::query()->default()->pluck('id')->all())->toBe([$second->id])
+        ->and($first->refresh()->is_default)->toBeFalse();
+});
+
+it('promotes another enabled plan when the default is deleted', function (): void {
+    $default = Plan::factory()->default()->create();
+    $other = Plan::factory()->create();
+
+    $default->delete();
+
+    expect($other->refresh()->is_default)->toBeTrue();
+});

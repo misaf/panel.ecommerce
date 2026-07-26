@@ -51,17 +51,17 @@ final class Subscription extends Model implements ShouldLogActivity
     protected function casts(): array
     {
         return [
-            'id'                       => 'integer',
-            'subscriber_type'          => 'string',
-            'subscriber_id'            => 'integer',
-            'plan_id'                  => 'integer',
-            'status'                   => SubscriptionStatus::class,
-            'price'                    => 'integer',
-            'currency_code'            => 'string',
-            'trial_ends_at'            => 'datetime',
-            'starts_at'                => 'datetime',
-            'ends_at'                  => 'datetime',
-            'expiry_reminder_sent_at'  => 'datetime',
+            'id'                      => 'integer',
+            'subscriber_type'         => 'string',
+            'subscriber_id'           => 'integer',
+            'plan_id'                 => 'integer',
+            'status'                  => SubscriptionStatus::class,
+            'price'                   => 'integer',
+            'currency_code'           => 'string',
+            'trial_ends_at'           => 'datetime',
+            'starts_at'               => 'datetime',
+            'ends_at'                 => 'datetime',
+            'expiry_reminder_sent_at' => 'datetime',
         ];
     }
 

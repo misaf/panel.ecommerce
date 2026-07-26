@@ -46,8 +46,16 @@ return new class () extends Migration {
                 ->nullable();
             $table->boolean('status')
                 ->index();
+            $table->boolean('is_default')
+                ->default(false);
+            $table->unsignedBigInteger('default_guard')
+                ->nullable()
+                ->virtualAs('CASE WHEN is_default AND deleted_at IS NULL THEN 1 ELSE NULL END');
             $table->timestampsTz();
             $table->softDeletesTz();
+
+            $table->unique('default_guard', 'plans_one_default_unique');
+            $table->index('is_default');
         });
     }
 

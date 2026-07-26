@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Models;
 
+use Cknow\Money\Money;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,12 +15,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Number;
 use Misaf\VendraSubscription\Database\Factories\PlanFactory;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Exceptions\PlanInUseException;
+use Misaf\VendraSubscription\Observers\PlanObserver;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Throwable;
 
 /**
  * @property int $id
@@ -33,11 +39,14 @@ use Spatie\Sluggable\SlugOptions;
  * @property int $trial_days
  * @property list<string>|null $features
  * @property bool $status
+ * @property bool $is_default
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'slug', 'description', 'max_units', 'period_unit', 'period_count', 'grace_days', 'price', 'currency_code', 'trial_days', 'features', 'status'])]
+#[Fillable(['name', 'slug', 'description', 'max_units', 'period_unit', 'period_count', 'grace_days', 'price', 'currency_code', 'trial_days', 'features', 'status', 'is_default'])]
+#[Hidden(['default_guard'])]
+#[ObservedBy([PlanObserver::class])]
 #[UseFactory(PlanFactory::class)]
 final class Plan extends Model implements ShouldLogActivity
 {
@@ -46,6 +55,11 @@ final class Plan extends Model implements ShouldLogActivity
 
     use HasSlug;
     use SoftDeletes;
+    /** @var array<string, mixed> */
+    protected $attributes = [
+        'status'     => true,
+        'is_default' => false,
+    ];
 
     protected static function booted(): void
     {
@@ -62,19 +76,20 @@ final class Plan extends Model implements ShouldLogActivity
     protected function casts(): array
     {
         return [
-            'id'              => 'integer',
-            'name'            => 'string',
-            'slug'            => 'string',
-            'description'     => 'string',
-            'max_units'       => 'integer',
-            'period_unit'     => PeriodUnit::class,
-            'period_count'    => 'integer',
-            'grace_days'      => 'integer',
-            'price'           => 'integer',
-            'currency_code'   => 'string',
-            'trial_days'      => 'integer',
-            'features'        => 'array',
-            'status'          => 'boolean',
+            'id'             => 'integer',
+            'name'           => 'string',
+            'slug'           => 'string',
+            'description'    => 'string',
+            'max_units'      => 'integer',
+            'period_unit'    => PeriodUnit::class,
+            'period_count'   => 'integer',
+            'grace_days'     => 'integer',
+            'price'          => 'integer',
+            'currency_code'  => 'string',
+            'trial_days'     => 'integer',
+            'features'       => 'array',
+            'status'         => 'boolean',
+            'is_default'     => 'boolean',
         ];
     }
 
@@ -94,6 +109,15 @@ final class Plan extends Model implements ShouldLogActivity
     public function scopeDisabled(Builder $query): Builder
     {
         return $query->where('status', false);
+    }
+
+    /**
+     * @param  Builder<Plan>  $query
+     * @return Builder<Plan>
+     */
+    public function scopeDefault(Builder $query): Builder
+    {
+        return $query->where('is_default', true);
     }
 
     /**
@@ -123,6 +147,24 @@ final class Plan extends Model implements ShouldLogActivity
     public function isFree(): bool
     {
         return 0 === $this->price;
+    }
+
+    /**
+     * The plan's recurring charge formatted for display, e.g. `$29.00`.
+     * Falls back to a plain number and code for currencies the money
+     * formatter does not recognize.
+     */
+    public function formattedPrice(): string
+    {
+        if (null === $this->currency_code) {
+            return Number::format($this->price, locale: 'en');
+        }
+
+        try {
+            return Money::{$this->currency_code}($this->price)->format();
+        } catch (Throwable) {
+            return Number::format($this->price, locale: 'en') . ' ' . $this->currency_code;
+        }
     }
 
     /**

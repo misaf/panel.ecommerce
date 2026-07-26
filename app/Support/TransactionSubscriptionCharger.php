@@ -76,8 +76,8 @@ final class TransactionSubscriptionCharger implements SubscriptionCharger
         $status = match (true) {
             $transaction->status instanceof Approved => SubscriptionChargeStatus::Paid,
             $transaction->status instanceof Declined,
-            $transaction->status instanceof Failed   => SubscriptionChargeStatus::Failed,
-            default                                  => SubscriptionChargeStatus::Processing,
+            $transaction->status instanceof Failed  => SubscriptionChargeStatus::Failed,
+            default                                 => SubscriptionChargeStatus::Processing,
         };
 
         return new SubscriptionChargeResult(

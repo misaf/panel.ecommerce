@@ -42,6 +42,10 @@ final class PlanTable
                     ->label(__('console.status'))
                     ->boolean(),
 
+                IconColumn::make('is_default')
+                    ->label(__('console.is_default'))
+                    ->boolean(),
+
                 TextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i')
                     ->sortable(),

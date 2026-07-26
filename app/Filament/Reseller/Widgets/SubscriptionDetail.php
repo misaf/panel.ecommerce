@@ -50,8 +50,8 @@ final class SubscriptionDetail extends StatsOverviewWidget
             SubscriptionStatus::Active         => 'success',
             SubscriptionStatus::PendingPayment => 'warning',
             SubscriptionStatus::PastDue,
-            SubscriptionStatus::Expired        => 'danger',
-            SubscriptionStatus::Cancelled      => 'gray',
+            SubscriptionStatus::Expired       => 'danger',
+            SubscriptionStatus::Cancelled     => 'gray',
         };
     }
 }
