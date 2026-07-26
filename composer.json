@@ -257,6 +257,9 @@
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
+        ],
+        "stan": [
+            "@php vendor/bin/phpstan analyse --memory-limit=1G"
         ]
     },
     "$schema": "https://getcomposer.org/schema.json"

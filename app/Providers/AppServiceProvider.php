@@ -57,8 +57,8 @@ final class AppServiceProvider extends ServiceProvider
         );
         URL::forceScheme('https');
         Model::shouldBeStrict();
-        // DB::prohibitDestructiveCommands(app()->isProduction());
-        Password::defaults(fn() => Password::min(8)->max(15));
+        DB::prohibitDestructiveCommands(app()->isProduction());
+        Password::defaults(fn() => Password::min(8));
 
         $this->configureTableDefaults();
         $this->configurePanelSwitch();

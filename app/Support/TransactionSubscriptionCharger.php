@@ -66,6 +66,16 @@ final class TransactionSubscriptionCharger implements SubscriptionCharger
         return $this->resultFor($transaction);
     }
 
+    /**
+     * Re-resolve a previously initiated charge by its idempotency reference.
+     *
+     * Delegating to {@see charge()} is safe and non-duplicating: the internal
+     * gateway keys transactions by {@see SubscriptionCharge::$reference}, so
+     * `createTransaction()` returns the *existing* transaction rather than
+     * posting a new withdrawal, and the `canTransitionTo(Approved::class)` guard
+     * prevents re-approving an already-settled transaction. The result therefore
+     * reflects the current stored status of the original operation.
+     */
     public function retrieve(SubscriptionCharge $charge): SubscriptionChargeResult
     {
         return $this->charge($charge);

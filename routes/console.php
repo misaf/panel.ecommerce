@@ -18,3 +18,8 @@ Schedule::command('vendra-subscription:recover-payments')
     ->everyFiveMinutes()
     ->withoutOverlapping()
     ->onOneServer();
+
+Schedule::command('vendra-subscription:report-payment-backlog')
+    ->everyFifteenMinutes()
+    ->withoutOverlapping()
+    ->onOneServer();
