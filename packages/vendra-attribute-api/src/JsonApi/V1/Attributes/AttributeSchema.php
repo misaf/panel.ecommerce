@@ -44,7 +44,7 @@ final class AttributeSchema extends Schema
             Number::make('position')
                 ->readOnly(),
 
-            Boolean::make('status'),
+            Boolean::make('active'),
 
             DateTime::make('created_at')
                 ->readOnly(),
@@ -79,6 +79,6 @@ final class AttributeSchema extends Schema
     {
         $query ??= $this->newInstance()->newQuery();
 
-        return parent::newQuery($query->where('status', true));
+        return parent::newQuery($query->where('active', true));
     }
 }

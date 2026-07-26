@@ -22,7 +22,7 @@ final class FaqCategoryResource extends JsonApiResource
             'description' => $this->description,
             'slug'        => $this->slug,
             'position'    => $this->position,
-            'status'      => $this->status,
+            'active'      => $this->active,
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
         ];

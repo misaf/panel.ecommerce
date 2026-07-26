@@ -68,7 +68,7 @@ final class CustomPageCategoryCollectionQuery extends ResourceQuery
             'filter.exclude.*'            => 'integer',
             'filter.name'                 => 'string',
             'filter.slug'                 => 'string',
-            'filter.status'               => JsonApiRule::boolean()->asString(),
+            'filter.active'               => JsonApiRule::boolean()->asString(),
             'filter.has-multimedia'       => JsonApiRule::boolean()->asString(),
             'filter.with-multimedia'      => 'array',
             'filter.with-multimedia.*'    => 'string',

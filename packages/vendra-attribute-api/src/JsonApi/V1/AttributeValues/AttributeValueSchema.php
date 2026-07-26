@@ -70,7 +70,7 @@ final class AttributeValueSchema extends Schema
 
         return parent::newQuery($query->whereHas(
             'attribute',
-            fn(Builder $query): Builder => $query->where('status', true),
+            fn(Builder $query): Builder => $query->where('active', true),
         ));
     }
 }

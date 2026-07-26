@@ -55,7 +55,7 @@ final class ProductCategorySchema extends Schema
                 ->sortable()
                 ->readOnly(),
 
-            Boolean::make('status')
+            Boolean::make('active')
                 ->sortable(),
 
             DateTime::make('created_at')
@@ -134,7 +134,7 @@ final class ProductCategorySchema extends Schema
                 ->using('like')
                 ->deserializeUsing(fn(string $value): string => "%{$value}%"),
 
-            Where::make('status')
+            Where::make('active')
                 ->asBoolean(),
         ];
     }

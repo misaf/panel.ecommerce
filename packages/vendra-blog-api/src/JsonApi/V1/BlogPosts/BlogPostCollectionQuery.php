@@ -67,7 +67,7 @@ final class BlogPostCollectionQuery extends ResourceQuery
             'filter.exclude.*'            => 'integer',
             'filter.name'                 => 'string',
             'filter.slug'                 => 'string',
-            'filter.status'               => 'boolean',
+            'filter.active'               => 'boolean',
             'filter.has-multimedia'       => 'boolean',
             'filter.with-multimedia'      => 'array',
             'filter.with-multimedia.*'    => 'string',
