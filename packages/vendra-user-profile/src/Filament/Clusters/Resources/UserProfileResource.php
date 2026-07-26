@@ -14,10 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\HtmlString;
 use InvalidArgumentException;
 use Laravel\Pennant\Feature;
 use Misaf\VendraSupport\Contracts\TenantResolver;
@@ -78,7 +76,7 @@ final class UserProfileResource extends Resource
 
     public static function getGlobalSearchEloquentQuery(): Builder
     {
-        return parent::getGlobalSearchEloquentQuery()->with(['user']);
+        return parent::getGlobalSearchEloquentQuery()->with('user');
     }
 
     /**
@@ -92,20 +90,20 @@ final class UserProfileResource extends Resource
     }
 
     /**
-     * @return array<string, HtmlString>
+     * @return array<string, string>
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         $profile = self::profile($record);
 
         return [
-            __('vendra-user-profile::attributes.email') => str('<span dir="ltr">' . $profile->user()->firstOrFail()->email . '</span>')->toHtmlString(),
+            __('vendra-user-profile::attributes.email') => (string) $profile->user?->email,
         ];
     }
 
-    public static function getGlobalSearchResultTitle(Model $record): Htmlable
+    public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return str('<span dir="ltr">' . self::profile($record)->name . '</span>')->toHtmlString();
+        return self::profile($record)->name;
     }
 
     /**

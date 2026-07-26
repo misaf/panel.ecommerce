@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Filament\Tables\Filters\TernaryFilter;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterFactory;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages\ListNewsletters;
@@ -43,4 +44,25 @@ it('updates newsletter subscription state from the table toggle', function (): v
 
     expect($subscriber->refresh()->isSubscribed())->toBeFalse()
         ->and($subscriber->unsubscribed_at)->not->toBeNull();
+});
+
+it('filters newsletter subscribers by localized active state', function (): void {
+    $activeSubscriber = NewsletterSubscriberFactory::new()->subscribed()->createOne();
+    $inactiveSubscriber = NewsletterSubscriberFactory::new()->unsubscribed()->createOne();
+
+    $component = livewire(ListNewsletterSubscribers::class)
+        ->call('loadTable')
+        ->assertTableFilterExists('subscribed', function (TernaryFilter $filter): bool {
+            return $filter->getLabel() === __('vendra-newsletter::attributes.active')
+                && $filter->getTrueLabel() === __('vendra-newsletter::attributes.active')
+                && $filter->getFalseLabel() === __('vendra-newsletter::attributes.inactive');
+        })
+        ->filterTable('subscribed', true)
+        ->assertCanSeeTableRecords([$activeSubscriber])
+        ->assertCanNotSeeTableRecords([$inactiveSubscriber]);
+
+    $component
+        ->filterTable('subscribed', false)
+        ->assertCanSeeTableRecords([$inactiveSubscriber])
+        ->assertCanNotSeeTableRecords([$activeSubscriber]);
 });
