@@ -71,14 +71,43 @@ return [
     'owner_credentials'      => 'Owner username: :username · Password: :password',
 
     'admin_url'              => 'Admin URL',
+    'custom_url'             => 'Custom URL',
+    'url_copied'             => 'URL copied',
 
     'replace_domain'         => 'Replace domain',
     'new_domain'             => 'New domain',
     'domain_replaced'        => 'Domain replaced',
     'domain_history'         => 'Domain history',
     'created_at'             => 'Created at',
+    'updated_at'             => 'Updated at',
     'domains'                => 'Domains',
     'active'                 => 'Active',
     'replaced'               => 'Replaced',
     'replaced_at'            => 'Replaced at',
+
+    'inactive'               => 'Inactive',
+    'period_day'             => 'Day',
+    'period_week'            => 'Week',
+    'period_month'           => 'Month',
+    'period_year'            => 'Year',
+
+    'tables'                 => [
+        'description' => [
+            'plans'      => 'Manage the subscription plans available to resellers.',
+            'resellers'  => 'Manage reseller accounts and their property capacity.',
+            'properties' => 'Manage properties, domains, and access status.',
+        ],
+        'empty_state' => [
+            'heading' => [
+                'plans'      => 'No plans',
+                'resellers'  => 'No resellers',
+                'properties' => 'No properties',
+            ],
+            'description' => [
+                'plans'      => 'Create a plan to define subscription limits and billing periods.',
+                'resellers'  => 'Create a reseller account to start assigning properties.',
+                'properties' => 'Create a property to configure its domain and access.',
+            ],
+        ],
+    ],
 ];

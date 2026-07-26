@@ -79,8 +79,35 @@ return [
     'domain_replaced'        => 'Domain ersetzt',
     'domain_history'         => 'Domain-Verlauf',
     'created_at'             => 'Erstellt am',
+    'updated_at'             => 'Aktualisiert am',
     'domains'                => 'Domains',
     'active'                 => 'Aktiv',
     'replaced'               => 'Ersetzt',
     'replaced_at'            => 'Ersetzt am',
+
+    'inactive'               => 'Inaktiv',
+    'period_day'             => 'Tag',
+    'period_week'            => 'Woche',
+    'period_month'           => 'Monat',
+    'period_year'            => 'Jahr',
+
+    'tables'                 => [
+        'description' => [
+            'plans'      => 'Verwalten Sie die verfügbaren Abonnement-Tarife.',
+            'resellers'  => 'Verwalten Sie Konten und deren Property-Kapazität.',
+            'properties' => 'Verwalten Sie Properties, Domains und Zugriffsstatus.',
+        ],
+        'empty_state' => [
+            'heading' => [
+                'plans'      => 'Keine Tarife',
+                'resellers'  => 'Keine Konten',
+                'properties' => 'Keine Properties',
+            ],
+            'description' => [
+                'plans'      => 'Erstellen Sie einen Tarif, um Limits und Abrechnungszeiträume festzulegen.',
+                'resellers'  => 'Erstellen Sie ein Konto, um Properties zuzuweisen.',
+                'properties' => 'Erstellen Sie eine Property, um Domain und Zugriff einzurichten.',
+            ],
+        ],
+    ],
 ];

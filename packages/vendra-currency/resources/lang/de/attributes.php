@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'active'                 => 'Aktiv',
     'code'                   => 'Code',
     'created_at'             => 'Erstellt am',
     'decimal_places'         => 'Dezimalstellen',
@@ -10,7 +11,6 @@ return [
     'is_default_helper_text' => 'Aktivieren, um dies als Standardwährung für neue Ressourcen zu verwenden.',
     'name'                   => 'Name',
     'position'               => 'Position',
-    'status'                 => 'Status',
     'symbol'                 => 'Symbol',
     'symbol_helper_text'     => 'Das Währungssymbol für die Anzeige (z. B. $, €).',
     'type'                   => 'Typ',

@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 return [
+    'active'          => 'Aktiv',
     'content'         => 'Inhalt',
     'created_at'      => 'Erstellt am',
     'deleted_at'      => 'Gelöscht am',
     'email'           => 'E-Mail',
     'id'              => 'ID',
+    'inactive'        => 'Inaktiv',
     'name'            => 'Name',
     'scheduled_at'    => 'Geplant für',
     'sent_at'         => 'Gesendet am',

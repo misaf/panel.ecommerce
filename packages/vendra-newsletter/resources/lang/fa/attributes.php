@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 return [
+    'active'          => 'فعال',
     'content'         => 'محتوا',
     'created_at'      => 'تاریخ ایجاد',
     'deleted_at'      => 'تاریخ حذف',
     'email'           => 'ایمیل',
     'id'              => 'شناسه',
+    'inactive'        => 'غیرفعال',
     'name'            => 'نام',
     'scheduled_at'    => 'زمان‌بندی برای',
     'sent_at'         => 'تاریخ ارسال',

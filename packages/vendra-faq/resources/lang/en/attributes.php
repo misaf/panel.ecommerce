@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'active'                  => 'Active',
     'created_at'              => 'Created At',
     'deleted_at'              => 'Deleted At',
     'description'             => 'Description',
@@ -12,7 +13,6 @@ return [
     'name'                    => 'Name',
     'slug'                    => 'Slug',
     'slug_helper_text'        => 'A unique identifier for the URL. Leave empty to auto-generate from the name.',
-    'status'                  => 'Status',
     'tenant_id'               => 'Tenant',
     'updated_at'              => 'Updated At',
 ];

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'active'                    => 'Aktiv',
     'created_at'                => 'Erstellt am',
     'group'                     => 'Gruppe',
     'group_help'                => 'Name der Uebersetzungsdatei, zum Beispiel navigation oder attributes.',
@@ -15,7 +16,6 @@ return [
     'namespace_help'            => 'Uebersetzungspaket, zum Beispiel vendra-product. Fuer Anwendungsuebersetzungen leer lassen.',
     'namespace_none'            => 'Anwendungsuebersetzungen (kein Paket)',
     'position'                  => 'Position',
-    'status'                    => 'Status',
     'text'                      => 'Text',
     'translation'               => 'Uebersetzung',
     'translation_coverage'      => 'Ueberschreibungsabdeckung',

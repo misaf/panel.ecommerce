@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'active'                  => 'فعال',
     'created_at'              => 'تاریخ ایجاد',
     'deleted_at'              => 'تاریخ حذف',
     'description'             => 'توضیحات',
@@ -12,7 +13,6 @@ return [
     'name'                    => 'نام',
     'slug'                    => 'نامک',
     'slug_helper_text'        => 'شناسه یکتای URL. برای تولید خودکار از نام، خالی بگذارید.',
-    'status'                  => 'وضعیت',
     'tenant_id'               => 'مستاجر',
     'updated_at'              => 'تاریخ بروزرسانی',
 ];
