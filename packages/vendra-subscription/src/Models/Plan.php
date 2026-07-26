@@ -38,13 +38,13 @@ use Throwable;
  * @property string|null $currency_code
  * @property int $trial_days
  * @property list<string>|null $features
- * @property bool $status
+ * @property bool $active
  * @property bool $is_default
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'slug', 'description', 'max_units', 'period_unit', 'period_count', 'grace_days', 'price', 'currency_code', 'trial_days', 'features', 'status', 'is_default'])]
+#[Fillable(['name', 'slug', 'description', 'max_units', 'period_unit', 'period_count', 'grace_days', 'price', 'currency_code', 'trial_days', 'features', 'active', 'is_default'])]
 #[Hidden(['default_guard'])]
 #[ObservedBy([PlanObserver::class])]
 #[UseFactory(PlanFactory::class)]
@@ -57,7 +57,7 @@ final class Plan extends Model implements ShouldLogActivity
     use SoftDeletes;
     /** @var array<string, mixed> */
     protected $attributes = [
-        'status'     => true,
+        'active'     => true,
         'is_default' => false,
     ];
 
@@ -88,7 +88,7 @@ final class Plan extends Model implements ShouldLogActivity
             'currency_code'  => 'string',
             'trial_days'     => 'integer',
             'features'       => 'array',
-            'status'         => 'boolean',
+            'active'         => 'boolean',
             'is_default'     => 'boolean',
         ];
     }
@@ -99,7 +99,7 @@ final class Plan extends Model implements ShouldLogActivity
      */
     public function scopeEnabled(Builder $query): Builder
     {
-        return $query->where('status', true);
+        return $query->where('active', true);
     }
 
     /**
@@ -108,7 +108,7 @@ final class Plan extends Model implements ShouldLogActivity
      */
     public function scopeDisabled(Builder $query): Builder
     {
-        return $query->where('status', false);
+        return $query->where('active', false);
     }
 
     /**

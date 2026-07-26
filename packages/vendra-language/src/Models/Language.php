@@ -22,19 +22,19 @@ use Spatie\EloquentSortable\SortableTrait;
 
 /**
  * A locale a tenant has installed from the ICU catalog. Display names derive
- * from that catalog, while status controls whether the locale is active.
+ * from that catalog, while active controls whether the locale is active.
  *
  * @property int $id
  * @property int $tenant_id
  * @property string $locale
- * @property bool $status
+ * @property bool $active
  * @property bool $is_default
  * @property int $position
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read string $name
  */
-#[Fillable(['locale', 'status', 'is_default', 'position'])]
+#[Fillable(['locale', 'active', 'is_default', 'position'])]
 #[Hidden(['tenant_id', 'default_guard'])]
 #[ObservedBy([LanguageObserver::class])]
 #[UseFactory(LanguageFactory::class)]
@@ -61,7 +61,7 @@ final class Language extends Model implements Sortable, ShouldLogActivity
 
     /** @var array<string, mixed> */
     protected $attributes = [
-        'status'     => true,
+        'active'     => true,
         'is_default' => false,
     ];
 
@@ -79,7 +79,7 @@ final class Language extends Model implements Sortable, ShouldLogActivity
      */
     public function scopeEnabled(Builder $query): Builder
     {
-        return $query->where('status', true);
+        return $query->where('active', true);
     }
 
     /**
@@ -91,7 +91,7 @@ final class Language extends Model implements Sortable, ShouldLogActivity
             'id'         => 'integer',
             'tenant_id'  => 'integer',
             'locale'     => 'string',
-            'status'     => 'boolean',
+            'active'     => 'boolean',
             'is_default' => 'boolean',
             'position'   => 'integer',
         ];

@@ -26,12 +26,12 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property string|null $description
  * @property string|null $unit
  * @property int $position
- * @property bool $status
+ * @property bool $active
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'description', 'unit', 'position', 'status'])]
+#[Fillable(['name', 'description', 'unit', 'position', 'active'])]
 #[Hidden(['tenant_id', 'active_name_guard'])]
 #[UseFactory(AttributeFactory::class)]
 final class Attribute extends Model implements ShouldLogActivity, Sortable
@@ -69,7 +69,7 @@ final class Attribute extends Model implements ShouldLogActivity, Sortable
             'description' => 'string',
             'unit'        => 'string',
             'position'    => 'integer',
-            'status'      => 'boolean',
+            'active'      => 'boolean',
         ];
     }
 

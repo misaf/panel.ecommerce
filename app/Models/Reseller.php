@@ -30,13 +30,13 @@ use Spatie\Sluggable\SlugOptions;
  * @property string $name
  * @property string|null $description
  * @property string $slug
- * @property bool $status
+ * @property bool $active
  * @property string|null $email
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'description', 'slug', 'status', 'email'])]
+#[Fillable(['name', 'description', 'slug', 'active', 'email'])]
 #[UseFactory(ResellerFactory::class)]
 final class Reseller extends Model implements ShouldLogActivity, SubscriptionSubscriber
 {
@@ -69,7 +69,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
             'name'        => 'string',
             'description' => 'string',
             'slug'        => 'string',
-            'status'      => 'boolean',
+            'active'      => 'boolean',
             'email'       => 'string',
         ];
     }
@@ -96,7 +96,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
      */
     public function scopeEnabled(Builder $query): Builder
     {
-        return $query->where('status', true);
+        return $query->where('active', true);
     }
 
     /**
@@ -105,7 +105,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
      */
     public function scopeDisabled(Builder $query): Builder
     {
-        return $query->where('status', false);
+        return $query->where('active', false);
     }
 
     /**
@@ -157,7 +157,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
 
     public function isSubscriptionEnabled(): bool
     {
-        return $this->status;
+        return $this->active;
     }
 
     public function notifyOwner(Notification $notification): void
@@ -177,17 +177,17 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
 
     public function activeSubscribedPropertyCount(): int
     {
-        return $this->tenants()->where('status', true)->count();
+        return $this->tenants()->where('active', true)->count();
     }
 
     public function suspendActiveProperties(): int
     {
-        return $this->tenants()->where('status', true)->update(['status' => false]);
+        return $this->tenants()->where('active', true)->update(['active' => false]);
     }
 
     public function reactivateSuspendedProperties(): int
     {
-        return $this->tenants()->where('status', false)->update(['status' => true]);
+        return $this->tenants()->where('active', false)->update(['active' => true]);
     }
 
     /**

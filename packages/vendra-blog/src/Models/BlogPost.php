@@ -35,12 +35,12 @@ use Spatie\Translatable\HasTranslations;
  * @property array<string, string> $description
  * @property array<string, string> $slug
  * @property int $position
- * @property bool $status
+ * @property bool $active
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['blog_post_category_id', 'name', 'description', 'slug', 'position', 'status'])]
+#[Fillable(['blog_post_category_id', 'name', 'description', 'slug', 'position', 'active'])]
 #[Hidden(['tenant_id'])]
 #[UseFactory(BlogPostFactory::class)]
 final class BlogPost extends Model implements HasMedia, ShouldLogActivity, Sortable
@@ -96,7 +96,7 @@ final class BlogPost extends Model implements HasMedia, ShouldLogActivity, Sorta
             'description'           => 'array',
             'slug'                  => 'array',
             'position'              => 'integer',
-            'status'                => 'boolean',
+            'active'                => 'boolean',
         ];
     }
 

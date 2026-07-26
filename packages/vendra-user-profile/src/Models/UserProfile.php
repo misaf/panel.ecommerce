@@ -27,12 +27,12 @@ use Spatie\Sluggable\SlugOptions;
  * @property string|null $description
  * @property string $slug
  * @property bool $is_default
- * @property bool $status
+ * @property bool $active
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['tenant_id', 'user_id', 'name', 'description', 'slug', 'is_default', 'status'])]
+#[Fillable(['tenant_id', 'user_id', 'name', 'description', 'slug', 'is_default', 'active'])]
 #[Hidden(['tenant_id', 'active_name_guard', 'active_slug_guard', 'default_user_guard'])]
 #[UseFactory(UserProfileFactory::class)]
 final class UserProfile extends Model implements ShouldLogActivity
@@ -59,7 +59,7 @@ final class UserProfile extends Model implements ShouldLogActivity
             'description' => 'string',
             'slug'        => 'string',
             'is_default'  => 'boolean',
-            'status'      => 'boolean',
+            'active'      => 'boolean',
         ];
     }
 

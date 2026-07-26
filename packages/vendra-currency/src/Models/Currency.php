@@ -30,7 +30,7 @@ use Spatie\EloquentSortable\SortableTrait;
  * A currency a tenant has installed from the fiat/crypto catalog exposed by
  * {@see \Misaf\VendraCurrency\Support\CurrencyRegistry}. Name, symbol, and
  * decimal places are snapshotted at install time and remain editable, while
- * `status` controls availability and exactly one enabled row is the default.
+ * `active` controls availability and exactly one enabled row is the default.
  *
  * @property int $id
  * @property int $tenant_id
@@ -39,13 +39,13 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property string|null $symbol
  * @property int $decimal_places
  * @property CurrencyType $type
- * @property bool $status
+ * @property bool $active
  * @property bool $is_default
  * @property int $position
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-#[Fillable(['code', 'name', 'symbol', 'decimal_places', 'type', 'status', 'is_default', 'position'])]
+#[Fillable(['code', 'name', 'symbol', 'decimal_places', 'type', 'active', 'is_default', 'position'])]
 #[Hidden(['tenant_id', 'default_guard'])]
 #[ObservedBy([CurrencyObserver::class])]
 #[UseFactory(CurrencyFactory::class)]
@@ -72,7 +72,7 @@ final class Currency extends Model implements Sortable, ShouldLogActivity
 
     /** @var array<string, mixed> */
     protected $attributes = [
-        'status'     => true,
+        'active'     => true,
         'is_default' => false,
     ];
 
@@ -82,7 +82,7 @@ final class Currency extends Model implements Sortable, ShouldLogActivity
      */
     public function scopeEnabled(Builder $query): Builder
     {
-        return $query->where('status', true);
+        return $query->where('active', true);
     }
 
     /**
@@ -125,7 +125,7 @@ final class Currency extends Model implements Sortable, ShouldLogActivity
             'symbol'         => 'string',
             'decimal_places' => 'integer',
             'type'           => CurrencyType::class,
-            'status'         => 'boolean',
+            'active'         => 'boolean',
             'is_default'     => 'boolean',
             'position'       => 'integer',
         ];

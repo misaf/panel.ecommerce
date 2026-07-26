@@ -35,12 +35,12 @@ use Spatie\Translatable\HasTranslations;
  * @property array<string, string> $description
  * @property array<string, string> $slug
  * @property int $position
- * @property bool $status
+ * @property bool $active
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'description', 'slug', 'position', 'status'])]
+#[Fillable(['name', 'description', 'slug', 'position', 'active'])]
 #[Hidden(['tenant_id'])]
 #[ObservedBy([FaqCategoryObserver::class])]
 #[UseFactory(FaqCategoryFactory::class)]
@@ -94,7 +94,7 @@ final class FaqCategory extends Model implements HasMedia, Sortable, ShouldLogAc
             'description' => 'array',
             'slug'        => 'array',
             'position'    => 'integer',
-            'status'      => 'boolean',
+            'active'      => 'boolean',
         ];
     }
 
