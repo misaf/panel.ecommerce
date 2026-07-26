@@ -12,6 +12,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\Unique;
@@ -103,6 +104,7 @@ final class ResellerForm
                     ->columnSpanFull()
                     ->default(true)
                     ->live()
+                    ->onIcon(Heroicon::Bolt)
                     ->required(),
 
                 Section::make(__('console.current_subscription'))

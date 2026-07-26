@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 use Livewire\Component as Livewire;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
@@ -110,6 +111,7 @@ final class PlanForm
                     ->columnSpanFull()
                     ->default(true)
                     ->live()
+                    ->onIcon(Heroicon::Bolt)
                     ->required(),
 
                 Toggle::make('is_default')
@@ -118,6 +120,7 @@ final class PlanForm
                     ->helperText(__('console.is_default_hint'))
                     ->columnSpanFull()
                     ->default(false)
+                    ->onIcon(Heroicon::Bolt)
                     ->visible(fn(Get $get): bool => (bool) $get('status'))
                     ->live()
                     ->required(),

@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Livewire\Component as Livewire;
 use Misaf\LaravelEmailValidation\Rules\EmailValidation;
 use Misaf\VendraTenant\Models\TenantDomain;
@@ -62,6 +63,7 @@ final class PropertyForm
                     ->columnSpanFull()
                     ->default(true)
                     ->live()
+                    ->onIcon(Heroicon::Bolt)
                     ->required(),
             ])
             ->columns(2);
