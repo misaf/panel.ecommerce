@@ -9,6 +9,7 @@ use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Event;
 use Misaf\VendraSubscription\Console\Commands\RecoverSubscriptionPaymentsCommand;
+use Misaf\VendraSubscription\Console\Commands\ReportSubscriptionPaymentBacklogCommand;
 use Misaf\VendraSubscription\Events\SubscriptionPaymentPaid;
 use Misaf\VendraSubscription\Listeners\ActivateSubscriptionOnPayment;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -25,6 +26,7 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
                 'create_subscriptions_table',
             ])
             ->hasCommand(RecoverSubscriptionPaymentsCommand::class)
+            ->hasCommand(ReportSubscriptionPaymentBacklogCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command->askToStarRepoOnGitHub('misaf/vendra-subscription');
             });
