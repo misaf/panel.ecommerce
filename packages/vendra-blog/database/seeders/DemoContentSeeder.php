@@ -55,12 +55,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool,
+     *     active: bool,
      *     blog_posts: list<array{
      *         name: non-empty-array<string, string>,
      *         description: non-empty-array<string, string>,
      *         slug: non-empty-array<string, string>,
-     *         status: bool
+     *         active: bool
      *     }>
      * } $data
      */
@@ -70,7 +70,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'name'        => $data['name'],
             'description' => $data['description'],
             'slug'        => $data['slug'],
-            'status'      => $data['status'],
+            'active'      => $data['active'],
         ]);
 
         foreach ($data['blog_posts'] as $blogPostRecord) {
@@ -83,7 +83,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool
+     *     active: bool
      * } $blogPostRecord
      */
     private function handleBlogPostFixtureRecord(BlogPostCategory $blogPostCategory, array $blogPostRecord): void
@@ -92,7 +92,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'name'        => $blogPostRecord['name'],
             'description' => $blogPostRecord['description'],
             'slug'        => $blogPostRecord['slug'],
-            'status'      => $blogPostRecord['status'],
+            'active'      => $blogPostRecord['active'],
         ]);
     }
 
@@ -102,12 +102,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool,
+     *     active: bool,
      *     blog_posts: list<array{
      *         name: non-empty-array<string, string>,
      *         description: non-empty-array<string, string>,
      *         slug: non-empty-array<string, string>,
-     *         status: bool
+     *         active: bool
      *     }>
      * }
      */
@@ -117,12 +117,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
          *     name: non-empty-array<string, string>,
          *     description: non-empty-array<string, string>,
          *     slug: non-empty-array<string, string>,
-         *     status: bool,
+         *     active: bool,
          *     blog_posts: list<array{
          *         name: non-empty-array<string, string>,
          *         description: non-empty-array<string, string>,
          *         slug: non-empty-array<string, string>,
-         *         status: bool
+         *         active: bool
          *     }>
          * } $validated
          */
@@ -135,16 +135,16 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
                 'description.*'              => ['required', 'string'],
                 'slug'                       => ['required', 'array', 'min:1'],
                 'slug.*'                     => ['required', 'string'],
-                'status'                     => ['required', 'boolean'],
+                'active'                     => ['required', 'boolean'],
                 'blog_posts'                 => ['required', 'array', 'list'],
-                'blog_posts.*'               => ['required', 'array:name,description,slug,status'],
+                'blog_posts.*'               => ['required', 'array:name,description,slug,active'],
                 'blog_posts.*.name'          => ['required', 'array', 'min:1'],
                 'blog_posts.*.name.*'        => ['required', 'string'],
                 'blog_posts.*.description'   => ['required', 'array', 'min:1'],
                 'blog_posts.*.description.*' => ['required', 'string'],
                 'blog_posts.*.slug'          => ['required', 'array', 'min:1'],
                 'blog_posts.*.slug.*'        => ['required', 'string'],
-                'blog_posts.*.status'        => ['required', 'boolean'],
+                'blog_posts.*.active'        => ['required', 'boolean'],
             ],
         )->validate();
 

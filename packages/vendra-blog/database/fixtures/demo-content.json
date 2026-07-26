@@ -15,7 +15,7 @@
             "de": "Offizielle Ankündigungen, Versionshinweise und wichtige Produktneuigkeiten.",
             "fa": "اطلاعیه‌های رسمی، یادداشت‌های انتشار و خبرهای مهم محصول."
         },
-        "status": true,
+        "active": true,
         "blog_posts": [
             {
                 "name": {
@@ -33,7 +33,7 @@
                     "de": "Ein kurzer Überblick über das Blogmodul, die wichtigsten Funktionen und wie Teams mehrsprachige Inhalte schneller veröffentlichen können.",
                     "fa": "مروری سریع بر ماژول وبلاگ، قابلیت‌های کلیدی و اینکه تیم‌ها چگونه می‌توانند محتوای چندزبانه را سریع‌تر منتشر کنند."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -51,7 +51,7 @@
                     "de": "Highlights der Leistungsverbesserungen, Aktualisierungen redaktioneller Workflows und kleiner Fehlerkorrekturen dieses Monats.",
                     "fa": "خلاصه‌ای از بهبودهای عملکرد، به‌روزرسانی‌های فرایند تولید محتوا و اصلاحات جزئی این ماه."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -69,7 +69,7 @@
                     "de": "Geplante Arbeiten an Veröffentlichungstools, Analyse-Dashboards und Kollaborationsfunktionen für Redaktionsteams.",
                     "fa": "برنامه‌های پیش‌رو برای ابزارهای انتشار، داشبوردهای تحلیل و قابلیت‌های همکاری برای تیم‌های محتوایی."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -87,7 +87,7 @@
                     "de": "Unser Ansatz für geplante Wartungsfenster, Vorfallsreaktionen und transparente Statuskommunikation.",
                     "fa": "رویکرد ما برای بازه‌های نگه‌داری برنامه‌ریزی‌شده، واکنش به رخدادها و اطلاع‌رسانی شفاف وضعیت سرویس."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -107,7 +107,7 @@
             "de": "Schritt-für-Schritt-Artikel, die Teams helfen, die Plattform effektiv zu nutzen.",
             "fa": "مقالات مرحله‌به‌مرحله برای استفاده مؤثر تیم‌ها از پلتفرم."
         },
-        "status": true,
+        "active": true,
         "blog_posts": [
             {
                 "name": {
@@ -125,7 +125,7 @@
                     "de": "Lernen Sie eine praktische Struktur für Ankündigungsbeiträge kennen, die Klarheit, Interaktion und Conversion verbessert.",
                     "fa": "با یک ساختار کاربردی برای پست‌های اطلاعیه آشنا شوید تا شفافیت، تعامل و نرخ تبدیل بهبود یابد."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -143,7 +143,7 @@
                     "de": "Eine wiederverwendbare Checkliste für Tonalität, SEO-Grundlagen, Barrierefreiheit und die finale Veröffentlichungsprüfung.",
                     "fa": "یک چک‌لیست قابل استفاده مجدد شامل لحن، اصول سئو، دسترس‌پذیری و بررسی نهایی پیش از انتشار."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -161,7 +161,7 @@
                     "de": "Best Practices für das Übersetzen und Pflegen von Inhalten über mehrere Sprachen hinweg, während eine klare zentrale Quelle erhalten bleibt.",
                     "fa": "بهترین روش‌ها برای ترجمه و نگه‌داری محتوا در زبان‌های مختلف با حفظ یک منبع واحد و قابل اعتماد."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -179,7 +179,7 @@
                     "de": "Ein praktisches Planungsmodell zur Themenauswahl, Zuweisung von Verantwortlichen und Einhaltung wöchentlicher Veröffentlichungszusagen.",
                     "fa": "یک الگوی عملی برای انتخاب موضوع، تعیین مسئول و حفظ تعهد انتشار هفتگی."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -199,7 +199,7 @@
             "de": "Echte Beispiele von Teams, die ihre Content-Prozesse mit Vendra verbessert haben.",
             "fa": "نمونه‌های واقعی از تیم‌هایی که با Vendra عملیات تولید محتوا را بهبود داده‌اند."
         },
-        "status": true,
+        "active": true,
         "blog_posts": [
             {
                 "name": {
@@ -217,7 +217,7 @@
                     "de": "Eine kurze Fallstudie zu Workflow-Änderungen, die Prüfungsengpässe reduzierten und wöchentliche Veröffentlichungen beschleunigten.",
                     "fa": "یک مطالعه موردی کوتاه درباره تغییرات فرایندی که گلوگاه‌های بازبینی را کاهش داد و انتشار هفتگی را سریع‌تر کرد."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -235,7 +235,7 @@
                     "de": "Wie ein Marketingteam Vorlagen und Freigaben standardisierte, um lokalisierte Inhalte über mehrere Regionen hinweg zu veröffentlichen.",
                     "fa": "چگونه یک تیم بازاریابی با استانداردسازی قالب‌ها و تأییدیه‌ها، محتوای بومی‌سازی‌شده را در چند منطقه منتشر کرد."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -253,7 +253,7 @@
                     "de": "Wie ein kleines Team Prüfstandards einführte, Überarbeitungen reduzierte und gleichzeitig die Inhaltsproduktion steigerte.",
                     "fa": "چگونه یک تیم کوچک با تعریف استاندارد بازبینی، اصلاحات تکراری را کم کرد و خروجی محتوا را افزایش داد."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -273,7 +273,7 @@
             "de": "Detaillierte Erläuterungen zu Plattformfunktionen, Architekturentscheidungen und Implementierungsmustern.",
             "fa": "بررسی‌های دقیق از قابلیت‌های پلتفرم، تصمیمات معماری و الگوهای پیاده‌سازی."
         },
-        "status": true,
+        "active": true,
         "blog_posts": [
             {
                 "name": {
@@ -291,7 +291,7 @@
                     "de": "Ein Überblick über Entwurfshistorie, Veröffentlichungsprüfpunkte und Rollback-Strategien für sicherere redaktionelle Workflows.",
                     "fa": "مروری بر تاریخچه پیش‌نویس، نقاط کنترل انتشار و راهبرد بازگشت برای فرایند تحریریه امن‌تر."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -309,7 +309,7 @@
                     "de": "Hinweise zur Benennung von Kategorien, zur effektiven Nutzung von Tags und zur Vermeidung ausufernder Taxonomien.",
                     "fa": "راهنمای نام‌گذاری دسته‌ها، استفاده مؤثر از برچسب‌ها و جلوگیری از پراکندگی طبقه‌بندی در طول زمان."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -327,7 +327,7 @@
                     "de": "Welche Kennzahlen für Content-Teams am wichtigsten sind und wie Rohaktivitäten in umsetzbare Veröffentlichungserkenntnisse umgewandelt werden.",
                     "fa": "چه شاخص‌هایی برای تیم محتوا مهم‌تر است و چگونه فعالیت خام را به بینش قابل اقدام تبدیل کنیم."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -347,7 +347,7 @@
             "de": "Rückblicke, Interviews und Ankündigungen zu Community-Programmen und Veranstaltungen.",
             "fa": "گزارش‌ها، گفت‌وگوها و اطلاعیه‌های مرتبط با برنامه‌های جامعه و رویدادها."
         },
-        "status": true,
+        "active": true,
         "blog_posts": [
             {
                 "name": {
@@ -365,7 +365,7 @@
                     "de": "Wichtige Erkenntnisse von Content-Verantwortlichen zum Aufbau wiederholbarer Schreibsysteme in schnell arbeitenden Teams.",
                     "fa": "درس‌های کلیدی مدیران محتوا درباره ساخت سیستم‌های نوشتاری تکرارپذیر در تیم‌های پرسرعت."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -383,7 +383,7 @@
                     "de": "Ein Gespräch über praktische Gewohnheiten, die Teams helfen, Dokumentation korrekt und aktuell zu halten.",
                     "fa": "گفت‌وگویی درباره عادت‌های کاربردی که به تیم‌ها کمک می‌کند مستندات را دقیق و به‌روز نگه دارند."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -401,7 +401,7 @@
                     "de": "Veranstaltungsdetails, Agenda und Registrierungsinformationen für Teams, die skalierbare Content-Prozesse erkunden.",
                     "fa": "جزئیات رویداد، برنامه و اطلاعات ثبت‌نام برای تیم‌هایی که به دنبال عملیات محتوای مقیاس‌پذیر هستند."
                 },
-                "status": false
+                "active": false
             }
         ]
     }

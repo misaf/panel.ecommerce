@@ -15,7 +15,7 @@
             "de": "Allgemeine Beschreibung steht hier",
             "fa": "توضیحات عمومی اینجا قرار می‌گیرد"
         },
-        "status": true,
+        "active": true,
         "custom_pages": [
             {
                 "name": {
@@ -33,7 +33,7 @@
                     "de": "Inhalt der Seite Über uns",
                     "fa": "محتوای صفحه درباره ما"
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -51,7 +51,7 @@
                     "de": "Inhalt der Kontaktseite",
                     "fa": "محتوای صفحه تماس"
                 },
-                "status": true
+                "active": true
             }
         ]
     }

@@ -2,25 +2,25 @@
     {
         "code": "USD",
         "symbol": "$",
-        "status": true,
+        "active": true,
         "is_default": true
     },
     {
         "code": "EUR",
         "symbol": "€",
-        "status": true,
+        "active": true,
         "is_default": false
     },
     {
         "code": "IRR",
         "symbol": "﷼",
-        "status": true,
+        "active": true,
         "is_default": false
     },
     {
         "code": "BTC",
         "symbol": "₿",
-        "status": true,
+        "active": true,
         "is_default": false
     }
 ]

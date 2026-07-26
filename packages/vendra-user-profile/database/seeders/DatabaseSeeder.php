@@ -31,7 +31,7 @@ final class DatabaseSeeder extends Seeder
             $userProfile = UserProfile::query()->firstOrCreate([
                 'user_id' => $user->id,
                 'name'    => $user->username,
-                'status'  => true,
+                'active'  => true,
             ]);
 
             if ($userProfile->wasRecentlyCreated) {

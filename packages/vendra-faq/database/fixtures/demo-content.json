@@ -15,7 +15,7 @@
             "de": "Häufige Fragen zu unserer Plattform und unseren Diensten",
             "fa": "سوالات متداول درباره پلتفرم و خدمات ما"
         },
-        "status": true,
+        "active": true,
         "faqs": [
             {
                 "name": {
@@ -33,7 +33,7 @@
                     "de": "Vendra ist ein modulares mandantenfähiges CMS für Startups, SaaS-Unternehmen und Enterprise-Projekte. Teams können damit Inhalte, Funktionen und Mandanten effizient verwalten.",
                     "fa": "وندرَا یک سیستم مدیریت محتوای ماژولار و چندمستاجری است که برای استارتاپ‌ها، کسب‌وکارهای SaaS و پروژه‌های سازمانی طراحی شده است و به تیم‌ها کمک می‌کند محتوا و قابلیت‌ها را به شکل بهینه مدیریت کنند."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -51,7 +51,7 @@
                     "de": "Ja. Jeder Mandant hat isolierte Daten und eine eigene Konfiguration. Sie können mehrere Mandanten über eine einzige Anwendungsinstanz verwalten.",
                     "fa": "بله. هر مستاجر داده‌ها و تنظیمات جداگانه خود را دارد و شما می‌توانید چندین مستاجر را از یک اپلیکیشن مدیریت کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -69,7 +69,7 @@
                     "de": "Ja, Sie können unterstützte Gebietsschemas in den Anwendungseinstellungen konfigurieren und Übersetzungen für flexible Mehrsprachigkeit im JSON-Format speichern.",
                     "fa": "بله، شما می‌توانید زبان‌های پشتیبانی‌شده را در تنظیمات مشخص کنید و ترجمه‌ها را به صورت JSON ذخیره کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -87,7 +87,7 @@
                     "de": "Ja, mandantenspezifische Einstellungen ermöglichen es, Branding, aktivierte Module und operative Präferenzen für jeden Mandanten anzupassen.",
                     "fa": "بله، تنظیمات مخصوص هر مستاجر به شما امکان می‌دهد برندینگ، ماژول‌های فعال و ترجیحات عملیاتی هر مستاجر را تنظیم کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -105,7 +105,7 @@
                     "de": "Ja, Module sind so konzipiert, dass sie unabhängig funktionieren und Teams nur die benötigten Funktionen für einen Mandanten oder ein Projekt aktivieren können.",
                     "fa": "بله، ماژول‌ها طوری طراحی شده‌اند که مستقل عمل کنند و تیم‌ها فقط قابلیت‌های مورد نیاز هر مستاجر یا پروژه را فعال کنند."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -125,7 +125,7 @@
             "de": "Fragen zu Anmeldung, Registrierung und Sicherheit",
             "fa": "سوالات مربوط به ورود، ثبت‌نام و امنیت"
         },
-        "status": true,
+        "active": true,
         "faqs": [
             {
                 "name": {
@@ -143,7 +143,7 @@
                     "de": "Klicken Sie auf der Anmeldeseite auf den Link \"Passwort vergessen\" und folgen Sie den Anweisungen, die an Ihre E-Mail-Adresse gesendet werden.",
                     "fa": "در صفحه ورود روی گزینه «فراموشی رمز عبور» کلیک کنید و مراحل ارسال‌شده به ایمیل خود را دنبال کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -161,7 +161,7 @@
                     "de": "Ja, die Zwei-Faktor-Authentifizierung (2FA) kann in den Sicherheitseinstellungen Ihres Kontos für besseren Schutz aktiviert werden.",
                     "fa": "بله، شما می‌توانید از طریق تنظیمات امنیت حساب کاربری، احراز هویت دو مرحله‌ای را برای افزایش امنیت فعال کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -179,7 +179,7 @@
                     "de": "Öffnen Sie Ihre Profilseite über das Dashboard, aktualisieren Sie Ihre persönlichen Informationen und speichern Sie die Änderungen.",
                     "fa": "از طریق داشبورد وارد صفحه پروفایل شوید، اطلاعات خود را ویرایش کرده و ذخیره کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -197,7 +197,7 @@
                     "de": "Administratoren können Benutzer einladen, Rollen zuweisen und steuern, worauf jedes Teammitglied innerhalb des Mandanten zugreifen kann.",
                     "fa": "مدیران می‌توانند کاربران را دعوت کنند، نقش اختصاص دهند و دسترسی هر عضو تیم را در مستاجر کنترل کنند."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -215,7 +215,7 @@
                     "de": "Prüfen Sie E-Mail und Passwort, setzen Sie Ihr Passwort bei Bedarf zurück und kontaktieren Sie einen Administrator, falls Ihr Konto deaktiviert ist.",
                     "fa": "ایمیل و رمز عبور خود را بررسی کنید، در صورت نیاز رمز را بازیابی کنید و اگر حساب شما غیرفعال است با مدیر تماس بگیرید."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -235,7 +235,7 @@
             "de": "Informationen zu Preisen und Abonnementplänen",
             "fa": "اطلاعات مربوط به قیمت‌گذاری و پلن‌های اشتراک"
         },
-        "status": true,
+        "active": true,
         "faqs": [
             {
                 "name": {
@@ -253,7 +253,7 @@
                     "de": "Wir unterstützen Kreditkarten und Online-Zahlungsgateways. Individuelle Integrationen sind ebenfalls möglich.",
                     "fa": "ما از کارت‌های بانکی و درگاه‌های پرداخت آنلاین پشتیبانی می‌کنیم و امکان افزودن درگاه‌های سفارشی نیز وجود دارد."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -271,7 +271,7 @@
                     "de": "Ja, Sie können Ihr Abonnement jederzeit über Ihr Abrechnungs-Dashboard upgraden, downgraden oder kündigen.",
                     "fa": "بله، شما می‌توانید در هر زمان از طریق بخش اشتراک در داشبورد، پلن خود را ارتقا، کاهش یا لغو کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -289,7 +289,7 @@
                     "de": "Rückerstattungen werden gemäß unserer Rückerstattungsrichtlinie bearbeitet. Bitte kontaktieren Sie den Support für weitere Informationen.",
                     "fa": "بازگشت وجه طبق قوانین بازپرداخت انجام می‌شود. برای اطلاعات بیشتر با پشتیبانی تماس بگیرید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -307,7 +307,7 @@
                     "de": "Rechnungen können im Abrechnungsbereich heruntergeladen werden, wenn die Rechnungserstellung für Ihren Mandanten aktiviert ist.",
                     "fa": "اگر صدور فاکتور برای مستاجر شما فعال باشد، می‌توانید فاکتورها را از بخش پرداخت دانلود کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -325,7 +325,7 @@
                     "de": "Tariflimits können je nach Konfiguration aktive Benutzer, aktivierte Module, Speicherplatz oder Nutzungskontingente steuern.",
                     "fa": "محدودیت‌های پلن می‌توانند بسته به تنظیمات شما کاربران فعال، ماژول‌های فعال، فضای ذخیره‌سازی یا سهمیه مصرف را کنترل کنند."
                 },
-                "status": true
+                "active": true
             }
         ]
     },
@@ -345,7 +345,7 @@
             "de": "Technische und entwicklungsbezogene Fragen",
             "fa": "سوالات فنی و مرتبط با توسعه"
         },
-        "status": true,
+        "active": true,
         "faqs": [
             {
                 "name": {
@@ -363,7 +363,7 @@
                     "de": "Sie können Fehler über das Support-Portal melden oder ein Issue im Repository mit detaillierten Schritten zur Reproduktion einreichen.",
                     "fa": "شما می‌توانید از طریق پورتال پشتیبانی یا ثبت Issue در مخزن پروژه همراه با توضیحات کامل، باگ را گزارش کنید."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -381,7 +381,7 @@
                     "de": "Ja, die Plattform bietet RESTful APIs für die Integration mit Drittanbieterdiensten und individuellen Anwendungen.",
                     "fa": "بله، این پلتفرم APIهای REST برای یکپارچه‌سازی با سرویس‌های دیگر و اپلیکیشن‌های سفارشی ارائه می‌دهد."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -399,7 +399,7 @@
                     "de": "Ja, Vendra ist mit einer modularen Architektur konzipiert, sodass Entwickler eigene Pakete einfach erstellen und einbinden können.",
                     "fa": "بله، وندرَا با معماری ماژولار طراحی شده و توسعه‌دهندگان می‌توانند به راحتی پکیج‌های سفارشی ایجاد و اضافه کنند."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -417,7 +417,7 @@
                     "de": "Administratoren können Anwendungsprotokolle über die konfigurierten Monitoring-Tools oder den Server-Logspeicher prüfen.",
                     "fa": "مدیران می‌توانند لاگ‌های برنامه را از طریق ابزارهای مانیتورینگ تنظیم‌شده یا محل ذخیره لاگ‌های سرور بررسی کنند."
                 },
-                "status": true
+                "active": true
             },
             {
                 "name": {
@@ -435,7 +435,7 @@
                     "de": "Ja, Entwickler können externe Systeme über verfügbare APIs und modulspezifische Integrationsendpunkte anbinden.",
                     "fa": "بله، توسعه‌دهندگان می‌توانند سیستم‌های خارجی را از طریق APIهای موجود و نقاط اتصال مخصوص هر ماژول متصل کنند."
                 },
-                "status": true
+                "active": true
             }
         ]
     }

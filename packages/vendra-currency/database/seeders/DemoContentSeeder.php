@@ -31,20 +31,20 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
     }
 
     /**
-     * @return list<array{code: string, symbol: string|null, status: bool, is_default: bool}>
+     * @return list<array{code: string, symbol: string|null, active: bool, is_default: bool}>
      */
     private function demoRecords(): array
     {
         return [
-            ['code' => 'USD', 'symbol' => '$', 'status' => true, 'is_default' => true],
-            ['code' => 'EUR', 'symbol' => '€', 'status' => true, 'is_default' => false],
-            ['code' => 'IRR', 'symbol' => '﷼', 'status' => true, 'is_default' => false],
-            ['code' => 'BTC', 'symbol' => '₿', 'status' => true, 'is_default' => false],
+            ['code' => 'USD', 'symbol' => '$', 'active' => true, 'is_default' => true],
+            ['code' => 'EUR', 'symbol' => '€', 'active' => true, 'is_default' => false],
+            ['code' => 'IRR', 'symbol' => '﷼', 'active' => true, 'is_default' => false],
+            ['code' => 'BTC', 'symbol' => '₿', 'active' => true, 'is_default' => false],
         ];
     }
 
     /**
-     * @param array{code: string, symbol: string|null, status: bool, is_default: bool} $data
+     * @param array{code: string, symbol: string|null, active: bool, is_default: bool} $data
      */
     private function handleSeedFixtureRecord(array $data): void
     {
@@ -54,7 +54,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'symbol'         => $data['symbol'],
             'decimal_places' => CurrencyRegistry::minorUnitFor($data['code']) ?? 2,
             'type'           => CurrencyRegistry::typeFor($data['code']),
-            'status'         => $data['status'],
+            'active'         => $data['active'],
             'is_default'     => $data['is_default'],
         ]);
     }
@@ -62,17 +62,17 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
     /**
      * @param array<string, mixed> $record
      *
-     * @return array{code: string, symbol: string|null, status: bool, is_default: bool}
+     * @return array{code: string, symbol: string|null, active: bool, is_default: bool}
      */
     private function validatedFixtureRecord(array $record): array
     {
-        /** @var array{code: string, symbol: string|null, status: bool, is_default: bool} $validated */
+        /** @var array{code: string, symbol: string|null, active: bool, is_default: bool} $validated */
         $validated = Validator::make(
             data: $record,
             rules: [
                 'code'       => ['required', 'string', 'in:' . implode(',', CurrencyRegistry::codes())],
                 'symbol'     => ['present', 'nullable', 'string'],
-                'status'     => ['required', 'boolean'],
+                'active'     => ['required', 'boolean'],
                 'is_default' => ['required', 'boolean'],
             ],
         )->validate();

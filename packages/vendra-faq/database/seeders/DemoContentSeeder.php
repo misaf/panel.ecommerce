@@ -44,12 +44,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool,
+     *     active: bool,
      *     faqs: list<array{
      *         name: non-empty-array<string, string>,
      *         description: non-empty-array<string, string>,
      *         slug: non-empty-array<string, string>,
-     *         status: bool
+     *         active: bool
      *     }>
      * } $data
      */
@@ -59,7 +59,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'name'        => $data['name'],
             'description' => $data['description'],
             'slug'        => $data['slug'],
-            'status'      => $data['status'],
+            'active'      => $data['active'],
         ]);
 
         foreach ($data['faqs'] as $faqRecord) {
@@ -72,7 +72,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool
+     *     active: bool
      * } $faqRecord
      */
     private function handleFaqFixtureRecord(FaqCategory $faqCategory, array $faqRecord): void
@@ -81,7 +81,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'name'        => $faqRecord['name'],
             'description' => $faqRecord['description'],
             'slug'        => $faqRecord['slug'],
-            'status'      => $faqRecord['status'],
+            'active'      => $faqRecord['active'],
         ]);
     }
 
@@ -92,12 +92,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool,
+     *     active: bool,
      *     faqs: list<array{
      *         name: non-empty-array<string, string>,
      *         description: non-empty-array<string, string>,
      *         slug: non-empty-array<string, string>,
-     *         status: bool
+     *         active: bool
      *     }>
      * }
      */
@@ -107,12 +107,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
          *     name: non-empty-array<string, string>,
          *     description: non-empty-array<string, string>,
          *     slug: non-empty-array<string, string>,
-         *     status: bool,
+         *     active: bool,
          *     faqs: list<array{
          *         name: non-empty-array<string, string>,
          *         description: non-empty-array<string, string>,
          *         slug: non-empty-array<string, string>,
-         *         status: bool
+         *         active: bool
          *     }>
          * } $validated
          */
@@ -125,16 +125,16 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
                 'description.*'        => ['required', 'string'],
                 'slug'                 => ['required', 'array', 'min:1'],
                 'slug.*'               => ['required', 'string'],
-                'status'               => ['required', 'boolean'],
+                'active'               => ['required', 'boolean'],
                 'faqs'                 => ['required', 'array', 'list'],
-                'faqs.*'               => ['required', 'array:name,description,slug,status'],
+                'faqs.*'               => ['required', 'array:name,description,slug,active'],
                 'faqs.*.name'          => ['required', 'array', 'min:1'],
                 'faqs.*.name.*'        => ['required', 'string'],
                 'faqs.*.description'   => ['required', 'array', 'min:1'],
                 'faqs.*.description.*' => ['required', 'string'],
                 'faqs.*.slug'          => ['required', 'array', 'min:1'],
                 'faqs.*.slug.*'        => ['required', 'string'],
-                'faqs.*.status'        => ['required', 'boolean'],
+                'faqs.*.active'        => ['required', 'boolean'],
             ],
         )->validate();
 

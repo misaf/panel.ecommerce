@@ -34,7 +34,7 @@ final class PlanSeeder extends Seeder
                 'currency_code'  => null,
                 'trial_days'     => 0,
                 'features'       => [],
-                'status'         => true,
+                'active'         => true,
             ],
             [
                 'name'           => 'Basic',
@@ -47,7 +47,7 @@ final class PlanSeeder extends Seeder
                 'currency_code'  => 'USD',
                 'trial_days'     => 14,
                 'features'       => ['custom_domain'],
-                'status'         => true,
+                'active'         => true,
             ],
             [
                 'name'           => 'Pro',
@@ -60,7 +60,7 @@ final class PlanSeeder extends Seeder
                 'currency_code'  => 'USD',
                 'trial_days'     => 14,
                 'features'       => ['custom_domain', 'priority_support'],
-                'status'         => true,
+                'active'         => true,
             ],
         ];
     }

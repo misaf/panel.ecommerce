@@ -44,12 +44,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool,
+     *     active: bool,
      *     custom_pages: list<array{
      *         name: non-empty-array<string, string>,
      *         description: non-empty-array<string, string>,
      *         slug: non-empty-array<string, string>,
-     *         status: bool
+     *         active: bool
      *     }>
      * } $data
      */
@@ -59,7 +59,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'name'        => $data['name'],
             'description' => $data['description'],
             'slug'        => $data['slug'],
-            'status'      => $data['status'],
+            'active'      => $data['active'],
         ]);
 
         foreach ($data['custom_pages'] as $customPageRecord) {
@@ -72,7 +72,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool
+     *     active: bool
      * } $customPageRecord
      */
     private function handleCustomPageFixtureRecord(CustomPageCategory $customPageCategory, array $customPageRecord): void
@@ -81,7 +81,7 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
             'name'        => $customPageRecord['name'],
             'description' => $customPageRecord['description'],
             'slug'        => $customPageRecord['slug'],
-            'status'      => $customPageRecord['status'],
+            'active'      => $customPageRecord['active'],
         ]);
     }
 
@@ -92,12 +92,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
      *     name: non-empty-array<string, string>,
      *     description: non-empty-array<string, string>,
      *     slug: non-empty-array<string, string>,
-     *     status: bool,
+     *     active: bool,
      *     custom_pages: list<array{
      *         name: non-empty-array<string, string>,
      *         description: non-empty-array<string, string>,
      *         slug: non-empty-array<string, string>,
-     *         status: bool
+     *         active: bool
      *     }>
      * }
      */
@@ -107,12 +107,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
          *     name: non-empty-array<string, string>,
          *     description: non-empty-array<string, string>,
          *     slug: non-empty-array<string, string>,
-         *     status: bool,
+         *     active: bool,
          *     custom_pages: list<array{
          *         name: non-empty-array<string, string>,
          *         description: non-empty-array<string, string>,
          *         slug: non-empty-array<string, string>,
-         *         status: bool
+         *         active: bool
          *     }>
          * } $validated
          */
@@ -125,16 +125,16 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
                 'description.*'                => ['required', 'string'],
                 'slug'                         => ['required', 'array', 'min:1'],
                 'slug.*'                       => ['required', 'string'],
-                'status'                       => ['required', 'boolean'],
+                'active'                       => ['required', 'boolean'],
                 'custom_pages'                 => ['required', 'array', 'list'],
-                'custom_pages.*'               => ['required', 'array:name,description,slug,status'],
+                'custom_pages.*'               => ['required', 'array:name,description,slug,active'],
                 'custom_pages.*.name'          => ['required', 'array', 'min:1'],
                 'custom_pages.*.name.*'        => ['required', 'string'],
                 'custom_pages.*.description'   => ['required', 'array', 'min:1'],
                 'custom_pages.*.description.*' => ['required', 'string'],
                 'custom_pages.*.slug'          => ['required', 'array', 'min:1'],
                 'custom_pages.*.slug.*'        => ['required', 'string'],
-                'custom_pages.*.status'        => ['required', 'boolean'],
+                'custom_pages.*.active'        => ['required', 'boolean'],
             ],
         )->validate();
 
