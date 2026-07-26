@@ -35,7 +35,7 @@ Use this skill together with `laravel-best-practices` and `pest-testing`.
 - Keep `with-trashed` and `only-trashed` synchronized between collection queries and schemas.
 - Represent the domain models' `MorphMany` multimedia relations with JSON:API `HasMany`.
 - Keep `customPages`, `customPageCategory`, and `multimedia` relationship names aligned with domain methods.
-- Keep filters and collection query validation synchronized, including locale-aware name/slug filters, status, soft deletes, relationships, multimedia, pagination, sparse fields, and sorting.
+- Keep filters and collection query validation synchronized, including locale-aware name/slug filters, active-state filters, soft deletes, relationships, multimedia, pagination, sparse fields, and sorting.
 
 ## Verification
 

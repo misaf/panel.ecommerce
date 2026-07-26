@@ -51,7 +51,7 @@ $category = FaqCategory::query()->create([
     'description' => ['en' => 'General questions'],
     'slug' => ['en' => 'general'],
     'position' => 1,
-    'status' => true,
+    'active' => true,
 ]);
 ```
 
@@ -66,7 +66,7 @@ Faq::query()->create([
     'description' => ['en' => 'Use the register page and verify your email.'],
     'slug' => ['en' => 'how-do-i-create-an-account'],
     'position' => 1,
-    'status' => true,
+    'active' => true,
 ]);
 ```
 
@@ -75,7 +75,7 @@ Load FAQs with their category:
 ```php
 $faqs = Faq::query()
     ->with('faqCategory')
-    ->where('status', true)
+    ->where('active', true)
     ->get();
 ```
 

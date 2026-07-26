@@ -49,7 +49,7 @@ use Misaf\VendraBlog\Models\BlogPostCategory;
 
 $category = BlogPostCategory::query()->create([
     'name' => ['en' => 'Announcements'],
-    'status' => true,
+    'active' => true,
 ]);
 ```
 
@@ -61,7 +61,7 @@ use Misaf\VendraBlog\Models\BlogPost;
 BlogPost::query()->create([
     'blog_post_category_id' => $category->id,
     'name' => ['en' => 'Welcome'],
-    'status' => true,
+    'active' => true,
 ]);
 ```
 

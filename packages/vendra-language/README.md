@@ -43,7 +43,7 @@ Every locale exposed by Symfony Intl may be installed for a tenant from the sear
 'locales' => ['en', 'de', 'fa', 'pt-BR'],
 ```
 
-Values use canonical web/BCP-47 tags and must exist in the ICU locale catalog. This preferred subset does not limit which locales may be installed. Tenant language records store the locale, enabled status, default flag, and display position; localized names are derived from ICU.
+Values use canonical web/BCP-47 tags and must exist in the ICU locale catalog. This preferred subset does not limit which locales may be installed. Tenant language records store the locale, active state, default flag, and display position; localized names are derived from ICU.
 
 ## Usage
 
@@ -54,7 +54,7 @@ use Misaf\VendraLanguage\Models\Language;
 
 $language = Language::query()->create([
     'locale' => 'en',
-    'status' => true,
+    'active' => true,
     'is_default' => true,
     'position' => 1,
 ]);

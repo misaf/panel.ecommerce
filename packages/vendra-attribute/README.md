@@ -80,7 +80,7 @@ $weight = Attribute::query()->create([
     'name' => 'Weight',
     'description' => 'Shipping weight',
     'unit' => 'kg',
-    'status' => true,
+    'active' => true,
 ]);
 ```
 

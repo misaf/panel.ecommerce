@@ -47,7 +47,7 @@ $category = CustomPageCategory::query()->create([
     'description' => ['en' => 'Company pages'],
     'slug' => ['en' => 'company'],
     'position' => 1,
-    'status' => true,
+    'active' => true,
 ]);
 ```
 
@@ -62,7 +62,7 @@ CustomPage::query()->create([
     'description' => ['en' => 'About our company'],
     'slug' => ['en' => 'about-us'],
     'position' => 1,
-    'status' => true,
+    'active' => true,
 ]);
 ```
 
@@ -71,7 +71,7 @@ Load pages with their category:
 ```php
 $pages = CustomPage::query()
     ->with('customPageCategory')
-    ->where('status', true)
+    ->where('active', true)
     ->get();
 ```
 

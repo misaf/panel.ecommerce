@@ -43,9 +43,9 @@ Follow the existing `Language` and `LanguageLine` patterns for new language enti
 - Prefer the Laravel attributes already used here, such as `#[Fillable]`, `#[Hidden]`, `#[UseFactory]`, and `#[ObservedBy]`.
 - Keep the module tenant-agnostic: derive tenant awareness purely from the bound `TenantResolver` in `misaf/vendra-support` (`TenantAwareness`, `BelongsToTenant`, `TenantSchema`, `RequiresCurrentTenant`). The module must build and run whether or not a tenant provider is installed, so never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. There is no `tenant_aware` config toggle.
 - Hide `tenant_id` and keep tenant behavior centralized in the support layer; do not duplicate tenant scoping or `tenant_id` assignment in models, Filament resources, factories, or seeders. `BelongsToTenant` assigns `tenant_id` on `creating` from the current tenant.
-- Keep locale records slim: `Language` persists only `locale`, `status`, `is_default`, and `position`. Derive display names from the ICU catalog via `Misaf\VendraLanguage\Support\Locales` (`symfony/intl`) — do not store or translate `name`/`description`/`slug` columns on a locale record.
+- Keep locale records slim: `Language` persists only `locale`, `active`, `is_default`, and `position`. Derive display names from the ICU catalog via `Misaf\VendraLanguage\Support\Locales` (`symfony/intl`) — do not store or translate `name`/`description`/`slug` columns on a locale record.
 - Store web/BCP-47 locale tags (`en`, `pt-BR`) and validate them against the ICU catalog (`Locales::isSupported()`). Every ICU locale is installable, regardless of the preferred locale subset in `config('vendra-language.locales')`.
-- Treat a `Language` row's presence as "installed" for the tenant and its boolean `status` as "enabled". Disabled languages remain manageable but must be excluded from language switches, translation locale lists, and tenant locale resolution.
+- Treat a `Language` row's presence as "installed" for the tenant and its boolean `active` as "enabled". Disabled languages remain manageable but must be excluded from language switches, translation locale lists, and tenant locale resolution.
 - Use `SortableTrait` and an integer `position` field for ordered admin content.
 - Reserve `SoftDeletes`, media (`HasMedia` + `InteractsWithMedia` + `HasDefaultMediaConversions` + a `multimedia()` morph relation), and slugs (`Spatie\Sluggable\SlugOptions`) for richer content entities that genuinely need them — `Language` uses none of these, and language flags come from the locale code, not stored media.
 
@@ -85,7 +85,7 @@ Migrations, factories, seeders, and translation files are part of the contract.
 - Keep demo fixtures deterministic and tenant-safe.
 - Update all supported locales together and keep translation keys sorted.
 - Preserve translation key parity tests when adding labels or attributes.
-- The installable locale catalog comes from Symfony Intl. `config('vendra-language.locales')` is only the host's preferred subset for integrations that need static defaults. Fall back to `config('app.fallback_locale')` (never a duplicate module default) when a tenant has no status-enabled languages.
+- The installable locale catalog comes from Symfony Intl. `config('vendra-language.locales')` is only the host's preferred subset for integrations that need static defaults. Fall back to `config('app.fallback_locale')` (never a duplicate module default) when a tenant has no active languages.
 - When `misaf/vendra-localization` is installed, the provider feeds its `supported_locales` from the catalog and appends `TenantLocaleResolver` (tenant default, lowest priority) to the resolver chain. Keep this optional and guarded (`misaf/vendra-localization` is a `suggest`, not a `require`); never make `vendra-tenant` depend on this module.
 
 ## Testing And Verification

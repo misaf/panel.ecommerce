@@ -78,7 +78,7 @@ use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
 
 ## Filament
 
-The `Currencies` resource lives in the Sales cluster on the `admin` panel. Install currencies from the searchable catalog, toggle their status, reorder them, and pick the default via the table toggle or row action.
+The `Currencies` resource lives in the Sales cluster on the `admin` panel. Install currencies from the searchable catalog, toggle their active state, reorder them, and pick the default via the table toggle or row action.
 
 ## Testing
 
