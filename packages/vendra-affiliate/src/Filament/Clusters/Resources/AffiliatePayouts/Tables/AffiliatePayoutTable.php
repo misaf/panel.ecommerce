@@ -31,6 +31,7 @@ final class AffiliatePayoutTable
 
                 TextColumn::make('affiliate.code')
                     ->label(__('vendra-affiliate::attributes.affiliate'))
+                    ->icon(Heroicon::CodeBracket)
                     ->searchable()
                     ->sortable(),
 

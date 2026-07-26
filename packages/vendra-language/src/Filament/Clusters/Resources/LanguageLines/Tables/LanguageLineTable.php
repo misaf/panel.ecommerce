@@ -37,6 +37,7 @@ final class LanguageLineTable
                 ->alignStart()
                 ->badge()
                 ->label(__('vendra-language::attributes.namespace'))
+                ->icon(Heroicon::Cube)
                 ->placeholder('—')
                 ->searchable()
                 ->sortable(),
@@ -45,6 +46,7 @@ final class LanguageLineTable
                 ->alignStart()
                 ->badge()
                 ->label(__('vendra-language::attributes.group'))
+                ->icon(Heroicon::Folder)
                 ->searchable()
                 ->sortable(),
 

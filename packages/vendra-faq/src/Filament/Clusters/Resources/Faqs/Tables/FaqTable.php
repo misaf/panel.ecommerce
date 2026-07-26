@@ -61,16 +61,19 @@ final class FaqTable
 
             TextColumn::make('name')
                 ->alignStart()
-                ->label(__('vendra-faq::attributes.name')),
+                ->label(__('vendra-faq::attributes.name'))
+                ->icon(Heroicon::Tag),
 
             TextColumn::make('description')
                 ->label(__('vendra-faq::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->state(fn(Faq $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-faq::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

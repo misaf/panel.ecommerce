@@ -14,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -80,7 +81,7 @@ final class VerificationsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('type')->label(__('vendra-verification::verification.fields.type'))->badge(),
+                TextColumn::make('type')->label(__('vendra-verification::verification.fields.type'))->icon(Heroicon::Tag)->badge(),
                 TextColumn::make('status')->label(__('vendra-verification::verification.fields.status'))->badge(),
                 TextColumn::make('provider')->label(__('vendra-verification::verification.fields.provider')),
                 TextColumn::make('reference')
@@ -88,6 +89,7 @@ final class VerificationsRelationManager extends RelationManager
                     ->copyable(),
                 TextColumn::make('country_code')
                     ->label(__('vendra-verification::verification.fields.country_code'))
+                    ->icon(Heroicon::GlobeAlt)
                     ->badge(),
                 TextColumn::make('verified_at')
                     ->alignCenter()

@@ -31,16 +31,19 @@ final class TaggerTable
 
             TextColumn::make('name')
                 ->alignStart()
-                ->label(__('vendra-tagger::attributes.name')),
+                ->label(__('vendra-tagger::attributes.name'))
+                ->icon(Heroicon::Tag),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-tagger::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('type')
                 ->alignStart()
-                ->label(__('vendra-tagger::attributes.type')),
+                ->label(__('vendra-tagger::attributes.type'))
+                ->icon(Heroicon::Tag),
 
             TextColumn::make('created_at')
                 ->alignCenter()

@@ -61,16 +61,19 @@ final class BlogPostTable
 
             TextColumn::make('name')
                 ->alignStart()
-                ->label(__('vendra-blog::attributes.name')),
+                ->label(__('vendra-blog::attributes.name'))
+                ->icon(Heroicon::Tag),
 
             TextColumn::make('description')
                 ->label(__('vendra-blog::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->state(fn(BlogPost $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-blog::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

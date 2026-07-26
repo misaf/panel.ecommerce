@@ -49,7 +49,8 @@ final class MultimediaTable
             TextColumn::make('uuid')
                 ->alignStart()
                 ->badge()
-                ->label(__('vendra-multimedia::tables.uuid')),
+                ->label(__('vendra-multimedia::tables.uuid'))
+                ->icon(Heroicon::FingerPrint),
 
             BadgeableColumn::make('collection_name')
                 ->alignCenter()

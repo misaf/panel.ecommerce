@@ -62,6 +62,7 @@ final class FaqCategoryTable
             BadgeableColumn::make('name')
                 ->alignStart()
                 ->label(__('vendra-faq::attributes.name'))
+                ->icon(Heroicon::Tag)
                 ->suffixBadges([
                     Badge::make('count')
                         ->label(fn(FaqCategory $record): string => (string) Number::format(static::integerAttribute($record, 'faqs_count')))
@@ -71,12 +72,14 @@ final class FaqCategoryTable
 
             TextColumn::make('description')
                 ->label(__('vendra-faq::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->state(fn(FaqCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-faq::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

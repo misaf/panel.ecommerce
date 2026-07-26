@@ -37,11 +37,13 @@ final class NewsletterSubscriberTable
                     ->copyable()
                     ->extraCellAttributes(['dir' => 'ltr'])
                     ->label(__('vendra-newsletter::attributes.email'))
+                    ->icon(Heroicon::Envelope)
                     ->searchable(),
 
                 TextColumn::make('name')
                     ->alignStart()
                     ->label(__('vendra-newsletter::attributes.name'))
+                    ->icon(Heroicon::Tag)
                     ->placeholder('—')
                     ->searchable(),
 

@@ -38,13 +38,15 @@ final class AffiliateCommissionTable
 
                 TextColumn::make('affiliate.code')
                     ->label(__('vendra-affiliate::attributes.affiliate'))
+                    ->icon(Heroicon::CodeBracket)
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('conversion_type')
                     ->alignCenter()
                     ->badge()
-                    ->label(__('vendra-affiliate::attributes.conversion_type')),
+                    ->label(__('vendra-affiliate::attributes.conversion_type'))
+                    ->icon(Heroicon::Tag),
 
                 TextColumn::make('amount')
                     ->alignCenter()

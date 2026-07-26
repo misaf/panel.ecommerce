@@ -38,11 +38,13 @@ final class AttributeTable
 
             TextColumn::make('name')
                 ->label(__('vendra-attribute::attributes.name'))
+                ->icon(Heroicon::Tag)
                 ->searchable()
                 ->sortable(),
 
             TextColumn::make('description')
                 ->label(__('vendra-attribute::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('unit')

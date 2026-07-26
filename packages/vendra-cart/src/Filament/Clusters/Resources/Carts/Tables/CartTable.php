@@ -32,6 +32,7 @@ final class CartTable
                 TextColumn::make('token')
                     ->copyable()
                     ->label(__('vendra-cart::attributes.token'))
+                    ->icon(Heroicon::Key)
                     ->searchable(),
 
                 TextColumn::make('owner_label')

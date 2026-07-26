@@ -49,11 +49,13 @@ final class UserProfileTable
             TextColumn::make('name')
                 ->alignStart()
                 ->label(__('vendra-user-profile::table.columns.name'))
+                ->icon(Heroicon::Tag)
                 ->searchable()
                 ->sortable(),
 
             TextColumn::make('description')
                 ->label(__('vendra-user-profile::table.columns.description'))
+                ->icon(Heroicon::DocumentText)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

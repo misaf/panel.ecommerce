@@ -39,7 +39,8 @@ final class ActivityLogTable
             TextColumn::make('event')
                 ->alignStart()
                 ->badge()
-                ->label(__('vendra-activity-log::tables.event')),
+                ->label(__('vendra-activity-log::tables.event'))
+                ->icon(Heroicon::Bolt),
 
             BadgeableColumn::make('log_name')
                 ->alignCenter()
@@ -50,6 +51,7 @@ final class ActivityLogTable
 
             TextColumn::make('description')
                 ->label(__('vendra-activity-log::tables.description'))
+                ->icon(Heroicon::DocumentText)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             BadgeableColumn::make('subject_type')

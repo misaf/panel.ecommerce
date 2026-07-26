@@ -62,6 +62,7 @@ final class CustomPageCategoryTable
             BadgeableColumn::make('name')
                 ->alignStart()
                 ->label(__('vendra-custom-page::attributes.name'))
+                ->icon(Heroicon::Tag)
                 ->suffixBadges([
                     Badge::make('count')
                         ->label(fn(CustomPageCategory $record): string => (string) Number::format(static::integerAttribute($record, 'custom_pages_count')))
@@ -71,12 +72,14 @@ final class CustomPageCategoryTable
 
             TextColumn::make('description')
                 ->label(__('vendra-custom-page::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->state(fn(CustomPageCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-custom-page::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

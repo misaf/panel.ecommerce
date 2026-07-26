@@ -59,16 +59,19 @@ final class CustomPageTable
 
             TextColumn::make('name')
                 ->alignStart()
-                ->label(__('vendra-custom-page::attributes.name')),
+                ->label(__('vendra-custom-page::attributes.name'))
+                ->icon(Heroicon::Tag),
 
             TextColumn::make('description')
                 ->label(__('vendra-custom-page::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->state(fn(CustomPage $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-custom-page::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

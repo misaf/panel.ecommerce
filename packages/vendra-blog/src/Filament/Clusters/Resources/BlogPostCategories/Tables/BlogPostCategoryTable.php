@@ -62,6 +62,7 @@ final class BlogPostCategoryTable
             BadgeableColumn::make('name')
                 ->alignStart()
                 ->label(__('vendra-blog::attributes.name'))
+                ->icon(Heroicon::Tag)
                 ->suffixBadges([
                     Badge::make('count')
                         ->label(fn(BlogPostCategory $record): string => (string) Number::format(static::integerAttribute($record, 'blog_posts_count')))
@@ -71,12 +72,14 @@ final class BlogPostCategoryTable
 
             TextColumn::make('description')
                 ->label(__('vendra-blog::attributes.description'))
+                ->icon(Heroicon::DocumentText)
                 ->state(fn(BlogPostCategory $record, Livewire $livewire): string => static::translatedAttribute($record, 'description', $livewire))
                 ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('slug')
                 ->alignStart()
                 ->label(__('vendra-blog::attributes.slug'))
+                ->icon(Heroicon::Link)
                 ->toggleable(isToggledHiddenByDefault: true),
 
             ToggleColumn::make('status')

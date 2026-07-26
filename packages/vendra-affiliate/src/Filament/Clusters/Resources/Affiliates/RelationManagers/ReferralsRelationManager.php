@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,7 @@ final class ReferralsRelationManager extends RelationManager
 
                 TextColumn::make('user.username')
                     ->label(__('vendra-affiliate::attributes.user'))
+                    ->icon(Heroicon::User)
                     ->searchable(),
 
                 TextColumn::make('attributed_at')

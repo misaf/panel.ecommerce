@@ -44,6 +44,7 @@ final class AffiliateTable
 
             TextColumn::make('user.username')
                 ->label(__('vendra-affiliate::attributes.user'))
+                ->icon(Heroicon::User)
                 ->searchable()
                 ->sortable(),
 
@@ -53,6 +54,7 @@ final class AffiliateTable
                 ->copyMessageDuration(1500)
                 ->copyableState(fn(Affiliate $record): string => $record->referralUrl())
                 ->label(__('vendra-affiliate::attributes.code'))
+                ->icon(Heroicon::CodeBracket)
                 ->searchable()
                 ->tooltip(fn(Affiliate $record): string => $record->referralUrl()),
 

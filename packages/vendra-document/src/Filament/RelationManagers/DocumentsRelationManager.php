@@ -84,10 +84,11 @@ final class DocumentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('type')->label(__('vendra-document::document.fields.type'))->badge(),
+                TextColumn::make('type')->label(__('vendra-document::document.fields.type'))->icon(Heroicon::Tag)->badge(),
                 TextColumn::make('number')->label(__('vendra-document::document.fields.number'))->copyable(),
                 TextColumn::make('issuing_country_code')
                     ->label(__('vendra-document::document.fields.issuing_country_code'))
+                    ->icon(Heroicon::MapPin)
                     ->badge(),
                 TextColumn::make('expires_at')->label(__('vendra-document::document.fields.expires_at'))->date(),
                 ToggleColumn::make('verified_at')
