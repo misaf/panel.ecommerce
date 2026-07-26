@@ -19,11 +19,12 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Schemas\FaqInfolist;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\Tables\FaqTable;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
-
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedGlobalSearch;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class FaqResource extends Resource
 {
+    use InteractsWithTranslatedGlobalSearch;
     use Translatable;
 
     protected static ?string $model = Faq::class;
@@ -35,6 +36,14 @@ final class FaqResource extends Resource
     protected static ?string $slug = 'faqs';
 
     protected static ?string $cluster = ContentCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    protected static function translatableGlobalSearchAttributes(): array
+    {
+        return ['name', 'slug'];
+    }
 
     public static function getBreadcrumb(): string
     {

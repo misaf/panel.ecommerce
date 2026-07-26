@@ -20,11 +20,12 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPostCategories\Tables\BlogP
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\RelationManagers\BlogPostRelationManager;
 use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
-
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedGlobalSearch;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class BlogPostCategoryResource extends Resource
 {
+    use InteractsWithTranslatedGlobalSearch;
     use Translatable;
 
     protected static ?string $model = BlogPostCategory::class;
@@ -36,6 +37,14 @@ final class BlogPostCategoryResource extends Resource
     protected static ?string $slug = 'blog-post-categories';
 
     protected static ?string $cluster = ContentCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    protected static function translatableGlobalSearchAttributes(): array
+    {
+        return ['name', 'slug'];
+    }
 
     public static function getBreadcrumb(): string
     {

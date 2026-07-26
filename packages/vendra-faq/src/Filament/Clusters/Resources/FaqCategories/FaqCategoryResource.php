@@ -20,11 +20,12 @@ use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\Tables\FaqCategory
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\RelationManagers\FaqRelationManager;
 use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
-
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedGlobalSearch;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class FaqCategoryResource extends Resource
 {
+    use InteractsWithTranslatedGlobalSearch;
     use Translatable;
 
     protected static ?string $model = FaqCategory::class;
@@ -36,6 +37,14 @@ final class FaqCategoryResource extends Resource
     protected static ?string $slug = 'faq-categories';
 
     protected static ?string $cluster = ContentCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    protected static function translatableGlobalSearchAttributes(): array
+    {
+        return ['name', 'slug'];
+    }
 
     public static function getBreadcrumb(): string
     {

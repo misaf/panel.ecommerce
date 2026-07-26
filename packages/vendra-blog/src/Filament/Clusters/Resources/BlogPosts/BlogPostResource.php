@@ -19,11 +19,12 @@ use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Schemas\BlogPostInfol
 use Misaf\VendraBlog\Filament\Clusters\Resources\BlogPosts\Tables\BlogPostTable;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
-
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedGlobalSearch;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class BlogPostResource extends Resource
 {
+    use InteractsWithTranslatedGlobalSearch;
     use Translatable;
 
     protected static ?string $model = BlogPost::class;
@@ -35,6 +36,14 @@ final class BlogPostResource extends Resource
     protected static ?string $slug = 'blog-posts';
 
     protected static ?string $cluster = ContentCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    protected static function translatableGlobalSearchAttributes(): array
+    {
+        return ['name', 'slug'];
+    }
 
     public static function getBreadcrumb(): string
     {

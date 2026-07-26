@@ -19,11 +19,12 @@ use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Schemas\Custo
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\Tables\CustomPageTable;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
-
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedGlobalSearch;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class CustomPageResource extends Resource
 {
+    use InteractsWithTranslatedGlobalSearch;
     use Translatable;
 
     protected static ?string $model = CustomPage::class;
@@ -35,6 +36,14 @@ final class CustomPageResource extends Resource
     protected static ?string $slug = 'custom-pages';
 
     protected static ?string $cluster = ContentCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    protected static function translatableGlobalSearchAttributes(): array
+    {
+        return ['name', 'slug'];
+    }
 
     public static function getBreadcrumb(): string
     {

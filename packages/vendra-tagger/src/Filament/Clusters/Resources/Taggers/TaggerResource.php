@@ -11,6 +11,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Misaf\VendraSupport\Filament\Clusters\ContentCluster;
+use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedGlobalSearch;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\CreateTagger;
 use Misaf\VendraTagger\Filament\Clusters\Resources\Taggers\Pages\EditTagger;
@@ -23,6 +24,7 @@ use Misaf\VendraTagger\Models\Tagger;
 
 final class TaggerResource extends Resource
 {
+    use InteractsWithTranslatedGlobalSearch;
     use Translatable;
 
     protected static ?string $model = Tagger::class;
@@ -34,6 +36,14 @@ final class TaggerResource extends Resource
     protected static ?string $slug = 'taggers';
 
     protected static ?string $cluster = ContentCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    protected static function translatableGlobalSearchAttributes(): array
+    {
+        return ['name', 'slug'];
+    }
 
     public static function getBreadcrumb(): string
     {
