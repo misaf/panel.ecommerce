@@ -26,6 +26,8 @@ final class AuthifyLogResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::AuthenticationLogs->value;
 
+    protected static ?string $recordTitleAttribute = 'ip_address';
+
     protected static ?string $slug = 'authify-logs';
 
     protected static ?string $cluster = SystemCluster::class;
@@ -48,6 +50,14 @@ final class AuthifyLogResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-authify-log::navigation.authify_logs');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['ip_address'];
     }
 
     public static function getPages(): array

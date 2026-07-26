@@ -29,6 +29,8 @@ final class LanguageLineResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::LanguageLines->value;
 
+    protected static ?string $recordTitleAttribute = 'key';
+
     protected static ?string $slug = 'language-lines';
 
     protected static ?string $cluster = LocalizationCluster::class;
@@ -51,6 +53,14 @@ final class LanguageLineResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-language::navigation.language_lines');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['namespace', 'group', 'key'];
     }
 
     public static function getPages(): array

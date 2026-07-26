@@ -29,6 +29,8 @@ final class LanguageResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::Languages->value;
 
+    protected static ?string $recordTitleAttribute = 'locale';
+
     protected static ?string $slug = 'languages';
 
     protected static ?string $cluster = LocalizationCluster::class;
@@ -51,6 +53,14 @@ final class LanguageResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-language::navigation.languages');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['locale'];
     }
 
     public static function getPages(): array

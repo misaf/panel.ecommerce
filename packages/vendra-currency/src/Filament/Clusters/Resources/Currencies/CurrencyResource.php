@@ -29,6 +29,8 @@ final class CurrencyResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::Currencies->value;
 
+    protected static ?string $recordTitleAttribute = 'code';
+
     protected static ?string $slug = 'currencies';
 
     protected static ?string $cluster = SalesCluster::class;
@@ -51,6 +53,14 @@ final class CurrencyResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-currency::navigation.currencies');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['code', 'name', 'symbol'];
     }
 
     public static function getPages(): array

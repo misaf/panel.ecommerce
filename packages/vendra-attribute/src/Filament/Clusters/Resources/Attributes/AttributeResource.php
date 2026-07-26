@@ -29,6 +29,8 @@ final class AttributeResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::Attributes->value;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $slug = 'attributes';
 
     protected static ?string $cluster = CatalogCluster::class;
@@ -51,6 +53,14 @@ final class AttributeResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-attribute::navigation.attributes');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'unit'];
     }
 
     public static function getRelations(): array

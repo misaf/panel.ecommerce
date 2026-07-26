@@ -30,6 +30,8 @@ final class NewsletterSubscriberResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::NewsletterSubscribers->value;
 
+    protected static ?string $recordTitleAttribute = 'email';
+
     protected static ?string $slug = 'newsletter-subscribers';
 
     protected static ?string $cluster = MarketingCluster::class;
@@ -52,6 +54,14 @@ final class NewsletterSubscriberResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-newsletter::navigation.newsletter_subscribers');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['email', 'name'];
     }
 
     public static function getPages(): array

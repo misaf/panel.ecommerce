@@ -9,6 +9,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ListAffiliatePayouts;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Pages\ViewAffiliatePayout;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Schemas\AffiliatePayoutInfolist;
@@ -16,7 +19,6 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Tables\Af
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\Widgets\AffiliatePayoutOverviewWidget;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
-
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class AffiliatePayoutResource extends Resource
@@ -30,6 +32,37 @@ final class AffiliatePayoutResource extends Resource
     protected static ?string $slug = 'affiliate-payouts';
 
     protected static ?string $cluster = MarketingCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['affiliate.code', 'affiliate.user.username', 'affiliate.user.email'];
+    }
+
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with('affiliate.user');
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $payout = self::payout($record);
+
+        return [
+            __('vendra-affiliate::attributes.affiliate') => $payout->affiliate?->code ?? '',
+            __('vendra-user::attributes.email')          => $payout->affiliate?->user?->email ?? '',
+        ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return '#' . self::payout($record)->id;
+    }
 
     public static function getBreadcrumb(): string
     {
@@ -74,5 +107,14 @@ final class AffiliatePayoutResource extends Resource
     public static function table(Table $table): Table
     {
         return AffiliatePayoutTable::configure($table);
+    }
+
+    private static function payout(Model $record): AffiliatePayout
+    {
+        if ( ! $record instanceof AffiliatePayout) {
+            throw new InvalidArgumentException('Affiliate Payout resources require an AffiliatePayout record.');
+        }
+
+        return $record;
     }
 }

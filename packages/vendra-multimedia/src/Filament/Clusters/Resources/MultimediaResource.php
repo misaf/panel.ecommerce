@@ -26,6 +26,8 @@ final class MultimediaResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::Multimedia->value;
 
+    protected static ?string $recordTitleAttribute = 'file_name';
+
     protected static ?string $slug = 'multimedia';
 
     protected static ?string $cluster = ContentCluster::class;
@@ -48,6 +50,14 @@ final class MultimediaResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-multimedia::navigation.media_items');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['file_name', 'collection_name', 'mime_type'];
     }
 
     public static function getPages(): array

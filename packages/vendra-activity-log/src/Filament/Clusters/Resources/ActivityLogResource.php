@@ -26,6 +26,8 @@ final class ActivityLogResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::ActivityLogs->value;
 
+    protected static ?string $recordTitleAttribute = 'log_name';
+
     protected static ?string $slug = 'activity-logs';
 
     protected static ?string $cluster = SystemCluster::class;
@@ -48,6 +50,14 @@ final class ActivityLogResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-activity-log::navigation.activity_logs');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['log_name', 'event', 'batch_uuid'];
     }
 
     public static function getPages(): array

@@ -9,6 +9,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\CreateAffiliate;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\EditAffiliate;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\ListAffiliates;
@@ -25,7 +28,6 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\Affilia
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Widgets\AffiliateReferralsOverview;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraSupport\Filament\Clusters\MarketingCluster;
-
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class AffiliateResource extends Resource
@@ -36,9 +38,36 @@ final class AffiliateResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::Affiliates->value;
 
+    protected static ?string $recordTitleAttribute = 'code';
+
     protected static ?string $slug = 'affiliates';
 
     protected static ?string $cluster = MarketingCluster::class;
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['code', 'user.username', 'user.email'];
+    }
+
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with('user');
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $affiliate = self::affiliate($record);
+
+        return [
+            __('vendra-user::attributes.email') => $affiliate->user?->email ?? '',
+        ];
+    }
 
     public static function getBreadcrumb(): string
     {
@@ -102,5 +131,14 @@ final class AffiliateResource extends Resource
     public static function table(Table $table): Table
     {
         return AffiliateTable::configure($table);
+    }
+
+    private static function affiliate(Model $record): Affiliate
+    {
+        if ( ! $record instanceof Affiliate) {
+            throw new InvalidArgumentException('Affiliate resources require an Affiliate record.');
+        }
+
+        return $record;
     }
 }

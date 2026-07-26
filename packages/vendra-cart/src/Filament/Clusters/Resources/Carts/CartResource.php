@@ -30,6 +30,8 @@ final class CartResource extends Resource
 
     protected static ?int $navigationSort = NavigationPriority::Carts->value;
 
+    protected static ?string $recordTitleAttribute = 'token';
+
     protected static ?string $slug = 'carts';
 
     protected static ?string $cluster = CatalogCluster::class;
@@ -62,6 +64,14 @@ final class CartResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('vendra-cart::navigation.carts');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['token'];
     }
 
     public static function form(Schema $schema): Schema
