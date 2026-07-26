@@ -9,8 +9,9 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -23,6 +24,7 @@ final class ResellerTable
             ->columns([
                 TextColumn::make('name')
                     ->label(__('console.username'))
+                    ->icon(Heroicon::Tag)
                     ->searchable()
                     ->sortable(),
 
@@ -30,9 +32,9 @@ final class ResellerTable
                     ->label(__('console.properties_count'))
                     ->alignCenter(),
 
-                IconColumn::make('status')
+                ToggleColumn::make('status')
                     ->label(__('console.status'))
-                    ->boolean(),
+                    ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i')

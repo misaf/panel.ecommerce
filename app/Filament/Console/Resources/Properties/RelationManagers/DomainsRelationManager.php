@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Console\Resources\Properties\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -31,11 +32,12 @@ final class DomainsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('name')
                     ->label(__('console.domain'))
+                    ->icon(Heroicon::GlobeAlt)
                     ->searchable(),
 
-                IconColumn::make('status')
+                ToggleColumn::make('status')
                     ->label(__('console.active'))
-                    ->boolean(),
+                    ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->label(__('console.created_at'))

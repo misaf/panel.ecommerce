@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Reseller\Widgets;
 
 use App\Filament\Reseller\Concerns\InteractsWithCurrentReseller;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,16 +36,18 @@ final class LatestProperties extends BaseWidget
             ->columns([
                 TextColumn::make('name')
                     ->label(__('console.name'))
+                    ->icon(Heroicon::Tag)
                     ->searchable(),
 
                 TextColumn::make('domain')
                     ->label(__('console.domain'))
+                    ->icon(Heroicon::GlobeAlt)
                     ->state(fn(Tenant $record): ?string => $record->activeDomainName())
                     ->placeholder('—'),
 
-                IconColumn::make('status')
+                ToggleColumn::make('status')
                     ->label(__('console.status'))
-                    ->boolean(),
+                    ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->label(__('console.created_at'))

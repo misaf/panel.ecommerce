@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Console\Resources\Plans\Tables;
 
+use Awcodes\BadgeableColumn\Components\Badge;
+use Awcodes\BadgeableColumn\Components\BadgeableColumn;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Misaf\VendraSubscription\Models\Plan;
 
@@ -18,10 +22,18 @@ final class PlanTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                BadgeableColumn::make('name')
                     ->label(__('console.name'))
+                    ->icon(Heroicon::Tag)
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->prefixBadges([
+                        Badge::make('is_default')
+                            ->label(__('console.is_default'))
+                            ->color('success')
+                            ->size(Size::ExtraSmall)
+                            ->hidden(fn(Plan $record): bool => ! $record->is_default),
+                    ]),
 
                 TextColumn::make('max_units')
                     ->label(__('console.max_units'))
@@ -38,13 +50,9 @@ final class PlanTable
                         ? __('console.free')
                         : $record->price . ' ' . ($record->currency_code ?? '')),
 
-                IconColumn::make('status')
+                ToggleColumn::make('status')
                     ->label(__('console.status'))
-                    ->boolean(),
-
-                IconColumn::make('is_default')
-                    ->label(__('console.is_default'))
-                    ->boolean(),
+                    ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i')

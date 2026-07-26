@@ -15,8 +15,9 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
@@ -31,6 +32,7 @@ final class PropertyTable
             ->columns([
                 TextColumn::make('name')
                     ->label(__('console.name'))
+                    ->icon(Heroicon::Tag)
                     ->searchable()
                     ->sortable(),
 
@@ -43,6 +45,7 @@ final class PropertyTable
 
                 TextColumn::make('domain')
                     ->label(__('console.domain'))
+                    ->icon(Heroicon::GlobeAlt)
                     ->state(fn(Tenant $record): ?string => $record->activeDomainName())
                     ->placeholder('—'),
 
@@ -58,9 +61,9 @@ final class PropertyTable
                     ->copyMessage('URL copied')
                     ->placeholder('—'),
 
-                IconColumn::make('status')
+                ToggleColumn::make('status')
                     ->label(__('console.status'))
-                    ->boolean(),
+                    ->onIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i')
