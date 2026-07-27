@@ -53,9 +53,9 @@ final class EnforceSubscriptionsAction
             ->chunkById(100, function (Collection $subscriptions) use (&$reminded): void {
                 /** @var Collection<int, Subscription> $subscriptions */
                 foreach ($subscriptions as $subscription) {
-                    SubscriptionExpiringSoon::dispatch($subscription);
-
                     $subscription->forceFill(['expiry_reminder_sent_at' => now()])->save();
+
+                    SubscriptionExpiringSoon::dispatch($subscription);
                     $reminded++;
                 }
             });
