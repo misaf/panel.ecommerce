@@ -177,17 +177,21 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
 
     public function activeSubscribedPropertyCount(): int
     {
-        return $this->tenants()->where('active', true)->count();
+        return $this->tenants()->accessible()->count();
     }
 
     public function suspendActiveProperties(): int
     {
-        return $this->tenants()->where('active', true)->update(['active' => false]);
+        return $this->tenants()
+            ->accessible()
+            ->update(['billing_suspended_at' => now()]);
     }
 
     public function reactivateSuspendedProperties(): int
     {
-        return $this->tenants()->where('active', false)->update(['active' => true]);
+        return $this->tenants()
+            ->whereNotNull('billing_suspended_at')
+            ->update(['billing_suspended_at' => null]);
     }
 
     /**
