@@ -1,7 +1,5 @@
 ## Vendra Document
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

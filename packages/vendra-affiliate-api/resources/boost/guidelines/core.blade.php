@@ -2,8 +2,6 @@
 
 The `misaf/vendra-affiliate-api` package exposes the public referral lookup surface for `misaf/vendra-affiliate` through Laravel JSON:API.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

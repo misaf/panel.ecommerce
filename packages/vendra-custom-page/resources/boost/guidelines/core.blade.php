@@ -2,8 +2,6 @@
 
 The `misaf/vendra-custom-page` package owns CMS custom pages and page categories and the Filament admin UI for custom pages and page categories.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

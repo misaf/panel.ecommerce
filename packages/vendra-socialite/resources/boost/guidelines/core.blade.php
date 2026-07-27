@@ -2,8 +2,6 @@
 
 The `misaf/vendra-socialite` package adds optional OAuth social login (Google, GitHub) to Vendra user panels, built on `dutchcodingcompany/filament-socialite`. It is a one-way add-on: it depends on `misaf/vendra-user`, but `misaf/vendra-user` never depends on it.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

@@ -2,8 +2,6 @@
 
 The `misaf/vendra-attribute-api` package exposes attribute values from `misaf/vendra-attribute` through Laravel JSON:API.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

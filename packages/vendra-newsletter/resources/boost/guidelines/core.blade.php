@@ -2,8 +2,6 @@
 
 The `misaf/vendra-newsletter` package owns newsletter domain behavior and the Filament admin UI for newsletters and subscribers, plus the queued send pipeline, the public unsubscribe flow, and a self-registered scheduled send.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

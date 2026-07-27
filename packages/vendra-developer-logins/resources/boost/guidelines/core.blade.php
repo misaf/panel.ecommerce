@@ -2,8 +2,6 @@
 
 The `misaf/vendra-developer-logins` package provides local-only login shortcuts for configured Vendra Filament panels.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

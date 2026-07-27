@@ -2,8 +2,6 @@
 
 The `misaf/vendra-user-profile` package owns per-user profiles attached to the user module and the Filament admin UI for user profiles.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

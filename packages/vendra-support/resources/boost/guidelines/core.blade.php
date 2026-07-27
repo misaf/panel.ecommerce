@@ -2,8 +2,6 @@
 
 The `misaf/vendra-support` package owns the shared support layer for every Vendra module — most importantly the **tenant-awareness abstraction** that all other modules derive from.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

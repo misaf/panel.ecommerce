@@ -2,8 +2,6 @@
 
 The `misaf/vendra-localization` package resolves the request locale for Laravel applications through a configurable chain of resolvers and locale middleware.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

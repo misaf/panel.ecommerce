@@ -2,8 +2,6 @@
 
 The `misaf/vendra-multimedia-api` package exposes `misaf/vendra-multimedia` domain models through Laravel JSON:API.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

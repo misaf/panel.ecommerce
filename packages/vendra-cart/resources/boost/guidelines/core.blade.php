@@ -2,8 +2,6 @@
 
 The `misaf/vendra-cart` package owns temporary shopping selections before checkout and the Filament administration UI for inspecting carts and their items.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

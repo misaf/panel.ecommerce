@@ -2,8 +2,6 @@
 
 The `misaf/vendra-cart-api` package owns JSON:API schemas, resources, query validation, routes, and server wiring for `misaf/vendra-cart`.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

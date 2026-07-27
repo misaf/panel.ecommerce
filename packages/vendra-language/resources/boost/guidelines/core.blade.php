@@ -2,8 +2,6 @@
 
 The `misaf/vendra-language` package owns multi-language support with tenant-aware languages and database translation lines and the Filament admin UI for languages and translation lines.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

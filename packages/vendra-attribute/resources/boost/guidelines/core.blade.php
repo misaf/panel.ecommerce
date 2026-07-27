@@ -2,8 +2,6 @@
 
 The `misaf/vendra-attribute` package owns reusable tenant-aware attributes and polymorphic attribute values, including their Filament administration UI.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

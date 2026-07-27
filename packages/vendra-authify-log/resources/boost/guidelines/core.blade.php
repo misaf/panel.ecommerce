@@ -2,8 +2,6 @@
 
 The `misaf/vendra-authify-log` package owns authentication activity logging (buffered via Redis) and the Filament admin UI for authentication log records.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

@@ -2,8 +2,6 @@
 
 The `misaf/vendra-api` package provides shared Laravel JSON:API infrastructure — reusable filters, sorters, and server wiring — consumed by the per-domain API modules (`misaf/vendra-*-api`).
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

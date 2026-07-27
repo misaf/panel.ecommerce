@@ -2,8 +2,6 @@
 
 The `misaf/vendra-multimedia` package owns multimedia and media library management (Spatie Media Library) and the Filament admin UI for multimedia/media records.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

@@ -2,8 +2,6 @@
 
 The `misaf/vendra-faq` package owns frequently asked questions with categorization and the Filament admin UI for FAQ entries and categories.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

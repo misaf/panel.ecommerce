@@ -2,8 +2,6 @@
 
 The `misaf/vendra-blog` package owns blog domain behavior and the Filament admin UI for posts and post categories.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.

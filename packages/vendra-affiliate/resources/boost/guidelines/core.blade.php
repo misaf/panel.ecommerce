@@ -2,8 +2,6 @@
 
 The `misaf/vendra-affiliate` package owns affiliate and referral management with commission tracking and the Filament admin UI for affiliates and affiliate users.
 
-### Standards
-
 ### Translatable Persistence
 
 - Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
