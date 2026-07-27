@@ -27,6 +27,8 @@ The service provider is auto-registered.
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

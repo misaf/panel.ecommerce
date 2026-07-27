@@ -66,6 +66,8 @@ Tagger::findOrCreate('Top performer', type: 'affiliate', locale: 'en');
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

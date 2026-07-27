@@ -37,6 +37,8 @@ The service provider registers the `vendra-affiliate` JSON:API server and the
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

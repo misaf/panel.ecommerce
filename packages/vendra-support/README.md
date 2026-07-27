@@ -36,6 +36,8 @@ php artisan vendor:publish --tag=vendra-support-config
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

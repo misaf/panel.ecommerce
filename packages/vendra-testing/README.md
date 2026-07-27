@@ -16,6 +16,7 @@ Shared Pest utilities for Vendra package test suites.
 - PHP 8.3+
 - Laravel 13
 - Pest 4
+- `misaf/vendra-support`
 
 ## Installation
 
@@ -36,6 +37,8 @@ Tenant-aware package tests should use `makeCurrentTestTenant()`,
 concrete Vendra Tenant provider.
 
 ## Testing
+
+Run the package checks from the package directory:
 
 ```bash
 composer test

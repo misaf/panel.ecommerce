@@ -27,6 +27,8 @@ registered, ensuring item queries inherit the cart's tenant scope.
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

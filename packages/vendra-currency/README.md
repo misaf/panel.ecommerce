@@ -16,6 +16,7 @@ Tenant-aware currency management for Vendra applications.
 - Filament 5
 - Livewire 4
 - Pest 4
+- `misaf/vendra-support`
 
 ## Installation
 
@@ -81,6 +82,8 @@ use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
 The `Currencies` resource lives in the Sales cluster on the `admin` panel. Install currencies from the searchable catalog, toggle their active state, reorder them, and pick the default via the table toggle or row action.
 
 ## Testing
+
+Run the package checks from the package directory:
 
 ```bash
 composer test

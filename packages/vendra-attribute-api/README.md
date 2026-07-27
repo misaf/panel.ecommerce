@@ -54,6 +54,8 @@ Tenancy is inherited from `misaf/vendra-attribute` domain models, which derive t
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

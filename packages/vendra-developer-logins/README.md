@@ -29,6 +29,8 @@ Configure the eligible panels, role, credential column, and label column in `con
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

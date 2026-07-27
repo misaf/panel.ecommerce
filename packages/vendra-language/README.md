@@ -117,6 +117,8 @@ The global language switcher uses the current tenant's enabled languages in disp
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

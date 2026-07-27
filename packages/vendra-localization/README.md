@@ -136,6 +136,8 @@ Laravel dispatches `Illuminate\Foundation\Events\LocaleUpdated` whenever `App::s
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

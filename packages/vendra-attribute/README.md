@@ -134,6 +134,8 @@ php artisan vendra-attribute:seed tenant-slug
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

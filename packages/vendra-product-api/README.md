@@ -18,6 +18,7 @@ Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, i
 - `misaf/vendra-api`
 - `misaf/vendra-multimedia-api`
 - `misaf/vendra-product`
+- `misaf/vendra-support`
 
 ## Installation
 
@@ -28,6 +29,8 @@ composer require misaf/vendra-product-api
 The service provider, server, and routes are auto-registered.
 
 ## Testing
+
+Run the package checks from the package directory:
 
 ```bash
 composer test

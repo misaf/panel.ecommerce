@@ -44,6 +44,8 @@ If needed, update configuration in `config/vendra-authify-log.php`.
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

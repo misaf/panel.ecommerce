@@ -124,7 +124,7 @@ By default, tag management is available on the `admin` panel in the shared Conte
 
 ## Testing
 
-From a standalone package checkout:
+Run the package checks from the package directory:
 
 ```bash
 composer test

@@ -98,6 +98,8 @@ Resources are available in the `Faqs` cluster on the `admin` panel:
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse

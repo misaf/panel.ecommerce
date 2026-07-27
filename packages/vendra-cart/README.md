@@ -44,6 +44,8 @@ manually.
 
 ## Testing
 
+Run the package checks from the package directory:
+
 ```bash
 composer test
 composer analyse
