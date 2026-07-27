@@ -66,6 +66,25 @@ it('renews the subscription through the edit page action', function (): void {
         ->and($reseller->subscriptions()->active()->count())->toBe(1);
 });
 
+it('offboards a reseller through the edit page action with an audit reason', function (): void {
+    actingConsoleAdmin();
+
+    $reseller = Reseller::factory()->create();
+    Subscription::factory()->forSubscriber($reseller)->for(Plan::factory())->create();
+    Tenant::factory()->create(['reseller_id' => $reseller->getKey()]);
+
+    livewire(EditReseller::class, ['record' => $reseller->getKey()])
+        ->callAction('delete', [
+            'offboarding_reason' => 'Contract terminated by the operator.',
+        ])
+        ->assertHasNoActionErrors();
+
+    $offboardedReseller = Reseller::query()->withTrashed()->findOrFail($reseller->getKey());
+
+    expect($offboardedReseller->trashed())->toBeTrue()
+        ->and($offboardedReseller->offboarding_reason)->toBe('Contract terminated by the operator.');
+});
+
 it('changes a reseller owner password through the edit page action', function (): void {
     $admin = actingConsoleAdmin();
 
