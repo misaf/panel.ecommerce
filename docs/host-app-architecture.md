@@ -110,7 +110,7 @@ ProvisionTenantAction::execute(data, reseller?)
        ├─ CreateTenantAction::execute(...)
        │     ├─ validate + normalize domain (TenantDomain)
        │     ├─ (if reseller) lock reseller → PropertyQuota::assertCanCreateProperty
-       │     ├─ create Tenant (reseller_id, name, slug, status)
+       │     ├─ create Tenant (reseller_id, name, slug, active)
        │     ├─ create TenantDomain (inside tenant context)
        │     └─ CreateUserAction (vendra-user) → owner User, verified
        ├─ CreateRoleAction (vendra-permission) → super-admin role
@@ -294,5 +294,3 @@ everything that knows about resellers, tenants, wallets, or emails is host code.
 | Enforcement command | `app/Console/Commands/EnforceSubscriptionsCommand.php` |
 | Subscription engine | `packages/vendra-subscription/src/{Actions,Jobs,Listeners,Events,Enums}` |
 | Contracts / seams | `packages/vendra-support/src/Contracts/{SubscriptionCharger}.php` |
-</content>
-</invoke>
