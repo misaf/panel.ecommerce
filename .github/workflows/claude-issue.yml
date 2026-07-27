@@ -51,11 +51,12 @@ jobs:
             - Add or update tests when appropriate.
             - Run the relevant tests.
             - Do not change unrelated code.
-            - Create a pull request referencing the issue.
+            - Create a new branch (e.g. `git checkout -b ai-fix/issue-${{ github.event.issue.number }}`), commit your changes, and push it.
+            - Open a pull request against `1.x` with `gh pr create --base 1.x --title "..." --body "Closes #${{ github.event.issue.number }}"`.
 
             If it is only a question:
             - Investigate the repository.
-            - Answer the issue without changing code.
+            - Post your answer as a comment on the issue with `gh issue comment ${{ github.event.issue.number }} --body "..."`. Do not change code.
 
             Never push directly to the 1.x branch.
 
