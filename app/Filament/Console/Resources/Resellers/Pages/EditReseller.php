@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Console\Resources\Resellers\Pages;
 
 use App\Actions\CreateResellerOwnerAction;
+use App\Filament\Actions\OffboardResellerAction;
 use App\Filament\Console\Resources\Resellers\ResellerResource;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
 use Filament\Actions\Action;
-use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -34,7 +34,7 @@ final class EditReseller extends EditRecord
             $this->changeOwnerPasswordAction(),
             $this->changePlanAction(),
             $this->renewAction(),
-            DeleteAction::make(),
+            OffboardResellerAction::make(),
         ];
     }
 

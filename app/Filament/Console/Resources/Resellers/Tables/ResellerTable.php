@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Console\Resources\Resellers\Tables;
 
+use App\Filament\Actions\OffboardResellerAction;
+use App\Filament\Actions\OffboardResellerBulkAction;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -89,12 +89,12 @@ final class ResellerTable
                 ActionGroup::make([
                     EditAction::make(),
 
-                    DeleteAction::make(),
+                    OffboardResellerAction::make(),
                 ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    OffboardResellerBulkAction::make(),
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc');
