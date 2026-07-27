@@ -1,0 +1,48 @@
+name: Claude Issue Solver
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  solve:
+    if: github.event.label.name == 'ai-fix'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          prompt: |
+            Solve GitHub issue #${{ github.event.issue.number }}.
+
+            Read the issue and inspect the repository.
+
+            If it is a bug or implementation task:
+            - Find the root cause.
+            - Implement the smallest correct fix.
+            - Add or update tests when appropriate.
+            - Run the relevant tests.
+            - Do not change unrelated code.
+            - Create a pull request referencing the issue.
+
+            If it is only a question:
+            - Investigate the repository.
+            - Answer the issue without changing code.
+
+            Never push directly to the main branch.
+
+          claude_args: |
+            --allowedTools "Bash(git:*),Bash(composer:*),Bash(php:*),Bash(vendor/bin/pest:*),Bash(vendor/bin/phpstan:*),Read,Edit,Write"
