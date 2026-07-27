@@ -123,6 +123,22 @@ it('stores durable subscription payment operations with provider identities', fu
         ->and(Schema::hasForeignKey('subscription_payments', ['subscription_id']))->toBeTrue();
 });
 
+it('stores independent tenant availability and durable provisioning state', function (): void {
+    expect(Schema::hasColumns('tenants', [
+        'active',
+        'billing_suspended_at',
+        'provisioning_status',
+        'provisioning_should_seed',
+        'provisioning_seeded_at',
+        'routes_cached_at',
+        'provisioned_at',
+        'provisioning_failed_at',
+        'provisioning_error',
+    ]))->toBeTrue()
+        ->and(Schema::hasIndex('tenants', ['billing_suspended_at']))->toBeTrue()
+        ->and(Schema::hasIndex('tenants', ['provisioning_status']))->toBeTrue();
+});
+
 it('enforces one active owner and subscription per reseller', function (): void {
     expect(Schema::hasIndex('reseller_users', ['active_reseller_guard'], 'unique'))->toBeTrue()
         ->and(Schema::hasIndex('reseller_users', ['active_username_guard'], 'unique'))->toBeTrue()

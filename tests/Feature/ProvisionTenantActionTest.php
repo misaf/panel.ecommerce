@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 use App\Actions\ProvisionTenantAction;
+use App\Jobs\CompleteTenantProvisioningJob;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Queue;
 use Misaf\VendraSupport\Events\TenantProvisioned;
-use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
+use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 
 beforeEach(function (): void {
     Event::fake([TenantProvisioned::class]);
@@ -79,13 +80,21 @@ it('stamps the domain with the newly provisioned tenant even when another tenant
         ->and($domain->tenant_id)->toBe($second['tenant']->getKey());
 });
 
-it('queues the tenant route cache after provisioning', function (): void {
-    app(ProvisionTenantAction::class)->execute([
+it('queues durable tenant provisioning after creating inactive records', function (): void {
+    $result = app(ProvisionTenantAction::class)->execute([
         'name'     => 'Acme',
         'domain'   => 'acme.test',
         'username' => 'admin_acme',
         'email'    => 'admin@acme.test',
-    ]);
+    ], shouldSeed: true);
 
-    Queue::assertPushed(CacheTenantRoutesJob::class);
+    expect($result['tenant']->active)->toBeFalse()
+        ->and($result['tenant']->provisioning_status)->toBe(TenantProvisioningStatus::Pending)
+        ->and($result['tenant']->provisioning_should_seed)->toBeTrue();
+
+    Queue::assertPushed(
+        CompleteTenantProvisioningJob::class,
+        fn(CompleteTenantProvisioningJob $job): bool => $job->tenantId === $result['tenant']->id,
+    );
+    Event::assertNotDispatched(TenantProvisioned::class);
 });

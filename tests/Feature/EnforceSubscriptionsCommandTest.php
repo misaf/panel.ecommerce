@@ -19,6 +19,7 @@ it('expires subscriptions and suspends properties via the command', function ():
 
     $this->artisan('vendra-subscription:enforce-subscriptions')->assertSuccessful();
 
-    expect($property->refresh()->active)->toBeFalse()
+    expect($property->refresh()->active)->toBeTrue()
+        ->and($property->billing_suspended_at)->not->toBeNull()
         ->and($reseller->subscriptions()->sole()->status)->toBe(SubscriptionStatus::Expired);
 });

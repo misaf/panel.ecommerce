@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraTenant\Services\DomainTenantFinder;
@@ -57,3 +58,26 @@ it('does not serve the admin panel on the storefront host', function (): void {
 
     $this->get('https://acme.example.com/login')->assertNotFound();
 });
+
+it('does not resolve manually disabled, billing suspended, or provisioning tenants', function (array $attributes): void {
+    $tenant = Tenant::factory()->enabled()->create([
+        'slug' => 'acme',
+        ...$attributes,
+    ]);
+    TenantDomain::factory()->for($tenant)->create([
+        'name'   => 'acme.example.com',
+        'active' => true,
+    ]);
+
+    $tenantFinder = app(DomainTenantFinder::class);
+
+    expect($tenantFinder->findForAdminHost('acme.admin.vendra.test'))->toBeNull()
+        ->and($tenantFinder->findForAdminHost('admin.acme.example.com'))->toBeNull();
+})->with([
+    'manual disablement'   => [['active' => false]],
+    'billing suspension'   => [['billing_suspended_at' => now()]],
+    'pending provisioning' => [[
+        'provisioning_status' => TenantProvisioningStatus::Pending,
+        'provisioned_at'      => null,
+    ]],
+]);
