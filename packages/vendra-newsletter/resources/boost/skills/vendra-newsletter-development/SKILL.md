@@ -1,11 +1,18 @@
 ---
 name: vendra-newsletter-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Newsletter domain/admin module in packages/vendra-newsletter. Trigger for Newsletter, NewsletterSubscriber, subscriber restoration, newsletter delivery receipts and idempotency, the newsletter status enum, migrations, factories, seeders, policies, permission enums, Filament resources/clusters/forms/tables, the Filament Send action, the send pipeline (SendNewsletter action, SendNewsletterBatchJob, SendNewsletterEmailJob, NewsletterMail), queue/batch/Horizon timeout configuration, the public unsubscribe controller/route, the scheduled send command and its config-driven per-tenant schedule, translations, and plugin/service provider wiring."
+description: "Create, modify, review, or test the Vendra Newsletter domain/admin module in packages/vendra-newsletter. Use for Newsletter, NewsletterSubscriber, subscriber restoration, newsletter delivery receipts and idempotency, the newsletter status enum, migrations, factories, seeders, policies, permission enums, Filament resources/clusters/forms/tables, the Filament Send action, the send pipeline (SendNewsletter action, SendNewsletterBatchJob, SendNewsletterEmailJob, NewsletterMail), queue/batch/Horizon timeout configuration, the public unsubscribe controller/route, the scheduled send command and its config-driven per-tenant schedule, translations, and plugin/service provider wiring."
 ---
 
 # Vendra Newsletter
 
 ## Workflow
+
+- Inspect `composer.json`, sibling files, and existing tests before changing the package.
+- Use Laravel Boost `application-info` and `search-docs` before code changes.
+- Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
+- Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
+- Keep changes inside this package's boundary and preserve its public contracts.
+- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-newsletter test` and `composer --working-dir=packages/vendra-newsletter analyse`.
 
 ## Translatable Persistence
 
@@ -20,10 +27,6 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
 
 - Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
-
-Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` when tests are added or changed. Use `tailwindcss-development` only when editing Blade or Tailwind UI (the mail and unsubscribe views).
-
-Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 
 ## Module Boundary
 

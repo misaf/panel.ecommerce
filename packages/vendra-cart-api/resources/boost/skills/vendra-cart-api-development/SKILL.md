@@ -1,11 +1,18 @@
 ---
 name: vendra-cart-api-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Cart JSON:API package in packages/vendra-cart-api. Trigger for cart or cart-item JSON:API schemas, resources, collection/query validation, filters, includes, routes, the vendra-cart JSON:API server, CartApiServiceProvider, cart API serialization, or decisions about exposing polymorphic owners and sellables through JSON:API."
+description: "Create, modify, review, or test the Vendra Cart JSON:API package in packages/vendra-cart-api. Use for cart or cart-item JSON:API schemas, resources, collection/query validation, filters, includes, routes, the vendra-cart JSON:API server, CartApiServiceProvider, cart API serialization, or decisions about exposing polymorphic owners and sellables through JSON:API."
 ---
 
 # Vendra Cart API
 
 ## Workflow
+
+- Inspect `composer.json`, sibling files, and existing tests before changing the package.
+- Use Laravel Boost `application-info` and `search-docs` before code changes.
+- Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
+- Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
+- Keep changes inside this package's boundary and preserve its public contracts.
+- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-cart-api test` and `composer --working-dir=packages/vendra-cart-api analyse`.
 
 ## Translatable Persistence
 

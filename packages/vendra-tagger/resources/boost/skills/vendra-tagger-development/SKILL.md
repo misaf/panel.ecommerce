@@ -1,11 +1,18 @@
 ---
 name: vendra-tagger-development
-description: "Build, modify, review, or test the Vendra Tagger module in packages/vendra-tagger. Use for the Tagger model, Spatie tags integration, tag migrations, factories, permission policies, Filament resources/forms/tables, translated names and slugs, sortable positions, tenant-aware validation, package configuration, plugin/service-provider wiring, translations, and module documentation."
+description: "Create, modify, review, or test the Vendra Tagger module in packages/vendra-tagger. Use for the Tagger model, Spatie tags integration, tag migrations, factories, permission policies, Filament resources/forms/tables, translated names and slugs, sortable positions, tenant-aware validation, package configuration, plugin/service-provider wiring, translations, and module documentation."
 ---
 
 # Vendra Tagger
 
 ## Workflow
+
+- Inspect `composer.json`, sibling files, and existing tests before changing the package.
+- Use Laravel Boost `application-info` and `search-docs` before code changes.
+- Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
+- Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
+- Keep changes inside this package's boundary and preserve its public contracts.
+- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-tagger test` and `composer --working-dir=packages/vendra-tagger analyse`.
 
 ## Translatable Persistence
 
@@ -20,10 +27,6 @@ description: "Build, modify, review, or test the Vendra Tagger module in package
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
 
 - Register every table whose migration calls `TenantSchema::addTenantColumn()` with `TenantTableRegistry` in this package's service provider, preserving configured table names and connections, so `vendra-tenant:enable {tenant}` can retrofit schemas migrated before tenancy was enabled.
-
-Use `laravel-best-practices` for Laravel PHP and `pest-testing` whenever tests change. Use `tailwindcss-development` only when editing Blade or Tailwind UI.
-
-Before code changes, use Laravel Boost `application-info` and `search-docs` for the relevant packages. Prefer Boost database and browser tools over ad hoc debugging.
 
 ## Module Boundary
 

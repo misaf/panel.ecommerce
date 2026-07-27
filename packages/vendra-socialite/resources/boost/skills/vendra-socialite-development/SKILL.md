@@ -1,11 +1,18 @@
 ---
 name: vendra-socialite-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Socialite module in packages/vendra-socialite. Trigger for OAuth social login, filament-socialite wiring, the `SocialiteUser` model, `SocialiteRegistrar`, the socialite_users migration, provider (Google/GitHub) configuration, and the socialite service provider / plugin registration."
+description: "Create, modify, review, or test the Vendra Socialite module in packages/vendra-socialite. Use for OAuth social login, filament-socialite wiring, the `SocialiteUser` model, `SocialiteRegistrar`, the socialite_users migration, provider (Google/GitHub) configuration, and the socialite service provider / plugin registration."
 ---
 
 # Vendra Socialite
 
 ## Workflow
+
+- Inspect `composer.json`, sibling files, and existing tests before changing the package.
+- Use Laravel Boost `application-info` and `search-docs` before code changes.
+- Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
+- Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
+- Keep changes inside this package's boundary and preserve its public contracts.
+- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-socialite test` and `composer --working-dir=packages/vendra-socialite analyse`.
 
 ## Translatable Persistence
 

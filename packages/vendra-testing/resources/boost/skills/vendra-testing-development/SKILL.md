@@ -1,11 +1,18 @@
 ---
 name: vendra-testing-development
-description: "Use this skill when creating, modifying, reviewing, or testing the Vendra Testing utilities module in packages/vendra-testing. Trigger for shared Pest Expectations, TranslationParity helpers, and other reusable test scaffolding consumed by other Vendra module test suites."
+description: "Create, modify, review, or test the Vendra Testing utilities module in packages/vendra-testing. Use for shared Pest Expectations, TranslationParity helpers, and other reusable test scaffolding consumed by other Vendra module test suites."
 ---
 
 # Vendra Testing
 
 ## Workflow
+
+- Inspect `composer.json`, sibling files, and existing tests before changing the package.
+- Use Laravel Boost `application-info` and `search-docs` before code changes.
+- Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
+- Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
+- Keep changes inside this package's boundary and preserve its public contracts.
+- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-testing test` and `composer --working-dir=packages/vendra-testing analyse`.
 
 ## Translatable Persistence
 
@@ -18,8 +25,6 @@ description: "Use this skill when creating, modifying, reviewing, or testing the
 - Treat a Vendra dependency intentionally exposed through the public API of a directly required Vendra platform package as part of the supported public contract of that package.
 - Do not add a redundant direct Composer requirement solely because source code imports a type from that exposed dependency.
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
-
-Always use this skill together with `laravel-best-practices` for Laravel PHP and `pest-testing` for test conventions. Before code changes, use Laravel Boost `application-info` and `search-docs`.
 
 ## Module Boundary
 
