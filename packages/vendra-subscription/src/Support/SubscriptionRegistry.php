@@ -74,6 +74,23 @@ final class SubscriptionRegistry
     }
 
     /**
+     * Cancel every non-terminal subscription held by a subscriber.
+     *
+     * @param  Model&SubscriptionSubscriber  $subscriber
+     * @return int the number of subscriptions cancelled
+     */
+    public function cancelOpen(Model&SubscriptionSubscriber $subscriber): int
+    {
+        return $this->subscriptionsQuery($subscriber)
+            ->whereIn('status', [
+                SubscriptionStatus::PendingPayment->value,
+                SubscriptionStatus::Active->value,
+                SubscriptionStatus::PastDue->value,
+            ])
+            ->update(['status' => SubscriptionStatus::Cancelled->value]);
+    }
+
+    /**
      * Cancel the subscriber's pending-payment subscriptions with the given keys.
      *
      * @param  Model&SubscriptionSubscriber  $subscriber
