@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Jobs\CompleteTenantProvisioningJob;
 use App\Models\Reseller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Misaf\VendraPermission\Actions\CreateRoleAction;
-use Misaf\VendraSupport\Events\TenantProvisioned;
-use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
@@ -39,7 +38,7 @@ final class ProvisionTenantAction
         $name = $data['name'] ?? Str::headline(Str::before($domain, '.'));
         $username = $data['username'] ?? $this->usernameFromEmail($data['email']);
 
-        $result = DB::transaction(function () use ($data, $domain, $name, $username, $password, $reseller): array {
+        $result = DB::transaction(function () use ($data, $domain, $name, $username, $password, $reseller, $shouldSeed): array {
             $result = $this->createTenantAction->execute(
                 name: $name,
                 domain: $domain,
@@ -47,6 +46,7 @@ final class ProvisionTenantAction
                 email: $data['email'],
                 password: $password,
                 reseller: $reseller,
+                shouldSeed: $shouldSeed,
             );
 
             $role = $this->createRoleAction->execute(
@@ -63,9 +63,7 @@ final class ProvisionTenantAction
             ];
         });
 
-        event(new TenantProvisioned($result['tenant'], $shouldSeed));
-
-        CacheTenantRoutesJob::dispatch($result['tenant']->id);
+        CompleteTenantProvisioningJob::dispatch($result['tenant']->id)->afterCommit();
 
         return $result;
     }

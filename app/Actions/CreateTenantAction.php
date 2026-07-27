@@ -8,6 +8,7 @@ use App\Models\Reseller;
 use App\Support\PropertyQuota;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Actions\CreateUserAction;
@@ -30,6 +31,7 @@ final class CreateTenantAction
         string $email,
         string $password,
         ?Reseller $reseller = null,
+        bool $shouldSeed = false,
     ): array {
         $domain = TenantDomain::normalizeDomain($domain);
         Validator::make(
@@ -44,6 +46,7 @@ final class CreateTenantAction
             $email,
             $password,
             $reseller,
+            $shouldSeed,
         ): array {
             $lockedReseller = null;
 
@@ -57,10 +60,12 @@ final class CreateTenantAction
             }
 
             $createdTenant = Tenant::query()->create([
-                'reseller_id' => $lockedReseller?->getKey(),
-                'name'        => $name,
-                'slug'        => $name,
-                'active'      => true,
+                'reseller_id'              => $lockedReseller?->getKey(),
+                'name'                     => $name,
+                'slug'                     => $name,
+                'active'                   => false,
+                'provisioning_status'      => TenantProvisioningStatus::Pending,
+                'provisioning_should_seed' => $shouldSeed,
             ]);
 
             $createdTenant->execute(fn() => $createdTenant->tenantDomains()->create([
