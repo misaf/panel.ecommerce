@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSupport\Events;
 
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * own tenant-scoped seeders (see TenantSeeders) or other provisioning side
  * effects, without the provisioning module needing to know they exist.
  */
-final class TenantProvisioned
+final class TenantProvisioned implements ShouldDispatchAfterCommit
 {
     public function __construct(
         public readonly Model $tenant,

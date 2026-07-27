@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Events;
 
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
@@ -13,7 +14,7 @@ use Misaf\VendraSubscription\Models\SubscriptionPayment;
  * react to it (e.g. notifying the subscriber) without the payment engine
  * knowing the concrete subscriber or its side effects.
  */
-final class SubscriptionPaymentFailed
+final class SubscriptionPaymentFailed implements ShouldDispatchAfterCommit
 {
     use Dispatchable;
     use SerializesModels;

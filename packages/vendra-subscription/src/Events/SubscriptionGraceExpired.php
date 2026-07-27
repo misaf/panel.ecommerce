@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Events;
 
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -14,7 +15,7 @@ use Misaf\VendraSubscription\Models\Subscription;
  * suspending those properties and notifying the owner. Carries the lapsed
  * subscription; resolve its subscriber to act.
  */
-final class SubscriptionGraceExpired
+final class SubscriptionGraceExpired implements ShouldDispatchAfterCommit
 {
     use Dispatchable;
     use SerializesModels;
