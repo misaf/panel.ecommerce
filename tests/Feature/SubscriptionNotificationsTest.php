@@ -6,7 +6,7 @@ use App\Models\Reseller;
 use App\Notifications\PropertiesSuspendedNotification;
 use App\Notifications\SubscriptionActivatedNotification;
 use App\Notifications\SubscriptionExpiringNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Support\Facades\Notification;
 use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
@@ -65,13 +65,14 @@ it('notifies the owner when properties are suspended', function (): void {
     Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     app(EnforceSubscriptionsAction::class)->execute();
+    app(EnforceSubscriptionsAction::class)->execute();
 
-    Notification::assertSentTo($reseller, PropertiesSuspendedNotification::class);
+    Notification::assertSentToTimes($reseller, PropertiesSuspendedNotification::class, 1);
 });
 
 it('queues subscription notifications off the request lifecycle', function (string $notification): void {
     expect(new ReflectionClass($notification))
-        ->implementsInterface(ShouldQueue::class)->toBeTrue()
+        ->implementsInterface(ShouldQueueAfterCommit::class)->toBeTrue()
         ->and((new ReflectionClass($notification))->implementsInterface(NotTenantAware::class))->toBeTrue();
 })->with([
     SubscriptionActivatedNotification::class,
