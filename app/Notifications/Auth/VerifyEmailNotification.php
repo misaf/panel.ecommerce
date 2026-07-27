@@ -8,12 +8,12 @@ use Filament\Auth\Notifications\VerifyEmail;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Notifications\Messages\MailMessage;
 use InvalidArgumentException;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-final class VerifyEmailNotification extends VerifyEmail implements NotTenantAware, ShouldQueue
+final class VerifyEmailNotification extends VerifyEmail implements NotTenantAware, ShouldQueueAfterCommit
 {
     use Queueable;
 

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-final class PropertiesSuspendedNotification extends Notification implements NotTenantAware, ShouldQueue
+final class PropertiesSuspendedNotification extends Notification implements NotTenantAware, ShouldQueueAfterCommit
 {
     use Queueable;
 

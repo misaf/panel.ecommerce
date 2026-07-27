@@ -7,12 +7,12 @@ namespace App\Notifications\Auth;
 use Filament\Auth\Notifications\ResetPassword;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Notifications\Messages\MailMessage;
 use InvalidArgumentException;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-final class ResetPasswordNotification extends ResetPassword implements NotTenantAware, ShouldQueue
+final class ResetPasswordNotification extends ResetPassword implements NotTenantAware, ShouldQueueAfterCommit
 {
     use Queueable;
 

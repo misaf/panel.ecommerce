@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Misaf\VendraAuthifyLog\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 use Misaf\AuthifyLog\Contracts\HasUsername;
 use RuntimeException;
 
-class LoginNotification extends Notification implements ShouldQueue
+class LoginNotification extends Notification implements ShouldQueueAfterCommit
 {
     use Queueable;
 
