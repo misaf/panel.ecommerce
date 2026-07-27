@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
+
 arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
@@ -20,3 +22,7 @@ arch('the affiliate module integrates tags through support, never the tagger or 
         'Misaf\VendraTagger',
         'Spatie\Tags',
     ]);
+
+arch('affiliate state events dispatch after database commits')
+    ->expect('Misaf\VendraAffiliate\Events')
+    ->toImplement(ShouldDispatchAfterCommit::class);

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
+
 arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
@@ -34,3 +36,7 @@ arch('the subscription module does not depend on domain modules other than its s
         'Misaf\VendraPhone',
         'Misaf\VendraUserProfile',
     ]);
+
+arch('subscription state events dispatch after database commits')
+    ->expect('Misaf\VendraSubscription\Events')
+    ->toImplement(ShouldDispatchAfterCommit::class);

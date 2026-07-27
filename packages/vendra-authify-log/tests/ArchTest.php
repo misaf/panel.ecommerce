@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
+
 arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->laravel();
@@ -13,3 +15,7 @@ arch('the authify-log module derives tenancy from the support layer, never a con
 arch('the authify-log module resolves the user model via auth config, never a concrete user package')
     ->expect('Misaf\VendraAuthifyLog')
     ->not->toUse('Misaf\VendraUser');
+
+arch('queued authify-log notifications are dispatched after commit')
+    ->expect('Misaf\VendraAuthifyLog\Notifications')
+    ->toImplement(ShouldQueueAfterCommit::class);
