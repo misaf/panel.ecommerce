@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use LogicException;
 use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
-use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraTenant\Models\Tenant;
@@ -32,6 +32,8 @@ use Spatie\Sluggable\SlugOptions;
  * @property string $slug
  * @property bool $active
  * @property string|null $email
+ * @property string|null $offboarding_reason
+ * @property Carbon|null $offboarded_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
@@ -47,15 +49,12 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
     use Notifiable;
     use SoftDeletes;
 
-    /**
-     * Cascade offboarding: when a reseller is deleted its properties (and their
-     * domains) are soft-deleted and any active subscription is cancelled, so no
-     * orphaned properties keep resolving.
-     */
     protected static function booted(): void
     {
         static::deleting(function (Reseller $reseller): void {
-            $reseller->offboardProperties();
+            if (null === $reseller->offboarded_at) {
+                throw new LogicException("Reseller [{$reseller->id}] must be offboarded through OffboardResellerAction before deletion.");
+            }
         });
     }
 
@@ -65,12 +64,14 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
     protected function casts(): array
     {
         return [
-            'id'          => 'integer',
-            'name'        => 'string',
-            'description' => 'string',
-            'slug'        => 'string',
-            'active'      => 'boolean',
-            'email'       => 'string',
+            'id'                 => 'integer',
+            'name'               => 'string',
+            'description'        => 'string',
+            'slug'               => 'string',
+            'active'             => 'boolean',
+            'email'              => 'string',
+            'offboarding_reason' => 'string',
+            'offboarded_at'      => 'datetime',
         ];
     }
 
@@ -210,18 +211,4 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
             ->preventOverwrite();
     }
 
-    /**
-     * Soft-delete the reseller's properties and their domains, and cancel any
-     * active subscription.
-     */
-    private function offboardProperties(): void
-    {
-        $this->subscriptions()
-            ->where('status', SubscriptionStatus::Active->value)
-            ->update(['status' => SubscriptionStatus::Cancelled->value]);
-
-        $this->tenants()->get()->each(function (Tenant $tenant): void {
-            $tenant->delete();
-        });
-    }
 }
