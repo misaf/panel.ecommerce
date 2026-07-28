@@ -144,7 +144,6 @@ final class LanguageServiceProvider extends PackageServiceProvider
     {
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             return $switch
-                ->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER)
                 ->locales(fn(): array => $this->availableLocales())
                 ->visible();
         });

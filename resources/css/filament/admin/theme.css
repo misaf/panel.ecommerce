@@ -4,6 +4,7 @@
 @source '../../../../resources/views/filament/**/*';
 @source '../../../../vendor/awcodes/filament-badgeable-column/resources/**/*.blade.php';
 @source '../../../../vendor/bezhansalleh/filament-panel-switch/resources/views/**/*.blade.php';
+@source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
 
 /*
 .fi-body {
