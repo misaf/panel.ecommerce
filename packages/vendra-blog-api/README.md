@@ -1,14 +1,14 @@
 # Vendra Blog API
 
-Read-only JSON:API resources for Vendra blog content.
+Read-only API Platform resources for Vendra blog content.
 
 ## Features
 
-- `GET /v1/blog-post-categories`
-- `GET /v1/blog-posts`
+- `GET /api/content/blog-post-categories`
+- `GET /api/content/blog-posts`
 - Read-only category, post, and multimedia relationships
 
-Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema. Applications may optionally resolve the current locale before these routes run.
+Dedicated DTO resources expose translated content and stable section or asset references. Providers own Eloquent querying, active visibility, filtering, and pagination.
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, i
 composer require misaf/vendra-blog-api
 ```
 
-The service provider, server, and routes are auto-registered.
+The service provider registers the resources and provider automatically.
 
 ## Testing
 
