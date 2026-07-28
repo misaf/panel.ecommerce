@@ -6,9 +6,11 @@ namespace Misaf\VendraAuthifyLog\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Redis\Connections\PhpRedisConnection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Misaf\AuthifyLog\Jobs\AuthifyLogJob;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
@@ -55,10 +57,25 @@ class AuthifyLogChannelCommand extends Command
      */
     private function getBatchEntries(string $cacheKey, int $batchSize): array
     {
-        return Redis::connection('authify_log')->transaction(function ($pipe) use ($cacheKey, $batchSize): void {
-            $pipe->lrange($cacheKey, 0, $batchSize - 1);
-            $pipe->ltrim($cacheKey, $batchSize, -1);
-        })[0] ?? [];
+        $connection = Redis::connection('authify_log');
+
+        if ( ! $connection instanceof PhpRedisConnection) {
+            throw new Exception('The authify log connection must use the PhpRedis driver.');
+        }
+
+        $result = $connection->transaction(function (\Redis $transaction) use ($cacheKey, $batchSize): void {
+            $transaction->lrange($cacheKey, 0, $batchSize - 1);
+            $transaction->ltrim($cacheKey, $batchSize, -1);
+        });
+
+        if ( ! is_array($result) || ! isset($result[0]) || ! is_array($result[0])) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            $result[0],
+            static fn(mixed $entry): bool => is_string($entry),
+        ));
     }
 
     /**
@@ -66,15 +83,35 @@ class AuthifyLogChannelCommand extends Command
      */
     private function processBatch(array $entries): void
     {
-        $decodedEntries = array_map(fn($item) => json_decode($item, true), $entries);
-        $groupedEntries = collect($decodedEntries)->groupBy('tenant_id')->toArray();
+        /** @var array<int, array<int, array<string, int|string>>> $groupedEntries */
+        $groupedEntries = [];
 
-        foreach ($groupedEntries as $tenantId => $groupedLogs) {
-            if ( ! is_array($groupedLogs)) {
+        foreach ($entries as $entry) {
+            $decodedEntry = json_decode($entry, true);
+
+            if ( ! is_array($decodedEntry)) {
                 continue;
             }
 
-            $this->dispatchJobForTenant((int) $tenantId, $groupedLogs);
+            $tenantId = $decodedEntry['tenant_id'] ?? 0;
+
+            if ( ! is_int($tenantId) && ! is_string($tenantId)) {
+                continue;
+            }
+
+            $normalizedEntry = [];
+
+            foreach ($decodedEntry as $key => $value) {
+                if (is_string($key) && (is_int($value) || is_string($value))) {
+                    $normalizedEntry[$key] = $value;
+                }
+            }
+
+            $groupedEntries[(int) $tenantId][] = $normalizedEntry;
+        }
+
+        foreach ($groupedEntries as $tenantId => $groupedLogs) {
+            $this->dispatchJobForTenant($tenantId, $groupedLogs);
         }
     }
 
@@ -83,16 +120,35 @@ class AuthifyLogChannelCommand extends Command
      */
     private function dispatchJobForTenant(int $tenantId, array $groupedLogs): void
     {
-        try {
-            if (TenantAwareness::enabled() && ! app(TenantResolver::class)->makeCurrent($tenantId)) {
-                Log::error('Failed to dispatch job for tenant.', ["Tenant [{$tenantId}] was not found."]);
+        (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'authify_log_batch',
+            tenantId: $tenantId,
+        ))->scope(function () use ($groupedLogs, $tenantId): void {
+            try {
+                $tenants = app(TenantResolver::class);
 
-                return;
+                if (TenantAwareness::enabled()) {
+                    $tenant = $tenants->findByKeyOrSlug($tenantId);
+
+                    if (null === $tenant) {
+                        Log::error('Failed to dispatch job for tenant.', ["Tenant [{$tenantId}] was not found."]);
+
+                        return;
+                    }
+
+                    $tenants->execute(
+                        $tenant,
+                        fn() => AuthifyLogJob::dispatch($groupedLogs),
+                    );
+
+                    return;
+                }
+
+                AuthifyLogJob::dispatch($groupedLogs);
+            } catch (Exception $exception) {
+                Log::error('Failed to dispatch job for tenant.', [$exception->getMessage()]);
             }
-
-            AuthifyLogJob::dispatch($groupedLogs);
-        } catch (Exception $e) {
-            Log::error('Failed to dispatch job for tenant.', [$e->getMessage()]);
-        }
+        });
     }
 }

@@ -6,7 +6,9 @@ namespace Misaf\VendraActivityLog\Listeners;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Str;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 
 /**
@@ -81,7 +83,7 @@ final class LogModelActivity
 
     /**
      * @param  list<string>  $attributes
-     * @return array<string, array<string, mixed>>
+     * @return array<string, mixed>
      */
     private function properties(string $event, Model $model, array $attributes): array
     {
@@ -98,14 +100,20 @@ final class LogModelActivity
                 $old[$attribute] = $model->getOriginal($attribute);
             }
 
-            return ['attributes' => $new, 'old' => $old];
+            $properties = ['attributes' => $new, 'old' => $old];
+        } elseif ('deleted' === $event) {
+            $properties = ['attributes' => $new, 'old' => $new];
+        } else {
+            $properties = ['attributes' => $new];
         }
 
-        if ('deleted' === $event) {
-            return ['attributes' => $new, 'old' => $new];
+        $traceId = Context::get(RequestJobContext::TRACE_ID);
+
+        if (is_string($traceId)) {
+            $properties[RequestJobContext::TRACE_ID] = $traceId;
         }
 
-        return ['attributes' => $new];
+        return $properties;
     }
 
     /**

@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Misaf\VendraActivityLog\Tests\Fixtures\LoggableWidget;
 use Misaf\VendraActivityLog\Tests\Fixtures\PlainWidget;
+use Misaf\VendraSupport\Context\RequestJobContext;
 
 beforeEach(function (): void {
     if ( ! Schema::hasTable('activity_log_widgets')) {
@@ -18,6 +20,8 @@ beforeEach(function (): void {
 });
 
 it('logs creation for a model that implements ShouldLogActivity', function (): void {
+    Context::add(RequestJobContext::TRACE_ID, 'activity-trace');
+
     $widget = LoggableWidget::create(['name' => 'Alpha', 'description' => 'first']);
 
     $activity = DB::table('activity_log')->latest('id')->first();
@@ -31,7 +35,8 @@ it('logs creation for a model that implements ShouldLogActivity', function (): v
     $properties = json_decode($activity->properties, true);
 
     expect($properties['attributes'])->toBe(['name' => 'Alpha', 'description' => 'first'])
-        ->and($properties['attributes'])->not->toHaveKey('id');
+        ->and($properties['attributes'])->not->toHaveKey('id')
+        ->and($properties[RequestJobContext::TRACE_ID])->toBe('activity-trace');
 });
 
 it('logs updates with both old and new attribute values', function (): void {
