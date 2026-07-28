@@ -1,2 +1,1 @@
-providers:
-  - Misaf\VendraCustomPageApi\Tests\Support\TestbenchServiceProvider
+providers: []

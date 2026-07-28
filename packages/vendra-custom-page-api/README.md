@@ -1,14 +1,14 @@
 # Vendra Custom Page API
 
-Read-only JSON:API resources for Vendra custom pages.
+Read-only API Platform resources for Vendra custom pages.
 
 ## Features
 
-- `GET /v1/custom-page-categories`
-- `GET /v1/custom-pages`
+- `GET /api/content/custom-page-categories`
+- `GET /api/content/custom-pages`
 - Read-only category, page, and multimedia relationships
 
-Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema. Applications may optionally resolve the current locale before these routes run.
+Dedicated DTO resources expose translated content and stable section or asset references. Providers own Eloquent querying, active visibility, filtering, and pagination.
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, i
 composer require misaf/vendra-custom-page-api
 ```
 
-The service provider, server, and routes are auto-registered.
+The service provider registers the resources and provider automatically.
 
 ## Testing
 

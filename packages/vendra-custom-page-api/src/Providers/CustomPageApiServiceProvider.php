@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPageApi\Providers;
 
+use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraCustomPageApi\JsonApi\V1\Server as CustomPageServer;
+use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -15,13 +16,17 @@ final class CustomPageApiServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('vendra-custom-page-api')
-            ->hasRoute('api');
+        $package->name('vendra-custom-page-api');
     }
 
     public function packageRegistered(): void
     {
-        Config::set('jsonapi.servers.vendra-custom-page', Config::string('jsonapi.servers.vendra-custom-page', CustomPageServer::class));
+        Config::set('api-platform.resources', [
+            ...Config::array('api-platform.resources', []),
+            dirname(__DIR__) . '/ApiResource',
+        ]);
+
+        $this->app->tag(ContentResourceProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void

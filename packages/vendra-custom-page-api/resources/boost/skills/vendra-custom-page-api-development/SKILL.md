@@ -1,6 +1,6 @@
 ---
 name: vendra-custom-page-api-development
-description: "Create, modify, review, or test the Vendra Custom Page JSON:API package in packages/vendra-custom-page-api, including custom page and category schemas, resources, query validation, relationships, routes, and provider wiring."
+description: "Create, modify, review, or test the Vendra Custom Page API Platform package in packages/vendra-custom-page-api, including custom page and category schemas, resources, query validation, relationships, routes, and provider wiring."
 ---
 
 # Vendra Custom Page API
@@ -35,14 +35,14 @@ Use this skill together with `laravel-best-practices` and `pest-testing`.
 - Inherit tenant scoping from domain models and never reference `Misaf\VendraTenant` in production code.
 - Do not require `misaf/vendra-localization` or attach `vendra.locale`; the host application owns optional locale resolution.
 
-## JSON:API Contract
+## API Platform Contract
 
-- Register the `vendra-custom-page` server at `/v1`.
+- Register the `vendra-custom-page` server at `/api`.
 - Keep `custom-page-categories` and `custom-pages` read-only.
 - Expose translated JSON columns with `ArrayHash` and serialize them with `getTranslations()`.
 - Validate query-string booleans with `JsonApiRule::boolean()->asString()`.
 - Keep `with-trashed` and `only-trashed` synchronized between collection queries and schemas.
-- Represent the domain models' `MorphMany` multimedia relations with JSON:API `HasMany`.
+- Represent the domain models' `MorphMany` multimedia relations with API Platform `HasMany`.
 - Keep `customPages`, `customPageCategory`, and `multimedia` relationship names aligned with domain methods.
 - Keep filters and collection query validation synchronized, including locale-aware name/slug filters, active-state filters, soft deletes, relationships, multimedia, pagination, sparse fields, and sorting.
 

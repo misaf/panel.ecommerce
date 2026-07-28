@@ -1,6 +1,6 @@
 ## Vendra Custom Page API
 
-The `misaf/vendra-custom-page-api` package exposes `misaf/vendra-custom-page` domain models through Laravel JSON:API.
+The `misaf/vendra-custom-page-api` package exposes `misaf/vendra-custom-page` domain models through API Platform for Laravel.
 
 ### Translatable Persistence
 
@@ -21,7 +21,7 @@ The `misaf/vendra-custom-page-api` package exposes `misaf/vendra-custom-page` do
 - Expose translated `name`, `description`, and `slug` fields as JSON hashes using `getTranslations()` and keep locale-aware filters aligned with request validation.
 - Validate query-string booleans with `JsonApiRule::boolean()->asString()` so validation matches boolean filter deserialization.
 - Register `with-trashed` and `only-trashed` in both collection validation and schema filters.
-- Map the domain models' `MorphMany` multimedia relations with JSON:API `HasMany` fields.
+- Map the domain models' `MorphMany` multimedia relations with API Platform `HasMany` fields.
 - Keep category, page, and multimedia relationships read-only, with explicit include paths and relationship routes.
 - Add Pest coverage for routes, server schemas, filters, includes, pagination, sorting, relationship endpoints, and tenant isolation.
 - Keep architecture tests preventing production code from referencing `Misaf\VendraTenant`.
