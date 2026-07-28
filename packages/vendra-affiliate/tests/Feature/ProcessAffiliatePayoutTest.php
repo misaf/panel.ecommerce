@@ -34,7 +34,7 @@ function affiliateWithApprovedBalance(int ...$amounts): Affiliate
 
 function internalGateway(): void
 {
-    TransactionGatewayFactory::new()->internal()->enabled()->create();
+    TransactionGatewayFactory::new()->internal()->active()->create();
 }
 
 it('settles approved commissions into a completed payout and commission transaction', function (): void {

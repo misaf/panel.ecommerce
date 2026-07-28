@@ -17,7 +17,7 @@ final class PropertyQuota
      */
     public function canCreateProperty(SubscriptionSubscriber $subscriber): bool
     {
-        if ( ! $subscriber->isSubscriptionEnabled()) {
+        if ( ! $subscriber->isSubscriptionActive()) {
             return false;
         }
 
@@ -37,7 +37,7 @@ final class PropertyQuota
      */
     public function remainingProperties(SubscriptionSubscriber $subscriber): int
     {
-        if ( ! $subscriber->isSubscriptionEnabled()) {
+        if ( ! $subscriber->isSubscriptionActive()) {
             return 0;
         }
 
@@ -57,8 +57,8 @@ final class PropertyQuota
      */
     public function assertCanCreateProperty(SubscriptionSubscriber $subscriber): void
     {
-        if ( ! $subscriber->isSubscriptionEnabled()) {
-            throw SubscriptionLimitException::resellerDisabled($subscriber);
+        if ( ! $subscriber->isSubscriptionActive()) {
+            throw SubscriptionLimitException::resellerInactive($subscriber);
         }
 
         $plan = $subscriber->activeSubscription()?->plan;

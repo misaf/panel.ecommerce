@@ -77,7 +77,7 @@ final class Register extends \Filament\Auth\Pages\Register
     {
         return Select::make('plan_id')
             ->label(__('console.subscription_plan'))
-            ->options(fn(): array => Plan::query()->enabled()->pluck('name', 'id')->all())
+            ->options(fn(): array => Plan::query()->active()->pluck('name', 'id')->all())
             ->rule(Rule::exists(Plan::class, 'id')->where('active', true))
             ->required()
             ->native(false);
@@ -100,7 +100,7 @@ final class Register extends \Filament\Auth\Pages\Register
             throw new InvalidArgumentException('Invalid reseller registration details.');
         }
 
-        $plan = Plan::query()->enabled()->findOrFail((int) $planId);
+        $plan = Plan::query()->active()->findOrFail((int) $planId);
 
         return app(CreateResellerAction::class)->execute(
             plan: $plan,

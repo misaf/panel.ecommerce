@@ -13,10 +13,10 @@ final class SubscriptionLimitException extends RuntimeException
     /**
      * @param  Model&SubscriptionSubscriber  $subscriber
      */
-    public static function resellerDisabled(SubscriptionSubscriber $subscriber): self
+    public static function resellerInactive(SubscriptionSubscriber $subscriber): self
     {
         return new self(sprintf(
-            'Subscriber [%s] is disabled.',
+            'Subscriber [%s] is inactive.',
             self::formatKey($subscriber->getKey()),
         ));
     }

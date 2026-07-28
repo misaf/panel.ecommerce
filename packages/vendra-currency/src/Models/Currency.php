@@ -30,7 +30,7 @@ use Spatie\EloquentSortable\SortableTrait;
  * A currency a tenant has installed from the fiat/crypto catalog exposed by
  * {@see \Misaf\VendraCurrency\Support\CurrencyRegistry}. Name, symbol, and
  * decimal places are snapshotted at install time and remain editable, while
- * `active` controls availability and exactly one enabled row is the default.
+ * `active` controls availability and exactly one active row is the default.
  *
  * @property int $id
  * @property int $tenant_id
@@ -80,7 +80,7 @@ final class Currency extends Model implements Sortable, ShouldLogActivity
      * @param  Builder<Currency>  $query
      * @return Builder<Currency>
      */
-    public function scopeEnabled(Builder $query): Builder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }

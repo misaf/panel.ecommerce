@@ -23,7 +23,7 @@ beforeEach(function (): void {
     app()->instance(TenantResolver::class, $tenantResolver);
 });
 
-it('makes the first enabled currency the default', function (): void {
+it('makes the first active currency the default', function (): void {
     $currency = CurrencyFactory::new()->code('USD')->createOne(['position' => 1]);
 
     expect($currency->is_default)->toBeTrue();
@@ -46,7 +46,7 @@ it('promotes the first ordered currency when the default is deleted', function (
     expect($next->refresh()->is_default)->toBeTrue();
 });
 
-it('promotes the first enabled currency when the default is disabled', function (): void {
+it('promotes the first active currency when the default is inactive', function (): void {
     $default = CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 2]);
     $next = CurrencyFactory::new()->code('EUR')->createOne(['position' => 1]);
 
@@ -58,7 +58,7 @@ it('promotes the first enabled currency when the default is disabled', function 
 });
 
 it('disables the default flag when creating a disabled currency', function (): void {
-    $currency = CurrencyFactory::new()->code('USD')->disabled()->default()->createOne(['position' => 1]);
+    $currency = CurrencyFactory::new()->code('USD')->inactive()->default()->createOne(['position' => 1]);
 
     expect($currency->refresh()->is_default)->toBeFalse();
 });
@@ -75,7 +75,7 @@ it('switches the default currency through the domain action', function (): void 
 
 it('enables a disabled currency when it becomes the default', function (): void {
     CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 1]);
-    $euro = CurrencyFactory::new()->code('EUR')->disabled()->createOne(['position' => 2]);
+    $euro = CurrencyFactory::new()->code('EUR')->inactive()->createOne(['position' => 2]);
 
     (new SetDefaultCurrency())->execute($euro);
 

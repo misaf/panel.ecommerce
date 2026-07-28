@@ -50,7 +50,7 @@ it('calculates override coverage for a locale', function (): void {
     ]);
 });
 
-it('calculates enabled locale progress and missing locales for a language line', function (): void {
+it('calculates active locale progress and missing locales for a language line', function (): void {
     expect(app(TranslationProgress::class)->forLanguageLine($this->completeLanguageLine))->toBe([
         'translated'      => 2,
         'total'           => 2,

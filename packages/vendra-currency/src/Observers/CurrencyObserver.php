@@ -16,7 +16,7 @@ final class CurrencyObserver
             return;
         }
 
-        if ( ! Currency::query()->enabled()->exists()) {
+        if ( ! Currency::query()->active()->exists()) {
             $currency->is_default = true;
         }
     }
@@ -40,7 +40,7 @@ final class CurrencyObserver
 
         if ($currency->exists && true === $currency->getOriginal('is_default')) {
             $hasAnotherDefault = Currency::query()
-                ->enabled()
+                ->active()
                 ->where('is_default', true)
                 ->whereKeyNot($currency->getKey())
                 ->exists();
@@ -54,7 +54,7 @@ final class CurrencyObserver
     public function saved(Currency $currency): void
     {
         if ($currency->wasChanged(['active', 'is_default'])) {
-            $this->ensureEnabledDefault();
+            $this->ensureActiveDefault();
         }
     }
 
@@ -64,17 +64,17 @@ final class CurrencyObserver
             return;
         }
 
-        $this->ensureEnabledDefault();
+        $this->ensureActiveDefault();
     }
 
-    private function ensureEnabledDefault(): void
+    private function ensureActiveDefault(): void
     {
-        if (Currency::query()->enabled()->where('is_default', true)->exists()) {
+        if (Currency::query()->active()->where('is_default', true)->exists()) {
             return;
         }
 
         Currency::query()
-            ->enabled()
+            ->active()
             ->ordered()
             ->first()
             ?->update(['is_default' => true]);

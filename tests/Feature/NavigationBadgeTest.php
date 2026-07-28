@@ -11,7 +11,7 @@ use Misaf\VendraUser\Database\Factories\UserFactory;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource;
 
 it('shows record counts on important navigation items', function (): void {
-    $tenant = TenantFactory::new()->enabled()->createOne();
+    $tenant = TenantFactory::new()->active()->createOne();
     $tenant->makeCurrent();
 
     $user = UserFactory::new()->createOne();
@@ -24,7 +24,7 @@ it('shows record counts on important navigation items', function (): void {
 
     CartFactory::new()->count(4)->create();
 
-    TenantFactory::new()->enabled()->createOne()->makeCurrent();
+    TenantFactory::new()->active()->createOne()->makeCurrent();
 
     UserFactory::new()->createOne();
     TransactionFactory::new()->createOne();

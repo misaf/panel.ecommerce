@@ -59,7 +59,7 @@ it('blocks property creation when no subscription is active', function (): void 
     $quota->assertCanCreateProperty($reseller);
 })->throws(SubscriptionLimitException::class);
 
-it('blocks property creation for a disabled reseller with an active subscription', function (): void {
+it('blocks property creation for an inactive reseller with an active subscription', function (): void {
     $reseller = resellerWithPlan(maxUnits: 2);
     $reseller->update(['active' => false]);
 
@@ -69,7 +69,7 @@ it('blocks property creation for a disabled reseller with an active subscription
         ->and($quota->remainingProperties($reseller))->toBe(0);
 
     $quota->assertCanCreateProperty($reseller);
-})->throws(SubscriptionLimitException::class, 'is disabled');
+})->throws(SubscriptionLimitException::class, 'is inactive');
 
 it('creates a reseller subscribed to a plan for its period', function (): void {
     $plan = Plan::factory()->period(PeriodUnit::Month, 1)->create();

@@ -102,7 +102,7 @@ final class CompleteTenantProvisioningJob implements NotTenantAware, ShouldBeUni
         $reseller = Reseller::query()->find($tenant->reseller_id);
 
         return null === $reseller
-            || ! $reseller->isSubscriptionEnabled()
+            || ! $reseller->isSubscriptionActive()
             || null === $reseller->activeSubscription();
     }
 

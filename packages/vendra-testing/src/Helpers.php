@@ -24,7 +24,7 @@ function testTenantModel(): string
 }
 
 /**
- * Create a persisted, enabled tenant through the bound tenant provider.
+ * Create a persisted, active tenant through the bound tenant provider.
  *
  * Returns null when tenancy is disabled so suites stay provider-agnostic:
  * the same test runs with or without a tenant provider installed.
@@ -39,8 +39,8 @@ function createTestTenant(array $attributes = []): ?Model
 
     $factory = vendraTestingModelFactory(testTenantModel());
 
-    if (method_exists($factory, 'enabled')) {
-        $factory = $factory->enabled();
+    if (method_exists($factory, 'active')) {
+        $factory = $factory->active();
     }
 
     $tenant = $factory->create($attributes);
@@ -53,7 +53,7 @@ function createTestTenant(array $attributes = []): ?Model
 }
 
 /**
- * Create an enabled tenant and make it the current tenant context.
+ * Create an active tenant and make it the current tenant context.
  *
  * No-op returning null when tenancy is disabled.
  *

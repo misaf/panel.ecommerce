@@ -17,12 +17,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
         $this->currentTenantOrNull();
 
         FaqCategoryFactory::new()
-            ->enabled()
+            ->active()
             ->count(4)
             ->create()
             ->each(fn(FaqCategory $faqCategory): mixed => FaqFactory::new()
                 ->forCategory($faqCategory)
-                ->enabled()
+                ->active()
                 ->count(3)
                 ->create());
     }

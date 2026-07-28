@@ -39,7 +39,7 @@ it('falls back to the language switch cookie', function (): void {
     expect((new LanguageSwitchLocaleResolver())->resolve($request))->toBe('fa');
 });
 
-it('ignores a language switch preference for a disabled language', function (): void {
+it('ignores a language switch preference for an inactive language', function (): void {
     Language::query()->create([
         'locale'   => 'de',
         'active'   => false,

@@ -17,12 +17,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
         $this->currentTenantOrNull();
 
         CustomPageCategoryFactory::new()
-            ->enabled()
+            ->active()
             ->count(2)
             ->create()
             ->each(fn(CustomPageCategory $customPageCategory): mixed => CustomPageFactory::new()
                 ->forCategory($customPageCategory)
-                ->enabled()
+                ->active()
                 ->count(2)
                 ->create());
     }

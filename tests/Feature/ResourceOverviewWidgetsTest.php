@@ -20,7 +20,7 @@ it('shows tenant-scoped cart user and newsletter metrics', function (): void {
     app()->setLocale('en');
 
     try {
-        $tenant = TenantFactory::new()->enabled()->createOne();
+        $tenant = TenantFactory::new()->active()->createOne();
         $tenant->makeCurrent();
 
         CartFactory::new()->count(2)->create();
@@ -36,7 +36,7 @@ it('shows tenant-scoped cart user and newsletter metrics', function (): void {
         NewsletterSubscriberFactory::new()->subscribed()->count(2)->create();
         NewsletterSubscriberFactory::new()->unsubscribed()->create();
 
-        $otherTenant = TenantFactory::new()->enabled()->createOne();
+        $otherTenant = TenantFactory::new()->active()->createOne();
         $otherTenant->makeCurrent();
 
         CartFactory::new()->create();
