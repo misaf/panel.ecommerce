@@ -8,12 +8,11 @@ return [
     ],
 
     'empty_state' => [
-        'heading'     => [
-            'carts' => 'Noch keine Einkaufswagen',
-        ],
-
         'description' => [
             'carts' => 'Einkaufswagen erscheinen, wenn Benutzer Artikel hinzufügen.',
+        ],
+        'heading'     => [
+            'carts' => 'Noch keine Einkaufswagen',
         ],
     ],
 ];

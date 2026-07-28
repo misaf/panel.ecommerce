@@ -8,12 +8,11 @@ return [
     ],
 
     'empty_state' => [
-        'heading'     => [
-            'carts' => 'No carts yet',
-        ],
-
         'description' => [
             'carts' => 'Shopping carts appear when users add items to their cart.',
+        ],
+        'heading'     => [
+            'carts' => 'No carts yet',
         ],
     ],
 ];

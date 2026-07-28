@@ -9,14 +9,12 @@ return [
     'description'       => [
         'activity_logs' => 'Track all model changes and system events.',
     ],
-    'description_label' => 'Description',
     'empty_state'       => [
-        'heading'       => [
-            'activity_logs' => 'No activity logs yet',
-        ],
-
         'description'   => [
             'activity_logs' => 'Activity logs are recorded automatically when models are created, updated, or deleted.',
+        ],
+        'heading'       => [
+            'activity_logs' => 'No activity logs yet',
         ],
     ],
     'event'             => 'Event',
