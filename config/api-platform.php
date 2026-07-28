@@ -162,8 +162,11 @@ return [
         // 'datetime_format' => \DateTimeInterface::RFC3339,
     ],
 
-    // we recommend using "file" or "acpu"
-    'cache' => 'file',
+    // we recommend using "file" or "acpu". Kept env-driven so the test suite can
+    // pin a per-process store: the shared "file" pool is not written atomically
+    // across processes, so cold parallel workers can race and read incomplete
+    // resource/MCP metadata. Tests set this to "array" (see phpunit.xml).
+    'cache' => env('API_PLATFORM_CACHE_STORE', 'file'),
 
     // Path to an Eloquent model metadata file produced by `php artisan api-platform:metadata:dump`.
     // When set (and APP_DEBUG is false), the model attributes and relations are read from this file
