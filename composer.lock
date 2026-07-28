@@ -7394,7 +7394,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "b7026e79aa50e447d36ada2967fd1e503434c6a9"
+                "reference": "e03817376fca7b24c8c3f19b7645483d27cc9228"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7461,7 +7461,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "JSON:API services for the Vendra Cart module",
+            "description": "API Platform services for the Vendra Cart module",
             "homepage": "https://github.com/misaf/vendra-cart-api",
             "keywords": [
                 "cart-api",
@@ -13412,16 +13412,16 @@
         },
         {
             "name": "spatie/laravel-sluggable",
-            "version": "4.0.2",
+            "version": "4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-sluggable.git",
-                "reference": "82a69be1ef661ce2ff38242b271457ef0b9611dd"
+                "reference": "572933c61b70103be4b95fe7674070bb60243254"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-sluggable/zipball/82a69be1ef661ce2ff38242b271457ef0b9611dd",
-                "reference": "82a69be1ef661ce2ff38242b271457ef0b9611dd",
+                "url": "https://api.github.com/repos/spatie/laravel-sluggable/zipball/572933c61b70103be4b95fe7674070bb60243254",
+                "reference": "572933c61b70103be4b95fe7674070bb60243254",
                 "shasum": ""
             },
             "require": {
@@ -13478,7 +13478,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-sluggable/issues",
-                "source": "https://github.com/spatie/laravel-sluggable/tree/4.0.2"
+                "source": "https://github.com/spatie/laravel-sluggable/tree/4.0.3"
             },
             "funding": [
                 {
@@ -13486,7 +13486,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-30T17:28:09+00:00"
+            "time": "2026-07-28T13:16:49+00:00"
         },
         {
             "name": "spatie/laravel-tags",
@@ -13715,16 +13715,16 @@
         },
         {
             "name": "spatie/laravel-webhook-client",
-            "version": "3.6.3",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-webhook-client.git",
-                "reference": "a2c2474bf38bde8d29cf21755c8c7c49cf1e143d"
+                "reference": "d6449b36bc02d9db57381df3d78b31f632085b6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-webhook-client/zipball/a2c2474bf38bde8d29cf21755c8c7c49cf1e143d",
-                "reference": "a2c2474bf38bde8d29cf21755c8c7c49cf1e143d",
+                "url": "https://api.github.com/repos/spatie/laravel-webhook-client/zipball/d6449b36bc02d9db57381df3d78b31f632085b6d",
+                "reference": "d6449b36bc02d9db57381df3d78b31f632085b6d",
                 "shasum": ""
             },
             "require": {
@@ -13781,7 +13781,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-webhook-client/issues",
-                "source": "https://github.com/spatie/laravel-webhook-client/tree/3.6.3"
+                "source": "https://github.com/spatie/laravel-webhook-client/tree/3.7.0"
             },
             "funding": [
                 {
@@ -13789,7 +13789,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-06-04T08:27:51+00:00"
+            "time": "2026-07-28T13:30:05+00:00"
         },
         {
             "name": "spatie/php-attribute-reader",
