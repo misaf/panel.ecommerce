@@ -54,7 +54,7 @@ it('keeps user profile providers independently selectable', function (): void {
             flags: JSON_THROW_ON_ERROR,
         )['require'])
         ->toHaveKey('misaf/vendra-multimedia')
-        ->toHaveKey('filament/spatie-laravel-media-library-plugin');
+        ->not->toHaveKey('filament/spatie-laravel-media-library-plugin');
 });
 
 it('enforces one-way provider boundaries', function (): void {
