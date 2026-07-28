@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use App\Models\ResellerUser;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Data\SubscriptionCharge;
 use Misaf\VendraSupport\Data\SubscriptionChargeResult;
@@ -35,6 +37,10 @@ final class TransactionSubscriptionCharger implements SubscriptionCharger
 
     public function charge(SubscriptionCharge $charge): SubscriptionChargeResult
     {
+        if ($charge->payer instanceof ResellerUser) {
+            (new RequestJobContext(resellerId: $charge->payer->reseller_id))->add();
+        }
+
         $wallet = TransactionService::walletFor($charge->payer, $charge->currencyCode);
 
         $transaction = TransactionService::createTransaction(

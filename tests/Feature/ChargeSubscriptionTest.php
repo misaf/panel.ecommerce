@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Reseller;
 use App\Models\ResellerUser;
 use App\Support\TransactionSubscriptionCharger;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
@@ -16,6 +17,7 @@ use Misaf\VendraSubscription\Jobs\ProcessSubscriptionPayment;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Data\SubscriptionCharge;
 use Misaf\VendraSupport\Data\SubscriptionChargeResult;
@@ -38,6 +40,9 @@ function fakeSubscriptionCharger(
         /** @var array<int, int> */
         public array $transactionLevels = [];
 
+        /** @var array<int, RequestJobContext> */
+        public array $contexts = [];
+
         public function __construct(
             private readonly SubscriptionChargeStatus $status,
             private readonly bool $isAvailable,
@@ -57,6 +62,7 @@ function fakeSubscriptionCharger(
         {
             $this->charges[] = $charge;
             $this->transactionLevels[] = DB::transactionLevel();
+            $this->contexts[] = RequestJobContext::current();
 
             return new SubscriptionChargeResult(
                 $this->status,
@@ -105,16 +111,23 @@ it('persists and processes a paid subscription without holding a database transa
         ->and($oldSubscription->refresh()->status)->toBe(SubscriptionStatus::Active)
         ->and($payment->status)->toBe(SubscriptionPaymentStatus::Pending)
         ->and($payment->provider)->toBe('testing')
-        ->and($payment->idempotency_key)->toBeUuid();
+        ->and($payment->idempotency_key)->toBeUuid()
+        ->and(RequestJobContext::current()->subscriptionId)->toBe($subscription->getKey())
+        ->and(RequestJobContext::current()->paymentId)->toBe($payment->getKey())
+        ->and(RequestJobContext::current()->idempotencyKey)->toBe($payment->idempotency_key);
     Queue::assertPushed(
         ProcessSubscriptionPayment::class,
         fn(ProcessSubscriptionPayment $job): bool => $job->paymentId === $payment->getKey(),
     );
 
+    Context::flush();
     processSubscriptionPayment($payment);
 
     expect($charger->charges)->toHaveCount(1)
         ->and($charger->charges[0]->reference)->toBe($payment->idempotency_key)
+        ->and($charger->contexts[0]->subscriptionId)->toBe($subscription->getKey())
+        ->and($charger->contexts[0]->paymentId)->toBe($payment->getKey())
+        ->and($charger->contexts[0]->idempotencyKey)->toBe($payment->idempotency_key)
         ->and($charger->transactionLevels)->toBe([DB::transactionLevel()])
         ->and($payment->refresh()->status)->toBe(SubscriptionPaymentStatus::Paid)
         ->and($payment->provider_reference)->toBe('provider-payment-1')

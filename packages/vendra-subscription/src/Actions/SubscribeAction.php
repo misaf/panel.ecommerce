@@ -19,6 +19,7 @@ use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSubscription\Support\SubscriptionRegistry;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 
 final class SubscribeAction
@@ -127,6 +128,12 @@ final class SubscribeAction
 
         $subscription = $result['subscription'];
         $payment = $result['payment'];
+
+        (new RequestJobContext(
+            subscriptionId: $subscription->id,
+            paymentId: $payment?->id,
+            idempotencyKey: $payment?->idempotency_key,
+        ))->add();
 
         if ($payment instanceof SubscriptionPayment && null === $payment->next_retry_at) {
             ProcessSubscriptionPayment::dispatch($payment->id)->afterCommit();

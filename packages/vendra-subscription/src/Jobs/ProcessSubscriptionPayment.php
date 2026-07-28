@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Throwable;
 
 /**
@@ -45,7 +46,11 @@ final class ProcessSubscriptionPayment implements ShouldBeUnique, ShouldQueue
             return;
         }
 
-        $chargeSubscriptionAction->execute($payment);
+        $this->context($payment)->scope(
+            function () use ($chargeSubscriptionAction, $payment): void {
+                $chargeSubscriptionAction->execute($payment);
+            },
+        );
     }
 
     /**
@@ -63,20 +68,36 @@ final class ProcessSubscriptionPayment implements ShouldBeUnique, ShouldQueue
 
     public function failed(?Throwable $exception): void
     {
-        DB::transaction(function () use ($exception): void {
-            $payment = SubscriptionPayment::query()
-                ->whereKey($this->paymentId)
-                ->lockForUpdate()
-                ->first();
+        $payment = SubscriptionPayment::query()->find($this->paymentId);
+        $context = $payment instanceof SubscriptionPayment
+            ? $this->context($payment)
+            : new RequestJobContext(paymentId: $this->paymentId);
 
-            if ( ! $payment instanceof SubscriptionPayment || $payment->status->isTerminal()) {
-                return;
-            }
+        $context->scope(function () use ($exception): void {
+            DB::transaction(function () use ($exception): void {
+                $payment = SubscriptionPayment::query()
+                    ->whereKey($this->paymentId)
+                    ->lockForUpdate()
+                    ->first();
 
-            $payment->markNeedsReconciliation(
-                'processing_exhausted',
-                Str::limit($exception?->getMessage() ?? 'Subscription payment processing exhausted its retries.', 1_000),
-            );
+                if ( ! $payment instanceof SubscriptionPayment || $payment->status->isTerminal()) {
+                    return;
+                }
+
+                $payment->markNeedsReconciliation(
+                    'processing_exhausted',
+                    Str::limit($exception?->getMessage() ?? 'Subscription payment processing exhausted its retries.', 1_000),
+                );
+            });
         });
+    }
+
+    private function context(SubscriptionPayment $payment): RequestJobContext
+    {
+        return new RequestJobContext(
+            subscriptionId: $payment->subscription_id,
+            paymentId: $payment->id,
+            idempotencyKey: $payment->idempotency_key,
+        );
     }
 }
