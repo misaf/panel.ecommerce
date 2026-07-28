@@ -3,10 +3,13 @@
 declare(strict_types=1);
 
 use Illuminate\Http\Request;
+use Illuminate\Log\Context\Repository;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Number;
 use Misaf\VendraLocalization\Contracts\LocaleResolver;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Misaf\VendraLocalization\LocaleManager;
 use Misaf\VendraLocalization\Resolvers\ChainLocaleResolver;
 use Misaf\VendraLocalization\Tests\Fixtures\TenantLocaleResolver;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,4 +119,24 @@ it('syncs the Carbon and Number locales when enabled', function (): void {
         ->toBe('fa')
         ->and(Number::defaultLocale())
         ->toBe('fa');
+});
+
+it('propagates the locale to queued execution as hidden context', function (): void {
+    config()->set('vendra-localization.sync', ['carbon' => true, 'number' => true]);
+    app()->instance(LocaleResolver::class, new TenantLocaleResolver('fa'));
+
+    handleSetLocale(Request::create('/'));
+
+    $repository = app(Repository::class);
+    $dehydrated = $repository->dehydrate();
+
+    $repository->flush();
+    app(LocaleManager::class)->apply('en');
+    $repository->hydrate($dehydrated);
+
+    expect(app()->getLocale())->toBe('fa')
+        ->and(Carbon::getLocale())->toBe('fa')
+        ->and(Number::defaultLocale())->toBe('fa')
+        ->and(Context::get(LocaleManager::CONTEXT_KEY))->toBeNull()
+        ->and(Context::getHidden(LocaleManager::CONTEXT_KEY))->toBe('fa');
 });

@@ -7,13 +7,11 @@ namespace Misaf\VendraLocalization\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use Misaf\VendraLocalization\Contracts\LocaleResolver;
 use Misaf\VendraLocalization\Contracts\ProvidesVaryHeaders;
+use Misaf\VendraLocalization\LocaleManager;
 use Misaf\VendraLocalization\Resolvers\ChainLocaleResolver;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,6 +20,7 @@ final readonly class SetLocale
     public function __construct(
         private Container $container,
         private LocaleResolver $localeResolver,
+        private LocaleManager $localeManager,
     ) {}
 
     /**
@@ -32,7 +31,7 @@ final readonly class SetLocale
         $resolver = $this->resolver(array_values($sources));
         $locale = $this->resolveSupportedLocale($request, $resolver);
 
-        $this->setLocale($locale);
+        $this->localeManager->apply($locale);
 
         $response = $next($request);
         $response->headers->set('Content-Language', $locale);
@@ -78,19 +77,6 @@ final readonly class SetLocale
     {
         return $this->supportedLocale($resolver->resolve($request))
             ?? Config::string('app.fallback_locale');
-    }
-
-    private function setLocale(string $locale): void
-    {
-        App::setLocale($locale);
-
-        if (Config::boolean('vendra-localization.sync.carbon', false)) {
-            Carbon::setLocale($locale);
-        }
-
-        if (Config::boolean('vendra-localization.sync.number', false)) {
-            Number::useLocale($locale);
-        }
     }
 
     private function setVaryHeader(Response $response, LocaleResolver $resolver): void
