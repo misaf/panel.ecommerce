@@ -61,4 +61,4 @@ jobs:
             Never push directly to the 1.x branch.
 
           claude_args: |
-            --allowedTools "Bash(git:*),Bash(gh:*),Bash(composer:*),Bash(php:*),Bash(vendor/bin/pest:*),Bash(vendor/bin/phpstan:*),Bash(vendor/bin/pint:*),Read,Edit,Write"
+            --allowedTools "Bash(git:*),Bash(gh:*),Bash(composer:*),Bash(php:*),Bash(vendor/bin/pest:*),Bash(vendor/bin/phpstan:*),Bash(vendor/bin/pint:*),Read,Edit,Write,Grep,Glob"
