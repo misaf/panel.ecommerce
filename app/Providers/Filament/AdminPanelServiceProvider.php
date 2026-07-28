@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Auth\Login;
+use App\Http\Middleware\AddResellerToRequestJobContext;
 use Filament\Contracts\Plugin;
 use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -73,6 +74,7 @@ final class AdminPanelServiceProvider extends PanelProvider
                 EnsureAdminDomain::class,
                 NeedsTenant::class,
                 EnsureValidTenantSession::class,
+                AddResellerToRequestJobContext::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 SetLocale::class,
