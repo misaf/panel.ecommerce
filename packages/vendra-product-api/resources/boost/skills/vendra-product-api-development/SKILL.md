@@ -1,6 +1,6 @@
 ---
 name: vendra-product-api-development
-description: "Create, modify, review, or test the Vendra Product API module in packages/vendra-product-api. Use for JsonApi/V1 servers, schemas, resources, collection queries, resource queries, JSON:API routes, include paths, filters, pagination, sortables, API relationships, API tests, and package service provider wiring."
+description: "Create, modify, review, or test the Vendra Product API module in packages/vendra-product-api. Use for ApiResource DTOs, schemas, resources, collection queries, resource queries, API Platform routes, include paths, filters, pagination, sortables, API relationships, API tests, and package service provider wiring."
 ---
 
 # Vendra Product API
@@ -28,7 +28,7 @@ description: "Create, modify, review, or test the Vendra Product API module in p
 
 ## Module Boundary
 
-Treat `packages/vendra-product-api` as the JSON:API layer for `misaf/vendra-product`.
+Treat `packages/vendra-product-api` as the API Platform layer for `misaf/vendra-product`.
 
 - Use namespace `Misaf\VendraProductApi`.
 - Keep API servers, schemas, API resources, query validators, routes, service providers, and API tests inside this module.
@@ -37,14 +37,14 @@ Treat `packages/vendra-product-api` as the JSON:API layer for `misaf/vendra-prod
 - Keep Filament/admin UI out of this module.
 - Keep dependencies explicit in `composer.json`; do not add or change package dependencies without approval.
 
-## JSON:API Shape
+## API Platform Shape
 
 Follow the current `JsonApi/V1` layout.
 
 - Register routes in `routes/api.php` with `JsonApiRoute::server('vendra-product')->prefix('v1')`.
 - Use `JsonApiController` for standard resource endpoints.
 - Keep resource type names kebab-case and stable, for example `products`, `product-categories`, `product-prices`.
-- Register schemas in `JsonApi\V1\Server::allSchemas()`.
+- Register schemas in `API Platform resource discovery`.
 - Keep `authorizable()` behavior intentional; do not silently enable or disable authorization.
 - Use schema classes for fields, relationships, filters, pagination, and sortables.
 
@@ -65,7 +65,7 @@ Schema classes define the public API contract.
 Keep schema filters and request validation in sync.
 
 - Add every schema filter to the matching `ResourceQuery` or `CollectionQuery` validation rules.
-- Validate `fields`, `filter`, `include`, `page`, `sort`, and `withCount` with `LaravelJsonApi\Validation\Rule` helpers.
+- Declare supported query parameters with API Platform filters and Laravel validation constraints.
 - For translated attribute filters, use the active locale path such as `name->{$locale}` and `slug->{$locale}`.
 - Use `like` filters with deserialization only for intentional partial text search.
 - Use `WhereIdIn` and `WhereIdNotIn` for id inclusion and exclusion.

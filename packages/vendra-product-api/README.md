@@ -1,15 +1,15 @@
 # Vendra Product API
 
-Read-only JSON:API resources for the Vendra product catalog.
+Read-only API Platform resources for the Vendra product catalog.
 
 ## Features
 
-- `GET /v1/product-categories`
-- `GET /v1/products`
-- `GET /v1/product-prices`
+- `GET /api/catalog/product-categories`
+- `GET /api/catalog/products`
+- `GET /api/catalog/product-prices`
 - Read-only category, pricing, multimedia, and optional attribute-value relationships
 
-Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema. Applications may optionally resolve the current locale before these routes run.
+Dedicated DTO resources expose translated catalog data and stable references for groups, prices, multimedia, and optional attribute options. Providers own Eloquent querying, filters, and pagination.
 
 ## Requirements
 
@@ -26,7 +26,7 @@ Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, i
 composer require misaf/vendra-product-api
 ```
 
-The service provider, server, and routes are auto-registered.
+The service provider registers the resources and provider automatically.
 
 ## Testing
 
