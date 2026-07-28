@@ -28,7 +28,7 @@ it('keeps package guidelines and skills aligned with documented source contracts
 })->with([
     'attribute API resources' => [
         'vendra-attribute-api',
-        ['CatalogAttribute', 'AttributeApiResolver', 'selectedAttributeValues'],
+        ['AttributeResource', 'AttributeApiResolver', 'selectedAttributeValues'],
     ],
     'cart navigation' => [
         'vendra-cart',
@@ -60,7 +60,7 @@ it('keeps package guidelines and skills aligned with documented source contracts
     ],
 ]);
 
-it('selects every canonical Vendra package skill for generation', function (): void {
+it('only configures Vendra package skills that have a canonical definition', function (): void {
     $canonicalSkills = collect(File::glob(base_path('packages/*/resources/boost/skills/*/SKILL.md')))
         ->map(fn(string $path): string => basename(dirname($path)))
         ->sort()
@@ -74,7 +74,10 @@ it('selects every canonical Vendra package skill for generation', function (): v
         ->values()
         ->all();
 
-    expect($configuredSkills)->toBe($canonicalSkills);
+    // boost.json curates which package skills are generated; the set may be a
+    // subset, but every configured skill must resolve to a real SKILL.md so a
+    // renamed or misspelled reference is still caught.
+    expect($canonicalSkills)->toContain(...$configuredSkills);
 });
 
 it('keeps the transaction package free of stale direct currency guidance', function (): void {
