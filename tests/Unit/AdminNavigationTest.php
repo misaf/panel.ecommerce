@@ -40,6 +40,10 @@ it('orders domain clusters predictably', function (string $cluster, int $sort): 
     'system'       => [SystemCluster::class, 7],
 ]);
 
+it('places carts in the sales cluster', function (): void {
+    expect(CartResource::getCluster())->toBe(SalesCluster::class);
+});
+
 it('orders navigation resources by centralized priority', function (
     string $resource,
     NavigationPriority $priority,

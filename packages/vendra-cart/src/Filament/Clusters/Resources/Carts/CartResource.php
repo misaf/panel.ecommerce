@@ -18,8 +18,7 @@ use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Schemas\CartInfolist;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Tables\CartTable;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\Widgets\CartOverviewWidget;
 use Misaf\VendraCart\Models\Cart;
-use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
-
+use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
 final class CartResource extends Resource
@@ -34,7 +33,7 @@ final class CartResource extends Resource
 
     protected static ?string $slug = 'carts';
 
-    protected static ?string $cluster = CatalogCluster::class;
+    protected static ?string $cluster = SalesCluster::class;
 
     public static function getBreadcrumb(): string
     {

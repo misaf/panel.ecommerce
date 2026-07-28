@@ -139,7 +139,7 @@ it('assigns each admin resource to its domain cluster', function (string $resour
     'catalog / product categories'     => [ProductCategoryResource::class, CatalogCluster::class],
     'catalog / product prices'         => [ProductPriceResource::class, CatalogCluster::class],
     'catalog / attributes'             => [AttributeResource::class, CatalogCluster::class],
-    'catalog / carts'                  => [CartResource::class, CatalogCluster::class],
+    'sales / carts'                    => [CartResource::class, SalesCluster::class],
     'sales / transactions'             => [TransactionResource::class, SalesCluster::class],
     'sales / transaction gateways'     => [TransactionGatewayResource::class, SalesCluster::class],
     'sales / currencies'               => [CurrencyResource::class, SalesCluster::class],
