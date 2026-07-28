@@ -1,6 +1,6 @@
 # Vendra Cart API
 
-Read-only JSON:API resources for tenant-scoped Vendra carts.
+Authenticated API Platform resources for tenant-scoped Vendra carts.
 
 ## Features
 
@@ -21,9 +21,9 @@ Read-only JSON:API resources for tenant-scoped Vendra carts.
 composer require misaf/vendra-cart-api
 ```
 
-The package registers `/v1/carts` and exposes cart items only through the
-`/v1/carts/{cart}/items` relationship. Standalone cart-item endpoints are not
-registered, ensuring item queries inherit the cart's tenant scope.
+The package registers `/api/sales/carts`. Cart lines are embedded DTOs rather
+than standalone resources. Sanctum authentication, the resource policy, owner
+query constraints, and the domain model's tenant scope protect every operation.
 
 ## Testing
 

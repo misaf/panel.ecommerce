@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCartApi\Providers;
 
+use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraCartApi\JsonApi\V1\Server as CartServer;
+use Illuminate\Support\Facades\Gate;
+use Misaf\VendraCartApi\ApiResource\ShoppingCart;
+use Misaf\VendraCartApi\Policies\ShoppingCartPolicy;
+use Misaf\VendraCartApi\State\ShoppingCartProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -16,13 +20,18 @@ final class CartApiServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('vendra-cart-api')
-            ->hasRoute('api');
+        $package->name('vendra-cart-api');
     }
 
     public function packageRegistered(): void
     {
-        Config::set('jsonapi.servers.vendra-cart', Config::string('jsonapi.servers.vendra-cart', CartServer::class));
+        Config::set('api-platform.resources', [
+            ...Config::array('api-platform.resources', []),
+            dirname(__DIR__) . '/ApiResource',
+        ]);
+
+        Gate::policy(ShoppingCart::class, ShoppingCartPolicy::class);
+        $this->app->tag(ShoppingCartProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void
