@@ -1,14 +1,14 @@
 # Vendra FAQ API
 
-Read-only JSON:API resources for Vendra FAQ content.
+Read-only API Platform resources for Vendra help content.
 
 ## Features
 
-- `GET /v1/faq-categories`
-- `GET /v1/faqs`
+- `GET /api/content/faq-categories`
+- `GET /api/content/faqs`
 - Read-only category, FAQ, and multimedia relationships
 
-Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, inclusion, and pagination are defined by each resource schema. Applications may optionally resolve the current locale before these routes run.
+Dedicated DTO resources expose translated content and stable topic or asset references. Providers own Eloquent querying, active visibility, and pagination.
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Requests use Laravel's `api` middleware. Standard JSON:API filtering, sorting, i
 composer require misaf/vendra-faq-api
 ```
 
-The service provider, server, and routes are auto-registered.
+The service provider registers the resources and provider automatically.
 
 ## Testing
 

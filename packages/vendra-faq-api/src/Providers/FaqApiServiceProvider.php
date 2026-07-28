@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaqApi\Providers;
 
+use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraFaqApi\JsonApi\V1\Server as FaqServer;
+use Misaf\VendraFaqApi\State\HelpResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -16,13 +17,17 @@ final class FaqApiServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('vendra-faq-api')
-            ->hasRoute('api');
+        $package->name('vendra-faq-api');
     }
 
     public function packageRegistered(): void
     {
-        Config::set('jsonapi.servers.vendra-faq', Config::string('jsonapi.servers.vendra-faq', FaqServer::class));
+        Config::set('api-platform.resources', [
+            ...Config::array('api-platform.resources', []),
+            dirname(__DIR__) . '/ApiResource',
+        ]);
+
+        $this->app->tag(HelpResourceProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void
