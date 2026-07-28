@@ -27,14 +27,14 @@ it('resolves canonical and custom admin hosts to the property', function (): voi
         ->and($tenantFinder->findForAdminHost('acme.admin.example.com'))->toBeNull();
 });
 
-it('serves the admin login on canonical and custom property hosts without a root route', function (string $host): void {
+it('serves the admin login on canonical and custom property hosts', function (string $host): void {
     $tenant = Tenant::factory()->active()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
         'active' => true,
     ]);
 
-    $this->get("https://{$host}")->assertNotFound();
+    $this->get("https://{$host}")->assertRedirect("https://{$host}/login");
     $this->get("https://{$host}/login")->assertSuccessful();
 })->with([
     'canonical host' => 'acme.admin.vendra.test',

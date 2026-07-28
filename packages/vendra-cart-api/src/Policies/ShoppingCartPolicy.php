@@ -7,9 +7,12 @@ namespace Misaf\VendraCartApi\Policies;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Misaf\VendraCartApi\ApiResource\ShoppingCart;
+use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
 
 final class ShoppingCartPolicy
 {
+    use AuthorizesSandboxMode;
+
     public function viewAny(Authorizable $user): bool
     {
         return $user instanceof Authenticatable;
