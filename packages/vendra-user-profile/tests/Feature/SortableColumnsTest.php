@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 use Misaf\VendraUser\Database\Factories\UserFactory;
 use Misaf\VendraUserProfile\Database\Factories\UserProfileFactory;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
 });
 
 it('sorts the user profiles table by every sortable column following the stored values', function (): void {

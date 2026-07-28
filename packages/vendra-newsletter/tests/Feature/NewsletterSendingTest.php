@@ -18,6 +18,11 @@ use Misaf\VendraNewsletter\Jobs\SendNewsletterEmailJob;
 use Misaf\VendraNewsletter\Mail\NewsletterMail;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraSupport\Context\RequestJobContext;
+
+use function Pest\Laravel\assertDatabaseHas;
+
+use function Pest\Laravel\assertDatabaseMissing;
+
 use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
 
 beforeEach(function (): void {
@@ -181,7 +186,7 @@ it('does not deliver again after a recipient delivery has completed', function (
 
     Mail::assertSent(NewsletterMail::class, 1);
 
-    $this->assertDatabaseHas('newsletter_deliveries', [
+    assertDatabaseHas('newsletter_deliveries', [
         'newsletter_id'            => $newsletter->getKey(),
         'newsletter_subscriber_id' => $subscriber->getKey(),
     ]);
@@ -204,7 +209,7 @@ it('does not record a completed delivery when mail sending fails', function (): 
 
     expect(fn() => $job->handle())->toThrow(RuntimeException::class, 'Mail transport failed.');
 
-    $this->assertDatabaseMissing('newsletter_deliveries', [
+    assertDatabaseMissing('newsletter_deliveries', [
         'newsletter_id'            => $newsletter->getKey(),
         'newsletter_subscriber_id' => $subscriber->getKey(),
     ]);

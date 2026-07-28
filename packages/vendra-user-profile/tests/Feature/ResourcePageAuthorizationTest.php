@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 use Filament\Facades\Filament;
-use Misaf\VendraPermission\Tests\Support\PermissionModuleTestContext;
 use Misaf\VendraUserProfile\Database\Factories\UserProfileFactory;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\EditUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ViewUserProfile;
+use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    PermissionModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
 });
 
 it('renders the create user profile page under strict authorization', function (): void {

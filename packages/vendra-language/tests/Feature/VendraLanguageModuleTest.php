@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Misaf\VendraLanguage\Support\TranslationCatalog;
 
-test('registered translation namespaces are available as sorted select options', function (): void {
+it('registered translation namespaces are available as sorted select options', function (): void {
     $options = app(TranslationCatalog::class)->namespaceOptions();
     $sortedNamespaces = array_keys($options);
     sort($sortedNamespaces);
@@ -15,7 +15,7 @@ test('registered translation namespaces are available as sorted select options',
         ->and(array_keys($options))->toBe($sortedNamespaces);
 });
 
-test('translation files and their keys are available as dependent select options', function (): void {
+it('translation files and their keys are available as dependent select options', function (): void {
     $catalog = app(TranslationCatalog::class);
 
     expect($catalog->groupOptions('vendra-language'))
@@ -28,7 +28,7 @@ test('translation files and their keys are available as dependent select options
         ->toBe([]);
 });
 
-test('translation files are exposed as locale-complete language lines', function (): void {
+it('translation files are exposed as locale-complete language lines', function (): void {
     $languageLine = collect(app(TranslationCatalog::class)->languageLines())
         ->first(fn(array $line): bool => 'vendra-language' === $line['namespace']
             && 'navigation' === $line['group']
