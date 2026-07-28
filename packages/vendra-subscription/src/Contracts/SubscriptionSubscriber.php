@@ -12,8 +12,9 @@ use Misaf\VendraSubscription\Models\Subscription;
  * A billing entity that can hold plan-limited subscriptions. Subscriptions are
  * polymorphic; this contract lets the subscription engine (subscribe, activate,
  * enforce) operate on any subscriber without knowing the concrete model. The
- * host app currently binds it to App\Models\Reseller, but a future subscriber
- * only needs to implement this interface and register in the morph map.
+ * host app currently implements it on App\Models\Reseller, but a future
+ * subscriber only needs to implement this interface and register in the morph
+ * map.
  *
  * The contract exposes subscription operations rather than the raw Eloquent
  * relation so the engine stays free of ORM details. Implementations are Eloquent
