@@ -13,10 +13,10 @@ final class SeedCommand extends TenantSeedCommand
     protected const string MODULE_NAME = AuthifyLogPlugin::ID;
 
     protected $signature = self::MODULE_NAME . ':seed
-        {tenant? : Tenant ID or slug to seed activity log data for}
+        {tenant? : Tenant ID or slug to seed authentication log data for}
         {seeders?* : Seeder keys to run. Use "all" or one or more of: permissions}';
 
-    protected $description = 'Seed activity log module data for a tenant';
+    protected $description = 'Seed authentication log module data for a tenant';
 
     /**
      * @return array<string, class-string>
