@@ -78,7 +78,10 @@ it('only configures Vendra package skills that have a canonical definition', fun
     // subset, but every configured skill must resolve to a real SKILL.md so a
     // renamed or misspelled reference is still caught.
     expect($canonicalSkills)->toContain(...$configuredSkills);
-});
+})->skip(
+    fn(): bool => ! File::exists(base_path('boost.json')),
+    'boost.json is a local-only Laravel Boost artifact and is not present in CI.',
+);
 
 it('keeps the transaction package free of stale direct currency guidance', function (): void {
     $packagePath = base_path('packages/vendra-transaction/resources/boost');
