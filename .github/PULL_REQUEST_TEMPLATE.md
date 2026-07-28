@@ -10,7 +10,13 @@ Describe the outcome and the reason for the change.
 
 ## Verification
 
-List the focused tests, static analysis, formatting, and manual checks run.
+Run the smallest relevant test scope first with `php artisan test --parallel` by
+default, then expand only when necessary. Omit `--parallel` only for debugging,
+concurrency investigation, non-isolatable shared resources, unsupported
+environments, or intentionally non-parallel coverage, profiling, mutation
+testing, and benchmarking commands.
+
+List the tests, static analysis, formatting, and manual checks run.
 
 ## Checklist
 
