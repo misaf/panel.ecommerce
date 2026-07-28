@@ -6,6 +6,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Reseller\Pages\Auth\Login;
 use App\Filament\Reseller\Pages\Auth\Register;
+use App\Http\Middleware\AddPanelToRequestJobContext;
 use App\Http\Middleware\AddResellerToRequestJobContext;
 use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -68,6 +69,7 @@ final class ResellerPanelServiceProvider extends PanelProvider
                 PreventRequestForgery::class,
                 SubstituteBindings::class,
                 AddResellerToRequestJobContext::class,
+                AddPanelToRequestJobContext::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 SetLocale::class,

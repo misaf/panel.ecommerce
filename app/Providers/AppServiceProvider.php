@@ -16,14 +16,20 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
@@ -59,6 +65,27 @@ final class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
         DB::prohibitDestructiveCommands(app()->isProduction());
         Password::defaults(fn() => Password::min(8));
+
+        Event::listen(Authenticated::class, static function (Authenticated $event): void {
+            $actorId = $event->user->getAuthIdentifier();
+
+            (new RequestJobContext(
+                actorId: is_int($actorId) || is_string($actorId) ? $actorId : null,
+                actorType: $event->guard,
+            ))->add();
+        });
+
+        Event::listen(Failed::class, static function (Failed $event): void {
+            (new RequestJobContext(
+                operation: 'auth_failed',
+                actorType: $event->guard,
+            ))->scope(static fn() => Log::warning('Authentication attempt failed.'));
+        });
+
+        Event::listen(Lockout::class, static function (Lockout $event): void {
+            (new RequestJobContext(operation: 'auth_lockout'))
+                ->scope(static fn() => Log::warning('Authentication lockout triggered.'));
+        });
 
         $this->configureTableDefaults();
         $this->configurePanelSwitch();

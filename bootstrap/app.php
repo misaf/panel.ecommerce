@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\AddRequestContext;
 use App\Http\Middleware\UseRequestUrl;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,7 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->prepend(UseRequestUrl::class);
+        $middleware->prepend([
+            AddRequestContext::class,
+            UseRequestUrl::class,
+        ]);
 
         $middleware->preventRequestForgery(except: [
             '/livewire/*',

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Models\ResellerUser;
+use App\Support\Context\AppContextKeys;
 use Closure;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Http\Request;
@@ -27,7 +28,9 @@ final readonly class AddResellerToRequestJobContext
             ? $resellerUser->reseller_id
             : ($tenant instanceof Tenant ? $tenant->reseller_id : null);
 
-        (new RequestJobContext(resellerId: $resellerId))->add();
+        (new RequestJobContext(
+            metadata: [AppContextKeys::RESELLER_ID => $resellerId],
+        ))->add();
 
         return $next($request);
     }
