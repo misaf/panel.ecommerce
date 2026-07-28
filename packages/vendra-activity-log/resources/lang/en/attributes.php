@@ -7,6 +7,7 @@ return [
     'causer_id'    => 'Causer ID',
     'causer_type'  => 'Causer Type',
     'created_at'   => 'Created At',
+    'description'  => 'Description',
     'event'        => 'Event',
     'log_name'     => 'Log Name',
     'subject_id'   => 'Subject ID',

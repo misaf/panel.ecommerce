@@ -50,7 +50,7 @@ final class ActivityLogTable
                 ->sortable(),
 
             TextColumn::make('description')
-                ->label(__('vendra-activity-log::tables.description'))
+                ->label(__('vendra-activity-log::attributes.description'))
                 ->icon(Heroicon::DocumentText)
                 ->toggleable(isToggledHiddenByDefault: true),
 

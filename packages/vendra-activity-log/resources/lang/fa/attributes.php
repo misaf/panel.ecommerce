@@ -7,6 +7,7 @@ return [
     'causer_id'    => 'شناسه عامل',
     'causer_type'  => 'نوع عامل',
     'created_at'   => 'تاریخ ایجاد',
+    'description'  => 'توضیحات',
     'event'        => 'رویداد',
     'log_name'     => 'نام لاگ',
     'subject_id'   => 'شناسه موضوع',

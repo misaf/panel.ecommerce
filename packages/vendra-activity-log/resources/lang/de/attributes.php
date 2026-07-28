@@ -7,6 +7,7 @@ return [
     'causer_id'    => 'Verursacher-ID',
     'causer_type'  => 'Verursachertyp',
     'created_at'   => 'Erstellt am',
+    'description'  => 'Beschreibung',
     'event'        => 'Ereignis',
     'log_name'     => 'Protokollname',
     'subject_id'   => 'Betreff-ID',
