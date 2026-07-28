@@ -1,0 +1,1 @@
+var e=(e,t={})=>fetch(`/api/${e.replace(/^\//,``)}`,{...t,headers:{Accept:`application/ld+json`,"Content-Type":`application/json`,"X-Requested-With":`XMLHttpRequest`,...t.headers}});window.api={request:e,get:(t,n={})=>e(t,{...n,method:`GET`}),post:(t,n,r={})=>e(t,{...r,method:`POST`,body:JSON.stringify(n)})};

@@ -1,4 +1,19 @@
-import axios from 'axios';
-window.axios = axios;
+const request = (path, options = {}) => fetch(`/api/${path.replace(/^\//, '')}`, {
+    ...options,
+    headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        ...options.headers,
+    },
+});
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.api = {
+    request,
+    get: (path, options = {}) => request(path, { ...options, method: 'GET' }),
+    post: (path, body, options = {}) => request(path, {
+        ...options,
+        method: 'POST',
+        body: JSON.stringify(body),
+    }),
+};
