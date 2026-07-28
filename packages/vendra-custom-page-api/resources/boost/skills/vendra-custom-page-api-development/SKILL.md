@@ -1,6 +1,6 @@
 ---
 name: vendra-custom-page-api-development
-description: "Create, modify, review, or test the Vendra Custom Page API Platform package in packages/vendra-custom-page-api, including custom page and category schemas, resources, query validation, relationships, routes, and provider wiring."
+description: "Create, modify, review, or test the Vendra Custom Page API Platform package in packages/vendra-custom-page-api, including the ContentPage and ContentSection `ApiResource` DTOs, ContentResourceProvider state provider, query parameters, relationships, operations, and provider wiring."
 ---
 
 # Vendra Custom Page API
@@ -37,16 +37,14 @@ Use this skill together with `laravel-best-practices` and `pest-testing`.
 
 ## API Platform Contract
 
-- Register the `vendra-custom-page` server at `/api`.
-- Keep `custom-page-categories` and `custom-pages` read-only.
-- Expose translated JSON columns with `ArrayHash` and serialize them with `getTranslations()`.
-- Validate query-string booleans with `JsonApiRule::boolean()->asString()`.
-- Keep `with-trashed` and `only-trashed` synchronized between collection queries and schemas.
-- Represent the domain models' `MorphMany` multimedia relations with API Platform `HasMany`.
-- Keep `customPages`, `customPageCategory`, and `multimedia` relationship names aligned with domain methods.
-- Keep filters and collection query validation synchronized, including locale-aware name/slug filters, active-state filters, soft deletes, relationships, multimedia, pagination, sparse fields, and sorting.
+- Expose read models as API Platform resources in `src/ApiResource` (`ContentPage`, `ContentSection`), backed by `ContentResourceProvider` in `src/State`.
+- Keep the `/content/custom-pages` and `/content/custom-page-categories` resources read-only.
+- Expose translated JSON columns as `array<string, string>` locale maps and hydrate them from the domain models' translations in the state provider.
+- Declare supported query parameters as `QueryParameter`s on the resource operations, using API Platform filters (`EqualsFilter`, `BooleanFilter`, ...) with Laravel `constraints`.
+- Reference the domain models' multimedia and category relations with `Misaf\VendraApi\ApiResource\ResourceReference` instead of embedding foreign models.
+- Apply every declared parameter inside the state provider when building the Eloquent query.
 
 ## Verification
 
-- Test route registration, server schema registration, relationship endpoints, and architecture.
+- Test each resource operation, its query parameters, and architecture.
 - Run package Pest tests, PHPStan, Composer validation, and Pint.

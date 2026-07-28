@@ -19,5 +19,5 @@ The `misaf/vendra-affiliate-api` package exposes the public referral lookup surf
 - Keep the active-affiliate constraint in the State provider query so collection, filtered, and individual-resource operations enforce the same visibility rule.
 - Keep the `#[ApiResource]` DTOs, State providers/processors, query-parameter and `FormRequest` validation, and operation routes synchronized when the API Platform shape changes.
 - Inherit tenant isolation from the Affiliate model and keep production API code free of `Misaf\VendraTenant` and API tenant toggles. Feature tests may use a concrete tenant factory solely to establish tenant context.
-- Cover public field visibility, active/suspended behavior, filters, routes, and server registration with focused Pest tests.
+- Cover public field visibility, active/suspended behavior, filters, and resource operations with focused Pest tests.
 - Keep `tests/ArchTest.php` enforcing the PHP, security, and Laravel presets plus `not->toUse('Misaf\VendraTenant')`.

@@ -1,6 +1,6 @@
 ---
 name: vendra-affiliate-api-development
-description: "Create, modify, review, or test the Vendra Affiliate API package in packages/vendra-affiliate-api. Use for the public affiliates API Platform server, AffiliateSchema, AffiliateResource, collection/resource queries, active-affiliate visibility, filters, routes, response fields, API tests, and AffiliateApiServiceProvider wiring."
+description: "Create, modify, review, or test the Vendra Affiliate API package in packages/vendra-affiliate-api. Use for the public affiliate API Platform resources (ReferralCode, ReferralVisit `ApiResource` DTOs), State providers/processors, query parameters, active-affiliate visibility, filters, operations, response fields, API tests, and AffiliateApiServiceProvider wiring."
 ---
 
 # Vendra Affiliate API

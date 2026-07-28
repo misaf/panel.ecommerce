@@ -15,14 +15,14 @@ The `misaf/vendra-faq-api` package exposes `misaf/vendra-faq` domain models thro
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
 
 - Keep API code inside `packages/vendra-faq-api` using the `Misaf\VendraFaqApi` namespace.
-- Use this package for API Platform servers, schemas, resources, query validators, API routes, service providers, and API tests.
+- Use this package for API Platform resources (`ApiResource` DTOs), state providers, query parameters, service providers, and API tests.
 - Import domain models from `Misaf\VendraFaq`; do not duplicate persistence or domain behavior in the API module.
 - Keep Filament/admin UI in `misaf/vendra-faq`.
 - Respect domain model tenancy. Tenant awareness is owned by `misaf/vendra-support` and derives from the bound `TenantResolver` (installing `misaf/vendra-tenant` enables it); there is no `tenant_aware` config toggle.
-- Keep production API code tenant-provider agnostic: inherit tenancy through the `Misaf\VendraFaq` models and never reference `Misaf\VendraTenant` in servers, schemas, queries, or routes. Feature tests may use a concrete tenant factory solely to establish tenant context; architecture expectations remain scoped to the production `Misaf\VendraFaqApi` namespace.
-- Register `FaqCategorySchema`, `FaqSchema`, and `MultimediaSchema` in `API Platform resource discovery`. FAQ multimedia relationships and include paths require the multimedia schema on the same API Platform server.
-- Keep schema filters and request validation rules synchronized.
+- Keep production API code tenant-provider agnostic: inherit tenancy through the `Misaf\VendraFaq` models and never reference `Misaf\VendraTenant` in resources, state providers, or query parameters. Feature tests may use a concrete tenant factory solely to establish tenant context; architecture expectations remain scoped to the production `Misaf\VendraFaqApi` namespace.
+- Expose `HelpArticle` and `HelpTopic` resources, and reference FAQ multimedia relations with `Misaf\VendraApi\ApiResource\ResourceReference`.
+- Declare query parameters on the resource operations and apply them in the state provider.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file and do not add comments that restate the code.
-- Add or update Pest tests for routes, server schema registration, filters, includes, pagination, sorting, sparse fieldsets, and relationship endpoints.
+- Add or update Pest tests for each resource operation, query parameters, and pagination.
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts when a test fits.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets plus a tenant-agnostic expectation, e.g. `arch()->expect('Misaf\VendraFaqApi')->not->toUse('Misaf\VendraTenant')`.

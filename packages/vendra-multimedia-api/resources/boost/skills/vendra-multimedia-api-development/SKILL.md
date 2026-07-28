@@ -1,6 +1,6 @@
 ---
 name: vendra-multimedia-api-development
-description: "Create, modify, review, or test the Vendra Multimedia API module in packages/vendra-multimedia-api. Use for ApiResource DTOs, schemas, resources, collection queries, resource queries, API Platform routes, include paths, filters, pagination, sortables, API relationships, API tests, and package service provider wiring."
+description: "Create, modify, review, or test the Vendra Multimedia API module in packages/vendra-multimedia-api. Use for ApiResource DTOs, State providers, query parameters, API Platform operations, filters, pagination, API relationships, API tests, and package service provider wiring."
 ---
 
 # Vendra Multimedia API
@@ -31,64 +31,56 @@ description: "Create, modify, review, or test the Vendra Multimedia API module i
 Treat `packages/vendra-multimedia-api` as the API Platform layer for `misaf/vendra-multimedia`.
 
 - Use namespace `Misaf\VendraMultimediaApi`.
-- Keep API servers, schemas, API resources, query validators, routes, service providers, and API tests inside this module.
+- Keep API resource DTOs, state providers, query parameters, service providers, and API tests inside this module.
 - Import domain models from `Misaf\VendraMultimedia`; do not duplicate domain models or persistence logic in the API module.
-- Keep production API code tenant-provider agnostic: inherit tenancy from the domain models and add no API tenant toggle or `Misaf\VendraTenant` reference in servers, schemas, queries, or routes. Feature tests may use a concrete tenant factory solely to establish tenant context; keep the architecture rule scoped to `Misaf\VendraMultimediaApi`.
+- Keep production API code tenant-provider agnostic: inherit tenancy from the domain models and add no API tenant toggle or `Misaf\VendraTenant` reference in resources, state providers, or query parameters. Feature tests may use a concrete tenant factory solely to establish tenant context; keep the architecture rule scoped to `Misaf\VendraMultimediaApi`.
 - Keep Filament/admin UI out of this module.
 - Keep dependencies explicit in `composer.json`; do not add or change package dependencies without approval.
 
 ## API Platform Shape
 
-Follow the current `JsonApi/V1` layout.
+Expose read models as API Platform resources in `src/ApiResource` (`Asset`), backed by state providers in `src/State` (for example `AssetProvider`).
 
-- Register routes in `routes/api.php` with `JsonApiRoute::server('vendra-multimedia')->prefix('v1')`.
-- Use `JsonApiController` for standard resource endpoints.
-- Keep resource type names kebab-case and stable, for example `multimedia`.
-- Register schemas in `API Platform resource discovery`.
-- Keep `authorizable()` behavior intentional; do not silently enable or disable authorization.
-- Use schema classes for fields, relationships, filters, pagination, and sortables.
+- Define each resource as a `final readonly` DTO annotated with `#[ApiResource]`, declaring `Get`/`GetCollection` operations with explicit `uriTemplate` paths and a `provider`.
+- Keep each resource `shortName` and URI path stable and kebab-case, for example `/content/multimedia`.
+- Reference related resources with `Misaf\VendraApi\ApiResource\ResourceReference` instead of embedding foreign models.
+- Register the `src/ApiResource` directory into `api-platform.resources` and tag each state provider as `ProviderInterface` in the module service provider.
+- Keep resources read-only unless a mutation is an explicit product decision.
 
-## Schema Standards
+## Resource DTO Standards
 
-Schema classes define the public API contract.
+Resource DTOs define the public API contract.
 
-- Use `ID::make()` and typed field classes instead of raw arrays.
-- Use `ArrayHash` for translated JSON columns such as `name`, `description`, and `slug`.
-- Mark generated, positional, timestamp, media, and relationship fields read-only where clients should not mutate them.
-- Keep include paths explicit and minimal.
-- Use `PagePagination::make()` and preserve default pagination unless product requirements change.
-- Expose sortable fields with `->sortable()` and add custom sortables in `sortables()`.
-- Keep relationship names aligned with the domain model methods.
+- Mark the identifier property with `#[ApiProperty(identifier: true)]` and give every property an explicit type.
+- Expose translated columns as `array<string, string>` locale maps such as `title` and `description`.
+- Keep raw foreign keys and internal columns off the DTO; expose only intentionally public fields.
+- Do the Eloquent querying, hydration, filtering, and pagination in the state provider, not the DTO.
 
 ## Filter And Query Standards
 
-Keep schema filters and request validation in sync.
+Declare supported query parameters on the resource operation.
 
-- Add every schema filter to the matching `ResourceQuery` or `CollectionQuery` validation rules.
-- Declare supported query parameters with API Platform filters and Laravel validation constraints.
-- For translated attribute filters, use the active locale path such as `name->{$locale}` and `slug->{$locale}`.
-- Use `like` filters with deserialization only for intentional partial text search.
-- Use `WhereIdIn` and `WhereIdNotIn` for id inclusion and exclusion.
-- Use `Has`, `WhereHas`, and `WhereDoesntHave` for relationship filters.
-- Keep soft-delete filter rules aligned with actual schema behavior before exposing `with-trashed` or `only-trashed`.
+- Add each filter as a `QueryParameter` with an API Platform filter (`EqualsFilter`, `BooleanFilter`, ...) and Laravel `constraints`.
+- Set each parameter's `property` to the model column the state provider filters on.
+- Apply the declared parameters inside the state provider when building the Eloquent query.
+- For translated column filters, filter on the active-locale JSON path.
 
 ## Service Provider And Routes
 
 Keep package bootstrapping minimal and predictable.
 
-- Use the module `ServiceProvider` for package configuration and route loading.
-- Load only this module's API routes from the API module.
-- Keep routes localization-package agnostic and use only Laravel's `api` middleware.
-- Do not use host-app route files for module endpoints unless integrating the package at application level.
+- Use the module `ServiceProvider` to register `src/ApiResource` into `api-platform.resources` and tag the state providers; API Platform generates routes from the resource operations.
+- Do not hand-register route files for resource endpoints.
+- Keep routes localization-package agnostic; locale-aware providers read Laravel's current locale, which the host application may resolve by any mechanism.
 
 ## Testing And Verification
 
 Use Pest tests to protect API contracts.
 
 - Keep tests purposeful and prevent unnecessary ones: cover behavior, contracts, and edge cases — not framework internals or trivially typed code. Do not duplicate coverage a focused test already proves, and do not add throwaway verification scripts (or `tinker`) when a test fits.
-- Add route tests for every new resource endpoint and relationship endpoint.
-- Add server tests when schemas, resource names, or `Server` behavior changes.
-- Add request validation tests when filters, includes, sparse fieldsets, sorting, pagination, or relationship filters change.
+- Add tests for every new resource operation and its query parameters.
+- Add tests when resource shape, `shortName`, or URI paths change.
+- Add tests when query parameters, filters, or pagination change.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraMultimediaApi')->not->toUse('Misaf\VendraTenant')`. The API module may depend on `Misaf\VendraMultimedia`, but not on any concrete tenant provider.
 - Run module checks from the package when possible: `composer --working-dir=packages/vendra-multimedia-api test` and `composer --working-dir=packages/vendra-multimedia-api analyse`.
 - If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
