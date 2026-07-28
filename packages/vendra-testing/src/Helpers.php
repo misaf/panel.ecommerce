@@ -219,29 +219,47 @@ function setUpFilamentSuperAdminTestContext(array $resources = [], ?array $featu
         ]));
     }
 
-    app(PanelRegistry::class)->register(
-        Panel::make()
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->resources($resources)
-            ->tenant(testTenantModel()),
-    );
+    bootFilamentAdminPanel($user, $tenant, $resources);
 
-    Table::configureUsing(function (Table $table) {
-        return $table
-            ->paginationPageOptions([10, 25, 50])
-            ->deferLoading();
-    });
+    return $tenant;
+}
+
+/**
+ * Register and boot a default Filament admin panel, acting as the given user
+ * within the given tenant context. Shared low-level primitive behind the
+ * module test contexts so panel, table, and route wiring stay identical across
+ * suites. Pass a null tenant for panels that are not tenant-scoped.
+ *
+ * @param  list<class-string>  $resources
+ */
+function bootFilamentAdminPanel(Model $user, ?Model $tenant = null, array $resources = []): void
+{
+    $panel = Panel::make()
+        ->default()
+        ->id('admin')
+        ->path('admin')
+        ->resources($resources);
+
+    if ($tenant instanceof Model) {
+        $panel->tenant(testTenantModel());
+    }
+
+    app(PanelRegistry::class)->register($panel);
+
+    Table::configureUsing(static fn(Table $table): Table => $table
+        ->paginationPageOptions([10, 25, 50])
+        ->deferLoading());
 
     Filament::setCurrentPanel('admin');
     Livewire::actingAs($user);
-    Filament::setTenant($tenant);
+
+    if ($tenant instanceof Model) {
+        Filament::setTenant($tenant);
+    }
+
     Filament::bootCurrentPanel();
 
     app('url')->resolveMissingNamedRoutesUsing(static fn(): string => '/');
-
-    return $tenant;
 }
 
 /**
