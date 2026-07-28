@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Misaf\VendraSubscription\Context\SubscriptionContextKeys;
 use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
@@ -130,18 +131,22 @@ final class SubscribeAction
         $payment = $result['payment'];
 
         (new RequestJobContext(
-            subscriptionId: $subscription->id,
-            paymentId: $payment?->id,
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'subscription_create',
             idempotencyKey: $payment?->idempotency_key,
-        ))->add();
+            metadata: [
+                SubscriptionContextKeys::SUBSCRIPTION_ID => $subscription->id,
+                SubscriptionContextKeys::PAYMENT_ID      => $payment?->id,
+            ],
+        ))->scope(function () use ($payment, $subscription): void {
+            if ($payment instanceof SubscriptionPayment && null === $payment->next_retry_at) {
+                ProcessSubscriptionPayment::dispatch($payment->id)->afterCommit();
+            }
 
-        if ($payment instanceof SubscriptionPayment && null === $payment->next_retry_at) {
-            ProcessSubscriptionPayment::dispatch($payment->id)->afterCommit();
-        }
-
-        if (SubscriptionStatus::Active === $subscription->status) {
-            SubscriptionActivated::dispatch($subscription);
-        }
+            if (SubscriptionStatus::Active === $subscription->status) {
+                SubscriptionActivated::dispatch($subscription);
+            }
+        });
 
         return $subscription;
     }

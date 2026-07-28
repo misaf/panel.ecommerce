@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
+use Misaf\VendraSupport\Context\RequestJobContext;
 
 /**
  * Surfaces subscription payments that are stuck and need attention, so a silent
@@ -25,6 +26,16 @@ final class ReportSubscriptionPaymentBacklogCommand extends Command
     protected $description = 'Report stuck subscription payments that need attention';
 
     public function handle(): int
+    {
+        (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'subscription_payment_backlog',
+        ))->scope(fn(): int => $this->report());
+
+        return self::SUCCESS;
+    }
+
+    private function report(): int
     {
         $staleMinutes = (int) $this->option('stale-minutes');
         $staleThreshold = now()->subMinutes($staleMinutes);

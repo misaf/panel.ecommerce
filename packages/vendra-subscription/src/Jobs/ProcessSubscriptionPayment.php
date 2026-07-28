@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
+use Misaf\VendraSubscription\Context\SubscriptionContextKeys;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Throwable;
@@ -71,7 +72,7 @@ final class ProcessSubscriptionPayment implements ShouldBeUnique, ShouldQueue
         $payment = SubscriptionPayment::query()->find($this->paymentId);
         $context = $payment instanceof SubscriptionPayment
             ? $this->context($payment)
-            : new RequestJobContext(paymentId: $this->paymentId);
+            : new RequestJobContext(metadata: [SubscriptionContextKeys::PAYMENT_ID => $this->paymentId]);
 
         $context->scope(function () use ($exception): void {
             DB::transaction(function () use ($exception): void {
@@ -95,9 +96,13 @@ final class ProcessSubscriptionPayment implements ShouldBeUnique, ShouldQueue
     private function context(SubscriptionPayment $payment): RequestJobContext
     {
         return new RequestJobContext(
-            subscriptionId: $payment->subscription_id,
-            paymentId: $payment->id,
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'subscription_payment',
             idempotencyKey: $payment->idempotency_key,
+            metadata: [
+                SubscriptionContextKeys::SUBSCRIPTION_ID => $payment->subscription_id,
+                SubscriptionContextKeys::PAYMENT_ID      => $payment->id,
+            ],
         );
     }
 }
