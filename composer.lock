@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c24f781afa5098e23cfb2bc7fbf5879",
+    "content-hash": "9971a315622b3ce07f5f9bc6d9cbdadd",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1193,16 +1193,16 @@
         },
         {
             "name": "bezhansalleh/filament-language-switch",
-            "version": "4.3.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bezhanSalleh/filament-language-switch.git",
-                "reference": "18a199c0573de0513dee3de3c0d417fd92fbdb2a"
+                "reference": "737ed66c8c9a79e73e582980d77892e37713622a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bezhanSalleh/filament-language-switch/zipball/18a199c0573de0513dee3de3c0d417fd92fbdb2a",
-                "reference": "18a199c0573de0513dee3de3c0d417fd92fbdb2a",
+                "url": "https://api.github.com/repos/bezhanSalleh/filament-language-switch/zipball/737ed66c8c9a79e73e582980d77892e37713622a",
+                "reference": "737ed66c8c9a79e73e582980d77892e37713622a",
                 "shasum": ""
             },
             "require": {
@@ -1268,7 +1268,7 @@
             ],
             "support": {
                 "issues": "https://github.com/bezhanSalleh/filament-language-switch/issues",
-                "source": "https://github.com/bezhanSalleh/filament-language-switch/tree/4.3.0"
+                "source": "https://github.com/bezhanSalleh/filament-language-switch/tree/5.0.0"
             },
             "funding": [
                 {
@@ -1276,7 +1276,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-05T00:51:57+00:00"
+            "time": "2026-06-27T23:33:56+00:00"
         },
         {
             "name": "bezhansalleh/filament-panel-switch",
@@ -6371,7 +6371,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "faeb800bbadfc3847bb421452092e45deac1093b"
+                "reference": "a908c0d18a7dbfc493a659ca8b2d4e67d353027f"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6424,7 +6424,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -6465,7 +6465,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
-                "reference": "4e157a2a466f6d73e3a9fc5494004050b984bed0"
+                "reference": "56bf3397264805b37a61887fa4cc3453d6dddbf8"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -6515,7 +6515,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -6555,7 +6555,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "5319579bd6c8f9ea410de8c3963fd81e5fd97d4e"
+                "reference": "8ecb87a2fcdfbb42535c42eb41b21092c83e3483"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -6612,7 +6612,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -6650,7 +6650,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate-api",
-                "reference": "d875577c5dd8633e3b7c89abe1969b5a1dea3d84"
+                "reference": "df18a3e2832051553227625565521a6c63e15652"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6701,7 +6701,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -6741,7 +6741,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-api",
-                "reference": "07684e70f060585cdb47bb21062d9d42166fb6fc"
+                "reference": "7da7be14d7cfb36bdd70ec82f4221305e7c5d99a"
             },
             "require": {
                 "api-platform/laravel": "^4.3",
@@ -6792,7 +6792,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -6832,7 +6832,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "cb7d4d76b7e1eda142ce38b8193d25e56d6bba86"
+                "reference": "bcb1ba3fdc0e598f045c31c2908b2522727105b8"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -6887,7 +6887,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -6927,7 +6927,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "d84ec022be05c69d1a5e0ed08f00c1e371df7894"
+                "reference": "d97f3a7bc1d81dad6a7236c901b98a4c4b27ab48"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6979,7 +6979,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7019,7 +7019,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "6b1d60f282a5c14f38ba04ec86c6bcaf74350911"
+                "reference": "0f1af56f2bf33b81a4128653ea00ba8335e48a2a"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
@@ -7072,7 +7072,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7111,7 +7111,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "858a961e600a89986439a7f0bc1b990581527c99"
+                "reference": "29cac255c46ff0989ae634f8a122d6b8208d045e"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7171,7 +7171,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7211,7 +7211,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
-                "reference": "75e3d8fc9b3244260510ad4b98eb0279a66a9ca5"
+                "reference": "f4b4e58b1dbede9327f9102f96643dcb458b5598"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7263,7 +7263,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7303,7 +7303,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart",
-                "reference": "91bf77c65075ec2b0fba1efb2657b042e2fcac5e"
+                "reference": "7ab09690bf269f2d3c2fa5b530e3b36443413edb"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -7354,7 +7354,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7394,7 +7394,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "e03817376fca7b24c8c3f19b7645483d27cc9228"
+                "reference": "abac86f07c254563a18686b4d751af29ad680116"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7445,7 +7445,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7485,7 +7485,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
-                "reference": "0e1dbda4b9e0b2dcad485b6bcdaf8663275fbca3"
+                "reference": "0f2acb4d0ff55f32304779955dbdda67117d2732"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
@@ -7540,7 +7540,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7582,7 +7582,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page",
-                "reference": "31231280617ccf79381ee1efb0c523eddb94860f"
+                "reference": "c04c25302d608b3a41cbf5f17cadce09307b40fb"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7639,7 +7639,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7681,7 +7681,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page-api",
-                "reference": "2ecbf91f7e9442beedcd86d95740790d5a01c802"
+                "reference": "11164de9462fbf8678ddbb7bf44d67b18ba7a8bc"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7733,7 +7733,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7773,7 +7773,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "745ebc77ce0d14f399c811f0e2ef5cb5f490fe38"
+                "reference": "12ba4c13afddf1873b04e5707b3ad1ca0d224a62"
             },
             "require": {
                 "misaf/vendra-multimedia": "self.version",
@@ -7824,7 +7824,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7864,7 +7864,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
-                "reference": "c4deab66cea7eb105c938b5c4681eb3da6719dfa"
+                "reference": "36c6028067a3c7bcc1f15bf0faf90a3c6f43a08f"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7924,7 +7924,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -7964,7 +7964,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
-                "reference": "5a971dbcd51163b565f825b7707d26d78fc79119"
+                "reference": "1026f6e21ecc767b5416b0de1e0289673f44365f"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8016,7 +8016,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8056,10 +8056,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
-                "reference": "36c5ddcd45613ab182e73bd781f0acb54ab050b1"
+                "reference": "26d70dc4a1c7160bfca42d3376460541a6e731ba"
             },
             "require": {
-                "bezhansalleh/filament-language-switch": "^4.3",
+                "bezhansalleh/filament-language-switch": "^5.0",
                 "misaf/vendra-support": "self.version",
                 "php": "^8.3",
                 "spatie/eloquent-sortable": "^5.0.1",
@@ -8114,7 +8114,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8154,7 +8154,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "921fad5fc331a0152cf4f58c3eb867ae59c8dae4"
+                "reference": "804a24d5690170159fbb6902de8a6f9c16a9772b"
             },
             "require": {
                 "illuminate/contracts": "^13.0",
@@ -8203,7 +8203,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8243,7 +8243,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
-                "reference": "64cf9c211d50801bfc88088dc9fba84c880ebbb2"
+                "reference": "e03f78a9ac5170557e57a2863d67746dd3b369e8"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8295,7 +8295,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8335,7 +8335,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
-                "reference": "5dddb9a74a16589b221e6266fbf3d509d7a20640"
+                "reference": "e9dfd31f6e9f130e78f411ef4aae7a667bdce5c3"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8386,7 +8386,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8426,7 +8426,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
-                "reference": "57484aeaffc14a525983cc669aa5b2c7eec1d8f8"
+                "reference": "4353b0781c73a92e143602be000c70991ecedef2"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
@@ -8478,7 +8478,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8518,7 +8518,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
-                "reference": "98badebe817942e35df986e1367ac9459ad6ecb0"
+                "reference": "438777c9495edd211bc624fc7e06d6c137b16946"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8575,7 +8575,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8615,7 +8615,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
-                "reference": "88043c75c76afa776cdd7d512329a6ac6620517a"
+                "reference": "1102d545e29b655b6439f2f4d63aadb7fa77ea4d"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -8666,7 +8666,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8706,7 +8706,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
-                "reference": "feb9243c8998d0afcff5a5ab3c20b66d527f7ff7"
+                "reference": "1d3bbde25c41f1d48f809f03c9c3b6e69e01bf4c"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8771,7 +8771,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8811,7 +8811,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "9c7764d13356850a7d41f08d44faafc20b55ebb6"
+                "reference": "06185637b79c67b3620494415b87b64083f7bb3f"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8870,7 +8870,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -8910,7 +8910,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-socialite",
-                "reference": "42d19f3f41db6ac288708fdd1d825d85da416a77"
+                "reference": "0cfbb6425cfbfa3aab9dbe1ac3de1e189ecd1ca3"
             },
             "require": {
                 "dutchcodingcompany/filament-socialite": "^3.2",
@@ -8961,7 +8961,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9002,7 +9002,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "8caa80d5502e094502c42989a5a414e4913e0dcf"
+                "reference": "1ee97e0d5c30f6c59be1c3a0881bbfa90712b39d"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
@@ -9052,7 +9052,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9094,7 +9094,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
-                "reference": "46bd8a30738ceb88cfc4aee36928a0c8a707c0ca"
+                "reference": "fffee6e614e2526163b91674ea375106d70d532c"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -9147,7 +9147,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9187,7 +9187,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "d850121673a7ad79dd2e614a8edc46bd34199d54"
+                "reference": "792a201d6b8d95bdc64afecbf6683f849a25e40f"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -9243,7 +9243,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9283,7 +9283,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "09916ca547df4fef444c731b66b74f3a4de14a3a"
+                "reference": "b736ee21a90aa0e1b95ecd8285a2020c67f9ea26"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -9339,7 +9339,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9377,7 +9377,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
-                "reference": "44af812cc4139f9112db0ecf4384f4d2afabb670"
+                "reference": "6e3ea2ddd26d2229017744756a5c45a18be7c804"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -9425,7 +9425,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9465,7 +9465,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "8fab04188b91211b205b222c1df84f5bde2e5f16"
+                "reference": "45c42cbe89b972978ec1d7f93dc577e547f96ef2"
             },
             "require": {
                 "flowframe/laravel-trend": "^0.5.0",
@@ -9528,7 +9528,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9568,7 +9568,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "68ef49b45ef3cc6a5a9b8db6ace21807ecf6691f"
+                "reference": "9d9342ac73e082ab6b1e30bcde6dd9b758e1a0ed"
             },
             "require": {
                 "laravel/pennant": "^1.24",
@@ -9628,7 +9628,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9666,7 +9666,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
-                "reference": "1f8ec265ff7a68424778da91e573176484ce94f7"
+                "reference": "c9f744dbe67bb92757f8e2c23bbe5036a1374a10"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -9724,7 +9724,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -9765,7 +9765,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
-                "reference": "641bc165fe74a0abdc8b7cea1638c6f12d4b9049"
+                "reference": "4e0204d719b818ed195c3ac6f44dfd71ecf1f251"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -9815,7 +9815,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
@@ -20147,7 +20147,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-developer-logins",
-                "reference": "7f9e5c4b37af87aff1aa8d2afc7b86b9239bb326"
+                "reference": "5082bd9dc8a35f131e0d89e1af230e818b2c6509"
             },
             "require": {
                 "dutchcodingcompany/filament-developer-logins": "^2.1",
@@ -20199,7 +20199,7 @@
                     "vendor/bin/pint"
                 ],
                 "test": [
-                    "vendor/bin/pest"
+                    "vendor/bin/pest --parallel"
                 ],
                 "test-coverage": [
                     "vendor/bin/pest --coverage"
