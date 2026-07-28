@@ -2,7 +2,29 @@
 
 declare(strict_types=1);
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Error;
+use ApiPlatform\Metadata\ErrorResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\NotExposed;
+use ApiPlatform\Metadata\Operations;
+use ApiPlatform\Metadata\Parameters;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Property\PropertyNameCollection;
+use ApiPlatform\Metadata\QueryParameter;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Illuminate\Support\Str;
+use Symfony\Component\TypeInfo\Type\ArrayShapeType;
+use Symfony\Component\TypeInfo\Type\BuiltinType;
+use Symfony\Component\TypeInfo\Type\CollectionType;
+use Symfony\Component\TypeInfo\Type\GenericType;
+use Symfony\Component\TypeInfo\Type\NullableType;
+use Symfony\Component\TypeInfo\Type\ObjectType;
+use Symfony\Component\TypeInfo\Type\UnionType;
+use Symfony\Component\WebLink\Link as WebLinkLink;
 
 return [
 
@@ -93,11 +115,47 @@ return [
     | storage. By default, no PHP classes will be unserialized from your
     | cache to prevent gadget chain attacks if your APP_KEY is leaked.
     |
+    | api-platform/laravel caches resource and property metadata through
+    | Cache::store(config('api-platform.cache')) (see CacheResourceCollectionMetadataFactory,
+    | CachePropertyNameCollectionMetadataFactory and CachePropertyMetadataFactory). unserialize()
+    | rejects every class in the cached object graph that isn't explicitly allow-listed here,
+    | not just the outermost one, so all of the following are required. This list was produced
+    | by serializing the ResourceMetadataCollection/PropertyNameCollection/ApiProperty for every
+    | registered API resource and recording every class that appeared; re-run that check (see
+    | tests/Feature/ApiPlatformMetadataCacheTest.php) if new resources introduce new operation,
+    | parameter, or property types.
+    |
     */
 
     'serializable_classes' => [
         stdClass::class,
         Illuminate\Support\Collection::class,
-        Carbon\CarbonImmutable::class
+        Carbon\CarbonImmutable::class,
+
+        // API Platform resource/property metadata (see comment above).
+        ApiProperty::class,
+        ApiResource::class,
+        Error::class,
+        ErrorResource::class,
+        Get::class,
+        GetCollection::class,
+        Link::class,
+        NotExposed::class,
+        Operations::class,
+        Parameters::class,
+        Post::class,
+        PropertyNameCollection::class,
+        QueryParameter::class,
+        ResourceMetadataCollection::class,
+
+        // Symfony type metadata nested inside ApiProperty/QueryParameter.
+        ArrayShapeType::class,
+        BuiltinType::class,
+        CollectionType::class,
+        GenericType::class,
+        NullableType::class,
+        ObjectType::class,
+        UnionType::class,
+        WebLinkLink::class,
     ],
 ];
