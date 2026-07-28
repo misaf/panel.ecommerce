@@ -13,9 +13,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Misaf\VendraNewsletter\Context\NewsletterContextKeys;
 use Misaf\VendraNewsletter\Mail\NewsletterMail;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use RuntimeException;
 
 final class SendNewsletterEmailJob implements ShouldBeUnique, ShouldQueue
@@ -42,6 +44,18 @@ final class SendNewsletterEmailJob implements ShouldBeUnique, ShouldQueue
     }
 
     public function handle(): void
+    {
+        (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'newsletter_email',
+            metadata: [
+                NewsletterContextKeys::NEWSLETTER_ID => $this->newsletterId,
+                NewsletterContextKeys::SUBSCRIBER_ID => $this->subscriberId,
+            ],
+        ))->scope(fn() => $this->send());
+    }
+
+    private function send(): void
     {
         $newsletter = Newsletter::query()->find($this->newsletterId);
         $subscriber = NewsletterSubscriber::query()->find($this->subscriberId);

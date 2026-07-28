@@ -11,6 +11,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
+use Misaf\VendraNewsletter\Context\NewsletterContextKeys;
+use Misaf\VendraSupport\Context\RequestJobContext;
 
 final class SendNewsletterBatchJob implements ShouldBeUnique, ShouldQueue
 {
@@ -40,9 +42,15 @@ final class SendNewsletterBatchJob implements ShouldBeUnique, ShouldQueue
 
     public function handle(): void
     {
-        foreach ($this->subscriberIds as $subscriberId) {
-            SendNewsletterEmailJob::dispatch($this->newsletterId, $subscriberId);
-        }
+        (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'newsletter_batch',
+            metadata: [NewsletterContextKeys::NEWSLETTER_ID => $this->newsletterId],
+        ))->scope(function (): void {
+            foreach ($this->subscriberIds as $subscriberId) {
+                SendNewsletterEmailJob::dispatch($this->newsletterId, $subscriberId);
+            }
+        });
     }
 
     public function uniqueId(): string

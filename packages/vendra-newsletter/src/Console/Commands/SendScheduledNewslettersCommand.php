@@ -7,6 +7,7 @@ namespace Misaf\VendraNewsletter\Console\Commands;
 use Illuminate\Console\Command;
 use Misaf\VendraNewsletter\Actions\SendNewsletter;
 use Misaf\VendraNewsletter\Models\Newsletter;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 
 final class SendScheduledNewslettersCommand extends Command
@@ -23,20 +24,25 @@ final class SendScheduledNewslettersCommand extends Command
      */
     public function handle(SendNewsletter $sendNewsletter, TenantResolver $tenants): int
     {
-        $tenants->eachTenant(function () use ($sendNewsletter): void {
-            Newsletter::query()
-                ->due()
-                ->orderBy('scheduled_at')
-                ->get()
-                ->each(function (Newsletter $newsletter) use ($sendNewsletter): void {
-                    $recipients = $sendNewsletter->execute($newsletter);
+        (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'scheduled_newsletters',
+        ))->scope(function () use ($sendNewsletter, $tenants): void {
+            $tenants->eachTenant(function () use ($sendNewsletter): void {
+                Newsletter::query()
+                    ->due()
+                    ->orderBy('scheduled_at')
+                    ->get()
+                    ->each(function (Newsletter $newsletter) use ($sendNewsletter): void {
+                        $recipients = $sendNewsletter->execute($newsletter);
 
-                    $this->components->info(sprintf(
-                        'Queued newsletter #%d for %d subscriber(s).',
-                        $newsletter->id,
-                        $recipients,
-                    ));
-                });
+                        $this->components->info(sprintf(
+                            'Queued newsletter #%d for %d subscriber(s).',
+                            $newsletter->id,
+                            $recipients,
+                        ));
+                    });
+            });
         });
 
         return self::SUCCESS;

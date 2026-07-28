@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -16,6 +17,7 @@ use Misaf\VendraNewsletter\Jobs\SendNewsletterBatchJob;
 use Misaf\VendraNewsletter\Jobs\SendNewsletterEmailJob;
 use Misaf\VendraNewsletter\Mail\NewsletterMail;
 use Misaf\VendraNewsletter\Models\Newsletter;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
 
 beforeEach(function (): void {
@@ -136,6 +138,35 @@ it('delivers the newsletter mail to a subscribed recipient', function (): void {
     (new SendNewsletterEmailJob($newsletter->getKey(), $subscriber->getKey()))->handle();
 
     Mail::assertSent(NewsletterMail::class, fn(NewsletterMail $mail): bool => $mail->hasTo($subscriber->email));
+});
+
+it('scopes newsletter identifiers without exposing recipient data', function (): void {
+    $newsletter = NewsletterFactory::new()->draft()->create();
+    $subscriber = NewsletterSubscriberFactory::new()->subscribed()->create();
+    $captured = [];
+
+    Mail::shouldReceive('to')
+        ->once()
+        ->with($subscriber->email)
+        ->andReturnSelf();
+    Mail::shouldReceive('send')
+        ->once()
+        ->andReturnUsing(function () use (&$captured): void {
+            $captured = Context::all();
+        });
+    Context::add(RequestJobContext::OPERATION, 'outer');
+
+    (new SendNewsletterEmailJob($newsletter->getKey(), $subscriber->getKey()))->handle();
+
+    expect($captured)->toMatchArray([
+        RequestJobContext::OPERATION => 'newsletter_email',
+        'newsletter_id'              => $newsletter->getKey(),
+        'subscriber_id'              => $subscriber->getKey(),
+    ])
+        ->not->toHaveKeys(['email', 'unsubscribe_token'])
+        ->and(Context::get(RequestJobContext::OPERATION))->toBe('outer')
+        ->and(Context::has('newsletter_id'))->toBeFalse()
+        ->and(Context::has('subscriber_id'))->toBeFalse();
 });
 
 it('does not deliver again after a recipient delivery has completed', function (): void {
