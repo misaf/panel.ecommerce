@@ -61,5 +61,9 @@ jobs:
 
             Never push directly to the 1.x branch.
 
+            Do not delegate investigation to background/async subagents — this is a
+            one-shot run with nobody to wait for their result. Do all reading,
+            searching, and investigation yourself, synchronously, in this same turn.
+
           claude_args: |
             --allowedTools "Bash(git:*),Bash(gh:*),Bash(composer:*),Bash(php:*),Bash(vendor/bin/pest:*),Bash(vendor/bin/phpstan:*),Bash(vendor/bin/pint:*),Read,Edit,Write,Grep,Glob"
