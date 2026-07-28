@@ -1,6 +1,6 @@
 ---
 name: vendra-affiliate-api-development
-description: "Create, modify, review, or test the Vendra Affiliate API package in packages/vendra-affiliate-api. Use for the public affiliates JSON:API server, AffiliateSchema, AffiliateResource, collection/resource queries, active-affiliate visibility, filters, routes, response fields, API tests, and AffiliateApiServiceProvider wiring."
+description: "Create, modify, review, or test the Vendra Affiliate API package in packages/vendra-affiliate-api. Use for the public affiliates API Platform server, AffiliateSchema, AffiliateResource, collection/resource queries, active-affiliate visibility, filters, routes, response fields, API tests, and AffiliateApiServiceProvider wiring."
 ---
 
 # Vendra Affiliate API
@@ -26,20 +26,20 @@ description: "Create, modify, review, or test the Vendra Affiliate API package i
 - Do not add a redundant direct Composer requirement solely because source code imports a type from that exposed dependency.
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
 
-Use `vendra-api-development` for shared JSON:API infrastructure, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, inspect the installed versions with Laravel Boost and search the version-specific documentation for the affected JSON:API behavior.
+Use `vendra-api-development` for shared API Platform infrastructure, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, inspect the installed versions with Laravel Boost and search the version-specific documentation for the affected API Platform behavior.
 
 ## Boundary And Contract
 
 - Work inside `packages/vendra-affiliate-api` with namespace `Misaf\VendraAffiliateApi`.
 - Reuse `Misaf\VendraAffiliate\Models\Affiliate`; do not duplicate affiliate persistence, status transitions, commissions, referrals, or payouts.
-- Preserve the public read-only contract: expose active affiliates only and serialize only `code` and `created_at`.
-- Apply active status in `AffiliateSchema::newQuery()` so index, filter, and show endpoints cannot diverge.
+- Preserve the public contract: referral-code lookup is read-only, exposing active affiliates only and serializing just `code` and `created_at`. The sole write is the throttled, validated referral-visit endpoint that delegates to the domain action and returns `204` with no output.
+- Apply active status in the `ReferralCodeProvider` query so index, filter, and show operations cannot diverge.
 - Keep filters intentionally narrow and never expose user relationships or financial fields.
 - Inherit tenant scoping from the domain model and keep the production `Misaf\VendraAffiliateApi` namespace free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.
 
 ## Change Checklist
 
-- Update the schema, resource, collection/resource queries, server, and routes together when the contract changes.
-- Add focused Pest coverage for public fields, active/suspended visibility, filtering, pagination, routes, and server schema registration.
+- Update the `#[ApiResource]` DTOs, State providers/processors, query-parameter and `FormRequest` validation, and operation routes together when the contract changes.
+- Add focused Pest coverage for public fields, active/suspended visibility, filtering, pagination, the referral-visit write, and operation routes.
 - Preserve the architecture expectation that `Misaf\VendraAffiliateApi` does not use `Misaf\VendraTenant`.
 - Run `composer --working-dir=packages/vendra-affiliate-api test` and `composer --working-dir=packages/vendra-affiliate-api analyse`; run Pint when PHP changes.
