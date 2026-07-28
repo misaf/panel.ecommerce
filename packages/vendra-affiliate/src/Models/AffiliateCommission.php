@@ -18,7 +18,7 @@ use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\ConversionTypeEnum;
 use Misaf\VendraAffiliate\Traits\BelongsToAffiliate;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 /**
  * A ledger entry crediting an affiliate for a single conversion; the source

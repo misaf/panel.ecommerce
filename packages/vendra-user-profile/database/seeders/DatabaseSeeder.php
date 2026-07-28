@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraUserProfile\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Misaf\VendraSupport\Concerns\RequiresCurrentTenant;
+use Misaf\VendraSupport\Tenancy\RequiresCurrentTenant;
 use Misaf\VendraUser\Models\User;
 use Misaf\VendraUserProfile\Models\UserProfile;
 

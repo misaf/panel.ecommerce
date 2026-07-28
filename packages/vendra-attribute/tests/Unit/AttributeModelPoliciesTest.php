@@ -8,7 +8,7 @@ use Misaf\VendraAttribute\Enums\AttributeValuePolicyEnum;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Models\AttributeValue;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership and soft deletes to attribute models', function (): void {
     expect(class_uses_recursive(Attribute::class))->toContain(BelongsToTenant::class, SoftDeletes::class)

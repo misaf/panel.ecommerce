@@ -10,7 +10,7 @@ use Misaf\VendraAffiliate\Enums\AffiliateCommissionPolicyEnum;
 use Misaf\VendraAffiliate\Enums\AffiliatePayoutPolicyEnum;
 use Misaf\VendraAffiliate\Enums\AffiliatePolicyEnum;
 use Misaf\VendraAffiliate\Enums\AffiliateReferralPolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

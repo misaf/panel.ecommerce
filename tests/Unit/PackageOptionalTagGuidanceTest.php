@@ -10,7 +10,7 @@ it('documents the tag-agnostic relationship contract in every tag-consuming pack
         ->filter(fn(string $packagePath): bool => collect(File::allFiles($packagePath . '/src'))
             ->contains(fn(SplFileInfo $file): bool => Str::contains(
                 File::get($file->getPathname()),
-                'use Misaf\VendraSupport\Traits\HasOptionalTags;',
+                'use Misaf\VendraSupport\Capabilities\HasOptionalTags;',
             )));
 
     expect($packagePaths)->not->toBeEmpty();
@@ -24,7 +24,7 @@ it('documents the tag-agnostic relationship contract in every tag-consuming pack
 
         foreach ([$guidelinePath, $skillFiles[0]->getPathname()] as $instructionPath) {
             expect(File::get($instructionPath))
-                ->toContain('Misaf\VendraSupport\Traits\HasOptionalTags')
+                ->toContain('Misaf\VendraSupport\Capabilities\HasOptionalTags')
                 ->toContain('single source of their `tags()` relationship and pivot metadata')
                 ->toContain('stable package-owned tag type')
                 ->toContain('TagIntegration')

@@ -21,7 +21,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraDocument\Models\Document;
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 
 final class DocumentsRelationManager extends RelationManager
 {

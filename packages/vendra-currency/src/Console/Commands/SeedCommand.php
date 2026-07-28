@@ -7,7 +7,7 @@ namespace Misaf\VendraCurrency\Console\Commands;
 use Misaf\VendraCurrency\CurrencyPlugin;
 use Misaf\VendraCurrency\Database\Seeders\DemoContentSeeder;
 use Misaf\VendraCurrency\Database\Seeders\PermissionPolicySeeder;
-use Misaf\VendraSupport\Console\Commands\TenantSeedCommand;
+use Misaf\VendraSupport\Tenancy\Console\Commands\TenantSeedCommand;
 
 final class SeedCommand extends TenantSeedCommand
 {

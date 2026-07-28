@@ -7,7 +7,7 @@ namespace Misaf\VendraUserProfile\Features;
 use Illuminate\Support\Facades\Config;
 use Laravel\Pennant\Attributes\Name;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 use Misaf\VendraUserProfile\Enums\UserProfileFeatureEnum;
 
 #[Name(UserProfileFeatureEnum::ModuleEnabled->value)]

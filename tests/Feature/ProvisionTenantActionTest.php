@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Queue;
-use Misaf\VendraSupport\Events\TenantProvisioned;
+use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 
 beforeEach(function (): void {

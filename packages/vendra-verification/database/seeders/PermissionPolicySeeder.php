@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraVerification\Database\Seeders;
 
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 use Misaf\VendraVerification\Enums\VerificationPolicyEnum;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder

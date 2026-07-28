@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraSupport\Support\TenantTableRegistry;
+use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 
 it('contains every package table in the fresh database baseline', function (): void {
     expect(Schema::hasTable('authify_logs'))->toBeTrue()

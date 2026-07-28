@@ -27,7 +27,7 @@ use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Actions\ProcessPayoutAction;
 use Misaf\VendraAffiliate\Models\Affiliate;
-use Misaf\VendraSupport\Support\TagIntegration;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 
 final class AffiliateTable
 {

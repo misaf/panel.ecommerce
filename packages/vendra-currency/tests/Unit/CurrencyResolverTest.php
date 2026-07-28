@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
+use Misaf\VendraSupport\Capabilities\CurrencyIntegration;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Support\CurrencyIntegration;
 
 use function Pest\Laravel\mock;
 

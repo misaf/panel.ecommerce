@@ -7,7 +7,7 @@ namespace Misaf\VendraLanguage\Database\Seeders;
 use Misaf\VendraLanguage\Enums\LanguageLinePolicyEnum;
 use Misaf\VendraLanguage\Enums\LanguagePolicyEnum;
 use Misaf\VendraLanguage\LanguagePlugin;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

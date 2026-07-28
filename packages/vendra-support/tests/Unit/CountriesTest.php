@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 
 it('provides official ISO countries with localized names', function (): void {
     $englishCountries = Countries::options('en');

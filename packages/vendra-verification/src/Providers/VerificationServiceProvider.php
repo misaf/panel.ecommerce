@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraVerification\Providers;
 
-use Misaf\VendraSupport\Support\TenantSeeders;
-use Misaf\VendraSupport\Support\TenantTableRegistry;
+use Misaf\VendraSupport\Tenancy\TenantSeeders;
+use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Misaf\VendraUserProfile\Models\UserProfile;
 use Misaf\VendraUserProfile\Support\UserProfileRelationManagers;
 use Misaf\VendraVerification\Console\Commands\SeedCommand;

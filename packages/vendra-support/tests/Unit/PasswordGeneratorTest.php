@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraSupport\Support\PasswordGenerator;
+use Misaf\VendraSupport\Filament\Support\PasswordGenerator;
 
 it('generates a password of the default length', function (): void {
     expect(PasswordGenerator::generate())->toHaveLength(8);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraTagger\Database\Factories\TaggerFactory;
 use Misaf\VendraTagger\Enums\TaggerPolicyEnum;
 use Misaf\VendraTagger\Models\Tagger;

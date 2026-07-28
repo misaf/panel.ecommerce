@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 /**
  * @extends Factory<CustomPage>

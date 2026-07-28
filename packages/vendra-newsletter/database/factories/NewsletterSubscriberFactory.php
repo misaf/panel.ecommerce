@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 /**
  * @extends Factory<NewsletterSubscriber>

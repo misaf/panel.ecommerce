@@ -12,7 +12,7 @@ use Misaf\VendraAffiliate\Models\AffiliateClick;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
 use Misaf\VendraAffiliate\Models\AffiliateReferral;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership to affiliate models', function (string $model): void {
     expect(class_uses_recursive($model))->toContain(BelongsToTenant::class);

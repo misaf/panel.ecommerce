@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 use Misaf\VendraUser\Models\User;
 
 /**

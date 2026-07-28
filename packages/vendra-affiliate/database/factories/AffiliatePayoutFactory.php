@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 /**
  * @extends Factory<AffiliatePayout>

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use DutchCodingCompany\FilamentSocialite\Models\Contracts\FilamentSocialiteUser;
 use Misaf\VendraSocialite\Models\SocialiteUser;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('is a tenant-aware filament socialite identity', function (): void {
     expect(class_uses_recursive(SocialiteUser::class))->toContain(BelongsToTenant::class)

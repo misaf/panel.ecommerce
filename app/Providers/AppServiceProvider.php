@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
-use Misaf\VendraSupport\Support\TenantTableRegistry;
+use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
 
 final class AppServiceProvider extends ServiceProvider

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
 
 it('authorizes policy abilities only while sandbox mode is enabled', function (): void {
     $policy = new class () {

@@ -13,7 +13,7 @@ use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraMultimedia\MultimediaPlugin;
 use Misaf\VendraMultimedia\Support\DefaultPathGenerator;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
-use Misaf\VendraSupport\Support\TenantTableRegistry;
+use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

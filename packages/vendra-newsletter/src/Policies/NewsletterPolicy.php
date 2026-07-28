@@ -8,13 +8,13 @@ use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Models\Newsletter;
-use Misaf\VendraSupport\Concerns\AuthorizesCreateAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesForceDeleteAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesRestoreAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
-use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
-use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
+use Misaf\VendraSupport\Authorization\AuthorizesCreateAbilities;
+use Misaf\VendraSupport\Authorization\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Authorization\AuthorizesForceDeleteAbilities;
+use Misaf\VendraSupport\Authorization\AuthorizesRestoreAbilities;
+use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Authorization\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Authorization\ResolvesPolicyPermissions;
 
 final class NewsletterPolicy
 {

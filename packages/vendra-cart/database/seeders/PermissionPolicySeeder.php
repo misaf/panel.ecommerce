@@ -7,7 +7,7 @@ namespace Misaf\VendraCart\Database\Seeders;
 use Misaf\VendraCart\CartPlugin;
 use Misaf\VendraCart\Enums\CartItemPolicyEnum;
 use Misaf\VendraCart\Enums\CartPolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

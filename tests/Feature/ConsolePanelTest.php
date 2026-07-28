@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Hash;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraSupport\Events\TenantProvisioned;
+use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;

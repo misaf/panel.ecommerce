@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateClickFactory;
 use Misaf\VendraAffiliate\Traits\BelongsToAffiliate;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 /**
  * An immutable click-log entry recorded when a visitor follows a referral link.

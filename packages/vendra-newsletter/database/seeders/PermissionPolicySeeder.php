@@ -7,7 +7,7 @@ namespace Misaf\VendraNewsletter\Database\Seeders;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterSubscriberPolicyEnum;
 use Misaf\VendraNewsletter\NewsletterPlugin;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

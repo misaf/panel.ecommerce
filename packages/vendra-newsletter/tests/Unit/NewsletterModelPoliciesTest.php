@@ -12,9 +12,9 @@ use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 use Misaf\VendraNewsletter\Policies\NewsletterPolicy;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Scopes\TeamScope;
-use Misaf\VendraSupport\Scopes\TenantScope;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\Scopes\TeamScope;
+use Misaf\VendraSupport\Tenancy\Scopes\TenantScope;
 
 /**
  * Bind a tenant resolver reporting the given availability for the current test.

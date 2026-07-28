@@ -17,7 +17,7 @@ use Livewire\Component as Livewire;
 use Misaf\VendraCurrency\Enums\CurrencyType;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraCurrency\Support\CurrencyRegistry;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class CurrencyForm
 {

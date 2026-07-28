@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Misaf\VendraCustomPage\Database\Factories\CustomPageCategoryFactory;
 use Misaf\VendraCustomPage\Database\Factories\CustomPageFactory;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraSupport\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
 
 final class DemoContentSeeder extends BaseDemoContentSeeder
 {

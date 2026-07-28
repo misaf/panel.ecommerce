@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateReferralFactory;
 use Misaf\VendraAffiliate\Traits\BelongsToAffiliate;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraUser\Traits\BelongsToUser;
 
 /**

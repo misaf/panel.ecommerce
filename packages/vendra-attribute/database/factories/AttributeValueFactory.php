@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Models\AttributeValue;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 /** @extends Factory<AttributeValue> */
 #[UseModel(AttributeValue::class)]

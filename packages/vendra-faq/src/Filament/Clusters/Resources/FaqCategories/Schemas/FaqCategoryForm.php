@@ -17,7 +17,7 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedFormFields;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class FaqCategoryForm
 {

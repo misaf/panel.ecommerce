@@ -11,7 +11,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Misaf\VendraAddress\Database\Factories\AddressFactory;
 use Misaf\VendraAddress\Filament\RelationManagers\AddressesRelationManager;
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 it('uses a localized country select and free-text administrative fields', function (): void {

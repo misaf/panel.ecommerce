@@ -6,7 +6,7 @@ use Misaf\VendraLanguage\Enums\LanguageLinePolicyEnum;
 use Misaf\VendraLanguage\Enums\LanguagePolicyEnum;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Models\LanguageLine;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership to language models', function (): void {
     expect(class_uses_recursive(Language::class))->toContain(BelongsToTenant::class)

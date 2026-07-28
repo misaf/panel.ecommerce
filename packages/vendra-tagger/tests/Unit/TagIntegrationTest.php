@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraTagger\Tests\Unit;
 
-use Misaf\VendraSupport\Support\TagIntegration;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraTagger\Models\Tagger;
 
 it('provides tag relationship metadata through the support contract', function (): void {

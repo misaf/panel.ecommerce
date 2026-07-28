@@ -6,7 +6,7 @@ namespace Misaf\VendraAuthifyLog\Console\Commands;
 
 use Misaf\VendraAuthifyLog\AuthifyLogPlugin;
 use Misaf\VendraAuthifyLog\Database\Seeders\PermissionPolicySeeder;
-use Misaf\VendraSupport\Console\Commands\TenantSeedCommand;
+use Misaf\VendraSupport\Tenancy\Console\Commands\TenantSeedCommand;
 
 final class SeedCommand extends TenantSeedCommand
 {

@@ -13,10 +13,10 @@ use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraBlog\Observers\BlogPostCategoryObserver;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Scopes\TeamScope;
-use Misaf\VendraSupport\Scopes\TenantScope;
-use Misaf\VendraSupport\Support\TenantAwareness;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\Scopes\TeamScope;
+use Misaf\VendraSupport\Tenancy\Scopes\TenantScope;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 /**
  * Bind a tenant resolver reporting the given availability for the current test.

@@ -7,7 +7,7 @@ namespace Misaf\VendraBlog\Database\Seeders;
 use Misaf\VendraBlog\BlogPlugin;
 use Misaf\VendraBlog\Enums\BlogPostCategoryPolicyEnum;
 use Misaf\VendraBlog\Enums\BlogPostPolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

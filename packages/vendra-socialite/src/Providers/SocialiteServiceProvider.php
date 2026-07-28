@@ -10,7 +10,7 @@ use Filament\Panel;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraSocialite\Support\SocialiteRegistrar;
 use Misaf\VendraSupport\Filament\Concerns\ResolvesConfiguredPanels;
-use Misaf\VendraSupport\Support\TenantTableRegistry;
+use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

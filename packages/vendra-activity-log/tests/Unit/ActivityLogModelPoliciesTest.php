@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Misaf\VendraActivityLog\Enums\ActivityLogPolicyEnum;
 use Misaf\VendraActivityLog\Models\ActivityLog;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership to the activity log model', function (): void {
     expect(class_uses_recursive(ActivityLog::class))->toContain(BelongsToTenant::class);

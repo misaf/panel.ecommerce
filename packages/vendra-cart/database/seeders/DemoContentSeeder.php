@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Misaf\VendraCart\Database\Factories\CartFactory;
 use Misaf\VendraCart\Models\Cart;
-use Misaf\VendraSupport\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
 
 final class DemoContentSeeder extends BaseDemoContentSeeder
 {

@@ -8,7 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class NewsletterSubscriberForm
 {

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Arr;
+use Misaf\VendraSupport\Capabilities\CurrencyIntegration;
+use Misaf\VendraSupport\Capabilities\NullCurrencyResolver;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
-use Misaf\VendraSupport\Support\CurrencyIntegration;
-use Misaf\VendraSupport\Support\NullCurrencyResolver;
 
 it('falls back to configured currency through the null resolver', function (): void {
     config(['app.currency' => 'GBP']);

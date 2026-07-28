@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Misaf\VendraDocument\Enums\DocumentPolicyEnum;
 use Misaf\VendraDocument\Models\Document;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Spatie\MediaLibrary\HasMedia;
 
 it('applies shared tenant ownership and soft deletes to the document model', function (): void {

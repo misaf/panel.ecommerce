@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Misaf\VendraAuthifyLog\Enums\AuthifyLogPolicyEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership to the authify log model', function (): void {
     expect(class_uses_recursive(AuthifyLog::class))->toContain(BelongsToTenant::class);

@@ -11,8 +11,8 @@ use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateReferralFactory;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
-use Misaf\VendraSupport\Concerns\RequiresCurrentTenant;
-use Misaf\VendraSupport\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
+use Misaf\VendraSupport\Tenancy\RequiresCurrentTenant;
 
 final class DemoContentSeeder extends BaseDemoContentSeeder
 {

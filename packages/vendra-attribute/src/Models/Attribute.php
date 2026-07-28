@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Misaf\VendraAttribute\Database\Factories\AttributeFactory;
+use Misaf\VendraSupport\Capabilities\HasOptionalTags;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
-use Misaf\VendraSupport\Traits\HasOptionalTags;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 

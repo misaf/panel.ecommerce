@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraUserProfile\Console\Commands;
 
-use Misaf\VendraSupport\Console\Commands\TenantSeedCommand;
+use Misaf\VendraSupport\Tenancy\Console\Commands\TenantSeedCommand;
 use Misaf\VendraUserProfile\Database\Seeders\PermissionPolicySeeder;
 
 final class SeedCommand extends TenantSeedCommand

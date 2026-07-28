@@ -7,7 +7,7 @@ use LaravelJsonApi\Laravel\Facades\JsonApiRoute;
 use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
 use LaravelJsonApi\Laravel\Routing\Relationships;
 use LaravelJsonApi\Laravel\Routing\ResourceRegistrar;
-use Misaf\VendraSupport\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Capabilities\AttributeApiIntegration;
 
 Route::middleware('api')->group(function (): void {
     JsonApiRoute::server('vendra-product')->prefix('v1')->resources(function (ResourceRegistrar $server): void {

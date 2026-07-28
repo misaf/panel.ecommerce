@@ -7,9 +7,9 @@ namespace Misaf\VendraAffiliate\Policies;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAffiliate\Enums\AffiliatePayoutPolicyEnum;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
-use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
-use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
-use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
+use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Authorization\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Authorization\ResolvesPolicyPermissions;
 
 final class AffiliatePayoutPolicy
 {

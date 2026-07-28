@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Misaf\VendraFaq\Database\Factories\FaqCategoryFactory;
 use Misaf\VendraFaq\Database\Factories\FaqFactory;
 use Misaf\VendraFaq\Models\FaqCategory;
-use Misaf\VendraSupport\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
 
 final class DemoContentSeeder extends BaseDemoContentSeeder
 {

@@ -8,8 +8,8 @@ use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
 use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Support\NullTenantResolver;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\NullTenantResolver;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 use function Pest\Laravel\mock;
 

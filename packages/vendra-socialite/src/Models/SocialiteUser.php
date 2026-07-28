@@ -7,7 +7,7 @@ namespace Misaf\VendraSocialite\Models;
 use DutchCodingCompany\FilamentSocialite\Models\SocialiteUser as BaseSocialiteUser;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 /**
  * Tenant-aware socialite identity. Extends the package model so it maps to the

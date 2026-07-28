@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Misaf\VendraAttribute\Tests\Unit;
 
 use Misaf\VendraAttribute\Models\Attribute;
+use Misaf\VendraSupport\Capabilities\EloquentTagResolver;
 use Misaf\VendraSupport\Contracts\TagResolver;
-use Misaf\VendraSupport\Support\EloquentTagResolver;
 use Misaf\VendraSupport\Support\TagRelationship;
 
 it('builds an attribute typed tag relation through the support contract', function (): void {

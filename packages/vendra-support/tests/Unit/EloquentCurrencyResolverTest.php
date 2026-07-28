@@ -6,7 +6,7 @@ namespace Misaf\VendraSupport\Tests\Unit;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraSupport\Support\EloquentCurrencyResolver;
+use Misaf\VendraSupport\Capabilities\EloquentCurrencyResolver;
 
 it('provides active currency values from an eloquent model', function (): void {
     Schema::create('support_test_currencies', function (Blueprint $table): void {

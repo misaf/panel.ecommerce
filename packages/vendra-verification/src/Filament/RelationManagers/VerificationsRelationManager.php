@@ -18,7 +18,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 
 final class VerificationsRelationManager extends RelationManager
 {

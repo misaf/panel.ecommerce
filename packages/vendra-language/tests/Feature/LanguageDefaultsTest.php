@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Schema;
 use Misaf\VendraLanguage\Actions\SetDefaultLanguage;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Support\NullTenantResolver;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\NullTenantResolver;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 use function Pest\Laravel\mock;
 

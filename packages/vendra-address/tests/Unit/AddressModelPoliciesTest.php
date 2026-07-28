@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Misaf\VendraAddress\Enums\AddressPolicyEnum;
 use Misaf\VendraAddress\Models\Address;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership and soft deletes to the address model', function (): void {
     expect(class_uses_recursive(Address::class))->toContain(BelongsToTenant::class, SoftDeletes::class)

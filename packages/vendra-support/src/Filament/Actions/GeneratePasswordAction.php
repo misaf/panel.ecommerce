@@ -8,7 +8,7 @@ use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
-use Misaf\VendraSupport\Support\PasswordGenerator;
+use Misaf\VendraSupport\Filament\Support\PasswordGenerator;
 
 final class GeneratePasswordAction extends Action
 {

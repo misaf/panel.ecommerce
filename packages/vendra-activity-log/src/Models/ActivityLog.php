@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraActivityLog\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Hidden;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Spatie\Activitylog\Models\Activity as SpatieActivityLog;
 
 /**

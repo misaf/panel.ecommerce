@@ -28,9 +28,9 @@ use Filament\Tables\Table;
 use Livewire\Component as Livewire;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraBlog\Models\BlogPostCategory;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
-use Misaf\VendraSupport\Support\TagIntegration;
 
 final class BlogPostTable
 {

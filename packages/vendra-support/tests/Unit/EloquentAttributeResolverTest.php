@@ -6,7 +6,7 @@ namespace Misaf\VendraSupport\Tests\Unit;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraSupport\Support\EloquentAttributeResolver;
+use Misaf\VendraSupport\Capabilities\EloquentAttributeResolver;
 
 it('provides enabled attribute options and the value model', function (): void {
     Schema::create('support_test_attributes', function (Blueprint $table): void {

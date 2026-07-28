@@ -7,7 +7,7 @@ namespace Misaf\VendraAttribute\Database\Seeders;
 use Misaf\VendraAttribute\AttributePlugin;
 use Misaf\VendraAttribute\Enums\AttributePolicyEnum;
 use Misaf\VendraAttribute\Enums\AttributeValuePolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Misaf\VendraBlog\Tests\Unit;
 
 use Misaf\VendraBlog\Models\BlogPost;
+use Misaf\VendraSupport\Capabilities\EloquentTagResolver;
 use Misaf\VendraSupport\Contracts\TagResolver;
-use Misaf\VendraSupport\Support\EloquentTagResolver;
 use Misaf\VendraSupport\Support\TagRelationship;
 
 it('builds a blog typed tag relation through the support contract', function (): void {

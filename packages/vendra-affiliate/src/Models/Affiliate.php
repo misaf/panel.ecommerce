@@ -17,9 +17,9 @@ use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Services\AffiliateCodeService;
+use Misaf\VendraSupport\Capabilities\HasOptionalTags;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
-use Misaf\VendraSupport\Traits\HasOptionalTags;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraUser\Traits\BelongsToUser;
 
 /**

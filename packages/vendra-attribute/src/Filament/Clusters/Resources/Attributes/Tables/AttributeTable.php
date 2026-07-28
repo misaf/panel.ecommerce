@@ -21,7 +21,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Misaf\VendraAttribute\Models\Attribute;
-use Misaf\VendraSupport\Support\TagIntegration;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 
 final class AttributeTable
 {

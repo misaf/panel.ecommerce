@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSupport\Tests\Unit;
 
+use Misaf\VendraSupport\Capabilities\AttributeIntegration;
+use Misaf\VendraSupport\Capabilities\NullAttributeResolver;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
-use Misaf\VendraSupport\Support\AttributeIntegration;
-use Misaf\VendraSupport\Support\NullAttributeResolver;
 
 it('falls back to unavailable attribute integration', function (): void {
     app()->instance(AttributeResolver::class, new class () implements AttributeResolver {

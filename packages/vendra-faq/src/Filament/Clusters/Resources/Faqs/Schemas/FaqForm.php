@@ -18,9 +18,9 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraFaq\Models\Faq;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedFormFields;
-use Misaf\VendraSupport\Support\TagIntegration;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class FaqForm
 {

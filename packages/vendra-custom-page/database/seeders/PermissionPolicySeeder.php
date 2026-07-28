@@ -7,7 +7,7 @@ namespace Misaf\VendraCustomPage\Database\Seeders;
 use Misaf\VendraCustomPage\CustomPagePlugin;
 use Misaf\VendraCustomPage\Enums\CustomPageCategoryPolicyEnum;
 use Misaf\VendraCustomPage\Enums\CustomPagePolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

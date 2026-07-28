@@ -14,8 +14,8 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
-use Misaf\VendraSupport\Support\TagIntegration;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class AffiliateForm
 {

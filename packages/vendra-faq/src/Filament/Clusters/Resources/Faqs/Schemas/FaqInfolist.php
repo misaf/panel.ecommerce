@@ -10,8 +10,8 @@ use Filament\Infolists\Components\SpatieTagsEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Misaf\VendraFaq\Models\Faq;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraSupport\Filament\Concerns\RendersRichContent;
-use Misaf\VendraSupport\Support\TagIntegration;
 
 final class FaqInfolist
 {

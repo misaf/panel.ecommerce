@@ -19,7 +19,7 @@ use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraCurrency\Enums\CurrencyType;
 use Misaf\VendraCurrency\Observers\CurrencyObserver;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Money\Currencies\CurrencyList;
 use Money\Currency as MoneyCurrency;
 use Money\Formatter\DecimalMoneyFormatter;

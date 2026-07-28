@@ -7,10 +7,10 @@ namespace Misaf\VendraAffiliate\Policies;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Misaf\VendraAffiliate\Enums\AffiliateClickPolicyEnum;
 use Misaf\VendraAffiliate\Models\AffiliateClick;
-use Misaf\VendraSupport\Concerns\AuthorizesDeleteAbilities;
-use Misaf\VendraSupport\Concerns\AuthorizesSandboxMode;
-use Misaf\VendraSupport\Concerns\AuthorizesViewAbilities;
-use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
+use Misaf\VendraSupport\Authorization\AuthorizesDeleteAbilities;
+use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
+use Misaf\VendraSupport\Authorization\AuthorizesViewAbilities;
+use Misaf\VendraSupport\Authorization\ResolvesPolicyPermissions;
 
 final class AffiliateClickPolicy
 {

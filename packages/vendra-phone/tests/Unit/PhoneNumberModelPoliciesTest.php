@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Misaf\VendraPhone\Enums\PhoneNumberPolicyEnum;
 use Misaf\VendraPhone\Models\PhoneNumber;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership and soft deletes to the phone number model', function (): void {
     expect(class_uses_recursive(PhoneNumber::class))->toContain(BelongsToTenant::class, SoftDeletes::class)

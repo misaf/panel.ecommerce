@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Database\Factories\AuthifyLogFactory;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 /**
  * @property int $id

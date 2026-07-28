@@ -6,7 +6,7 @@ use App\Jobs\CompleteTenantProvisioningJob;
 use App\Models\Reseller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Misaf\VendraSupport\Events\TenantProvisioned;
+use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
 use Misaf\VendraTenant\Models\Tenant;

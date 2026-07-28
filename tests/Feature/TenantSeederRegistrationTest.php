@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraSupport\Support\TenantSeeders;
+use Misaf\VendraSupport\Tenancy\TenantSeeders;
 use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 it('registers the user profile and provider seed commands for tenant provisioning', function (): void {

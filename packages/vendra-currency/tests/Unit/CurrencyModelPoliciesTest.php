@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Misaf\VendraCurrency\Enums\CurrencyPolicyEnum;
 use Misaf\VendraCurrency\Models\Currency;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership to the currency model', function (): void {
     expect(class_uses_recursive(Currency::class))->toContain(BelongsToTenant::class);

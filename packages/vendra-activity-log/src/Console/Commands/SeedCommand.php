@@ -6,7 +6,7 @@ namespace Misaf\VendraActivityLog\Console\Commands;
 
 use Misaf\VendraActivityLog\ActivityLogPlugin;
 use Misaf\VendraActivityLog\Database\Seeders\PermissionPolicySeeder;
-use Misaf\VendraSupport\Console\Commands\TenantSeedCommand;
+use Misaf\VendraSupport\Tenancy\Console\Commands\TenantSeedCommand;
 
 final class SeedCommand extends TenantSeedCommand
 {

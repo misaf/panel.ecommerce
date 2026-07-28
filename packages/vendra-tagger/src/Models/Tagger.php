@@ -7,7 +7,7 @@ namespace Misaf\VendraTagger\Models;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Support\Str;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraTagger\Database\Factories\TaggerFactory;
 use Spatie\Tags\Tag as SpatieTag;
 use Stringable;

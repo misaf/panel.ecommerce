@@ -16,7 +16,7 @@ use Misaf\VendraLanguage\Database\Factories\LanguageFactory;
 use Misaf\VendraLanguage\Observers\LanguageObserver;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 

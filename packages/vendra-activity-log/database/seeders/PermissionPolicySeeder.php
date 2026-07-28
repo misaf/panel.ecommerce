@@ -6,7 +6,7 @@ namespace Misaf\VendraActivityLog\Database\Seeders;
 
 use Misaf\VendraActivityLog\ActivityLogPlugin;
 use Misaf\VendraActivityLog\Enums\ActivityLogPolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

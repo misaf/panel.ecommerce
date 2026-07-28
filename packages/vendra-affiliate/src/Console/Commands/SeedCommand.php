@@ -7,7 +7,7 @@ namespace Misaf\VendraAffiliate\Console\Commands;
 use Misaf\VendraAffiliate\AffiliatePlugin;
 use Misaf\VendraAffiliate\Database\Seeders\DemoContentSeeder;
 use Misaf\VendraAffiliate\Database\Seeders\PermissionPolicySeeder;
-use Misaf\VendraSupport\Console\Commands\TenantSeedCommand;
+use Misaf\VendraSupport\Tenancy\Console\Commands\TenantSeedCommand;
 
 final class SeedCommand extends TenantSeedCommand
 {

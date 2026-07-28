@@ -26,7 +26,7 @@ use LaravelJsonApi\Eloquent\Pagination\PagePagination;
 use LaravelJsonApi\Eloquent\Schema;
 use Misaf\VendraApi\JsonApi\Sorting\RandomPositionSort;
 use Misaf\VendraProduct\Models\ProductCategory;
-use Misaf\VendraSupport\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Capabilities\AttributeApiIntegration;
 
 final class ProductCategorySchema extends Schema
 {

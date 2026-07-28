@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Composer\InstalledVersions;
 use Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema;
-use Misaf\VendraSupport\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Capabilities\AttributeApiIntegration;
 
 it('resolves the attribute-value schema through the support layer when vendra-attribute-api is installed', function (): void {
     expect(AttributeApiIntegration::isAvailable())->toBeTrue()

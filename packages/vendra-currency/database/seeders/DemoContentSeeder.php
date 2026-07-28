@@ -7,7 +7,7 @@ namespace Misaf\VendraCurrency\Database\Seeders;
 use Illuminate\Support\Facades\Validator;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraCurrency\Support\CurrencyRegistry;
-use Misaf\VendraSupport\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\DemoContentSeeder as BaseDemoContentSeeder;
 
 final class DemoContentSeeder extends BaseDemoContentSeeder
 {

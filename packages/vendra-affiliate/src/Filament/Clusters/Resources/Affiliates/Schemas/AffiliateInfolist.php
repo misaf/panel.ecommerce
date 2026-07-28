@@ -8,7 +8,7 @@ use Filament\Infolists\Components\SpatieTagsEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Misaf\VendraAffiliate\Models\Affiliate;
-use Misaf\VendraSupport\Support\TagIntegration;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 
 final class AffiliateInfolist
 {

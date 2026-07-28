@@ -13,7 +13,7 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\Locales;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class LanguageForm
 {

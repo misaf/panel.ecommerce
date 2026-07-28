@@ -15,7 +15,7 @@ use Misaf\VendraAffiliate\Database\Factories\AffiliatePayoutFactory;
 use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
 use Misaf\VendraAffiliate\Traits\BelongsToAffiliate;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 /**
  * A settlement grouping the approved commissions that were paid out together;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSupport\Tests\Unit;
 
+use Misaf\VendraSupport\Capabilities\EloquentTagResolver;
+use Misaf\VendraSupport\Capabilities\NullTagResolver;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraSupport\Contracts\TagResolver;
-use Misaf\VendraSupport\Support\EloquentTagResolver;
-use Misaf\VendraSupport\Support\NullTagResolver;
-use Misaf\VendraSupport\Support\TagIntegration;
 use Misaf\VendraSupport\Support\TagRelationship;
 use RuntimeException;
 

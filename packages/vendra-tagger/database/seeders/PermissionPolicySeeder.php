@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraTagger\Database\Seeders;
 
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 use Misaf\VendraTagger\Enums\TaggerPolicyEnum;
 use Misaf\VendraTagger\TaggerPlugin;
 

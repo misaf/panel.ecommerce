@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Number;
 use Illuminate\Validation\Rules\Unique;
 use Misaf\VendraAttribute\Models\Attribute;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class AttributeValueRelationManager extends RelationManager
 {

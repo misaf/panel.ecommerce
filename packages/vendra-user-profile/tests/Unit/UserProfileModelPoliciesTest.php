@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraUserProfile\Enums\UserProfilePolicyEnum;
 use Misaf\VendraUserProfile\Models\UserProfile;
 

@@ -23,7 +23,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraAddress\Models\Address;
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 
 final class AddressesRelationManager extends RelationManager
 {

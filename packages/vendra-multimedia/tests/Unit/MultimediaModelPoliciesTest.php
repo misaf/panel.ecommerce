@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Misaf\VendraMultimedia\Enums\MultimediaPolicyEnum;
 use Misaf\VendraMultimedia\Models\Multimedia;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership to the multimedia model', function (): void {
     expect(class_uses_recursive(Multimedia::class))->toContain(BelongsToTenant::class);

@@ -7,7 +7,7 @@ namespace Misaf\VendraNewsletter\Console\Commands;
 use Misaf\VendraNewsletter\Database\Seeders\DemoContentSeeder;
 use Misaf\VendraNewsletter\Database\Seeders\PermissionPolicySeeder;
 use Misaf\VendraNewsletter\NewsletterPlugin;
-use Misaf\VendraSupport\Console\Commands\TenantSeedCommand;
+use Misaf\VendraSupport\Tenancy\Console\Commands\TenantSeedCommand;
 
 final class SeedCommand extends TenantSeedCommand
 {

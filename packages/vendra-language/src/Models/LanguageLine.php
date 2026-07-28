@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Cache;
 use Misaf\VendraLanguage\Contracts\NamespacedLanguageLine;
 use Misaf\VendraLanguage\Database\Factories\LanguageLineFactory;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Support\TenantAwareness;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
 
 /**

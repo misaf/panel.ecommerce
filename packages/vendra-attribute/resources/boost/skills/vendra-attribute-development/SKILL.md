@@ -35,7 +35,7 @@ description: "Create, modify, review, or test the Vendra Attribute package in pa
 - Preserve `AttributeValue` as a sortable polymorphic value belonging to one `Attribute` and one `attributable` model.
 - Keep `AttributeResolver` bound to the package models through `AttributeServiceProvider`.
 - Derive tenancy through `BelongsToTenant` and support-layer schema helpers; never import `Misaf\VendraTenant` or set `tenant_id` manually.
-- Tag-consuming models must use `Misaf\VendraSupport\Traits\HasOptionalTags` as the single source of their `tags()` relationship and pivot metadata. Keep the package tag-agnostic: define a stable package-owned tag type, use `TagIntegration` for availability and UI integration, never import the concrete Vendra Tagger model/provider or define the relationship through Spatie `HasTags`, and list Tagger only under Composer `suggest`.
+- Tag-consuming models must use `Misaf\VendraSupport\Capabilities\HasOptionalTags` as the single source of their `tags()` relationship and pivot metadata. Keep the package tag-agnostic: define a stable package-owned tag type, use `TagIntegration` for availability and UI integration, never import the concrete Vendra Tagger model/provider or define the relationship through Spatie `HasTags`, and list Tagger only under Composer `suggest`.
 - Keep unit labels in `vendra-attribute.units` and normalize them through `AttributeUnits::options()`.
 
 ## Change Checklist

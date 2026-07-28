@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Livewire;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 use PHPUnit\Framework\Assert;
 
 /**

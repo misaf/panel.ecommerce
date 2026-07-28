@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 use Misaf\VendraVerification\Filament\RelationManagers\VerificationsRelationManager;
 
 it('uses a searchable localized country select', function (): void {

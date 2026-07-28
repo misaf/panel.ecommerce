@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Str;
-use Misaf\VendraSupport\Events\TenantProvisioned;
+use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
 use Misaf\VendraTenant\Models\Tenant;

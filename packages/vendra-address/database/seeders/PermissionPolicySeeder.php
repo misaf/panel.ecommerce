@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAddress\Database\Seeders;
 
 use Misaf\VendraAddress\Enums\AddressPolicyEnum;
-use Misaf\VendraSupport\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
+use Misaf\VendraSupport\Tenancy\Database\Seeders\PermissionPolicySeeder as BasePermissionPolicySeeder;
 
 final class PermissionPolicySeeder extends BasePermissionPolicySeeder
 {

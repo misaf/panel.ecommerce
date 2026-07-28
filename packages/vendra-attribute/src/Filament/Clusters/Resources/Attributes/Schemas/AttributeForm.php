@@ -15,8 +15,8 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Support\AttributeUnits;
-use Misaf\VendraSupport\Support\TagIntegration;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class AttributeForm
 {

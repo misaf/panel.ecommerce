@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCart\Models\CartItem;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('keeps cart ownership and sellable references polymorphic', function (): void {
     $cart = new Cart();

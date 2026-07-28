@@ -8,7 +8,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Misaf\VendraDocument\Database\Factories\DocumentFactory;
 use Misaf\VendraDocument\Filament\RelationManagers\DocumentsRelationManager;
-use Misaf\VendraSupport\Support\Countries;
+use Misaf\VendraSupport\Capabilities\Countries;
 use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 it('uses a searchable localized country select for the issuing country', function (): void {

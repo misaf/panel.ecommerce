@@ -6,8 +6,8 @@ namespace Misaf\VendraSupport\Tests\Unit;
 
 use Error;
 use Illuminate\Contracts\Auth\Access\Authorizable;
-use Misaf\VendraSupport\Concerns\AuthorizesUpdateAbilities;
-use Misaf\VendraSupport\Concerns\ResolvesPolicyPermissions;
+use Misaf\VendraSupport\Authorization\AuthorizesUpdateAbilities;
+use Misaf\VendraSupport\Authorization\ResolvesPolicyPermissions;
 use Mockery;
 
 it('authorizes trait abilities through the policy permission enum', function (): void {

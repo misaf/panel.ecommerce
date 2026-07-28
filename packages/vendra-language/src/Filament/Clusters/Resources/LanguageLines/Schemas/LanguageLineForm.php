@@ -15,7 +15,7 @@ use Illuminate\Validation\Rules\Unique;
 use Livewire\Component as Livewire;
 use Misaf\VendraLanguage\Support\TranslationCatalog;
 use Misaf\VendraLanguage\Support\TranslationLocales;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 final class LanguageLineForm
 {

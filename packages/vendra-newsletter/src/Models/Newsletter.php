@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterFactory;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 /**
  * @property int $id

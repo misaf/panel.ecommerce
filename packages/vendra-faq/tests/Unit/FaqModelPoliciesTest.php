@@ -7,7 +7,7 @@ use Misaf\VendraFaq\Enums\FaqCategoryPolicyEnum;
 use Misaf\VendraFaq\Enums\FaqPolicyEnum;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership and soft deletes to faq models', function (): void {
     expect(class_uses_recursive(Faq::class))->toContain(BelongsToTenant::class, SoftDeletes::class)

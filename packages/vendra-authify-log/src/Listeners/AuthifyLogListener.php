@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redis;
 use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Notifications\LoginNotification;
-use Misaf\VendraSupport\Support\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
 class AuthifyLogListener
 {

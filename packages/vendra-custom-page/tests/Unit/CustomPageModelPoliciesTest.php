@@ -7,7 +7,7 @@ use Misaf\VendraCustomPage\Enums\CustomPageCategoryPolicyEnum;
 use Misaf\VendraCustomPage\Enums\CustomPagePolicyEnum;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraSupport\Traits\BelongsToTenant;
+use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 
 it('applies shared tenant ownership and soft deletes to custom page models', function (): void {
     expect(class_uses_recursive(CustomPage::class))->toContain(BelongsToTenant::class, SoftDeletes::class)

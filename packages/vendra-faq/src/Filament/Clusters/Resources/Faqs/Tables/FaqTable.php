@@ -28,9 +28,9 @@ use Filament\Tables\Table;
 use Livewire\Component as Livewire;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
+use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraSupport\Filament\Concerns\HasDefaultAvatarImageUrl;
 use Misaf\VendraSupport\Filament\Concerns\InteractsWithTranslatedTableRecords;
-use Misaf\VendraSupport\Support\TagIntegration;
 
 final class FaqTable
 {

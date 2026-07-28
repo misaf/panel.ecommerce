@@ -6,7 +6,7 @@ namespace Misaf\VendraProductApi\JsonApi\V1\Products;
 
 use LaravelJsonApi\Laravel\Http\Requests\ResourceQuery;
 use LaravelJsonApi\Validation\Rule as JsonApiRule;
-use Misaf\VendraSupport\Support\AttributeApiIntegration;
+use Misaf\VendraSupport\Capabilities\AttributeApiIntegration;
 
 final class ProductCollectionQuery extends ResourceQuery
 {
