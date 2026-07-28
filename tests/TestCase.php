@@ -6,6 +6,8 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Number;
 use Laravel\Pennant\Feature;
 use Override;
 use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
@@ -27,6 +29,8 @@ abstract class TestCase extends BaseTestCase
             )),
         );
 
+        Carbon::setLocale(app()->getLocale());
+        Number::useLocale(app()->getLocale());
         Feature::flushCache();
     }
 }

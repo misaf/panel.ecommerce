@@ -138,6 +138,7 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="MAIL_MAILER" value="array"/>
+        <env name="LOG_CHANNEL" value="testing"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DOMAIN" value="null"/>
         <env name="SESSION_DRIVER" value="array"/>

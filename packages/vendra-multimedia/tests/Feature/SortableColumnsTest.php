@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Awcodes\BadgeableColumn\Components\BadgeableColumn;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\Pages\ListMultimedia;
 use Misaf\VendraMultimedia\Models\Multimedia;
@@ -53,7 +54,7 @@ it('renders the model identifier as a suffix badge', function (): void {
                 $formattedState = (string) $column->formatState('test-model');
 
                 return str_contains($formattedState, 'badgeable-column-badge')
-                    && str_contains($formattedState, '42');
+                    && str_contains($formattedState, Number::format(42));
             },
             $multimedia,
         );
