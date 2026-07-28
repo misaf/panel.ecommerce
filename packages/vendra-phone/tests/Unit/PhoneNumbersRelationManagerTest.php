@@ -9,7 +9,6 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Misaf\VendraPhone\Database\Factories\PhoneNumberFactory;
 use Misaf\VendraPhone\Filament\RelationManagers\PhoneNumbersRelationManager;
-use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 it('provides a notes field', function (): void {
     $relationManager = new PhoneNumbersRelationManager();
@@ -22,7 +21,7 @@ it('provides a notes field', function (): void {
 });
 
 it('updates verification state from table toggle', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
     $relationManager = new PhoneNumbersRelationManager();
     $table = $relationManager->table(Table::make($relationManager));
@@ -41,7 +40,7 @@ it('updates verification state from table toggle', function (): void {
 });
 
 it('shows primary badge on label column for primary phone numbers', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
     $relationManager = new PhoneNumbersRelationManager();
     $table = $relationManager->table(Table::make($relationManager));

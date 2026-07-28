@@ -12,7 +12,6 @@ use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\ListUserProfiles;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 use Misaf\VendraUserProfile\Models\UserProfile;
-use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 use function Pest\Livewire\livewire;
 
@@ -24,7 +23,7 @@ beforeEach(function (): void {
 });
 
 it('exposes the installed module by default', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
     expect(Config::boolean('vendra-user-profile.features_enabled'))->toBeTrue()
         ->and(Config::boolean('vendra-user-profile.module_enabled'))->toBeTrue()
@@ -38,7 +37,7 @@ it('lets the global module switch override a persisted inactive value', function
     ]);
     Config::set('vendra-user-profile.features_enabled', true);
     Config::set('vendra-user-profile.module_enabled', true);
-    $tenant = UserProfileModuleTestContext::createCurrentTenant();
+    $tenant = makeCurrentTestTenant();
     Feature::for($tenant)->deactivate(ModuleEnabled::class);
     Feature::flushCache();
 
@@ -48,7 +47,7 @@ it('lets the global module switch override a persisted inactive value', function
 it('lets the global feature switch override a persisted active value', function (): void {
     Config::set('vendra-user-profile.features_enabled', false);
     Config::set('vendra-user-profile.module_enabled', false);
-    $tenant = UserProfileModuleTestContext::createCurrentTenant();
+    $tenant = makeCurrentTestTenant();
     Feature::for($tenant)->activate(ModuleEnabled::class);
     Feature::flushCache();
 
@@ -58,13 +57,13 @@ it('lets the global feature switch override a persisted active value', function 
 it('rejects feature scopes that are not tenants', function (): void {
     Config::set('vendra-user-profile.features_enabled', true);
     Config::set('vendra-user-profile.module_enabled', true);
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
-    expect(Feature::for(UserProfileModuleTestContext::createUser())->active(ModuleEnabled::class))->toBeFalse();
+    expect(Feature::for(createTestUser())->active(ModuleEnabled::class))->toBeFalse();
 });
 
 it('renders user profiles in the Filament resource table', function (): void {
-    UserProfileModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
 
     $profile = UserProfile::query()->create([
         'user_id'     => User::query()->valueOrFail('id'),
@@ -82,7 +81,7 @@ it('renders user profiles in the Filament resource table', function (): void {
 });
 
 it('toggles a user profile active state from the Filament resource table', function (): void {
-    UserProfileModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
 
     $profile = UserProfileFactory::new()
         ->inactive()
@@ -100,7 +99,7 @@ it('toggles a user profile active state from the Filament resource table', funct
 });
 
 it('exposes the default toggle and keeps one default profile per user', function (): void {
-    UserProfileModuleTestContext::setUpFilamentAdminContext();
+    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
 
     $user = User::factory()->create();
     $firstProfile = UserProfileFactory::new()->forUser($user)->createOne(['is_default' => true]);

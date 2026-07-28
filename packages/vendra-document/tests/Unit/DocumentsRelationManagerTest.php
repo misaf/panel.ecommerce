@@ -9,7 +9,6 @@ use Filament\Tables\Table;
 use Misaf\VendraDocument\Database\Factories\DocumentFactory;
 use Misaf\VendraDocument\Filament\RelationManagers\DocumentsRelationManager;
 use Misaf\VendraSupport\Capabilities\Countries;
-use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 it('uses a searchable localized country select for the issuing country', function (): void {
     app()->setLocale('fa');
@@ -25,7 +24,7 @@ it('uses a searchable localized country select for the issuing country', functio
 });
 
 it('updates verification state from the table toggle', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
     $relationManager = new DocumentsRelationManager();
     $table = $relationManager->table(Table::make($relationManager));

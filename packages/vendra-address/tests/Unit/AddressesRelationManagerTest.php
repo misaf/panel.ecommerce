@@ -12,7 +12,6 @@ use Filament\Tables\Table;
 use Misaf\VendraAddress\Database\Factories\AddressFactory;
 use Misaf\VendraAddress\Filament\RelationManagers\AddressesRelationManager;
 use Misaf\VendraSupport\Capabilities\Countries;
-use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 
 it('uses a localized country select and free-text administrative fields', function (): void {
     app()->setLocale('fa');
@@ -32,7 +31,7 @@ it('uses a localized country select and free-text administrative fields', functi
 });
 
 it('updates verification state from table toggle', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
     $relationManager = new AddressesRelationManager();
     $table = $relationManager->table(Table::make($relationManager));
@@ -51,7 +50,7 @@ it('updates verification state from table toggle', function (): void {
 });
 
 it('shows primary badge on label column for primary addresses', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
+    makeCurrentTestTenant();
 
     $relationManager = new AddressesRelationManager();
     $table = $relationManager->table(Table::make($relationManager));

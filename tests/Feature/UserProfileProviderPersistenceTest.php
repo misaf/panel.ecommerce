@@ -10,12 +10,11 @@ use Misaf\VendraDocument\Models\Document;
 use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraPhone\Models\PhoneNumber;
 use Misaf\VendraUserProfile\Models\UserProfile;
-use Misaf\VendraUserProfile\Tests\Support\UserProfileModuleTestContext;
 use Misaf\VendraVerification\Models\Verification;
 
 it('persists independently installed profile provider records', function (): void {
-    UserProfileModuleTestContext::createCurrentTenant();
-    $user = UserProfileModuleTestContext::createUser();
+    makeCurrentTestTenant();
+    $user = createTestUser();
     $profile = UserProfile::factory()->forUser($user)->create();
 
     $address = Address::factory()->create([
@@ -67,8 +66,8 @@ it('uses scalar country-aware columns and structured metadata', function (): voi
 
 it('stores private document files through Vendra Multimedia', function (): void {
     Storage::fake('local');
-    UserProfileModuleTestContext::createCurrentTenant();
-    $user = UserProfileModuleTestContext::createUser();
+    makeCurrentTestTenant();
+    $user = createTestUser();
     $profile = UserProfile::factory()->forUser($user)->create();
     $document = Document::factory()->create(['user_profile_id' => $profile->id]);
 
