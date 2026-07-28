@@ -22,7 +22,7 @@ use Misaf\VendraAffiliateApi\State\RecordReferralVisitProcessor;
         ),
     ],
 )]
-final class ReferralVisit
+final class AffiliateClickResource
 {
     public string $code = '';
 

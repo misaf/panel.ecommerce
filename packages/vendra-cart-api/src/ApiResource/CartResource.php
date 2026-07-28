@@ -29,7 +29,7 @@ use Misaf\VendraCartApi\State\ShoppingCartProvider;
         ),
     ],
 )]
-final readonly class ShoppingCart
+final readonly class CartResource
 {
     /**
      * @param array<int, CartLine> $lines

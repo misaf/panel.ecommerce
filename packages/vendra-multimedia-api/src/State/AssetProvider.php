@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraMultimedia\Models\Multimedia;
-use Misaf\VendraMultimediaApi\ApiResource\Asset;
+use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 /**
- * @extends EloquentResourceProvider<Multimedia, Asset>
+ * @extends EloquentResourceProvider<Multimedia, MultimediaResource>
  */
 final class AssetProvider extends EloquentResourceProvider
 {
@@ -21,10 +21,10 @@ final class AssetProvider extends EloquentResourceProvider
         return Multimedia::query()->select(['id', 'uuid', 'name', 'collection_name', 'mime_type', 'size']);
     }
 
-    protected function toResource(Model $model, Operation $operation): Asset
+    protected function toResource(Model $model, Operation $operation): MultimediaResource
     {
         /** @var Multimedia $model */
-        return new Asset(
+        return new MultimediaResource(
             id: $model->id,
             uuid: $model->uuid,
             name: $model->name,

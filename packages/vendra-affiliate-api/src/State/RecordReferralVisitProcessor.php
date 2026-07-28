@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use Misaf\VendraAffiliate\Actions\RecordAffiliateClick;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
-use Misaf\VendraAffiliateApi\ApiResource\ReferralVisit;
+use Misaf\VendraAffiliateApi\ApiResource\AffiliateClickResource;
 
 /**
- * @implements ProcessorInterface<ReferralVisit, void>
+ * @implements ProcessorInterface<AffiliateClickResource, void>
  */
 final readonly class RecordReferralVisitProcessor implements ProcessorInterface
 {
@@ -24,7 +24,7 @@ final readonly class RecordReferralVisitProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        if ( ! $data instanceof ReferralVisit) {
+        if ( ! $data instanceof AffiliateClickResource) {
             return;
         }
 

@@ -32,7 +32,7 @@ Use `vendra-api-development` for shared API Platform infrastructure, `laravel-be
 
 - Work inside `packages/vendra-attribute-api` with namespace `Misaf\VendraAttributeApi`.
 - Reuse `Misaf\VendraAttribute\Models\Attribute` and `AttributeValue`; do not duplicate attribute persistence or polymorphic relationships.
-- Expose both the `CatalogAttribute` (`Attribute`) and `CatalogOption` (`AttributeValue`) `ApiResource` DTOs. Preserve the attribute shape (`name`, `description`, `unit`, `position`, `active`) and attribute-value shape (`attribute_id`, `value`, read-only `position`). List/show only active attributes and values belonging to active attributes. Keep raw `attributable_type` and `attributable_id` private.
+- Expose both the `AttributeResource` (`Attribute`) and `AttributeValueResource` (`AttributeValue`) `ApiResource` DTOs. Preserve the attribute shape (`name`, `description`, `unit`, `position`, `active`) and attribute-value shape (`attribute_id`, `value`, read-only `position`). List/show only active attributes and values belonging to active attributes. Keep raw `attributable_type` and `attributable_id` private.
 - Keep the API read-only and non-authorizable; do not add generic mutations.
 - Bind the Support `AttributeApiResolver` to `AttributeApiServiceResolver`. Product API integration must consume that provider-neutral contract: product categories expose `attributeValues`, while products expose `attributeValues` and `selectedAttributeValues`; neither API package imports the other.
 - Inherit tenant scoping from the domain model and keep the production `Misaf\VendraAttributeApi` namespace free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.

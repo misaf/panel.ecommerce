@@ -13,10 +13,10 @@ use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCart\Models\CartItem;
 use Misaf\VendraCartApi\ApiResource\CartLine;
-use Misaf\VendraCartApi\ApiResource\ShoppingCart;
+use Misaf\VendraCartApi\ApiResource\CartResource;
 
 /**
- * @extends EloquentResourceProvider<Cart, ShoppingCart>
+ * @extends EloquentResourceProvider<Cart, CartResource>
  */
 final class ShoppingCartProvider extends EloquentResourceProvider
 {
@@ -35,10 +35,10 @@ final class ShoppingCartProvider extends EloquentResourceProvider
             );
     }
 
-    protected function toResource(Model $model, Operation $operation): ShoppingCart
+    protected function toResource(Model $model, Operation $operation): CartResource
     {
         /** @var Cart $model */
-        return new ShoppingCart(
+        return new CartResource(
             id: $model->id,
             token: $model->token,
             expiresAt: $model->expires_at?->toAtomString(),

@@ -26,7 +26,7 @@ use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
         ),
     ],
 )]
-final readonly class CatalogOption
+final readonly class AttributeValueResource
 {
     public function __construct(
         #[ApiProperty(identifier: true)]

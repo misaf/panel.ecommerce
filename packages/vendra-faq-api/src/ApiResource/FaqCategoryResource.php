@@ -18,7 +18,7 @@ use Misaf\VendraFaqApi\State\HelpResourceProvider;
         new GetCollection(uriTemplate: '/content/faq-categories', provider: HelpResourceProvider::class),
     ],
 )]
-final readonly class HelpTopic
+final readonly class FaqCategoryResource
 {
     /**
      * @param array<string, string> $title

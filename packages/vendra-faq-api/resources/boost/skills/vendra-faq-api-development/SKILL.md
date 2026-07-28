@@ -39,7 +39,7 @@ Treat `packages/vendra-faq-api` as the API Platform layer for `misaf/vendra-faq`
 
 ## API Platform Shape
 
-Expose read models as API Platform resources in `src/ApiResource` (`HelpArticle`, `HelpTopic`), backed by state providers in `src/State` (for example `HelpResourceProvider`).
+Expose read models as API Platform resources in `src/ApiResource` (`FaqResource`, `FaqCategoryResource`), backed by state providers in `src/State` (for example `HelpResourceProvider`).
 
 - Define each resource as a `final readonly` DTO annotated with `#[ApiResource]`, declaring `Get`/`GetCollection` operations with explicit `uriTemplate` paths and a `provider`.
 - Keep each resource `shortName` and URI path stable and kebab-case, for example `/content/faqs`, `/content/faq-categories`.

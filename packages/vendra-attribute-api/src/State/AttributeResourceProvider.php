@@ -11,17 +11,17 @@ use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Models\AttributeValue;
-use Misaf\VendraAttributeApi\ApiResource\CatalogAttribute;
-use Misaf\VendraAttributeApi\ApiResource\CatalogOption;
+use Misaf\VendraAttributeApi\ApiResource\AttributeResource;
+use Misaf\VendraAttributeApi\ApiResource\AttributeValueResource;
 
 /**
- * @extends EloquentResourceProvider<Model, CatalogAttribute|CatalogOption>
+ * @extends EloquentResourceProvider<Model, AttributeResource|AttributeValueResource>
  */
 final class AttributeResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
-        if (CatalogOption::class === $operation->getClass()) {
+        if (AttributeValueResource::class === $operation->getClass()) {
             return AttributeValue::query()
                 ->with('attribute:id,name')
                 ->whereHas('attribute', fn(Builder $query): Builder => $query->where('active', true));
@@ -32,10 +32,10 @@ final class AttributeResourceProvider extends EloquentResourceProvider
             ->where('active', true);
     }
 
-    protected function toResource(Model $model, Operation $operation): CatalogAttribute|CatalogOption
+    protected function toResource(Model $model, Operation $operation): AttributeResource|AttributeValueResource
     {
         if ($model instanceof AttributeValue) {
-            return new CatalogOption(
+            return new AttributeValueResource(
                 id: $model->id,
                 value: $model->value,
                 attribute: new ResourceReference($model->attribute->id, 'Attribute', $model->attribute->name),
@@ -43,7 +43,7 @@ final class AttributeResourceProvider extends EloquentResourceProvider
         }
 
         /** @var Attribute $model */
-        return new CatalogAttribute(
+        return new AttributeResource(
             id: $model->id,
             name: $model->name,
             description: $model->description,

@@ -11,27 +11,27 @@ use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraCustomPageApi\ApiResource\ContentPage;
-use Misaf\VendraCustomPageApi\ApiResource\ContentSection;
+use Misaf\VendraCustomPageApi\ApiResource\CustomPageCategoryResource;
+use Misaf\VendraCustomPageApi\ApiResource\CustomPageResource;
 
 /**
- * @extends EloquentResourceProvider<Model, ContentPage|ContentSection>
+ * @extends EloquentResourceProvider<Model, CustomPageResource|CustomPageCategoryResource>
  */
 final class ContentResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
-        if (ContentSection::class === $operation->getClass()) {
+        if (CustomPageCategoryResource::class === $operation->getClass()) {
             return CustomPageCategory::query()->with('customPages:id,custom_page_category_id,name')->where('active', true);
         }
 
         return CustomPage::query()->with(['customPageCategory:id,name', 'multimedia'])->where('active', true);
     }
 
-    protected function toResource(Model $model, Operation $operation): ContentPage|ContentSection
+    protected function toResource(Model $model, Operation $operation): CustomPageResource|CustomPageCategoryResource
     {
         if ($model instanceof CustomPageCategory) {
-            return new ContentSection(
+            return new CustomPageCategoryResource(
                 id: $model->id,
                 title: $model->getTranslations('name'),
                 pages: $model->customPages
@@ -41,7 +41,7 @@ final class ContentResourceProvider extends EloquentResourceProvider
         }
 
         /** @var CustomPage $model */
-        return new ContentPage(
+        return new CustomPageResource(
             id: $model->id,
             title: $model->getTranslations('name'),
             body: $model->getTranslations('description'),

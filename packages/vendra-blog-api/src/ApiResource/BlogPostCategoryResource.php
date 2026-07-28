@@ -18,7 +18,7 @@ use Misaf\VendraBlogApi\State\BlogResourceProvider;
         new GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogResourceProvider::class),
     ],
 )]
-final readonly class ArticleSection
+final readonly class BlogPostCategoryResource
 {
     /**
      * @param array<string, string> $title

@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraProductApi\State\ProductResourceProvider;
@@ -26,8 +27,15 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
             ],
         ),
     ],
+    mcp: [
+        'list_product_prices' => new McpToolCollection(
+            description: 'List product prices with their minor-unit amount, currency, formatted value, and linked product.',
+            input: CatalogListingInput::class,
+            provider: ProductResourceProvider::class,
+        ),
+    ],
 )]
-final readonly class PriceQuote
+final readonly class ProductPriceResource
 {
     public function __construct(
         #[ApiProperty(identifier: true)]

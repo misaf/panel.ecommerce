@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraProductApi\State\ProductResourceProvider;
@@ -27,8 +28,15 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
             ],
         ),
     ],
+    mcp: [
+        'list_products' => new McpToolCollection(
+            description: 'List active catalog products with their categories, prices, media, and attribute options.',
+            input: CatalogListingInput::class,
+            provider: ProductResourceProvider::class,
+        ),
+    ],
 )]
-final readonly class CatalogItem
+final readonly class ProductResource
 {
     /**
      * @param array<string, string> $title

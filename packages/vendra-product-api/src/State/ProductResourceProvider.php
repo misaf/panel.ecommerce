@@ -12,24 +12,24 @@ use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraProduct\Models\Product;
 use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraProduct\Models\ProductPrice;
-use Misaf\VendraProductApi\ApiResource\CatalogGroup;
-use Misaf\VendraProductApi\ApiResource\CatalogItem;
-use Misaf\VendraProductApi\ApiResource\PriceQuote;
+use Misaf\VendraProductApi\ApiResource\ProductCategoryResource;
+use Misaf\VendraProductApi\ApiResource\ProductPriceResource;
+use Misaf\VendraProductApi\ApiResource\ProductResource;
 use Misaf\VendraSupport\Capabilities\AttributeIntegration;
 
 /**
- * @extends EloquentResourceProvider<Model, CatalogGroup|CatalogItem|PriceQuote>
+ * @extends EloquentResourceProvider<Model, ProductCategoryResource|ProductResource|ProductPriceResource>
  */
 final class ProductResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
         return match ($operation->getClass()) {
-            CatalogGroup::class => ProductCategory::query()
+            ProductCategoryResource::class => ProductCategory::query()
                 ->with('products:id,product_category_id,name')
                 ->where('active', true),
-            PriceQuote::class => ProductPrice::query()->with('product:id,name'),
-            default           => Product::query()->with([
+            ProductPriceResource::class => ProductPrice::query()->with('product:id,name'),
+            default                     => Product::query()->with([
                 'productCategory:id,name',
                 'productPrices:id,product_id,currency_code,price',
                 'multimedia',
@@ -38,10 +38,10 @@ final class ProductResourceProvider extends EloquentResourceProvider
         };
     }
 
-    protected function toResource(Model $model, Operation $operation): CatalogGroup|CatalogItem|PriceQuote
+    protected function toResource(Model $model, Operation $operation): ProductCategoryResource|ProductResource|ProductPriceResource
     {
         if ($model instanceof ProductCategory) {
-            return new CatalogGroup(
+            return new ProductCategoryResource(
                 id: $model->id,
                 title: $model->getTranslations('name'),
                 slugs: $model->getTranslations('slug'),
@@ -52,7 +52,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
         }
 
         if ($model instanceof ProductPrice) {
-            return new PriceQuote(
+            return new ProductPriceResource(
                 id: $model->id,
                 minorAmount: (int) $model->price->getAmount(),
                 currency: $model->currency_code,
@@ -62,7 +62,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
         }
 
         /** @var Product $model */
-        return new CatalogItem(
+        return new ProductResource(
             id: $model->id,
             title: $model->getTranslations('name'),
             description: $model->getTranslations('description'),

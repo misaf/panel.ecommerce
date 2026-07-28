@@ -11,27 +11,27 @@ use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
-use Misaf\VendraFaqApi\ApiResource\HelpArticle;
-use Misaf\VendraFaqApi\ApiResource\HelpTopic;
+use Misaf\VendraFaqApi\ApiResource\FaqCategoryResource;
+use Misaf\VendraFaqApi\ApiResource\FaqResource;
 
 /**
- * @extends EloquentResourceProvider<Model, HelpArticle|HelpTopic>
+ * @extends EloquentResourceProvider<Model, FaqResource|FaqCategoryResource>
  */
 final class HelpResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
-        if (HelpTopic::class === $operation->getClass()) {
+        if (FaqCategoryResource::class === $operation->getClass()) {
             return FaqCategory::query()->with('faqs:id,faq_category_id,name')->where('active', true);
         }
 
         return Faq::query()->with(['faqCategory:id,name', 'multimedia'])->where('active', true);
     }
 
-    protected function toResource(Model $model, Operation $operation): HelpArticle|HelpTopic
+    protected function toResource(Model $model, Operation $operation): FaqResource|FaqCategoryResource
     {
         if ($model instanceof FaqCategory) {
-            return new HelpTopic(
+            return new FaqCategoryResource(
                 id: $model->id,
                 title: $model->getTranslations('name'),
                 faqs: $model->faqs
@@ -41,7 +41,7 @@ final class HelpResourceProvider extends EloquentResourceProvider
         }
 
         /** @var Faq $model */
-        return new HelpArticle(
+        return new FaqResource(
             id: $model->id,
             question: $model->getTranslations('name'),
             answer: $model->getTranslations('description'),

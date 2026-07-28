@@ -6,7 +6,7 @@ namespace Misaf\VendraCartApi\Policies;
 
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Misaf\VendraCartApi\ApiResource\ShoppingCart;
+use Misaf\VendraCartApi\ApiResource\CartResource;
 use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
 
 final class ShoppingCartPolicy
@@ -18,7 +18,7 @@ final class ShoppingCartPolicy
         return $user instanceof Authenticatable;
     }
 
-    public function view(Authorizable $user, ShoppingCart $cart): bool
+    public function view(Authorizable $user, CartResource $cart): bool
     {
         return $user instanceof Authenticatable && $cart->isOwnedBy($user);
     }

@@ -40,7 +40,7 @@ use Misaf\VendraAffiliateApi\State\ReferralCodeProvider;
     paginationItemsPerPage: 20,
     paginationMaximumItemsPerPage: 100,
 )]
-final readonly class ReferralCode
+final readonly class AffiliateResource
 {
     public function __construct(
         #[ApiProperty(identifier: true)]

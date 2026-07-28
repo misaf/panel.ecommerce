@@ -25,7 +25,7 @@ use Misaf\VendraMultimediaApi\State\AssetProvider;
         ),
     ],
 )]
-final readonly class Asset
+final readonly class MultimediaResource
 {
     public function __construct(
         #[ApiProperty(identifier: true)]

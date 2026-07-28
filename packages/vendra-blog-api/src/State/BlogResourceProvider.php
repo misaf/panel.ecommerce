@@ -11,17 +11,17 @@ use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraBlog\Models\BlogPostCategory;
-use Misaf\VendraBlogApi\ApiResource\Article;
-use Misaf\VendraBlogApi\ApiResource\ArticleSection;
+use Misaf\VendraBlogApi\ApiResource\BlogPostCategoryResource;
+use Misaf\VendraBlogApi\ApiResource\BlogPostResource;
 
 /**
- * @extends EloquentResourceProvider<Model, Article|ArticleSection>
+ * @extends EloquentResourceProvider<Model, BlogPostResource|BlogPostCategoryResource>
  */
 final class BlogResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
-        if (ArticleSection::class === $operation->getClass()) {
+        if (BlogPostCategoryResource::class === $operation->getClass()) {
             return BlogPostCategory::query()
                 ->with('blogPosts:id,blog_post_category_id,name')
                 ->where('active', true);
@@ -32,10 +32,10 @@ final class BlogResourceProvider extends EloquentResourceProvider
             ->where('active', true);
     }
 
-    protected function toResource(Model $model, Operation $operation): Article|ArticleSection
+    protected function toResource(Model $model, Operation $operation): BlogPostResource|BlogPostCategoryResource
     {
         if ($model instanceof BlogPostCategory) {
-            return new ArticleSection(
+            return new BlogPostCategoryResource(
                 id: $model->id,
                 title: $model->getTranslations('name'),
                 slugs: $model->getTranslations('slug'),
@@ -46,7 +46,7 @@ final class BlogResourceProvider extends EloquentResourceProvider
         }
 
         /** @var BlogPost $model */
-        return new Article(
+        return new BlogPostResource(
             id: $model->id,
             title: $model->getTranslations('name'),
             content: $model->getTranslations('description'),

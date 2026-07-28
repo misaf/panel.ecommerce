@@ -28,7 +28,7 @@ use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
         ),
     ],
 )]
-final readonly class CatalogAttribute
+final readonly class AttributeResource
 {
     /**
      * @param array<int, ResourceReference> $options

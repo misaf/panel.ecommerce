@@ -26,7 +26,7 @@ use Misaf\VendraBlogApi\State\BlogResourceProvider;
         ),
     ],
 )]
-final readonly class Article
+final readonly class BlogPostResource
 {
     /**
      * @param array<string, string> $title

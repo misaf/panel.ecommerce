@@ -18,7 +18,7 @@ use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
         new GetCollection(uriTemplate: '/content/custom-page-categories', provider: ContentResourceProvider::class),
     ],
 )]
-final readonly class ContentSection
+final readonly class CustomPageCategoryResource
 {
     /**
      * @param array<string, string> $title

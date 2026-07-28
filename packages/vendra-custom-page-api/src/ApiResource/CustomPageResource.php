@@ -26,7 +26,7 @@ use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
         ),
     ],
 )]
-final readonly class ContentPage
+final readonly class CustomPageResource
 {
     /**
      * @param array<string, string> $title

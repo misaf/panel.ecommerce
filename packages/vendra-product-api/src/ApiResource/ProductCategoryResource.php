@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraProductApi\State\ProductResourceProvider;
 
@@ -17,8 +18,15 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
         new Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductResourceProvider::class),
         new GetCollection(uriTemplate: '/catalog/product-categories', provider: ProductResourceProvider::class),
     ],
+    mcp: [
+        'list_product_categories' => new McpToolCollection(
+            description: 'List active product categories with their titles, slugs, and the products in each.',
+            input: CatalogListingInput::class,
+            provider: ProductResourceProvider::class,
+        ),
+    ],
 )]
-final readonly class CatalogGroup
+final readonly class ProductCategoryResource
 {
     /**
      * @param array<string, string> $title
