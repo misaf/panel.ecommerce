@@ -7,7 +7,6 @@ namespace Misaf\VendraLanguage\Providers;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Composer\InstalledVersions;
 use Filament\Panel;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Foundation\Console\AboutCommand;
 use Misaf\VendraLanguage\Console\Commands\SeedCommand;
 use Misaf\VendraLanguage\LanguagePlugin;
