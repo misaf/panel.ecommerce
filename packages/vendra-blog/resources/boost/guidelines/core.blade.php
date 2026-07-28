@@ -18,7 +18,7 @@ The `misaf/vendra-blog` package owns blog domain behavior and the Filament admin
 
 - Keep blog domain code inside `packages/vendra-blog` using the `Misaf\VendraBlog` namespace.
 - Use this package for models, migrations, factories, seeders, policies, permission enums, observers, Filament resources, translations, config, and package bootstrapping.
-- Keep JSON:API serialization and API routes in `misaf/vendra-blog-api`.
+- Keep API Platform serialization and API routes in `misaf/vendra-blog-api`.
 - Follow existing model conventions: tenant ownership, translated `name` / `description` / `slug`, soft deletes, sortable `position`, media collections, factories, and typed relationships.
 - Tenant awareness is owned by `misaf/vendra-support` via `Misaf\VendraSupport\Tenancy\TenantAwareness`, which derives purely from the bound `TenantResolver`. Installing a tenant provider (e.g. `misaf/vendra-tenant`) makes the app tenant-aware; without one the default null resolver keeps it disabled. The blog module defines no `tenant_aware` config.
 - Keep the module tenant-agnostic: it must build and run with or without a tenant provider. Never reference a concrete provider such as `Misaf\VendraTenant` anywhere — models, migrations, factories, seeders, or fixtures. Let `BelongsToTenant` assign `tenant_id`; do not set it manually.

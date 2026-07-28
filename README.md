@@ -20,7 +20,7 @@ composer dev
 ```
 
 `composer setup` installs PHP and JavaScript dependencies, creates `.env`,
-generates the application key, runs migrations, and builds frontend assets.
+generates the application key, runs migrations, and builds frontend multimedia.
 `composer dev` starts the web server, queue listener, logs, and Vite in watch
 mode.
 
@@ -37,11 +37,18 @@ by Laravel unless their README says otherwise.
 | Content and marketing | [Blog](packages/vendra-blog), [Custom Page](packages/vendra-custom-page), [FAQ](packages/vendra-faq), [Multimedia](packages/vendra-multimedia), [Tagger](packages/vendra-tagger), [Newsletter](packages/vendra-newsletter), [Affiliate](packages/vendra-affiliate) |
 | Customers and access | [User](packages/vendra-user), [User Profile](packages/vendra-user-profile), [Address](packages/vendra-address), [Phone](packages/vendra-phone), [Document](packages/vendra-document), [Verification](packages/vendra-verification), [Permission](packages/vendra-permission), [Socialite](packages/vendra-socialite) |
 | Operations and localization | [Activity Log](packages/vendra-activity-log), [Authify Log](packages/vendra-authify-log), [Developer Logins](packages/vendra-developer-logins) (development only), [Language](packages/vendra-language), [Localization](packages/vendra-localization) |
-| JSON:API modules | [Affiliate API](packages/vendra-affiliate-api), [Attribute API](packages/vendra-attribute-api), [Blog API](packages/vendra-blog-api), [Cart API](packages/vendra-cart-api), [Custom Page API](packages/vendra-custom-page-api), [FAQ API](packages/vendra-faq-api), [Multimedia API](packages/vendra-multimedia-api), [Product API](packages/vendra-product-api) |
+| API Platform modules | [Affiliate API](packages/vendra-affiliate-api), [Attribute API](packages/vendra-attribute-api), [Blog API](packages/vendra-blog-api), [Cart API](packages/vendra-cart-api), [Custom Page API](packages/vendra-custom-page-api), [FAQ API](packages/vendra-faq-api), [Multimedia API](packages/vendra-multimedia-api), [Product API](packages/vendra-product-api) |
 
 Domain packages depend on the provider-neutral contracts in Vendra Support.
 Installing Vendra Tenant activates tenant awareness by binding the concrete
 resolver; domain and API packages do not depend on the tenant provider.
+
+The host exposes the package-owned API Platform resources below `/api` and
+publishes OpenAPI documentation at `/api/docs`. Frontend code should use the
+dedicated `window.api` fetch client configured in `resources/js/bootstrap.js`.
+Domain endpoints use `/api/{admin-navigation-group}/{model-resource}` so the
+public API follows the Filament admin structure, for example
+`/api/catalog/products`.
 
 ## Docker
 

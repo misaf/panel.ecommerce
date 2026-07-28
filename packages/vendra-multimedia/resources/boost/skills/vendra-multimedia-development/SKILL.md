@@ -35,7 +35,7 @@ Treat `packages/vendra-multimedia` as the source of multimedia domain behavior a
 - Use namespace `Misaf\VendraMultimedia`.
 - Keep domain models, factories, seeders, policies, observers, console commands, Filament classes, config, migrations, translations, and tests inside this module.
 - Do not place multimedia domain code in the host app unless the host app is only integrating the module.
-- Keep API serialization and JSON:API route behavior out of this module; use `vendra-multimedia-api` for that.
+- Keep API serialization and API Platform route behavior out of this module; use `vendra-multimedia-api` for that.
 - Keep cross-module dependencies explicit in `composer.json`; do not introduce a dependency without approval.
 
 ## Domain Model Standards
