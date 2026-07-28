@@ -125,11 +125,22 @@ Laravel Boost and may be refreshed with:
 php artisan boost:update --no-interaction
 ```
 
-## Useful Commands
+## Testing
+
+- Run the smallest relevant test scope first, then expand to broader suites only
+  when necessary.
+- Use `php artisan test --parallel` by default for targeted tests and full
+  suites to minimize feedback time.
+- Omit `--parallel` only when debugging a failure, investigating race conditions
+  or concurrency issues, using shared mutable state or external resources that
+  cannot be isolated, or when the execution environment does not support
+  parallel testing.
+- Keep intentionally non-parallel coverage, profiling, mutation testing, and
+  benchmarking commands unchanged unless parallel execution is clearly safe.
 
 ```bash
-composer test
-php artisan test --compact
+php artisan test --parallel --compact
+php artisan test --parallel --compact --filter=testName
 vendor/bin/pint --dirty --format agent
 composer stan
 ```

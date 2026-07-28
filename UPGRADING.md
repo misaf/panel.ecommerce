@@ -44,7 +44,7 @@ a release requires them.
 Run the host checks and the checks for every package affected by the upgrade:
 
 ```bash
-composer test
+php artisan test --parallel
 composer stan
 vendor/bin/pint --dirty --format agent
 ```
