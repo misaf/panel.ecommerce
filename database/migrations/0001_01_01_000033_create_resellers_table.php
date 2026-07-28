@@ -36,6 +36,11 @@ return new class () extends Migration {
             $table->string('email')
                 ->nullable()
                 ->index();
+            $table->text('offboarding_reason')
+                ->nullable();
+            $table->timestampTz('offboarded_at')
+                ->nullable()
+                ->index();
             $table->timestampsTz();
             $table->softDeletesTz();
         });

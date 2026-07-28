@@ -17,7 +17,7 @@ it('contains every package table in the fresh database baseline', function (): v
         ->and(Schema::hasColumns('console_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
         ->and(Schema::hasColumns('reseller_users', ['reseller_id', 'username', 'email', 'email_verified_at', 'password']))->toBeTrue()
         ->and(Schema::hasColumns('reseller_password_reset_tokens', ['email', 'token', 'created_at']))->toBeTrue()
-        ->and(Schema::hasColumns('resellers', ['name', 'email']))->toBeTrue()
+        ->and(Schema::hasColumns('resellers', ['name', 'email', 'offboarding_reason', 'offboarded_at']))->toBeTrue()
         ->and(Schema::hasColumn('resellers', 'owner_name'))->toBeFalse()
         ->and(Schema::hasColumn('resellers', 'owner_email'))->toBeFalse()
         ->and(Schema::hasColumn('users', 'is_console_admin'))->toBeFalse()
