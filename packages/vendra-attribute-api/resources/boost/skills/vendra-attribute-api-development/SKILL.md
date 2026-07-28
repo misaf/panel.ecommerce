@@ -1,6 +1,6 @@
 ---
 name: vendra-attribute-api-development
-description: "Create, modify, review, or test the Vendra Attribute API package in packages/vendra-attribute-api. Use for the v1 JSON:API server, AttributeValueSchema, AttributeValueResource, filters, routes, response fields, read-only behavior, API tests, and AttributeApiServiceProvider wiring."
+description: "Create, modify, review, or test the Vendra Attribute API package in packages/vendra-attribute-api. Use for the v1 JSON:API server, AttributeSchema / AttributeResource, AttributeValueSchema / AttributeValueResource, active-resource filtering, provider-neutral product API relationships, filters, routes, response fields, read-only behavior, API tests, and AttributeApiServiceProvider wiring."
 ---
 
 # Vendra Attribute API
@@ -31,14 +31,15 @@ Use `vendra-api-development` for shared JSON:API infrastructure, `laravel-best-p
 ## Boundary And Contract
 
 - Work inside `packages/vendra-attribute-api` with namespace `Misaf\VendraAttributeApi`.
-- Reuse `Misaf\VendraAttribute\Models\AttributeValue`; do not duplicate attribute persistence or polymorphic relationships.
-- Preserve the v1 shape: `attribute_id`, `value`, and read-only `position`. Keep raw `attributable_type` and `attributable_id` private unless a complete relationship contract is designed.
+- Reuse `Misaf\VendraAttribute\Models\Attribute` and `AttributeValue`; do not duplicate attribute persistence or polymorphic relationships.
+- Register both `AttributeSchema` and `AttributeValueSchema`. Preserve the attribute shape (`name`, `description`, `unit`, `position`, `active`) and attribute-value shape (`attribute_id`, `value`, read-only `position`). List/show only active attributes and values belonging to active attributes. Keep raw `attributable_type` and `attributable_id` private.
 - Keep the API read-only while the server is non-authorizable; do not add generic mutations.
+- Bind the Support `AttributeApiResolver` to `AttributeApiServiceResolver`. Product API integration must consume that provider-neutral contract: product categories expose `attributeValues`, while products expose `attributeValues` and `selectedAttributeValues`; neither API package imports the other.
 - Inherit tenant scoping from the domain model and keep the production `Misaf\VendraAttributeApi` namespace free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.
 
 ## Change Checklist
 
-- Update schema fields, resource serialization, server registration, routes, and tests together.
-- Add focused Pest coverage for routes, fields, filters, pagination, read-only behavior, and server schema registration.
+- Update both schemas, resources, query validators, server registration, routes, and tests together.
+- Add focused Pest coverage for both resource types, active-resource filtering, fields, filters, pagination, read-only behavior, and server schema registration.
 - Preserve the architecture expectation that `Misaf\VendraAttributeApi` does not use `Misaf\VendraTenant`.
 - Run `composer --working-dir=packages/vendra-attribute-api test` and `composer --working-dir=packages/vendra-attribute-api analyse`; run Pint when PHP changes.

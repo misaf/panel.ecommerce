@@ -1,6 +1,6 @@
 ---
 name: vendra-testing-development
-description: "Create, modify, review, or test the Vendra Testing utilities module in packages/vendra-testing. Use for shared Pest Expectations, TranslationParity helpers, and other reusable test scaffolding consumed by other Vendra module test suites."
+description: "Create, modify, review, or test the Vendra Testing utilities module in packages/vendra-testing. Use for shared Pest expectations, TranslationParity helpers, sortable Filament table assertions, provider-neutral tenant and user factories, deterministic Pennant feature state, Filament super-admin test context, and other reusable test scaffolding consumed by Vendra module suites."
 ---
 
 # Vendra Testing
@@ -31,15 +31,17 @@ description: "Create, modify, review, or test the Vendra Testing utilities modul
 Treat `packages/vendra-testing` as shared, module-agnostic test utilities.
 
 - Use namespace `Misaf\VendraTesting`.
-- Own reusable Pest expectations and helpers (`Expectations`, `TranslationParity`) here.
+- Own reusable Pest expectations and helpers (`Expectations`, `TranslationParity`, `TableSorting`) here.
 - Own the provider-agnostic helpers in `src/Helpers.php` (files-autoloaded): `testTenantModel()`, `createTestTenant()`, `makeCurrentTestTenant()`, `switchToTestTenant()`, `currentTestTenant()`, `forgetCurrentTestTenant()` (via the `misaf/vendra-support` `TenantResolver` / `TenantAwareness` contracts) and `testUserModel()` / `createTestUser()` (via `auth.providers.users.model`). They no-op (returning null) when tenancy is disabled.
-- Module test suites must use these helpers instead of importing `Misaf\VendraTenant`; only `vendra-tenant` and `vendra-subscription` tests may import the concrete provider (enforced by the root `PackageManifestConsistencyTest`).
+- Use `makeCurrentTestTenantWithFeatures()` for deterministic Pennant state and `setUpFilamentSuperAdminTestContext()` for the shared admin panel, authenticated super-admin, tenant, resource, and feature setup. Keep both provider-neutral and fail clearly when required providers are absent.
+- Module test suites must use these helpers instead of importing `Misaf\VendraTenant`; only `vendra-tenant` tests may import the concrete provider (enforced by the root `PackageManifestConsistencyTest`).
 - Keep utilities generic: no dependency on a specific domain module and no concrete tenant provider reference (`Misaf\VendraTenant`). `misaf/vendra-support` is the one sanctioned dependency.
 - Keep cross-module dependencies explicit in `composer.json`.
 
 ## Utility Standards
 
 - Keep custom expectations composable and well-named so consuming suites read clearly.
+- Keep `toSortByEverySortableColumn()` delegated to `TableSorting`; verify all sortable columns ascending and optionally descending without embedding module-specific columns or records.
 - Keep translation-parity and key-sorting helpers deterministic and locale-order independent.
 - Treat helper signatures as a public contract; deprecate rather than break when evolving them.
 

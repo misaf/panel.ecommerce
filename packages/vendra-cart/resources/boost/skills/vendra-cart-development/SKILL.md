@@ -1,6 +1,6 @@
 ---
 name: vendra-cart-development
-description: "Create, modify, review, or test the Vendra Cart module in packages/vendra-cart. Use for Cart, CartItem, temporary shopping selections, polymorphic owners or sellables, cart expiration, cart migrations and factories, cart policies and permission seeders, the vendra-cart:seed command, CartPlugin, CartsCluster, CartResource, cart item relation managers, translations, configuration, or checkout-boundary decisions involving carts."
+description: "Create, modify, review, or test the Vendra Cart module in packages/vendra-cart. Use for Cart, CartItem, temporary shopping selections, polymorphic owners or sellables, cart expiration, cart migrations and factories, cart policies and permission seeders, the vendra-cart:seed command, CartPlugin, SalesCluster, CartResource, cart item relation managers, translations, configuration, or checkout-boundary decisions involving carts."
 ---
 
 # Vendra Cart

@@ -31,7 +31,7 @@ description: "Create, modify, review, or test the Vendra Support module in packa
 Treat `packages/vendra-support` as the shared support and tenant-awareness core.
 
 - Use namespace `Misaf\VendraSupport`.
-- Own the tenant abstraction here and nowhere else: the `TenantResolver` contract, the default `NullTenantResolver`, `TenantAwareness`, `BelongsToTenant`, `TenantScope`/`TeamScope`, `TenantSchema`, `TenantTableRegistry`, `RequiresCurrentTenant`, `TenantSeeders`, the base seeders and seed commands, shared Filament concerns, and the shared policy authorization concerns (`ResolvesPolicyPermissions` plus the `Authorizes*Abilities` traits).
+- Own the tenant abstraction here and nowhere else: the `TenantResolver` contract, the default `NullTenantResolver`, `TenantAwareness`, `BelongsToTenant`, `TenantScope`/`TeamScope`, `TenantSchema`, `TenantTableRegistry`, `RequiresCurrentTenant`, `TenantSeeders`, the base seeders and seed commands, `Context\RequestJobContext`, shared Filament concerns, and the shared policy authorization concerns (`ResolvesPolicyPermissions` plus the `Authorizes*Abilities` traits).
 - Never depend on a concrete tenant provider (`Misaf\VendraTenant`) or any domain module. Support sits at the bottom of the dependency graph and must build and run standalone.
 - Own small optional-provider boundaries here. Tag consumers use `TagResolver`, `TagIntegration`, and `TagRelationship`; the concrete Tagger module binds the available resolver. `SubscriptionCharger` (null default `NullSubscriptionCharger`) is the payment-collection capability — subscription consumers call it while the host app binds a real charger (e.g. backed by `misaf/vendra-transaction`). `SubscriptionCharge::reference` is an idempotency key: `charge()` / `retrieve()` must resolve repeat calls to the same provider operation without collecting twice, reject reuse for different details, and return typed `SubscriptionChargeResult` lifecycle outcomes. Never represent an ambiguous timeout or pending operation as paid.
 - Keep `TagRelationship` limited to Eloquent polymorphic relationship metadata. Do not leak Spatie Tags or a domain model into Support.
@@ -52,6 +52,7 @@ Tenant awareness is derived purely from the bound resolver — never from config
 ## Shared Building Blocks
 
 - Base `DemoContentSeeder` / `PermissionPolicySeeder` and `SeedCommand` / `TenantSeedCommand` must run tenant-agnostically: seed globally when tenancy is off, per-tenant (optional `{tenant?}` arg) when on.
+- Keep `RequestJobContext` domain-neutral. Its first-class fields are trace ID, actor, operation, tenant, and a hidden idempotency key; domain packages supply their own visible metadata. Use `add()` for persistent current-process context, `scope()` for temporary context, `current()` to snapshot it, and `resolveTraceId()` to preserve or create correlation IDs.
 - Keep shared Filament concerns generic and free of any single module's domain assumptions.
 
 ## Policy Authorization Concerns
@@ -72,13 +73,13 @@ Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single sour
 - Store package resources that declare a `$cluster` under `src/Filament/Clusters/Resources/` with matching `Filament\Clusters\Resources` namespaces. Store resources without a cluster under `src/Filament/Resources/`, and keep plugin discovery paths aligned.
 - Keep group order: Catalog, Sales, Customers, Content, Marketing, Localization, System.
 - Keep current item order:
-  - Catalog: Products 1, Attributes 2.
-  - Sales: Transactions 1 when enabled, Currencies 2, Carts 3.
+  - Catalog: Products 1, Product Categories 2, Product Prices 3, Attributes 4.
+  - Sales: Transactions 1, Transaction Gateways 2, Wallets 3, Currencies 4, Carts 5.
   - Customers: Users 1, User Profiles 2, Roles 3, Permissions 4.
-  - Content: Blog 1, Custom Pages 2, FAQs 3, Multimedia 4, Tags 5.
-  - Marketing: Affiliates 1, Newsletters 2.
-  - Localization: Languages 1.
-  - System: Settings 1, Activity Logs 2, Authentication Logs 3.
+  - Content: Blog Posts 1, Blog Post Categories 2, Custom Pages 3, Custom Page Categories 4, FAQs 5, FAQ Categories 6, Multimedia 7, Tags 8.
+  - Marketing: Affiliates 1, Affiliate Commissions 2, Affiliate Payouts 3, Newsletters 4, Newsletter Subscribers 5.
+  - Localization: Languages 1, Language Lines 2.
+  - System: General Settings 1, Activity Logs 2, Authentication Logs 3.
 - Give every resource a globally unique `NavigationPriority` case and assign `$navigationSort` from its backed value. Group values by domain cluster and leave gaps for future resources.
 - Give every resource separate singular and plural translation keys in `en`, `de`, and `fa`. Use the singular key for model labels and the plural key for navigation and plural model labels; keep navigation labels at 24 characters or fewer.
 - Use domain clusters as top-level sidebar items, set `$subNavigationPosition = SubNavigationPosition::Top`, and keep cluster resources ungrouped so `NavigationPriority` controls their visible tab order.
