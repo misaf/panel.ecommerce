@@ -82,6 +82,33 @@ it('persists auditable payment lifecycle data for a subscription', function (): 
         ->and($payment->idempotency_key)->toBeUuid();
 });
 
+it('enforces unique payment idempotency keys', function (): void {
+    $subscription = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+    $idempotencyKey = '8f98df2e-38c2-4b87-8baa-768b9c806f87';
+
+    SubscriptionPayment::factory()->for($subscription)->create([
+        'idempotency_key' => $idempotencyKey,
+    ]);
+
+    expect(fn(): SubscriptionPayment => SubscriptionPayment::factory()->for($subscription)->create([
+        'idempotency_key' => $idempotencyKey,
+    ]))->toThrow(QueryException::class);
+});
+
+it('enforces unique provider payment identities', function (): void {
+    $subscription = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+
+    SubscriptionPayment::factory()->for($subscription)->create([
+        'provider'           => 'gateway',
+        'provider_reference' => 'provider-payment-1',
+    ]);
+
+    expect(fn(): SubscriptionPayment => SubscriptionPayment::factory()->for($subscription)->create([
+        'provider'           => 'gateway',
+        'provider_reference' => 'provider-payment-1',
+    ]))->toThrow(QueryException::class);
+});
+
 it('prevents hard deletion of a subscription with payment history', function (): void {
     $subscription = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
     SubscriptionPayment::factory()->for($subscription)->create();
