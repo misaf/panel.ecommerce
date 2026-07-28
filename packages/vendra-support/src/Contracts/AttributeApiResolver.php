@@ -9,5 +9,5 @@ interface AttributeApiResolver
     public function isAvailable(): bool;
 
     /** @return class-string|null */
-    public function attributeValueSchema(): ?string;
+    public function attributeOptionResource(): ?string;
 }

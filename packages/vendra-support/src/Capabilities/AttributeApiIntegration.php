@@ -27,10 +27,10 @@ final class AttributeApiIntegration
     }
 
     /** @return class-string|null */
-    public static function attributeValueSchema(): ?string
+    public static function attributeOptionResource(): ?string
     {
         try {
-            return self::resolver()->attributeValueSchema();
+            return self::resolver()->attributeOptionResource();
         } catch (Throwable) {
             return null;
         }

@@ -13,7 +13,7 @@ final class NullAttributeApiResolver implements AttributeApiResolver
         return false;
     }
 
-    public function attributeValueSchema(): ?string
+    public function attributeOptionResource(): ?string
     {
         return null;
     }
