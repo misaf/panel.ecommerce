@@ -66,4 +66,6 @@ jobs:
             searching, and investigation yourself, synchronously, in this same turn.
 
           claude_args: |
+            --model claude-opus-4-8
+            --effort low
             --allowedTools "Bash(git:*),Bash(gh:*),Bash(composer:*),Bash(php:*),Bash(vendor/bin/pest:*),Bash(vendor/bin/phpstan:*),Bash(vendor/bin/pint:*),Read,Edit,Write,Grep,Glob"
