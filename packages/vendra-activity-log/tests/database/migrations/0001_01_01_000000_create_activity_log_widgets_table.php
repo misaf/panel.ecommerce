@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Schema;
  * {@see Misaf\VendraActivityLog\Tests\Fixtures\PlainWidget}. This table exists
  * solely for the test suite and is never shipped by the module.
  */
-return new class () extends Migration {
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('activity_log_widgets', function (Blueprint $table): void {

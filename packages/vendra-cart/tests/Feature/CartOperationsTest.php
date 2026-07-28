@@ -15,7 +15,7 @@ beforeEach(function (): void {
 
 it('adds a sellable to the cart', function (): void {
     $cart = Cart::factory()->create();
-    $sellable = new class () extends Model {};
+    $sellable = new class extends Model {};
     $sellable->setAttribute('id', 7);
 
     $item = (new AddCartItemAction())->execute($cart, $sellable, quantity: 2, metadata: ['color' => 'red']);
@@ -30,7 +30,7 @@ it('adds a sellable to the cart', function (): void {
 
 it('merges quantities when the sellable is already in the cart', function (): void {
     $cart = Cart::factory()->create();
-    $sellable = new class () extends Model {};
+    $sellable = new class extends Model {};
     $sellable->setAttribute('id', 7);
     $action = new AddCartItemAction();
 

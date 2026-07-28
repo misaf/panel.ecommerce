@@ -30,7 +30,7 @@ it('defaults new cart items to one unit', function (): void {
 });
 
 it('can build an owned cart without depending on a concrete user model', function (): void {
-    $owner = new class () extends Model {};
+    $owner = new class extends Model {};
     $owner->setAttribute('id', 42);
 
     $attributes = Misaf\VendraCart\Database\Factories\CartFactory::new()
@@ -43,7 +43,7 @@ it('can build an owned cart without depending on a concrete user model', functio
 });
 
 it('resolves a human-readable owner label', function (): void {
-    $owner = new class () extends Model {};
+    $owner = new class extends Model {};
     $owner->setAttribute('id', 42);
     $owner->setAttribute('username', 'cart-owner');
 

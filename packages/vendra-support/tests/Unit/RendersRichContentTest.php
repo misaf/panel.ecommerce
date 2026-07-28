@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Misaf\VendraSupport\Filament\Concerns\RendersRichContent;
 
-$renderer = new class () {
+$renderer = new class {
     use RendersRichContent;
 
     /** @param array<array-key, mixed>|string|null $state */

@@ -10,7 +10,7 @@ use Misaf\VendraSupport\Filament\Concerns\ResolvesPluginInstances;
 
 function makeConcernTestPlugin(): Plugin
 {
-    return new class () implements Plugin {
+    return new class implements Plugin {
         use HasPluginNavigationGroup;
         use ResolvesPluginInstances;
 

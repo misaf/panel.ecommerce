@@ -27,7 +27,7 @@ it('authorizes trait abilities through the policy permission enum', function ():
 });
 
 it('fails loudly when a composed ability has no matching enum case', function (): void {
-    $policy = new class () {
+    $policy = new class {
         use AuthorizesUpdateAbilities;
         use ResolvesPolicyPermissions;
 

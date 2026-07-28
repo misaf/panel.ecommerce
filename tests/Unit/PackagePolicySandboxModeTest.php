@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Misaf\VendraSupport\Authorization\AuthorizesSandboxMode;
 
 it('authorizes policy abilities only while sandbox mode is enabled', function (): void {
-    $policy = new class () {
+    $policy = new class {
         use AuthorizesSandboxMode;
     };
     $user = Mockery::mock(Authorizable::class);

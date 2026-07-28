@@ -9,7 +9,7 @@ use Misaf\VendraSupport\Capabilities\NullAttributeResolver;
 use Misaf\VendraSupport\Contracts\AttributeResolver;
 
 it('falls back to unavailable attribute integration', function (): void {
-    app()->instance(AttributeResolver::class, new class () implements AttributeResolver {
+    app()->instance(AttributeResolver::class, new class implements AttributeResolver {
         public function available(): bool
         {
             return false;
@@ -32,7 +32,7 @@ it('falls back to unavailable attribute integration', function (): void {
 });
 
 it('uses the bound attribute resolver when available', function (): void {
-    app()->instance(AttributeResolver::class, new class () implements AttributeResolver {
+    app()->instance(AttributeResolver::class, new class implements AttributeResolver {
         public function available(): bool
         {
             return true;
@@ -55,7 +55,7 @@ it('uses the bound attribute resolver when available', function (): void {
 });
 
 it('falls back when the bound attribute resolver throws', function (): void {
-    app()->instance(AttributeResolver::class, new class () implements AttributeResolver {
+    app()->instance(AttributeResolver::class, new class implements AttributeResolver {
         public function available(): bool
         {
             throw new RuntimeException('Resolver failed.');

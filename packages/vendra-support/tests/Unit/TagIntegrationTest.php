@@ -28,7 +28,7 @@ it('exposes relationship metadata from the bound tag resolver', function (): voi
 });
 
 it('falls back when the bound tag resolver throws', function (): void {
-    app()->instance(TagResolver::class, new class () implements TagResolver {
+    app()->instance(TagResolver::class, new class implements TagResolver {
         public function available(): bool
         {
             throw new RuntimeException('Resolver failed.');
