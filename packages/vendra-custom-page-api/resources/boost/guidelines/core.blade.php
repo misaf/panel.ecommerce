@@ -18,10 +18,9 @@ The `misaf/vendra-custom-page-api` package exposes `misaf/vendra-custom-page` do
 - Import `CustomPage` and `CustomPageCategory` from `Misaf\VendraCustomPage`; do not duplicate persistence or domain behavior.
 - Keep the API read-only and tenant-provider agnostic. Tenant scoping comes from the domain models through Vendra Support.
 - Keep the API localization-package agnostic. Use Laravel's `api` middleware only; locale-aware filters read Laravel's current locale without requiring a resolver package.
-- Expose translated `name`, `description`, and `slug` fields as JSON hashes using `getTranslations()` and keep locale-aware filters aligned with request validation.
-- Validate query-string booleans with `JsonApiRule::boolean()->asString()` so validation matches boolean filter deserialization.
-- Register `with-trashed` and `only-trashed` in both collection validation and schema filters.
-- Map the domain models' `MorphMany` multimedia relations with API Platform `HasMany` fields.
-- Keep category, page, and multimedia relationships read-only, with explicit include paths and relationship routes.
-- Add Pest coverage for routes, server schemas, filters, includes, pagination, sorting, relationship endpoints, and tenant isolation.
+- Expose translated `name`, `description`, and `slug` fields as `array<string, string>` locale maps hydrated from the domain models' translations in the state provider.
+- Declare query parameters as `QueryParameter`s on the resource operations, using API Platform filters (`EqualsFilter`, `BooleanFilter`, ...) with Laravel `constraints`, and apply them in the state provider.
+- Reference the domain models' multimedia and category relations with `Misaf\VendraApi\ApiResource\ResourceReference` instead of embedding foreign models.
+- Keep category, page, and multimedia references read-only.
+- Add Pest coverage for each resource operation, query parameters, pagination, and tenant isolation.
 - Keep architecture tests preventing production code from referencing `Misaf\VendraTenant`.

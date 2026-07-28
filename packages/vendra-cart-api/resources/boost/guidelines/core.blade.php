@@ -1,6 +1,6 @@
 ## Vendra Cart API
 
-The `misaf/vendra-cart-api` package owns API Platform schemas, resources, query validation, routes, and server wiring for `misaf/vendra-cart`.
+The `misaf/vendra-cart-api` package owns API Platform resources (`ApiResource` DTOs), state providers, query parameters, and service-provider wiring for `misaf/vendra-cart`.
 
 ### Translatable Persistence
 
@@ -16,11 +16,10 @@ The `misaf/vendra-cart-api` package owns API Platform schemas, resources, query 
 
 - Keep cart API code inside `packages/vendra-cart-api` using the `Misaf\VendraCartApi` namespace.
 - Keep cart models, migrations, factories, policies, seeders, and Filament UI in `misaf/vendra-cart`; this package only serializes and routes them.
-- Register `carts` and `cart-items` on the `vendra-cart` API Platform server under `/api`.
-- Keep endpoints read-only until authenticated cart ownership, token access, and mutation authorization are explicitly designed and tested. Never expose unauthenticated cart mutation through the generic API Platform controller.
-- Serialize the cart's human-readable `owner_label`; do not expose raw `owner_type` or `owner_id` attributes.
-- Serialize `sellable_type` and `sellable_id` as identity attributes until every supported sellable type has a registered API Platform schema. Do not claim a polymorphic API Platform relationship with incomplete inverse types.
-- Keep cart/item relationships read-only and support includes for `items` and `cart`.
-- Use focused collection filters for IDs, cart token, expiration, quantity, sellable identity, and relationship presence.
+- Expose the `ShoppingCart` and `CartLine` resources under `/sales/carts`, backed by `ShoppingCartProvider`.
+- Keep the operations read-only and authenticated: attach `middleware: 'auth:sanctum'` and a `policy` enforced by `ShoppingCartPolicy`. Never expose unauthenticated cart mutation.
+- Keep the cart owner morph columns private (`ownerType`, `ownerId`); do not serialize raw `owner_type` or `owner_id`.
+- Serialize each line's `sellableType`, `sellableId`, quantity, and metadata via `CartLine`.
+- Do the Eloquent querying, hydration, and pagination in the state provider, not the DTO.
 - Rely on the cart models' support-layer tenant scope and keep production API code free of `Misaf\VendraTenant`. Feature tests may use a concrete tenant factory solely to establish tenant context.
-- Keep Pest architecture tests and focused route/server/resource tests current.
+- Keep Pest architecture tests and focused resource/state-provider/policy tests current.

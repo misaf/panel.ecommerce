@@ -1,6 +1,6 @@
 ---
 name: vendra-cart-api-development
-description: "Create, modify, review, or test the Vendra Cart API Platform package in packages/vendra-cart-api. Use for cart or cart-item API Platform schemas, resources, collection/query validation, filters, includes, routes, the vendra-cart API Platform server, CartApiServiceProvider, cart API serialization, or decisions about exposing polymorphic owners and sellables through API Platform."
+description: "Create, modify, review, or test the Vendra Cart API Platform package in packages/vendra-cart-api. Use for the ShoppingCart and CartLine API Platform resources (`ApiResource` DTOs), ShoppingCartProvider state provider, query parameters, operations, authentication and ShoppingCartPolicy, CartApiServiceProvider, cart API serialization, or decisions about exposing polymorphic owners and sellables through API Platform."
 ---
 
 # Vendra Cart API
@@ -35,25 +35,23 @@ Use this skill with `vendra-api-development`, `laravel-best-practices`, and `pes
 - Keep domain behavior, migrations, factories, policies, seeders, and Filament classes out of this package.
 - Keep production API code free of `Misaf\VendraTenant`; model scopes provide tenant isolation. Feature tests may use a concrete tenant factory solely to establish tenant context.
 
-## Server And Routes
+## Resources And Routes
 
-- Register `Server` as `jsonapi.servers.vendra-cart` with base URI `/api`.
-- Expose `carts` and `cart-items` through the package `routes/api.php` using Laravel's `api` middleware without requiring a localization package.
-- Keep generic controller routes read-only until authenticated ownership/token access and mutation authorization have an explicit design.
-- Register read-only `items` and `cart` relationship endpoints.
+- Expose read models as API Platform resources in `src/ApiResource` (`ShoppingCart`, `CartLine`), backed by `ShoppingCartProvider` in `src/State`; API Platform generates routes from the resource operations.
+- Keep the `/sales/carts` operations authenticated: attach `middleware: 'auth:sanctum'` and a `policy` enforced by `ShoppingCartPolicy`.
+- Register the `src/ApiResource` directory into `api-platform.resources` and tag the state provider as `ProviderInterface`; do not hand-register route files.
+- Keep the operations read-only until authenticated ownership/token access and mutation authorization have an explicit design.
 
-## Schemas And Resources
+## Resource DTO Standards
 
-- Serialize cart token, owner label, expiration, timestamps, and items relationship.
-- Never serialize raw cart owner morph columns; use `owner_label`.
-- Serialize item sellable type/ID, quantity, metadata, timestamps, and cart relationship.
-- Keep sellable identity as attributes until all supported sellable resource schemas can be listed on a API Platform for Laravel `MorphTo` field.
-- Mark current fields and relationships read-only to match route behavior.
-- Support pagination, includes, sparse fieldsets, sorts, counts, and focused validated filters consistently with sibling API modules.
+- Serialize cart token, expiration, and the lines relationship; keep the owner morph columns private (`ownerType`, `ownerId`) rather than exposing them.
+- Serialize each line's sellable type/ID, quantity, and metadata via `CartLine`.
+- Reference related resources with `Misaf\VendraApi\ApiResource\ResourceReference` where a full DTO is not exposed.
+- Do the Eloquent querying, hydration, and pagination in the state provider, not the DTO.
 
 ## Verification
 
-- Test route registration, server base URI/schema registration, resource attribute boundaries, and architecture constraints.
+- Test each resource operation, its policy/authentication, resource attribute boundaries, and architecture constraints.
 - Run `php artisan test --compact packages/vendra-cart-api/tests`.
 - Run PHPStan against `packages/vendra-cart-api/src`.
 - Run `vendor/bin/pint --dirty --format agent` after PHP changes.
