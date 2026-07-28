@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Arr;
+it('has at least two available locales', function (): void {
+    expect(__DIR__ . '/../../resources/lang')->toHaveAtLeastTwoLocales('vendra-attribute');
+});
 
-it('keeps translation keys aligned across locales', function (string $file): void {
-    $basePath = dirname(__DIR__, 2) . '/resources/lang';
-    $englishKeys = array_keys(Arr::dot(require $basePath . '/en/' . $file));
+it('keeps translation files and keys in sync across locales', function (): void {
+    expect(__DIR__ . '/../../resources/lang')->toHaveTranslationsInSync('vendra-attribute');
+});
 
-    foreach (['de', 'fa'] as $locale) {
-        $localizedKeys = array_keys(Arr::dot(require $basePath . '/' . $locale . '/' . $file));
-
-        expect($localizedKeys)->toBe($englishKeys);
-    }
-})->with(['attributes.php', 'navigation.php', 'tables.php']);
+it('keeps translation file keys sorted', function (): void {
+    expect(__DIR__ . '/../../resources/lang')->toHaveSortedTranslationKeys('vendra-attribute');
+});

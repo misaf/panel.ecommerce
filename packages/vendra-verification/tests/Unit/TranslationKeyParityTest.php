@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
-it('keeps verification translations complete and sorted', function (): void {
-    expect(__DIR__ . '/../../resources/lang')
-        ->toHaveAtLeastTwoLocales('vendra-verification')
-        ->toHaveTranslationsInSync('vendra-verification')
-        ->toHaveSortedTranslationKeys('vendra-verification');
+it('has at least two available locales', function (): void {
+    expect(__DIR__ . '/../../resources/lang')->toHaveAtLeastTwoLocales('vendra-verification');
+});
+
+it('keeps translation files and keys in sync across locales', function (): void {
+    expect(__DIR__ . '/../../resources/lang')->toHaveTranslationsInSync('vendra-verification');
+});
+
+it('keeps translation file keys sorted', function (): void {
+    expect(__DIR__ . '/../../resources/lang')->toHaveSortedTranslationKeys('vendra-verification');
 });
