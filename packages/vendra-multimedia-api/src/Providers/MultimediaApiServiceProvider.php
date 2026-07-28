@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraMultimediaApi\Providers;
 
+use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraMultimediaApi\JsonApi\V1\Server as MultimediaServer;
+use Misaf\VendraMultimediaApi\State\AssetProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -16,13 +17,17 @@ final class MultimediaApiServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('vendra-multimedia-api')
-            ->hasRoute('api');
+        $package->name('vendra-multimedia-api');
     }
 
     public function packageRegistered(): void
     {
-        Config::set('jsonapi.servers.vendra-multimedia', Config::string('jsonapi.servers.vendra-multimedia', MultimediaServer::class));
+        Config::set('api-platform.resources', [
+            ...Config::array('api-platform.resources', []),
+            dirname(__DIR__) . '/ApiResource',
+        ]);
+
+        $this->app->tag(AssetProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void

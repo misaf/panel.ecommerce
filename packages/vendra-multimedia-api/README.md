@@ -1,14 +1,15 @@
 # Vendra Multimedia API
 
-Read-only JSON:API resources for Vendra media records.
+Read-only API Platform resources for Vendra media records.
 
 ## Features
 
-- `GET /v1/multimedia`
+- `GET /api/content/multimedia`
 - Individual media record retrieval
-- Schema-defined filtering, sorting, and pagination
+- MIME type filtering and pagination
 
-Requests use Laravel's `api` middleware. Applications may optionally resolve the current locale before these routes run. Other domain API modules reuse this package for multimedia relationships.
+The asset DTO intentionally omits disks, paths, and other storage internals.
+Other API modules use stable resource references and do not depend on this package.
 
 ## Requirements
 
@@ -23,7 +24,7 @@ Requests use Laravel's `api` middleware. Applications may optionally resolve the
 composer require misaf/vendra-multimedia-api
 ```
 
-The service provider, server, and routes are auto-registered.
+The service provider registers the resource and provider automatically.
 
 ## Testing
 

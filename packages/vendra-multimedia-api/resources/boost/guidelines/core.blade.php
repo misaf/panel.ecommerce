@@ -1,6 +1,6 @@
 ## Vendra Multimedia API
 
-The `misaf/vendra-multimedia-api` package exposes `misaf/vendra-multimedia` domain models through Laravel JSON:API.
+The `misaf/vendra-multimedia-api` package exposes `misaf/vendra-multimedia` domain models through API Platform for Laravel.
 
 ### Translatable Persistence
 
@@ -15,7 +15,7 @@ The `misaf/vendra-multimedia-api` package exposes `misaf/vendra-multimedia` doma
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
 
 - Keep API code inside `packages/vendra-multimedia-api` using the `Misaf\VendraMultimediaApi` namespace.
-- Use this package for JSON:API servers, schemas, resources, query validators, API routes, service providers, and API tests.
+- Use this package for API Platform servers, schemas, resources, query validators, API routes, service providers, and API tests.
 - Import domain models from `Misaf\VendraMultimedia`; do not duplicate persistence or domain behavior in the API module.
 - Keep Filament/admin UI in `misaf/vendra-multimedia`.
 - Respect domain model tenancy. Tenant awareness is owned by `misaf/vendra-support` and derives from the bound `TenantResolver` (installing `misaf/vendra-tenant` enables it); there is no `tenant_aware` config toggle.
