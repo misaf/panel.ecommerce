@@ -36,8 +36,9 @@ return [
     'resources' => [],
 
     'formats' => [
-        'jsonld' => ['application/ld+json'],
-        'json'   => ['application/json'],
+        'jsonld'  => ['application/ld+json'],
+        'jsonapi' => ['application/vnd.api+json'],
+        'json'    => ['application/json'],
         // 'csv' => ['text/csv'],
     ],
 
