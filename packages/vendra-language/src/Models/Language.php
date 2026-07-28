@@ -77,7 +77,7 @@ final class Language extends Model implements Sortable, ShouldLogActivity
      * @param  Builder<Language>  $query
      * @return Builder<Language>
      */
-    public function scopeEnabled(Builder $query): Builder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }

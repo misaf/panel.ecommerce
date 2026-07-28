@@ -10,8 +10,8 @@ beforeEach(function (): void {
 });
 
 it('serves faqs as a to-many relationship of faq categories', function (): void {
-    $faqCategory = FaqCategory::factory()->enabled()->create();
-    Faq::factory()->count(2)->enabled()->forCategory($faqCategory)->create();
+    $faqCategory = FaqCategory::factory()->active()->create();
+    Faq::factory()->count(2)->active()->forCategory($faqCategory)->create();
 
     $related = $this->getJson(
         "/v1/faq-categories/{$faqCategory->getKey()}/faqs",

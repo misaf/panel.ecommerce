@@ -23,7 +23,7 @@ beforeEach(function (): void {
     app()->instance(TenantResolver::class, $tenantResolver);
 });
 
-it('makes the first enabled language the default', function (): void {
+it('makes the first active language the default', function (): void {
     $language = Language::query()->create([
         'locale'     => 'en',
         'is_default' => false,
@@ -63,7 +63,7 @@ it('promotes the first ordered language when the default is deleted', function (
     expect($next->refresh()->is_default)->toBeTrue();
 });
 
-it('promotes the first enabled language when the default is disabled', function (): void {
+it('promotes the first active language when the default becomes inactive', function (): void {
     $default = Language::query()->create([
         'locale'     => 'en',
         'is_default' => true,
@@ -202,7 +202,7 @@ it('resolves language switch locales after the current tenant is available', fun
     expect($switch->getLocales())->toBe(['en', 'de']);
 });
 
-it('uses the application fallback locale when no language is enabled', function (): void {
+it('uses the application fallback locale when no language is active', function (): void {
     config()->set('app.locale', 'de');
     config()->set('app.fallback_locale', 'fa');
 

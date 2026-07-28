@@ -86,7 +86,7 @@ final class ResellerForm
                     ->label(__('console.subscription_plan'))
                     ->live()
                     ->options(fn(): array => Plan::query()
-                        ->enabled()
+                        ->active()
                         ->get()
                         ->mapWithKeys(fn(Plan $plan): array => [
                             $plan->id => "{$plan->name} — " . ($plan->isFree()

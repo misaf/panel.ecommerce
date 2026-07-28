@@ -160,7 +160,7 @@ final class EditReseller extends EditRecord
             ->schema([
                 Select::make('plan_id')
                     ->label(__('console.plan'))
-                    ->options(fn(): array => Plan::query()->enabled()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Plan::query()->active()->pluck('name', 'id')->all())
                     ->required()
                     ->native(false),
             ])

@@ -11,10 +11,10 @@ final class TranslationLocales
     /**
      * @return list<string>
      */
-    public static function enabled(): array
+    public static function active(): array
     {
         $locales = Language::query()
-            ->enabled()
+            ->active()
             ->ordered()
             ->pluck('locale')
             ->filter(fn(mixed $locale): bool => is_string($locale))
@@ -33,7 +33,7 @@ final class TranslationLocales
     public static function merge(array $translations = []): array
     {
         return array_replace(
-            array_fill_keys(static::enabled(), ''),
+            array_fill_keys(static::active(), ''),
             $translations,
         );
     }

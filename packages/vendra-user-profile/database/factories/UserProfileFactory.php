@@ -51,12 +51,12 @@ final class UserProfileFactory extends Factory
         ]);
     }
 
-    public function enabled(): static
+    public function active(): static
     {
         return $this->state(fn(): array => ['active' => true]);
     }
 
-    public function disabled(): static
+    public function inactive(): static
     {
         return $this->state(fn(): array => ['active' => false]);
     }

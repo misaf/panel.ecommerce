@@ -10,7 +10,7 @@ use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\Widgets\Tra
 
 it('keeps transaction resource stats available', function (string $widget, string $label): void {
     app()->setLocale('en');
-    TenantFactory::new()->enabled()->createOne()->makeCurrent();
+    TenantFactory::new()->active()->createOne()->makeCurrent();
 
     /** @var array<int, Stat> $stats */
     $stats = (new ReflectionMethod($widget, 'getStats'))->invoke(app($widget));

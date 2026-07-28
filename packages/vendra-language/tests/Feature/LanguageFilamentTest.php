@@ -79,7 +79,7 @@ it('temporarily disables an installed language from the table', function (): voi
         ->assertTableColumnStateSet('active', false, $language);
 });
 
-it('creates a discovered translation override for enabled locales', function (): void {
+it('creates a discovered translation override for active locales', function (): void {
     Language::query()->create(['locale' => 'en', 'position' => 1]);
     Language::query()->create(['locale' => 'de', 'position' => 2]);
 
@@ -161,7 +161,7 @@ it('rejects translation groups that are not discovered from translation files', 
         ->assertHasFormErrors(['group']);
 });
 
-it('hydrates enabled locales without dropping stored disabled locales', function (): void {
+it('hydrates active locales without dropping stored inactive locales', function (): void {
     Language::query()->create(['locale' => 'en', 'position' => 1]);
     Language::query()->create(['locale' => 'de', 'position' => 2]);
 

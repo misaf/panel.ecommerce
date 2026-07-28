@@ -151,13 +151,13 @@ final class LanguageServiceProvider extends PackageServiceProvider
     }
 
     /**
-     * The enabled locales for the current tenant, in display order. Falls back
-     * to the application fallback locale when a tenant has none enabled yet.
+     * The active locales for the current tenant, in display order. Falls back
+     * to the application fallback locale when a tenant has none active yet.
      *
      * @return string[]
      */
     private function availableLocales(): array
     {
-        return TranslationLocales::enabled();
+        return TranslationLocales::active();
     }
 }

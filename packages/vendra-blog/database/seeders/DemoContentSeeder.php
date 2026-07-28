@@ -20,12 +20,12 @@ final class DemoContentSeeder extends BaseDemoContentSeeder
         $this->currentTenantOrNull();
 
         BlogPostCategoryFactory::new()
-            ->enabled()
+            ->active()
             ->count(4)
             ->create()
             ->each(fn(BlogPostCategory $blogPostCategory): mixed => BlogPostFactory::new()
                 ->forCategory($blogPostCategory)
-                ->enabled()
+                ->active()
                 ->count(3)
                 ->create());
     }

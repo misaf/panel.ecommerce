@@ -38,9 +38,9 @@ interface SubscriptionSubscriber
     public function hasSubscriptions(): bool;
 
     /**
-     * Whether the subscriber is enabled to create and hold properties.
+     * Whether the subscriber is active and able to create and hold properties.
      */
-    public function isSubscriptionEnabled(): bool;
+    public function isSubscriptionActive(): bool;
 
     /**
      * Whether there is an owner contact to receive billing notifications.

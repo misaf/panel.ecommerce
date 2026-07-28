@@ -18,7 +18,7 @@ beforeEach(function (): void {
     app()->instance(TenantResolver::class, $tenantResolver);
 });
 
-it('returns enabled locales in display order', function (): void {
+it('returns active locales in display order', function (): void {
     $english = Language::query()->create(['locale' => 'en', 'position' => 2]);
     $german = Language::query()->create(['locale' => 'de', 'position' => 1]);
     Language::query()->create(['locale' => 'fa', 'active' => false, 'position' => 3]);
@@ -26,24 +26,24 @@ it('returns enabled locales in display order', function (): void {
     Language::query()->whereKey($english->getKey())->update(['position' => 2]);
     Language::query()->whereKey($german->getKey())->update(['position' => 1]);
 
-    expect(TranslationLocales::enabled())->toBe(['de', 'en']);
+    expect(TranslationLocales::active())->toBe(['de', 'en']);
 });
 
-it('falls back when every installed language is disabled', function (): void {
+it('falls back when every installed language is inactive', function (): void {
     config()->set('app.fallback_locale', 'fa');
 
     Language::query()->create(['locale' => 'en', 'active' => false, 'position' => 1]);
 
-    expect(TranslationLocales::enabled())->toBe(['fa']);
+    expect(TranslationLocales::active())->toBe(['fa']);
 });
 
-it('falls back to the application fallback locale when none are enabled', function (): void {
+it('falls back to the application fallback locale when none are active', function (): void {
     config()->set('app.fallback_locale', 'fa');
 
-    expect(TranslationLocales::enabled())->toBe(['fa']);
+    expect(TranslationLocales::active())->toBe(['fa']);
 });
 
-it('adds enabled locales while retaining stored disabled locale values', function (): void {
+it('adds active locales while retaining stored inactive locale values', function (): void {
     Language::query()->create(['locale' => 'en', 'position' => 1]);
     Language::query()->create(['locale' => 'de', 'position' => 2]);
 

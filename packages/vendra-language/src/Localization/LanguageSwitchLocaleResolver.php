@@ -23,6 +23,6 @@ final class LanguageSwitchLocaleResolver implements LocaleResolver
             return null;
         }
 
-        return in_array($locale, TranslationLocales::enabled(), true) ? $locale : null;
+        return in_array($locale, TranslationLocales::active(), true) ? $locale : null;
     }
 }

@@ -13,7 +13,7 @@ beforeEach(function (): void {
 });
 
 it('resolves canonical and custom admin hosts to the property', function (): void {
-    $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    $tenant = Tenant::factory()->active()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
         'active' => true,
@@ -28,7 +28,7 @@ it('resolves canonical and custom admin hosts to the property', function (): voi
 });
 
 it('serves the admin login on canonical and custom property hosts without a root route', function (string $host): void {
-    $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    $tenant = Tenant::factory()->active()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
         'active' => true,
@@ -42,7 +42,7 @@ it('serves the admin login on canonical and custom property hosts without a root
 ]);
 
 it('serves the canonical admin host after tenant switching changes the application URL', function (): void {
-    Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    Tenant::factory()->active()->create(['slug' => 'acme']);
 
     config()->set('app.url', 'https://acme.admin.vendra.test');
 
@@ -50,7 +50,7 @@ it('serves the canonical admin host after tenant switching changes the applicati
 });
 
 it('does not serve the admin panel on the storefront host', function (): void {
-    $tenant = Tenant::factory()->enabled()->create(['slug' => 'acme']);
+    $tenant = Tenant::factory()->active()->create(['slug' => 'acme']);
     TenantDomain::factory()->for($tenant)->create([
         'name'   => 'acme.example.com',
         'active' => true,
@@ -59,8 +59,8 @@ it('does not serve the admin panel on the storefront host', function (): void {
     $this->get('https://acme.example.com/login')->assertNotFound();
 });
 
-it('does not resolve manually disabled, billing suspended, or provisioning tenants', function (array $attributes): void {
-    $tenant = Tenant::factory()->enabled()->create([
+it('does not resolve manually inactive, billing suspended, or provisioning tenants', function (array $attributes): void {
+    $tenant = Tenant::factory()->active()->create([
         'slug' => 'acme',
         ...$attributes,
     ]);
@@ -74,7 +74,7 @@ it('does not resolve manually disabled, billing suspended, or provisioning tenan
     expect($tenantFinder->findForAdminHost('acme.admin.vendra.test'))->toBeNull()
         ->and($tenantFinder->findForAdminHost('admin.acme.example.com'))->toBeNull();
 })->with([
-    'manual disablement'   => [['active' => false]],
+    'manual deactivation'  => [['active' => false]],
     'billing suspension'   => [['billing_suspended_at' => now()]],
     'pending provisioning' => [[
         'provisioning_status' => TenantProvisioningStatus::Pending,

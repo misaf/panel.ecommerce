@@ -44,7 +44,7 @@ it('serves attribute values and validates query parameters', function (): void {
 
 it('does not serve inactive attributes', function (): void {
     $active = AttributeFactory::new()->create();
-    $inactive = AttributeFactory::new()->disabled()->create();
+    $inactive = AttributeFactory::new()->inactive()->create();
 
     $this->getJson('/v1/attributes', ['Accept' => 'application/vnd.api+json'])
         ->assertOk()
@@ -61,7 +61,7 @@ it('does not serve values of inactive attributes', function (): void {
     $activeValue = AttributeValueFactory::new()->forAttributable($product)->create();
 
     $inactiveValue = AttributeValueFactory::new()->forAttributable($product)->create([
-        'attribute_id' => AttributeFactory::new()->disabled()->create()->id,
+        'attribute_id' => AttributeFactory::new()->inactive()->create()->id,
     ]);
 
     $this->getJson('/v1/attribute-values', ['Accept' => 'application/vnd.api+json'])

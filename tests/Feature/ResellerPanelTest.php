@@ -172,7 +172,7 @@ it('registers a reseller with an initial subscription', function (): void {
         ->and($reseller->activeSubscription()?->plan_id)->toBe($plan->getKey());
 });
 
-it('rejects disabled plans during reseller registration', function (): void {
+it('rejects inactive plans during reseller registration', function (): void {
     $plan = Plan::factory()->create(['active' => false]);
     Filament::setCurrentPanel(Filament::getPanel('reseller'));
 
@@ -259,7 +259,7 @@ it('grants reseller panel access only to reseller owners', function (): void {
         ->and($regular->canAccessPanel($panel))->toBeFalse();
 });
 
-it('keeps disabled owners in the panel but blocks property operations', function (): void {
+it('keeps inactive owners in the panel but blocks property operations', function (): void {
     $reseller = Reseller::factory()->create(['active' => false]);
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(2))->create();
     $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);

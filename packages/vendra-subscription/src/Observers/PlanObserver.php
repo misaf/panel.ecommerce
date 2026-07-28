@@ -16,7 +16,7 @@ final class PlanObserver
             return;
         }
 
-        if ( ! Plan::query()->enabled()->exists()) {
+        if ( ! Plan::query()->active()->exists()) {
             $plan->is_default = true;
         }
     }
@@ -40,7 +40,7 @@ final class PlanObserver
 
         if ($plan->exists && true === $plan->getOriginal('is_default')) {
             $hasAnotherDefault = Plan::query()
-                ->enabled()
+                ->active()
                 ->where('is_default', true)
                 ->whereKeyNot($plan->getKey())
                 ->exists();
@@ -54,7 +54,7 @@ final class PlanObserver
     public function saved(Plan $plan): void
     {
         if ($plan->wasChanged(['active', 'is_default'])) {
-            $this->ensureEnabledDefault();
+            $this->ensureActiveDefault();
         }
     }
 
@@ -64,17 +64,17 @@ final class PlanObserver
             return;
         }
 
-        $this->ensureEnabledDefault();
+        $this->ensureActiveDefault();
     }
 
-    private function ensureEnabledDefault(): void
+    private function ensureActiveDefault(): void
     {
-        if (Plan::query()->enabled()->where('is_default', true)->exists()) {
+        if (Plan::query()->active()->where('is_default', true)->exists()) {
             return;
         }
 
         Plan::query()
-            ->enabled()
+            ->active()
             ->orderBy('id')
             ->first()
             ?->update(['is_default' => true]);

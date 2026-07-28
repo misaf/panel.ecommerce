@@ -95,7 +95,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
      * @param  Builder<Reseller>  $query
      * @return Builder<Reseller>
      */
-    public function scopeEnabled(Builder $query): Builder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }
@@ -104,7 +104,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
      * @param  Builder<Reseller>  $query
      * @return Builder<Reseller>
      */
-    public function scopeDisabled(Builder $query): Builder
+    public function scopeInactive(Builder $query): Builder
     {
         return $query->where('active', false);
     }
@@ -156,7 +156,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
             ->first();
     }
 
-    public function isSubscriptionEnabled(): bool
+    public function isSubscriptionActive(): bool
     {
         return $this->active;
     }

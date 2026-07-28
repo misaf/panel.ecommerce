@@ -16,7 +16,7 @@ final class LanguageObserver
             return;
         }
 
-        if ( ! Language::query()->enabled()->exists()) {
+        if ( ! Language::query()->active()->exists()) {
             $language->is_default = true;
         }
     }
@@ -40,7 +40,7 @@ final class LanguageObserver
 
         if ($language->exists && true === $language->getOriginal('is_default')) {
             $hasAnotherDefault = Language::query()
-                ->enabled()
+                ->active()
                 ->where('is_default', true)
                 ->whereKeyNot($language->getKey())
                 ->exists();
@@ -54,7 +54,7 @@ final class LanguageObserver
     public function saved(Language $language): void
     {
         if ($language->wasChanged(['active', 'is_default'])) {
-            $this->ensureEnabledDefault();
+            $this->ensureActiveDefault();
         }
     }
 
@@ -64,17 +64,17 @@ final class LanguageObserver
             return;
         }
 
-        $this->ensureEnabledDefault();
+        $this->ensureActiveDefault();
     }
 
-    private function ensureEnabledDefault(): void
+    private function ensureActiveDefault(): void
     {
-        if (Language::query()->enabled()->where('is_default', true)->exists()) {
+        if (Language::query()->active()->where('is_default', true)->exists()) {
             return;
         }
 
         Language::query()
-            ->enabled()
+            ->active()
             ->ordered()
             ->first()
             ?->update(['is_default' => true]);

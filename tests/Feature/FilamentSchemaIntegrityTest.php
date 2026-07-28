@@ -39,7 +39,7 @@ use Misaf\VendraUser\Database\Factories\UserFactory;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    Tenant::factory()->enabled()->create()->makeCurrent();
+    Tenant::factory()->active()->create()->makeCurrent();
 });
 
 it('counts relation manager badges without preloaded relations', function (): void {

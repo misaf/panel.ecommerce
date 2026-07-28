@@ -24,7 +24,7 @@ final class PropertyForm
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.reseller_id'))
                     ->label(__('console.reseller'))
                     ->live()
-                    ->options(fn(): array => Reseller::query()->enabled()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Reseller::query()->active()->pluck('name', 'id')->all())
                     ->required()
                     ->native(false)
                     ->visibleOn('create'),

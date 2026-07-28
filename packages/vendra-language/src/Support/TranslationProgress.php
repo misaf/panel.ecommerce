@@ -11,7 +11,7 @@ use Misaf\VendraLanguage\Models\LanguageLine;
 final class TranslationProgress
 {
     /** @var list<string>|null */
-    private ?array $enabledLocales = null;
+    private ?array $activeLocales = null;
 
     /** @var array<string, array{translated: int, total: int, remaining: int, percentage: int, missing_locales: list<string>}> */
     private array $languageLineProgress = [];
@@ -56,15 +56,15 @@ final class TranslationProgress
             return $this->languageLineProgress[$cacheKey];
         }
 
-        $enabledLocales = $this->enabledLocales();
+        $activeLocales = $this->activeLocales();
         $missingLocales = array_values(array_filter(
-            $enabledLocales,
+            $activeLocales,
             fn(string $locale): bool => ! $this->hasTranslation($languageLine, $locale),
         ));
 
         return $this->languageLineProgress[$cacheKey] = $this->summarize(
-            translated: count($enabledLocales) - count($missingLocales),
-            total: count($enabledLocales),
+            translated: count($activeLocales) - count($missingLocales),
+            total: count($activeLocales),
             missingLocales: $missingLocales,
         );
     }
@@ -79,9 +79,9 @@ final class TranslationProgress
     /**
      * @return list<string>
      */
-    private function enabledLocales(): array
+    private function activeLocales(): array
     {
-        return $this->enabledLocales ??= TranslationLocales::enabled();
+        return $this->activeLocales ??= TranslationLocales::active();
     }
 
     /**

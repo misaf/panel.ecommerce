@@ -15,8 +15,8 @@ afterEach(function (): void {
 });
 
 it('serves custom pages as a to-many relationship of categories', function (): void {
-    $category = CustomPageCategory::factory()->enabled()->create();
-    CustomPage::factory()->count(2)->enabled()->forCategory($category)->create();
+    $category = CustomPageCategory::factory()->active()->create();
+    CustomPage::factory()->count(2)->active()->forCategory($category)->create();
 
     $related = $this->getJson(
         "/v1/custom-page-categories/{$category->getKey()}/custom-pages",

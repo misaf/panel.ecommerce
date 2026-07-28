@@ -85,7 +85,7 @@ it('toggles a user profile active state from the Filament resource table', funct
     UserProfileModuleTestContext::setUpFilamentAdminContext();
 
     $profile = UserProfileFactory::new()
-        ->disabled()
+        ->inactive()
         ->createOne();
 
     livewire(ListUserProfiles::class)

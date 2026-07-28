@@ -16,15 +16,15 @@ afterEach(function (): void {
 });
 
 it('filters localized custom page attributes and includes their category', function (): void {
-    $category = CustomPageCategory::factory()->enabled()->create([
+    $category = CustomPageCategory::factory()->active()->create([
         'name' => ['en' => 'Documentation'],
     ]);
 
-    $matchingPage = CustomPage::factory()->enabled()->forCategory($category)->create([
+    $matchingPage = CustomPage::factory()->active()->forCategory($category)->create([
         'name' => ['en' => 'Getting Started'],
     ]);
 
-    CustomPage::factory()->disabled()->forCategory($category)->create([
+    CustomPage::factory()->inactive()->forCategory($category)->create([
         'name' => ['en' => 'Internal Draft'],
     ]);
 
@@ -42,12 +42,12 @@ it('filters localized custom page attributes and includes their category', funct
 });
 
 it('supports the soft-delete filters declared by both schemas', function (): void {
-    $activeCategory = CustomPageCategory::factory()->enabled()->create();
-    $trashedCategory = CustomPageCategory::factory()->enabled()->create();
+    $activeCategory = CustomPageCategory::factory()->active()->create();
+    $trashedCategory = CustomPageCategory::factory()->active()->create();
     $trashedCategory->delete();
 
-    $activePage = CustomPage::factory()->enabled()->forCategory($activeCategory)->create();
-    $trashedPage = CustomPage::factory()->enabled()->forCategory($activeCategory)->create();
+    $activePage = CustomPage::factory()->active()->forCategory($activeCategory)->create();
+    $trashedPage = CustomPage::factory()->active()->forCategory($activeCategory)->create();
     $trashedPage->delete();
 
     $this->getJson('/v1/custom-page-categories?filter[only-trashed]=true', [
@@ -74,7 +74,7 @@ it('supports the soft-delete filters declared by both schemas', function (): voi
 });
 
 it('rejects unsupported or invalid pagination parameters', function (): void {
-    $page = CustomPage::factory()->enabled()->create();
+    $page = CustomPage::factory()->active()->create();
 
     $this->getJson('/v1/custom-pages?page[size]=0', ['Accept' => 'application/vnd.api+json'])
         ->assertStatus(400);

@@ -97,7 +97,7 @@ final class Plan extends Model implements ShouldLogActivity
      * @param  Builder<Plan>  $query
      * @return Builder<Plan>
      */
-    public function scopeEnabled(Builder $query): Builder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }
@@ -106,7 +106,7 @@ final class Plan extends Model implements ShouldLogActivity
      * @param  Builder<Plan>  $query
      * @return Builder<Plan>
      */
-    public function scopeDisabled(Builder $query): Builder
+    public function scopeInactive(Builder $query): Builder
     {
         return $query->where('active', false);
     }

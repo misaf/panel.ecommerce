@@ -34,11 +34,11 @@ it('resolves the period end and the grace-adjusted suspend date', function (): v
 });
 
 it('filters by active state', function (): void {
-    $enabled = Plan::factory()->create(['active' => true]);
-    $disabled = Plan::factory()->create(['active' => false]);
+    $active = Plan::factory()->create(['active' => true]);
+    $inactive = Plan::factory()->create(['active' => false]);
 
-    expect(Plan::query()->enabled()->pluck('id'))->toContain($enabled->id)->not->toContain($disabled->id)
-        ->and(Plan::query()->disabled()->pluck('id'))->toContain($disabled->id)->not->toContain($enabled->id);
+    expect(Plan::query()->active()->pluck('id'))->toContain($active->id)->not->toContain($inactive->id)
+        ->and(Plan::query()->inactive()->pluck('id'))->toContain($inactive->id)->not->toContain($active->id);
 });
 
 it('blocks deletion while any subscription references it, even a trashed one', function (): void {
