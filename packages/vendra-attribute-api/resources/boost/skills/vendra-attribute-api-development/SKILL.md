@@ -1,6 +1,6 @@
 ---
 name: vendra-attribute-api-development
-description: "Create, modify, review, or test the Vendra Attribute API package in packages/vendra-attribute-api. Use for the v1 JSON:API server, AttributeSchema / AttributeResource, AttributeValueSchema / AttributeValueResource, active-resource filtering, provider-neutral product API relationships, filters, routes, response fields, read-only behavior, API tests, and AttributeApiServiceProvider wiring."
+description: "Create, modify, review, or test the Vendra Attribute API package in packages/vendra-attribute-api. Use for the v1 API Platform server, AttributeSchema / AttributeResource, AttributeValueSchema / AttributeValueResource, active-resource filtering, provider-neutral product API relationships, filters, routes, response fields, read-only behavior, API tests, and AttributeApiServiceProvider wiring."
 ---
 
 # Vendra Attribute API
@@ -26,7 +26,7 @@ description: "Create, modify, review, or test the Vendra Attribute API package i
 - Do not add a redundant direct Composer requirement solely because source code imports a type from that exposed dependency.
 - Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
 
-Use `vendra-api-development` for shared JSON:API infrastructure, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, use Laravel Boost to inspect installed versions and search documentation for affected JSON:API behavior.
+Use `vendra-api-development` for shared API Platform infrastructure, `laravel-best-practices` for Laravel PHP and `pest-testing` when tests change. Before editing, use Laravel Boost to inspect installed versions and search documentation for affected API Platform behavior.
 
 ## Boundary And Contract
 

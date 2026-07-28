@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttributeApi\Support;
 
-use Misaf\VendraAttributeApi\JsonApi\V1\AttributeValues\AttributeValueSchema;
+use Misaf\VendraAttributeApi\ApiResource\CatalogOption;
 use Misaf\VendraSupport\Contracts\AttributeApiResolver;
 
 final class AttributeApiServiceResolver implements AttributeApiResolver
@@ -14,8 +14,8 @@ final class AttributeApiServiceResolver implements AttributeApiResolver
         return true;
     }
 
-    public function attributeValueSchema(): ?string
+    public function attributeOptionResource(): ?string
     {
-        return AttributeValueSchema::class;
+        return CatalogOption::class;
     }
 }

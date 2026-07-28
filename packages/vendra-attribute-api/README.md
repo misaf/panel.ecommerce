@@ -1,10 +1,10 @@
 # Vendra Attribute API
 
-Read-only JSON:API services for the `misaf/vendra-attribute` domain module.
+Read-only API Platform resources for the `misaf/vendra-attribute` domain module.
 
 ## Features
 
-- Read-only JSON:API resources for active attributes and their values
+- Dedicated resources for active catalog attributes and options
 - Polymorphic attribute values exposed through a consistent API
 - Tenant-agnostic — works with or without a tenant provider
 - Optional attribute-value relationships on product and product-category endpoints
@@ -22,7 +22,7 @@ Read-only JSON:API services for the `misaf/vendra-attribute` domain module.
 composer require misaf/vendra-attribute-api
 ```
 
-The service provider is auto-registered. The JSON:API server registers at `/v1`.
+The service provider registers the resources and provider automatically.
 
 ## Resources
 
@@ -43,16 +43,15 @@ Filters: `id`, `exclude` (by ID).
 ## Cross-module Integration
 
 When both API modules are installed, `misaf/vendra-product-api` obtains the
-attribute-value schema through the provider-neutral Support contract. It adds
-`attributeValues` to product categories and adds `attributeValues` plus
-`selectedAttributeValues` to products. Neither API package imports the other.
+catalog-option resource class through the provider-neutral Support contract.
+Product resources expose stable references without importing this package.
 
 ## API Routes
 
-- `GET /v1/attributes` — list active attributes
-- `GET /v1/attributes/{id}` — show one active attribute
-- `GET /v1/attribute-values` — list attribute values
-- `GET /v1/attribute-values/{id}` — show a single attribute value
+- `GET /api/catalog/attributes`
+- `GET /api/catalog/attributes/{id}`
+- `GET /api/catalog/attribute-values`
+- `GET /api/catalog/attribute-values/{id}`
 
 ## Tenant Awareness
 

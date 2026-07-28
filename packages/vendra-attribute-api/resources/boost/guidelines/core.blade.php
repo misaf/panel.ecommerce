@@ -1,6 +1,6 @@
 ## Vendra Attribute API
 
-The `misaf/vendra-attribute-api` package exposes active attributes and their values from `misaf/vendra-attribute` through Laravel JSON:API.
+The `misaf/vendra-attribute-api` package exposes active attributes and their values from `misaf/vendra-attribute` through API Platform for Laravel.
 
 ### Translatable Persistence
 
