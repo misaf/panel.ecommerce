@@ -13,7 +13,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
-use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Models\SubscriptionPayment;
 use Throwable;
 
@@ -74,12 +73,10 @@ final class ProcessSubscriptionPayment implements ShouldBeUnique, ShouldQueue
                 return;
             }
 
-            $payment->forceFill([
-                'status'          => SubscriptionPaymentStatus::NeedsReconciliation,
-                'failure_code'    => 'processing_exhausted',
-                'failure_message' => Str::limit($exception?->getMessage() ?? 'Subscription payment processing exhausted its retries.', 1_000),
-                'next_retry_at'   => now()->addMinutes(15),
-            ])->save();
+            $payment->markNeedsReconciliation(
+                'processing_exhausted',
+                Str::limit($exception?->getMessage() ?? 'Subscription payment processing exhausted its retries.', 1_000),
+            );
         });
     }
 }

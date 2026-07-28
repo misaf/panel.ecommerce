@@ -61,14 +61,7 @@ final class ChargeSubscriptionAction
                 return $lockedPayment;
             }
 
-            $lockedPayment->forceFill([
-                'status'          => SubscriptionPaymentStatus::Processing,
-                'attempt_count'   => $lockedPayment->attempt_count + 1,
-                'processing_at'   => now(),
-                'next_retry_at'   => null,
-                'failure_code'    => null,
-                'failure_message' => null,
-            ])->save();
+            $lockedPayment->beginProcessing();
 
             return $lockedPayment;
         });

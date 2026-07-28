@@ -39,9 +39,19 @@ final class EnforceSubscriptionsAction
 
     private function expireLapsedSubscriptions(): int
     {
-        return Subscription::query()
+        $expired = 0;
+
+        Subscription::query()
             ->lapsed()
-            ->update(['status' => SubscriptionStatus::Expired->value]);
+            ->chunkById(100, function (Collection $subscriptions) use (&$expired): void {
+                /** @var Collection<int, Subscription> $subscriptions */
+                foreach ($subscriptions as $subscription) {
+                    $subscription->expire();
+                    $expired++;
+                }
+            });
+
+        return $expired;
     }
 
     private function remindExpiringSubscriptions(): int

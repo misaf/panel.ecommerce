@@ -182,4 +182,24 @@ final class Subscription extends Model implements ShouldLogActivity
 
         return null === $this->ends_at || $this->ends_at->isFuture();
     }
+
+    public function activate(): bool
+    {
+        return $this->update(['status' => SubscriptionStatus::Active]);
+    }
+
+    public function markPastDue(): bool
+    {
+        return $this->update(['status' => SubscriptionStatus::PastDue]);
+    }
+
+    public function expire(): bool
+    {
+        return $this->update(['status' => SubscriptionStatus::Expired]);
+    }
+
+    public function cancel(): bool
+    {
+        return $this->update(['status' => SubscriptionStatus::Cancelled]);
+    }
 }

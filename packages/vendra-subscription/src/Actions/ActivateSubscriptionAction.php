@@ -53,7 +53,7 @@ final class ActivateSubscriptionAction
             }
 
             $this->subscriptionRegistry->cancelActive($lockedSubscriber, $lockedSubscription->id);
-            $lockedSubscription->update(['status' => SubscriptionStatus::Active]);
+            $lockedSubscription->activate();
             $lockedSubscriber->reactivateSuspendedProperties();
 
             return $lockedSubscription;

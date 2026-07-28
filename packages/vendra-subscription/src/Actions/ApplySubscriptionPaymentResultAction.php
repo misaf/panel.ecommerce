@@ -40,15 +40,12 @@ final class ApplySubscriptionPaymentResultAction
                 return [$payment, false];
             }
 
-            $payment->forceFill([
-                'status'             => $status,
-                'provider_reference' => $payment->provider_reference ?? $result->providerReference,
-                'failure_code'       => $result->errorCode,
-                'failure_message'    => $result->errorMessage,
-                'paid_at'            => SubscriptionPaymentStatus::Paid === $status ? ($payment->paid_at ?? now()) : $payment->paid_at,
-                'failed_at'          => SubscriptionPaymentStatus::Failed === $status ? ($payment->failed_at ?? now()) : $payment->failed_at,
-                'next_retry_at'      => SubscriptionPaymentStatus::Processing === $status ? now()->addMinutes(5) : null,
-            ])->save();
+            $payment->recordProviderResult(
+                $status,
+                $result->providerReference,
+                $result->errorCode,
+                $result->errorMessage,
+            );
 
             $failed = false;
 
@@ -57,9 +54,9 @@ final class ApplySubscriptionPaymentResultAction
                 $subscription = $payment->subscription()->firstOrFail();
 
                 if (SubscriptionStatus::PendingPayment === $subscription->status) {
-                    $subscription->update(['status' => SubscriptionStatus::Cancelled]);
+                    $subscription->cancel();
                 } elseif (SubscriptionStatus::Active === $subscription->status) {
-                    $subscription->update(['status' => SubscriptionStatus::PastDue]);
+                    $subscription->markPastDue();
                 }
             }
 

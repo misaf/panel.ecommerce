@@ -62,9 +62,11 @@ final class SubscribeAction
             }
 
             if ($openPayments->isNotEmpty()) {
-                SubscriptionPayment::query()
-                    ->whereKey($openPayments->modelKeys())
-                    ->update(['status' => SubscriptionPaymentStatus::Cancelled->value]);
+                $openPayments->each(
+                    function (SubscriptionPayment $payment): void {
+                        $payment->cancel();
+                    },
+                );
                 $this->subscriptionRegistry->cancelPending(
                     $lockedSubscriber,
                     $openPayments->map(fn(SubscriptionPayment $payment): int => $payment->subscription_id)->all(),

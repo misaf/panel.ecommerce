@@ -83,4 +83,48 @@ final class SubscriptionPayment extends Model implements ShouldLogActivity
     {
         return $this->morphTo();
     }
+
+    public function beginProcessing(): bool
+    {
+        return $this->forceFill([
+            'status'          => SubscriptionPaymentStatus::Processing,
+            'attempt_count'   => $this->attempt_count + 1,
+            'processing_at'   => now(),
+            'next_retry_at'   => null,
+            'failure_code'    => null,
+            'failure_message' => null,
+        ])->save();
+    }
+
+    public function recordProviderResult(
+        SubscriptionPaymentStatus $status,
+        ?string $providerReference,
+        ?string $failureCode,
+        ?string $failureMessage,
+    ): bool {
+        return $this->forceFill([
+            'status'             => $status,
+            'provider_reference' => $this->provider_reference ?? $providerReference,
+            'failure_code'       => $failureCode,
+            'failure_message'    => $failureMessage,
+            'paid_at'            => SubscriptionPaymentStatus::Paid === $status ? ($this->paid_at ?? now()) : $this->paid_at,
+            'failed_at'          => SubscriptionPaymentStatus::Failed === $status ? ($this->failed_at ?? now()) : $this->failed_at,
+            'next_retry_at'      => SubscriptionPaymentStatus::Processing === $status ? now()->addMinutes(5) : null,
+        ])->save();
+    }
+
+    public function markNeedsReconciliation(string $failureCode, string $failureMessage): bool
+    {
+        return $this->forceFill([
+            'status'          => SubscriptionPaymentStatus::NeedsReconciliation,
+            'failure_code'    => $failureCode,
+            'failure_message' => $failureMessage,
+            'next_retry_at'   => now()->addMinutes(15),
+        ])->save();
+    }
+
+    public function cancel(): bool
+    {
+        return $this->update(['status' => SubscriptionPaymentStatus::Cancelled]);
+    }
 }

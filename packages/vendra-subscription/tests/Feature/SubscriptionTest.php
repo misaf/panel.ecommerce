@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Database\QueryException;
+use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -46,6 +47,23 @@ it('reports trial and active state', function (): void {
         ->and(Subscription::factory()->expired()->create()->isActive())->toBeFalse();
 });
 
+it('transitions subscriptions through explicit lifecycle methods', function (): void {
+    $pending = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+    $active = Subscription::factory()->create();
+    $lapsed = Subscription::factory()->create();
+    $cancelled = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+
+    $pending->activate();
+    $active->markPastDue();
+    $lapsed->expire();
+    $cancelled->cancel();
+
+    expect($pending->status)->toBe(SubscriptionStatus::Active)
+        ->and($active->status)->toBe(SubscriptionStatus::PastDue)
+        ->and($lapsed->status)->toBe(SubscriptionStatus::Expired)
+        ->and($cancelled->status)->toBe(SubscriptionStatus::Cancelled);
+});
+
 it('derives the suspend date from its plan grace window', function (): void {
     $plan = Plan::factory()->graceDays(5)->create();
     $subscription = Subscription::factory()->for($plan)->create(['ends_at' => now()->addDays(10)]);
@@ -80,6 +98,33 @@ it('persists auditable payment lifecycle data for a subscription', function (): 
         ->and($payment->attempt_count)->toBe(0)
         ->and($payment->status->value)->toBe('pending')
         ->and($payment->idempotency_key)->toBeUuid();
+});
+
+it('records payment processing through explicit lifecycle methods', function (): void {
+    $subscription = Subscription::factory()->create(['status' => SubscriptionStatus::PendingPayment]);
+    $payment = SubscriptionPayment::factory()->for($subscription)->create([
+        'failure_code'    => 'previous_failure',
+        'failure_message' => 'Previous failure.',
+    ]);
+
+    $payment->beginProcessing();
+
+    expect($payment->status)->toBe(SubscriptionPaymentStatus::Processing)
+        ->and($payment->attempt_count)->toBe(1)
+        ->and($payment->processing_at)->not->toBeNull()
+        ->and($payment->failure_code)->toBeNull()
+        ->and($payment->failure_message)->toBeNull();
+
+    $payment->recordProviderResult(
+        SubscriptionPaymentStatus::Paid,
+        'provider-payment-1',
+        null,
+        null,
+    );
+
+    expect($payment->status)->toBe(SubscriptionPaymentStatus::Paid)
+        ->and($payment->provider_reference)->toBe('provider-payment-1')
+        ->and($payment->paid_at)->not->toBeNull();
 });
 
 it('enforces unique payment idempotency keys', function (): void {
