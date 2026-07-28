@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 use App\Jobs\CompleteTenantProvisioningJob;
 use App\Models\Reseller;
+use App\Support\Context\AppContextKeys;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
@@ -90,4 +93,34 @@ it('activates an unsubscribed reseller property under billing suspension', funct
         ->and($tenant->provisioning_status)->toBe(TenantProvisioningStatus::Ready);
 
     Event::assertNotDispatched(TenantProvisioned::class);
+});
+
+it('scopes provisioning identifiers without leaking them afterward', function (): void {
+    Event::fake([TenantProvisioned::class]);
+    $reseller = Reseller::factory()->create();
+    $tenant = Tenant::factory()->create([
+        'reseller_id'              => $reseller->id,
+        'active'                   => false,
+        'provisioning_status'      => TenantProvisioningStatus::Pending,
+        'provisioning_should_seed' => false,
+        'provisioned_at'           => null,
+    ]);
+    $captured = [];
+
+    Tenant::updated(function (Tenant $updatedTenant) use (&$captured, $tenant): void {
+        if ($updatedTenant->is($tenant)) {
+            $captured[] = RequestJobContext::current();
+        }
+    });
+    Context::add(RequestJobContext::OPERATION, 'outer');
+
+    (new CompleteTenantProvisioningJob($tenant->id))->handle();
+
+    expect($captured)->not->toBeEmpty()
+        ->and($captured[0]->traceId)->toBeUuid()
+        ->and($captured[0]->operation)->toBe('tenant_provisioning')
+        ->and($captured[0]->tenantId)->toBe($tenant->getKey())
+        ->and($captured[0]->metadata[AppContextKeys::RESELLER_ID])->toBe($reseller->getKey())
+        ->and(Context::get(RequestJobContext::OPERATION))->toBe('outer')
+        ->and(Context::has(RequestJobContext::TENANT_ID))->toBeFalse();
 });

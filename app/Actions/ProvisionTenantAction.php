@@ -6,10 +6,12 @@ namespace App\Actions;
 
 use App\Jobs\CompleteTenantProvisioningJob;
 use App\Models\Reseller;
+use App\Support\Context\AppContextKeys;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Misaf\VendraPermission\Actions\CreateRoleAction;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
@@ -63,7 +65,14 @@ final class ProvisionTenantAction
             ];
         });
 
-        CompleteTenantProvisioningJob::dispatch($result['tenant']->id)->afterCommit();
+        (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'tenant_provision_dispatch',
+            tenantId: $result['tenant']->id,
+            metadata: [AppContextKeys::RESELLER_ID => $result['tenant']->reseller_id],
+        ))->scope(
+            fn() => CompleteTenantProvisioningJob::dispatch($result['tenant']->id)->afterCommit(),
+        );
 
         return $result;
     }

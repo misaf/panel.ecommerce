@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Models\Reseller;
+use App\Support\Context\AppContextKeys;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Str;
+use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
@@ -32,6 +34,11 @@ final class CompleteTenantProvisioningJob implements NotTenantAware, ShouldBeUni
     {
         $tenant = Tenant::query()->findOrFail($this->tenantId);
 
+        $this->context($tenant)->scope(fn() => $this->provision($tenant));
+    }
+
+    private function provision(Tenant $tenant): void
+    {
         if (TenantProvisioningStatus::Ready === $tenant->provisioning_status) {
             return;
         }
@@ -90,7 +97,9 @@ final class CompleteTenantProvisioningJob implements NotTenantAware, ShouldBeUni
 
     public function failed(?Throwable $exception): void
     {
-        $this->markFailed($exception);
+        $tenant = Tenant::query()->find($this->tenantId);
+
+        $this->context($tenant)->scope(fn() => $this->markFailed($exception));
     }
 
     private function shouldStartBillingSuspended(Tenant $tenant): bool
@@ -119,5 +128,15 @@ final class CompleteTenantProvisioningJob implements NotTenantAware, ShouldBeUni
                     ? 'Tenant provisioning failed.'
                     : Str::limit($exception->getMessage(), 2000, ''),
             ]);
+    }
+
+    private function context(?Tenant $tenant): RequestJobContext
+    {
+        return new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'tenant_provisioning',
+            tenantId: $this->tenantId,
+            metadata: [AppContextKeys::RESELLER_ID => $tenant?->reseller_id],
+        );
     }
 }

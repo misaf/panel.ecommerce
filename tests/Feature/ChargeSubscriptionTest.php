@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
+use Misaf\VendraSubscription\Context\SubscriptionContextKeys;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionPaymentException;
@@ -103,6 +104,7 @@ it('persists and processes a paid subscription without holding a database transa
     $reseller = resellerWithOwner();
     $oldSubscription = Subscription::factory()->forSubscriber($reseller)->create();
     $plan = Plan::factory()->priced(1_500, 'USD')->create();
+    Context::add(RequestJobContext::TRACE_ID, 'outer-trace');
 
     $subscription = app(SubscribeAction::class)->execute($reseller, $plan);
     $payment = $subscription->payments()->sole();
@@ -112,9 +114,10 @@ it('persists and processes a paid subscription without holding a database transa
         ->and($payment->status)->toBe(SubscriptionPaymentStatus::Pending)
         ->and($payment->provider)->toBe('testing')
         ->and($payment->idempotency_key)->toBeUuid()
-        ->and(RequestJobContext::current()->subscriptionId)->toBe($subscription->getKey())
-        ->and(RequestJobContext::current()->paymentId)->toBe($payment->getKey())
-        ->and(RequestJobContext::current()->idempotencyKey)->toBe($payment->idempotency_key);
+        ->and(RequestJobContext::current()->traceId)->toBe('outer-trace')
+        ->and(RequestJobContext::current()->metadata)->toBe([])
+        ->and(RequestJobContext::current()->idempotencyKey)->toBeNull()
+        ->and(Context::allHidden())->toBe([]);
     Queue::assertPushed(
         ProcessSubscriptionPayment::class,
         fn(ProcessSubscriptionPayment $job): bool => $job->paymentId === $payment->getKey(),
@@ -125,9 +128,10 @@ it('persists and processes a paid subscription without holding a database transa
 
     expect($charger->charges)->toHaveCount(1)
         ->and($charger->charges[0]->reference)->toBe($payment->idempotency_key)
-        ->and($charger->contexts[0]->subscriptionId)->toBe($subscription->getKey())
-        ->and($charger->contexts[0]->paymentId)->toBe($payment->getKey())
+        ->and($charger->contexts[0]->metadata[SubscriptionContextKeys::SUBSCRIPTION_ID])->toBe($subscription->getKey())
+        ->and($charger->contexts[0]->metadata[SubscriptionContextKeys::PAYMENT_ID])->toBe($payment->getKey())
         ->and($charger->contexts[0]->idempotencyKey)->toBe($payment->idempotency_key)
+        ->and($charger->contexts[0]->operation)->toBe('subscription_payment')
         ->and($charger->transactionLevels)->toBe([DB::transactionLevel()])
         ->and($payment->refresh()->status)->toBe(SubscriptionPaymentStatus::Paid)
         ->and($payment->provider_reference)->toBe('provider-payment-1')

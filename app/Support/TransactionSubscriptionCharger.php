@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Support;
 
 use App\Models\ResellerUser;
+use App\Support\Context\AppContextKeys;
+use LogicException;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Data\SubscriptionCharge;
@@ -37,10 +39,25 @@ final class TransactionSubscriptionCharger implements SubscriptionCharger
 
     public function charge(SubscriptionCharge $charge): SubscriptionChargeResult
     {
-        if ($charge->payer instanceof ResellerUser) {
-            (new RequestJobContext(resellerId: $charge->payer->reseller_id))->add();
+        $result = (new RequestJobContext(
+            traceId: RequestJobContext::resolveTraceId(),
+            operation: 'subscription_charge',
+            metadata: [
+                AppContextKeys::RESELLER_ID => $charge->payer instanceof ResellerUser
+                    ? $charge->payer->reseller_id
+                    : null,
+            ],
+        ))->scope(fn(): SubscriptionChargeResult => $this->chargeWithinContext($charge));
+
+        if ( ! $result instanceof SubscriptionChargeResult) {
+            throw new LogicException('The scoped subscription charge did not return a result.');
         }
 
+        return $result;
+    }
+
+    private function chargeWithinContext(SubscriptionCharge $charge): SubscriptionChargeResult
+    {
         $wallet = TransactionService::walletFor($charge->payer, $charge->currencyCode);
 
         $transaction = TransactionService::createTransaction(
