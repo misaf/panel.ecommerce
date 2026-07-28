@@ -116,7 +116,8 @@ Do not assign `tenant_id` manually.
 
 ## Filament
 
-Attribute definitions are managed in the `Attributes` cluster. By default, the plugin is registered on the `admin` panel.
+Attribute definitions are managed in the shared `Catalog` cluster. By default,
+the plugin is registered on the `admin` panel.
 
 Configure panels, the navigation group, and available units in `config/vendra-attribute.php` after publishing the configuration.
 

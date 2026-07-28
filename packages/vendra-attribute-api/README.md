@@ -1,13 +1,13 @@
 # Vendra Attribute API
 
-JSON:API services for the `misaf/vendra-attribute` domain module. Exposes attribute values through a Laravel JSON:API interface.
+Read-only JSON:API services for the `misaf/vendra-attribute` domain module.
 
 ## Features
 
-- Read-only JSON:API resource for `AttributeValue` models
+- Read-only JSON:API resources for active attributes and their values
 - Polymorphic attribute values exposed through a consistent API
 - Tenant-agnostic — works with or without a tenant provider
-- Conditionally integrated into `misaf/vendra-product-api` when both packages are installed (attribute values appear on product endpoints automatically)
+- Optional attribute-value relationships on product and product-category endpoints
 
 ## Requirements
 
@@ -26,25 +26,31 @@ The service provider is auto-registered. The JSON:API server registers at `/v1`.
 
 ## Resources
 
+### `attributes` — read-only
+
+Fields: `id`, `name`, `description`, `unit`, `position`, `active`,
+`created_at`, and `updated_at`. Only active attributes are returned.
+
+Filters: `id`, `exclude` (by ID).
+
 ### `attribute-values` — read-only
 
-| Field          | Type   | Notes            |
-|----------------|--------|------------------|
-| `id`           | ID     |                  |
-| `attribute_id` | Number |                  |
-| `value`        | Str    |                  |
-| `position`     | Number | Read-only        |
-| `created_at`   | Carbon | Read-only        |
-| `updated_at`   | Carbon | Read-only        |
+Fields: `id`, `attribute_id`, `value`, and read-only `position`. Values whose
+attribute is inactive are not returned.
 
 Filters: `id`, `exclude` (by ID).
 
 ## Cross-module Integration
 
-When `misaf/vendra-product-api` detects this package, it conditionally registers `attributeValues` as a relationship on the `products` resource and serves `AttributeValueSchema` under the `vendra-product` server. No configuration required.
+When both API modules are installed, `misaf/vendra-product-api` obtains the
+attribute-value schema through the provider-neutral Support contract. It adds
+`attributeValues` to product categories and adds `attributeValues` plus
+`selectedAttributeValues` to products. Neither API package imports the other.
 
 ## API Routes
 
+- `GET /v1/attributes` — list active attributes
+- `GET /v1/attributes/{id}` — show one active attribute
 - `GET /v1/attribute-values` — list attribute values
 - `GET /v1/attribute-values/{id}` — show a single attribute value
 

@@ -36,7 +36,7 @@ by Laravel unless their README says otherwise.
 | Catalog and sales | [Product](packages/vendra-product), [Attribute](packages/vendra-attribute), [Currency](packages/vendra-currency), [Cart](packages/vendra-cart), [Transaction](packages/vendra-transaction), [Subscription](packages/vendra-subscription) |
 | Content and marketing | [Blog](packages/vendra-blog), [Custom Page](packages/vendra-custom-page), [FAQ](packages/vendra-faq), [Multimedia](packages/vendra-multimedia), [Tagger](packages/vendra-tagger), [Newsletter](packages/vendra-newsletter), [Affiliate](packages/vendra-affiliate) |
 | Customers and access | [User](packages/vendra-user), [User Profile](packages/vendra-user-profile), [Address](packages/vendra-address), [Phone](packages/vendra-phone), [Document](packages/vendra-document), [Verification](packages/vendra-verification), [Permission](packages/vendra-permission), [Socialite](packages/vendra-socialite) |
-| Operations and localization | [Activity Log](packages/vendra-activity-log), [Authify Log](packages/vendra-authify-log), [Developer Logins](packages/vendra-developer-logins), [Language](packages/vendra-language), [Localization](packages/vendra-localization) |
+| Operations and localization | [Activity Log](packages/vendra-activity-log), [Authify Log](packages/vendra-authify-log), [Developer Logins](packages/vendra-developer-logins) (development only), [Language](packages/vendra-language), [Localization](packages/vendra-localization) |
 | JSON:API modules | [Affiliate API](packages/vendra-affiliate-api), [Attribute API](packages/vendra-attribute-api), [Blog API](packages/vendra-blog-api), [Cart API](packages/vendra-cart-api), [Custom Page API](packages/vendra-custom-page-api), [FAQ API](packages/vendra-faq-api), [Multimedia API](packages/vendra-multimedia-api), [Product API](packages/vendra-product-api) |
 
 Domain packages depend on the provider-neutral contracts in Vendra Support.
@@ -66,9 +66,10 @@ docker compose up -d --build
 
 See `docker/README.md` for details.
 
-Startup runs migrations, provisions the default tenant, and warms caches via
+Startup runs migrations, seeds host-level bootstrap data, and warms caches via
 the container entrypoint; no manual setup commands are required inside the
-container. Production servers should use the published image through
+container. Tenant provisioning remains an explicit host workflow. Production
+servers should use the published image through
 [vendra-deploy](https://github.com/misaf/vendra-deploy).
 
 ## Configuration
@@ -92,6 +93,9 @@ Typical workflow:
 4. Run the package's tests and static analysis as documented in its README.
 
 For production builds, rely on installed Composer packages rather than local path repository workflows.
+
+See [UPGRADING.md](UPGRADING.md) before changing the host application's Vendra
+release line.
 
 ## Documentation and AI Guidance
 

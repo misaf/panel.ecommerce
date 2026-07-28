@@ -8,12 +8,12 @@ use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\RelationManagers\CartItemsRelationManager;
 use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCart\Policies\CartPolicy;
-use Misaf\VendraSupport\Filament\Clusters\CatalogCluster;
+use Misaf\VendraSupport\Filament\Clusters\SalesCluster;
 
-it('registers a cart plugin and catalog resource', function (): void {
+it('registers a cart plugin and sales resource', function (): void {
     expect(CartPlugin::make()->getId())->toBe('vendra-cart')
         ->and(CartResource::getModel())->toBe(Cart::class)
-        ->and(CartResource::getCluster())->toBe(CatalogCluster::class)
+        ->and(CartResource::getCluster())->toBe(SalesCluster::class)
         ->and(Gate::getPolicyFor(Cart::class))->toBeInstanceOf(CartPolicy::class)
         ->and(CartResource::getRelations())->toContain(CartItemsRelationManager::class)
         ->and(CartItemsRelationManager::isBadgeDeferred(new Cart(), ''))->toBeTrue()

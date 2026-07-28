@@ -7,9 +7,11 @@ Shared Pest utilities for Vendra package test suites.
 - `toHaveAtLeastTwoLocales()` expectation
 - `toHaveTranslationsInSync()` expectation
 - `toHaveSortedTranslationKeys()` expectation
+- `toSortByEverySortableColumn()` Livewire table expectation
 - Deterministic translation file and key parity checks
 - Provider-neutral tenant helpers that no-op when tenancy is disabled
 - User factory helpers resolved from the configured authentication provider
+- Tenant-feature and Filament super-admin test-context helpers
 
 ## Requirements
 
@@ -35,6 +37,16 @@ expect(__DIR__ . '/../../resources/lang')
 Tenant-aware package tests should use `makeCurrentTestTenant()`,
 `switchToTestTenant()`, and the related helpers instead of importing the
 concrete Vendra Tenant provider.
+
+Use `makeCurrentTestTenantWithFeatures()` when a test needs deterministic
+Pennant state, and `setUpFilamentSuperAdminTestContext()` to boot a package's
+resources in the shared admin-panel test context.
+
+To exercise every sortable table column in both directions:
+
+```php
+expect($listPage)->toSortByEverySortableColumn($recordsInAscendingOrder);
+```
 
 ## Testing
 

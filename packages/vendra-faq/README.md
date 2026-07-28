@@ -91,7 +91,7 @@ FAQ imports neither Vendra Tagger nor Spatie Tags.
 
 ## Filament
 
-Resources are available in the `Faqs` cluster on the `admin` panel:
+Resources are available in the shared `Content` cluster on the `admin` panel:
 
 - FAQ Categories
 - FAQs

@@ -72,7 +72,7 @@ NewsletterSubscriber::query()->create([
 
 ## Filament
 
-Resources are available in the `Newsletters` cluster on the `admin` panel:
+Resources are available in the shared `Marketing` cluster on the `admin` panel:
 
 - Newsletters
 - Subscribers

@@ -34,9 +34,9 @@ php artisan vendor:publish --tag=vendra-cart-config
 php artisan vendor:publish --tag=vendra-cart-translations
 ```
 
-The standalone Filament resource is registered on the configured panels. Cart
-creation and mutation remain application concerns; the administration UI is
-limited to viewing and deletion.
+The Filament resource is registered in the shared `Sales` cluster on the
+configured panels. Cart creation and mutation remain application concerns; the
+administration UI is limited to viewing and deletion.
 
 Expired carts are pruned daily by default. Change the schedule in the
 published configuration or run `php artisan vendra-cart:prune-expired`

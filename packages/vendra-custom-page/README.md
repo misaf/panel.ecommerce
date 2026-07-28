@@ -77,7 +77,7 @@ $pages = CustomPage::query()
 
 ## Filament
 
-Resources are available in the `Custom Pages` cluster on the `admin` panel:
+Resources are available in the shared `Content` cluster on the `admin` panel:
 
 - Custom Page Categories
 - Custom Pages

@@ -8,6 +8,7 @@ Shared support infrastructure used by every Vendra module.
 - Tenant-aware Eloquent traits, scopes, and migration helpers
 - Optional tag, attribute, and currency integration contracts
 - Provider-neutral subscription charging with idempotent operation results
+- Request and queued-job context propagation primitives
 - Shared tenant seeders and console commands
 - Shared Filament clusters, navigation taxonomy, and concerns
 - Composable policy authorization, sandbox helpers, and shared events

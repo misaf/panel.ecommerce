@@ -77,7 +77,7 @@ Blog imports neither Vendra Tagger nor Spatie Tags; the optional relationship is
 
 ## Filament
 
-Resources are available in the `Blogs` cluster on the `admin` panel:
+Resources are available in the shared `Content` cluster on the `admin` panel:
 
 - Blog Post Categories
 - Blog Posts

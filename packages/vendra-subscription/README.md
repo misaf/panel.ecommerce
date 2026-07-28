@@ -38,6 +38,14 @@ an outage with:
 php artisan vendra-subscription:recover-payments
 ```
 
+Inspect reconciliation, stalled-processing, and paid-but-not-activated backlog
+without mutating payments:
+
+```bash
+php artisan vendra-subscription:report-payment-backlog
+php artisan vendra-subscription:report-payment-backlog --stale-minutes=60
+```
+
 ## Testing
 
 Run the package checks from the package directory:

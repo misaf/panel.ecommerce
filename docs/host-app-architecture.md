@@ -1,6 +1,6 @@
 # Vendra Host App — Architecture & Workflows
 
-> A guide to how the Vendra host application (`app/`) composes ~37 `misaf/vendra-*`
+> A guide to how the Vendra host application (`app/`) composes the first-party `misaf/vendra-*`
 > packages into a multi-tenant, reseller-billed SaaS. Intended as an
 > orientation document for engineering leadership and new contributors.
 
@@ -18,8 +18,9 @@ The central design bet:
 > implementations and reacts to those events.**
 
 Everything "above the contract line" (the subscription engine, product catalog,
-etc.) is domain- and tenant-agnostic. Everything that knows about *resellers*,
-*tenants*, *wallets*, or *emails* lives in the host.
+etc.) is domain- and tenant-provider-agnostic. Host-specific knowledge that
+connects *resellers*, *tenants*, billing wallets, and owner notifications lives
+in the host.
 
 ---
 
@@ -86,8 +87,9 @@ Key host-owned classes:
 - **`App\Models\Reseller`** — the billing entity. Implements the
   `SubscriptionSubscriber` contract so the subscription engine can operate on it
   without knowing what a "property" is. Provides quota counts, property
-  suspend/reactivate, subscription create/cancel/lock, and cascade offboarding
-  (on delete: soft-delete properties + cancel active subscription).
+  suspend/reactivate, subscription lookup, payer resolution, and owner
+  notification. Offboarding is coordinated by the host's
+  `OffboardResellerAction` before the reseller can be deleted.
 - **`App\Support\PropertyQuota`** — enforces `plan->max_units` against the
   reseller's current property count; throws `SubscriptionLimitException`.
 - **`App\Support\TransactionSubscriptionCharger`** — adapts the
@@ -106,24 +108,30 @@ Key host-owned classes:
 
 ```
 ProvisionTenantAction::execute(data, reseller?)
-  └─ DB::transaction
-       ├─ CreateTenantAction::execute(...)
-       │     ├─ validate + normalize domain (TenantDomain)
-       │     ├─ (if reseller) lock reseller → PropertyQuota::assertCanCreateProperty
-       │     ├─ create Tenant (reseller_id, name, slug, active)
-       │     ├─ create TenantDomain (inside tenant context)
-       │     └─ CreateUserAction (vendra-user) → owner User, verified
-       ├─ CreateRoleAction (vendra-permission) → super-admin role
-       └─ assign role to owner (inside tenant context)
-  ├─ event(TenantProvisioned)          → seeding / downstream reactions
-  └─ CacheTenantRoutesJob::dispatch()   → per-tenant route cache
+  ├─ DB::transaction
+  │    ├─ CreateTenantAction::execute(...)
+  │    │    ├─ validate + normalize domain (TenantDomain)
+  │    │    ├─ (if reseller) lock reseller → PropertyQuota::assertCanCreateProperty
+  │    │    ├─ create inactive Tenant in Pending provisioning state
+  │    │    ├─ create TenantDomain (inside tenant context)
+  │    │    └─ CreateUserAction (vendra-user) → verified owner User
+  │    ├─ CreateRoleAction (vendra-permission) → super-admin role
+  │    └─ assign role to owner (inside tenant context)
+  └─ CompleteTenantProvisioningJob::dispatch()->afterCommit()
+       ├─ mark provisioning Processing
+       ├─ optionally event(TenantProvisioned) → registered tenant seeders
+       ├─ CacheTenantRoutesJob::dispatchSync() → per-tenant route cache
+       └─ mark Tenant active + Ready (or inactive + Failed on error)
 ```
 
 Notes:
 - Quota is enforced *inside the transaction*, against a **locked** reseller row,
   so concurrent property creation cannot exceed `max_units`.
-- `CacheTenantRoutesJob` and other cross-tenant jobs are `NotTenantAware`
-  (dispatched from off-tenant contexts).
+- `CompleteTenantProvisioningJob` and `CacheTenantRoutesJob` are
+  `NotTenantAware` because they are dispatched from off-tenant console or
+  reseller flows and select their target tenant explicitly.
+- A reseller-owned tenant becomes billing-suspended during completion when the
+  reseller has no active subscription. A reseller-less tenant does not.
 
 ---
 
@@ -233,11 +241,10 @@ Two seams make this decoupling work, both bound in `app/Providers/AppServiceProv
    the payment's idempotency key. This is why the subscription engine can charge
    money without ever importing `vendra-transaction`.
 
-2. **`SubscriptionSubscriber`** (contract) → implemented by
-   **`App\Models\Reseller`**. The engine calls `lockForSubscription()`,
-   `subscribedPropertyCount()`, `reactivateSuspendedProperties()`,
-   `activeSubscription()?->plan`, etc. against this interface; only the host
-   knows those "units" are actually `Tenant` properties.
+2. **`SubscriptionSubscriber`** (contract owned by `vendra-subscription`) →
+   implemented by **`App\Models\Reseller`**. The engine calls subscription
+   lookup, payer, property-count, and suspend/reactivate methods against this
+   interface; only the host knows those billable units are `Tenant` properties.
 
 ---
 
@@ -259,8 +266,9 @@ Console / Reseller panel  →  CreateResellerAction  →  SubscribeAction
                           Reseller.reactivateSuspendedProperties() → Tenants go live
 ```
 
-Everything above the contract line is subscriber-agnostic engine code;
-everything that knows about resellers, tenants, wallets, or emails is host code.
+Everything above the contract line is subscriber-agnostic engine code. The host
+owns the adapter and reactions that connect resellers and tenants to the
+transaction package's wallet domain and to owner notifications.
 
 ---
 
@@ -270,7 +278,7 @@ everything that knows about resellers, tenants, wallets, or emails is host code.
   reset-password / verify-email notifications with host versions.
 - Morph map: `reseller`, `reseller_user`.
 - Registers the settings table with `TenantTableRegistry` so tenancy can retrofit it.
-- Global defaults: force HTTPS, `Model::shouldBeStrict()`, password length 8–15,
+- Global defaults: force HTTPS, `Model::shouldBeStrict()`, minimum password length 8,
   table pagination / defer-loading defaults, Jalali-aware date pickers, panel switcher.
 - **`UseRequestUrl` middleware** rewrites `app.url` / `asset_url` to the request
   host for the `console.` / `reseller.` subdomains, so asset and URL generation
@@ -288,9 +296,9 @@ everything that knows about resellers, tenants, wallets, or emails is host code.
 | Panel users | `app/Models/{ConsoleUser,ResellerUser}.php` |
 | Quota | `app/Support/PropertyQuota.php` |
 | Payment adapter | `app/Support/TransactionSubscriptionCharger.php` |
-| Provisioning | `app/Actions/{ProvisionTenantAction,CreateTenantAction}.php` |
+| Provisioning | `app/Actions/{ProvisionTenantAction,CreateTenantAction}.php`, `app/Jobs/CompleteTenantProvisioningJob.php` |
 | Reseller onboarding | `app/Actions/{CreateResellerAction,CreateResellerOwnerAction}.php` |
 | Event reactions | `app/Listeners/{NotifyActivatedSubscriber,RemindExpiringSubscriber,SuspendSubscriberProperties}.php` |
 | Enforcement command | `app/Console/Commands/EnforceSubscriptionsCommand.php` |
 | Subscription engine | `packages/vendra-subscription/src/{Actions,Jobs,Listeners,Events,Enums}` |
-| Contracts / seams | `packages/vendra-support/src/Contracts/{SubscriptionCharger}.php` |
+| Contracts / seams | `packages/vendra-support/src/Contracts/SubscriptionCharger.php`, `packages/vendra-subscription/src/Contracts/SubscriptionSubscriber.php` |

@@ -13,6 +13,7 @@ Production servers should use the published image through
 - `scheduler`: Laravel task scheduler
 - `pulse`: Pulse server monitor
 - `pulse-worker`: Pulse Redis ingest worker
+- `mailpit`: local SMTP capture and browser UI
 
 Application files, database data, Redis data, and Caddy TLS state persist in
 named volumes.
@@ -53,7 +54,8 @@ given commit always produces the same image.
 
 The `php` container waits for MySQL and Redis, then:
 
-1. Runs `php artisan migrate --force --isolated --seed`.
+1. Runs `php artisan migrate --force --isolated --seed` for migrations and
+   host-level bootstrap data.
 2. Warms Laravel and Filament caches; a warmup failure stops the container.
 
 Horizon, the scheduler, and Pulse start only after the `php` container reports
