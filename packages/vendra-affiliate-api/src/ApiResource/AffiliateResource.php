@@ -12,7 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
-use Misaf\VendraAffiliateApi\State\ReferralCodeProvider;
+use Misaf\VendraAffiliateApi\State\AffiliateResourceProvider;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 
@@ -21,11 +21,11 @@ use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
     operations: [
         new Get(
             uriTemplate: '/marketing/affiliates/{id}',
-            provider: ReferralCodeProvider::class,
+            provider: AffiliateResourceProvider::class,
         ),
         new GetCollection(
             uriTemplate: '/marketing/affiliates',
-            provider: ReferralCodeProvider::class,
+            provider: AffiliateResourceProvider::class,
             parameters: [
                 'code' => new QueryParameter(
                     key: 'code',
@@ -40,12 +40,12 @@ use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
         'get_affiliate' => new McpTool(
             description: 'Get an active affiliate referral code by its identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ReferralCodeProvider::class,
+            provider: AffiliateResourceProvider::class,
         ),
         'list_affiliates' => new McpToolCollection(
             description: 'List active affiliate referral codes.',
             input: McpCollectionInput::class,
-            provider: ReferralCodeProvider::class,
+            provider: AffiliateResourceProvider::class,
         ),
     ],
 )]

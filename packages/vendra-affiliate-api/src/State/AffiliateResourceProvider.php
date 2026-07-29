@@ -15,7 +15,7 @@ use Misaf\VendraApi\State\EloquentResourceProvider;
 /**
  * @extends EloquentResourceProvider<Affiliate, AffiliateResource>
  */
-final class ReferralCodeProvider extends EloquentResourceProvider
+final class AffiliateResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
