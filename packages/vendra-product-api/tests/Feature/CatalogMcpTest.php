@@ -14,6 +14,7 @@ beforeEach(function (): void {
     URL::forceRootUrl('http://localhost');
 
     makeCurrentTestTenant();
+    $this->actingAs(createTestUser());
 });
 
 /**
@@ -24,16 +25,19 @@ beforeEach(function (): void {
  *
  * @return array{response: TestResponse, body: array<string, mixed>}
  */
-function mcpCall(array $payload, ?string $sessionId = null): array
+function mcpCall(array $payload, ?string $sessionId = null, string $url = 'http://localhost/mcp'): array
 {
-    // The transport's DNS-rebinding guard only permits localhost-family hosts.
-    $headers = ['Accept' => 'application/json, text/event-stream', 'Host' => 'localhost'];
+    $host = parse_url($url, PHP_URL_HOST);
+    $headers = [
+        'Accept' => 'application/json, text/event-stream',
+        'Host'   => is_string($host) ? $host : 'localhost',
+    ];
 
     if (null !== $sessionId) {
         $headers['Mcp-Session-Id'] = $sessionId;
     }
 
-    $response = test()->postJson('http://localhost/mcp', $payload, $headers);
+    $response = test()->postJson($url, $payload, $headers);
 
     $content = $response->getContent();
 
@@ -57,7 +61,7 @@ function mcpCall(array $payload, ?string $sessionId = null): array
 /**
  * Run the initialize handshake and return the negotiated session id.
  */
-function mcpInitialize(): string
+function mcpInitialize(string $url = 'http://localhost/mcp'): string
 {
     $result = mcpCall([
         'jsonrpc' => '2.0',
@@ -68,17 +72,19 @@ function mcpInitialize(): string
             'capabilities'    => new stdClass(),
             'clientInfo'      => ['name' => 'pest', 'version' => '1.0'],
         ],
-    ]);
+    ], url: $url);
+
+    $result['response']->assertOk();
 
     $sessionId = $result['response']->headers->get('Mcp-Session-Id');
     expect($sessionId)->not->toBeNull();
 
-    mcpCall(['jsonrpc' => '2.0', 'method' => 'notifications/initialized'], $sessionId);
+    mcpCall(['jsonrpc' => '2.0', 'method' => 'notifications/initialized'], $sessionId, $url);
 
     return $sessionId;
 }
 
-it('advertises the read-only catalog listing tools with object input schemas', function (): void {
+it('advertises the product API operations with object input schemas', function (): void {
     $sessionId = mcpInitialize();
 
     $body = mcpCall(['jsonrpc' => '2.0', 'id' => 2, 'method' => 'tools/list', 'params' => new stdClass()], $sessionId)['body'];
@@ -86,7 +92,14 @@ it('advertises the read-only catalog listing tools with object input schemas', f
     $tools = collect($body['result']['tools'] ?? []);
     $names = $tools->pluck('name');
 
-    expect($names)->toContain('list_products', 'list_product_categories', 'list_product_prices');
+    expect($names)->toContain(
+        'get_product',
+        'list_products',
+        'get_product_category',
+        'list_product_categories',
+        'get_product_price',
+        'list_product_prices',
+    );
 
     // MCP rejects any tool whose input schema is not a JSON object.
     $tools->each(fn(array $tool) => expect($tool['inputSchema']['type'] ?? null)->toBe('object'));
@@ -110,4 +123,20 @@ it('returns active catalog products when the list_products tool is called', func
     $structured = $body['result']['structuredContent'] ?? $body['result'] ?? [];
 
     expect(json_encode($structured))->toContain((string) $product->id);
+});
+
+it('gets one API resource by identifier', function (): void {
+    $group = ProductCategoryFactory::new()->active()->create();
+    $product = ProductFactory::new()->forCategory($group)->create();
+    $sessionId = mcpInitialize();
+
+    $body = mcpCall([
+        'jsonrpc' => '2.0',
+        'id'      => 3,
+        'method'  => 'tools/call',
+        'params'  => ['name' => 'get_product', 'arguments' => ['id' => $product->id]],
+    ], $sessionId)['body'];
+
+    expect($body['result']['isError'] ?? false)->toBeFalse()
+        ->and(json_encode($body['result'] ?? []))->toContain((string) $product->id);
 });
