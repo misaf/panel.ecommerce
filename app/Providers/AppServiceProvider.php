@@ -19,13 +19,16 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -65,6 +68,14 @@ final class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
         DB::prohibitDestructiveCommands(app()->isProduction());
         Password::defaults(fn() => Password::min(8));
+
+        RateLimiter::for('mcp', static function (Request $request): Limit {
+            $actor = $request->user()?->getAuthIdentifier();
+
+            return Limit::perMinute(60)->by(
+                is_int($actor) || is_string($actor) ? "user:{$actor}" : "ip:{$request->ip()}",
+            );
+        });
 
         Event::listen(Authenticated::class, static function (Authenticated $event): void {
             $actorId = $event->user->getAuthIdentifier();

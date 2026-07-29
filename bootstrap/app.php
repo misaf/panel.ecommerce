@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Middleware\AddRequestContext;
+use App\Http\Middleware\SecureMcpTransport;
 use App\Http\Middleware\UseRequestUrl;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             AddRequestContext::class,
             UseRequestUrl::class,
         ]);
+        $middleware->append(SecureMcpTransport::class);
 
         $middleware->preventRequestForgery(except: [
             '/livewire/*',
