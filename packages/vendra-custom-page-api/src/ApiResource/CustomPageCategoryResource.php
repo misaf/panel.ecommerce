@@ -38,12 +38,12 @@ final readonly class CustomPageCategoryResource
 {
     /**
      * @param array<string, string> $title
-     * @param array<int, ResourceReference> $pages
+     * @param array<int, ResourceReference> $customPages
      */
     public function __construct(
         #[ApiProperty(identifier: true)]
         public int $id,
         public array $title,
-        public array $pages,
+        public array $customPages,
     ) {}
 }

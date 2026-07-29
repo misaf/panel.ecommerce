@@ -16,6 +16,7 @@ use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
+use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'CustomPage',
@@ -48,7 +49,7 @@ final readonly class CustomPageResource
      * @param array<string, string> $title
      * @param array<string, string> $body
      * @param array<string, string> $slugs
-     * @param array<int, ResourceReference> $multimedia
+     * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
         #[ApiProperty(identifier: true)]
@@ -56,7 +57,7 @@ final readonly class CustomPageResource
         public array $title,
         public array $body,
         public array $slugs,
-        public ResourceReference $section,
+        public ResourceReference $customPageCategory,
         public array $multimedia,
     ) {}
 }

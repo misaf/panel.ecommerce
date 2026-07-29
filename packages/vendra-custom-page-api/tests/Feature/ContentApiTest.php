@@ -17,10 +17,10 @@ it('paginates active content pages and exposes their section', function (): void
     $this->getJson('/api/content/custom-pages?itemsPerPage=1', ['Accept' => 'application/ld+json'])
         ->assertOk()
         ->assertJsonPath('totalItems', 2)
-        ->assertJsonPath('member.0.section.id', $section->id)
+        ->assertJsonPath('member.0.customPageCategory.id', $section->id)
         ->assertJsonCount(1, 'member');
 
     $this->getJson("/api/content/custom-pages/{$pages->first()->id}", ['Accept' => 'application/ld+json'])
         ->assertOk()
-        ->assertJsonPath('section.id', $section->id);
+        ->assertJsonPath('customPageCategory.id', $section->id);
 });

@@ -13,6 +13,8 @@ use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraCustomPageApi\ApiResource\CustomPageCategoryResource;
 use Misaf\VendraCustomPageApi\ApiResource\CustomPageResource;
+use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
+use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
 
 /**
  * @extends EloquentResourceProvider<Model, CustomPageResource|CustomPageCategoryResource>
@@ -34,7 +36,7 @@ final class ContentResourceProvider extends EloquentResourceProvider
             return new CustomPageCategoryResource(
                 id: $model->id,
                 title: $model->getTranslations('name'),
-                pages: $model->customPages
+                customPages: $model->customPages
                     ->map(fn(CustomPage $page): ResourceReference => new ResourceReference($page->id, 'CustomPage', $page->getTranslation('name', app()->getLocale())))
                     ->all(),
             );
@@ -46,9 +48,9 @@ final class ContentResourceProvider extends EloquentResourceProvider
             title: $model->getTranslations('name'),
             body: $model->getTranslations('description'),
             slugs: $model->getTranslations('slug'),
-            section: new ResourceReference($model->customPageCategory->id, 'CustomPageCategory', $model->customPageCategory->getTranslation('name', app()->getLocale())),
+            customPageCategory: new ResourceReference($model->customPageCategory->id, 'CustomPageCategory', $model->customPageCategory->getTranslation('name', app()->getLocale())),
             multimedia: $model->multimedia
-                ->map(fn(Model $media): ResourceReference => new ResourceReference($media->getKey(), 'Multimedia', $media->getAttribute('name')))
+                ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
                 ->all(),
         );
     }
