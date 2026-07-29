@@ -28,10 +28,7 @@ use Misaf\VendraAffiliateApi\State\RecordReferralVisitProcessor;
             input: self::class,
             processor: RecordReferralVisitProcessor::class,
             validate: true,
-            rules: [
-                'code'       => ['required', 'string', 'max:64'],
-                'landingUrl' => ['nullable', 'url:http,https', 'max:2048'],
-            ],
+            rules: RecordReferralVisitRequest::RULES,
         ),
     ],
 )]

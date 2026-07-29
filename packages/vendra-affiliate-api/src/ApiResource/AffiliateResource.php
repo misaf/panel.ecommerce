@@ -33,11 +33,6 @@ use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
                     filter: EqualsFilter::class,
                     constraints: ['string', 'max:64'],
                 ),
-                'itemsPerPage' => new QueryParameter(
-                    key: 'itemsPerPage',
-                    schema: ['type' => 'integer', 'minimum' => 1, 'maximum' => 100],
-                    constraints: ['integer', 'min:1', 'max:100'],
-                ),
             ],
         ),
     ],
@@ -53,8 +48,6 @@ use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
             provider: ReferralCodeProvider::class,
         ),
     ],
-    paginationItemsPerPage: 20,
-    paginationMaximumItemsPerPage: 100,
 )]
 final readonly class AffiliateResource
 {

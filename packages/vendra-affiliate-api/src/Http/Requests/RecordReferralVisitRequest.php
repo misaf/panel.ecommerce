@@ -8,6 +8,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 final class RecordReferralVisitRequest extends FormRequest
 {
+    /**
+     * Validation rules shared by the HTTP operation and the MCP tool.
+     *
+     * @var array<string, array<int, string>>
+     */
+    public const array RULES = [
+        'code'       => ['required', 'string', 'max:64'],
+        'landingUrl' => ['nullable', 'url:http,https', 'max:2048'],
+    ];
+
     public function authorize(): bool
     {
         return true;
@@ -18,9 +28,6 @@ final class RecordReferralVisitRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'code'       => ['required', 'string', 'max:64'],
-            'landingUrl' => ['nullable', 'url:http,https', 'max:2048'],
-        ];
+        return self::RULES;
     }
 }
