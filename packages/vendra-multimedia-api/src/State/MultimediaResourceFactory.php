@@ -7,21 +7,67 @@ namespace Misaf\VendraMultimediaApi\State;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Throwable;
+use UnexpectedValueException;
 
 final class MultimediaResourceFactory
 {
     public static function make(Model $media): MultimediaResource
     {
+        $id = $media->getKey();
+        $uuid = $media->getAttribute('uuid');
+        $name = $media->getAttribute('name');
+        $fileName = $media->getAttribute('file_name');
+        $collection = $media->getAttribute('collection_name');
+        $mimeType = $media->getAttribute('mime_type');
+        $bytes = $media->getAttribute('size');
+        $generatedConversions = $media->getAttribute('generated_conversions');
+
+        if (is_string($id) && ctype_digit($id)) {
+            $id = (int) $id;
+        }
+
+        if (is_string($bytes) && ctype_digit($bytes)) {
+            $bytes = (int) $bytes;
+        }
+
+        if ( ! is_int($id) || ! is_int($bytes)) {
+            throw new UnexpectedValueException('Media identifiers and sizes must be integers.');
+        }
+
+        if ( ! is_string($uuid) || ! is_string($name) || ! is_string($fileName) || ! is_string($collection)) {
+            throw new UnexpectedValueException('Media names and identifiers must be strings.');
+        }
+
+        if (null !== $mimeType && ! is_string($mimeType)) {
+            throw new UnexpectedValueException('Media MIME types must be strings or null.');
+        }
+
+        if (null === $generatedConversions) {
+            $generatedConversions = [];
+        }
+
+        if ( ! is_array($generatedConversions)) {
+            throw new UnexpectedValueException('Media generated conversions must be an array.');
+        }
+
+        $normalizedConversions = [];
+
+        foreach ($generatedConversions as $key => $value) {
+            if (is_string($key)) {
+                $normalizedConversions[$key] = $value;
+            }
+        }
+
         return new MultimediaResource(
-            id: (int) $media->getKey(),
-            uuid: (string) $media->getAttribute('uuid'),
-            name: (string) $media->getAttribute('name'),
-            fileName: (string) $media->getAttribute('file_name'),
-            collection: (string) $media->getAttribute('collection_name'),
-            mimeType: $media->getAttribute('mime_type'),
-            bytes: (int) $media->getAttribute('size'),
+            id: $id,
+            uuid: $uuid,
+            name: $name,
+            fileName: $fileName,
+            collection: $collection,
+            mimeType: $mimeType,
+            bytes: $bytes,
             url: self::safeUrl($media),
-            generatedConversions: $media->getAttribute('generated_conversions') ?? [],
+            generatedConversions: $normalizedConversions,
         );
     }
 
@@ -32,7 +78,9 @@ final class MultimediaResourceFactory
         }
 
         try {
-            return $media->getUrl();
+            $url = $media->getUrl();
+
+            return is_string($url) ? $url : null;
         } catch (Throwable) {
             return null;
         }
