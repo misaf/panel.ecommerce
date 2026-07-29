@@ -43,15 +43,13 @@ final class ProductResourceProvider extends EloquentResourceProvider
      */
     private function productQuery(): Builder
     {
-        $query = Product::query()->with([
+        return Product::query()->with([
             'productCategory:id,name,slug,description,position,active,created_at,updated_at',
             'productPrices:id,product_id,currency_code,price',
             'latestProductPrice',
             'multimedia',
             ...$this->attributeRelations(),
         ])->whereHas('productCategory', fn(Builder $query): Builder => $query->where('active', true));
-
-        return $query;
     }
 
     protected function toResource(Model $model, Operation $operation): ProductCategoryResource|ProductResource|ProductPriceResource
@@ -67,7 +65,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
                 amount: ProductPrice::toMajorUnits($model->currency_code, (int) $model->price->getAmount()),
                 currency: $model->currency_code,
                 formatted: $model->formattedPrice(),
-                item: new ResourceReference($model->product->id, 'Product', $model->product->getTranslation('name', app()->getLocale())),
+                product: new ResourceReference($model->product->id, 'Product', $model->product->getTranslation('name', app()->getLocale())),
             );
         }
 
@@ -75,12 +73,16 @@ final class ProductResourceProvider extends EloquentResourceProvider
         return new ProductResource(
             id: $model->id,
             title: $model->getTranslations('name'),
-            slug: $model->getTranslations('slug'),
+            slugs: $model->getTranslations('slug'),
             description: $model->getTranslations('description'),
             token: $model->token,
             quantity: $model->quantity,
             inStock: $model->in_stock,
-            productCategory: $this->toCategoryReference($model->productCategory),
+            productCategory: new ResourceReference(
+                $model->productCategory->id,
+                'ProductCategory',
+                $model->productCategory->getTranslation('name', app()->getLocale()),
+            ),
             productPrices: $model->productPrices
                 ->map(fn(ProductPrice $price): ProductPriceResource => $this->toPriceResource($price, $model))
                 ->all(),
@@ -96,7 +98,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
         );
     }
 
-    private function toCategoryResource(ProductCategory $category, bool $includeItems = true): ProductCategoryResource
+    private function toCategoryResource(ProductCategory $category): ProductCategoryResource
     {
         return new ProductCategoryResource(
             id: $category->id,
@@ -105,11 +107,9 @@ final class ProductResourceProvider extends EloquentResourceProvider
             description: $category->getTranslations('description'),
             position: $category->position,
             active: $category->active,
-            items: $includeItems
-                ? $category->products
-                    ->map(fn(Product $product): ResourceReference => new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale())))
-                    ->all()
-                : [],
+            products: $category->products
+                ->map(fn(Product $product): ResourceReference => new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale())))
+                ->all(),
             multimedia: $category->relationLoaded('multimedia')
                 ? $category->multimedia
                     ->map(fn(Model $media): MultimediaResource => $this->toMultimediaResource($media))
@@ -120,15 +120,6 @@ final class ProductResourceProvider extends EloquentResourceProvider
         );
     }
 
-    /**
-     * Build the related category resource without its (sibling) product list,
-     * which the parent product relationship does not need.
-     */
-    private function toCategoryReference(ProductCategory $category): ProductCategoryResource
-    {
-        return $this->toCategoryResource($category, includeItems: false);
-    }
-
     private function toPriceResource(ProductPrice $price, Product $product): ProductPriceResource
     {
         return new ProductPriceResource(
@@ -137,7 +128,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
             amount: ProductPrice::toMajorUnits($price->currency_code, (int) $price->price->getAmount()),
             currency: $price->currency_code,
             formatted: $price->formattedPrice(),
-            item: new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale())),
+            product: new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale())),
         );
     }
 

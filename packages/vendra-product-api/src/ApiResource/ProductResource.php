@@ -33,7 +33,7 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
             order: ['position' => 'ASC'],
             parameters: [
                 'inStock'         => new QueryParameter(key: 'inStock', property: 'in_stock', filter: BooleanFilter::class, constraints: ['boolean']),
-                'groupId'         => new QueryParameter(key: 'groupId', property: 'product_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
+                'categoryId'      => new QueryParameter(key: 'categoryId', property: 'product_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
                 'token'           => new QueryParameter(key: 'token', property: 'token', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
                 'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: new LocalizedEqualsFilter(), constraints: ['string', 'max:255']),
                 'search'          => new QueryParameter(
@@ -71,7 +71,7 @@ final readonly class ProductResource
 {
     /**
      * @param array<string, string> $title
-     * @param array<string, string> $slug
+     * @param array<string, string> $slugs
      * @param array<string, string> $description
      * @param array<int, ProductPriceResource> $productPrices
      * @param array<int, MultimediaResource> $multimedia
@@ -81,12 +81,12 @@ final readonly class ProductResource
         #[ApiProperty(identifier: true)]
         public int $id,
         public array $title,
-        public array $slug,
+        public array $slugs,
         public array $description,
         public string $token,
         public int $quantity,
         public bool $inStock,
-        public ProductCategoryResource $productCategory,
+        public ResourceReference $productCategory,
         public array $productPrices,
         public ?ProductPriceResource $latestProductPrice,
         public array $multimedia,

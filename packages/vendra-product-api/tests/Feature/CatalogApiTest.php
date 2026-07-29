@@ -17,17 +17,17 @@ it('filters catalog items and exposes group and price relationships', function (
     $price = ProductPriceFactory::new()->forProduct($item)->forCurrencyCode('USD')->create();
     ProductFactory::new()->forCategory($group)->create(['in_stock' => false]);
 
-    $this->getJson("/api/catalog/products?inStock=1&groupId={$group->id}", ['Accept' => 'application/ld+json'])
+    $this->getJson("/api/catalog/products?inStock=1&categoryId={$group->id}", ['Accept' => 'application/ld+json'])
         ->assertOk()
         ->assertJsonPath('totalItems', 1)
         ->assertJsonPath('member.0.id', $item->id)
-        ->assertJsonPath('member.0.productCategory', "/api/catalog/product-categories/{$group->id}")
+        ->assertJsonPath('member.0.productCategory.id', $group->id)
         ->assertJsonPath('member.0.productPrices.0', "/api/catalog/product-prices/{$price->id}");
 
-    $this->getJson("/api/catalog/product-prices?currency=USD&itemId={$item->id}", ['Accept' => 'application/ld+json'])
+    $this->getJson("/api/catalog/product-prices?currency=USD&productId={$item->id}", ['Accept' => 'application/ld+json'])
         ->assertOk()
         ->assertJsonPath('totalItems', 1)
-        ->assertJsonPath('member.0.item.id', $item->id);
+        ->assertJsonPath('member.0.product.id', $item->id);
 });
 
 it('serves catalog items in the JSON:API envelope with relationships and includes', function (): void {
@@ -35,7 +35,7 @@ it('serves catalog items in the JSON:API envelope with relationships and include
     $item = ProductFactory::new()->forCategory($group)->create(['in_stock' => true]);
     $price = ProductPriceFactory::new()->forProduct($item)->forCurrencyCode('USD')->create();
 
-    $this->getJson("/api/catalog/products?inStock=1&groupId={$group->id}&include=productCategory,productPrices", ['Accept' => 'application/vnd.api+json'])
+    $this->getJson("/api/catalog/products?inStock=1&categoryId={$group->id}&include=productPrices", ['Accept' => 'application/vnd.api+json'])
         ->assertOk()
         ->assertHeader('content-type', 'application/vnd.api+json; charset=utf-8')
         ->assertJsonPath('meta.totalItems', 1)
@@ -43,11 +43,10 @@ it('serves catalog items in the JSON:API envelope with relationships and include
         ->assertJsonPath('data.0.id', "/api/catalog/products/{$item->id}")
         ->assertJsonPath('data.0.attributes.id', $item->id)
         ->assertJsonPath('data.0.attributes.inStock', true)
-        ->assertJsonPath('data.0.relationships.productCategory.data.id', "/api/catalog/product-categories/{$group->id}")
+        ->assertJsonPath('data.0.attributes.productCategory.id', $group->id)
         ->assertJsonPath('data.0.relationships.productPrices.data.0.id', "/api/catalog/product-prices/{$price->id}")
-        ->assertJsonPath('included.0.attributes.id', $group->id)
-        ->assertJsonPath('included.1.attributes.amount', ProductPrice::toMajorUnits('USD', (int) $price->price->getAmount()))
-        ->assertJsonPath('included.1.attributes.formatted', $price->formattedPrice());
+        ->assertJsonPath('included.0.attributes.amount', ProductPrice::toMajorUnits('USD', (int) $price->price->getAmount()))
+        ->assertJsonPath('included.0.attributes.formatted', $price->formattedPrice());
 });
 
 it('looks up a product by its translatable slug and by token', function (): void {

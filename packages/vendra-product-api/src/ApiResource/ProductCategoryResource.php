@@ -41,7 +41,7 @@ final readonly class ProductCategoryResource
      * @param array<string, string> $title
      * @param array<string, string> $slugs
      * @param array<string, string> $description
-     * @param array<int, ResourceReference> $items
+     * @param array<int, ResourceReference> $products
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
@@ -52,7 +52,7 @@ final readonly class ProductCategoryResource
         public array $description,
         public int $position,
         public bool $active,
-        public array $items,
+        public array $products,
         public array $multimedia,
         public string $createdAt,
         public string $updatedAt,

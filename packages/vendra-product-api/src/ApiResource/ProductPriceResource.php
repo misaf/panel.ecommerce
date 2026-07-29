@@ -25,8 +25,8 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
             uriTemplate: '/catalog/product-prices',
             provider: ProductResourceProvider::class,
             parameters: [
-                'currency' => new QueryParameter(key: 'currency', property: 'currency_code', filter: EqualsFilter::class, constraints: ['string', 'size:3']),
-                'itemId'   => new QueryParameter(key: 'itemId', property: 'product_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
+                'currency'  => new QueryParameter(key: 'currency', property: 'currency_code', filter: EqualsFilter::class, constraints: ['string', 'size:3']),
+                'productId' => new QueryParameter(key: 'productId', property: 'product_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
             ],
         ),
     ],
@@ -52,6 +52,6 @@ final readonly class ProductPriceResource
         public float|int $amount,
         public string $currency,
         public string $formatted,
-        public ResourceReference $item,
+        public ResourceReference $product,
     ) {}
 }
