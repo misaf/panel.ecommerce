@@ -13,6 +13,8 @@ use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraBlogApi\ApiResource\BlogPostCategoryResource;
 use Misaf\VendraBlogApi\ApiResource\BlogPostResource;
+use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
+use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
 
 /**
  * @extends EloquentResourceProvider<Model, BlogPostResource|BlogPostCategoryResource>
@@ -23,26 +25,27 @@ final class BlogResourceProvider extends EloquentResourceProvider
     {
         if (BlogPostCategoryResource::class === $operation->getClass()) {
             return BlogPostCategory::query()
-                ->with('blogPosts:id,blog_post_category_id,name')
+                ->with([
+                    'blogPosts:id,blog_post_category_id,name',
+                    'multimedia',
+                ])
                 ->where('active', true);
         }
 
-        return BlogPost::query()
-            ->with(['blogPostCategory:id,name', 'multimedia:id,model_id,name'])
+        $query = BlogPost::query()
+            ->with([
+                'blogPostCategory:id,name,slug,description,position,active,created_at,updated_at',
+                'multimedia',
+            ])
             ->where('active', true);
+
+        return $query;
     }
 
     protected function toResource(Model $model, Operation $operation): BlogPostResource|BlogPostCategoryResource
     {
         if ($model instanceof BlogPostCategory) {
-            return new BlogPostCategoryResource(
-                id: $model->id,
-                title: $model->getTranslations('name'),
-                slugs: $model->getTranslations('slug'),
-                blogPosts: $model->blogPosts
-                    ->map(fn(BlogPost $post): ResourceReference => new ResourceReference($post->id, 'BlogPost', $post->getTranslation('name', app()->getLocale())))
-                    ->all(),
-            );
+            return $this->toCategoryResource($model);
         }
 
         /** @var BlogPost $model */
@@ -52,11 +55,38 @@ final class BlogResourceProvider extends EloquentResourceProvider
             content: $model->getTranslations('description'),
             slugs: $model->getTranslations('slug'),
             active: $model->active,
-            section: new ResourceReference($model->blogPostCategory->id, 'BlogPostCategory', $model->blogPostCategory->getTranslation('name', app()->getLocale())),
+            position: $model->position,
+            section: $this->toCategoryResource($model->blogPostCategory, includePosts: false),
             multimedia: $model->multimedia
-                ->map(fn(Model $media): ResourceReference => new ResourceReference($media->getKey(), 'Multimedia', $media->getAttribute('name')))
+                ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
                 ->all(),
             publishedAt: $model->created_at->toAtomString(),
+            createdAt: $model->created_at->toAtomString(),
+            updatedAt: $model->updated_at->toAtomString(),
+        );
+    }
+
+    private function toCategoryResource(BlogPostCategory $category, bool $includePosts = true): BlogPostCategoryResource
+    {
+        return new BlogPostCategoryResource(
+            id: $category->id,
+            title: $category->getTranslations('name'),
+            slugs: $category->getTranslations('slug'),
+            description: $category->getTranslations('description'),
+            position: $category->position,
+            active: $category->active,
+            blogPosts: $includePosts
+                ? $category->blogPosts
+                    ->map(fn(BlogPost $post): ResourceReference => new ResourceReference($post->id, 'BlogPost', $post->getTranslation('name', app()->getLocale())))
+                    ->all()
+                : [],
+            multimedia: $category->relationLoaded('multimedia')
+                ? $category->multimedia
+                    ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+                    ->all()
+                : [],
+            createdAt: $category->created_at->toAtomString(),
+            updatedAt: $category->updated_at->toAtomString(),
         );
     }
 }
