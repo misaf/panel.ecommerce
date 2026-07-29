@@ -18,7 +18,7 @@ use Misaf\VendraCartApi\ApiResource\CartResource;
 /**
  * @extends EloquentResourceProvider<Cart, CartResource>
  */
-final class ShoppingCartProvider extends EloquentResourceProvider
+final class CartResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {

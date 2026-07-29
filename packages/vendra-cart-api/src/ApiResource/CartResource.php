@@ -14,20 +14,20 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
-use Misaf\VendraCartApi\State\ShoppingCartProvider;
+use Misaf\VendraCartApi\State\CartResourceProvider;
 
 #[ApiResource(
     shortName: 'Cart',
     operations: [
         new Get(
             uriTemplate: '/sales/carts/{id}',
-            provider: ShoppingCartProvider::class,
+            provider: CartResourceProvider::class,
             policy: 'view',
             middleware: 'auth:sanctum',
         ),
         new GetCollection(
             uriTemplate: '/sales/carts',
-            provider: ShoppingCartProvider::class,
+            provider: CartResourceProvider::class,
             policy: 'viewAny',
             middleware: 'auth:sanctum',
         ),
@@ -36,13 +36,13 @@ use Misaf\VendraCartApi\State\ShoppingCartProvider;
         'get_cart' => new McpTool(
             description: 'Get one cart owned by the authenticated user.',
             input: McpResourceIdentifierInput::class,
-            provider: ShoppingCartProvider::class,
+            provider: CartResourceProvider::class,
             policy: 'view',
         ),
         'list_carts' => new McpToolCollection(
             description: 'List carts owned by the authenticated user.',
             input: McpCollectionInput::class,
-            provider: ShoppingCartProvider::class,
+            provider: CartResourceProvider::class,
             policy: 'viewAny',
         ),
     ],

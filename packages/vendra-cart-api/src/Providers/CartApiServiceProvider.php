@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Misaf\VendraCartApi\ApiResource\CartResource;
 use Misaf\VendraCartApi\Policies\ShoppingCartPolicy;
-use Misaf\VendraCartApi\State\ShoppingCartProvider;
+use Misaf\VendraCartApi\State\CartResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -31,7 +31,7 @@ final class CartApiServiceProvider extends PackageServiceProvider
         ]);
 
         Gate::policy(CartResource::class, ShoppingCartPolicy::class);
-        $this->app->tag(ShoppingCartProvider::class, ProviderInterface::class);
+        $this->app->tag(CartResourceProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void
