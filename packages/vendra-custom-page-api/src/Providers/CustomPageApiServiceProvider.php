@@ -8,7 +8,7 @@ use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
+use Misaf\VendraCustomPageApi\State\CustomPageResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -26,7 +26,7 @@ final class CustomPageApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(ContentResourceProvider::class, ProviderInterface::class);
+        $this->app->tag(CustomPageResourceProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void

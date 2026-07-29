@@ -15,16 +15,16 @@ use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
-use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
+use Misaf\VendraCustomPageApi\State\CustomPageResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'CustomPage',
     operations: [
-        new Get(uriTemplate: '/content/custom-pages/{id}', provider: ContentResourceProvider::class),
+        new Get(uriTemplate: '/content/custom-pages/{id}', provider: CustomPageResourceProvider::class),
         new GetCollection(
             uriTemplate: '/content/custom-pages',
-            provider: ContentResourceProvider::class,
+            provider: CustomPageResourceProvider::class,
             parameters: [
                 'active' => new QueryParameter(key: 'active', property: 'active', filter: BooleanFilter::class, constraints: ['boolean']),
             ],
@@ -34,12 +34,12 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
         'get_custom_page' => new McpTool(
             description: 'Get an active custom content page by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ContentResourceProvider::class,
+            provider: CustomPageResourceProvider::class,
         ),
         'list_custom_pages' => new McpToolCollection(
             description: 'List active custom content pages.',
             input: McpCollectionInput::class,
-            provider: ContentResourceProvider::class,
+            provider: CustomPageResourceProvider::class,
         ),
     ],
 )]

@@ -13,24 +13,24 @@ use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
-use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
+use Misaf\VendraCustomPageApi\State\CustomPageResourceProvider;
 
 #[ApiResource(
     shortName: 'CustomPageCategory',
     operations: [
-        new Get(uriTemplate: '/content/custom-page-categories/{id}', provider: ContentResourceProvider::class),
-        new GetCollection(uriTemplate: '/content/custom-page-categories', provider: ContentResourceProvider::class),
+        new Get(uriTemplate: '/content/custom-page-categories/{id}', provider: CustomPageResourceProvider::class),
+        new GetCollection(uriTemplate: '/content/custom-page-categories', provider: CustomPageResourceProvider::class),
     ],
     mcp: [
         'get_custom_page_category' => new McpTool(
             description: 'Get a custom-page category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ContentResourceProvider::class,
+            provider: CustomPageResourceProvider::class,
         ),
         'list_custom_page_categories' => new McpToolCollection(
             description: 'List custom-page categories.',
             input: McpCollectionInput::class,
-            provider: ContentResourceProvider::class,
+            provider: CustomPageResourceProvider::class,
         ),
     ],
 )]
