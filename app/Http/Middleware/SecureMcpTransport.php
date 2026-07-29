@@ -11,6 +11,7 @@ use Illuminate\Routing\Router;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 use Symfony\Component\HttpFoundation\Response;
+use UnexpectedValueException;
 
 final readonly class SecureMcpTransport
 {
@@ -39,9 +40,15 @@ final readonly class SecureMcpTransport
             NormalizeMcpTransportHost::class,
         ]);
 
-        return $this->pipeline
+        $response = $this->pipeline
             ->send($request)
             ->through($middleware)
-            ->then($next);
+            ->then(fn(Request $request): Response => $next($request));
+
+        if ( ! $response instanceof Response) {
+            throw new UnexpectedValueException('The secure MCP transport pipeline must return a response.');
+        }
+
+        return $response;
     }
 }
