@@ -41,6 +41,7 @@ final readonly class ProductPriceResource
         #[ApiProperty(identifier: true)]
         public int $id,
         public int $minorAmount,
+        public float|int $amount,
         public string $currency,
         public string $formatted,
         public ResourceReference $item,
