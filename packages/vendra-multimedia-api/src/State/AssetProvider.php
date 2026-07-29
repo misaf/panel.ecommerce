@@ -18,19 +18,15 @@ final class AssetProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
-        return Multimedia::query()->select(['id', 'uuid', 'name', 'collection_name', 'mime_type', 'size']);
+        return Multimedia::query()->select([
+            'id', 'uuid', 'name', 'file_name', 'collection_name', 'mime_type', 'size',
+            'disk', 'conversions_disk', 'manipulations', 'custom_properties', 'generated_conversions', 'responsive_images',
+        ]);
     }
 
     protected function toResource(Model $model, Operation $operation): MultimediaResource
     {
         /** @var Multimedia $model */
-        return new MultimediaResource(
-            id: $model->id,
-            uuid: $model->uuid,
-            name: $model->name,
-            collection: $model->collection_name,
-            mimeType: $model->mime_type,
-            bytes: $model->size,
-        );
+        return MultimediaResourceFactory::make($model);
     }
 }

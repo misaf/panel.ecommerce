@@ -27,13 +27,19 @@ use Misaf\VendraMultimediaApi\State\AssetProvider;
 )]
 final readonly class MultimediaResource
 {
+    /**
+     * @param array<string, mixed> $generatedConversions
+     */
     public function __construct(
         #[ApiProperty(identifier: true)]
         public int $id,
         public string $uuid,
         public string $name,
+        public string $fileName,
         public string $collection,
         public ?string $mimeType,
         public int $bytes,
+        public ?string $url,
+        public array $generatedConversions,
     ) {}
 }

@@ -32,6 +32,11 @@ it('filters multimedia without exposing storage internals', function (): void {
     $response->assertOk()
         ->assertJsonPath('totalItems', 1)
         ->assertJsonPath('member.0.id', $asset->id)
+        ->assertJsonPath('member.0.fileName', 'hero.jpg')
+        ->assertJsonPath('member.0.url', null)
+        ->assertJsonPath('member.0.generatedConversions', [])
         ->assertJsonMissingPath('member.0.disk')
-        ->assertJsonMissingPath('member.0.fileName');
+        ->assertJsonMissingPath('member.0.conversionsDisk')
+        ->assertJsonMissingPath('member.0.customProperties')
+        ->assertJsonMissingPath('member.0.responsiveImages');
 });
