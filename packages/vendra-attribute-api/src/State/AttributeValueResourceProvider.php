@@ -13,22 +13,26 @@ use ApiPlatform\State\ProviderInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraApi\State\Concerns\NormalizesResourceValues;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttribute\Models\AttributeValue;
-use Misaf\VendraAttributeApi\ApiResource\AttributeResource;
+use Misaf\VendraAttributeApi\ApiResource\AttributeValueResource;
+use UnexpectedValueException;
 
 /**
- * @implements ProviderInterface<Paginator<AttributeResource>|AttributeResource>
+ * @implements ProviderInterface<Paginator<AttributeValueResource>|AttributeValueResource>
  */
-final class AttributeResourceProvider implements ProviderInterface
+final class AttributeValueResourceProvider implements ProviderInterface
 {
+    use NormalizesResourceValues;
+
     public function __construct(
         private readonly Pagination $pagination,
         private readonly FilterQueryExtension $filters,
     ) {}
 
     /**
-     * @return Paginator<AttributeResource>|AttributeResource|array<int, AttributeResource>|null
+     * @return Paginator<AttributeValueResource>|AttributeValueResource|array<int, AttributeValueResource>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
@@ -42,14 +46,14 @@ final class AttributeResourceProvider implements ProviderInterface
             }
 
             if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): AttributeResource => $this->toResource($model, $operation))->all();
+                return $query->get()->map(fn(Model $model): AttributeValueResource => $this->toResource($model, $operation))->all();
             }
 
             $paginator = $query->paginate(
                 perPage: $this->pagination->getLimit($operation, $context),
                 page: $this->pagination->getPage($context),
             );
-            $paginator->through(fn(Model $model): AttributeResource => $this->toResource($model, $operation));
+            $paginator->through(fn(Model $model): AttributeValueResource => $this->toResource($model, $operation));
 
             return new Paginator($paginator);
         }
@@ -58,28 +62,33 @@ final class AttributeResourceProvider implements ProviderInterface
         $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
         $model = $query->whereKey($identifier)->first();
 
-        return $model instanceof Attribute ? $this->toResource($model, $operation) : null;
+        return $model instanceof AttributeValue ? $this->toResource($model, $operation) : null;
     }
 
     protected function query(Operation $operation): Builder
     {
-        return Attribute::query()
-            ->with('values:id,attribute_id,value')
-            ->where('active', true);
+        return AttributeValue::query()
+            ->with('attribute:id,name')
+            ->whereHas('attribute', fn(Builder $query): Builder => $query->where('active', true));
     }
 
-    protected function toResource(Model $model, Operation $operation): AttributeResource
+    protected function toResource(Model $model, Operation $operation): AttributeValueResource
     {
-        /** @var Attribute $model */
-        return new AttributeResource(
+        /** @var AttributeValue $model */
+        $attribute = $model->attribute;
+
+        if ( ! $attribute instanceof Attribute) {
+            throw new UnexpectedValueException('An attribute value must belong to an attribute.');
+        }
+
+        return new AttributeValueResource(
             id: $model->id,
-            name: $model->name,
-            description: $model->description,
-            unit: $model->unit,
-            active: $model->active,
-            values: $model->values
-                ->map(fn(AttributeValue $value): ResourceReference => new ResourceReference($value->id, 'AttributeValue', $value->value))
-                ->all(),
+            value: $model->value,
+            attribute: new ResourceReference(
+                $attribute->id,
+                'Attribute',
+                $attribute->name,
+            ),
         );
     }
 }

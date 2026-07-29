@@ -14,7 +14,7 @@ final class AttributeApiServiceResolver implements AttributeApiResolver
         return true;
     }
 
-    public function attributeOptionResource(): ?string
+    public function attributeOptionResource(): string
     {
         return AttributeValueResource::class;
     }

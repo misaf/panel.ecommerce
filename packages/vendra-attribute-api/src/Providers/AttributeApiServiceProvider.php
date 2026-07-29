@@ -9,6 +9,7 @@ use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
+use Misaf\VendraAttributeApi\State\AttributeValueResourceProvider;
 use Misaf\VendraAttributeApi\Support\AttributeApiServiceResolver;
 use Misaf\VendraSupport\Contracts\AttributeApiResolver;
 use Spatie\LaravelPackageTools\Package;
@@ -30,7 +31,10 @@ final class AttributeApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(AttributeResourceProvider::class, ProviderInterface::class);
+        $this->app->tag([
+            AttributeResourceProvider::class,
+            AttributeValueResourceProvider::class,
+        ], ProviderInterface::class);
     }
 
     public function packageBooted(): void
