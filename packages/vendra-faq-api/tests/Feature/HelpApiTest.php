@@ -9,18 +9,26 @@ beforeEach(function (): void {
     makeCurrentTestTenant();
 });
 
-it('exposes active help blog-posts and topic relationships', function (): void {
+it('exposes and filters active FAQs with storefront metadata', function (): void {
     $topic = FaqCategoryFactory::new()->active()->create();
-    $article = FaqFactory::new()->forCategory($topic)->active()->create();
+    $article = FaqFactory::new()->forCategory($topic)->active()->create([
+        'name' => ['en' => 'How are roses delivered?'],
+        'slug' => ['en' => 'rose-delivery'],
+    ]);
     FaqFactory::new()->forCategory($topic)->inactive()->create();
 
-    $this->getJson('/api/content/faqs', ['Accept' => 'application/ld+json'])
+    $this->getJson("/api/content/faqs?categoryId={$topic->id}&search=roses&sort=position", [
+        'Accept'          => 'application/vnd.api+json',
+        'Accept-Language' => 'en',
+    ])
         ->assertOk()
-        ->assertJsonPath('totalItems', 1)
-        ->assertJsonPath('member.0.id', $article->id)
-        ->assertJsonPath('member.0.topic.id', $topic->id);
+        ->assertJsonPath('meta.totalItems', 1)
+        ->assertJsonPath('data.0.attributes.id', $article->id)
+        ->assertJsonPath('data.0.attributes.slugs.en', 'rose-delivery')
+        ->assertJsonPath('data.0.relationships.topic.data.id', "/api/content/faq-categories/{$topic->id}");
 
     $this->getJson("/api/content/faq-categories/{$topic->id}", ['Accept' => 'application/ld+json'])
         ->assertOk()
-        ->assertJsonPath('faqs.0.id', $article->id);
+        ->assertJsonPath('faqs.0.id', $article->id)
+        ->assertJsonPath('active', true);
 });
