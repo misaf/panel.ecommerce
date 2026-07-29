@@ -27,6 +27,10 @@ use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
             uriTemplate: '/marketing/affiliates',
             provider: AffiliateResourceProvider::class,
             parameters: [
+                'itemsPerPage' => new QueryParameter(
+                    key: 'itemsPerPage',
+                    constraints: ['integer', 'min:1', 'max:100'],
+                ),
                 'code' => new QueryParameter(
                     key: 'code',
                     property: 'code',

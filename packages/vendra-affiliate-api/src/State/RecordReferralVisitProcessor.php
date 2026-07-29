@@ -24,10 +24,6 @@ final readonly class RecordReferralVisitProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        if ( ! $data instanceof AffiliateClickResource) {
-            return;
-        }
-
         $affiliate = Affiliate::query()
             ->where('code', $data->code)
             ->where('status', AffiliateStatusEnum::Active)
