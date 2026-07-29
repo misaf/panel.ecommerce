@@ -19,24 +19,24 @@ use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
-use Misaf\VendraBlogApi\State\BlogResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'BlogPost',
     operations: [
-        new Get(uriTemplate: '/content/blog-posts/{id}', provider: BlogResourceProvider::class),
+        new Get(uriTemplate: '/content/blog-posts/{id}', provider: BlogPostResourceProvider::class),
         new GetCollection(
             uriTemplate: '/content/blog-posts',
-            provider: BlogResourceProvider::class,
+            provider: BlogPostResourceProvider::class,
             order: ['created_at' => 'DESC'],
             parameters: [
                 'active'          => new QueryParameter(key: 'active', property: 'active', filter: BooleanFilter::class, constraints: ['boolean']),
                 'categoryId'      => new QueryParameter(key: 'categoryId', property: 'blog_post_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
-                'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: new LocalizedEqualsFilter(), constraints: ['string', 'max:255']),
+                'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: LocalizedEqualsFilter::class, constraints: ['string', 'max:255']),
                 'search'          => new QueryParameter(
                     key: 'search',
-                    filter: new LocalizedSearchFilter(),
+                    filter: LocalizedSearchFilter::class,
                     filterContext: ['properties' => ['name' => true, 'slug' => true]],
                     constraints: ['string', 'max:255'],
                 ),
@@ -49,12 +49,12 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
         'get_blog_post' => new McpTool(
             description: 'Get an active blog post with its category and media by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: BlogResourceProvider::class,
+            provider: BlogPostResourceProvider::class,
         ),
         'list_blog_posts' => new McpToolCollection(
             description: 'List active blog posts with their categories and media.',
             input: McpCollectionInput::class,
-            provider: BlogResourceProvider::class,
+            provider: BlogPostResourceProvider::class,
         ),
     ],
 )]

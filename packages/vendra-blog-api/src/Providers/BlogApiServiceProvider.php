@@ -9,7 +9,8 @@ use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraBlogApi\State\BlogResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostCategoryResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -27,7 +28,10 @@ final class BlogApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(BlogResourceProvider::class, ProviderInterface::class);
+        $this->app->tag([
+            BlogPostResourceProvider::class,
+            BlogPostCategoryResourceProvider::class,
+        ], ProviderInterface::class);
     }
 
     public function packageBooted(): void

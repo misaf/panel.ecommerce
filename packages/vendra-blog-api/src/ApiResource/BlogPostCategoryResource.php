@@ -13,25 +13,25 @@ use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
-use Misaf\VendraBlogApi\State\BlogResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostCategoryResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'BlogPostCategory',
     operations: [
-        new Get(uriTemplate: '/content/blog-post-categories/{id}', provider: BlogResourceProvider::class),
-        new GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogResourceProvider::class),
+        new Get(uriTemplate: '/content/blog-post-categories/{id}', provider: BlogPostCategoryResourceProvider::class),
+        new GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogPostCategoryResourceProvider::class),
     ],
     mcp: [
         'get_blog_post_category' => new McpTool(
             description: 'Get an active blog-post category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: BlogResourceProvider::class,
+            provider: BlogPostCategoryResourceProvider::class,
         ),
         'list_blog_post_categories' => new McpToolCollection(
             description: 'List active blog-post categories.',
             input: McpCollectionInput::class,
-            provider: BlogResourceProvider::class,
+            provider: BlogPostCategoryResourceProvider::class,
         ),
     ],
 )]
