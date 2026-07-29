@@ -16,15 +16,15 @@ use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
-use Misaf\VendraProductApi\State\ProductResourceProvider;
+use Misaf\VendraProductApi\State\ProductCategoryResourceProvider;
 
 #[ApiResource(
     shortName: 'ProductCategory',
     operations: [
-        new Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductResourceProvider::class),
+        new Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductCategoryResourceProvider::class),
         new GetCollection(
             uriTemplate: '/catalog/product-categories',
-            provider: ProductResourceProvider::class,
+            provider: ProductCategoryResourceProvider::class,
             order: ['position' => 'ASC'],
             parameters: [
                 'sort[id]'       => new QueryParameter(key: 'sort[id]', property: 'id', filter: OrderFilter::class),
@@ -36,12 +36,12 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
         'get_product_category' => new McpTool(
             description: 'Get an active product category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ProductResourceProvider::class,
+            provider: ProductCategoryResourceProvider::class,
         ),
         'list_product_categories' => new McpToolCollection(
             description: 'List active product categories with their titles, slugs, and the products in each.',
             input: McpCollectionInput::class,
-            provider: ProductResourceProvider::class,
+            provider: ProductCategoryResourceProvider::class,
         ),
     ],
 )]

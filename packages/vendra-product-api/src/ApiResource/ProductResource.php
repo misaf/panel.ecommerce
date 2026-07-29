@@ -35,10 +35,10 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
                 'inStock'         => new QueryParameter(key: 'inStock', property: 'in_stock', filter: BooleanFilter::class, constraints: ['boolean']),
                 'categoryId'      => new QueryParameter(key: 'categoryId', property: 'product_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
                 'token'           => new QueryParameter(key: 'token', property: 'token', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
-                'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: new LocalizedEqualsFilter(), constraints: ['string', 'max:255']),
+                'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: LocalizedEqualsFilter::class, constraints: ['string', 'max:255']),
                 'search'          => new QueryParameter(
                     key: 'search',
-                    filter: new LocalizedSearchFilter(),
+                    filter: LocalizedSearchFilter::class,
                     filterContext: ['properties' => ['name' => true, 'slug' => true, 'token' => false]],
                     constraints: ['string', 'max:255'],
                 ),
@@ -47,7 +47,7 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
                 'sort[createdAt]' => new QueryParameter(key: 'sort[createdAt]', property: 'created_at', filter: OrderFilter::class),
                 'random'          => new QueryParameter(
                     key: 'random',
-                    filter: new RandomOrderFilter(),
+                    filter: RandomOrderFilter::class,
                     constraints: ['boolean'],
                     castToNativeType: true,
                 ),

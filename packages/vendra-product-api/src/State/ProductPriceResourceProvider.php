@@ -12,14 +12,14 @@ use ApiPlatform\State\Pagination\Pagination;
 use ApiPlatform\State\ProviderInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Misaf\VendraProduct\Models\Product;
-use Misaf\VendraProductApi\ApiResource\ProductResource;
+use Misaf\VendraProduct\Models\ProductPrice;
+use Misaf\VendraProductApi\ApiResource\ProductPriceResource;
 use Misaf\VendraProductApi\State\Concerns\MapsCatalogResources;
 
 /**
- * @implements ProviderInterface<Paginator<ProductResource>|ProductResource>
+ * @implements ProviderInterface<Paginator<ProductPriceResource>|ProductPriceResource>
  */
-final class ProductResourceProvider implements ProviderInterface
+final class ProductPriceResourceProvider implements ProviderInterface
 {
     use MapsCatalogResources;
 
@@ -29,7 +29,7 @@ final class ProductResourceProvider implements ProviderInterface
     ) {}
 
     /**
-     * @return Paginator<ProductResource>|ProductResource|array<int, ProductResource>|null
+     * @return Paginator<ProductPriceResource>|ProductPriceResource|array<int, ProductPriceResource>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
@@ -43,14 +43,14 @@ final class ProductResourceProvider implements ProviderInterface
             }
 
             if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): ProductResource => $this->toResource($model, $operation))->all();
+                return $query->get()->map(fn(Model $model): ProductPriceResource => $this->toResource($model, $operation))->all();
             }
 
             $paginator = $query->paginate(
                 perPage: $this->pagination->getLimit($operation, $context),
                 page: $this->pagination->getPage($context),
             );
-            $paginator->through(fn(Model $model): ProductResource => $this->toResource($model, $operation));
+            $paginator->through(fn(Model $model): ProductPriceResource => $this->toResource($model, $operation));
 
             return new Paginator($paginator);
         }
@@ -59,23 +59,17 @@ final class ProductResourceProvider implements ProviderInterface
         $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
         $model = $query->whereKey($identifier)->first();
 
-        return $model instanceof Product ? $this->toResource($model, $operation) : null;
+        return $model instanceof ProductPrice ? $this->toResource($model, $operation) : null;
     }
 
     protected function query(Operation $operation): Builder
     {
-        return Product::query()->with([
-            'productCategory:id,name,slug,description,position,active,created_at,updated_at',
-            'productPrices:id,product_id,currency_code,price',
-            'latestProductPrice:product_prices.id,product_prices.product_id,product_prices.currency_code,product_prices.price',
-            'multimedia',
-            ...$this->attributeRelations(),
-        ])->whereHas('productCategory', fn(Builder $query): Builder => $query->where('active', true));
+        return ProductPrice::query()->with('product:id,name');
     }
 
-    protected function toResource(Model $model, Operation $operation): ProductResource
+    protected function toResource(Model $model, Operation $operation): ProductPriceResource
     {
-        /** @var Product $model */
-        return $this->toProductResource($model);
+        /** @var ProductPrice $model */
+        return $this->toPriceResource($model);
     }
 }
