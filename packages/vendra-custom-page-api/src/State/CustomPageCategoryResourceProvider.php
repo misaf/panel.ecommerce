@@ -12,19 +12,17 @@ use ApiPlatform\State\Pagination\Pagination;
 use ApiPlatform\State\ProviderInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\Concerns\NormalizesResourceValues;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraCustomPageApi\ApiResource\CustomPageResource;
-use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
-use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
-use UnexpectedValueException;
+use Misaf\VendraCustomPageApi\ApiResource\CustomPageCategoryResource;
 
 /**
- * @implements ProviderInterface<Paginator<CustomPageResource>|CustomPageResource>
+ * @implements ProviderInterface<Paginator<CustomPageCategoryResource>|CustomPageCategoryResource>
  */
-final class CustomPageResourceProvider implements ProviderInterface
+final class CustomPageCategoryResourceProvider implements ProviderInterface
 {
     use NormalizesResourceValues;
 
@@ -34,7 +32,7 @@ final class CustomPageResourceProvider implements ProviderInterface
     ) {}
 
     /**
-     * @return Paginator<CustomPageResource>|CustomPageResource|array<int, CustomPageResource>|null
+     * @return Paginator<CustomPageCategoryResource>|CustomPageCategoryResource|array<int, CustomPageCategoryResource>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
@@ -48,14 +46,14 @@ final class CustomPageResourceProvider implements ProviderInterface
             }
 
             if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): CustomPageResource => $this->toResource($model, $operation))->all();
+                return $query->get()->map(fn(Model $model): CustomPageCategoryResource => $this->toResource($model, $operation))->all();
             }
 
             $paginator = $query->paginate(
                 perPage: $this->pagination->getLimit($operation, $context),
                 page: $this->pagination->getPage($context),
             );
-            $paginator->through(fn(Model $model): CustomPageResource => $this->toResource($model, $operation));
+            $paginator->through(fn(Model $model): CustomPageCategoryResource => $this->toResource($model, $operation));
 
             return new Paginator($paginator);
         }
@@ -64,40 +62,38 @@ final class CustomPageResourceProvider implements ProviderInterface
         $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
         $model = $query->whereKey($identifier)->first();
 
-        return $model instanceof CustomPage ? $this->toResource($model, $operation) : null;
+        return $model instanceof CustomPageCategory ? $this->toResource($model, $operation) : null;
     }
 
     protected function query(Operation $operation): Builder
     {
-        return CustomPage::query()
-            ->with(['customPageCategory:id,name', 'multimedia'])
-            ->whereHas('customPageCategory', fn(Builder $query): Builder => $query->where('active', true))
+        return CustomPageCategory::query()
+            ->with([
+                'customPages' => function (Relation $relation): void {
+                    $relation->getQuery()
+                        ->select(['id', 'custom_page_category_id', 'name'])
+                        ->where('active', true);
+                },
+            ])
             ->where('active', true);
     }
 
-    protected function toResource(Model $model, Operation $operation): CustomPageResource
+    protected function toResource(Model $model, Operation $operation): CustomPageCategoryResource
     {
-        /** @var CustomPage $model */
-        $category = $model->customPageCategory;
-
-        if ( ! $category instanceof CustomPageCategory) {
-            throw new UnexpectedValueException('A custom page must belong to a category.');
-        }
-
-        $categoryName = $category->getTranslation('name', app()->getLocale());
-
-        return new CustomPageResource(
+        /** @var CustomPageCategory $model */
+        return new CustomPageCategoryResource(
             id: $model->id,
             title: $this->normalizeTranslations($model->getTranslations('name')),
-            body: $this->normalizeTranslations($model->getTranslations('description')),
-            slugs: $this->normalizeTranslations($model->getTranslations('slug')),
-            customPageCategory: new ResourceReference(
-                $category->id,
-                'CustomPageCategory',
-                is_string($categoryName) ? $categoryName : null,
-            ),
-            multimedia: $model->multimedia
-                ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+            customPages: $model->customPages
+                ->map(function (CustomPage $page): ResourceReference {
+                    $name = $page->getTranslation('name', app()->getLocale());
+
+                    return new ResourceReference(
+                        $page->id,
+                        'CustomPage',
+                        is_string($name) ? $name : null,
+                    );
+                })
                 ->all(),
         );
     }
