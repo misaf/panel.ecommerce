@@ -13,25 +13,25 @@ use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
-use Misaf\VendraFaqApi\State\HelpResourceProvider;
+use Misaf\VendraFaqApi\State\FaqResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'FaqCategory',
     operations: [
-        new Get(uriTemplate: '/content/faq-categories/{id}', provider: HelpResourceProvider::class),
-        new GetCollection(uriTemplate: '/content/faq-categories', provider: HelpResourceProvider::class),
+        new Get(uriTemplate: '/content/faq-categories/{id}', provider: FaqResourceProvider::class),
+        new GetCollection(uriTemplate: '/content/faq-categories', provider: FaqResourceProvider::class),
     ],
     mcp: [
         'get_faq_category' => new McpTool(
             description: 'Get an active FAQ category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: HelpResourceProvider::class,
+            provider: FaqResourceProvider::class,
         ),
         'list_faq_categories' => new McpToolCollection(
             description: 'List active FAQ categories.',
             input: McpCollectionInput::class,
-            provider: HelpResourceProvider::class,
+            provider: FaqResourceProvider::class,
         ),
     ],
 )]

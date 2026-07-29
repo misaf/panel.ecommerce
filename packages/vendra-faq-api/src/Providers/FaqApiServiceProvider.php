@@ -9,7 +9,7 @@ use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraFaqApi\State\HelpResourceProvider;
+use Misaf\VendraFaqApi\State\FaqResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -27,7 +27,7 @@ final class FaqApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(HelpResourceProvider::class, ProviderInterface::class);
+        $this->app->tag(FaqResourceProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void

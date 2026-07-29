@@ -19,7 +19,7 @@ use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
 /**
  * @extends EloquentResourceProvider<Model, FaqResource|FaqCategoryResource>
  */
-final class HelpResourceProvider extends EloquentResourceProvider
+final class FaqResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {
