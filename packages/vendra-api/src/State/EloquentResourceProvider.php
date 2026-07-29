@@ -52,7 +52,9 @@ abstract class EloquentResourceProvider implements ProviderInterface
             return new Paginator($paginator);
         }
 
-        $model = $query->whereKey($uriVariables['id'] ?? null)->first();
+        $mcpData = $context['mcp_data'] ?? [];
+        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
+        $model = $query->whereKey($identifier)->first();
 
         return $model instanceof Model ? $this->toResource($model, $operation) : null;
     }
