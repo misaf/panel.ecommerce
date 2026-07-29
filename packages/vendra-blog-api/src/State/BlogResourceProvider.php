@@ -32,14 +32,12 @@ final class BlogResourceProvider extends EloquentResourceProvider
                 ->where('active', true);
         }
 
-        $query = BlogPost::query()
+        return BlogPost::query()
             ->with([
                 'blogPostCategory:id,name,slug,description,position,active,created_at,updated_at',
                 'multimedia',
             ])
             ->where('active', true);
-
-        return $query;
     }
 
     protected function toResource(Model $model, Operation $operation): BlogPostResource|BlogPostCategoryResource
@@ -56,7 +54,11 @@ final class BlogResourceProvider extends EloquentResourceProvider
             slugs: $model->getTranslations('slug'),
             active: $model->active,
             position: $model->position,
-            section: $this->toCategoryResource($model->blogPostCategory, includePosts: false),
+            blogPostCategory: new ResourceReference(
+                $model->blogPostCategory->id,
+                'BlogPostCategory',
+                $model->blogPostCategory->getTranslation('name', app()->getLocale()),
+            ),
             multimedia: $model->multimedia
                 ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
                 ->all(),
@@ -66,7 +68,7 @@ final class BlogResourceProvider extends EloquentResourceProvider
         );
     }
 
-    private function toCategoryResource(BlogPostCategory $category, bool $includePosts = true): BlogPostCategoryResource
+    private function toCategoryResource(BlogPostCategory $category): BlogPostCategoryResource
     {
         return new BlogPostCategoryResource(
             id: $category->id,
@@ -75,11 +77,9 @@ final class BlogResourceProvider extends EloquentResourceProvider
             description: $category->getTranslations('description'),
             position: $category->position,
             active: $category->active,
-            blogPosts: $includePosts
-                ? $category->blogPosts
-                    ->map(fn(BlogPost $post): ResourceReference => new ResourceReference($post->id, 'BlogPost', $post->getTranslation('name', app()->getLocale())))
-                    ->all()
-                : [],
+            blogPosts: $category->blogPosts
+                ->map(fn(BlogPost $post): ResourceReference => new ResourceReference($post->id, 'BlogPost', $post->getTranslation('name', app()->getLocale())))
+                ->all(),
             multimedia: $category->relationLoaded('multimedia')
                 ? $category->multimedia
                     ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))

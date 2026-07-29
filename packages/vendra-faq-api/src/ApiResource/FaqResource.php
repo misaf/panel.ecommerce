@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraFaqApi\State\HelpResourceProvider;
@@ -71,7 +72,7 @@ final readonly class FaqResource
         public array $slugs,
         public int $position,
         public bool $active,
-        public FaqCategoryResource $topic,
+        public ResourceReference $faqCategory,
         public array $multimedia,
         public string $createdAt,
         public string $updatedAt,

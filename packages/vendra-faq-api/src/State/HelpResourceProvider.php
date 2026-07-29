@@ -32,14 +32,12 @@ final class HelpResourceProvider extends EloquentResourceProvider
                 ->where('active', true);
         }
 
-        $query = Faq::query()
+        return Faq::query()
             ->with([
                 'faqCategory:id,name,slug,description,position,active,created_at,updated_at',
                 'multimedia',
             ])
             ->where('active', true);
-
-        return $query;
     }
 
     protected function toResource(Model $model, Operation $operation): FaqResource|FaqCategoryResource
@@ -56,7 +54,11 @@ final class HelpResourceProvider extends EloquentResourceProvider
             slugs: $model->getTranslations('slug'),
             position: $model->position,
             active: $model->active,
-            topic: $this->toCategoryResource($model->faqCategory, includeFaqs: false),
+            faqCategory: new ResourceReference(
+                $model->faqCategory->id,
+                'FaqCategory',
+                $model->faqCategory->getTranslation('name', app()->getLocale()),
+            ),
             multimedia: $model->multimedia
                 ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
                 ->all(),
@@ -65,7 +67,7 @@ final class HelpResourceProvider extends EloquentResourceProvider
         );
     }
 
-    private function toCategoryResource(FaqCategory $category, bool $includeFaqs = true): FaqCategoryResource
+    private function toCategoryResource(FaqCategory $category): FaqCategoryResource
     {
         return new FaqCategoryResource(
             id: $category->id,
@@ -74,11 +76,9 @@ final class HelpResourceProvider extends EloquentResourceProvider
             description: $category->getTranslations('description'),
             position: $category->position,
             active: $category->active,
-            faqs: $includeFaqs
-                ? $category->faqs
-                    ->map(fn(Faq $faq): ResourceReference => new ResourceReference($faq->id, 'Faq', $faq->getTranslation('name', app()->getLocale())))
-                    ->all()
-                : [],
+            faqs: $category->faqs
+                ->map(fn(Faq $faq): ResourceReference => new ResourceReference($faq->id, 'Faq', $faq->getTranslation('name', app()->getLocale())))
+                ->all(),
             multimedia: $category->relationLoaded('multimedia')
                 ? $category->multimedia
                     ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))

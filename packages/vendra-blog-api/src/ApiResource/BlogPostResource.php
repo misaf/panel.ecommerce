@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraBlogApi\State\BlogResourceProvider;
@@ -73,7 +74,7 @@ final readonly class BlogPostResource
         public array $slugs,
         public bool $active,
         public int $position,
-        public BlogPostCategoryResource $section,
+        public ResourceReference $blogPostCategory,
         public array $multimedia,
         public string $publishedAt,
         public string $createdAt,
