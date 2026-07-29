@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraProductApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
+use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -25,8 +26,10 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
             uriTemplate: '/catalog/product-prices',
             provider: ProductResourceProvider::class,
             parameters: [
-                'currency'  => new QueryParameter(key: 'currency', property: 'currency_code', filter: EqualsFilter::class, constraints: ['string', 'size:3']),
-                'productId' => new QueryParameter(key: 'productId', property: 'product_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
+                'currency'      => new QueryParameter(key: 'currency', property: 'currency_code', filter: EqualsFilter::class, constraints: ['string', 'size:3']),
+                'productId'     => new QueryParameter(key: 'productId', property: 'product_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
+                'sort[id]'      => new QueryParameter(key: 'sort[id]', property: 'id', filter: OrderFilter::class),
+                'sort[price]'   => new QueryParameter(key: 'sort[price]', property: 'price', filter: OrderFilter::class),
             ],
         ),
     ],

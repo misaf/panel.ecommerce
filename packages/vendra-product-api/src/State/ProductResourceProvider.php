@@ -46,7 +46,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
         return Product::query()->with([
             'productCategory:id,name,slug,description,position,active,created_at,updated_at',
             'productPrices:id,product_id,currency_code,price',
-            'latestProductPrice',
+            'latestProductPrice:product_prices.id,product_prices.product_id,product_prices.currency_code,product_prices.price',
             'multimedia',
             ...$this->attributeRelations(),
         ])->whereHas('productCategory', fn(Builder $query): Builder => $query->where('active', true));
@@ -59,14 +59,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
         }
 
         if ($model instanceof ProductPrice) {
-            return new ProductPriceResource(
-                id: $model->id,
-                minorAmount: (int) $model->price->getAmount(),
-                amount: ProductPrice::toMajorUnits($model->currency_code, (int) $model->price->getAmount()),
-                currency: $model->currency_code,
-                formatted: $model->formattedPrice(),
-                product: new ResourceReference($model->product->id, 'Product', $model->product->getTranslation('name', app()->getLocale())),
-            );
+            return $this->toPriceResource($model);
         }
 
         /** @var Product $model */
@@ -78,11 +71,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
             token: $model->token,
             quantity: $model->quantity,
             inStock: $model->in_stock,
-            productCategory: new ResourceReference(
-                $model->productCategory->id,
-                'ProductCategory',
-                $model->productCategory->getTranslation('name', app()->getLocale()),
-            ),
+            productCategory: $this->categoryReference($model->productCategory),
             productPrices: $model->productPrices
                 ->map(fn(ProductPrice $price): ProductPriceResource => $this->toPriceResource($price, $model))
                 ->all(),
@@ -108,7 +97,7 @@ final class ProductResourceProvider extends EloquentResourceProvider
             position: $category->position,
             active: $category->active,
             products: $category->products
-                ->map(fn(Product $product): ResourceReference => new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale())))
+                ->map(fn(Product $product): ResourceReference => $this->productReference($product))
                 ->all(),
             multimedia: $category->relationLoaded('multimedia')
                 ? $category->multimedia
@@ -120,21 +109,33 @@ final class ProductResourceProvider extends EloquentResourceProvider
         );
     }
 
-    private function toPriceResource(ProductPrice $price, Product $product): ProductPriceResource
+    private function toPriceResource(ProductPrice $price, ?Product $product = null): ProductPriceResource
     {
+        $product ??= $price->product;
+
         return new ProductPriceResource(
             id: $price->id,
             minorAmount: (int) $price->price->getAmount(),
             amount: ProductPrice::toMajorUnits($price->currency_code, (int) $price->price->getAmount()),
             currency: $price->currency_code,
             formatted: $price->formattedPrice(),
-            product: new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale())),
+            product: $this->productReference($product),
         );
     }
 
     private function toMultimediaResource(Model $media): MultimediaResource
     {
         return MultimediaResourceFactory::make($media);
+    }
+
+    private function productReference(Product $product): ResourceReference
+    {
+        return new ResourceReference($product->id, 'Product', $product->getTranslation('name', app()->getLocale()));
+    }
+
+    private function categoryReference(ProductCategory $category): ResourceReference
+    {
+        return new ResourceReference($category->id, 'ProductCategory', $category->getTranslation('name', app()->getLocale()));
     }
 
     /**

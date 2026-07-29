@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Misaf\VendraProductApi\ApiResource;
 
+use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
@@ -20,7 +22,15 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
     shortName: 'ProductCategory',
     operations: [
         new Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductResourceProvider::class),
-        new GetCollection(uriTemplate: '/catalog/product-categories', provider: ProductResourceProvider::class),
+        new GetCollection(
+            uriTemplate: '/catalog/product-categories',
+            provider: ProductResourceProvider::class,
+            order: ['position' => 'ASC'],
+            parameters: [
+                'sort[id]'       => new QueryParameter(key: 'sort[id]', property: 'id', filter: OrderFilter::class),
+                'sort[position]' => new QueryParameter(key: 'sort[position]', property: 'position', filter: OrderFilter::class),
+            ],
+        ),
     ],
     mcp: [
         'get_product_category' => new McpTool(
