@@ -6,7 +6,11 @@ namespace Misaf\VendraApi\ApiResource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\McpResource;
-use Misaf\VendraApi\State\ApiDocumentationProvider;
+use ApiPlatform\Metadata\Operation;
+use Illuminate\Support\Facades\Config;
+use JsonException;
+use Mcp\Schema\Content\TextResourceContents;
+use Mcp\Schema\Result\ReadResourceResult;
 
 #[ApiResource(
     operations: [],
@@ -16,7 +20,7 @@ use Misaf\VendraApi\State\ApiDocumentationProvider;
             name: 'vendra-api-documentation',
             description: 'Read the Vendra API identity, MCP endpoint, and enabled serialization formats.',
             mimeType: 'application/json',
-            provider: ApiDocumentationProvider::class,
+            provider: [self::class, 'provide'],
         ),
     ],
 )]
@@ -32,4 +36,26 @@ final readonly class ApiDocumentationResource
         public string $mcpEndpoint,
         public array $formats,
     ) {}
+
+    /**
+     * @throws JsonException
+     */
+    public static function provide(Operation $operation, array $uriVariables = [], array $context = []): ReadResourceResult
+    {
+        $documentation = json_encode([
+            'title'       => Config::string('api-platform.title', 'Vendra API'),
+            'description' => Config::string('api-platform.description', ''),
+            'version'     => Config::string('api-platform.version', '1.0.0'),
+            'mcpEndpoint' => '/mcp',
+            'formats'     => array_keys(Config::array('api-platform.formats', [])),
+        ], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+
+        return new ReadResourceResult([
+            new TextResourceContents(
+                uri: 'resource://vendra/api-documentation',
+                mimeType: 'application/json',
+                text: $documentation,
+            ),
+        ]);
+    }
 }

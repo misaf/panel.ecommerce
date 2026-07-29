@@ -4,6 +4,9 @@ parameters:
         - app
         - packages/vendra-subscription/src
 
+    stubFiles:
+        - packages/vendra-api/phpstan.stub
+
     # Level 10 is the highest level
     level: 10
 #

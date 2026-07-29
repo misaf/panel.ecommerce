@@ -31,14 +31,14 @@ description: "Create, modify, review, or test the Vendra API infrastructure modu
 Treat `packages/vendra-api` as shared API Platform infrastructure, not a domain API.
 
 - Use namespace `Misaf\VendraApi`.
-- Keep only cross-cutting, reusable API Platform building blocks here: shared `ApiResource` DTOs such as `ResourceReference`, the generic `EloquentResourceProvider` state provider in `State`, and API service-provider wiring.
+- Keep only cross-cutting, reusable API Platform building blocks here: shared `ApiResource` DTOs such as `ResourceReference` and API service-provider wiring.
 - Do not add domain resources, state providers, or routes here — those live in the per-domain API modules (`vendra-faq-api`, `vendra-product-api`, `vendra-multimedia-api`, `vendra-blog-api`, `vendra-custom-page-api`, `vendra-cart-api`).
 - Keep all API packages localization-package agnostic: do not require `misaf/vendra-localization` or attach `vendra.locale`; the host application owns optional locale resolution.
 - Never depend on a domain module or a concrete tenant provider (`Misaf\VendraTenant`); this package must build and run standalone and tenant-agnostic.
 
 ## Standards
 
-- Keep shared DTOs and the generic state provider resource-type agnostic so any domain API can reuse them.
+- Keep shared DTOs resource-type agnostic so any domain API can reuse them.
 - Follow Laravel comment style: PHPDoc with array shapes and generics; inline comments only for genuinely complex logic.
 - Keep public class and method signatures stable — these are consumed by every domain API module.
 

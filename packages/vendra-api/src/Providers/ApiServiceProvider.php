@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Misaf\VendraApi\Providers;
 
-use ApiPlatform\State\ProviderInterface;
+use ApiPlatform\Laravel\Eloquent\Filter\FilterInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraApi\State\ApiDocumentationProvider;
+use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
+use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
+use Misaf\VendraApi\Eloquent\Filter\RandomOrderFilter;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -21,7 +23,11 @@ final class ApiServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->tag(ApiDocumentationProvider::class, ProviderInterface::class);
+        $this->app->tag([
+            LocalizedEqualsFilter::class,
+            LocalizedSearchFilter::class,
+            RandomOrderFilter::class,
+        ], FilterInterface::class);
 
         Config::set('api-platform.resources', [
             ...Config::array('api-platform.resources', []),

@@ -1,0 +1,31 @@
+<?php
+
+namespace ApiPlatform\Laravel\Eloquent\Extension;
+
+class FilterQueryExtension
+{
+    /**
+     * @template TModel of \Illuminate\Database\Eloquent\Model
+     *
+     * @param \Illuminate\Database\Eloquent\Builder<TModel> $builder
+     * @param array<string, string> $uriVariables
+     * @param object $operation
+     * @param array<string, mixed> $context
+     *
+     * @return \Illuminate\Database\Eloquent\Builder<TModel>
+     */
+    public function apply($builder, $uriVariables, $operation, $context = []) {}
+}
+
+namespace ApiPlatform\Laravel\Eloquent;
+
+/**
+ * @template TResource of object
+ */
+class Paginator
+{
+    /**
+     * @param \Illuminate\Pagination\LengthAwarePaginator<int, TResource> $paginator
+     */
+    public function __construct($paginator) {}
+}
