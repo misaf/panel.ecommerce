@@ -12,19 +12,19 @@ use ApiPlatform\State\Pagination\Pagination;
 use ApiPlatform\State\ProviderInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\Concerns\NormalizesResourceValues;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
-use Misaf\VendraFaqApi\ApiResource\FaqResource;
+use Misaf\VendraFaqApi\ApiResource\FaqCategoryResource;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
-use UnexpectedValueException;
 
 /**
- * @implements ProviderInterface<Paginator<FaqResource>|FaqResource>
+ * @implements ProviderInterface<Paginator<FaqCategoryResource>|FaqCategoryResource>
  */
-final class FaqResourceProvider implements ProviderInterface
+final class FaqCategoryResourceProvider implements ProviderInterface
 {
     use NormalizesResourceValues;
 
@@ -34,7 +34,7 @@ final class FaqResourceProvider implements ProviderInterface
     ) {}
 
     /**
-     * @return Paginator<FaqResource>|FaqResource|array<int, FaqResource>|null
+     * @return Paginator<FaqCategoryResource>|FaqCategoryResource|array<int, FaqCategoryResource>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
@@ -48,14 +48,14 @@ final class FaqResourceProvider implements ProviderInterface
             }
 
             if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): FaqResource => $this->toResource($model, $operation))->all();
+                return $query->get()->map(fn(Model $model): FaqCategoryResource => $this->toResource($model, $operation))->all();
             }
 
             $paginator = $query->paginate(
                 perPage: $this->pagination->getLimit($operation, $context),
                 page: $this->pagination->getPage($context),
             );
-            $paginator->through(fn(Model $model): FaqResource => $this->toResource($model, $operation));
+            $paginator->through(fn(Model $model): FaqCategoryResource => $this->toResource($model, $operation));
 
             return new Paginator($paginator);
         }
@@ -64,46 +64,49 @@ final class FaqResourceProvider implements ProviderInterface
         $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
         $model = $query->whereKey($identifier)->first();
 
-        return $model instanceof Faq ? $this->toResource($model, $operation) : null;
+        return $model instanceof FaqCategory ? $this->toResource($model, $operation) : null;
     }
 
     protected function query(Operation $operation): Builder
     {
-        return Faq::query()
+        return FaqCategory::query()
             ->with([
-                'faqCategory:id,name,slug,description,position,active,created_at,updated_at',
+                'faqs' => function (Relation $relation): void {
+                    $relation->getQuery()
+                        ->select(['id', 'faq_category_id', 'name'])
+                        ->where('active', true);
+                },
                 'multimedia',
             ])
-            ->whereHas('faqCategory', fn(Builder $query): Builder => $query->where('active', true))
             ->where('active', true);
     }
 
-    protected function toResource(Model $model, Operation $operation): FaqResource
+    protected function toResource(Model $model, Operation $operation): FaqCategoryResource
     {
-        /** @var Faq $model */
-        $category = $model->faqCategory;
-
-        if ( ! $category instanceof FaqCategory) {
-            throw new UnexpectedValueException('An FAQ must belong to a category.');
-        }
-
-        $categoryName = $category->getTranslation('name', app()->getLocale());
-
-        return new FaqResource(
+        /** @var FaqCategory $model */
+        return new FaqCategoryResource(
             id: $model->id,
-            question: $this->normalizeTranslations($model->getTranslations('name')),
-            answer: $this->normalizeTranslations($model->getTranslations('description')),
+            title: $this->normalizeTranslations($model->getTranslations('name')),
             slugs: $this->normalizeTranslations($model->getTranslations('slug')),
+            description: $this->normalizeTranslations($model->getTranslations('description')),
             position: $model->position,
             active: $model->active,
-            faqCategory: new ResourceReference(
-                $category->id,
-                'FaqCategory',
-                is_string($categoryName) ? $categoryName : null,
-            ),
-            multimedia: $model->multimedia
-                ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+            faqs: $model->faqs
+                ->map(function (Faq $faq): ResourceReference {
+                    $name = $faq->getTranslation('name', app()->getLocale());
+
+                    return new ResourceReference(
+                        $faq->id,
+                        'Faq',
+                        is_string($name) ? $name : null,
+                    );
+                })
                 ->all(),
+            multimedia: $model->relationLoaded('multimedia')
+                ? $model->multimedia
+                    ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+                    ->all()
+                : [],
             createdAt: $model->created_at->toAtomString(),
             updatedAt: $model->updated_at->toAtomString(),
         );

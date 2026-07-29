@@ -31,10 +31,10 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
             order: ['position' => 'ASC'],
             parameters: [
                 'categoryId'      => new QueryParameter(key: 'categoryId', property: 'faq_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
-                'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: new LocalizedEqualsFilter(), constraints: ['string', 'max:255']),
+                'slug'            => new QueryParameter(key: 'slug', property: 'slug', filter: LocalizedEqualsFilter::class, constraints: ['string', 'max:255']),
                 'search'          => new QueryParameter(
                     key: 'search',
-                    filter: new LocalizedSearchFilter(),
+                    filter: LocalizedSearchFilter::class,
                     filterContext: ['properties' => ['name' => true, 'slug' => true]],
                     constraints: ['string', 'max:255'],
                 ),
