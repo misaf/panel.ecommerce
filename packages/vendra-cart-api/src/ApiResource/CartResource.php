@@ -8,8 +8,12 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraCartApi\State\ShoppingCartProvider;
 
 #[ApiResource(
@@ -26,6 +30,20 @@ use Misaf\VendraCartApi\State\ShoppingCartProvider;
             provider: ShoppingCartProvider::class,
             policy: 'viewAny',
             middleware: 'auth:sanctum',
+        ),
+    ],
+    mcp: [
+        'get_cart' => new McpTool(
+            description: 'Get one cart owned by the authenticated user.',
+            input: McpResourceIdentifierInput::class,
+            provider: ShoppingCartProvider::class,
+            policy: 'view',
+        ),
+        'list_carts' => new McpToolCollection(
+            description: 'List carts owned by the authenticated user.',
+            input: McpCollectionInput::class,
+            provider: ShoppingCartProvider::class,
+            policy: 'viewAny',
         ),
     ],
 )]

@@ -10,7 +10,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
 
@@ -25,6 +29,18 @@ use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
                 'q'      => new QueryParameter(key: 'q', property: 'name', filter: PartialSearchFilter::class, constraints: ['string', 'min:2', 'max:100']),
                 'active' => new QueryParameter(key: 'active', property: 'active', filter: BooleanFilter::class, constraints: ['boolean']),
             ],
+        ),
+    ],
+    mcp: [
+        'get_attribute' => new McpTool(
+            description: 'Get an active catalog attribute and its values by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: AttributeResourceProvider::class,
+        ),
+        'list_attributes' => new McpToolCollection(
+            description: 'List active catalog attributes and their values.',
+            input: McpCollectionInput::class,
+            provider: AttributeResourceProvider::class,
         ),
     ],
 )]

@@ -8,7 +8,10 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraProductApi\State\ProductResourceProvider;
@@ -20,9 +23,14 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
         new GetCollection(uriTemplate: '/catalog/product-categories', provider: ProductResourceProvider::class),
     ],
     mcp: [
+        'get_product_category' => new McpTool(
+            description: 'Get an active product category by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: ProductResourceProvider::class,
+        ),
         'list_product_categories' => new McpToolCollection(
             description: 'List active product categories with their titles, slugs, and the products in each.',
-            input: CatalogListingInput::class,
+            input: McpCollectionInput::class,
             provider: ProductResourceProvider::class,
         ),
     ],

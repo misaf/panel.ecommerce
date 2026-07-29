@@ -11,7 +11,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraBlogApi\State\BlogResourceProvider;
@@ -38,6 +42,18 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
                 'sort[position]'  => new QueryParameter(key: 'sort[position]', property: 'position', filter: OrderFilter::class),
                 'sort[createdAt]' => new QueryParameter(key: 'sort[createdAt]', property: 'created_at', filter: OrderFilter::class),
             ],
+        ),
+    ],
+    mcp: [
+        'get_blog_post' => new McpTool(
+            description: 'Get an active blog post with its category and media by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: BlogResourceProvider::class,
+        ),
+        'list_blog_posts' => new McpToolCollection(
+            description: 'List active blog posts with their categories and media.',
+            input: McpCollectionInput::class,
+            provider: BlogResourceProvider::class,
         ),
     ],
 )]

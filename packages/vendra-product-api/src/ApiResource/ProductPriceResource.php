@@ -9,8 +9,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraProductApi\State\ProductResourceProvider;
 
@@ -28,9 +31,14 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
         ),
     ],
     mcp: [
+        'get_product_price' => new McpTool(
+            description: 'Get a product price by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: ProductResourceProvider::class,
+        ),
         'list_product_prices' => new McpToolCollection(
             description: 'List product prices with their minor-unit amount, currency, formatted value, and linked product.',
-            input: CatalogListingInput::class,
+            input: McpCollectionInput::class,
             provider: ProductResourceProvider::class,
         ),
     ],

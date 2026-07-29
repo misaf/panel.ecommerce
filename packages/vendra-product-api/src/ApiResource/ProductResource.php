@@ -11,8 +11,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
@@ -52,9 +55,14 @@ use Misaf\VendraProductApi\State\ProductResourceProvider;
         ),
     ],
     mcp: [
+        'get_product' => new McpTool(
+            description: 'Get an active catalog product with its category, prices, media, and attribute options by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: ProductResourceProvider::class,
+        ),
         'list_products' => new McpToolCollection(
             description: 'List active catalog products with their categories, prices, media, and attribute options.',
-            input: CatalogListingInput::class,
+            input: McpCollectionInput::class,
             provider: ProductResourceProvider::class,
         ),
     ],

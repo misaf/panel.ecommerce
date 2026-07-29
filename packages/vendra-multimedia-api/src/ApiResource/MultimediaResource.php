@@ -9,7 +9,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraMultimediaApi\State\AssetProvider;
 
 #[ApiResource(
@@ -22,6 +26,18 @@ use Misaf\VendraMultimediaApi\State\AssetProvider;
             parameters: [
                 'mimeType' => new QueryParameter(key: 'mimeType', property: 'mime_type', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
             ],
+        ),
+    ],
+    mcp: [
+        'get_multimedia' => new McpTool(
+            description: 'Get a public multimedia asset and its conversions by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: AssetProvider::class,
+        ),
+        'list_multimedia' => new McpToolCollection(
+            description: 'List public multimedia assets and their conversions.',
+            input: McpCollectionInput::class,
+            provider: AssetProvider::class,
         ),
     ],
 )]

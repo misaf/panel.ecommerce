@@ -8,6 +8,10 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraBlogApi\State\BlogResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
@@ -17,6 +21,18 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
     operations: [
         new Get(uriTemplate: '/content/blog-post-categories/{id}', provider: BlogResourceProvider::class),
         new GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogResourceProvider::class),
+    ],
+    mcp: [
+        'get_blog_post_category' => new McpTool(
+            description: 'Get an active blog-post category by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: BlogResourceProvider::class,
+        ),
+        'list_blog_post_categories' => new McpToolCollection(
+            description: 'List active blog-post categories.',
+            input: McpCollectionInput::class,
+            provider: BlogResourceProvider::class,
+        ),
     ],
 )]
 final readonly class BlogPostCategoryResource

@@ -9,7 +9,11 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use Misaf\VendraApi\ApiResource\McpCollectionInput;
+use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
 
@@ -23,6 +27,18 @@ use Misaf\VendraCustomPageApi\State\ContentResourceProvider;
             parameters: [
                 'active' => new QueryParameter(key: 'active', property: 'active', filter: BooleanFilter::class, constraints: ['boolean']),
             ],
+        ),
+    ],
+    mcp: [
+        'get_custom_page' => new McpTool(
+            description: 'Get an active custom content page by identifier.',
+            input: McpResourceIdentifierInput::class,
+            provider: ContentResourceProvider::class,
+        ),
+        'list_custom_pages' => new McpToolCollection(
+            description: 'List active custom content pages.',
+            input: McpCollectionInput::class,
+            provider: ContentResourceProvider::class,
         ),
     ],
 )]
