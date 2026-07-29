@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 use ApiPlatform\Metadata\Operation\UnderscorePathSegmentNameGenerator;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
+use App\Http\Middleware\ResolveApiTenant;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 use Symfony\Component\Serializer\NameConverter\SnakeCaseToCamelCaseNameConverter;
 
 return [
@@ -69,7 +72,11 @@ return [
         'pagination_items_per_page'         => 30,
         'pagination_maximum_items_per_page' => 100,
         'route_prefix'                      => '/api',
-        'middleware'                        => [],
+        'middleware'                        => [
+            ResolveApiTenant::class,
+            NeedsTenant::class,
+            SetLocale::class,
+        ],
     ],
 
     'pagination' => [
