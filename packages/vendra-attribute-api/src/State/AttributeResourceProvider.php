@@ -49,7 +49,7 @@ final class AttributeResourceProvider extends EloquentResourceProvider
             description: $model->description,
             unit: $model->unit,
             active: $model->active,
-            options: $model->values
+            values: $model->values
                 ->map(fn(AttributeValue $value): ResourceReference => new ResourceReference($value->id, 'AttributeValue', $value->value))
                 ->all(),
         );

@@ -18,11 +18,11 @@ it('filters catalog attributes and embeds option references', function (): void 
     ]);
     AttributeFactory::new()->active()->create(['name' => 'Colour']);
 
-    $this->getJson('/api/catalog/attributes?q=Mater', ['Accept' => 'application/ld+json'])
+    $this->getJson('/api/catalog/attributes?search=Mater', ['Accept' => 'application/ld+json'])
         ->assertOk()
         ->assertJsonPath('totalItems', 1)
         ->assertJsonPath('member.0.id', $attribute->id)
-        ->assertJsonPath('member.0.options.0.id', $option->id);
+        ->assertJsonPath('member.0.values.0.id', $option->id);
 
     $this->getJson("/api/catalog/attribute-values?attributeId={$attribute->id}", ['Accept' => 'application/ld+json'])
         ->assertOk()

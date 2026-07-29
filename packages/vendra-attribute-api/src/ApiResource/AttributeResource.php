@@ -26,7 +26,7 @@ use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
             uriTemplate: '/catalog/attributes',
             provider: AttributeResourceProvider::class,
             parameters: [
-                'q'      => new QueryParameter(key: 'q', property: 'name', filter: PartialSearchFilter::class, constraints: ['string', 'min:2', 'max:100']),
+                'search' => new QueryParameter(key: 'search', property: 'name', filter: PartialSearchFilter::class, constraints: ['string', 'min:2', 'max:100']),
                 'active' => new QueryParameter(key: 'active', property: 'active', filter: BooleanFilter::class, constraints: ['boolean']),
             ],
         ),
@@ -47,7 +47,7 @@ use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
 final readonly class AttributeResource
 {
     /**
-     * @param array<int, ResourceReference> $options
+     * @param array<int, ResourceReference> $values
      */
     public function __construct(
         #[ApiProperty(identifier: true)]
@@ -56,6 +56,6 @@ final readonly class AttributeResource
         public ?string $description,
         public ?string $unit,
         public bool $active,
-        public array $options,
+        public array $values,
     ) {}
 }
