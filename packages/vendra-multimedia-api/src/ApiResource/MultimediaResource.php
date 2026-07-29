@@ -14,15 +14,15 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
-use Misaf\VendraMultimediaApi\State\AssetProvider;
+use Misaf\VendraMultimediaApi\State\MultimediaResourceProvider;
 
 #[ApiResource(
     shortName: 'Multimedia',
     operations: [
-        new Get(uriTemplate: '/content/multimedia/{id}', provider: AssetProvider::class),
+        new Get(uriTemplate: '/content/multimedia/{id}', provider: MultimediaResourceProvider::class),
         new GetCollection(
             uriTemplate: '/content/multimedia',
-            provider: AssetProvider::class,
+            provider: MultimediaResourceProvider::class,
             parameters: [
                 'mimeType' => new QueryParameter(key: 'mimeType', property: 'mime_type', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
             ],
@@ -32,12 +32,12 @@ use Misaf\VendraMultimediaApi\State\AssetProvider;
         'get_multimedia' => new McpTool(
             description: 'Get a public multimedia asset and its conversions by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: AssetProvider::class,
+            provider: MultimediaResourceProvider::class,
         ),
         'list_multimedia' => new McpToolCollection(
             description: 'List public multimedia assets and their conversions.',
             input: McpCollectionInput::class,
-            provider: AssetProvider::class,
+            provider: MultimediaResourceProvider::class,
         ),
     ],
 )]

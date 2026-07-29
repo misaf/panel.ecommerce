@@ -14,7 +14,7 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 /**
  * @extends EloquentResourceProvider<Multimedia, MultimediaResource>
  */
-final class AssetProvider extends EloquentResourceProvider
+final class MultimediaResourceProvider extends EloquentResourceProvider
 {
     protected function query(Operation $operation): Builder
     {

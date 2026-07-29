@@ -9,7 +9,7 @@ use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraMultimediaApi\State\AssetProvider;
+use Misaf\VendraMultimediaApi\State\MultimediaResourceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -27,7 +27,7 @@ final class MultimediaApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(AssetProvider::class, ProviderInterface::class);
+        $this->app->tag(MultimediaResourceProvider::class, ProviderInterface::class);
     }
 
     public function packageBooted(): void
