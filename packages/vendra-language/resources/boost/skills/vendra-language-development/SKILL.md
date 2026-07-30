@@ -79,7 +79,7 @@ Use policy enums and policies as the permission source.
 Migrations, factories, seeders, and translation files are part of the contract.
 
 - Keep installed-package translation discovery in `TranslationCatalog`. Read only registered `vendra-*` namespaces from Laravel's `FileLoader`, flatten nested PHP translation arrays to dot-notation keys, and retain every locale found in package files.
-- Use `SyncLanguageLines` as the synchronization boundary. Package files provide import defaults; database `LanguageLine` values are user-owned overrides. Create missing lines and add only locale keys absent from existing rows. Never replace an existing database locale value, including an intentionally blank value.
+- Use `SyncLanguageLinesAction` as the synchronization boundary. Package files provide import defaults; database `LanguageLine` values are user-owned overrides. Create missing lines and add only locale keys absent from existing rows. Never replace an existing database locale value, including an intentionally blank value.
 - Keep synchronization idempotent and transaction-safe. Load existing tenant-scoped lines in a batch, let `BelongsToTenant` assign ownership, and return created, updated, and unchanged counts for user feedback.
 - Keep the shared synchronization action available from both Languages and Language Lines list pages. Since synchronization can create and update rows, authorize both Language Line create and update abilities.
 - Use package migrations in `database/migrations`, with stubs only when the install flow expects publishing.

@@ -18,9 +18,9 @@ stats widgets.
      `commission_percent` of the amount; leaving the approved state reverses
      the unpaid commission.
    - **Signup** — a fixed bounty per attributed registration.
-   - **Checkout** — host applications call `RecordCartConversion` from their
+   - **Checkout** — host applications call `RecordCartConversionAction` from their
      checkout flow (vendra-cart has no checkout event yet).
-5. `ProcessAffiliatePayout` settles approved commissions atomically: it
+5. `ProcessAffiliatePayoutAction` settles approved commissions atomically: it
    groups them into an `AffiliatePayout`, marks them paid, and credits the
    affiliate's default-currency wallet through an approved Commission
    transaction. If the transaction cannot be created or settled, everything

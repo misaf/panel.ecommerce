@@ -72,9 +72,9 @@ $currency->money(1050);        // Cknow\Money\Money instance
 Exactly one enabled currency is the default at any time; use the domain action to switch it:
 
 ```php
-use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
+use Misaf\VendraCurrency\Actions\SetDefaultCurrencyAction;
 
-(new SetDefaultCurrency())->execute($currency);
+(new SetDefaultCurrencyAction())->execute($currency);
 ```
 
 ## Filament

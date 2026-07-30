@@ -1,6 +1,6 @@
 ---
 name: vendra-currency-development
-description: "Create, modify, review, or test the Vendra Currency package in packages/vendra-currency. Use for the Currency model, CurrencyRegistry catalog (fiat + crypto), default-currency invariants and CurrencyObserver, SetDefaultCurrency, money formatting, migrations, factories, seeders, policies, Filament resources, configuration, translations, package wiring, and tests."
+description: "Create, modify, review, or test the Vendra Currency package in packages/vendra-currency. Use for the Currency model, CurrencyRegistry catalog (fiat + crypto), default-currency invariants and CurrencyObserver, SetDefaultCurrencyAction, money formatting, migrations, factories, seeders, policies, Filament resources, configuration, translations, package wiring, and tests."
 ---
 
 # Vendra Currency
@@ -39,7 +39,7 @@ Treat `packages/vendra-currency` as the source of currency domain behavior and F
 
 ## Domain Model Standards
 
-Follow the existing `Currency` model pattern for new currency entities. The catalog of installable currencies lives in `Support\CurrencyRegistry` (moneyphp ISO + crypto data); rows snapshot `code`, `name`, `symbol`, `decimal_places`, and `type` at install time. Exactly one enabled currency is the default, enforced by the `default_guard` unique index, `CurrencyObserver`, and the locked `SetDefaultCurrency` action.
+Follow the existing `Currency` model pattern for new currency entities. The catalog of installable currencies lives in `Support\CurrencyRegistry` (moneyphp ISO + crypto data); rows snapshot `code`, `name`, `symbol`, `decimal_places`, and `type` at install time. Exactly one enabled currency is the default, enforced by the `default_guard` unique index, `CurrencyObserver`, and the locked `SetDefaultCurrencyAction` action.
 
 - Use `declare(strict_types=1)`, final classes, typed method signatures, and PHPDoc generics for relationships.
 - Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic. Match the surrounding file's density and do not add comments that restate the code.

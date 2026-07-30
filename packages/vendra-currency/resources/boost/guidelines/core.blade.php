@@ -1,6 +1,6 @@
 ## Vendra Currency
 
-The `misaf/vendra-currency` package owns currency management: a fiat/crypto catalog backed by `moneyphp` (`Support\CurrencyRegistry`), install-on-demand `Currency` rows with a single enforced default (`default_guard` unique index + `CurrencyObserver` + `SetDefaultCurrency`), money formatting via `cknow/laravel-money`, and the Filament admin UI for currencies. Exchange-rate storage is intentionally out of scope for now.
+The `misaf/vendra-currency` package owns currency management: a fiat/crypto catalog backed by `moneyphp` (`Support\CurrencyRegistry`), install-on-demand `Currency` rows with a single enforced default (`default_guard` unique index + `CurrencyObserver` + `SetDefaultCurrencyAction`), money formatting via `cknow/laravel-money`, and the Filament admin UI for currencies. Exchange-rate storage is intentionally out of scope for now.
 
 ### Translatable Persistence
 
