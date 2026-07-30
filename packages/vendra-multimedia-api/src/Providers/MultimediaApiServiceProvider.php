@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Misaf\VendraMultimediaApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraMultimediaApi\State\MultimediaResourceProvider;
+use Misaf\VendraMultimediaApi\State\MultimediaLinksHandler;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -28,7 +27,7 @@ final class MultimediaApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(MultimediaResourceProvider::class, [LinksHandlerInterface::class, ProviderInterface::class]);
+        $this->app->tag(MultimediaLinksHandler::class, LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void

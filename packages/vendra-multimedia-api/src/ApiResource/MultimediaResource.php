@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraMultimediaApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -15,29 +14,36 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
-use Misaf\VendraMultimediaApi\State\MultimediaResourceProvider;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
+use Misaf\VendraMultimediaApi\State\MultimediaLinksHandler;
+use Misaf\VendraMultimediaApi\State\MultimediaMapper;
 use Misaf\VendraMultimediaApi\State\PublicMultimedia;
 
 #[ApiResource(
     shortName: 'Multimedia',
-    stateOptions: new Options(modelClass: PublicMultimedia::class, handleLinks: MultimediaResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: PublicMultimedia::class,
+        handleLinks: MultimediaLinksHandler::class,
+        mapper: MultimediaMapper::class,
+    ),
     mcp: [
         'get_multimedia' => new McpTool(
             description: 'Get a public multimedia asset and its conversions by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: MultimediaResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_multimedia' => new McpToolCollection(
             description: 'List public multimedia assets and their conversions.',
             input: McpCollectionInput::class,
-            provider: MultimediaResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/content/multimedia/{id}', provider: MultimediaResourceProvider::class)]
+#[Get(uriTemplate: '/content/multimedia/{id}')]
 #[GetCollection(
     uriTemplate: '/content/multimedia',
-    provider: MultimediaResourceProvider::class,
     parameters: [
         'mimeType' => new QueryParameter(key: 'mimeType', property: 'mime_type', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
     ],
