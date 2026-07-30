@@ -59,7 +59,7 @@ final readonly class CartResource
      * @param array<int, CartLine> $lines
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The cart unique identifier')]
         public int $id,
         public string $token,
         public ?string $expiresAt,

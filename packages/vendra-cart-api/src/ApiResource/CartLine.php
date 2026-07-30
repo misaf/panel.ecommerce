@@ -12,7 +12,7 @@ final readonly class CartLine
      * @param array<string, mixed>|null $metadata
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The cart line unique identifier')]
         public int $id,
         public string $sellableType,
         public int $sellableId,

@@ -54,7 +54,7 @@ final readonly class MultimediaResource
      * @param array<string, mixed> $generatedConversions
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The multimedia asset unique identifier')]
         public int $id,
         public string $uuid,
         public string $name,

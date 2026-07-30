@@ -12,9 +12,9 @@ use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Misaf\VendraApi\State\EloquentResourceProvider;
-use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraCustomPageApi\State\CustomPageCategoryLinksHandler;
 use Misaf\VendraCustomPageApi\State\CustomPageCategoryMapper;
@@ -49,7 +49,7 @@ final readonly class CustomPageCategoryResource
      * @param array<int, ResourceReference> $customPages
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The custom page category unique identifier')]
         public int $id,
         public array $title,
         public array $customPages,

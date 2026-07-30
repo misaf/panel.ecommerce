@@ -12,9 +12,9 @@ use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Misaf\VendraApi\State\EloquentResourceProvider;
-use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraBlogApi\State\BlogPostCategoryLinksHandler;
 use Misaf\VendraBlogApi\State\BlogPostCategoryMapper;
@@ -53,7 +53,7 @@ final readonly class BlogPostCategoryResource
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The blog post category unique identifier')]
         public int $id,
         public array $title,
         public array $slugs,

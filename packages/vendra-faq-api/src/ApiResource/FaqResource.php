@@ -15,11 +15,11 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
-use Misaf\VendraApi\State\EloquentResourceOptions;
-use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaqApi\State\FaqLinksHandler;
 use Misaf\VendraFaqApi\State\FaqMapper;
@@ -72,7 +72,7 @@ final readonly class FaqResource
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The FAQ unique identifier')]
         public int $id,
         public array $question,
         public array $answer,

@@ -14,9 +14,9 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Misaf\VendraApi\State\EloquentResourceProvider;
-use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraCustomPage\Models\CustomPage;
 use Misaf\VendraCustomPageApi\State\CustomPageLinksHandler;
 use Misaf\VendraCustomPageApi\State\CustomPageMapper;
@@ -59,7 +59,7 @@ final readonly class CustomPageResource
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The custom page unique identifier')]
         public int $id,
         public array $title,
         public array $body,

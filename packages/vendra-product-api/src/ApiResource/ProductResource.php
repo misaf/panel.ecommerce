@@ -16,12 +16,12 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
-use Misaf\VendraApi\State\EloquentResourceOptions;
-use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraApi\Eloquent\Filter\RandomOrderFilter;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraProduct\Models\Product;
 use Misaf\VendraProductApi\State\ProductLinksHandler;
@@ -85,7 +85,7 @@ final readonly class ProductResource
      * @param array<int, ResourceReference> $options
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The product unique identifier')]
         public int $id,
         public array $title,
         public array $slugs,

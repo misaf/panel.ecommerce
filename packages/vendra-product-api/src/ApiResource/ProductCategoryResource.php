@@ -14,9 +14,9 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Misaf\VendraApi\State\EloquentResourceProvider;
-use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraProductApi\State\ProductCategoryLinksHandler;
@@ -62,7 +62,7 @@ final readonly class ProductCategoryResource
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The product category unique identifier')]
         public int $id,
         public array $title,
         public array $slugs,

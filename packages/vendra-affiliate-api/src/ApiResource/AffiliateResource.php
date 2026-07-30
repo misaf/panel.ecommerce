@@ -60,7 +60,7 @@ use Misaf\VendraApi\State\EloquentResourceProvider;
 final readonly class AffiliateResource
 {
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The affiliate unique identifier')]
         public int $id,
         public string $code,
         public string $createdAt,

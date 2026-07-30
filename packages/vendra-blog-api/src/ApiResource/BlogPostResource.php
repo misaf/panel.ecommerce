@@ -16,11 +16,11 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
-use Misaf\VendraApi\State\EloquentResourceOptions;
-use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraBlog\Models\BlogPost;
 use Misaf\VendraBlogApi\State\BlogPostLinksHandler;
 use Misaf\VendraBlogApi\State\BlogPostMapper;
@@ -74,7 +74,7 @@ final readonly class BlogPostResource
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The blog post unique identifier')]
         public int $id,
         public array $title,
         public array $content,

@@ -15,9 +15,9 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Misaf\VendraApi\State\EloquentResourceProvider;
-use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraAttribute\Models\Attribute;
 use Misaf\VendraAttributeApi\State\AttributeLinksHandler;
 use Misaf\VendraAttributeApi\State\AttributeMapper;
@@ -57,7 +57,7 @@ final readonly class AttributeResource
      * @param array<int, ResourceReference> $values
      */
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The attribute unique identifier')]
         public int $id,
         public string $name,
         public ?string $description,

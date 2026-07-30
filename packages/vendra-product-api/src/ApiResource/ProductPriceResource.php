@@ -15,9 +15,9 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Misaf\VendraApi\State\EloquentResourceProvider;
-use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraProduct\Models\ProductPrice;
 use Misaf\VendraProductApi\State\ProductPriceLinksHandler;
 use Misaf\VendraProductApi\State\ProductPriceMapper;
@@ -56,7 +56,7 @@ use Misaf\VendraProductApi\State\ProductPriceMapper;
 final readonly class ProductPriceResource
 {
     public function __construct(
-        #[ApiProperty(identifier: true)]
+        #[ApiProperty(identifier: true, description: 'The product price unique identifier')]
         public int $id,
         public int $minorAmount,
         public float|int $amount,
