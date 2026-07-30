@@ -48,7 +48,7 @@ it('resolves and isolates API resources by tenant domain', function (): void {
     ])
         ->assertSuccessful()
         ->assertJsonPath('meta.totalItems', 1)
-        ->assertJsonPath('data.0.attributes.title.en', 'Visible Rose')
+        ->assertJsonPath('data.0.attributes.name.en', 'Visible Rose')
         ->assertJsonMissing(['en' => 'Hidden Tulip']);
 
     expect(currentTestTenant())->toBeNull();
