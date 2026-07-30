@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
+use Misaf\LaravelAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Database\Factories\AuthifyLogFactory;
 use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 

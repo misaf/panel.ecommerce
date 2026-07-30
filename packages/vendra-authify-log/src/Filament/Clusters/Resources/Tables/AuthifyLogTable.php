@@ -21,7 +21,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
+use Misaf\LaravelAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 
 final class AuthifyLogTable

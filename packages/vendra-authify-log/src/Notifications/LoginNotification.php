@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
-use Misaf\AuthifyLog\Contracts\HasUsername;
+use Misaf\LaravelAuthifyLog\Contracts\HasUsername;
 use RuntimeException;
 
 class LoginNotification extends Notification implements ShouldQueueAfterCommit

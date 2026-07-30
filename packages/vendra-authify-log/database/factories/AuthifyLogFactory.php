@@ -7,7 +7,7 @@ namespace Misaf\VendraAuthifyLog\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
+use Misaf\LaravelAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
 use Misaf\VendraUser\Models\User;

@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Redis\Connections\PhpRedisConnection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
-use Misaf\AuthifyLog\Jobs\AuthifyLogJob;
+use Misaf\LaravelAuthifyLog\Jobs\AuthifyLogJob;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;

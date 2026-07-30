@@ -9,7 +9,7 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
+use Misaf\LaravelAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Models\AuthifyLog;
 
 final class LatestAuthifyLogTableWidget extends BaseWidget
