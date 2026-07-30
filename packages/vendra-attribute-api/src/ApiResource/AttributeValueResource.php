@@ -55,6 +55,7 @@ final readonly class AttributeValueResource
         #[ApiProperty(identifier: true, description: 'The attribute value unique identifier')]
         public int $id,
         public string $value,
+        public int $position,
         public ResourceReference $attribute,
     ) {}
 }

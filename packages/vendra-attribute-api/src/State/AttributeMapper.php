@@ -25,6 +25,7 @@ final class AttributeMapper implements ResourceMapper
             name: $model->name,
             description: $model->description,
             unit: $model->unit,
+            position: $model->position,
             active: $model->active,
             values: $model->values
                 ->map(fn(AttributeValue $value): ResourceReference => new ResourceReference($value->id, 'AttributeValue', $value->value))

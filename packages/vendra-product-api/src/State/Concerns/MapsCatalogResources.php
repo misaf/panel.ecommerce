@@ -34,12 +34,16 @@ trait MapsCatalogResources
     {
         return new ProductResource(
             id: $product->id,
-            title: $this->normalizeTranslations($product->getTranslations('name')),
-            slugs: $this->normalizeTranslations($product->getTranslations('slug')),
+            name: $this->normalizeTranslations($product->getTranslations('name')),
+            slug: $this->normalizeTranslations($product->getTranslations('slug')),
             description: $this->normalizeTranslations($product->getTranslations('description')),
             token: $product->token,
             quantity: $product->quantity,
             inStock: $product->in_stock,
+            stockThreshold: $product->stock_threshold ?? 0,
+            position: $product->position ?? 0,
+            availableSoon: $product->available_soon,
+            availabilityDate: $product->availability_date?->toAtomString(),
             productCategory: $this->categoryReference($product->productCategory),
             productPrices: $product->productPrices
                 ->map(fn(ProductPrice $price): ProductPriceResource => $this->toPriceResource($price, $product))
@@ -62,8 +66,8 @@ trait MapsCatalogResources
     {
         return new ProductCategoryResource(
             id: $category->id,
-            title: $this->normalizeTranslations($category->getTranslations('name')),
-            slugs: $this->normalizeTranslations($category->getTranslations('slug')),
+            name: $this->normalizeTranslations($category->getTranslations('name')),
+            slug: $this->normalizeTranslations($category->getTranslations('slug')),
             description: $this->normalizeTranslations($category->getTranslations('description')),
             position: $category->position,
             active: $category->active,

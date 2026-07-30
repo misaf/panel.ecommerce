@@ -77,8 +77,8 @@ use Misaf\VendraProductApi\State\ProductMapper;
 final readonly class ProductResource
 {
     /**
-     * @param array<string, string> $title
-     * @param array<string, string> $slugs
+     * @param array<string, string> $name
+     * @param array<string, string> $slug
      * @param array<string, string> $description
      * @param array<int, ProductPriceResource> $productPrices
      * @param array<int, MultimediaResource> $multimedia
@@ -87,12 +87,16 @@ final readonly class ProductResource
     public function __construct(
         #[ApiProperty(identifier: true, description: 'The product unique identifier')]
         public int $id,
-        public array $title,
-        public array $slugs,
+        public array $name,
+        public array $slug,
         public array $description,
         public string $token,
         public int $quantity,
         public bool $inStock,
+        public ?int $stockThreshold,
+        public ?int $position,
+        public ?bool $availableSoon,
+        public ?string $availabilityDate,
         public ResourceReference $productCategory,
         public array $productPrices,
         public ?ProductPriceResource $latestProductPrice,

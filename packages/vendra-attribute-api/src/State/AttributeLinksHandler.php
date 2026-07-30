@@ -22,7 +22,7 @@ final class AttributeLinksHandler implements LinksHandlerInterface
     public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
         $builder
-            ->with('values:id,attribute_id,value')
+            ->with('values:id,attribute_id,value,position')
             ->where('active', true);
 
         if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {

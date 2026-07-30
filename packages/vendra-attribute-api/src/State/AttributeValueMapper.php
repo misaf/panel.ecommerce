@@ -29,6 +29,7 @@ final class AttributeValueMapper implements ResourceMapper
         return new AttributeValueResource(
             id: $model->id,
             value: $model->value,
+            position: $model->position,
             attribute: new ResourceReference(
                 $attribute->id,
                 'Attribute',

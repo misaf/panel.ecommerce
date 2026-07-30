@@ -62,6 +62,7 @@ final readonly class AttributeResource
         public string $name,
         public ?string $description,
         public ?string $unit,
+        public int $position,
         public bool $active,
         public array $values,
     ) {}
