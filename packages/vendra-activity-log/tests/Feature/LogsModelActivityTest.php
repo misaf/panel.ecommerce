@@ -32,10 +32,11 @@ it('logs creation for a model that implements ShouldLogActivity', function (): v
         ->and($activity->subject_type)->toBe($widget->getMorphClass())
         ->and((int) $activity->subject_id)->toBe($widget->id);
 
+    $changes = json_decode($activity->attribute_changes, true);
     $properties = json_decode($activity->properties, true);
 
-    expect($properties['attributes'])->toBe(['name' => 'Alpha', 'description' => 'first'])
-        ->and($properties['attributes'])->not->toHaveKey('id')
+    expect($changes['attributes'])->toBe(['name' => 'Alpha', 'description' => 'first'])
+        ->and($changes['attributes'])->not->toHaveKey('id')
         ->and($properties[RequestJobContext::TRACE_ID])->toBe('activity-trace');
 });
 
@@ -44,10 +45,10 @@ it('logs updates with both old and new attribute values', function (): void {
     $widget->update(['name' => 'Beta']);
 
     $activity = DB::table('activity_log')->where('event', 'updated')->latest('id')->first();
-    $properties = json_decode($activity->properties, true);
+    $changes = json_decode($activity->attribute_changes, true);
 
-    expect($properties['attributes']['name'])->toBe('Beta')
-        ->and($properties['old']['name'])->toBe('Alpha');
+    expect($changes['attributes']['name'])->toBe('Beta')
+        ->and($changes['old']['name'])->toBe('Alpha');
 });
 
 it('logs deletion', function (): void {
