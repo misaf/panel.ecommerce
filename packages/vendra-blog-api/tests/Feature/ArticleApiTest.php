@@ -29,7 +29,7 @@ it('exposes and filters active blog posts with storefront metadata', function ()
         ->assertOk()
         ->assertJsonPath('meta.totalItems', 1)
         ->assertJsonPath('data.0.attributes.id', $article->id)
-        ->assertJsonPath('data.0.attributes.slugs.en', 'rose-care')
+        ->assertJsonPath('data.0.attributes.slug.en', 'rose-care')
         ->assertJsonPath('data.0.attributes.blogPostCategory.id', $section->id);
 
     $this->getJson("/api/content/blog-post-categories/{$section->id}", ['Accept' => 'application/ld+json'])

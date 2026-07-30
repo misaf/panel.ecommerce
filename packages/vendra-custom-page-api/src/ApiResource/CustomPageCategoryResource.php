@@ -45,13 +45,13 @@ use Misaf\VendraCustomPageApi\State\CustomPageCategoryMapper;
 final readonly class CustomPageCategoryResource
 {
     /**
-     * @param array<string, string> $title
+     * @param array<string, string> $name
      * @param array<int, ResourceReference> $customPages
      */
     public function __construct(
         #[ApiProperty(identifier: true, description: 'The custom page category unique identifier')]
         public int $id,
-        public array $title,
+        public array $name,
         public array $customPages,
     ) {}
 }

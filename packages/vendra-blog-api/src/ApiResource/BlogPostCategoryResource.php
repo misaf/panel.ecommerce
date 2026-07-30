@@ -46,8 +46,8 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 final readonly class BlogPostCategoryResource
 {
     /**
-     * @param array<string, string> $title
-     * @param array<string, string> $slugs
+     * @param array<string, string> $name
+     * @param array<string, string> $slug
      * @param array<string, string> $description
      * @param array<int, ResourceReference> $blogPosts
      * @param array<int, MultimediaResource> $multimedia
@@ -55,8 +55,8 @@ final readonly class BlogPostCategoryResource
     public function __construct(
         #[ApiProperty(identifier: true, description: 'The blog post category unique identifier')]
         public int $id,
-        public array $title,
-        public array $slugs,
+        public array $name,
+        public array $slug,
         public array $description,
         public int $position,
         public bool $active,

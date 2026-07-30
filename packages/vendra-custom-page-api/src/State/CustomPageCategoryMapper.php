@@ -25,7 +25,7 @@ final class CustomPageCategoryMapper implements ResourceMapper
 
         return new CustomPageCategoryResource(
             id: $model->id,
-            title: $this->normalizeTranslations($model->getTranslations('name')),
+            name: $this->normalizeTranslations($model->getTranslations('name')),
             customPages: $model->customPages
                 ->map(function (CustomPage $page): ResourceReference {
                     $name = $page->getTranslation('name', app()->getLocale());

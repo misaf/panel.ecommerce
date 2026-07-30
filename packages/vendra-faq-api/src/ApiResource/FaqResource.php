@@ -66,17 +66,17 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 final readonly class FaqResource
 {
     /**
-     * @param array<string, string> $question
-     * @param array<string, string> $answer
-     * @param array<string, string> $slugs
+     * @param array<string, string> $name
+     * @param array<string, string> $description
+     * @param array<string, string> $slug
      * @param array<int, MultimediaResource> $multimedia
      */
     public function __construct(
         #[ApiProperty(identifier: true, description: 'The FAQ unique identifier')]
         public int $id,
-        public array $question,
-        public array $answer,
-        public array $slugs,
+        public array $name,
+        public array $description,
+        public array $slug,
         public int $position,
         public bool $active,
         public ResourceReference $faqCategory,

@@ -36,9 +36,9 @@ final class FaqMapper implements ResourceMapper
 
         return new FaqResource(
             id: $model->id,
-            question: $this->normalizeTranslations($model->getTranslations('name')),
-            answer: $this->normalizeTranslations($model->getTranslations('description')),
-            slugs: $this->normalizeTranslations($model->getTranslations('slug')),
+            name: $this->normalizeTranslations($model->getTranslations('name')),
+            description: $this->normalizeTranslations($model->getTranslations('description')),
+            slug: $this->normalizeTranslations($model->getTranslations('slug')),
             position: $model->position,
             active: $model->active,
             faqCategory: new ResourceReference(

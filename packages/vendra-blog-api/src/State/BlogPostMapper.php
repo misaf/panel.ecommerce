@@ -36,9 +36,9 @@ final class BlogPostMapper implements ResourceMapper
 
         return new BlogPostResource(
             id: $model->id,
-            title: $this->normalizeTranslations($model->getTranslations('name')),
-            content: $this->normalizeTranslations($model->getTranslations('description')),
-            slugs: $this->normalizeTranslations($model->getTranslations('slug')),
+            name: $this->normalizeTranslations($model->getTranslations('name')),
+            description: $this->normalizeTranslations($model->getTranslations('description')),
+            slug: $this->normalizeTranslations($model->getTranslations('slug')),
             active: $model->active,
             position: $model->position,
             blogPostCategory: new ResourceReference(
@@ -51,7 +51,6 @@ final class BlogPostMapper implements ResourceMapper
                 ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
                 ->values()
                 ->all(),
-            publishedAt: $model->created_at->toAtomString(),
             createdAt: $model->created_at->toAtomString(),
             updatedAt: $model->updated_at->toAtomString(),
         );

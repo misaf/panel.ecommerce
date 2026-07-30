@@ -29,7 +29,7 @@ it('exposes and filters active FAQs with storefront metadata', function (): void
         ->assertOk()
         ->assertJsonPath('meta.totalItems', 1)
         ->assertJsonPath('data.0.attributes.id', $article->id)
-        ->assertJsonPath('data.0.attributes.slugs.en', 'rose-delivery')
+        ->assertJsonPath('data.0.attributes.slug.en', 'rose-delivery')
         ->assertJsonPath('data.0.attributes.faqCategory.id', $topic->id);
 
     $this->getJson("/api/content/faq-categories/{$topic->id}", ['Accept' => 'application/ld+json'])

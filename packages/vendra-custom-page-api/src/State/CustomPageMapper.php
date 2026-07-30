@@ -36,9 +36,11 @@ final class CustomPageMapper implements ResourceMapper
 
         return new CustomPageResource(
             id: $model->id,
-            title: $this->normalizeTranslations($model->getTranslations('name')),
-            body: $this->normalizeTranslations($model->getTranslations('description')),
-            slugs: $this->normalizeTranslations($model->getTranslations('slug')),
+            name: $this->normalizeTranslations($model->getTranslations('name')),
+            description: $this->normalizeTranslations($model->getTranslations('description')),
+            slug: $this->normalizeTranslations($model->getTranslations('slug')),
+            position: $model->position,
+            active: $model->active,
             customPageCategory: new ResourceReference(
                 $category->id,
                 'CustomPageCategory',

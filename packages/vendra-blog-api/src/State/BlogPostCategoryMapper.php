@@ -28,8 +28,8 @@ final class BlogPostCategoryMapper implements ResourceMapper
 
         return new BlogPostCategoryResource(
             id: $model->id,
-            title: $this->normalizeTranslations($model->getTranslations('name')),
-            slugs: $this->normalizeTranslations($model->getTranslations('slug')),
+            name: $this->normalizeTranslations($model->getTranslations('name')),
+            slug: $this->normalizeTranslations($model->getTranslations('slug')),
             description: $this->normalizeTranslations($model->getTranslations('description')),
             position: $model->position,
             active: $model->active,
