@@ -23,6 +23,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Foundation\DevCommands;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,9 @@ final class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        DevCommands::artisan('queue:listen --queue=default,transactional-email --tries=1 --timeout=0', 'queue');
+        DevCommands::except('server', 'vite', 'horizon');
+
         Relation::morphMap([
             'reseller'      => Reseller::class,
             'reseller_user' => ResellerUser::class,
