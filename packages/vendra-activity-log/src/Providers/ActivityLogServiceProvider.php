@@ -50,12 +50,12 @@ final class ActivityLogServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        $connection = config('activitylog.database_connection');
-        $table = config('activitylog.table_name');
-
+        // spatie/laravel-activitylog v5 dropped the `table_name` and
+        // `database_connection` config keys; the table is fixed to `activity_log`
+        // on the default connection.
         $this->app->make(TenantTableRegistry::class)->registerOnConnection(
-            is_string($connection) ? $connection : null,
-            is_string($table) ? $table : 'activity_log',
+            null,
+            'activity_log',
         );
         $this->app->make(TenantSeeders::class)->register('vendra-activity-log:seed', priority: 85);
 
