@@ -57,7 +57,7 @@ final class ActivityLogResource extends Resource
      */
     public static function getGloballySearchableAttributes(): array
     {
-        return ['log_name', 'event', 'batch_uuid'];
+        return ['log_name', 'event'];
     }
 
     public static function getPages(): array

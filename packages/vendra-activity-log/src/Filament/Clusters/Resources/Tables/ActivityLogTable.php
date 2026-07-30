@@ -74,10 +74,6 @@ final class ActivityLogTable
                 ])
                 ->suffix(''),
 
-            TextColumn::make('batch_uuid')
-                ->alignStart()
-                ->label(__('vendra-activity-log::tables.batch_uuid')),
-
             TextColumn::make('created_at')
                 ->extraCellAttributes(['dir' => 'ltr'])
                 ->label(__('vendra-activity-log::tables.created_at'))
@@ -120,9 +116,6 @@ final class ActivityLogTable
 
                             TextConstraint::make('causer_type')
                                 ->label(__('vendra-activity-log::attributes.causer_type')),
-
-                            TextConstraint::make('batch_uuid')
-                                ->label(__('vendra-activity-log::attributes.batch_uuid')),
 
                             NumberConstraint::make('subject_id')
                                 ->label(__('vendra-activity-log::attributes.subject_id')),

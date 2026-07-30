@@ -37,8 +37,10 @@ final class ActivityLogInfolist
                 TextEntry::make('causer_id')
                     ->label(__('vendra-activity-log::attributes.causer_id')),
 
-                TextEntry::make('batch_uuid')
-                    ->label(__('vendra-activity-log::attributes.batch_uuid')),
+                KeyValueEntry::make('attribute_changes')
+                    ->label(__('vendra-activity-log::attributes.attribute_changes'))
+                    ->columnSpanFull()
+                    ->state(fn(ActivityLog $record): array => $record->attribute_changes?->all() ?? []),
 
                 KeyValueEntry::make('properties')
                     ->columnSpanFull()
