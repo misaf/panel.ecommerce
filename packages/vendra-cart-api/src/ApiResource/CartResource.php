@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCartApi\ApiResource;
 
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -15,36 +14,42 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraCart\Models\Cart;
-use Misaf\VendraCartApi\State\CartResourceProvider;
+use Misaf\VendraCartApi\State\CartLinksHandler;
+use Misaf\VendraCartApi\State\CartMapper;
 
 #[ApiResource(
     shortName: 'Cart',
-    stateOptions: new Options(modelClass: Cart::class, handleLinks: CartResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: Cart::class,
+        handleLinks: CartLinksHandler::class,
+        mapper: CartMapper::class,
+    ),
     mcp: [
         'get_cart' => new McpTool(
             description: 'Get one cart owned by the authenticated user.',
             input: McpResourceIdentifierInput::class,
-            provider: CartResourceProvider::class,
+            provider: EloquentResourceProvider::class,
             policy: 'view',
         ),
         'list_carts' => new McpToolCollection(
             description: 'List carts owned by the authenticated user.',
             input: McpCollectionInput::class,
-            provider: CartResourceProvider::class,
+            provider: EloquentResourceProvider::class,
             policy: 'viewAny',
         ),
     ],
 )]
 #[Get(
     uriTemplate: '/sales/carts/{id}',
-    provider: CartResourceProvider::class,
     policy: 'view',
     middleware: 'auth:sanctum',
 )]
 #[GetCollection(
     uriTemplate: '/sales/carts',
-    provider: CartResourceProvider::class,
     policy: 'viewAny',
     middleware: 'auth:sanctum',
 )]

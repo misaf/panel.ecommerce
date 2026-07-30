@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraCartApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Misaf\VendraCartApi\ApiResource\CartResource;
 use Misaf\VendraCartApi\Policies\ShoppingCartPolicy;
-use Misaf\VendraCartApi\State\CartResourceProvider;
+use Misaf\VendraCartApi\State\CartLinksHandler;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -32,7 +31,7 @@ final class CartApiServiceProvider extends PackageServiceProvider
         ]);
 
         Gate::policy(CartResource::class, ShoppingCartPolicy::class);
-        $this->app->tag(CartResourceProvider::class, [LinksHandlerInterface::class, ProviderInterface::class]);
+        $this->app->tag(CartLinksHandler::class, LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void
