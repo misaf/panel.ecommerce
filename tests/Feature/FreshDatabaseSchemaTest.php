@@ -8,7 +8,7 @@ use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 it('contains every package table in the fresh database baseline', function (): void {
     expect(Schema::hasTable('authify_logs'))->toBeTrue()
         ->and(Schema::hasColumns('language_lines', ['tenant_id', 'namespace', 'namespace_guard']))->toBeTrue()
-        ->and(Schema::hasColumns('activity_log', ['tenant_id', 'event', 'batch_uuid']))->toBeTrue()
+        ->and(Schema::hasColumns('activity_log', ['tenant_id', 'event', 'attribute_changes']))->toBeTrue()
         ->and(Schema::hasColumns('roles', ['tenant_id', 'description']))->toBeTrue()
         ->and(Schema::hasColumns('permissions', ['tenant_id', 'description']))->toBeTrue()
         ->and(Schema::hasColumn('tags', 'position'))->toBeTrue()

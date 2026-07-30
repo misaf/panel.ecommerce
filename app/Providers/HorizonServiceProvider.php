@@ -17,7 +17,9 @@ final class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         parent::boot();
 
-        Horizon::routeMailNotificationsTo(Config::string('horizon.notify_mail'));
+        if ($notifyMail = Config::get('horizon.notify_mail')) {
+            Horizon::routeMailNotificationsTo($notifyMail);
+        }
     }
 
     protected function gate(): void
