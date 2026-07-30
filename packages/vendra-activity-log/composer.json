@@ -24,11 +24,11 @@
         "source": "https://github.com/misaf/vendra-activity-log"
     },
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "awcodes/filament-badgeable-column": "^4.0",
         "misaf/filament-jalali": "^5.1.4",
         "misaf/vendra-support": "self.version",
-        "spatie/laravel-activitylog": "^4.12.3",
+        "spatie/laravel-activitylog": "^5.0",
         "spatie/laravel-package-tools": "^1.93.1"
     },
     "require-dev": {
