@@ -6,7 +6,6 @@ namespace Misaf\VendraFaqApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -16,33 +15,40 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraFaq\Models\Faq;
-use Misaf\VendraFaqApi\State\FaqResourceProvider;
+use Misaf\VendraFaqApi\State\FaqLinksHandler;
+use Misaf\VendraFaqApi\State\FaqMapper;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'Faq',
-    stateOptions: new Options(modelClass: Faq::class, handleLinks: FaqResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: Faq::class,
+        handleLinks: FaqLinksHandler::class,
+        mapper: FaqMapper::class,
+    ),
     mcp: [
         'get_faq' => new McpTool(
             description: 'Get an active FAQ with its category and media by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: FaqResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_faqs' => new McpToolCollection(
             description: 'List active FAQs with their categories and media.',
             input: McpCollectionInput::class,
-            provider: FaqResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/content/faqs/{id}', provider: FaqResourceProvider::class)]
+#[Get(uriTemplate: '/content/faqs/{id}')]
 #[GetCollection(
     uriTemplate: '/content/faqs',
-    provider: FaqResourceProvider::class,
     order: ['position' => 'ASC'],
     parameters: [
         'categoryId'      => new QueryParameter(key: 'categoryId', property: 'faq_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),

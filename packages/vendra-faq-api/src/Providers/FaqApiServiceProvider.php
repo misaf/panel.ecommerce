@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Misaf\VendraFaqApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraFaqApi\State\FaqCategoryResourceProvider;
-use Misaf\VendraFaqApi\State\FaqResourceProvider;
+use Misaf\VendraFaqApi\State\FaqCategoryLinksHandler;
+use Misaf\VendraFaqApi\State\FaqLinksHandler;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,9 +29,9 @@ final class FaqApiServiceProvider extends PackageServiceProvider
         ]);
 
         $this->app->tag([
-            FaqResourceProvider::class,
-            FaqCategoryResourceProvider::class,
-        ], [LinksHandlerInterface::class, ProviderInterface::class]);
+            FaqLinksHandler::class,
+            FaqCategoryLinksHandler::class,
+        ], LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void

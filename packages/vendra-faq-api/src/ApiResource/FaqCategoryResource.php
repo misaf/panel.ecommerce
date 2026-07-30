@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaqApi\ApiResource;
 
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -13,29 +12,37 @@ use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraFaq\Models\FaqCategory;
-use Misaf\VendraFaqApi\State\FaqCategoryResourceProvider;
+use Misaf\VendraFaqApi\State\FaqCategoryLinksHandler;
+use Misaf\VendraFaqApi\State\FaqCategoryMapper;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'FaqCategory',
-    stateOptions: new Options(modelClass: FaqCategory::class, handleLinks: FaqCategoryResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: FaqCategory::class,
+        handleLinks: FaqCategoryLinksHandler::class,
+        mapper: FaqCategoryMapper::class,
+    ),
     mcp: [
         'get_faq_category' => new McpTool(
             description: 'Get an active FAQ category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: FaqCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_faq_categories' => new McpToolCollection(
             description: 'List active FAQ categories.',
             input: McpCollectionInput::class,
-            provider: FaqCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/content/faq-categories/{id}', provider: FaqCategoryResourceProvider::class)]
-#[GetCollection(uriTemplate: '/content/faq-categories', provider: FaqCategoryResourceProvider::class)]
+#[Get(uriTemplate: '/content/faq-categories/{id}')]
+#[GetCollection(uriTemplate: '/content/faq-categories')]
 final readonly class FaqCategoryResource
 {
     /**
