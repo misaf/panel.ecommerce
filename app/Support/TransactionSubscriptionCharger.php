@@ -12,6 +12,7 @@ use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Data\SubscriptionCharge;
 use Misaf\VendraSupport\Data\SubscriptionChargeResult;
 use Misaf\VendraSupport\Enums\SubscriptionChargeStatus;
+use Misaf\VendraTransaction\Actions\CreateTransactionAction;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Exceptions\InsufficientBalanceException;
 use Misaf\VendraTransaction\Facades\TransactionService;
@@ -27,6 +28,8 @@ use Misaf\VendraTransaction\States\Failed;
  */
 final class TransactionSubscriptionCharger implements SubscriptionCharger
 {
+    public function __construct(private readonly CreateTransactionAction $createTransactionAction) {}
+
     public function provider(): string
     {
         return TransactionServiceClass::INTERNAL_GATEWAY_SLUG;
@@ -60,7 +63,7 @@ final class TransactionSubscriptionCharger implements SubscriptionCharger
     {
         $wallet = TransactionService::walletFor($charge->payer, $charge->currencyCode);
 
-        $transaction = TransactionService::createTransaction(
+        $transaction = $this->createTransactionAction->execute(
             TransactionServiceClass::INTERNAL_GATEWAY_SLUG,
             $wallet,
             TransactionTypeEnum::Withdrawal,
@@ -94,7 +97,7 @@ final class TransactionSubscriptionCharger implements SubscriptionCharger
      *
      * Delegating to {@see charge()} is safe and non-duplicating: the internal
      * gateway keys transactions by {@see SubscriptionCharge::$reference}, so
-     * `createTransaction()` returns the *existing* transaction rather than
+     * {@see CreateTransactionAction::execute()} returns the *existing* transaction rather than
      * posting a new withdrawal, and the `canTransitionTo(Approved::class)` guard
      * prevents re-approving an already-settled transaction. The result therefore
      * reflects the current stored status of the original operation.

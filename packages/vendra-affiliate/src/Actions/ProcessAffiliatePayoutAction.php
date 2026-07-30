@@ -11,6 +11,7 @@ use Misaf\VendraAffiliate\Enums\PayoutStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
+use Misaf\VendraTransaction\Actions\CreateTransactionAction;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Facades\TransactionService;
 use Misaf\VendraUser\Models\User;
@@ -22,7 +23,7 @@ use Spatie\QueueableAction\QueueableAction;
  * transaction. The whole payout commits atomically — if the transaction
  * cannot be created or settled, the commissions remain payable.
  */
-final class ProcessAffiliatePayout
+final class ProcessAffiliatePayoutAction
 {
     use QueueableAction;
 
@@ -64,7 +65,7 @@ final class ProcessAffiliatePayout
                     'affiliate_payout_id' => $payout->id,
                 ]);
 
-            $transaction = TransactionService::createTransaction(
+            $transaction = app(CreateTransactionAction::class)->execute(
                 transactionGateway: Config::string('vendra-affiliate.payout.transaction_gateway', 'internal-transactions'),
                 wallet: TransactionService::defaultWalletFor($affiliate->user),
                 transactionType: TransactionTypeEnum::Commission,
