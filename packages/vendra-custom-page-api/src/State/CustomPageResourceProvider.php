@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPageApi\State;
 
-use ApiPlatform\Laravel\Eloquent\Extension\FilterQueryExtension;
-use ApiPlatform\Laravel\Eloquent\Paginator;
+use ApiPlatform\Laravel\Eloquent\State\CollectionProvider;
+use ApiPlatform\Laravel\Eloquent\State\ItemProvider;
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\Pagination;
+use ApiPlatform\State\Pagination\PaginatorInterface;
+use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\ResourceReference;
@@ -19,65 +22,75 @@ use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraCustomPageApi\ApiResource\CustomPageResource;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
+use Misaf\VendraMultimediaApi\State\PublicMultimedia;
 use UnexpectedValueException;
 
 /**
- * @implements ProviderInterface<Paginator<CustomPageResource>|CustomPageResource>
+ * @implements LinksHandlerInterface<CustomPage>
+ * @implements ProviderInterface<object>
  */
-final class CustomPageResourceProvider implements ProviderInterface
+final class CustomPageResourceProvider implements LinksHandlerInterface, ProviderInterface
 {
     use NormalizesResourceValues;
 
-    public function __construct(
-        private readonly Pagination $pagination,
-        private readonly FilterQueryExtension $filters,
-    ) {}
-
     /**
-     * @return Paginator<CustomPageResource>|CustomPageResource|array<int, CustomPageResource>|null
+     * @param Builder<CustomPage> $builder
+     *
+     * @return Builder<CustomPage>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
-        $query = $this->query($operation);
-
-        if ($operation instanceof CollectionOperationInterface) {
-            $query = $this->filters->apply($query, $uriVariables, $operation, $context);
-
-            foreach ($operation->getOrder() ?? ['id' => 'DESC'] as $property => $direction) {
-                $query->orderBy(is_int($property) ? $direction : $property, is_int($property) ? 'ASC' : $direction);
-            }
-
-            if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): CustomPageResource => $this->toResource($model, $operation))->all();
-            }
-
-            $paginator = $query->paginate(
-                perPage: $this->pagination->getLimit($operation, $context),
-                page: $this->pagination->getPage($context),
-            );
-            $paginator->through(fn(Model $model): CustomPageResource => $this->toResource($model, $operation));
-
-            return new Paginator($paginator);
-        }
-
-        $mcpData = $context['mcp_data'] ?? [];
-        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
-        $model = $query->whereKey($identifier)->first();
-
-        return $model instanceof CustomPage ? $this->toResource($model, $operation) : null;
-    }
-
-    protected function query(Operation $operation): Builder
-    {
-        return CustomPage::query()
+        $builder
             ->with(['customPageCategory:id,name', 'multimedia'])
             ->whereHas('customPageCategory', fn(Builder $query): Builder => $query->where('active', true))
             ->where('active', true);
+
+        if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
+            $mcpData = $context['mcp_data'] ?? [];
+            $builder->whereKey($uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null));
+        }
+
+        return $builder;
     }
 
-    protected function toResource(Model $model, Operation $operation): CustomPageResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        /** @var CustomPage $model */
+        if ($operation instanceof CollectionOperationInterface) {
+            $models = app(CollectionProvider::class)->provide($operation, $uriVariables, $context);
+
+            if ($models instanceof PaginatorInterface) {
+                return new TraversablePaginator(
+                    $this->mapCollection($models),
+                    $models->getCurrentPage(),
+                    $models->getItemsPerPage(),
+                    $models->getTotalItems(),
+                );
+            }
+
+            return is_iterable($models) ? iterator_to_array($this->mapCollection($models), false) : [];
+        }
+
+        $model = app(ItemProvider::class)->provide($operation, $uriVariables, $context);
+
+        return $model instanceof CustomPage ? $this->toResource($model) : null;
+    }
+
+    /**
+     * @param iterable<object> $models
+     *
+     * @return Generator<int, CustomPageResource>
+     */
+    private function mapCollection(iterable $models): Generator
+    {
+        foreach ($models as $model) {
+            if ($model instanceof CustomPage) {
+                yield $this->toResource($model);
+            }
+        }
+    }
+
+    private function toResource(CustomPage $model): CustomPageResource
+    {
         $category = $model->customPageCategory;
 
         if ( ! $category instanceof CustomPageCategory) {
@@ -97,7 +110,9 @@ final class CustomPageResourceProvider implements ProviderInterface
                 is_string($categoryName) ? $categoryName : null,
             ),
             multimedia: $model->multimedia
+                ->filter(fn(Model $media): bool => PublicMultimedia::isPublic($media))
                 ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+                ->values()
                 ->all(),
         );
     }

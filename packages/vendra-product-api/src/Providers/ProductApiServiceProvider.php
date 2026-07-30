@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraProductApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -32,7 +33,7 @@ final class ProductApiServiceProvider extends PackageServiceProvider
             ProductResourceProvider::class,
             ProductCategoryResourceProvider::class,
             ProductPriceResourceProvider::class,
-        ], ProviderInterface::class);
+        ], [LinksHandlerInterface::class, ProviderInterface::class]);
     }
 
     public function packageBooted(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAttributeApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -34,7 +35,7 @@ final class AttributeApiServiceProvider extends PackageServiceProvider
         $this->app->tag([
             AttributeResourceProvider::class,
             AttributeValueResourceProvider::class,
-        ], ProviderInterface::class);
+        ], [LinksHandlerInterface::class, ProviderInterface::class]);
     }
 
     public function packageBooted(): void

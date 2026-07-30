@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlogApi\ApiResource;
 
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -13,15 +14,13 @@ use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraBlogApi\State\BlogPostCategoryResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'BlogPostCategory',
-    operations: [
-        new Get(uriTemplate: '/content/blog-post-categories/{id}', provider: BlogPostCategoryResourceProvider::class),
-        new GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogPostCategoryResourceProvider::class),
-    ],
+    stateOptions: new Options(modelClass: BlogPostCategory::class, handleLinks: BlogPostCategoryResourceProvider::class),
     mcp: [
         'get_blog_post_category' => new McpTool(
             description: 'Get an active blog-post category by identifier.',
@@ -35,6 +34,8 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
         ),
     ],
 )]
+#[Get(uriTemplate: '/content/blog-post-categories/{id}', provider: BlogPostCategoryResourceProvider::class)]
+#[GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogPostCategoryResourceProvider::class)]
 final readonly class BlogPostCategoryResource
 {
     /**

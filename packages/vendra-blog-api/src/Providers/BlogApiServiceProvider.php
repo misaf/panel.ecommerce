@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlogApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
@@ -31,7 +32,7 @@ final class BlogApiServiceProvider extends PackageServiceProvider
         $this->app->tag([
             BlogPostResourceProvider::class,
             BlogPostCategoryResourceProvider::class,
-        ], ProviderInterface::class);
+        ], [LinksHandlerInterface::class, ProviderInterface::class]);
     }
 
     public function packageBooted(): void

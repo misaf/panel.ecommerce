@@ -49,3 +49,15 @@ it('validates and processes referral visits through the domain action', function
         'landingUrl' => 'not-a-url',
     ])->assertUnprocessable();
 });
+
+it('rejects landing URLs that cannot be stored without truncation', function (): void {
+    $affiliate = AffiliateFactory::new()->active()->create();
+    $landingUrl = 'https://shop.test/' . str_repeat('a', 240);
+
+    $this->postJson('/api/marketing/affiliate-clicks', [
+        'code'       => $affiliate->code,
+        'landingUrl' => $landingUrl,
+    ])->assertUnprocessable();
+
+    expect(AffiliateClick::query()->whereBelongsTo($affiliate)->count())->toBe(0);
+});

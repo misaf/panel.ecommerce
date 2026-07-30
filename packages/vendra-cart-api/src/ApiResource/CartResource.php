@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCartApi\ApiResource;
 
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -14,24 +15,12 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraCart\Models\Cart;
 use Misaf\VendraCartApi\State\CartResourceProvider;
 
 #[ApiResource(
     shortName: 'Cart',
-    operations: [
-        new Get(
-            uriTemplate: '/sales/carts/{id}',
-            provider: CartResourceProvider::class,
-            policy: 'view',
-            middleware: 'auth:sanctum',
-        ),
-        new GetCollection(
-            uriTemplate: '/sales/carts',
-            provider: CartResourceProvider::class,
-            policy: 'viewAny',
-            middleware: 'auth:sanctum',
-        ),
-    ],
+    stateOptions: new Options(modelClass: Cart::class, handleLinks: CartResourceProvider::class),
     mcp: [
         'get_cart' => new McpTool(
             description: 'Get one cart owned by the authenticated user.',
@@ -46,6 +35,18 @@ use Misaf\VendraCartApi\State\CartResourceProvider;
             policy: 'viewAny',
         ),
     ],
+)]
+#[Get(
+    uriTemplate: '/sales/carts/{id}',
+    provider: CartResourceProvider::class,
+    policy: 'view',
+    middleware: 'auth:sanctum',
+)]
+#[GetCollection(
+    uriTemplate: '/sales/carts',
+    provider: CartResourceProvider::class,
+    policy: 'viewAny',
+    middleware: 'auth:sanctum',
 )]
 final readonly class CartResource
 {

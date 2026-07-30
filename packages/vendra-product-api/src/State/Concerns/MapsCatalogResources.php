@@ -9,6 +9,7 @@ use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\State\Concerns\NormalizesResourceValues;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
+use Misaf\VendraMultimediaApi\State\PublicMultimedia;
 use Misaf\VendraProduct\Models\Product;
 use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraProduct\Models\ProductPrice;
@@ -47,7 +48,9 @@ trait MapsCatalogResources
                 ? $this->toPriceResource($product->latestProductPrice, $product)
                 : null,
             multimedia: $product->multimedia
+                ->filter(fn(Model $media): bool => PublicMultimedia::isPublic($media))
                 ->map(fn(Model $media): MultimediaResource => $this->toMultimediaResource($media))
+                ->values()
                 ->all(),
             options: $this->attributeReferences($product),
             createdAt: $product->created_at->toAtomString(),
@@ -69,7 +72,9 @@ trait MapsCatalogResources
                 ->all(),
             multimedia: $category->relationLoaded('multimedia')
                 ? $category->multimedia
+                    ->filter(fn(Model $media): bool => PublicMultimedia::isPublic($media))
                     ->map(fn(Model $media): MultimediaResource => $this->toMultimediaResource($media))
+                    ->values()
                     ->all()
                 : [],
             createdAt: $category->created_at->toAtomString(),

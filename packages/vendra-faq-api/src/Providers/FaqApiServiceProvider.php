@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaqApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
@@ -31,7 +32,7 @@ final class FaqApiServiceProvider extends PackageServiceProvider
         $this->app->tag([
             FaqResourceProvider::class,
             FaqCategoryResourceProvider::class,
-        ], ProviderInterface::class);
+        ], [LinksHandlerInterface::class, ProviderInterface::class]);
     }
 
     public function packageBooted(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPageApi\ApiResource;
 
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -13,14 +14,12 @@ use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraCustomPage\Models\CustomPageCategory;
 use Misaf\VendraCustomPageApi\State\CustomPageCategoryResourceProvider;
 
 #[ApiResource(
     shortName: 'CustomPageCategory',
-    operations: [
-        new Get(uriTemplate: '/content/custom-page-categories/{id}', provider: CustomPageCategoryResourceProvider::class),
-        new GetCollection(uriTemplate: '/content/custom-page-categories', provider: CustomPageCategoryResourceProvider::class),
-    ],
+    stateOptions: new Options(modelClass: CustomPageCategory::class, handleLinks: CustomPageCategoryResourceProvider::class),
     mcp: [
         'get_custom_page_category' => new McpTool(
             description: 'Get a custom-page category by identifier.',
@@ -34,6 +33,8 @@ use Misaf\VendraCustomPageApi\State\CustomPageCategoryResourceProvider;
         ),
     ],
 )]
+#[Get(uriTemplate: '/content/custom-page-categories/{id}', provider: CustomPageCategoryResourceProvider::class)]
+#[GetCollection(uriTemplate: '/content/custom-page-categories', provider: CustomPageCategoryResourceProvider::class)]
 final readonly class CustomPageCategoryResource
 {
     /**

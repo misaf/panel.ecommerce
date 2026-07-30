@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraMultimediaApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -15,19 +16,11 @@ use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceProvider;
+use Misaf\VendraMultimediaApi\State\PublicMultimedia;
 
 #[ApiResource(
     shortName: 'Multimedia',
-    operations: [
-        new Get(uriTemplate: '/content/multimedia/{id}', provider: MultimediaResourceProvider::class),
-        new GetCollection(
-            uriTemplate: '/content/multimedia',
-            provider: MultimediaResourceProvider::class,
-            parameters: [
-                'mimeType' => new QueryParameter(key: 'mimeType', property: 'mime_type', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
-            ],
-        ),
-    ],
+    stateOptions: new Options(modelClass: PublicMultimedia::class, handleLinks: MultimediaResourceProvider::class),
     mcp: [
         'get_multimedia' => new McpTool(
             description: 'Get a public multimedia asset and its conversions by identifier.',
@@ -39,6 +32,14 @@ use Misaf\VendraMultimediaApi\State\MultimediaResourceProvider;
             input: McpCollectionInput::class,
             provider: MultimediaResourceProvider::class,
         ),
+    ],
+)]
+#[Get(uriTemplate: '/content/multimedia/{id}', provider: MultimediaResourceProvider::class)]
+#[GetCollection(
+    uriTemplate: '/content/multimedia',
+    provider: MultimediaResourceProvider::class,
+    parameters: [
+        'mimeType' => new QueryParameter(key: 'mimeType', property: 'mime_type', filter: EqualsFilter::class, constraints: ['string', 'max:255']),
     ],
 )]
 final readonly class MultimediaResource

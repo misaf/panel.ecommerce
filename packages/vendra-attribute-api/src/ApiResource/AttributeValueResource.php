@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraAttributeApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -15,20 +16,12 @@ use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraAttribute\Models\AttributeValue;
 use Misaf\VendraAttributeApi\State\AttributeValueResourceProvider;
 
 #[ApiResource(
     shortName: 'AttributeValue',
-    operations: [
-        new Get(uriTemplate: '/catalog/attribute-values/{id}', provider: AttributeValueResourceProvider::class),
-        new GetCollection(
-            uriTemplate: '/catalog/attribute-values',
-            provider: AttributeValueResourceProvider::class,
-            parameters: [
-                'attributeId' => new QueryParameter(key: 'attributeId', property: 'attribute_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
-            ],
-        ),
-    ],
+    stateOptions: new Options(modelClass: AttributeValue::class, handleLinks: AttributeValueResourceProvider::class),
     mcp: [
         'get_attribute_value' => new McpTool(
             description: 'Get an active catalog attribute value by identifier.',
@@ -40,6 +33,14 @@ use Misaf\VendraAttributeApi\State\AttributeValueResourceProvider;
             input: McpCollectionInput::class,
             provider: AttributeValueResourceProvider::class,
         ),
+    ],
+)]
+#[Get(uriTemplate: '/catalog/attribute-values/{id}', provider: AttributeValueResourceProvider::class)]
+#[GetCollection(
+    uriTemplate: '/catalog/attribute-values',
+    provider: AttributeValueResourceProvider::class,
+    parameters: [
+        'attributeId' => new QueryParameter(key: 'attributeId', property: 'attribute_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
     ],
 )]
 final readonly class AttributeValueResource

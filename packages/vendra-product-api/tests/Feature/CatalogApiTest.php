@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Str;
 use Misaf\VendraProduct\Database\Factories\ProductCategoryFactory;
 use Misaf\VendraProduct\Database\Factories\ProductFactory;
 use Misaf\VendraProduct\Database\Factories\ProductPriceFactory;
@@ -28,6 +29,56 @@ it('filters catalog items and exposes group and price relationships', function (
         ->assertOk()
         ->assertJsonPath('totalItems', 1)
         ->assertJsonPath('member.0.product.id', $item->id);
+});
+
+it('hides prices belonging to products in inactive categories', function (): void {
+    $inactiveCategory = ProductCategoryFactory::new()->inactive()->create();
+    $hiddenProduct = ProductFactory::new()->forCategory($inactiveCategory)->create();
+    $hiddenPrice = ProductPriceFactory::new()->forProduct($hiddenProduct)->forCurrencyCode('USD')->create();
+
+    $this->getJson("/api/catalog/product-prices/{$hiddenPrice->id}", ['Accept' => 'application/ld+json'])
+        ->assertNotFound();
+
+    $this->getJson('/api/catalog/product-prices', ['Accept' => 'application/ld+json'])
+        ->assertOk()
+        ->assertJsonPath('totalItems', 0)
+        ->assertJsonMissing(['id' => $hiddenPrice->id]);
+});
+
+it('embeds only public multimedia on catalog products', function (): void {
+    $category = ProductCategoryFactory::new()->active()->create();
+    $product = ProductFactory::new()->forCategory($category)->create();
+    $mediaAttributes = [
+        'collection_name'       => 'catalog',
+        'mime_type'             => 'image/jpeg',
+        'size'                  => 2048,
+        'manipulations'         => [],
+        'custom_properties'     => [],
+        'generated_conversions' => [],
+        'responsive_images'     => [],
+    ];
+    $publicAsset = $product->multimedia()->create([
+        ...$mediaAttributes,
+        'uuid'             => (string) Str::uuid(),
+        'name'             => 'Public product image',
+        'file_name'        => 'public-product.jpg',
+        'disk'             => 'public',
+        'conversions_disk' => 'public',
+    ]);
+    $privateAsset = $product->multimedia()->create([
+        ...$mediaAttributes,
+        'uuid'             => (string) Str::uuid(),
+        'name'             => 'Private product image',
+        'file_name'        => 'private-product.jpg',
+        'disk'             => 'private',
+        'conversions_disk' => 'private',
+    ]);
+
+    $this->getJson("/api/catalog/products/{$product->id}", ['Accept' => 'application/ld+json'])
+        ->assertOk()
+        ->assertJsonPath('multimedia.0', "/api/content/multimedia/{$publicAsset->id}")
+        ->assertJsonCount(1, 'multimedia')
+        ->assertJsonMissing(["/api/content/multimedia/{$privateAsset->id}"]);
 });
 
 it('serves catalog items in the JSON:API envelope with relationships and includes', function (): void {

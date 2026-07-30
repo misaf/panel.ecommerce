@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaqApi\ApiResource;
 
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -13,15 +14,13 @@ use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraFaqApi\State\FaqCategoryResourceProvider;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'FaqCategory',
-    operations: [
-        new Get(uriTemplate: '/content/faq-categories/{id}', provider: FaqCategoryResourceProvider::class),
-        new GetCollection(uriTemplate: '/content/faq-categories', provider: FaqCategoryResourceProvider::class),
-    ],
+    stateOptions: new Options(modelClass: FaqCategory::class, handleLinks: FaqCategoryResourceProvider::class),
     mcp: [
         'get_faq_category' => new McpTool(
             description: 'Get an active FAQ category by identifier.',
@@ -35,6 +34,8 @@ use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
         ),
     ],
 )]
+#[Get(uriTemplate: '/content/faq-categories/{id}', provider: FaqCategoryResourceProvider::class)]
+#[GetCollection(uriTemplate: '/content/faq-categories', provider: FaqCategoryResourceProvider::class)]
 final readonly class FaqCategoryResource
 {
     /**

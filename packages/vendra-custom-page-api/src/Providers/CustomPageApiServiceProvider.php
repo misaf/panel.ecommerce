@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPageApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -30,7 +31,7 @@ final class CustomPageApiServiceProvider extends PackageServiceProvider
         $this->app->tag([
             CustomPageResourceProvider::class,
             CustomPageCategoryResourceProvider::class,
-        ], ProviderInterface::class);
+        ], [LinksHandlerInterface::class, ProviderInterface::class]);
     }
 
     public function packageBooted(): void

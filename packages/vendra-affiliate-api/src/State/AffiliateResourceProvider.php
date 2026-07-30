@@ -4,72 +4,83 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliateApi\State;
 
-use ApiPlatform\Laravel\Eloquent\Extension\FilterQueryExtension;
-use ApiPlatform\Laravel\Eloquent\Paginator;
+use ApiPlatform\Laravel\Eloquent\State\CollectionProvider;
+use ApiPlatform\Laravel\Eloquent\State\ItemProvider;
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\Pagination;
+use ApiPlatform\State\Pagination\PaginatorInterface;
+use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliateApi\ApiResource\AffiliateResource;
 
 /**
- * @implements ProviderInterface<Paginator<AffiliateResource>|AffiliateResource>
+ * @implements LinksHandlerInterface<Affiliate>
+ * @implements ProviderInterface<object>
  */
-final class AffiliateResourceProvider implements ProviderInterface
+final class AffiliateResourceProvider implements LinksHandlerInterface, ProviderInterface
 {
-    public function __construct(
-        private readonly Pagination $pagination,
-        private readonly FilterQueryExtension $filters,
-    ) {}
-
     /**
-     * @return Paginator<AffiliateResource>|AffiliateResource|array<int, AffiliateResource>|null
+     * @param Builder<Affiliate> $builder
+     *
+     * @return Builder<Affiliate>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
-        $query = $this->query($operation);
-
-        if ($operation instanceof CollectionOperationInterface) {
-            $query = $this->filters->apply($query, $uriVariables, $operation, $context);
-
-            foreach ($operation->getOrder() ?? ['id' => 'DESC'] as $property => $direction) {
-                $query->orderBy(is_int($property) ? $direction : $property, is_int($property) ? 'ASC' : $direction);
-            }
-
-            if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): AffiliateResource => $this->toResource($model, $operation))->all();
-            }
-
-            $paginator = $query->paginate(
-                perPage: $this->pagination->getLimit($operation, $context),
-                page: $this->pagination->getPage($context),
-            );
-            $paginator->through(fn(Model $model): AffiliateResource => $this->toResource($model, $operation));
-
-            return new Paginator($paginator);
-        }
-
-        $mcpData = $context['mcp_data'] ?? [];
-        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
-        $model = $query->whereKey($identifier)->first();
-
-        return $model instanceof Affiliate ? $this->toResource($model, $operation) : null;
-    }
-
-    protected function query(Operation $operation): Builder
-    {
-        return Affiliate::query()
+        $builder
             ->select(['id', 'code', 'created_at'])
             ->where('status', AffiliateStatusEnum::Active);
+
+        if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
+            $mcpData = $context['mcp_data'] ?? [];
+            $builder->whereKey($uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null));
+        }
+
+        return $builder;
     }
 
-    protected function toResource(Model $model, Operation $operation): AffiliateResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        /** @var Affiliate $model */
+        if ($operation instanceof CollectionOperationInterface) {
+            $models = app(CollectionProvider::class)->provide($operation, $uriVariables, $context);
+
+            if ($models instanceof PaginatorInterface) {
+                return new TraversablePaginator(
+                    $this->mapCollection($models),
+                    $models->getCurrentPage(),
+                    $models->getItemsPerPage(),
+                    $models->getTotalItems(),
+                );
+            }
+
+            return is_iterable($models) ? iterator_to_array($this->mapCollection($models), false) : [];
+        }
+
+        $model = app(ItemProvider::class)->provide($operation, $uriVariables, $context);
+
+        return $model instanceof Affiliate ? $this->toResource($model) : null;
+    }
+
+    /**
+     * @param iterable<object> $models
+     *
+     * @return Generator<int, AffiliateResource>
+     */
+    private function mapCollection(iterable $models): Generator
+    {
+        foreach ($models as $model) {
+            if ($model instanceof Affiliate) {
+                yield $this->toResource($model);
+            }
+        }
+    }
+
+    private function toResource(Affiliate $model): AffiliateResource
+    {
         return new AffiliateResource(
             id: $model->id,
             code: $model->code,

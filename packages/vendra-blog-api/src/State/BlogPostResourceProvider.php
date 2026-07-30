@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlogApi\State;
 
-use ApiPlatform\Laravel\Eloquent\Extension\FilterQueryExtension;
-use ApiPlatform\Laravel\Eloquent\Paginator;
+use ApiPlatform\Laravel\Eloquent\State\CollectionProvider;
+use ApiPlatform\Laravel\Eloquent\State\ItemProvider;
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\Pagination;
+use ApiPlatform\State\Pagination\PaginatorInterface;
+use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\ResourceReference;
@@ -19,68 +22,78 @@ use Misaf\VendraBlog\Models\BlogPostCategory;
 use Misaf\VendraBlogApi\ApiResource\BlogPostResource;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
+use Misaf\VendraMultimediaApi\State\PublicMultimedia;
 use UnexpectedValueException;
 
 /**
- * @implements ProviderInterface<Paginator<BlogPostResource>|BlogPostResource>
+ * @implements LinksHandlerInterface<BlogPost>
+ * @implements ProviderInterface<object>
  */
-final class BlogPostResourceProvider implements ProviderInterface
+final class BlogPostResourceProvider implements LinksHandlerInterface, ProviderInterface
 {
     use NormalizesResourceValues;
 
-    public function __construct(
-        private readonly Pagination $pagination,
-        private readonly FilterQueryExtension $filters,
-    ) {}
-
     /**
-     * @return Paginator<BlogPostResource>|BlogPostResource|array<int, BlogPostResource>|null
+     * @param Builder<BlogPost> $builder
+     *
+     * @return Builder<BlogPost>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
-        $query = $this->query($operation);
-
-        if ($operation instanceof CollectionOperationInterface) {
-            $query = $this->filters->apply($query, $uriVariables, $operation, $context);
-
-            foreach ($operation->getOrder() ?? ['id' => 'DESC'] as $property => $direction) {
-                $query->orderBy(is_int($property) ? $direction : $property, is_int($property) ? 'ASC' : $direction);
-            }
-
-            if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): BlogPostResource => $this->toResource($model, $operation))->all();
-            }
-
-            $paginator = $query->paginate(
-                perPage: $this->pagination->getLimit($operation, $context),
-                page: $this->pagination->getPage($context),
-            );
-            $paginator->through(fn(Model $model): BlogPostResource => $this->toResource($model, $operation));
-
-            return new Paginator($paginator);
-        }
-
-        $mcpData = $context['mcp_data'] ?? [];
-        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
-        $model = $query->whereKey($identifier)->first();
-
-        return $model instanceof BlogPost ? $this->toResource($model, $operation) : null;
-    }
-
-    protected function query(Operation $operation): Builder
-    {
-        return BlogPost::query()
+        $builder
             ->with([
                 'blogPostCategory:id,name,slug,description,position,active,created_at,updated_at',
                 'multimedia',
             ])
             ->whereHas('blogPostCategory', fn(Builder $query): Builder => $query->where('active', true))
             ->where('active', true);
+
+        if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
+            $mcpData = $context['mcp_data'] ?? [];
+            $builder->whereKey($uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null));
+        }
+
+        return $builder;
     }
 
-    protected function toResource(Model $model, Operation $operation): BlogPostResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        /** @var BlogPost $model */
+        if ($operation instanceof CollectionOperationInterface) {
+            $models = app(CollectionProvider::class)->provide($operation, $uriVariables, $context);
+
+            if ($models instanceof PaginatorInterface) {
+                return new TraversablePaginator(
+                    $this->mapCollection($models),
+                    $models->getCurrentPage(),
+                    $models->getItemsPerPage(),
+                    $models->getTotalItems(),
+                );
+            }
+
+            return is_iterable($models) ? iterator_to_array($this->mapCollection($models), false) : [];
+        }
+
+        $model = app(ItemProvider::class)->provide($operation, $uriVariables, $context);
+
+        return $model instanceof BlogPost ? $this->toResource($model) : null;
+    }
+
+    /**
+     * @param iterable<object> $models
+     *
+     * @return Generator<int, BlogPostResource>
+     */
+    private function mapCollection(iterable $models): Generator
+    {
+        foreach ($models as $model) {
+            if ($model instanceof BlogPost) {
+                yield $this->toResource($model);
+            }
+        }
+    }
+
+    private function toResource(BlogPost $model): BlogPostResource
+    {
         $category = $model->blogPostCategory;
 
         if ( ! $category instanceof BlogPostCategory) {
@@ -102,7 +115,9 @@ final class BlogPostResourceProvider implements ProviderInterface
                 is_string($categoryName) ? $categoryName : null,
             ),
             multimedia: $model->multimedia
+                ->filter(fn(Model $media): bool => PublicMultimedia::isPublic($media))
                 ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+                ->values()
                 ->all(),
             publishedAt: $model->created_at->toAtomString(),
             createdAt: $model->created_at->toAtomString(),

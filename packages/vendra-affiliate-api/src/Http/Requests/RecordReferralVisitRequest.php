@@ -15,7 +15,7 @@ final class RecordReferralVisitRequest extends FormRequest
      */
     public const array RULES = [
         'code'       => ['required', 'string', 'max:64'],
-        'landingUrl' => ['nullable', 'url:http,https', 'max:2048'],
+        'landingUrl' => ['nullable', 'url:http,https', 'max:255'],
     ];
 
     public function authorize(): bool

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraFaqApi\State;
 
-use ApiPlatform\Laravel\Eloquent\Extension\FilterQueryExtension;
-use ApiPlatform\Laravel\Eloquent\Paginator;
+use ApiPlatform\Laravel\Eloquent\State\CollectionProvider;
+use ApiPlatform\Laravel\Eloquent\State\ItemProvider;
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\Pagination;
+use ApiPlatform\State\Pagination\PaginatorInterface;
+use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -20,56 +23,24 @@ use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraFaqApi\ApiResource\FaqCategoryResource;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
+use Misaf\VendraMultimediaApi\State\PublicMultimedia;
 
 /**
- * @implements ProviderInterface<Paginator<FaqCategoryResource>|FaqCategoryResource>
+ * @implements LinksHandlerInterface<FaqCategory>
+ * @implements ProviderInterface<object>
  */
-final class FaqCategoryResourceProvider implements ProviderInterface
+final class FaqCategoryResourceProvider implements LinksHandlerInterface, ProviderInterface
 {
     use NormalizesResourceValues;
 
-    public function __construct(
-        private readonly Pagination $pagination,
-        private readonly FilterQueryExtension $filters,
-    ) {}
-
     /**
-     * @return Paginator<FaqCategoryResource>|FaqCategoryResource|array<int, FaqCategoryResource>|null
+     * @param Builder<FaqCategory> $builder
+     *
+     * @return Builder<FaqCategory>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
-        $query = $this->query($operation);
-
-        if ($operation instanceof CollectionOperationInterface) {
-            $query = $this->filters->apply($query, $uriVariables, $operation, $context);
-
-            foreach ($operation->getOrder() ?? ['id' => 'DESC'] as $property => $direction) {
-                $query->orderBy(is_int($property) ? $direction : $property, is_int($property) ? 'ASC' : $direction);
-            }
-
-            if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): FaqCategoryResource => $this->toResource($model, $operation))->all();
-            }
-
-            $paginator = $query->paginate(
-                perPage: $this->pagination->getLimit($operation, $context),
-                page: $this->pagination->getPage($context),
-            );
-            $paginator->through(fn(Model $model): FaqCategoryResource => $this->toResource($model, $operation));
-
-            return new Paginator($paginator);
-        }
-
-        $mcpData = $context['mcp_data'] ?? [];
-        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
-        $model = $query->whereKey($identifier)->first();
-
-        return $model instanceof FaqCategory ? $this->toResource($model, $operation) : null;
-    }
-
-    protected function query(Operation $operation): Builder
-    {
-        return FaqCategory::query()
+        $builder
             ->with([
                 'faqs' => function (Relation $relation): void {
                     $relation->getQuery()
@@ -79,11 +50,53 @@ final class FaqCategoryResourceProvider implements ProviderInterface
                 'multimedia',
             ])
             ->where('active', true);
+
+        if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
+            $mcpData = $context['mcp_data'] ?? [];
+            $builder->whereKey($uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null));
+        }
+
+        return $builder;
     }
 
-    protected function toResource(Model $model, Operation $operation): FaqCategoryResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        /** @var FaqCategory $model */
+        if ($operation instanceof CollectionOperationInterface) {
+            $models = app(CollectionProvider::class)->provide($operation, $uriVariables, $context);
+
+            if ($models instanceof PaginatorInterface) {
+                return new TraversablePaginator(
+                    $this->mapCollection($models),
+                    $models->getCurrentPage(),
+                    $models->getItemsPerPage(),
+                    $models->getTotalItems(),
+                );
+            }
+
+            return is_iterable($models) ? iterator_to_array($this->mapCollection($models), false) : [];
+        }
+
+        $model = app(ItemProvider::class)->provide($operation, $uriVariables, $context);
+
+        return $model instanceof FaqCategory ? $this->toResource($model) : null;
+    }
+
+    /**
+     * @param iterable<object> $models
+     *
+     * @return Generator<int, FaqCategoryResource>
+     */
+    private function mapCollection(iterable $models): Generator
+    {
+        foreach ($models as $model) {
+            if ($model instanceof FaqCategory) {
+                yield $this->toResource($model);
+            }
+        }
+    }
+
+    private function toResource(FaqCategory $model): FaqCategoryResource
+    {
         return new FaqCategoryResource(
             id: $model->id,
             title: $this->normalizeTranslations($model->getTranslations('name')),
@@ -104,7 +117,9 @@ final class FaqCategoryResourceProvider implements ProviderInterface
                 ->all(),
             multimedia: $model->relationLoaded('multimedia')
                 ? $model->multimedia
+                    ->filter(fn(Model $media): bool => PublicMultimedia::isPublic($media))
                     ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
+                    ->values()
                     ->all()
                 : [],
             createdAt: $model->created_at->toAtomString(),

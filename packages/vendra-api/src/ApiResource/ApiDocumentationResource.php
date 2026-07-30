@@ -38,6 +38,9 @@ final readonly class ApiDocumentationResource
     ) {}
 
     /**
+     * @param array<string, mixed> $uriVariables
+     * @param array<string, mixed> $context
+     *
      * @throws JsonException
      */
     public static function provide(Operation $operation, array $uriVariables = [], array $context = []): ReadResourceResult

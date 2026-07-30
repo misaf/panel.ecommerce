@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraProductApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
+use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -16,22 +17,12 @@ use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
+use Misaf\VendraProduct\Models\ProductCategory;
 use Misaf\VendraProductApi\State\ProductCategoryResourceProvider;
 
 #[ApiResource(
     shortName: 'ProductCategory',
-    operations: [
-        new Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductCategoryResourceProvider::class),
-        new GetCollection(
-            uriTemplate: '/catalog/product-categories',
-            provider: ProductCategoryResourceProvider::class,
-            order: ['position' => 'ASC'],
-            parameters: [
-                'sort[id]'       => new QueryParameter(key: 'sort[id]', property: 'id', filter: OrderFilter::class),
-                'sort[position]' => new QueryParameter(key: 'sort[position]', property: 'position', filter: OrderFilter::class),
-            ],
-        ),
-    ],
+    stateOptions: new Options(modelClass: ProductCategory::class, handleLinks: ProductCategoryResourceProvider::class),
     mcp: [
         'get_product_category' => new McpTool(
             description: 'Get an active product category by identifier.',
@@ -43,6 +34,16 @@ use Misaf\VendraProductApi\State\ProductCategoryResourceProvider;
             input: McpCollectionInput::class,
             provider: ProductCategoryResourceProvider::class,
         ),
+    ],
+)]
+#[Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductCategoryResourceProvider::class)]
+#[GetCollection(
+    uriTemplate: '/catalog/product-categories',
+    provider: ProductCategoryResourceProvider::class,
+    order: ['position' => 'ASC'],
+    parameters: [
+        'sort[id]'       => new QueryParameter(key: 'sort[id]', property: 'id', filter: OrderFilter::class),
+        'sort[position]' => new QueryParameter(key: 'sort[position]', property: 'position', filter: OrderFilter::class),
     ],
 )]
 final readonly class ProductCategoryResource

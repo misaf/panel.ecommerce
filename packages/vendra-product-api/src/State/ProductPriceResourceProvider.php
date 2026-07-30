@@ -4,72 +4,83 @@ declare(strict_types=1);
 
 namespace Misaf\VendraProductApi\State;
 
-use ApiPlatform\Laravel\Eloquent\Extension\FilterQueryExtension;
-use ApiPlatform\Laravel\Eloquent\Paginator;
+use ApiPlatform\Laravel\Eloquent\State\CollectionProvider;
+use ApiPlatform\Laravel\Eloquent\State\ItemProvider;
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\Pagination;
+use ApiPlatform\State\Pagination\PaginatorInterface;
+use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraProduct\Models\ProductPrice;
 use Misaf\VendraProductApi\ApiResource\ProductPriceResource;
 use Misaf\VendraProductApi\State\Concerns\MapsCatalogResources;
 
 /**
- * @implements ProviderInterface<Paginator<ProductPriceResource>|ProductPriceResource>
+ * @implements LinksHandlerInterface<ProductPrice>
+ * @implements ProviderInterface<object>
  */
-final class ProductPriceResourceProvider implements ProviderInterface
+final class ProductPriceResourceProvider implements LinksHandlerInterface, ProviderInterface
 {
     use MapsCatalogResources;
 
-    public function __construct(
-        private readonly Pagination $pagination,
-        private readonly FilterQueryExtension $filters,
-    ) {}
-
     /**
-     * @return Paginator<ProductPriceResource>|ProductPriceResource|array<int, ProductPriceResource>|null
+     * @param Builder<ProductPrice> $builder
+     *
+     * @return Builder<ProductPrice>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
-        $query = $this->query($operation);
-
-        if ($operation instanceof CollectionOperationInterface) {
-            $query = $this->filters->apply($query, $uriVariables, $operation, $context);
-
-            foreach ($operation->getOrder() ?? ['id' => 'DESC'] as $property => $direction) {
-                $query->orderBy(is_int($property) ? $direction : $property, is_int($property) ? 'ASC' : $direction);
-            }
-
-            if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): ProductPriceResource => $this->toResource($model, $operation))->all();
-            }
-
-            $paginator = $query->paginate(
-                perPage: $this->pagination->getLimit($operation, $context),
-                page: $this->pagination->getPage($context),
+        $builder
+            ->with('product:id,name')
+            ->whereHas(
+                'product.productCategory',
+                fn(Builder $query): Builder => $query->where('active', true),
             );
-            $paginator->through(fn(Model $model): ProductPriceResource => $this->toResource($model, $operation));
 
-            return new Paginator($paginator);
+        if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
+            $mcpData = $context['mcp_data'] ?? [];
+            $builder->whereKey($uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null));
         }
 
-        $mcpData = $context['mcp_data'] ?? [];
-        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
-        $model = $query->whereKey($identifier)->first();
-
-        return $model instanceof ProductPrice ? $this->toResource($model, $operation) : null;
+        return $builder;
     }
 
-    protected function query(Operation $operation): Builder
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        return ProductPrice::query()->with('product:id,name');
+        if ($operation instanceof CollectionOperationInterface) {
+            $models = app(CollectionProvider::class)->provide($operation, $uriVariables, $context);
+
+            if ($models instanceof PaginatorInterface) {
+                return new TraversablePaginator(
+                    $this->mapCollection($models),
+                    $models->getCurrentPage(),
+                    $models->getItemsPerPage(),
+                    $models->getTotalItems(),
+                );
+            }
+
+            return is_iterable($models) ? iterator_to_array($this->mapCollection($models), false) : [];
+        }
+
+        $model = app(ItemProvider::class)->provide($operation, $uriVariables, $context);
+
+        return $model instanceof ProductPrice ? $this->toPriceResource($model) : null;
     }
 
-    protected function toResource(Model $model, Operation $operation): ProductPriceResource
+    /**
+     * @param iterable<object> $models
+     *
+     * @return Generator<int, ProductPriceResource>
+     */
+    private function mapCollection(iterable $models): Generator
     {
-        /** @var ProductPrice $model */
-        return $this->toPriceResource($model);
+        foreach ($models as $model) {
+            if ($model instanceof ProductPrice) {
+                yield $this->toPriceResource($model);
+            }
+        }
     }
 }

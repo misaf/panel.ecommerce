@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCartApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
@@ -31,7 +32,7 @@ final class CartApiServiceProvider extends PackageServiceProvider
         ]);
 
         Gate::policy(CartResource::class, ShoppingCartPolicy::class);
-        $this->app->tag(CartResourceProvider::class, ProviderInterface::class);
+        $this->app->tag(CartResourceProvider::class, [LinksHandlerInterface::class, ProviderInterface::class]);
     }
 
     public function packageBooted(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraAffiliateApi\Providers;
 
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
@@ -28,7 +29,7 @@ final class AffiliateApiServiceProvider extends PackageServiceProvider
             dirname(__DIR__) . '/ApiResource',
         ]);
 
-        $this->app->tag(AffiliateResourceProvider::class, ProviderInterface::class);
+        $this->app->tag(AffiliateResourceProvider::class, [LinksHandlerInterface::class, ProviderInterface::class]);
         $this->app->tag(RecordReferralVisitProcessor::class, ProcessorInterface::class);
     }
 

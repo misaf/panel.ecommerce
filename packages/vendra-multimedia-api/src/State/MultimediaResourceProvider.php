@@ -4,72 +4,79 @@ declare(strict_types=1);
 
 namespace Misaf\VendraMultimediaApi\State;
 
-use ApiPlatform\Laravel\Eloquent\Extension\FilterQueryExtension;
-use ApiPlatform\Laravel\Eloquent\Paginator;
+use ApiPlatform\Laravel\Eloquent\State\CollectionProvider;
+use ApiPlatform\Laravel\Eloquent\State\ItemProvider;
+use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\Pagination;
+use ApiPlatform\State\Pagination\PaginatorInterface;
+use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
+use Generator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Misaf\VendraMultimedia\Models\Multimedia;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 /**
- * @implements ProviderInterface<Paginator<MultimediaResource>|MultimediaResource>
+ * @implements LinksHandlerInterface<PublicMultimedia>
+ * @implements ProviderInterface<object>
  */
-final class MultimediaResourceProvider implements ProviderInterface
+final class MultimediaResourceProvider implements LinksHandlerInterface, ProviderInterface
 {
-    public function __construct(
-        private readonly Pagination $pagination,
-        private readonly FilterQueryExtension $filters,
-    ) {}
-
     /**
-     * @return Paginator<MultimediaResource>|MultimediaResource|array<int, MultimediaResource>|null
+     * @param Builder<PublicMultimedia> $builder
+     *
+     * @return Builder<PublicMultimedia>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
-        $query = $this->query($operation);
-
-        if ($operation instanceof CollectionOperationInterface) {
-            $query = $this->filters->apply($query, $uriVariables, $operation, $context);
-
-            foreach ($operation->getOrder() ?? ['id' => 'DESC'] as $property => $direction) {
-                $query->orderBy(is_int($property) ? $direction : $property, is_int($property) ? 'ASC' : $direction);
-            }
-
-            if (false === $this->pagination->isEnabled($operation, $context)) {
-                return $query->get()->map(fn(Model $model): MultimediaResource => $this->toResource($model, $operation))->all();
-            }
-
-            $paginator = $query->paginate(
-                perPage: $this->pagination->getLimit($operation, $context),
-                page: $this->pagination->getPage($context),
-            );
-            $paginator->through(fn(Model $model): MultimediaResource => $this->toResource($model, $operation));
-
-            return new Paginator($paginator);
-        }
-
-        $mcpData = $context['mcp_data'] ?? [];
-        $identifier = $uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null);
-        $model = $query->whereKey($identifier)->first();
-
-        return $model instanceof Multimedia ? $this->toResource($model, $operation) : null;
-    }
-
-    protected function query(Operation $operation): Builder
-    {
-        return Multimedia::query()->select([
+        $builder->select([
             'id', 'uuid', 'name', 'file_name', 'collection_name', 'mime_type', 'size',
             'disk', 'conversions_disk', 'manipulations', 'custom_properties', 'generated_conversions', 'responsive_images',
         ]);
+
+        PublicMultimedia::scope($builder);
+
+        if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
+            $mcpData = $context['mcp_data'] ?? [];
+            $builder->whereKey($uriVariables['id'] ?? (is_array($mcpData) ? ($mcpData['id'] ?? null) : null));
+        }
+
+        return $builder;
     }
 
-    protected function toResource(Model $model, Operation $operation): MultimediaResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        /** @var Multimedia $model */
-        return MultimediaResourceFactory::make($model);
+        if ($operation instanceof CollectionOperationInterface) {
+            $models = app(CollectionProvider::class)->provide($operation, $uriVariables, $context);
+
+            if ($models instanceof PaginatorInterface) {
+                return new TraversablePaginator(
+                    $this->mapCollection($models),
+                    $models->getCurrentPage(),
+                    $models->getItemsPerPage(),
+                    $models->getTotalItems(),
+                );
+            }
+
+            return is_iterable($models) ? iterator_to_array($this->mapCollection($models), false) : [];
+        }
+
+        $model = app(ItemProvider::class)->provide($operation, $uriVariables, $context);
+
+        return $model instanceof PublicMultimedia ? MultimediaResourceFactory::make($model) : null;
+    }
+
+    /**
+     * @param iterable<object> $models
+     *
+     * @return Generator<int, MultimediaResource>
+     */
+    private function mapCollection(iterable $models): Generator
+    {
+        foreach ($models as $model) {
+            if ($model instanceof PublicMultimedia) {
+                yield MultimediaResourceFactory::make($model);
+            }
+        }
     }
 }
