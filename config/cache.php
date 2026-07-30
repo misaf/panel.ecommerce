@@ -17,6 +17,7 @@ use ApiPlatform\Metadata\Property\PropertyNameCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Illuminate\Support\Str;
+use Misaf\VendraApi\State\EloquentResourceOptions;
 use Symfony\Component\TypeInfo\Type\ArrayShapeType;
 use Symfony\Component\TypeInfo\Type\BuiltinType;
 use Symfony\Component\TypeInfo\Type\CollectionType;
@@ -147,6 +148,9 @@ return [
         PropertyNameCollection::class,
         QueryParameter::class,
         ResourceMetadataCollection::class,
+
+        // Custom Eloquent state options carried on each resource's stateOptions.
+        EloquentResourceOptions::class,
 
         // Symfony type metadata nested inside ApiProperty/QueryParameter.
         ArrayShapeType::class,
