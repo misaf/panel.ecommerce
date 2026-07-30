@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82b819f0da97841ed0da05e1587506a8",
+    "content-hash": "6ed391dbf7a7bb85b47453b2d90ecfaf",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -6531,13 +6531,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "d2c821ecc7faaac773bd7591eaa7457fac6428e0"
+                "reference": "997714db1444f93c251b29079e4bf426c530d91f"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.4",
+                "php": "^8.3",
                 "spatie/laravel-activitylog": "^5.0",
                 "spatie/laravel-package-tools": "^1.93.1"
             },
@@ -7179,11 +7179,11 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "0f1af56f2bf33b81a4128653ea00ba8335e48a2a"
+                "reference": "cca1799b9603e79379d077f3d0edaf843d4ad678"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
-                "misaf/laravel-authify-log": "^1.0",
+                "misaf/laravel-authify-log": "^1.0.2",
                 "misaf/vendra-support": "self.version",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1"
