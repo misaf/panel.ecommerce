@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'notify_mail' => env('HORIZON_NOTIFY_MAIL'),
+    'notify_mail' => env('HORIZON_NOTIFY_MAIL', ''),
 
     /*
     |--------------------------------------------------------------------------
