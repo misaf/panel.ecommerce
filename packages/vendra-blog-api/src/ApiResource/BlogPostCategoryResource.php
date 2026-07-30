@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraBlogApi\ApiResource;
 
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -13,29 +12,37 @@ use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraBlog\Models\BlogPostCategory;
-use Misaf\VendraBlogApi\State\BlogPostCategoryResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostCategoryLinksHandler;
+use Misaf\VendraBlogApi\State\BlogPostCategoryMapper;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'BlogPostCategory',
-    stateOptions: new Options(modelClass: BlogPostCategory::class, handleLinks: BlogPostCategoryResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: BlogPostCategory::class,
+        handleLinks: BlogPostCategoryLinksHandler::class,
+        mapper: BlogPostCategoryMapper::class,
+    ),
     mcp: [
         'get_blog_post_category' => new McpTool(
             description: 'Get an active blog-post category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: BlogPostCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_blog_post_categories' => new McpToolCollection(
             description: 'List active blog-post categories.',
             input: McpCollectionInput::class,
-            provider: BlogPostCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/content/blog-post-categories/{id}', provider: BlogPostCategoryResourceProvider::class)]
-#[GetCollection(uriTemplate: '/content/blog-post-categories', provider: BlogPostCategoryResourceProvider::class)]
+#[Get(uriTemplate: '/content/blog-post-categories/{id}')]
+#[GetCollection(uriTemplate: '/content/blog-post-categories')]
 final readonly class BlogPostCategoryResource
 {
     /**

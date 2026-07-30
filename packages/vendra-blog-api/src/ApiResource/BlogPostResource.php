@@ -7,7 +7,6 @@ namespace Misaf\VendraBlogApi\ApiResource;
 use ApiPlatform\Laravel\Eloquent\Filter\BooleanFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -17,33 +16,40 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraBlog\Models\BlogPost;
-use Misaf\VendraBlogApi\State\BlogPostResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostLinksHandler;
+use Misaf\VendraBlogApi\State\BlogPostMapper;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 
 #[ApiResource(
     shortName: 'BlogPost',
-    stateOptions: new Options(modelClass: BlogPost::class, handleLinks: BlogPostResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: BlogPost::class,
+        handleLinks: BlogPostLinksHandler::class,
+        mapper: BlogPostMapper::class,
+    ),
     mcp: [
         'get_blog_post' => new McpTool(
             description: 'Get an active blog post with its category and media by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: BlogPostResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_blog_posts' => new McpToolCollection(
             description: 'List active blog posts with their categories and media.',
             input: McpCollectionInput::class,
-            provider: BlogPostResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/content/blog-posts/{id}', provider: BlogPostResourceProvider::class)]
+#[Get(uriTemplate: '/content/blog-posts/{id}')]
 #[GetCollection(
     uriTemplate: '/content/blog-posts',
-    provider: BlogPostResourceProvider::class,
     order: ['created_at' => 'DESC'],
     parameters: [
         'active'          => new QueryParameter(key: 'active', property: 'active', filter: BooleanFilter::class, constraints: ['boolean']),

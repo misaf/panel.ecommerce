@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Misaf\VendraBlogApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraBlogApi\State\BlogPostCategoryResourceProvider;
-use Misaf\VendraBlogApi\State\BlogPostResourceProvider;
+use Misaf\VendraBlogApi\State\BlogPostCategoryLinksHandler;
+use Misaf\VendraBlogApi\State\BlogPostLinksHandler;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,9 +29,9 @@ final class BlogApiServiceProvider extends PackageServiceProvider
         ]);
 
         $this->app->tag([
-            BlogPostResourceProvider::class,
-            BlogPostCategoryResourceProvider::class,
-        ], [LinksHandlerInterface::class, ProviderInterface::class]);
+            BlogPostLinksHandler::class,
+            BlogPostCategoryLinksHandler::class,
+        ], LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void
