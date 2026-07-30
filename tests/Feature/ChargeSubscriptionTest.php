@@ -23,6 +23,7 @@ use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Data\SubscriptionCharge;
 use Misaf\VendraSupport\Data\SubscriptionChargeResult;
 use Misaf\VendraSupport\Enums\SubscriptionChargeStatus;
+use Misaf\VendraTransaction\Actions\CreateTransactionAction;
 use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Facades\TransactionService;
@@ -144,7 +145,7 @@ it('collects an internal subscription payment only once and settles it before re
     TransactionGatewayFactory::new()->internal()->create();
     $payer = User::factory()->create();
     $wallet = TransactionService::walletFor($payer, 'USD');
-    TransactionService::createTransaction(
+    app(CreateTransactionAction::class)->execute(
         TransactionServiceClass::INTERNAL_GATEWAY_SLUG,
         $wallet,
         TransactionTypeEnum::Bonus,

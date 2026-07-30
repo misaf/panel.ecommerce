@@ -5,7 +5,7 @@ declare(strict_types=1);
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraLanguage\Actions\SetDefaultLanguage;
+use Misaf\VendraLanguage\Actions\SetDefaultLanguageAction;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Tenancy\NullTenantResolver;
@@ -95,7 +95,7 @@ it('switches the default language through the domain action', function (): void 
         'position'   => 2,
     ]);
 
-    (new SetDefaultLanguage())->execute($german);
+    (new SetDefaultLanguageAction())->execute($german);
 
     expect($english->refresh()->is_default)->toBeFalse()
         ->and($german->refresh()->is_default)->toBeTrue();

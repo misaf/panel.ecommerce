@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
+use Misaf\VendraCurrency\Actions\SetDefaultCurrencyAction;
 use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraCurrency\Models\Currency;
 use Misaf\VendraSupport\Contracts\TenantResolver;
@@ -67,7 +67,7 @@ it('switches the default currency through the domain action', function (): void 
     $dollar = CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 1]);
     $euro = CurrencyFactory::new()->code('EUR')->createOne(['position' => 2]);
 
-    (new SetDefaultCurrency())->execute($euro);
+    (new SetDefaultCurrencyAction())->execute($euro);
 
     expect($dollar->refresh()->is_default)->toBeFalse()
         ->and($euro->refresh()->is_default)->toBeTrue();
@@ -77,7 +77,7 @@ it('enables a disabled currency when it becomes the default', function (): void 
     CurrencyFactory::new()->code('USD')->default()->createOne(['position' => 1]);
     $euro = CurrencyFactory::new()->code('EUR')->inactive()->createOne(['position' => 2]);
 
-    (new SetDefaultCurrency())->execute($euro);
+    (new SetDefaultCurrencyAction())->execute($euro);
 
     expect($euro->refresh()->active)->toBeTrue()
         ->and($euro->is_default)->toBeTrue();

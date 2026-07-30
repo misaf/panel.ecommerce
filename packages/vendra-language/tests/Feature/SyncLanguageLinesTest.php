@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
-use Misaf\VendraLanguage\Actions\SyncLanguageLines;
+use Misaf\VendraLanguage\Actions\SyncLanguageLinesAction;
 use Misaf\VendraLanguage\Models\LanguageLine;
 use Misaf\VendraLanguage\Support\TranslationCatalog;
 
@@ -28,7 +28,7 @@ it('imports missing package lines and locales without overwriting database trans
     $loader = new FileLoader($filesystem, __DIR__ . '/../Fixtures/translations');
     $loader->addNamespace('vendra-sync-fixture', __DIR__ . '/../Fixtures/translations');
     $catalog = new TranslationCatalog($filesystem, new Translator($loader, 'en'));
-    $syncLanguageLines = new SyncLanguageLines($catalog);
+    $syncLanguageLines = new SyncLanguageLinesAction($catalog);
 
     expect($syncLanguageLines->execute())->toBe([
         'created'   => 1,

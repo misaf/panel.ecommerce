@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraAffiliate\Actions\AttributeReferral;
+use Misaf\VendraAffiliate\Actions\AttributeReferralAction;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\ConversionTypeEnum;
@@ -18,7 +18,7 @@ it('attributes a referred user to the affiliate behind the code', function (): v
     $affiliate = AffiliateFactory::new()->active()->create();
     $user = User::factory()->create();
 
-    $referral = app(AttributeReferral::class)->execute($affiliate->code, $user);
+    $referral = app(AttributeReferralAction::class)->execute($affiliate->code, $user);
 
     expect($referral)->toBeInstanceOf(AffiliateReferral::class)
         ->and($referral->affiliate_id)->toBe($affiliate->id)
@@ -29,15 +29,15 @@ it('ignores unknown and suspended affiliate codes', function (): void {
     $suspended = AffiliateFactory::new()->suspended()->create();
     $user = User::factory()->create();
 
-    expect(app(AttributeReferral::class)->execute('NOPE1234', $user))->toBeNull()
-        ->and(app(AttributeReferral::class)->execute($suspended->code, $user))->toBeNull()
+    expect(app(AttributeReferralAction::class)->execute('NOPE1234', $user))->toBeNull()
+        ->and(app(AttributeReferralAction::class)->execute($suspended->code, $user))->toBeNull()
         ->and(AffiliateReferral::count())->toBe(0);
 });
 
 it('rejects self-referrals', function (): void {
     $affiliate = AffiliateFactory::new()->active()->create();
 
-    $referral = app(AttributeReferral::class)->execute($affiliate->code, $affiliate->user);
+    $referral = app(AttributeReferralAction::class)->execute($affiliate->code, $affiliate->user);
 
     expect($referral)->toBeNull()
         ->and(AffiliateReferral::count())->toBe(0);
@@ -48,8 +48,8 @@ it('attributes each user at most once', function (): void {
     $second = AffiliateFactory::new()->active()->create();
     $user = User::factory()->create();
 
-    app(AttributeReferral::class)->execute($first->code, $user);
-    $repeat = app(AttributeReferral::class)->execute($second->code, $user);
+    app(AttributeReferralAction::class)->execute($first->code, $user);
+    $repeat = app(AttributeReferralAction::class)->execute($second->code, $user);
 
     expect($repeat)->toBeNull()
         ->and(AffiliateReferral::count())->toBe(1)
@@ -62,7 +62,7 @@ it('credits a signup bounty when the signup conversion is enabled', function ():
     $affiliate = AffiliateFactory::new()->active()->withSignupBounty(500)->create();
     $user = User::factory()->create();
 
-    app(AttributeReferral::class)->execute($affiliate->code, $user);
+    app(AttributeReferralAction::class)->execute($affiliate->code, $user);
 
     $commission = AffiliateCommission::sole();
 
@@ -78,7 +78,7 @@ it('does not credit a signup bounty when the signup conversion is disabled', fun
     $affiliate = AffiliateFactory::new()->active()->withSignupBounty(500)->create();
     $user = User::factory()->create();
 
-    app(AttributeReferral::class)->execute($affiliate->code, $user);
+    app(AttributeReferralAction::class)->execute($affiliate->code, $user);
 
     expect(AffiliateCommission::count())->toBe(0);
 });

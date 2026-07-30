@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraAffiliate\Actions\ProcessAffiliatePayout;
+use Misaf\VendraAffiliate\Actions\ProcessAffiliatePayoutAction;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateCommissionFactory;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
@@ -43,7 +43,7 @@ it('settles approved commissions into a completed payout and commission transact
 
     $affiliate = affiliateWithApprovedBalance(1_500, 2_500);
 
-    $payout = app(ProcessAffiliatePayout::class)->execute($affiliate);
+    $payout = app(ProcessAffiliatePayoutAction::class)->execute($affiliate);
 
     expect($payout)->not->toBeNull()
         ->and($payout->amount)->toBe(4_000)
@@ -66,7 +66,7 @@ it('rolls back the payout entirely when the commission transaction cannot be cre
 
     $affiliate = affiliateWithApprovedBalance(1_500);
 
-    expect(fn(): mixed => app(ProcessAffiliatePayout::class)->execute($affiliate))
+    expect(fn(): mixed => app(ProcessAffiliatePayoutAction::class)->execute($affiliate))
         ->toThrow(RuntimeException::class)
         ->and($affiliate->payouts()->count())->toBe(0)
         ->and($affiliate->commissions()->where('status', CommissionStatusEnum::Approved)->whereNull('affiliate_payout_id')->count())->toBe(1)
@@ -81,7 +81,7 @@ it('records a failed payout without consuming commissions when the affiliate use
     $affiliate->user?->delete();
     $affiliate->unsetRelation('user');
 
-    $payout = app(ProcessAffiliatePayout::class)->execute($affiliate);
+    $payout = app(ProcessAffiliatePayoutAction::class)->execute($affiliate);
 
     expect($payout->status)->toBe(PayoutStatusEnum::Failed)
         ->and($payout->transaction_id)->toBeNull()
@@ -94,7 +94,7 @@ it('refuses to pay out below the configured minimum', function (): void {
 
     $affiliate = affiliateWithApprovedBalance(1_000);
 
-    expect(app(ProcessAffiliatePayout::class)->execute($affiliate))->toBeNull()
+    expect(app(ProcessAffiliatePayoutAction::class)->execute($affiliate))->toBeNull()
         ->and($affiliate->pendingBalance())->toBe(1_000);
 });
 
@@ -108,7 +108,7 @@ it('does not pay pending or reversed commissions', function (): void {
     AffiliateCommissionFactory::new()->forAffiliate($affiliate)->reversed()->state(['amount' => 900])->create();
     AffiliateCommissionFactory::new()->forAffiliate($affiliate)->approved()->state(['amount' => 700])->create();
 
-    $payout = app(ProcessAffiliatePayout::class)->execute($affiliate);
+    $payout = app(ProcessAffiliatePayoutAction::class)->execute($affiliate);
 
     expect($payout->amount)->toBe(700);
 });

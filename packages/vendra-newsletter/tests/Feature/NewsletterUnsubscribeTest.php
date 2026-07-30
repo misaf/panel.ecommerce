@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriber;
+use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriberAction;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 use Spatie\Multitenancy\Tasks\SwitchRouteCacheTask;
@@ -57,7 +57,7 @@ it('restores and resubscribes a soft-deleted subscriber instead of creating a du
 
     $subscriber->delete();
 
-    $restoredSubscriber = app(SubscribeNewsletterSubscriber::class)->execute([
+    $restoredSubscriber = app(SubscribeNewsletterSubscriberAction::class)->execute([
         'email' => 'restored@example.com',
         'name'  => 'Restored name',
     ]);

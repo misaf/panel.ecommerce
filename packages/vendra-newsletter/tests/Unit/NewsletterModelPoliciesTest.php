@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Misaf\VendraNewsletter\Enums\NewsletterPolicyEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Enums\NewsletterSubscriberPolicyEnum;
-use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterAction;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterTableAction;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 use Misaf\VendraNewsletter\Policies\NewsletterPolicy;
@@ -149,5 +149,5 @@ it('wires the custom send action to policy authorization', function (): void {
         ->with('send', $newsletter)
         ->andReturnFalse();
 
-    expect(SendNewsletterAction::make()->record($newsletter)->isAuthorized())->toBeFalse();
+    expect(SendNewsletterTableAction::make()->record($newsletter)->isAuthorized())->toBeFalse();
 });

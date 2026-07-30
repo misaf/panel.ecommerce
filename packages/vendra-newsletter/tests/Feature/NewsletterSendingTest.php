@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
-use Misaf\VendraNewsletter\Actions\SendNewsletter;
+use Misaf\VendraNewsletter\Actions\SendNewsletterAction;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterFactory;
 use Misaf\VendraNewsletter\Database\Factories\NewsletterSubscriberFactory;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
@@ -55,7 +55,7 @@ it('queues a batch job per chunk of subscribers and marks the newsletter as sent
     NewsletterSubscriberFactory::new()->subscribed()->count(5)->create();
     NewsletterSubscriberFactory::new()->unsubscribed()->count(2)->create();
 
-    $queued = app(SendNewsletter::class)->execute($newsletter);
+    $queued = app(SendNewsletterAction::class)->execute($newsletter);
 
     expect($queued)->toBe(5)
         ->and($newsletter->refresh()->status)->toBe(NewsletterStatusEnum::Sent)
@@ -70,7 +70,7 @@ it('does not resend a newsletter that was already sent', function (): void {
     $newsletter = NewsletterFactory::new()->sent()->create();
     NewsletterSubscriberFactory::new()->subscribed()->count(3)->create();
 
-    $queued = app(SendNewsletter::class)->execute($newsletter);
+    $queued = app(SendNewsletterAction::class)->execute($newsletter);
 
     expect($queued)->toBe(0);
 
@@ -88,7 +88,7 @@ it('does not resend from a stale model after another process marks the newslette
         'sent_at' => now(),
     ]);
 
-    expect(app(SendNewsletter::class)->execute($newsletter))->toBe(0);
+    expect(app(SendNewsletterAction::class)->execute($newsletter))->toBe(0);
 
     Queue::assertNothingPushed();
 });
