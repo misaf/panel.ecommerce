@@ -24,7 +24,7 @@
     "require": {
         "php": "^8.3",
         "misaf/filament-jalali": "^5.1.4",
-        "misaf/laravel-authify-log": "^1.0",
+        "misaf/laravel-authify-log": "^1.0.2",
         "misaf/vendra-support": "self.version",
         "spatie/laravel-package-tools": "^1.93.1"
     },

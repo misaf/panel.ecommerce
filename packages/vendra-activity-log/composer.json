@@ -24,7 +24,7 @@
         "source": "https://github.com/misaf/vendra-activity-log"
     },
     "require": {
-        "php": "^8.4",
+        "php": "^8.3",
         "awcodes/filament-badgeable-column": "^4.0",
         "misaf/filament-jalali": "^5.1.4",
         "misaf/vendra-support": "self.version",
