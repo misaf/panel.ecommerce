@@ -46,7 +46,7 @@
         "laravel/sanctum": "^4.3.2",
         "laravel/tinker": "^3.0.2",
         "misaf/filament-jalali": "^5.1.4",
-        "misaf/laravel-authify-log": "^1.0",
+        "misaf/laravel-authify-log": "^1.0.1",
         "misaf/laravel-email-validation": "^1.0",
         "misaf/laravel-email-validation-emailable": "^1.0",
         "misaf/laravel-email-webhooks": "^1.0.1",
