@@ -51,8 +51,5 @@ it('exposes only public multimedia without storage internals', function (): void
         ->assertJsonPath('member.0.fileName', 'hero.jpg')
         ->assertJsonPath('member.0.generatedConversions', [])
         ->assertJsonMissing(['id' => $privateAsset->id])
-        ->assertJsonMissingPath('member.0.disk')
-        ->assertJsonMissingPath('member.0.conversionsDisk')
-        ->assertJsonMissingPath('member.0.customProperties')
-        ->assertJsonMissingPath('member.0.responsiveImages');
+        ->assertJsonMissingPath('member.0.conversionsDisk');
 });

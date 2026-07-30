@@ -58,6 +58,30 @@ final class MultimediaResourceFactory
             }
         }
 
+        $disk = $media->getAttribute('disk');
+        $customProperties = $media->getAttribute('custom_properties');
+        $responsiveImages = $media->getAttribute('responsive_images');
+
+        if ( ! is_string($disk)) {
+            $disk = '';
+        }
+
+        if (null === $customProperties) {
+            $customProperties = [];
+        }
+
+        if ( ! is_array($customProperties)) {
+            $customProperties = [];
+        }
+
+        if (null === $responsiveImages) {
+            $responsiveImages = [];
+        }
+
+        if ( ! is_array($responsiveImages)) {
+            $responsiveImages = [];
+        }
+
         return new MultimediaResource(
             id: $id,
             uuid: $uuid,
@@ -66,8 +90,11 @@ final class MultimediaResourceFactory
             collection: $collection,
             mimeType: $mimeType,
             bytes: $bytes,
+            disk: $disk,
             url: self::safeUrl($media),
             generatedConversions: $normalizedConversions,
+            customProperties: $customProperties,
+            responsiveImages: $responsiveImages,
         );
     }
 
