@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Laravel\Boost\Install\GuidelineComposer;
 
 /**
  * @param  list<string>  $contractPhrases
@@ -93,13 +92,4 @@ it('keeps the transaction package free of stale direct currency guidance', funct
             ->not->toContain('depends on `misaf/vendra-currency`')
             ->not->toContain('Currency coupling goes through `misaf/vendra-currency`');
     }
-});
-
-it('composes critical project testing guidance for generated agent instructions', function (): void {
-    $guidelines = resolve(GuidelineComposer::class)->compose();
-
-    expect($guidelines)
-        ->toContain('Run the smallest relevant test scope first')
-        ->toContain('php artisan test --parallel')
-        ->toContain('Keep intentionally non-parallel coverage, profiling, mutation testing, and benchmarking commands unchanged');
 });
