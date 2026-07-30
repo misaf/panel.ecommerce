@@ -18,7 +18,7 @@ use Illuminate\Auth\Events\Validated;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redis;
-use Misaf\AuthifyLog\Enums\AuthifyLogActionEnum;
+use Misaf\LaravelAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Notifications\LoginNotification;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
 
@@ -31,7 +31,7 @@ class AuthifyLogListener
 
     public function handleAttempting(Attempting $event): void
     {
-        $this->store(AuthifyLogActionEnum::AuthenticationAttempt, $event);
+        $this->store(AuthifyLogActionEnum::Attempting, $event);
     }
 
     public function handleCurrentDeviceLogout(CurrentDeviceLogout $event): void
@@ -41,7 +41,7 @@ class AuthifyLogListener
 
     public function handleFailed(Failed $event): void
     {
-        $this->store(AuthifyLogActionEnum::FailedLogin, $event);
+        $this->store(AuthifyLogActionEnum::Failed, $event);
     }
 
     public function handleLockout(Lockout $event): void
@@ -61,12 +61,12 @@ class AuthifyLogListener
 
     public function handleRegistered(Registered $event): void
     {
-        $this->store(AuthifyLogActionEnum::RegisteredUser, $event);
+        $this->store(AuthifyLogActionEnum::Registered, $event);
     }
 
     public function handleLogout(Logout $event): void
     {
-        $this->store(AuthifyLogActionEnum::SuccessfulLogout, $event);
+        $this->store(AuthifyLogActionEnum::Logout, $event);
     }
 
     public function handleValidated(Validated $event): void
@@ -88,7 +88,7 @@ class AuthifyLogListener
             $user->notify(new LoginNotification());
         }
 
-        $this->store(AuthifyLogActionEnum::SuccessfulLogin, $event);
+        $this->store(AuthifyLogActionEnum::Login, $event);
     }
 
     private function store(AuthifyLogActionEnum $action, object $event): void
