@@ -53,7 +53,7 @@ final class ProvisionTenantAction
 
             $role = $this->createRoleAction->execute(
                 tenant: $result['tenant'],
-                name: Config::string('vendra-permission.super_admin_role'),
+                name: Config::string('vendra-permission.admin_role'),
                 guardName: Guard::getDefaultName(User::class),
             );
 

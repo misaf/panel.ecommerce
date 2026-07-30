@@ -18,7 +18,7 @@ use Misaf\VendraLanguage\Support\Locales;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('shows package before group in the language line table', function (): void {

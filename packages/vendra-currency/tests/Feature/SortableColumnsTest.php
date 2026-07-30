@@ -8,7 +8,7 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ListCurren
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('sorts the currencies table by every sortable column following the stored values', function (): void {

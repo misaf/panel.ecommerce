@@ -70,7 +70,7 @@ final class DeveloperLoginsRegistrar
         $configuredRole = Config::get('vendra-developer-logins.role');
         $roleName = is_string($configuredRole) && '' !== $configuredRole
             ? $configuredRole
-            : Config::string('vendra-permission.super_admin_role');
+            : Config::string('vendra-permission.admin_role');
 
         return Role::query()
             ->where('name', $roleName)

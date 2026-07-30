@@ -77,7 +77,7 @@ final class PermissionServiceProvider extends PackageServiceProvider
                 return null;
             }
 
-            return $user->hasRole(Config::string('vendra-permission.super_admin_role', 'superadmin')) ? true : null;
+            return $user->hasRole(Config::string('vendra-permission.admin_role')) ? true : null;
         });
 
         $this->registerTenantFeatures();

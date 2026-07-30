@@ -10,7 +10,7 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ListLanguag
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('sorts the languages table by every sortable column following the stored values', function (): void {

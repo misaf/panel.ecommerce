@@ -12,7 +12,7 @@ use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
+    setUpFilamentAdminTestContext([UserProfileResource::class]);
 });
 
 it('renders the create user profile page under strict authorization', function (): void {

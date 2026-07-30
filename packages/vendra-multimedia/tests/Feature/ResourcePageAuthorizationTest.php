@@ -9,7 +9,7 @@ use Misaf\VendraMultimedia\Models\Multimedia;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the view multimedia page under strict authorization', function (): void {

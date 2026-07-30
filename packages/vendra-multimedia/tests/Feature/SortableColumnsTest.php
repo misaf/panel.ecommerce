@@ -11,7 +11,7 @@ use Misaf\VendraMultimedia\Models\Multimedia;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 function createMultimediaRecord(string $collectionName, int $size): Multimedia

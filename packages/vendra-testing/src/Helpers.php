@@ -170,9 +170,9 @@ function makeCurrentTestTenantWithFeatures(array $features = []): Model
 }
 
 /**
- * Boot a default Filament admin panel acting as a super-admin user.
+ * Boot a default Filament admin panel acting as an admin user.
  *
- * The super-admin role is resolved through the Spatie permission and
+ * The admin role is resolved through the Spatie permission and
  * vendra-permission configuration instead of importing a concrete permission
  * package, so any module test suite can use this helper without declaring a
  * permission dependency. Returns the current tenant.
@@ -180,7 +180,7 @@ function makeCurrentTestTenantWithFeatures(array $features = []): Model
  * @param  list<class-string>  $resources
  * @param  list<string>  $features
  */
-function setUpFilamentSuperAdminTestContext(array $resources = [], ?array $features = null): Model
+function setUpFilamentAdminTestContext(array $resources = [], ?array $features = null): Model
 {
     $tenant = makeCurrentTestTenantWithFeatures(
         $features ?? array_keys((array) config('vendra-permission.features.defaults', [])),
@@ -193,8 +193,8 @@ function setUpFilamentSuperAdminTestContext(array $resources = [], ?array $featu
     }
 
     $user = $user->create([
-        'username' => 'super-admin',
-        'email'    => 'super-admin@example.test',
+        'username' => 'admin',
+        'email'    => 'admin@example.test',
     ]);
 
     if ( ! $user instanceof Model) {
@@ -215,7 +215,7 @@ function setUpFilamentSuperAdminTestContext(array $resources = [], ?array $featu
         }
 
         $user->assignRole($role->create([
-            'name' => config('vendra-permission.super_admin_role', 'super-admin'),
+            'name' => config('vendra-permission.admin_role'),
         ]));
     }
 

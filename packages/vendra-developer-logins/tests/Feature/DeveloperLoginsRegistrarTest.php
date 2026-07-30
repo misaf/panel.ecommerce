@@ -28,18 +28,18 @@ it('builds the upstream plugin with the Vendra user model', function (): void {
         ->and($plugin->getEnabled())->toBeFalse();
 });
 
-it('provides only users assigned to the configured super admin role', function (): void {
+it('provides only users assigned to the configured admin role', function (): void {
     $role = Role::factory()->forGuard('web')->create([
-        'name' => Config::string('vendra-permission.super_admin_role'),
+        'name' => Config::string('vendra-permission.admin_role'),
     ]);
 
-    $superAdmin = User::factory()->create();
-    $superAdmin->assignRole($role);
+    $admin = User::factory()->create();
+    $admin->assignRole($role);
 
     User::factory()->create();
 
     expect(DeveloperLoginsRegistrar::users())->toBe([
-        $superAdmin->username => $superAdmin->email,
+        $admin->username => $admin->email,
     ])->and(DeveloperLoginsRegistrar::hasUsers())->toBeTrue();
 });
 
@@ -52,7 +52,7 @@ it('returns no developer logins when the configured role does not exist', functi
 
 it('omits users when configured login attributes are not strings', function (): void {
     $role = Role::factory()->forGuard('web')->create([
-        'name' => Config::string('vendra-permission.super_admin_role'),
+        'name' => Config::string('vendra-permission.admin_role'),
     ]);
 
     User::factory()->create()->assignRole($role);

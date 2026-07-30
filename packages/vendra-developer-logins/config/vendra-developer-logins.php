@@ -49,7 +49,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Set a role name to limit developer logins to that role. A null value
-    | falls back to the permission package's configured super-admin role.
+    | falls back to the permission package's configured admin role.
     |
     */
 

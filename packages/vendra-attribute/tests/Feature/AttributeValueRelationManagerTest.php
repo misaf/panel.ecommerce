@@ -19,7 +19,7 @@ beforeEach(function (): void {
         $table->timestamps();
     });
 
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('manages attached attribute values without offering unattached creation', function (): void {

@@ -11,7 +11,7 @@ Shared Pest utilities for Vendra package test suites.
 - Deterministic translation file and key parity checks
 - Provider-neutral tenant helpers that no-op when tenancy is disabled
 - User factory helpers resolved from the configured authentication provider
-- Tenant-feature and Filament super-admin test-context helpers
+- Tenant-feature and Filament admin test-context helpers
 
 ## Requirements
 
@@ -39,7 +39,7 @@ Tenant-aware package tests should use `makeCurrentTestTenant()`,
 concrete Vendra Tenant provider.
 
 Use `makeCurrentTestTenantWithFeatures()` when a test needs deterministic
-Pennant state, and `setUpFilamentSuperAdminTestContext()` to boot a package's
+Pennant state, and `setUpFilamentAdminTestContext()` to boot a package's
 resources in the shared admin-panel test context.
 
 To exercise every sortable table column in both directions:

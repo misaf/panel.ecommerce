@@ -16,7 +16,7 @@ use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Pages\ViewLanguag
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the create language page under strict authorization', function (): void {

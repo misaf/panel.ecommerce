@@ -24,7 +24,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
 
 /**
- * The console (super-admin) panel.
+ * The console (platform admin) panel.
  *
  * Runs outside the tenant middleware stack so a console operator can manage
  * resellers, plans, subscriptions, and properties across every tenant.

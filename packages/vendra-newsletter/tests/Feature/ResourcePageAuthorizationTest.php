@@ -15,7 +15,7 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pag
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the create newsletter page under strict authorization', function (): void {

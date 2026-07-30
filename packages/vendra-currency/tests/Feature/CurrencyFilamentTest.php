@@ -15,7 +15,7 @@ use Misaf\VendraCurrency\Models\Currency;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('offers every uninstalled catalog currency for installation', function (): void {

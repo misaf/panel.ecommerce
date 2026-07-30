@@ -11,7 +11,7 @@ use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\Pag
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('sorts the newsletters table by every sortable column following the stored values', function (): void {

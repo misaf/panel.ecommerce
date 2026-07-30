@@ -12,7 +12,7 @@ use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Pages\ViewCurren
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the create currency page under strict authorization', function (): void {

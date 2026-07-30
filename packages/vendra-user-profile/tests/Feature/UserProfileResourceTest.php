@@ -63,7 +63,7 @@ it('rejects feature scopes that are not tenants', function (): void {
 });
 
 it('renders user profiles in the Filament resource table', function (): void {
-    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
+    setUpFilamentAdminTestContext([UserProfileResource::class]);
 
     $profile = UserProfile::query()->create([
         'user_id'     => User::query()->valueOrFail('id'),
@@ -81,7 +81,7 @@ it('renders user profiles in the Filament resource table', function (): void {
 });
 
 it('toggles a user profile active state from the Filament resource table', function (): void {
-    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
+    setUpFilamentAdminTestContext([UserProfileResource::class]);
 
     $profile = UserProfileFactory::new()
         ->inactive()
@@ -99,7 +99,7 @@ it('toggles a user profile active state from the Filament resource table', funct
 });
 
 it('exposes the default toggle and keeps one default profile per user', function (): void {
-    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
+    setUpFilamentAdminTestContext([UserProfileResource::class]);
 
     $user = User::factory()->create();
     $firstProfile = UserProfileFactory::new()->forUser($user)->createOne(['is_default' => true]);

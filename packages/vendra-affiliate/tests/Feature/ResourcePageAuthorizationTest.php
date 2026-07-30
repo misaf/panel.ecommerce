@@ -15,7 +15,7 @@ use Misaf\VendraAffiliate\Filament\Clusters\Resources\Affiliates\Pages\ViewAffil
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the create affiliate page under strict authorization', function (): void {

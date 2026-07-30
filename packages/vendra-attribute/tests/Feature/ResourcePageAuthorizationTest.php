@@ -12,7 +12,7 @@ use Misaf\VendraAttribute\Filament\Clusters\Resources\Attributes\Pages\ViewAttri
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the create attribute page under strict authorization', function (): void {

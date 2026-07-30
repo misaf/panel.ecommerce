@@ -105,7 +105,7 @@ docker compose exec php php artisan up
 
 Application logs go to container stderr; read them with `docker compose logs`.
 The `/horizon` and `/pulse` dashboards require an authenticated user with the
-configured super-admin role. Pulse ingest runs over Redis
+configured admin role. Pulse ingest runs over Redis
 (`PULSE_INGEST_DRIVER=redis` on the cache connection); the monitor's stable
 server name comes from the `pulse` container's pinned `hostname`, not an env
 var.

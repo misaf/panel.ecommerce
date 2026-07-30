@@ -9,7 +9,7 @@ use Misaf\VendraNewsletter\Models\Newsletter;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('shows the schedule field when the scheduled status is selected', function (): void {

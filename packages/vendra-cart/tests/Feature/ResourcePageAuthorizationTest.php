@@ -10,7 +10,7 @@ use Misaf\VendraCart\Models\Cart;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('renders the list carts page under strict authorization', function (): void {

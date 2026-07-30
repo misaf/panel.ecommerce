@@ -11,7 +11,7 @@ use Misaf\VendraBlog\Models\BlogPostCategory;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 
     $this->activeLocale = app()->getLocale();
     $this->otherLocale = 'en' === $this->activeLocale ? 'de' : 'en';

@@ -29,7 +29,7 @@ in the host.
 | Panel | Domain | Guard / Broker | User model | Tenant-aware? | Purpose |
 |-------|--------|----------------|-----------|---------------|---------|
 | **Admin** | `<host>` | `web` / `users` | `Misaf\VendraUser\Models\User` | **Yes** | Per-tenant storefront back-office |
-| **Console** | `console.<host>` | `console` / `console_users` | `App\Models\ConsoleUser` | No | Super-admin across all tenants |
+| **Console** | `console.<host>` | `console` / `console_users` | `App\Models\ConsoleUser` | No | Platform admin across all tenants |
 | **Reseller** | `reseller.<host>` | `reseller` / `reseller_users` | `App\Models\ResellerUser` | No | Reseller self-service |
 
 - **Admin** is the only tenant-scoped panel. Its middleware stack adds
@@ -115,7 +115,7 @@ ProvisionTenantAction::execute(data, reseller?)
   │    │    ├─ create inactive Tenant in Pending provisioning state
   │    │    ├─ create TenantDomain (inside tenant context)
   │    │    └─ CreateUserAction (vendra-user) → verified owner User
-  │    ├─ CreateRoleAction (vendra-permission) → super-admin role
+  │    ├─ CreateRoleAction (vendra-permission) → admin role
   │    └─ assign role to owner (inside tenant context)
   └─ CompleteTenantProvisioningJob::dispatch()->afterCommit()
        ├─ mark provisioning Processing

@@ -51,7 +51,7 @@ it('keeps package guidelines and skills aligned with documented source contracts
         [
             'toSortByEverySortableColumn()',
             'makeCurrentTestTenantWithFeatures()',
-            'setUpFilamentSuperAdminTestContext()',
+            'setUpFilamentAdminTestContext()',
         ],
     ],
     'optional currency integration' => [

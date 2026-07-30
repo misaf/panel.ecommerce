@@ -13,7 +13,7 @@ use Misaf\VendraUser\Database\Factories\UserFactory;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('sorts the affiliates table by every sortable column following the stored values', function (): void {

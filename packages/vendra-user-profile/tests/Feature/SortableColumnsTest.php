@@ -10,7 +10,7 @@ use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext([UserProfileResource::class]);
+    setUpFilamentAdminTestContext([UserProfileResource::class]);
 });
 
 it('sorts the user profiles table by every sortable column following the stored values', function (): void {

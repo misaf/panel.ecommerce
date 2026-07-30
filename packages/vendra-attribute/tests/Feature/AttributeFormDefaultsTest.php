@@ -8,7 +8,7 @@ use Misaf\VendraAttribute\Models\Attribute;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    setUpFilamentSuperAdminTestContext();
+    setUpFilamentAdminTestContext();
 });
 
 it('defaults new attributes to active, matching the schema default', function (): void {
