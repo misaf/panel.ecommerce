@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraCustomPageApi\ApiResource;
 
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -13,28 +12,36 @@ use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraCustomPage\Models\CustomPageCategory;
-use Misaf\VendraCustomPageApi\State\CustomPageCategoryResourceProvider;
+use Misaf\VendraCustomPageApi\State\CustomPageCategoryLinksHandler;
+use Misaf\VendraCustomPageApi\State\CustomPageCategoryMapper;
 
 #[ApiResource(
     shortName: 'CustomPageCategory',
-    stateOptions: new Options(modelClass: CustomPageCategory::class, handleLinks: CustomPageCategoryResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: CustomPageCategory::class,
+        handleLinks: CustomPageCategoryLinksHandler::class,
+        mapper: CustomPageCategoryMapper::class,
+    ),
     mcp: [
         'get_custom_page_category' => new McpTool(
             description: 'Get a custom-page category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: CustomPageCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_custom_page_categories' => new McpToolCollection(
             description: 'List custom-page categories.',
             input: McpCollectionInput::class,
-            provider: CustomPageCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/content/custom-page-categories/{id}', provider: CustomPageCategoryResourceProvider::class)]
-#[GetCollection(uriTemplate: '/content/custom-page-categories', provider: CustomPageCategoryResourceProvider::class)]
+#[Get(uriTemplate: '/content/custom-page-categories/{id}')]
+#[GetCollection(uriTemplate: '/content/custom-page-categories')]
 final readonly class CustomPageCategoryResource
 {
     /**

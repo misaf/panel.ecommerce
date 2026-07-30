@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Misaf\VendraCustomPageApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraCustomPageApi\State\CustomPageCategoryResourceProvider;
-use Misaf\VendraCustomPageApi\State\CustomPageResourceProvider;
+use Misaf\VendraCustomPageApi\State\CustomPageCategoryLinksHandler;
+use Misaf\VendraCustomPageApi\State\CustomPageLinksHandler;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -29,9 +28,9 @@ final class CustomPageApiServiceProvider extends PackageServiceProvider
         ]);
 
         $this->app->tag([
-            CustomPageResourceProvider::class,
-            CustomPageCategoryResourceProvider::class,
-        ], [LinksHandlerInterface::class, ProviderInterface::class]);
+            CustomPageLinksHandler::class,
+            CustomPageCategoryLinksHandler::class,
+        ], LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void
