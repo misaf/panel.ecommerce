@@ -10,7 +10,7 @@ beforeEach(function (): void {
 });
 
 it('exposes active referral codes through a filtered paginated collection', function (): void {
-    $matching = AffiliateFactory::new()->active()->create();
+    $matching = AffiliateFactory::new()->active()->withSignupBounty(1000)->create();
     AffiliateFactory::new()->active()->count(2)->create();
     AffiliateFactory::new()->suspended()->create();
 
@@ -25,8 +25,7 @@ it('exposes active referral codes through a filtered paginated collection', func
         ->assertJsonPath('member.0.code', $matching->code);
 
     expect(array_keys($response->json('member.0')))
-        ->toContain('@id', '@type', 'id', 'code', 'createdAt')
-        ->not->toContain('userId', 'commissionRate');
+        ->toContain('@id', '@type', 'id', 'userId', 'code', 'commissionPercent', 'signupBounty', 'status', 'createdAt');
 });
 
 it('validates filter parameters', function (): void {

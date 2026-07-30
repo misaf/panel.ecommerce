@@ -20,7 +20,11 @@ final class AffiliateMapper implements ResourceMapper
 
         return new AffiliateResource(
             id: $model->id,
+            userId: $model->user_id,
             code: $model->code,
+            commissionPercent: $model->commission_percent,
+            signupBounty: $model->signup_bounty,
+            status: $model->status->value,
             createdAt: $model->created_at->toAtomString(),
         );
     }

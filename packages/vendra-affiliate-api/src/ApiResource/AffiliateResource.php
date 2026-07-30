@@ -62,7 +62,11 @@ final readonly class AffiliateResource
     public function __construct(
         #[ApiProperty(identifier: true, description: 'The affiliate unique identifier')]
         public int $id,
+        public int $userId,
         public string $code,
+        public int $commissionPercent,
+        public ?int $signupBounty,
+        public string $status,
         public string $createdAt,
     ) {}
 }

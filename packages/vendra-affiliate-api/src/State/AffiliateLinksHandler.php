@@ -23,7 +23,7 @@ final class AffiliateLinksHandler implements LinksHandlerInterface
     public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
         $builder
-            ->select(['id', 'code', 'created_at'])
+            ->select(['id', 'user_id', 'code', 'commission_percent', 'signup_bounty', 'status', 'created_at'])
             ->where('status', AffiliateStatusEnum::Active);
 
         if ( ! ($context['operation'] ?? null) instanceof CollectionOperationInterface) {
