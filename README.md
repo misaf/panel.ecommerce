@@ -79,14 +79,6 @@ container. Tenant provisioning remains an explicit host workflow. Production
 servers should use the published image through
 [vendra-deploy](https://github.com/misaf/vendra-deploy).
 
-## Configuration
-
-Settings cache can be enabled with:
-
-```env
-SETTINGS_CACHE_ENABLED=true
-```
-
 ## Module Development
 
 Modules are developed locally through symlinked Composer path repositories in
