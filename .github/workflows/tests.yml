@@ -13,6 +13,14 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    # API Platform introspects Eloquent resource schemas while building route
+    # metadata during `package:discover` (the composer post-autoload-dump hook),
+    # so every boot needs a reachable database. An empty in-memory SQLite DB
+    # satisfies the introspection without provisioning a service; the suite
+    # itself already runs on SQLite via phpunit.xml.
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ':memory:'
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
