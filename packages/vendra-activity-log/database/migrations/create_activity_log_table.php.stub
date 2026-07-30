@@ -10,27 +10,25 @@ use Misaf\VendraSupport\Tenancy\TenantSchema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::connection(config('activitylog.database_connection'))
-            ->create(config('activitylog.table_name'), function (Blueprint $table): void {
-                $table->bigIncrements('id');
-                TenantSchema::addTenantColumn($table);
-                $table->string('log_name')->nullable();
-                $table->text('description');
-                $table->nullableMorphs('subject', 'subject');
-                $table->string('event')->nullable();
-                $table->nullableMorphs('causer', 'causer');
-                $table->json('properties')->nullable();
-                $table->uuid('batch_uuid')->nullable();
-                $table->timestamps();
+        Schema::create('activity_log', function (Blueprint $table): void {
+            $table->bigIncrements('id');
+            TenantSchema::addTenantColumn($table);
+            $table->string('log_name')->nullable();
+            $table->text('description');
+            $table->nullableMorphs('subject', 'subject');
+            $table->string('event')->nullable();
+            $table->nullableMorphs('causer', 'causer');
+            $table->json('attribute_changes')->nullable();
+            $table->json('properties')->nullable();
+            $table->timestamps();
 
-                TenantSchema::addTenantIndex($table);
-                $table->index('log_name');
-            });
+            TenantSchema::addTenantIndex($table);
+            $table->index('log_name');
+        });
     }
 
     public function down(): void
     {
-        Schema::connection(config('activitylog.database_connection'))
-            ->dropIfExists(config('activitylog.table_name'));
+        Schema::dropIfExists('activity_log');
     }
 };
