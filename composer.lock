@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c4aa8fea225d208f5c921346fc7b7c1",
+    "content-hash": "1d67b4673db8c066bbe00df2ca6aa2f7",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -6244,50 +6244,49 @@
         },
         {
             "name": "misaf/laravel-authify-log",
-            "version": "1.0.0",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/misaf/laravel-authify-log.git",
-                "reference": "2535bc80dee3893fb66bcfe640774868509afb04"
+                "reference": "6cbf1e8894e3a8d206fda06305f5b06883cc788c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/misaf/laravel-authify-log/zipball/2535bc80dee3893fb66bcfe640774868509afb04",
-                "reference": "2535bc80dee3893fb66bcfe640774868509afb04",
+                "url": "https://api.github.com/repos/misaf/laravel-authify-log/zipball/6cbf1e8894e3a8d206fda06305f5b06883cc788c",
+                "reference": "6cbf1e8894e3a8d206fda06305f5b06883cc788c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.3",
-                "spatie/laravel-package-tools": "^1.92.4",
-                "stijnvanouplines/blade-country-flags": "^1.0.6"
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.3"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.9.1",
-                "laravel/boost": "^2.0.4",
+                "larastan/larastan": "^3.9.2",
+                "laravel/boost": "^2.0.6",
                 "laravel/pint": "^1.27",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.8.3",
                 "orchestra/testbench": "^10.9",
                 "pestphp/pest": "^4.3.2",
                 "pestphp/pest-plugin-laravel": "^4.0",
-                "pestphp/pest-plugin-profanity": "^4.2",
-                "pestphp/pest-plugin-type-coverage": "^4.0"
+                "pestphp/pest-plugin-profanity": "^4.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.3"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Misaf\\AuthifyLog\\Providers\\AuthifyLogServiceProvider"
+                        "Misaf\\LaravelAuthifyLog\\Providers\\AuthifyLogServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Misaf\\AuthifyLog\\": "src/",
-                    "Misaf\\AuthifyLog\\Tests\\": "tests/",
-                    "Misaf\\AuthifyLog\\Database\\Seeders\\": "database/seeders/",
-                    "Misaf\\AuthifyLog\\Database\\Factories\\": "database/factories/"
+                    "Misaf\\LaravelAuthifyLog\\": "src/",
+                    "Misaf\\LaravelAuthifyLog\\Tests\\": "tests/",
+                    "Misaf\\LaravelAuthifyLog\\Database\\Seeders\\": "database/seeders/",
+                    "Misaf\\LaravelAuthifyLog\\Database\\Factories\\": "database/factories/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6308,9 +6307,9 @@
             ],
             "support": {
                 "issues": "https://github.com/misaf/laravel-authify-log/issues",
-                "source": "https://github.com/misaf/laravel-authify-log/tree/v1.0.0"
+                "source": "https://github.com/misaf/laravel-authify-log/tree/v1.0.3"
             },
-            "time": "2026-02-04T21:19:07+00:00"
+            "time": "2026-07-30T13:15:02+00:00"
         },
         {
             "name": "misaf/laravel-email-validation",
