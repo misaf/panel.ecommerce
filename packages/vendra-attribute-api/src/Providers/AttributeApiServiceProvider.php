@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Misaf\VendraAttributeApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraAttributeApi\State\AttributeResourceProvider;
-use Misaf\VendraAttributeApi\State\AttributeValueResourceProvider;
+use Misaf\VendraAttributeApi\State\AttributeLinksHandler;
+use Misaf\VendraAttributeApi\State\AttributeValueLinksHandler;
 use Misaf\VendraAttributeApi\Support\AttributeApiServiceResolver;
 use Misaf\VendraSupport\Contracts\AttributeApiResolver;
 use Spatie\LaravelPackageTools\Package;
@@ -33,9 +32,9 @@ final class AttributeApiServiceProvider extends PackageServiceProvider
         ]);
 
         $this->app->tag([
-            AttributeResourceProvider::class,
-            AttributeValueResourceProvider::class,
-        ], [LinksHandlerInterface::class, ProviderInterface::class]);
+            AttributeLinksHandler::class,
+            AttributeValueLinksHandler::class,
+        ], LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void
