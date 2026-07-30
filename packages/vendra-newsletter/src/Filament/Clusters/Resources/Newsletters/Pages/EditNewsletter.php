@@ -7,7 +7,7 @@ namespace Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Pages;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
-use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterAction;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterTableAction;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\NewsletterResource;
 
 final class EditNewsletter extends EditRecord
@@ -22,7 +22,7 @@ final class EditNewsletter extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            SendNewsletterAction::make(),
+            SendNewsletterTableAction::make(),
 
             ViewAction::make(),
 

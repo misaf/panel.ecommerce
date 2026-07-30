@@ -7,7 +7,7 @@ namespace Misaf\VendraAffiliateApi\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Illuminate\Http\Request;
-use Misaf\VendraAffiliate\Actions\RecordAffiliateClick;
+use Misaf\VendraAffiliate\Actions\RecordAffiliateClickAction;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliateApi\ApiResource\AffiliateClickResource;
@@ -18,7 +18,7 @@ use Misaf\VendraAffiliateApi\ApiResource\AffiliateClickResource;
 final readonly class RecordReferralVisitProcessor implements ProcessorInterface
 {
     public function __construct(
-        private RecordAffiliateClick $recordAffiliateClick,
+        private RecordAffiliateClickAction $recordAffiliateClick,
         private Request $request,
     ) {}
 

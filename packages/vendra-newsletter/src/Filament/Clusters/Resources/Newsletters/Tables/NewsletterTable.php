@@ -18,7 +18,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
-use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterAction;
+use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\Actions\SendNewsletterTableAction;
 
 final class NewsletterTable
 {
@@ -96,7 +96,7 @@ final class NewsletterTable
             ->emptyStateDescription(__('vendra-newsletter::tables.empty_state.description.newsletters'))
             ->emptyStateIcon(Heroicon::OutlinedEnvelope)
             ->recordActions([
-                SendNewsletterAction::make(),
+                SendNewsletterTableAction::make(),
 
                 ActionGroup::make([
                     ViewAction::make(),

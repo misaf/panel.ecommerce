@@ -7,7 +7,7 @@ namespace Misaf\VendraAffiliate\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Queue\InteractsWithQueue;
-use Misaf\VendraAffiliate\Actions\CreditCommission;
+use Misaf\VendraAffiliate\Actions\CreditCommissionAction;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
 use Misaf\VendraAffiliate\Enums\ConversionTypeEnum;
 use Misaf\VendraAffiliate\Models\AffiliateCommission;
@@ -26,7 +26,7 @@ final class TransactionCommissionSubscriber implements ShouldQueueAfterCommit
     use InteractsWithQueue;
 
     public function __construct(
-        private readonly CreditCommission $creditCommission,
+        private readonly CreditCommissionAction $creditCommission,
     ) {}
 
     public function transactionUpdated(Transaction $transaction): void

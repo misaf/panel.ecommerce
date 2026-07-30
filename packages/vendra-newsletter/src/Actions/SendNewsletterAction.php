@@ -12,7 +12,7 @@ use Misaf\VendraNewsletter\Jobs\SendNewsletterBatchJob;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 
-final class SendNewsletter
+final class SendNewsletterAction
 {
     /**
      * Fan the newsletter out to every subscribed recipient in tenant-scoped

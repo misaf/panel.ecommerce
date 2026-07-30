@@ -6,16 +6,16 @@ namespace Misaf\VendraLanguage\Filament\Actions;
 
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
-use Misaf\VendraLanguage\Actions\SyncLanguageLines;
+use Misaf\VendraLanguage\Actions\SyncLanguageLinesAction;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 use Misaf\VendraLanguage\Models\LanguageLine;
 
-final class SyncLanguageLinesAction
+final class SyncLanguageLinesPageAction
 {
     public static function make(): Action
     {
         return Action::make('syncLanguageLines')
-            ->action(function (Action $action, SyncLanguageLines $syncLanguageLines): void {
+            ->action(function (Action $action, SyncLanguageLinesAction $syncLanguageLines): void {
                 $result = $syncLanguageLines->execute();
 
                 $action

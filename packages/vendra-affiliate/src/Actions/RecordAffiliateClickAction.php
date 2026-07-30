@@ -8,7 +8,7 @@ use Misaf\VendraAffiliate\Models\Affiliate;
 use Misaf\VendraAffiliate\Models\AffiliateClick;
 use Spatie\QueueableAction\QueueableAction;
 
-final class RecordAffiliateClick
+final class RecordAffiliateClickAction
 {
     use QueueableAction;
 

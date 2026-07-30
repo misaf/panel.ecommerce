@@ -8,7 +8,7 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraAffiliate\Actions\ProcessAffiliatePayout;
+use Misaf\VendraAffiliate\Actions\ProcessAffiliatePayoutAction;
 use Misaf\VendraAffiliate\Enums\AffiliatePayoutPolicyEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 
@@ -27,7 +27,7 @@ final class ProcessPayoutAction
                 'amount' => $record->pendingBalance(),
             ]))
             ->action(function (Affiliate $record): void {
-                app(ProcessAffiliatePayout::class)->onQueue()->execute($record);
+                app(ProcessAffiliatePayoutAction::class)->onQueue()->execute($record);
 
                 Notification::make()
                     ->success()

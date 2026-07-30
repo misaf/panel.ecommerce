@@ -16,12 +16,12 @@ use Spatie\QueueableAction\QueueableAction;
  * Binds a newly registered user to the affiliate whose code referred them.
  * A user can only ever be attributed once; self-referrals are ignored.
  */
-final class AttributeReferral
+final class AttributeReferralAction
 {
     use QueueableAction;
 
     public function __construct(
-        private readonly CreditCommission $creditCommission,
+        private readonly CreditCommissionAction $creditCommission,
     ) {}
 
     public function execute(string $code, User $user, ?int $clickId = null): ?AffiliateReferral

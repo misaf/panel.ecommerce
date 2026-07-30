@@ -6,10 +6,10 @@ namespace Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions;
 
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
-use Misaf\VendraLanguage\Actions\SetDefaultLanguage as SetDefaultLanguageDomainAction;
+use Misaf\VendraLanguage\Actions\SetDefaultLanguageAction as SetDefaultLanguageDomainAction;
 use Misaf\VendraLanguage\Models\Language;
 
-final class SetDefaultLanguageAction
+final class SetDefaultLanguageTableAction
 {
     public static function make(): Action
     {

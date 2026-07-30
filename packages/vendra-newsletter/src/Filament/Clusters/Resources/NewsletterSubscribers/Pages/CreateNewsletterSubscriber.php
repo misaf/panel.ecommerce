@@ -6,7 +6,7 @@ namespace Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribe
 
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriber;
+use Misaf\VendraNewsletter\Actions\SubscribeNewsletterSubscriberAction;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
 
 final class CreateNewsletterSubscriber extends CreateRecord
@@ -23,6 +23,6 @@ final class CreateNewsletterSubscriber extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
-        return app(SubscribeNewsletterSubscriber::class)->execute($data);
+        return app(SubscribeNewsletterSubscriberAction::class)->execute($data);
     }
 }

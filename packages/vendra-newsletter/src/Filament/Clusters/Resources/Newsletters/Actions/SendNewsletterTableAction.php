@@ -8,11 +8,11 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
-use Misaf\VendraNewsletter\Actions\SendNewsletter;
+use Misaf\VendraNewsletter\Actions\SendNewsletterAction;
 use Misaf\VendraNewsletter\Enums\NewsletterStatusEnum;
 use Misaf\VendraNewsletter\Models\Newsletter;
 
-final class SendNewsletterAction
+final class SendNewsletterTableAction
 {
     public static function make(): Action
     {
@@ -26,7 +26,7 @@ final class SendNewsletterAction
             ->authorize(fn(Newsletter $record): bool => Gate::allows('send', $record))
             ->visible(fn(Newsletter $record): bool => NewsletterStatusEnum::Sent !== $record->status)
             ->action(function (Newsletter $record): void {
-                $recipients = app(SendNewsletter::class)->execute($record);
+                $recipients = app(SendNewsletterAction::class)->execute($record);
 
                 Notification::make()
                     ->title(__('vendra-newsletter::actions.send_success', ['count' => $recipients]))

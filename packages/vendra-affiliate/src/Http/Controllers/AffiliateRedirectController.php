@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
-use Misaf\VendraAffiliate\Actions\RecordAffiliateClick;
+use Misaf\VendraAffiliate\Actions\RecordAffiliateClickAction;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Models\Affiliate;
 
@@ -20,7 +20,7 @@ use Misaf\VendraAffiliate\Models\Affiliate;
 final class AffiliateRedirectController
 {
     public function __construct(
-        private readonly RecordAffiliateClick $recordAffiliateClick,
+        private readonly RecordAffiliateClickAction $recordAffiliateClick,
     ) {}
 
     public function __invoke(Request $request, string $code): RedirectResponse

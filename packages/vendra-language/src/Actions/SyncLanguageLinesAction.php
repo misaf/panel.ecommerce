@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Misaf\VendraLanguage\Models\LanguageLine;
 use Misaf\VendraLanguage\Support\TranslationCatalog;
 
-final class SyncLanguageLines
+final class SyncLanguageLinesAction
 {
     public function __construct(
         private TranslationCatalog $catalog,

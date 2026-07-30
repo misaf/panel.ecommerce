@@ -6,7 +6,7 @@ namespace Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Misaf\VendraLanguage\Filament\Actions\SyncLanguageLinesAction;
+use Misaf\VendraLanguage\Filament\Actions\SyncLanguageLinesPageAction;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 
 final class ListLanguageLines extends ListRecords
@@ -21,7 +21,7 @@ final class ListLanguageLines extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            SyncLanguageLinesAction::make(),
+            SyncLanguageLinesPageAction::make(),
 
             CreateAction::make(),
         ];

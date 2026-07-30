@@ -23,7 +23,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions\SetDefaultLanguageAction;
+use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\Actions\SetDefaultLanguageTableAction;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\LanguageResource;
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\Locales;
@@ -140,7 +140,7 @@ final class LanguageTable
 
                     EditAction::make(),
 
-                    SetDefaultLanguageAction::make(),
+                    SetDefaultLanguageTableAction::make(),
 
                     DeleteAction::make(),
                 ]),

@@ -16,12 +16,12 @@ use Spatie\QueueableAction\QueueableAction;
  * checkout event or stored totals yet, so host applications call this action
  * from their checkout flow with the order total in minor units.
  */
-final class RecordCartConversion
+final class RecordCartConversionAction
 {
     use QueueableAction;
 
     public function __construct(
-        private readonly CreditCommission $creditCommission,
+        private readonly CreditCommissionAction $creditCommission,
     ) {}
 
     public function execute(User $buyer, Model $source, int $totalMinor): ?AffiliateCommission

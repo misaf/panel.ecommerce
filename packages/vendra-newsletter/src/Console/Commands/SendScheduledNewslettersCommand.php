@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraNewsletter\Console\Commands;
 
 use Illuminate\Console\Command;
-use Misaf\VendraNewsletter\Actions\SendNewsletter;
+use Misaf\VendraNewsletter\Actions\SendNewsletterAction;
 use Misaf\VendraNewsletter\Models\Newsletter;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\TenantResolver;
@@ -22,7 +22,7 @@ final class SendScheduledNewslettersCommand extends Command
      * installed), so subscriber scoping stays correct without this module
      * knowing anything about the concrete tenant.
      */
-    public function handle(SendNewsletter $sendNewsletter, TenantResolver $tenants): int
+    public function handle(SendNewsletterAction $sendNewsletter, TenantResolver $tenants): int
     {
         (new RequestJobContext(
             traceId: RequestJobContext::resolveTraceId(),

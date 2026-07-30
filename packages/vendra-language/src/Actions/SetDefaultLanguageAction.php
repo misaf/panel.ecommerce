@@ -7,7 +7,7 @@ namespace Misaf\VendraLanguage\Actions;
 use Illuminate\Support\Facades\DB;
 use Misaf\VendraLanguage\Models\Language;
 
-final class SetDefaultLanguage
+final class SetDefaultLanguageAction
 {
     public function execute(Language $language): void
     {

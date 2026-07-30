@@ -6,15 +6,15 @@ namespace Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions;
 
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
-use Misaf\VendraCurrency\Actions\SetDefaultCurrency;
+use Misaf\VendraCurrency\Actions\SetDefaultCurrencyAction;
 use Misaf\VendraCurrency\Models\Currency;
 
-final class SetDefaultCurrencyAction
+final class SetDefaultCurrencyTableAction
 {
     public static function make(): Action
     {
         return Action::make('setDefault')
-            ->action(function (Action $action, Currency $record, SetDefaultCurrency $setDefaultCurrency): void {
+            ->action(function (Action $action, Currency $record, SetDefaultCurrencyAction $setDefaultCurrency): void {
                 $setDefaultCurrency->execute($record);
                 $action->success();
             })

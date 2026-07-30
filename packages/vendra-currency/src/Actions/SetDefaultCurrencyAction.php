@@ -7,7 +7,7 @@ namespace Misaf\VendraCurrency\Actions;
 use Illuminate\Support\Facades\DB;
 use Misaf\VendraCurrency\Models\Currency;
 
-final class SetDefaultCurrency
+final class SetDefaultCurrencyAction
 {
     public function execute(Currency $currency): void
     {

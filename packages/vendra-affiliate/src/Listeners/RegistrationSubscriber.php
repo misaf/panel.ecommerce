@@ -7,7 +7,7 @@ namespace Misaf\VendraAffiliate\Listeners;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraAffiliate\Actions\AttributeReferral;
+use Misaf\VendraAffiliate\Actions\AttributeReferralAction;
 use Misaf\VendraUser\Models\User;
 
 /**
@@ -18,7 +18,7 @@ use Misaf\VendraUser\Models\User;
 final class RegistrationSubscriber
 {
     public function __construct(
-        private readonly AttributeReferral $attributeReferral,
+        private readonly AttributeReferralAction $attributeReferral,
     ) {}
 
     public function userCreated(User $user): void

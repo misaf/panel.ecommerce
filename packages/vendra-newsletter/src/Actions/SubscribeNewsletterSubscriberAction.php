@@ -7,7 +7,7 @@ namespace Misaf\VendraNewsletter\Actions;
 use Illuminate\Support\Facades\DB;
 use Misaf\VendraNewsletter\Models\NewsletterSubscriber;
 
-final class SubscribeNewsletterSubscriber
+final class SubscribeNewsletterSubscriberAction
 {
     /**
      * @param  array{email: string, name?: string|null}  $data

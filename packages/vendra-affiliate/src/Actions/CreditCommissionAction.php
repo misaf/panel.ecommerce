@@ -20,7 +20,7 @@ use Spatie\QueueableAction\QueueableAction;
  * conversion source: the (conversion_type, source_type, source_id) unique
  * index guarantees repeated events cannot double-credit.
  */
-final class CreditCommission
+final class CreditCommissionAction
 {
     use QueueableAction;
 

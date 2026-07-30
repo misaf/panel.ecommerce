@@ -25,7 +25,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Misaf\VendraCurrency\Enums\CurrencyType;
-use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetDefaultCurrencyAction;
+use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\Actions\SetDefaultCurrencyTableAction;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
 use Misaf\VendraCurrency\Models\Currency;
 
@@ -141,7 +141,7 @@ final class CurrencyTable
 
                     EditAction::make(),
 
-                    SetDefaultCurrencyAction::make(),
+                    SetDefaultCurrencyTableAction::make(),
 
                     DeleteAction::make(),
                 ]),
