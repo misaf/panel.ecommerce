@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b111a2a6fe542f8d3e5c8f1504a150c",
+    "content-hash": "4c4aa8fea225d208f5c921346fc7b7c1",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -8679,17 +8679,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
-                "reference": "438777c9495edd211bc624fc7e06d6c137b16946"
+                "reference": "aa0d85fcafd95e8613c8dbeec2b7ce0e118028c1"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "misaf/vendra-user": "self.version",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
-                "spatie/laravel-permission": "^7.4.2"
+                "spatie/laravel-permission": "^8.0"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24.1",
@@ -8697,6 +8696,7 @@
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "self.version",
+                "misaf/vendra-user": "self.version",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -9729,17 +9729,17 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "9d9342ac73e082ab6b1e30bcde6dd9b758e1a0ed"
+                "reference": "5e21560a07dfc3436eeccec8f81fb3facacb02f6"
             },
             "require": {
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/laravel-email-validation": "^1.0",
                 "misaf/vendra-multimedia": "self.version",
+                "misaf/vendra-permission": "self.version",
                 "misaf/vendra-support": "self.version",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.93.1",
-                "spatie/laravel-permission": "^7.4.2",
                 "staudenmeir/belongs-to-through": "^2.18"
             },
             "require-dev": {
@@ -13763,16 +13763,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "7.4.2",
+            "version": "8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "15a9daf02ba02d3ae77aaa6da582708231ef999b"
+                "reference": "60e8ed5b2fbf043c2264433fc2680c76b8b66aa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/15a9daf02ba02d3ae77aaa6da582708231ef999b",
-                "reference": "15a9daf02ba02d3ae77aaa6da582708231ef999b",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/60e8ed5b2fbf043c2264433fc2680c76b8b66aa6",
+                "reference": "60e8ed5b2fbf043c2264433fc2680c76b8b66aa6",
                 "shasum": ""
             },
             "require": {
@@ -13785,6 +13785,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
+                "laravel/octane": "^2.0",
                 "laravel/passport": "^13.0",
                 "laravel/pint": "^1.0",
                 "orchestra/testbench": "^10.0|^11.0",
@@ -13800,8 +13801,8 @@
                     ]
                 },
                 "branch-alias": {
-                    "dev-main": "7.x-dev",
-                    "dev-master": "7.x-dev"
+                    "dev-main": "8.x-dev",
+                    "dev-master": "8.x-dev"
                 }
             },
             "autoload": {
@@ -13838,7 +13839,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/7.4.2"
+                "source": "https://github.com/spatie/laravel-permission/tree/8.3.0"
             },
             "funding": [
                 {
@@ -13846,7 +13847,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-30T19:21:26+00:00"
+            "time": "2026-07-03T15:36:01+00:00"
         },
         {
             "name": "spatie/laravel-queueable-action",
