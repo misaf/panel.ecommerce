@@ -6,7 +6,6 @@ namespace Misaf\VendraProductApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -16,30 +15,37 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraProduct\Models\ProductPrice;
-use Misaf\VendraProductApi\State\ProductPriceResourceProvider;
+use Misaf\VendraProductApi\State\ProductPriceLinksHandler;
+use Misaf\VendraProductApi\State\ProductPriceMapper;
 
 #[ApiResource(
     shortName: 'ProductPrice',
-    stateOptions: new Options(modelClass: ProductPrice::class, handleLinks: ProductPriceResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: ProductPrice::class,
+        handleLinks: ProductPriceLinksHandler::class,
+        mapper: ProductPriceMapper::class,
+    ),
     mcp: [
         'get_product_price' => new McpTool(
             description: 'Get a product price by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ProductPriceResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_product_prices' => new McpToolCollection(
             description: 'List product prices with their minor-unit amount, currency, formatted value, and linked product.',
             input: McpCollectionInput::class,
-            provider: ProductPriceResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/catalog/product-prices/{id}', provider: ProductPriceResourceProvider::class)]
+#[Get(uriTemplate: '/catalog/product-prices/{id}')]
 #[GetCollection(
     uriTemplate: '/catalog/product-prices',
-    provider: ProductPriceResourceProvider::class,
     parameters: [
         'currency'    => new QueryParameter(key: 'currency', property: 'currency_code', filter: EqualsFilter::class, constraints: ['string', 'size:3']),
         'productId'   => new QueryParameter(key: 'productId', property: 'product_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),

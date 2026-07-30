@@ -7,7 +7,6 @@ namespace Misaf\VendraProductApi\ApiResource;
 use ApiPlatform\Laravel\Eloquent\Filter\BooleanFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -17,34 +16,41 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedEqualsFilter;
 use Misaf\VendraApi\Eloquent\Filter\LocalizedSearchFilter;
 use Misaf\VendraApi\Eloquent\Filter\RandomOrderFilter;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraProduct\Models\Product;
-use Misaf\VendraProductApi\State\ProductResourceProvider;
+use Misaf\VendraProductApi\State\ProductLinksHandler;
+use Misaf\VendraProductApi\State\ProductMapper;
 
 #[ApiResource(
     shortName: 'Product',
-    stateOptions: new Options(modelClass: Product::class, handleLinks: ProductResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: Product::class,
+        handleLinks: ProductLinksHandler::class,
+        mapper: ProductMapper::class,
+    ),
     mcp: [
         'get_product' => new McpTool(
             description: 'Get an active catalog product with its category, prices, media, and attribute options by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ProductResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_products' => new McpToolCollection(
             description: 'List active catalog products with their categories, prices, media, and attribute options.',
             input: McpCollectionInput::class,
-            provider: ProductResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/catalog/products/{id}', provider: ProductResourceProvider::class)]
+#[Get(uriTemplate: '/catalog/products/{id}')]
 #[GetCollection(
     uriTemplate: '/catalog/products',
-    provider: ProductResourceProvider::class,
     order: ['position' => 'ASC'],
     parameters: [
         'inStock'         => new QueryParameter(key: 'inStock', property: 'in_stock', filter: BooleanFilter::class, constraints: ['boolean']),

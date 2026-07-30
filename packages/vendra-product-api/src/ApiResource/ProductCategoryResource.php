@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraProductApi\ApiResource;
 
 use ApiPlatform\Laravel\Eloquent\Filter\OrderFilter;
-use ApiPlatform\Laravel\Eloquent\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -15,31 +14,38 @@ use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
+use Misaf\VendraApi\State\EloquentResourceOptions;
+use Misaf\VendraApi\State\EloquentResourceProvider;
 use Misaf\VendraApi\ApiResource\ResourceReference;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraProduct\Models\ProductCategory;
-use Misaf\VendraProductApi\State\ProductCategoryResourceProvider;
+use Misaf\VendraProductApi\State\ProductCategoryLinksHandler;
+use Misaf\VendraProductApi\State\ProductCategoryMapper;
 
 #[ApiResource(
     shortName: 'ProductCategory',
-    stateOptions: new Options(modelClass: ProductCategory::class, handleLinks: ProductCategoryResourceProvider::class),
+    provider: EloquentResourceProvider::class,
+    stateOptions: new EloquentResourceOptions(
+        modelClass: ProductCategory::class,
+        handleLinks: ProductCategoryLinksHandler::class,
+        mapper: ProductCategoryMapper::class,
+    ),
     mcp: [
         'get_product_category' => new McpTool(
             description: 'Get an active product category by identifier.',
             input: McpResourceIdentifierInput::class,
-            provider: ProductCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
         'list_product_categories' => new McpToolCollection(
             description: 'List active product categories with their titles, slugs, and the products in each.',
             input: McpCollectionInput::class,
-            provider: ProductCategoryResourceProvider::class,
+            provider: EloquentResourceProvider::class,
         ),
     ],
 )]
-#[Get(uriTemplate: '/catalog/product-categories/{id}', provider: ProductCategoryResourceProvider::class)]
+#[Get(uriTemplate: '/catalog/product-categories/{id}')]
 #[GetCollection(
     uriTemplate: '/catalog/product-categories',
-    provider: ProductCategoryResourceProvider::class,
     order: ['position' => 'ASC'],
     parameters: [
         'sort[id]'       => new QueryParameter(key: 'sort[id]', property: 'id', filter: OrderFilter::class),

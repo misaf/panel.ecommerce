@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Misaf\VendraProductApi\Providers;
 
 use ApiPlatform\Laravel\Eloquent\State\LinksHandlerInterface;
-use ApiPlatform\State\ProviderInterface;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraProductApi\State\ProductCategoryResourceProvider;
-use Misaf\VendraProductApi\State\ProductPriceResourceProvider;
-use Misaf\VendraProductApi\State\ProductResourceProvider;
+use Misaf\VendraProductApi\State\ProductCategoryLinksHandler;
+use Misaf\VendraProductApi\State\ProductLinksHandler;
+use Misaf\VendraProductApi\State\ProductPriceLinksHandler;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,10 +29,10 @@ final class ProductApiServiceProvider extends PackageServiceProvider
         ]);
 
         $this->app->tag([
-            ProductResourceProvider::class,
-            ProductCategoryResourceProvider::class,
-            ProductPriceResourceProvider::class,
-        ], [LinksHandlerInterface::class, ProviderInterface::class]);
+            ProductLinksHandler::class,
+            ProductCategoryLinksHandler::class,
+            ProductPriceLinksHandler::class,
+        ], LinksHandlerInterface::class);
     }
 
     public function packageBooted(): void
