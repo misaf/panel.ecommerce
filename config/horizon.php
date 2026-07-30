@@ -21,6 +21,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Horizon Notifications
+    |--------------------------------------------------------------------------
+    |
+    | This value is the email address that will be notified when a queue has
+    | a long wait time. Notifications can also be routed to Slack or SMS
+    | using the routeSlackNotificationsTo and routeSmsNotificationsTo
+    | methods in HorizonServiceProvider.
+    |
+    */
+
+    'notify_mail' => env('HORIZON_NOTIFY_MAIL'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Horizon Domain
     |--------------------------------------------------------------------------
     |
@@ -208,8 +222,9 @@ return [
             'maxTime'             => 0,
             'maxJobs'             => 0,
             'memory'              => 128,
-            'tries'               => 1,
+            'tries'               => 3,
             'timeout'             => 60,
+            'backoff'             => [5, 30, 120],
             'nice'                => 0,
         ],
     ],
