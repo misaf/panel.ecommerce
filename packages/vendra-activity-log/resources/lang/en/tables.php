@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-    'batch_uuid'        => 'Batch UUID',
     'causer_type'       => 'Causer Type',
     'created_at'        => 'Created At',
     'description'       => [
