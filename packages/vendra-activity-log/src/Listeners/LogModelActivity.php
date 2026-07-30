@@ -57,7 +57,8 @@ final class LogModelActivity
         activity()
             ->performedOn($model)
             ->event($event)
-            ->withProperties($this->properties($event, $model, $attributes))
+            ->withChanges($this->attributeChanges($event, $model, $attributes))
+            ->withProperties($this->properties())
             ->log($event);
     }
 
@@ -82,10 +83,13 @@ final class LogModelActivity
     }
 
     /**
+     * Tracked model changes, stored in the dedicated `attribute_changes` column
+     * (spatie/laravel-activitylog v5 keeps these separate from `properties`).
+     *
      * @param  list<string>  $attributes
      * @return array<string, mixed>
      */
-    private function properties(string $event, Model $model, array $attributes): array
+    private function attributeChanges(string $event, Model $model, array $attributes): array
     {
         $new = [];
 
@@ -100,12 +104,24 @@ final class LogModelActivity
                 $old[$attribute] = $model->getOriginal($attribute);
             }
 
-            $properties = ['attributes' => $new, 'old' => $old];
-        } elseif ('deleted' === $event) {
-            $properties = ['attributes' => $new, 'old' => $new];
-        } else {
-            $properties = ['attributes' => $new];
+            return ['attributes' => $new, 'old' => $old];
         }
+
+        if ('deleted' === $event) {
+            return ['attributes' => $new, 'old' => $new];
+        }
+
+        return ['attributes' => $new];
+    }
+
+    /**
+     * Custom, non-change metadata stored in the `properties` column.
+     *
+     * @return array<string, mixed>
+     */
+    private function properties(): array
+    {
+        $properties = [];
 
         $traceId = Context::get(RequestJobContext::TRACE_ID);
 
