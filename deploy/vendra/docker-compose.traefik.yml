@@ -6,79 +6,138 @@
 #     -f docker-compose.traefik.yml \
 #     --env-file .env up -d
 #
-# It (1) stops the app publishing 80/443, (2) makes FrankenPHP serve plain HTTP
-# on :8080, (3) joins the shared traefik-public network, and (4) declares the
-# single `vendra` Traefik service plus one router per platform host. Datastores
-# and workers are untouched and stay on the private `net` only.
+# It (1) stops the app publishing 80/443, (2) serves plain HTTP on :8080 behind
+# Traefik, (3) joins the shared traefik-public network, and (4) declares TWO
+# backend services — panels and API — from the same image.
+#
+# ROUTERS ARE NOT HERE. The five platform hostnames live in
+# proxy/traefik/dynamic/vendra.yml and reference these services as
+# `vendra-api@docker` / `vendra-panels@docker`. Labels below declare only the
+# service (port + health check), which is the part that must be discovered
+# per-replica so `--scale` works.
 name: vendra
 
+# Cap container logs — an unrotated json-file log fills a single host's disk
+# faster than anything else here.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+# Shared by both PHP backends. APP_URL must be the BASE host: the admin
+# middleware derives the admin domain as `admin.<host>`, and the console/reseller
+# panels bind `console.<host>` / `reseller.<host>` from this host. Setting it to
+# admin.<base> would nest them as console.admin.<base> (→ 404).
+x-app-environment: &app-environment
+  APP_URL: "https://${BASE_DOMAIN}"
+
 services:
+  # --- Panels: admin, <slug>.admin, console, reseller -------------------------
   php:
     # Drop the public ports — Traefik is the only internet-facing container.
     # `!override` replaces the base list instead of appending to it.
     ports: !override []
     expose:
       - "8080"
-    environment:
-      # APP_URL must be the BASE host: the admin middleware derives the admin
-      # domain as `admin.<host>`, and the console/reseller panels bind
-      # `console.<host>` / `reseller.<host>` from this host. Setting it to
-      # admin.<base> would nest them as console.admin.<base> (→ 404).
-      APP_URL: "https://${BASE_DOMAIN}"
+    environment: *app-environment
     # No Caddyfile mount: the image's docker/Caddyfile already serves plain HTTP
-    # on :8080 (vendra runs only behind a TLS-terminating proxy). We just stop it
-    # publishing 80/443 and route to :8080 via the labels below.
+    # on :8080 (vendra runs only behind a TLS-terminating proxy).
     networks:
-      - traefik-public # appended to the base `net`
+      net: {}
+      traefik-public:
+        # Stable name on the edge network regardless of replica count.
+        aliases: [vendra-php-panels]
+    logging: *logging
     labels:
       - "traefik.enable=true"
-      # Bind the service to the edge network (php is multi-homed).
+      # php is multi-homed; tell Traefik which network to reach it on.
       - "traefik.docker.network=traefik-public"
-      # One backend service, reused by every router below.
-      - "traefik.http.services.vendra.loadbalancer.server.port=8080"
+      - "traefik.http.services.vendra-panels.loadbalancer.server.port=8080"
+      # Without a health check Traefik routes to a container that is still
+      # booting or already shutting down — every `compose up` becomes a visible
+      # 502 window. With it, replicas drain and rolling restarts are safe.
+      - "traefik.http.services.vendra-panels.loadbalancer.healthcheck.path=/up"
+      - "traefik.http.services.vendra-panels.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.vendra-panels.loadbalancer.healthcheck.timeout=3s"
 
-      # --- Admin (apex) -------------------------------------------------------
-      - "traefik.http.routers.vendra-admin.rule=Host(`admin.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.vendra-admin.entrypoints=websecure"
-      - "traefik.http.routers.vendra-admin.service=vendra"
-      - "traefik.http.routers.vendra-admin.tls=true"
-      - "traefik.http.routers.vendra-admin.tls.certresolver=${CERT_RESOLVER:-}"
-      - "traefik.http.routers.vendra-admin.middlewares=security-headers@file"
+  # --- Canonical API ----------------------------------------------------------
+  # Same image, separate container: a slow Filament report in the panels can no
+  # longer starve storefront API traffic of PHP workers, and the API — the side
+  # that grows with the property count — scales on its own:
+  #
+  #   docker compose … up -d --scale php-api=2 --no-recreate
+  php-api:
+    # Inherit build/env/healthcheck from the base `php` service so there is one
+    # definition to maintain. NOTE the path: Compose resolves `extends.file`
+    # against the PROJECT directory — the first `-f` file's dir, i.e. the repo's
+    # docker/ — not against this file. Hence the bare name, not `../../docker/…`.
+    extends:
+      file: docker-compose.yml
+      service: php
+    # `extends` copies ports, and a bare `[]` merges to nothing — `!override` is
+    # what actually clears the inherited 80/443 publish.
+    ports: !override []
+    expose:
+      - "8080"
+    # storage-data is shared on purpose (one app, one storage dir). The Caddy
+    # data/config volumes are not: two FrankenPHP instances must not write the
+    # same /data.
+    volumes: !override
+      - storage-data:/app/storage/app
+      - caddy-api-data:/data
+      - caddy-api-config:/config
+    environment: *app-environment
+    restart: unless-stopped
+    depends_on:
+      # `extends` deliberately does not copy depends_on — re-declare it.
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      net: {}
+      traefik-public:
+        aliases: [vendra-php-api]
+    logging: *logging
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.services.vendra-api.loadbalancer.server.port=8080"
+      - "traefik.http.services.vendra-api.loadbalancer.healthcheck.path=/up"
+      - "traefik.http.services.vendra-api.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.vendra-api.loadbalancer.healthcheck.timeout=3s"
 
-      # --- Tenant admin (<slug>.admin.<base>, dynamic) ------------------------
-      # Wildcard cert via DNS-01 in prod; mkcert default cert in local dev.
-      - "traefik.http.routers.vendra-tenant-admin.rule=HostRegexp(`^[a-z0-9-]+\\.admin\\.${BASE_DOMAIN}$`)"
-      - "traefik.http.routers.vendra-tenant-admin.entrypoints=websecure"
-      - "traefik.http.routers.vendra-tenant-admin.service=vendra"
-      - "traefik.http.routers.vendra-tenant-admin.tls=true"
-      - "traefik.http.routers.vendra-tenant-admin.tls.certresolver=${CERT_RESOLVER_DNS:-}"
-      - "traefik.http.routers.vendra-tenant-admin.tls.domains[0].main=admin.${BASE_DOMAIN}"
-      - "traefik.http.routers.vendra-tenant-admin.tls.domains[0].sans=*.admin.${BASE_DOMAIN}"
-      - "traefik.http.routers.vendra-tenant-admin.middlewares=security-headers@file"
+  # --- Datastores and workers: private network only ---------------------------
+  # The base compose publishes MySQL and Mailpit on 127.0.0.1 for local
+  # convenience. In production nothing but Traefik publishes a port, so drop
+  # them outright — loopback-only is still a port on the host.
+  mysql:
+    ports: !override []
+    logging: *logging
 
-      # --- Console (platform owner/operator) ----------------------------------
-      - "traefik.http.routers.vendra-console.rule=Host(`console.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.vendra-console.entrypoints=websecure"
-      - "traefik.http.routers.vendra-console.service=vendra"
-      - "traefik.http.routers.vendra-console.tls=true"
-      - "traefik.http.routers.vendra-console.tls.certresolver=${CERT_RESOLVER:-}"
-      - "traefik.http.routers.vendra-console.middlewares=security-headers@file"
+  mailpit:
+    ports: !override []
+    logging: *logging
 
-      # --- Reseller -----------------------------------------------------------
-      - "traefik.http.routers.vendra-reseller.rule=Host(`reseller.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.vendra-reseller.entrypoints=websecure"
-      - "traefik.http.routers.vendra-reseller.service=vendra"
-      - "traefik.http.routers.vendra-reseller.tls=true"
-      - "traefik.http.routers.vendra-reseller.tls.certresolver=${CERT_RESOLVER:-}"
-      - "traefik.http.routers.vendra-reseller.middlewares=security-headers@file"
+  redis:
+    logging: *logging
 
-      # --- Canonical API (the ONLY API endpoint) ------------------------------
-      - "traefik.http.routers.vendra-api.rule=Host(`api.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.vendra-api.entrypoints=websecure"
-      - "traefik.http.routers.vendra-api.service=vendra"
-      - "traefik.http.routers.vendra-api.tls=true"
-      - "traefik.http.routers.vendra-api.tls.certresolver=${CERT_RESOLVER:-}"
-      - "traefik.http.routers.vendra-api.middlewares=security-headers@file,rate-limit@file,compression@file"
+  horizon:
+    logging: *logging
+
+  scheduler:
+    logging: *logging
+
+  pulse:
+    logging: *logging
+
+  pulse-worker:
+    logging: *logging
+
+volumes:
+  caddy-api-data:
+  caddy-api-config:
 
 networks:
   traefik-public:
