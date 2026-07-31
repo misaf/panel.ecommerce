@@ -81,7 +81,10 @@ services:
     healthcheck:
       test:
         - "CMD-SHELL"
-        - "MYSQL_PWD=\"$$MYSQL_ROOT_PASSWORD\" mysqladmin ping -h localhost -u root"
+        # -h 127.0.0.1 forces TCP: during first-run initialisation MySQL listens
+        # on the socket only (--skip-networking), so a socket ping would report
+        # healthy before the port the app connects to is actually accepting.
+        - "MYSQL_PWD=\"$$MYSQL_ROOT_PASSWORD\" mysqladmin ping -h 127.0.0.1 --protocol=TCP -u root"
       interval: 10s
       timeout: 5s
       retries: 10
