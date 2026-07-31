@@ -22,6 +22,19 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->append(SecureMcpTransport::class);
 
+        // The app runs behind a TLS-terminating reverse proxy (Traefik) that
+        // forwards to FrankenPHP as plain HTTP with X-Forwarded-* headers. The
+        // :8080 listener is never published, so the immediate peer is always the
+        // proxy — trust it, otherwise Laravel treats requests as insecure and
+        // generates http:// asset URLs (mixed-content on the https page).
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR
+                | Request::HEADER_X_FORWARDED_HOST
+                | Request::HEADER_X_FORWARDED_PORT
+                | Request::HEADER_X_FORWARDED_PROTO,
+        );
+
         $middleware->preventRequestForgery(except: [
             '/livewire/*',
             '/webhooks/coinpayments',

@@ -56,6 +56,22 @@ it('generates central panel assets from the current panel domain', function (str
     'reseller' => ['https://reseller.vendra.test/login', 'https://reseller.vendra.test'],
 ]);
 
+it('keeps proxied central panel assets on https via X-Forwarded-Proto', function (string $origin): void {
+    // Simulate Traefik: the request reaches the app as plain HTTP but carries
+    // X-Forwarded-Proto: https. Trusted proxies must make asset URLs https,
+    // otherwise the https page blocks them as mixed content.
+    $httpUrl = str_replace('https://', 'http://', $origin) . '/login';
+
+    $this->get($httpUrl, ['X-Forwarded-Proto' => 'https'])
+        ->assertSuccessful()
+        ->assertSee($origin . '/images/vendra-logo.svg', escape: false)
+        ->assertSee('src="' . $origin . '/livewire-', escape: false)
+        ->assertDontSee(str_replace('https://', 'http://', $origin) . '/livewire-', escape: false);
+})->with([
+    'console'  => 'https://console.vendra.test',
+    'reseller' => 'https://reseller.vendra.test',
+]);
+
 it('isolates reseller authentication configuration', function (): void {
     expect(config('auth.guards.reseller.provider'))->toBe('reseller_users')
         ->and(config('auth.providers.reseller_users.model'))->toBe(App\Models\ResellerUser::class)

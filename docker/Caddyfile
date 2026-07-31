@@ -1,35 +1,22 @@
+# FrankenPHP behind a TLS-terminating reverse proxy (Traefik).
+#
+# Vendra is deployed only behind such a proxy, so this server does NO
+# certificate management: it speaks plain HTTP on :8080 for every host, and the
+# proxy owns TLS and ports 80/443. See deploy/ for the Traefik stack.
 {
 	frankenphp
-	on_demand_tls {
-		# The app decides which hostnames get certificates: the endpoint
-		# receives ?domain=<host> and must return 200 to allow issuance.
-		ask http://localhost:8080/caddy/domain-check
-	}
-	servers :8080 {
-		protocols h1
+	auto_https off
+	# Trust the proxy's forwarded headers so the app sees the real client IP,
+	# scheme and Host. Restricted to the private Docker network range.
+	servers {
+		trusted_proxies static private_ranges
 	}
 }
 
-{$SERVER_NAME:localhost} {
+# One listener, all hosts. The container healthcheck hits 127.0.0.1:8080/up,
+# which this same block serves.
+:8080 {
 	root * /app/public
 	encode zstd br gzip
-	php_server
-	tls {$SERVER_TLS_MODE:internal}
-}
-
-# Catch-all for tenant domains not listed in SERVER_NAME: certificates are
-# issued on demand, gated by the ask endpoint above.
-https:// {
-	root * /app/public
-	encode zstd br gzip
-	php_server
-	tls {$SERVER_TLS_MODE:internal} {
-		on_demand
-	}
-}
-
-# Plain-HTTP listener for container healthchecks (not published by compose).
-http://127.0.0.1:8080 {
-	root * /app/public
 	php_server
 }

@@ -31,7 +31,13 @@ final class UseRequestUrl
 
         $configuredAssetUrl = Config::get('app.asset_url');
         $originalAssetUrl = is_string($configuredAssetUrl) ? $configuredAssetUrl : null;
-        $requestUrl = $request->schemeAndHttpHost();
+
+        // The app is https-only (see URL::forceScheme('https')) and runs behind a
+        // TLS-terminating proxy that forwards over plain HTTP. This middleware is
+        // prepended — it runs before TrustProxies — so $request->getScheme() may
+        // still read http here. Pin the origin to https so central-panel assets
+        // and URLs never fall back to http (mixed content on the https page).
+        $requestUrl = 'https://' . $request->getHttpHost();
 
         $request->attributes->set(self::ORIGINAL_URL, $originalUrl);
         $request->attributes->set(self::ORIGINAL_ASSET_URL, $originalAssetUrl);
