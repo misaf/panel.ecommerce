@@ -136,6 +136,9 @@ services:
   pulse-worker:
     logging: *logging
 
+  provisioner:
+    logging: *logging
+
 volumes:
   caddy-api-data:
   caddy-api-config:

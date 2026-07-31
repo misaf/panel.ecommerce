@@ -60,6 +60,7 @@ return [
     'storefront' => [
         'provisioner_url'   => env('STOREFRONT_PROVISIONER_URL'),
         'provisioner_token' => env('STOREFRONT_PROVISIONER_TOKEN'),
+        'image'             => env('STOREFRONT_IMAGE', 'ghcr.io/misaf/vendra-storefront-florist:1.x'),
         'themes'            => array_values(array_filter(explode(',', (string) env('STOREFRONT_THEMES', 'default')))),
     ],
 

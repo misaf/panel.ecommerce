@@ -12,6 +12,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use JsonException;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 use Throwable;
 
@@ -42,18 +43,28 @@ final class ProvisionStorefrontJob implements NotTenantAware, ShouldBeUnique, Sh
         ])->save();
 
         try {
+            $configuration = [
+                'slug'    => $deployment->slug,
+                'theme'   => $deployment->theme,
+                'domain'  => $deployment->domain,
+                'siteUrl' => 'https://' . $deployment->domain,
+                ...$deployment->configuration,
+            ];
+
             $response = Http::asJson()
                 ->acceptJson()
                 ->withToken((string) Config::get('services.storefront.provisioner_token'))
                 ->timeout(30)
                 ->retry(2, 500)
                 ->post((string) Config::get('services.storefront.provisioner_url'), [
-                    'template'      => 'vendra-storefront-florist',
-                    'tenant_id'     => $deployment->tenant_id,
-                    'slug'          => $deployment->slug,
-                    'domain'        => $deployment->domain,
-                    'theme'         => $deployment->theme,
-                    'configuration' => $deployment->configuration,
+                    'template'             => 'vendra-storefront-florist',
+                    'image'                => (string) Config::get('services.storefront.image'),
+                    'tenant_id'            => $deployment->tenant_id,
+                    'slug'                 => $deployment->slug,
+                    'domain'               => $deployment->domain,
+                    'theme'                => $deployment->theme,
+                    'configuration'        => $configuration,
+                    'configuration_base64' => base64_encode($this->encodeConfiguration($configuration)),
                 ])
                 ->throw();
 
@@ -100,5 +111,15 @@ final class ProvisionStorefrontJob implements NotTenantAware, ShouldBeUnique, Sh
                 ? 'Storefront provisioning failed.'
                 : Str::limit($exception->getMessage(), 2000, ''),
         ]);
+    }
+
+    /**
+     * @param array<string, mixed> $configuration
+     *
+     * @throws JsonException
+     */
+    private function encodeConfiguration(array $configuration): string
+    {
+        return json_encode($configuration, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

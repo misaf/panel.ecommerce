@@ -127,18 +127,20 @@ florist storefront configuration while creating a property. Console operators
 may disable storefront creation; reseller owners cannot. The property tenant is
 committed first and a `storefront_deployments` request is then persisted.
 
-Configure the authenticated asynchronous provisioner in Vendra's environment:
+Vendra deploys every property from the same runtime-configured image. Configure
+the internal asynchronous provisioner and shared image in Vendra's environment:
 
 ```dotenv
-STOREFRONT_PROVISIONER_URL=https://deploy.example.com/storefronts
+STOREFRONT_PROVISIONER_URL=http://provisioner:8080/storefronts
 STOREFRONT_PROVISIONER_TOKEN=replace-with-a-secret-token
+STOREFRONT_IMAGE=ghcr.io/misaf/vendra-storefront-florist:1.x
 STOREFRONT_THEMES=default
 ```
 
-The provisioner receives the tenant ID, slug, domain, selected theme, and full
-property configuration as JSON. It builds `vendra-storefront-florist`, publishes
-the property-specific image, registers its immutable digest with the deployment
-control plane, and returns `status`, `reference`, and `image_digest`. Vendra
+The provisioner receives the tenant ID, slug, domain, selected theme, shared
+image reference, and full property configuration as JSON. It starts a new
+domain-routed container from that image and injects the property configuration
+at runtime, then returns `status`, `reference`, and `image_digest`. Vendra
 records `pending`, `processing`, `requested`, `ready`, or `failed`; without a
 configured URL the request intentionally remains `pending`, and no shell command
 is executed from the web process.

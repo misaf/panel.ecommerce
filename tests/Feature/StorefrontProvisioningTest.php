@@ -77,6 +77,7 @@ it('queues provisioning when the provider is configured', function (): void {
 it('sends configuration to the provider and records a ready image', function (): void {
     Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/storefronts');
     Config::set('services.storefront.provisioner_token', 'secret-token');
+    Config::set('services.storefront.image', 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123');
     Http::fake([
         'deploy.vendra.test/*' => Http::response([
             'status'       => 'ready',
@@ -96,5 +97,8 @@ it('sends configuration to the provider and records a ready image', function ():
 
     Http::assertSent(fn(Request $request): bool => $request->hasHeader('Authorization', 'Bearer secret-token')
         && 'vendra-storefront-florist' === $request['template']
+        && 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123' === $request['image']
+        && 'https://' . $deployment->domain === $request['configuration']['siteUrl']
+        && base64_decode((string) $request['configuration_base64'], true) === json_encode($request['configuration'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
         && $deployment->slug === $request['slug']);
 });

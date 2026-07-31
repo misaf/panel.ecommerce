@@ -17,4 +17,7 @@
 #     domain: abbas.com         # the public storefront domain
 #     image: ghcr.io/your-org/abbas@sha256:…   # pin by digest in production
 
-properties: []
+properties:
+  - slug: houshang-flowers
+    domain: houshang-flowers.test
+    image: ghcr.io/misaf/vendra-storefront-florist:1.x
