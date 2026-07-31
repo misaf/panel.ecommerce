@@ -21,7 +21,12 @@ COPY . .
 # The composer scripts (package:discover, filament:upgrade) boot the app, so
 # the full source tree must be present before install. packages/* are path
 # repositories symlinked into vendor; both live under /app so the links stay
-# valid in the final image.
+# valid in the final image. Booting also loads API Platform's routes, which
+# introspect each Eloquent resource's columns against the default (sqlite)
+# connection; an empty database file keeps that introspection from failing on
+# the absent file during the build.
+RUN touch database/database.sqlite
+
 RUN --mount=type=cache,target=/root/.composer/cache \
     composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
