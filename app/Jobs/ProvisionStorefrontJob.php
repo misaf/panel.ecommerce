@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Contracts\StorefrontProvisioner;
 use App\Enums\StorefrontDeploymentStatus;
 use App\Models\StorefrontDeployment;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use JsonException;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
@@ -22,17 +22,20 @@ final class ProvisionStorefrontJob implements NotTenantAware, ShouldBeUnique, Sh
 
     public int $tries = 5;
 
-    public int $timeout = 60;
+    public int $timeout = 180;
 
     public int $uniqueFor = 3600;
 
-    public function __construct(public readonly int $deploymentId) {}
+    public function __construct(
+        public readonly int $deploymentId,
+        public readonly bool $force = false,
+    ) {}
 
-    public function handle(): void
+    public function handle(StorefrontProvisioner $provisioner): void
     {
         $deployment = StorefrontDeployment::query()->findOrFail($this->deploymentId);
 
-        if (StorefrontDeploymentStatus::Ready === $deployment->status) {
+        if ( ! $this->force && StorefrontDeploymentStatus::Ready === $deployment->status) {
             return;
         }
 
@@ -51,26 +54,20 @@ final class ProvisionStorefrontJob implements NotTenantAware, ShouldBeUnique, Sh
                 ...$deployment->configuration,
             ];
 
-            $response = Http::asJson()
-                ->acceptJson()
-                ->withToken(Config::string('services.storefront.provisioner_token'))
-                ->timeout(30)
-                ->retry(2, 500)
-                ->post(Config::string('services.storefront.provisioner_url'), [
-                    'template'             => 'vendra-storefront-florist',
-                    'image'                => Config::string('services.storefront.image'),
-                    'tenant_id'            => $deployment->tenant_id,
-                    'slug'                 => $deployment->slug,
-                    'domain'               => $deployment->domain,
-                    'theme'                => $deployment->theme,
-                    'configuration'        => $configuration,
-                    'configuration_base64' => base64_encode($this->encodeConfiguration($configuration)),
-                ])
-                ->throw();
+            $response = $provisioner->provision([
+                'template'             => 'vendra-storefront-florist',
+                'image'                => Config::string('services.storefront.image'),
+                'tenant_id'            => $deployment->tenant_id,
+                'slug'                 => $deployment->slug,
+                'domain'               => $deployment->domain,
+                'theme'                => $deployment->theme,
+                'configuration'        => $configuration,
+                'configuration_base64' => base64_encode($this->encodeConfiguration($configuration)),
+            ]);
 
-            $status = $response->json('status');
-            $reference = $response->json('reference');
-            $imageDigest = $response->json('image_digest');
+            $status = $response['status'];
+            $reference = $response['reference'];
+            $imageDigest = $response['image_digest'];
             $ready = 'ready' === $status;
             $deployment->forceFill([
                 'status'             => $ready ? StorefrontDeploymentStatus::Ready : StorefrontDeploymentStatus::Requested,

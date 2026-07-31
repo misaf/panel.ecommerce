@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Contracts\StorefrontProvisioner;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
+use App\Services\HttpStorefrontProvisioner;
 use App\Support\StorefrontOrigins;
 use App\Support\TransactionSubscriptionCharger;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
@@ -53,6 +55,7 @@ final class AppServiceProvider extends ServiceProvider
         // composition root, the host app supplies the transaction-backed adapter
         // and binds it over the null charger.
         $this->app->singleton(SubscriptionCharger::class, TransactionSubscriptionCharger::class);
+        $this->app->bind(StorefrontProvisioner::class, HttpStorefrontProvisioner::class);
     }
 
     public function boot(): void

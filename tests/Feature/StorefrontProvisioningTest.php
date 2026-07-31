@@ -58,7 +58,7 @@ it('keeps an unconfigured deployment pending instead of pretending it succeeded'
 });
 
 it('queues provisioning when the provider is configured', function (): void {
-    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/storefronts');
+    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/v1/storefronts');
     Config::set('services.storefront.provisioner_token', 'secret-token');
     $tenant = Tenant::factory()->create();
 
@@ -74,8 +74,78 @@ it('queues provisioning when the provider is configured', function (): void {
     );
 });
 
+it('reconciles every database deployment including ready storefronts', function (): void {
+    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/v1/storefronts');
+    Config::set('services.storefront.provisioner_token', 'secret-token');
+    $deployments = StorefrontDeployment::factory()->count(2)->sequence(
+        ['status' => StorefrontDeploymentStatus::Pending],
+        ['status' => StorefrontDeploymentStatus::Ready],
+    )->create();
+
+    $this->artisan('storefront:reconcile')
+        ->expectsOutput('2 storefront deployment(s) queued for reconciliation.')
+        ->assertSuccessful();
+
+    foreach ($deployments as $deployment) {
+        Queue::assertPushed(
+            ProvisionStorefrontJob::class,
+            fn(ProvisionStorefrontJob $job): bool => $job->deploymentId === $deployment->id
+                && $job->force,
+        );
+    }
+});
+
+it('lists the database-backed storefront fleet', function (): void {
+    StorefrontDeployment::factory()->create([
+        'slug'               => 'beta-flowers',
+        'domain'             => 'beta.test',
+        'status'             => StorefrontDeploymentStatus::Ready,
+        'provider_reference' => 'container-beta',
+        'image_digest'       => 'sha256:beta',
+    ]);
+    StorefrontDeployment::factory()->create([
+        'slug'   => 'alpha-flowers',
+        'domain' => 'alpha.test',
+        'status' => StorefrontDeploymentStatus::Pending,
+    ]);
+
+    $this->artisan('storefront:status')
+        ->expectsTable(
+            ['Slug', 'Domain', 'Status', 'Provider reference', 'Image digest'],
+            [
+                ['alpha-flowers', 'alpha.test', 'pending', '—', '—'],
+                ['beta-flowers', 'beta.test', 'ready', 'container-beta', 'sha256:beta'],
+            ],
+        )
+        ->assertSuccessful();
+});
+
+it('retries only failed storefront deployments', function (): void {
+    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/v1/storefronts');
+    Config::set('services.storefront.provisioner_token', 'secret-token');
+    $failedDeployment = StorefrontDeployment::factory()->create([
+        'status' => StorefrontDeploymentStatus::Failed,
+    ]);
+    $readyDeployment = StorefrontDeployment::factory()->create([
+        'status' => StorefrontDeploymentStatus::Ready,
+    ]);
+
+    $this->artisan('storefront:retry-failed')
+        ->expectsOutput('1 failed storefront deployment(s) queued for retry.')
+        ->assertSuccessful();
+
+    Queue::assertPushed(
+        ProvisionStorefrontJob::class,
+        fn(ProvisionStorefrontJob $job): bool => $job->deploymentId === $failedDeployment->id,
+    );
+    Queue::assertNotPushed(
+        ProvisionStorefrontJob::class,
+        fn(ProvisionStorefrontJob $job): bool => $job->deploymentId === $readyDeployment->id,
+    );
+});
+
 it('sends configuration to the provider and records a ready image', function (): void {
-    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/storefronts');
+    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/v1/storefronts');
     Config::set('services.storefront.provisioner_token', 'secret-token');
     Config::set('services.storefront.image', 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123');
     Http::fake([
@@ -87,7 +157,7 @@ it('sends configuration to the provider and records a ready image', function ():
     ]);
     $deployment = StorefrontDeployment::factory()->create();
 
-    (new ProvisionStorefrontJob($deployment->id))->handle();
+    (new ProvisionStorefrontJob($deployment->id))->handle(app(App\Contracts\StorefrontProvisioner::class));
 
     $deployment->refresh();
     expect($deployment->status)->toBe(StorefrontDeploymentStatus::Ready)
@@ -95,10 +165,32 @@ it('sends configuration to the provider and records a ready image', function ():
         ->and($deployment->image_digest)->toBe('sha256:abc123')
         ->and($deployment->deployed_at)->not->toBeNull();
 
-    Http::assertSent(fn(Request $request): bool => $request->hasHeader('Authorization', 'Bearer secret-token')
+    Http::assertSent(fn(Request $request): bool => 'https://deploy.vendra.test/v1/storefronts' === $request->url()
+        && $request->hasHeader('Authorization', 'Bearer secret-token')
         && 'vendra-storefront-florist' === $request['template']
         && 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123' === $request['image']
         && 'https://' . $deployment->domain === $request['configuration']['siteUrl']
         && base64_decode((string) $request['configuration_base64'], true) === json_encode($request['configuration'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
         && $deployment->slug === $request['slug']);
+});
+
+it('force reconciles an already ready storefront', function (): void {
+    Config::set('services.storefront.provisioner_url', 'https://deploy.vendra.test/v1/storefronts');
+    Config::set('services.storefront.provisioner_token', 'secret-token');
+    Http::fake([
+        'deploy.vendra.test/*' => Http::response([
+            'status'       => 'ready',
+            'reference'    => 'recovered-storefront',
+            'image_digest' => 'sha256:recovered',
+        ]),
+    ]);
+    $deployment = StorefrontDeployment::factory()->create([
+        'status'             => StorefrontDeploymentStatus::Ready,
+        'provider_reference' => 'old-container',
+    ]);
+
+    (new ProvisionStorefrontJob($deployment->id, force: true))->handle(app(App\Contracts\StorefrontProvisioner::class));
+
+    expect($deployment->refresh()->provider_reference)->toBe('recovered-storefront');
+    Http::assertSentCount(1);
 });
