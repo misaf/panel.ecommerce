@@ -38,7 +38,7 @@ final class HandleStorefrontCors extends HandleCors
     {
         // Only for paths CORS actually covers (api/*), so panel page loads do
         // not pay for a cache lookup they will never use.
-        if ($request instanceof Request && $this->hasMatchingPath($request)) {
+        if ($this->hasMatchingPath($request)) {
             Config::set('cors.allowed_origins', $this->origins->all());
         }
 

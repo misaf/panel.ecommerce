@@ -59,13 +59,20 @@ final class StorefrontOrigins
             return [];
         }
 
-        return $domains
-            ->flatMap(fn(string $name): array => [
-                'https://' . $name,
-                'https://www.' . $name,
-            ])
-            ->unique()
-            ->values()
-            ->all();
+        return array_values(
+            $domains
+                ->flatMap(function (mixed $name): array {
+                    if ( ! is_string($name) || '' === $name) {
+                        return [];
+                    }
+
+                    return [
+                        'https://' . $name,
+                        'https://www.' . $name,
+                    ];
+                })
+                ->unique()
+                ->all(),
+        );
     }
 }
