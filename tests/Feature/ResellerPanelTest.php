@@ -12,6 +12,7 @@ use App\Filament\Reseller\Widgets\ResellerOverview;
 use App\Filament\Reseller\Widgets\SubscriptionDetail;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
+use App\Models\StorefrontDeployment;
 use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 use Filament\Support\Icons\Heroicon;
@@ -52,6 +53,29 @@ function actAsResellerOwner(Reseller $reseller): ResellerUser
     Filament::setCurrentPanel(Filament::getPanel('reseller'));
 
     return $owner;
+}
+
+function resellerStorefrontFormData(): array
+{
+    return [
+        'storefront_slug'                 => 'acme-flowers',
+        'storefront_theme'                => 'default',
+        'storefront_name_en'              => 'Acme Flowers',
+        'storefront_name_fa'              => 'گل‌فروشی اکمی',
+        'storefront_business_type'        => 'Florist',
+        'storefront_price_currency'       => 'IRR',
+        'storefront_locality'             => 'Tehran',
+        'storefront_country'              => 'IR',
+        'storefront_mobile_phone'         => '09120000000',
+        'storefront_office_phone'         => '02100000000',
+        'storefront_contact_email'        => 'contact@acme.test',
+        'storefront_hours_open'           => '08:00',
+        'storefront_hours_close'          => '21:00',
+        'storefront_map_query'            => '35.7,51.4',
+        'storefront_whatsapp_phone'       => '+989120000000',
+        'storefront_telegram_username'    => 'acmeflowers',
+        'storefront_instagram_username'   => 'acmeflowers',
+    ];
 }
 
 it('uses the package table presentation conventions for properties', function (): void {
@@ -298,6 +322,7 @@ it('lets an owner create a property within the plan limit', function (): void {
         ->fillForm([
             'domain' => 'acme.test',
             'email'  => 'admin@gmail.com',
+            ...resellerStorefrontFormData(),
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -310,6 +335,25 @@ it('lets an owner create a property within the plan limit', function (): void {
         'username' => 'admin',
         'email'    => 'admin@gmail.com',
     ]);
+    expect(StorefrontDeployment::query()->where('slug', 'acme-flowers')->exists())->toBeTrue();
+});
+
+it('requires storefront configuration when a reseller creates a property', function (): void {
+    $reseller = Reseller::factory()->create();
+    Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(2))->create();
+    actAsResellerOwner($reseller);
+
+    livewire(CreateProperty::class)
+        ->fillForm([
+            'domain' => 'required-storefront.test',
+            'email'  => 'admin@required-storefront.test',
+        ])
+        ->call('create')
+        ->assertHasFormErrors([
+            'storefront_slug'    => 'required',
+            'storefront_name_en' => 'required',
+            'storefront_name_fa' => 'required',
+        ]);
 });
 
 it('lets an owner soft-delete their own property', function (): void {
