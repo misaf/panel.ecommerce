@@ -1,7 +1,0 @@
-# Generated, per-customer, and secret material — never committed.
-properties/
-**/.env
-proxy/traefik/acme/*
-!proxy/traefik/acme/.gitkeep
-proxy/traefik/certs/*
-!proxy/traefik/certs/.gitkeep

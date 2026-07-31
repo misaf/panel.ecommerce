@@ -2,7 +2,7 @@
 #
 # Vendra is deployed only behind such a proxy, so this server does NO
 # certificate management: it speaks plain HTTP on :8080 for every host, and the
-# proxy owns TLS and ports 80/443. See deploy/ for the Traefik stack.
+# The vendra-controller proxy owns TLS and ports 80/443.
 {
 	frankenphp
 	auto_https off

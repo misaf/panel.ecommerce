@@ -1,4 +1,4 @@
-name: Validate stack
+name: Validate application container
 
 on:
   pull_request:
@@ -7,23 +7,14 @@ on:
       - 1.x
 
 jobs:
-  configuration:
+  entrypoint:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: docker
-    env:
-      APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-      DB_DATABASE: vendra
-      DB_PASSWORD: validation-password
-      DB_ROOT_PASSWORD: validation-root-password
-      DB_USERNAME: vendra
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Validate Compose configuration
-        run: docker compose config --quiet
 
       - name: Validate entrypoint shell script
         run: sh -n docker-entrypoint.sh

@@ -57,27 +57,15 @@ Composer install from the committed lock file, Vite asset build). Pushing a
 `MAJOR.MINOR.PATCH` tag publishes `linux/amd64` and `linux/arm64` images to
 `ghcr.io/misaf/vendra` (`:1.0.0`, `:1.0`, `:latest`).
 
-A full local stack (php, MySQL, Redis, Horizon, scheduler, Pulse) lives in
-`docker/`. The `php` container loads the root `.env` for application config
-(`env_file: ../.env`); database credentials default to insecure placeholders
-in `docker-compose.yml` — create `docker/.env` to override them if needed.
+Host lifecycle and storefront containers are owned by the standalone Go
+controller at [vendra-controller](https://github.com/misaf/vendra-controller).
+Operators need only Docker and its `vendra` binary; this Laravel repository
+contains no Compose stack or Docker-socket integration.
 
-```bash
-cp .env.example .env
-# Set APP_KEY (echo "base64:$(openssl rand -base64 32)") and other settings.
-
-cd docker
-docker compose up -d --build
-# or, from the repo root: docker compose -f docker/docker-compose.yml up -d --build
-```
-
-See `docker/README.md` for details.
-
-Startup runs migrations, seeds host-level bootstrap data, and warms caches via
-the container entrypoint; no manual setup commands are required inside the
-container. Tenant provisioning remains an explicit host workflow. Production
-servers should use the published image through
-[vendra-deploy](https://github.com/misaf/vendra-deploy).
+Laravel stores tenant and storefront business state. Its queued provisioning,
+retry, and reconciliation workflows call the controller's authenticated
+`POST /v1/storefronts` API. Configure that boundary with
+`STOREFRONT_PROVISIONER_URL` and `STOREFRONT_PROVISIONER_TOKEN`.
 
 ## Module Development
 
