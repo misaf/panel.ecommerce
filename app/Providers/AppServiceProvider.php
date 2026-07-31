@@ -8,6 +8,7 @@ use App\Models\Reseller;
 use App\Models\ResellerUser;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
+use App\Support\StorefrontOrigins;
 use App\Support\TransactionSubscriptionCharger;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Filament\Auth\Notifications\ResetPassword;
@@ -36,6 +37,7 @@ use Illuminate\Validation\Rules\Password;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
+use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
 
 final class AppServiceProvider extends ServiceProvider
@@ -100,6 +102,16 @@ final class AppServiceProvider extends ServiceProvider
         Event::listen(Lockout::class, static function (Lockout $event): void {
             (new RequestJobContext(operation: 'auth_lockout'))
                 ->scope(static fn() => Log::warning('Authentication lockout triggered.'));
+        });
+
+        // A domain going active/inactive changes who may call the API, so the
+        // allowlist must not outlive the change. Registered unconditionally:
+        // domains are edited from the panels, not through the API.
+        TenantDomain::saved(static function (): void {
+            StorefrontOrigins::forget();
+        });
+        TenantDomain::deleted(static function (): void {
+            StorefrontOrigins::forget();
         });
 
         $this->configureTableDefaults();

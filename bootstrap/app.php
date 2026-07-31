@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Middleware\AddRequestContext;
+use App\Http\Middleware\HandleStorefrontCors;
 use App\Http\Middleware\SecureMcpTransport;
 use App\Http\Middleware\UseRequestUrl;
 use Illuminate\Foundation\Application;
@@ -16,7 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // CORS first: storefronts are served on customer domains but fetch from
+        // the canonical api.<base> host, so every browser call is cross-origin
+        // and preflights. Preflight OPTIONS requests must be answered before
+        // routing, which is why this is global middleware rather than route
+        // middleware. The allowlist is built per-request from the active
+        // storefront domains — see HandleStorefrontCors and config/cors.php.
         $middleware->prepend([
+            HandleStorefrontCors::class,
             AddRequestContext::class,
             UseRequestUrl::class,
         ]);
