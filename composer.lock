@@ -5932,16 +5932,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v4.3.3",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "8021f2561865c4c297a3bfca37212a99034377e7"
+                "reference": "e6c8d631e9687fbdd5c2bb7be9d7a5d699cce0e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/8021f2561865c4c297a3bfca37212a99034377e7",
-                "reference": "8021f2561865c4c297a3bfca37212a99034377e7",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/e6c8d631e9687fbdd5c2bb7be9d7a5d699cce0e2",
+                "reference": "e6c8d631e9687fbdd5c2bb7be9d7a5d699cce0e2",
                 "shasum": ""
             },
             "require": {
@@ -5996,7 +5996,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v4.3.3"
+                "source": "https://github.com/livewire/livewire/tree/v4.3.4"
             },
             "funding": [
                 {
@@ -6004,7 +6004,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-27T03:16:11+00:00"
+            "time": "2026-07-31T00:19:18+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -25008,23 +25008,23 @@
         },
         {
             "name": "symplify/monorepo-builder",
-            "version": "12.7.1",
+            "version": "12.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/monorepo-builder.git",
-                "reference": "a5ae1abc3ea97e540d1dec496f1b16f768d77562"
+                "reference": "35e7593ea00d317008d40596e505e83bf8eddccf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/a5ae1abc3ea97e540d1dec496f1b16f768d77562",
-                "reference": "a5ae1abc3ea97e540d1dec496f1b16f768d77562",
+                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/35e7593ea00d317008d40596e505e83bf8eddccf",
+                "reference": "35e7593ea00d317008d40596e505e83bf8eddccf",
                 "shasum": ""
             },
             "require": {
                 "nette/utils": "^4.0.5",
                 "phar-io/version": "^3.2",
                 "php": ">=8.2",
-                "sebastian/diff": "^6.0 || ^7.0 || ^8.0",
+                "sebastian/diff": "^6.0 || ^7.0 || ^8.0 || ^9.0",
                 "symfony/config": "^7.0 || ^8.0",
                 "symfony/console": "^7.0 || ^8.0",
                 "symfony/dependency-injection": "^7.0 || ^8.0",
@@ -25073,7 +25073,7 @@
             "description": "Not only Composer tools to build a Monorepo.",
             "support": {
                 "issues": "https://github.com/symplify/monorepo-builder/issues",
-                "source": "https://github.com/symplify/monorepo-builder/tree/12.7.1"
+                "source": "https://github.com/symplify/monorepo-builder/tree/12.7.2"
             },
             "funding": [
                 {
@@ -25085,7 +25085,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-20T01:27:41+00:00"
+            "time": "2026-07-31T02:17:08+00:00"
         },
         {
             "name": "ta-tikoma/phpunit-architecture-test",
