@@ -1,0 +1,85 @@
+# /opt/apps/vendra/docker-compose.traefik.yml
+# Production OVERLAY over the vendra repo's docker/docker-compose.yml. Deploy with:
+#
+#   docker compose \
+#     -f /path/to/vendra/docker/docker-compose.yml \
+#     -f docker-compose.traefik.yml \
+#     --env-file .env up -d
+#
+# It (1) stops the app publishing 80/443, (2) makes FrankenPHP serve plain HTTP
+# on :8080, (3) joins the shared traefik-public network, and (4) declares the
+# single `vendra` Traefik service plus one router per platform host. Datastores
+# and workers are untouched and stay on the private `net` only.
+name: vendra
+
+services:
+  php:
+    # Drop the public ports — Traefik is the only internet-facing container.
+    # `!override` replaces the base list instead of appending to it.
+    ports: !override []
+    expose:
+      - "8080"
+    environment:
+      # APP_URL must be the BASE host: the admin middleware derives the admin
+      # domain as `admin.<host>`, and the console/reseller panels bind
+      # `console.<host>` / `reseller.<host>` from this host. Setting it to
+      # admin.<base> would nest them as console.admin.<base> (→ 404).
+      APP_URL: "https://${BASE_DOMAIN}"
+    # No Caddyfile mount: the image's docker/Caddyfile already serves plain HTTP
+    # on :8080 (vendra runs only behind a TLS-terminating proxy). We just stop it
+    # publishing 80/443 and route to :8080 via the labels below.
+    networks:
+      - traefik-public # appended to the base `net`
+    labels:
+      - "traefik.enable=true"
+      # Bind the service to the edge network (php is multi-homed).
+      - "traefik.docker.network=traefik-public"
+      # One backend service, reused by every router below.
+      - "traefik.http.services.vendra.loadbalancer.server.port=8080"
+
+      # --- Admin (apex) -------------------------------------------------------
+      - "traefik.http.routers.vendra-admin.rule=Host(`admin.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.vendra-admin.entrypoints=websecure"
+      - "traefik.http.routers.vendra-admin.service=vendra"
+      - "traefik.http.routers.vendra-admin.tls=true"
+      - "traefik.http.routers.vendra-admin.tls.certresolver=${CERT_RESOLVER:-}"
+      - "traefik.http.routers.vendra-admin.middlewares=security-headers@file"
+
+      # --- Tenant admin (<slug>.admin.<base>, dynamic) ------------------------
+      # Wildcard cert via DNS-01 in prod; mkcert default cert in local dev.
+      - "traefik.http.routers.vendra-tenant-admin.rule=HostRegexp(`^[a-z0-9-]+\\.admin\\.${BASE_DOMAIN}$`)"
+      - "traefik.http.routers.vendra-tenant-admin.entrypoints=websecure"
+      - "traefik.http.routers.vendra-tenant-admin.service=vendra"
+      - "traefik.http.routers.vendra-tenant-admin.tls=true"
+      - "traefik.http.routers.vendra-tenant-admin.tls.certresolver=${CERT_RESOLVER_DNS:-}"
+      - "traefik.http.routers.vendra-tenant-admin.tls.domains[0].main=admin.${BASE_DOMAIN}"
+      - "traefik.http.routers.vendra-tenant-admin.tls.domains[0].sans=*.admin.${BASE_DOMAIN}"
+      - "traefik.http.routers.vendra-tenant-admin.middlewares=security-headers@file"
+
+      # --- Console (platform owner/operator) ----------------------------------
+      - "traefik.http.routers.vendra-console.rule=Host(`console.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.vendra-console.entrypoints=websecure"
+      - "traefik.http.routers.vendra-console.service=vendra"
+      - "traefik.http.routers.vendra-console.tls=true"
+      - "traefik.http.routers.vendra-console.tls.certresolver=${CERT_RESOLVER:-}"
+      - "traefik.http.routers.vendra-console.middlewares=security-headers@file"
+
+      # --- Reseller -----------------------------------------------------------
+      - "traefik.http.routers.vendra-reseller.rule=Host(`reseller.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.vendra-reseller.entrypoints=websecure"
+      - "traefik.http.routers.vendra-reseller.service=vendra"
+      - "traefik.http.routers.vendra-reseller.tls=true"
+      - "traefik.http.routers.vendra-reseller.tls.certresolver=${CERT_RESOLVER:-}"
+      - "traefik.http.routers.vendra-reseller.middlewares=security-headers@file"
+
+      # --- Canonical API (the ONLY API endpoint) ------------------------------
+      - "traefik.http.routers.vendra-api.rule=Host(`api.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.vendra-api.entrypoints=websecure"
+      - "traefik.http.routers.vendra-api.service=vendra"
+      - "traefik.http.routers.vendra-api.tls=true"
+      - "traefik.http.routers.vendra-api.tls.certresolver=${CERT_RESOLVER:-}"
+      - "traefik.http.routers.vendra-api.middlewares=security-headers@file,rate-limit@file,compression@file"
+
+networks:
+  traefik-public:
+    external: true

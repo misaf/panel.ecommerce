@@ -1,0 +1,43 @@
+# Dynamic configuration (hot-reloaded, no restart). Reusable middlewares that
+# apps attach by name via labels, e.g.
+#   traefik.http.routers.<r>.middlewares=security-headers@file,rate-limit@file
+http:
+  middlewares:
+    # Sensible security response headers for every public router.
+    security-headers:
+      headers:
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: "strict-origin-when-cross-origin"
+        frameDeny: true
+        customFrameOptionsValue: "SAMEORIGIN"
+
+    # Coarse per-source rate limit; tune per app.
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 200
+        period: 1s
+
+    # gzip/deflate for text responses (Traefik has no brotli; app/CDN can add it).
+    compression:
+      compress: {}
+
+    # Redirect www.<host> → apex.
+    www-redirect:
+      redirectRegex:
+        regex: "^https://www\\.(.*)"
+        replacement: "https://${1}"
+        permanent: true
+
+    # Basic-auth gate for the Traefik dashboard. Generate a hash with:
+    #   htpasswd -nbB admin 'your-password'
+    # then replace the value below (escape every $ as $$ ONLY inside compose
+    # labels — here in a file provider a single $ is correct).
+    dashboard-auth:
+      basicAuth:
+        users:
+          - "admin:$2y$10$mCUKWEDYcWv7jA9PeLw51OjJVCtEJQaTVRTI2nqyAfcKEn.s6j4PS"

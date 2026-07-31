@@ -1,0 +1,33 @@
+# /opt/apps/vendra-website/docker-compose.yml
+# The public marketing site at the apex (vendra.test / vendra.com). A plain
+# Next.js frontend; it is NOT a tenant and has no API router. If it needs data
+# it calls the canonical API at https://api.${BASE_DOMAIN} server-side.
+name: vendra-website
+
+services:
+  web:
+    image: "${WEBSITE_IMAGE}"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: production
+      VENDRA_API_URL: "https://api.${BASE_DOMAIN}"
+    networks:
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.services.website.loadbalancer.server.port=3000"
+      - "traefik.http.routers.website.rule=Host(`${BASE_DOMAIN}`) || Host(`www.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.website.entrypoints=websecure"
+      - "traefik.http.routers.website.service=website"
+      - "traefik.http.routers.website.tls=true"
+      - "traefik.http.routers.website.tls.certresolver=${CERT_RESOLVER:-}"
+      - "traefik.http.routers.website.middlewares=www-redirect@file,security-headers@file,compression@file"
+
+networks:
+  traefik-public:
+    external: true
