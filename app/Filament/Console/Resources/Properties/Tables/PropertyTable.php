@@ -6,6 +6,7 @@ namespace App\Filament\Console\Resources\Properties\Tables;
 
 use App\Filament\Console\Resources\Properties\Actions\ReplaceDomainAction;
 use App\Models\Reseller;
+use App\Models\StorefrontDeployment;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -57,6 +58,12 @@ final class PropertyTable
                     ->icon(Heroicon::GlobeAlt)
                     ->state(fn(Tenant $record): ?string => $record->activeDomainName())
                     ->placeholder('—'),
+
+                TextColumn::make('storefront_status')
+                    ->label(__('console.storefront_status'))
+                    ->badge()
+                    ->state(fn(Tenant $record): ?string => self::storefrontStatuses()->get($record->getKey()))
+                    ->placeholder(__('console.storefront_not_requested')),
 
                 TextColumn::make('admin_access')
                     ->label(__('console.admin_url'))
@@ -153,5 +160,12 @@ final class PropertyTable
         return once(fn(): Collection => Reseller::query()
             ->get(['id', 'name'])
             ->mapWithKeys(fn(Reseller $reseller): array => [$reseller->id => $reseller->name]));
+    }
+
+    /** @return Collection<int, string> */
+    private static function storefrontStatuses(): Collection
+    {
+        return once(fn(): Collection => StorefrontDeployment::query()
+            ->pluck('status', 'tenant_id'));
     }
 }

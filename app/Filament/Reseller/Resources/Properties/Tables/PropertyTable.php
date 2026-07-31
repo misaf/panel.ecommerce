@@ -6,6 +6,7 @@ namespace App\Filament\Reseller\Resources\Properties\Tables;
 
 use App\Filament\Reseller\Resources\Properties\Actions\ReplaceDomainAction;
 use App\Filament\Reseller\Resources\Properties\PropertyResource;
+use App\Models\StorefrontDeployment;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -17,6 +18,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraTenant\Models\Tenant;
 
@@ -43,6 +45,12 @@ final class PropertyTable
                     ->icon(Heroicon::GlobeAlt)
                     ->state(fn(Tenant $record): ?string => $record->activeDomainName())
                     ->placeholder('—'),
+
+                TextColumn::make('storefront_status')
+                    ->label(__('console.storefront_status'))
+                    ->badge()
+                    ->state(fn(Tenant $record): ?string => self::storefrontStatuses()->get($record->getKey()))
+                    ->placeholder(__('console.storefront_not_requested')),
 
                 TextColumn::make('admin_access')
                     ->label(__('console.admin_url'))
@@ -114,5 +122,12 @@ final class PropertyTable
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc');
+    }
+
+    /** @return Collection<int, string> */
+    private static function storefrontStatuses(): Collection
+    {
+        return once(fn(): Collection => StorefrontDeployment::query()
+            ->pluck('status', 'tenant_id'));
     }
 }
