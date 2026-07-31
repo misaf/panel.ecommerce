@@ -2,8 +2,14 @@
 # This file is mounted read-only into the proxy container. Traefik does NOT
 # interpolate ${ENV} here — values that vary per environment (ACME email, DNS
 # token) are set literally below or passed as TRAEFIK_* / provider env vars in
-# docker-compose.yml. Routers, services and certresolver *selection* live on
-# container labels (see each app's compose), so this file rarely changes.
+# docker-compose.yml.
+#
+# The five PLATFORM routers (admin, <slug>.admin, console, reseller, api) live in
+# dynamic/vendra.yml — they are static hostnames pointing at static
+# services, so they belong in a reviewable, git-diffable file rather than in a
+# 45-line label block that is rebuilt with the app container. Container labels
+# are reserved for the genuinely dynamic case: storefront properties, which come
+# and go without a proxy edit.
 
 global:
   checkNewVersion: false
@@ -37,21 +43,31 @@ api:
 # on the shared traefik-public network are considered.
 providers:
   docker:
-    endpoint: "unix:///var/run/docker.sock"
+    # Not the raw socket: a read-only socket-proxy sidecar (see compose). Read
+    # access to the real socket would expose every container's environment.
+    endpoint: "tcp://socket-proxy:2375"
     exposedByDefault: false
     network: traefik-public
     watch: true
   file:
     directory: /etc/traefik/dynamic
     watch: true
+    # Every dynamic file here is rendered as a Go template first, which is how
+    # vendra.yml reaches `{{ env "BASE_DOMAIN" }}`. A `.tmpl` extension does NOT
+    # work — the provider skips unrecognised extensions, so keep the `.yml`.
 
-# Certificate resolvers.
-#   letsencrypt      — HTTP-01, one cert per exact hostname (storefront apexes,
-#                      admin/console/reseller/api). Selected in prod via the
-#                      CERT_RESOLVER compose var.
-#   letsencrypt-dns  — DNS-01, the only challenge that can mint the
-#                      *.admin.<base> wildcard for dynamic per-tenant admin
-#                      subdomains. Needs a DNS-provider token (see compose).
+# Certificate resolvers. Which one a host uses follows from who controls its DNS:
+#
+#   letsencrypt-dns  — DNS-01, used by EVERY platform host. One wildcard cert
+#                      (<base> + *.<base> + *.admin.<base>) covers apex, admin,
+#                      <slug>.admin, console, reseller and api together. One
+#                      issuance path instead of five, it keeps working when :80
+#                      is filtered, and it is the only challenge that can mint
+#                      the *.admin wildcard the dynamic tenant subdomains need.
+#   letsencrypt      — HTTP-01, used ONLY by storefront properties. Their DNS
+#                      belongs to the customer, so DNS-01 is not available there;
+#                      HTTP-01 needs nothing but an A record pointed at this host.
+#
 # In LOCAL dev both are simply unreferenced: routers leave certresolver empty
 # and fall back to the mkcert default certificate from dynamic/tls-local.yml.
 certificatesResolvers:
@@ -75,18 +91,34 @@ log:
   level: INFO
 
 # JSON access logs → picked up by the Docker json-file driver / shipped to Loki.
+#
+# X-Request-ID is the correlation key: App\Http\Middleware\AddRequestContext
+# accepts an inbound one (UUID-validated), puts it in the Laravel log context,
+# and echoes it on the response. Keeping it here joins an edge log line to its
+# application log line — and to any job that request dispatched — on one id.
 accessLog:
   format: json
   fields:
     headers:
       names:
         User-Agent: keep
+        X-Request-ID: keep
 
-# Prometheus metrics for the monitoring stack.
+# Prometheus metrics. Nothing scrapes these by default — point your Prometheus
+# at the Traefik container's :8080/metrics (or enable a dedicated metrics
+# entrypoint) to make them useful.
 metrics:
   prometheus:
     addEntryPointsLabels: true
     addRoutersLabels: true
     addServicesLabels: true
+
+# Distributed tracing. Traefik v3 speaks OTLP natively; uncomment and point it
+# at your collector to get edge spans that carry the same request id as the
+# application logs above.
+# tracing:
+#   otlp:
+#     http:
+#       endpoint: "http://otel-collector:4318/v1/traces"
 
 ping: {}
