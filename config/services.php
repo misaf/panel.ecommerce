@@ -57,4 +57,10 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN'),
     ],
 
+    'storefront' => [
+        'provisioner_url'   => env('STOREFRONT_PROVISIONER_URL'),
+        'provisioner_token' => env('STOREFRONT_PROVISIONER_TOKEN'),
+        'themes'            => array_values(array_filter(explode(',', (string) env('STOREFRONT_THEMES', 'default')))),
+    ],
+
 ];
