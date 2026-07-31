@@ -109,13 +109,14 @@ services:
       - "traefik.http.services.vendra-api.loadbalancer.healthcheck.timeout=3s"
 
   # --- Datastores and workers: private network only ---------------------------
-  # The base compose publishes MySQL and Mailpit on 127.0.0.1 for local
-  # convenience. In production nothing but Traefik publishes a port, so drop
-  # them outright — loopback-only is still a port on the host.
+  # Keep MySQL reachable only through the host loopback interface so database
+  # clients can connect safely through an SSH tunnel. It is not public.
   mysql:
-    ports: !override []
+    ports: !override
+      - "127.0.0.1:3306:3306"
     logging: *logging
 
+  # Mailpit remains private to the Docker network in production.
   mailpit:
     ports: !override []
     logging: *logging
