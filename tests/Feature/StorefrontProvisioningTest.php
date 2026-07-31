@@ -41,7 +41,7 @@ beforeEach(function (): void {
 });
 
 it('keeps an unconfigured deployment pending instead of pretending it succeeded', function (): void {
-    Config::set('services.storefront.provisioner_url', null);
+    Config::set('services.storefront.provisioner_url', '');
     $tenant = Tenant::factory()->create();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(

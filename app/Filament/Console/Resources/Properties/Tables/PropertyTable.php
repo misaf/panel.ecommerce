@@ -62,7 +62,7 @@ final class PropertyTable
                 TextColumn::make('storefront_status')
                     ->label(__('console.storefront_status'))
                     ->badge()
-                    ->state(fn(Tenant $record): ?string => self::storefrontStatuses()->get($record->getKey()))
+                    ->state(fn(Tenant $record): ?string => self::storefrontStatuses()->get($record->id))
                     ->placeholder(__('console.storefront_not_requested')),
 
                 TextColumn::make('admin_access')
@@ -162,10 +162,14 @@ final class PropertyTable
             ->mapWithKeys(fn(Reseller $reseller): array => [$reseller->id => $reseller->name]));
     }
 
-    /** @return Collection<int, string> */
+    /** @return Collection<int, 'failed'|'pending'|'processing'|'ready'|'requested'> */
     private static function storefrontStatuses(): Collection
     {
         return once(fn(): Collection => StorefrontDeployment::query()
-            ->pluck('status', 'tenant_id'));
+            ->orderBy('id')
+            ->get(['tenant_id', 'status'])
+            ->mapWithKeys(fn(StorefrontDeployment $deployment): array => [
+                $deployment->tenant_id => $deployment->status->value,
+            ]));
     }
 }

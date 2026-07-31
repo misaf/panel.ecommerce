@@ -53,12 +53,12 @@ final class ProvisionStorefrontJob implements NotTenantAware, ShouldBeUnique, Sh
 
             $response = Http::asJson()
                 ->acceptJson()
-                ->withToken((string) Config::get('services.storefront.provisioner_token'))
+                ->withToken(Config::string('services.storefront.provisioner_token'))
                 ->timeout(30)
                 ->retry(2, 500)
-                ->post((string) Config::get('services.storefront.provisioner_url'), [
+                ->post(Config::string('services.storefront.provisioner_url'), [
                     'template'             => 'vendra-storefront-florist',
-                    'image'                => (string) Config::get('services.storefront.image'),
+                    'image'                => Config::string('services.storefront.image'),
                     'tenant_id'            => $deployment->tenant_id,
                     'slug'                 => $deployment->slug,
                     'domain'               => $deployment->domain,

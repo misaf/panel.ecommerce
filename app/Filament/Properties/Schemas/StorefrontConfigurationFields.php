@@ -50,7 +50,9 @@ final class StorefrontConfigurationFields
     {
         $required = fn(Get $get): bool => ! $optional || true === $get('create_storefront');
         $themes = collect(Config::array('services.storefront.themes'))
-            ->mapWithKeys(fn(string $theme): array => [$theme => Str::headline($theme)])
+            ->mapWithKeys(fn(mixed $theme): array => is_string($theme)
+                ? [$theme => Str::headline($theme)]
+                : [])
             ->all();
 
         return [

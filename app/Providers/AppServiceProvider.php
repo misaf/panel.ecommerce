@@ -69,6 +69,7 @@ final class AppServiceProvider extends ServiceProvider
 
         $this->app->make(TenantTableRegistry::class)->register(
             is_string($settingsTable) ? $settingsTable : 'settings',
+            'storefront_deployments',
         );
         URL::forceScheme('https');
         Model::shouldBeStrict();
