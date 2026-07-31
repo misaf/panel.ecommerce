@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Console\Resources\Properties\Schemas;
 
+use App\Filament\Properties\Schemas\StorefrontConfigurationFields;
 use App\Models\Reseller;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -56,6 +57,8 @@ final class PropertyForm
                         new EmailValidation(),
                     ])
                     ->visibleOn('create'),
+
+                ...StorefrontConfigurationFields::make(optional: true),
 
                 Toggle::make('active')
                     ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))

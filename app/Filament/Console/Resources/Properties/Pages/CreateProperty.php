@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Console\Resources\Properties\Pages;
 
 use App\Actions\ProvisionTenantAction;
+use App\Actions\RequestStorefrontDeploymentAction;
 use App\Filament\Console\Resources\Properties\PropertyResource;
 use App\Models\Reseller;
 use Filament\Notifications\Notification;
@@ -64,6 +65,14 @@ final class CreateProperty extends CreateRecord
             ]))
             ->persistent()
             ->send();
+
+        if (true === ($data['create_storefront'] ?? false)) {
+            app(RequestStorefrontDeploymentAction::class)->execute(
+                tenant: $result['tenant'],
+                domain: $domain,
+                form: $data,
+            );
+        }
 
         return $result['tenant'];
     }

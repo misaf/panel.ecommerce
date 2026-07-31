@@ -17,6 +17,7 @@ use App\Filament\Console\Resources\Resellers\ResellerResource;
 use App\Models\ConsoleUser;
 use App\Models\Reseller;
 use App\Models\ResellerUser;
+use App\Models\StorefrontDeployment;
 use Database\Seeders\ConsoleUserSeeder;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Testing\TestAction;
@@ -57,6 +58,30 @@ function actAsConsoleAdmin(): ConsoleUser
     Filament::setCurrentPanel(Filament::getPanel('console'));
 
     return $admin;
+}
+
+function consoleStorefrontFormData(): array
+{
+    return [
+        'create_storefront'               => true,
+        'storefront_slug'                 => 'console-flowers',
+        'storefront_theme'                => 'default',
+        'storefront_name_en'              => 'Console Flowers',
+        'storefront_name_fa'              => 'گل‌فروشی کنسول',
+        'storefront_business_type'        => 'Florist',
+        'storefront_price_currency'       => 'IRR',
+        'storefront_locality'             => 'Tehran',
+        'storefront_country'              => 'IR',
+        'storefront_mobile_phone'         => '09120000000',
+        'storefront_office_phone'         => '02100000000',
+        'storefront_contact_email'        => 'contact@console-flowers.test',
+        'storefront_hours_open'           => '08:00',
+        'storefront_hours_close'          => '21:00',
+        'storefront_map_query'            => '35.7,51.4',
+        'storefront_whatsapp_phone'       => '+989120000000',
+        'storefront_telegram_username'    => 'consoleflowers',
+        'storefront_instagram_username'   => 'consoleflowers',
+    ];
 }
 
 it('uses the Vendra logo in light and dark modes', function (): void {
@@ -257,6 +282,31 @@ it('creates a property for a reseller within its plan limit', function (): void 
     assertDatabaseHas('users', [
         'username' => 'admin',
         'email'    => 'admin@gmail.com',
+    ]);
+    expect(StorefrontDeployment::query()->count())->toBe(0);
+});
+
+it('optionally requests a storefront when a console admin creates a property', function (): void {
+    actAsConsoleAdmin();
+    $reseller = Reseller::factory()->create();
+    Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(2))->create();
+
+    livewire(CreateProperty::class)
+        ->fillForm([
+            'reseller_id' => $reseller->getKey(),
+            'domain'      => 'console-flowers.test',
+            'email'       => 'console.flowers@gmail.com',
+            'active'      => true,
+            ...consoleStorefrontFormData(),
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    assertDatabaseHas('storefront_deployments', [
+        'slug'   => 'console-flowers',
+        'domain' => 'console-flowers.test',
+        'theme'  => 'default',
+        'status' => 'pending',
     ]);
 });
 

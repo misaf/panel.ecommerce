@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Reseller\Resources\Properties\Schemas;
 
+use App\Filament\Properties\Schemas\StorefrontConfigurationFields;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Livewire\Component as Livewire;
@@ -41,6 +42,8 @@ final class PropertyForm
                         'email:rfc,strict,spoof,filter,filter_unicode',
                         new EmailValidation(),
                     ]),
+
+                ...StorefrontConfigurationFields::make(optional: false),
             ])
             ->columns(2);
     }

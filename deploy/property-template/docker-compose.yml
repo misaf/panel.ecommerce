@@ -17,9 +17,10 @@ services:
       - "${STOREFRONT_PORT:-3000}"
     environment:
       NODE_ENV: production
+      # Complete property identity/configuration, supplied by the provisioner.
+      STOREFRONT_CONFIG_BASE64: "${STOREFRONT_CONFIG_BASE64:?Set STOREFRONT_CONFIG_BASE64 in .env}"
       # The single canonical API. Storefronts never call their own domain for data.
       VENDRA_API_URL: "https://api.${BASE_DOMAIN}"
-      NEXT_PUBLIC_VENDRA_API_URL: "https://api.${BASE_DOMAIN}"
     networks:
       - traefik-public
     logging:

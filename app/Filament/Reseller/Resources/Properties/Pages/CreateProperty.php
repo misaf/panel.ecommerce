@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Reseller\Resources\Properties\Pages;
 
 use App\Actions\ProvisionTenantAction;
+use App\Actions\RequestStorefrontDeploymentAction;
 use App\Filament\Reseller\Resources\Properties\PropertyResource;
 use App\Models\Reseller;
 use Filament\Notifications\Notification;
@@ -65,6 +66,12 @@ final class CreateProperty extends CreateRecord
             ]))
             ->persistent()
             ->send();
+
+        app(RequestStorefrontDeploymentAction::class)->execute(
+            tenant: $result['tenant'],
+            domain: $domain,
+            form: $data,
+        );
 
         return $result['tenant'];
     }
