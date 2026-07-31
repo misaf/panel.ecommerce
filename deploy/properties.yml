@@ -1,0 +1,20 @@
+# The storefront property registry — the durable definition of the fleet.
+#
+# WHY THIS IS COMMITTED: properties/<slug>/ is generated and gitignored, so
+# without this file a wiped host loses the list of what was running on it, and
+# the "recovery = git + restore volumes" claim in README.md would not hold. This
+# file makes it true: `bin/stack property sync` re-renders every property
+# directory from the entries below plus property-template/.
+#
+# It holds NO secrets — only what is already public (a domain) or a registry
+# reference. Credentials stay in the generated, gitignored .env files.
+#
+# Managed by `bin/stack property add|rm`; hand-editing is fine too, just run
+# `bin/stack property sync` afterwards.
+#
+# properties:
+#   - slug: abbas               # lowercase letters, digits, hyphens
+#     domain: abbas.com         # the public storefront domain
+#     image: ghcr.io/your-org/abbas@sha256:…   # pin by digest in production
+
+properties: []

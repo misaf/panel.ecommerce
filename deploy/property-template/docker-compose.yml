@@ -22,16 +22,29 @@ services:
       NEXT_PUBLIC_VENDRA_API_URL: "https://api.${BASE_DOMAIN}"
     networks:
       - traefik-public
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
       - "traefik.http.services.${ROUTER_NAME}.loadbalancer.server.port=${STOREFRONT_PORT:-3000}"
+      # Drain on deploy: without a health check Traefik routes to a container
+      # that is still booting or already stopping.
+      - "traefik.http.services.${ROUTER_NAME}.loadbalancer.healthcheck.path=${STOREFRONT_HEALTH_PATH:-/}"
+      - "traefik.http.services.${ROUTER_NAME}.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.${ROUTER_NAME}.loadbalancer.healthcheck.timeout=3s"
 
       # The one and only router for this domain → the Next.js app.
       - "traefik.http.routers.${ROUTER_NAME}.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)"
       - "traefik.http.routers.${ROUTER_NAME}.entrypoints=websecure"
       - "traefik.http.routers.${ROUTER_NAME}.service=${ROUTER_NAME}"
       - "traefik.http.routers.${ROUTER_NAME}.tls=true"
+      # HTTP-01: a property's DNS belongs to the customer, so DNS-01 is not an
+      # option here. Platform hosts use the DNS-01 wildcard instead — see
+      # proxy/traefik/traefik.yml.
       - "traefik.http.routers.${ROUTER_NAME}.tls.certresolver=${CERT_RESOLVER:-}"
       - "traefik.http.routers.${ROUTER_NAME}.middlewares=www-redirect@file,security-headers@file,compression@file"
 
