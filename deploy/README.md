@@ -40,7 +40,13 @@ re-renders every `properties/<slug>/` from it.
 | `<customer-domain>` | Storefront (frontend only) | its own :3000 |
 
 Storefronts call **only** `https://api.<BASE_DOMAIN>`. Customer domains serve no
-API. See the architecture doc for the canonical-API + tenant-resolution design.
+API. Because that one host serves every property, the tenant cannot come from
+the host there: `ResolveApiTenant` falls back to the request `Origin` (then
+`Referer`), matched against the active tenant domains — the same data behind the
+CORS allowlist below, so a property registers its domain once. A storefront
+rendering on the server has no browser-set `Origin` and must send its own public
+origin. Requests to `api.<base>` with no recognised origin 404, and the fallback
+applies to that host alone — every panel host shape still resolves by host only.
 
 There is **one** admin panel, not two: `AdminPanelServiceProvider` sets no
 `->domain()`, so it is tenant-scoped by whatever host resolves through
@@ -113,6 +119,29 @@ record. Edit `properties/<slug>/.env` any time (`STOREFRONT_IMAGE`,
 
 Pin storefront images **by digest** (`…@sha256:…`) in production: with a moving
 tag a restart can silently ship a different build.
+
+### Property creation from the panels
+
+Both `console.<base-domain>` and `reseller.<base-domain>` collect the complete
+florist storefront configuration while creating a property. Console operators
+may disable storefront creation; reseller owners cannot. The property tenant is
+committed first and a `storefront_deployments` request is then persisted.
+
+Configure the authenticated asynchronous provisioner in Vendra's environment:
+
+```dotenv
+STOREFRONT_PROVISIONER_URL=https://deploy.example.com/storefronts
+STOREFRONT_PROVISIONER_TOKEN=replace-with-a-secret-token
+STOREFRONT_THEMES=default
+```
+
+The provisioner receives the tenant ID, slug, domain, selected theme, and full
+property configuration as JSON. It builds `vendra-storefront-florist`, publishes
+the property-specific image, registers its immutable digest with the deployment
+control plane, and returns `status`, `reference`, and `image_digest`. Vendra
+records `pending`, `processing`, `requested`, `ready`, or `failed`; without a
+configured URL the request intentionally remains `pending`, and no shell command
+is executed from the web process.
 
 ## Running the full stack locally (no /opt copy)
 
