@@ -1,8 +1,6 @@
 {
     "name": "misaf/vendra-address",
     "description": "Country-adaptable user profile addresses for Vendra",
-    "license": "MIT",
-    "type": "vendra-module",
     "keywords": [
         "laravel",
         "filamentphp",
@@ -10,6 +8,8 @@
         "vendra",
         "address"
     ],
+    "homepage": "https://github.com/misaf/vendra-address",
+    "license": "MIT",
     "authors": [
         {
             "name": "Ehsan Mahmoodi",
@@ -17,11 +17,7 @@
             "role": "Developer"
         }
     ],
-    "homepage": "https://github.com/misaf/vendra-address",
-    "support": {
-        "issues": "https://github.com/misaf/vendra-address/issues",
-        "source": "https://github.com/misaf/vendra-address"
-    },
+    "type": "vendra-module",
     "require": {
         "php": "^8.3",
         "misaf/vendra-support": "self.version",
@@ -35,15 +31,13 @@
         "laravel/pint": "^1.29.3",
         "misaf/vendra-testing": "self.version",
         "orchestra/testbench": "^11.1",
-        "pestphp/pest": "^4.7.5",
-        "pestphp/pest-plugin-arch": "^4.0.2",
-        "pestphp/pest-plugin-profanity": "^4.2.1",
-        "pestphp/pest-plugin-type-coverage": "^4.0.4",
-        "pestphp/pest-plugin-laravel": "^4.1",
+        "pestphp/pest": "^5.0",
+        "pestphp/pest-plugin-arch": "^5.0",
+        "pestphp/pest-plugin-laravel": "^5.0",
+        "pestphp/pest-plugin-profanity": "^5.0",
+        "pestphp/pest-plugin-type-coverage": "^5.0",
         "phpstan/extension-installer": "^1.4.3"
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Misaf\\VendraAddress\\": "src/",
@@ -55,16 +49,6 @@
             "Misaf\\VendraAddress\\Database\\Factories\\": "database/factories/",
             "Misaf\\VendraAddress\\Tests\\": "tests/"
         }
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -79,5 +63,21 @@
         "test": "vendor/bin/pest --parallel",
         "test-coverage": "vendor/bin/pest --coverage"
     },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-address/issues",
+        "source": "https://github.com/misaf/vendra-address"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "$schema": "https://getcomposer.org/schema.json"
 }
