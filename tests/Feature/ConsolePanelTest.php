@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -44,6 +45,13 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     Event::fake([TenantProvisioned::class]);
     Artisan::shouldReceive('call')->andReturn(0);
+    Http::fake([
+        'http://provisioner:8080/*' => Http::response([
+            'status'       => 'ready',
+            'reference'    => 'console-storefront',
+            'image_digest' => 'sha256:console-storefront',
+        ]),
+    ]);
 });
 
 function consoleAdmin(): ConsoleUser
@@ -63,7 +71,6 @@ function actAsConsoleAdmin(): ConsoleUser
 function consoleStorefrontFormData(): array
 {
     return [
-        'create_storefront'               => true,
         'storefront_slug'                 => 'console-flowers',
         'storefront_theme'                => 'default',
         'storefront_name_en'              => 'Console Flowers',
@@ -174,6 +181,18 @@ it('seeds the initial console operator only from explicit credentials', function
         ->and(Hash::check('a-secure-console-password', $operator->password))->toBeTrue();
 });
 
+it('does not seed a console operator when explicit credentials are absent', function (): void {
+    Config::set('console.operator', [
+        'username' => '',
+        'email'    => '',
+        'password' => '',
+    ]);
+
+    app(ConsoleUserSeeder::class)->run();
+
+    expect(ConsoleUser::query()->count())->toBe(0);
+});
+
 it('lets a console admin create a plan', function (): void {
     actAsConsoleAdmin();
 
@@ -267,10 +286,12 @@ it('creates a property for a reseller within its plan limit', function (): void 
 
     livewire(CreateProperty::class)
         ->fillForm([
-            'reseller_id'    => $reseller->getKey(),
-            'domain'         => 'acme.test',
-            'email'          => 'admin@gmail.com',
-            'active'         => true,
+            'reseller_id' => $reseller->getKey(),
+            'domain'      => 'acme.test',
+            'email'       => 'admin@gmail.com',
+            'active'      => true,
+            ...consoleStorefrontFormData(),
+            'storefront_slug' => 'acme',
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -283,10 +304,54 @@ it('creates a property for a reseller within its plan limit', function (): void 
         'username' => 'admin',
         'email'    => 'admin@gmail.com',
     ]);
-    expect(StorefrontDeployment::query()->count())->toBe(0);
+    expect(StorefrontDeployment::query()->count())->toBe(1);
 });
 
-it('optionally requests a storefront when a console admin creates a property', function (): void {
+it('uses a wizard when creating a property and florist storefront', function (): void {
+    actAsConsoleAdmin();
+
+    $component = livewire(CreateProperty::class);
+
+    expect($component->instance()->hasSkippableSteps())->toBeTrue();
+
+    $component
+        ->assertWizardCurrentStep(1)
+        ->assertWizardStepExists(2)
+        ->assertWizardStepExists(3)
+        ->assertWizardStepExists(4)
+        ->assertFormFieldDoesNotExist('create_storefront')
+        ->assertSee(__('console.storefront_map_query'))
+        ->call('create')
+        ->assertHasFormErrors([
+            'reseller_id'               => 'required',
+            'domain'                    => 'required',
+            'email'                     => 'required',
+            'storefront_slug'           => 'required',
+            'storefront_name_en'        => 'required',
+            'storefront_name_fa'        => 'required',
+            'storefront_mobile_phone'   => 'required',
+            'storefront_office_phone'   => 'required',
+            'storefront_contact_email'  => 'required',
+            'storefront_hours_open'     => 'required',
+            'storefront_hours_close'    => 'required',
+            'storefront_locality'       => 'required',
+            'storefront_map_query'      => 'required',
+        ]);
+});
+
+it('suggests storefront identity from the property domain', function (): void {
+    actAsConsoleAdmin();
+
+    livewire(CreateProperty::class)
+        ->set('data.domain', 'Rose-Garden.Example')
+        ->assertHasNoFormErrors(['domain'])
+        ->assertFormSet([
+            'storefront_slug'    => 'rose-garden',
+            'storefront_name_en' => 'Rose Garden',
+        ]);
+});
+
+it('requests a storefront when a console admin creates a property', function (): void {
     actAsConsoleAdmin();
     $reseller = Reseller::factory()->create();
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(2))->create();
@@ -306,7 +371,7 @@ it('optionally requests a storefront when a console admin creates a property', f
         'slug'   => 'console-flowers',
         'domain' => 'console-flowers.test',
         'theme'  => 'default',
-        'status' => 'pending',
+        'status' => 'ready',
     ]);
 });
 

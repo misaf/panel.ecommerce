@@ -9,8 +9,11 @@ use App\Models\Reseller;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Str;
 use Livewire\Component as Livewire;
 use Misaf\LaravelEmailValidation\Rules\EmailValidation;
 use Misaf\VendraTenant\Models\TenantDomain;
@@ -21,54 +24,98 @@ final class PropertyForm
     {
         return $schema
             ->components([
-                Select::make('reseller_id')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.reseller_id'))
-                    ->label(__('console.reseller'))
-                    ->live()
-                    ->options(fn(): array => Reseller::query()->active()->pluck('name', 'id')->all())
-                    ->required()
-                    ->native(false)
-                    ->visibleOn('create'),
-
-                TextInput::make('domain')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.domain'))
-                    ->helperText(__('console.domain_helper_text'))
-                    ->label(__('console.domain'))
-                    ->live(onBlur: true)
-                    ->maxLength(255)
-                    ->required()
-                    ->rules(TenantDomain::activeDomainRules())
-                    ->dehydrateStateUsing(fn(?string $state): ?string => null === $state
-                        ? null
-                        : TenantDomain::normalizeDomain($state))
-                    ->visibleOn('create'),
-
-                TextInput::make('email')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.email'))
-                    ->label(__('console.email'))
-                    ->email()
-                    ->extraAttributes(['dir' => 'ltr'])
-                    ->live(onBlur: true)
-                    ->maxLength(255)
-                    ->required()
-                    ->rules([
-                        'bail',
-                        'email:rfc,strict,spoof,filter,filter_unicode',
-                        new EmailValidation(),
-                    ])
-                    ->visibleOn('create'),
+                ...self::propertyFields(),
 
                 ...StorefrontConfigurationFields::make(optional: true),
 
-                Toggle::make('active')
-                    ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
-                    ->label(__('console.active'))
-                    ->columnSpanFull()
-                    ->default(true)
-                    ->live()
-                    ->onIcon(Heroicon::Bolt)
-                    ->required(),
+                self::activeField(),
             ])
             ->columns(2);
+    }
+
+    /**
+     * @return list<Select|TextInput>
+     */
+    public static function propertyFields(): array
+    {
+        return [
+            Select::make('reseller_id')
+                ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.reseller_id'))
+                ->label(__('console.reseller'))
+                ->live()
+                ->options(fn(): array => Reseller::query()->active()->pluck('name', 'id')->all())
+                ->searchable()
+                ->preload()
+                ->required()
+                ->native(false)
+                ->visibleOn('create'),
+
+            TextInput::make('domain')
+                ->afterStateUpdated(function (?string $state, Get $get, Set $set, Livewire $livewire): void {
+                    $livewire->validateOnly('data.domain');
+
+                    if (blank($state)) {
+                        return;
+                    }
+
+                    $domain = TenantDomain::normalizeDomain($state);
+                    $domainLabel = Str::before($domain, '.');
+
+                    if (blank($get('storefront_slug'))) {
+                        $set('storefront_slug', Str::slug($domainLabel));
+                    }
+
+                    if (blank($get('storefront_name_en'))) {
+                        $set('storefront_name_en', Str::headline($domainLabel));
+                    }
+                })
+                ->helperText(__('console.domain_helper_text'))
+                ->label(__('console.domain'))
+                ->placeholder('flowers.example')
+                ->extraAttributes(['dir' => 'ltr'])
+                ->live(onBlur: true)
+                ->maxLength(255)
+                ->required()
+                ->rules(TenantDomain::activeDomainRules())
+                ->dehydrateStateUsing(fn(?string $state): ?string => null === $state
+                    ? null
+                    : TenantDomain::normalizeDomain($state))
+                ->visibleOn('create'),
+
+            TextInput::make('email')
+                ->afterStateUpdated(function (?string $state, Get $get, Set $set, Livewire $livewire): void {
+                    $livewire->validateOnly('data.email');
+
+                    if (filled($state) && blank($get('storefront_contact_email'))) {
+                        $set('storefront_contact_email', $state);
+                    }
+                })
+                ->label(__('console.email'))
+                ->email()
+                ->autocomplete('email')
+                ->placeholder('owner@example.com')
+                ->extraAttributes(['dir' => 'ltr'])
+                ->live(onBlur: true)
+                ->maxLength(255)
+                ->required()
+                ->rules([
+                    'bail',
+                    'email:rfc,strict,spoof,filter,filter_unicode',
+                    new EmailValidation(),
+                ])
+                ->visibleOn('create'),
+        ];
+    }
+
+    public static function activeField(): Toggle
+    {
+        return Toggle::make('active')
+            ->afterStateUpdated(fn(Livewire $livewire) => $livewire->validateOnly('data.active'))
+            ->label(__('console.active'))
+            ->columnSpanFull()
+            ->default(true)
+            ->live()
+            ->onIcon(Heroicon::Bolt)
+            ->required();
     }
 }
