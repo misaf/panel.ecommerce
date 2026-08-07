@@ -1,5 +1,11 @@
 # Vendra
 
+> **Ecosystem documentation:** <https://misaf.github.io/vendra-ecosystem-docs>
+>
+> How this platform, the Go controller, and the storefront fit together —
+> architecture, tenancy, provisioning, and operations — is documented there.
+> This README covers the host application and the package monorepo.
+
 Vendra is a modular Laravel 13 application for commerce, content, customer
 management, and multi-tenant platform development. This repository contains the
 host application and every first-party Vendra package in one Composer monorepo.
