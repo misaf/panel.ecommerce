@@ -47,6 +47,17 @@ final class RequestStorefrontDeploymentAction
             ],
         ];
 
+        // Per-locale copy overrides. One image serves the whole fleet and its
+        // message catalogue is deliberately brand-neutral, so this is the only
+        // channel a property has for wording of its own — without it every
+        // storefront reads identically. Omitted when empty: the storefront
+        // treats an absent key and an empty object the same way.
+        $messages = $this->messages($form);
+
+        if ([] !== $messages) {
+            $configuration['messages'] = $messages;
+        }
+
         $deployment = StorefrontDeployment::query()->create([
             'tenant_id'     => $tenant->id,
             'slug'          => Arr::string($form, 'storefront_slug'),
@@ -64,5 +75,36 @@ final class RequestStorefrontDeploymentAction
         }
 
         return $deployment;
+    }
+
+    /**
+     * Locale-keyed message overrides, deep-merged over the storefront's base
+     * catalogue at render time.
+     *
+     * Shape: ['en' => ['products' => ['title' => 'Our Breads']], 'fa' => [...]].
+     * Anything that is not an array keyed by a locale string is dropped rather
+     * than passed on, because the storefront validates the encoded
+     * configuration at boot and refuses to render when it does not parse.
+     *
+     * @param  array<string, mixed>                  $form
+     * @return array<string, array<string, mixed>>
+     */
+    private function messages(array $form): array
+    {
+        $value = $form['storefront_messages'] ?? null;
+
+        if ( ! is_array($value)) {
+            return [];
+        }
+
+        $messages = [];
+
+        foreach ($value as $locale => $overrides) {
+            if (is_string($locale) && '' !== $locale && is_array($overrides) && [] !== $overrides) {
+                $messages[$locale] = $overrides;
+            }
+        }
+
+        return $messages;
     }
 }

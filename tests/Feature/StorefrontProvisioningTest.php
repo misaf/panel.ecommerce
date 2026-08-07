@@ -194,3 +194,47 @@ it('force reconciles an already ready storefront', function (): void {
     expect($deployment->refresh()->provider_reference)->toBe('recovered-storefront');
     Http::assertSentCount(1);
 });
+
+it('carries per-locale message overrides into the encoded configuration', function (): void {
+    Config::set('services.storefront.provisioner_url', 'http://provisioner:8080/v1/storefronts');
+    Config::set('services.storefront.provisioner_token', 'secret');
+    $tenant = Tenant::factory()->create();
+
+    $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
+        $tenant,
+        'acme.test',
+        [...storefrontRequestData(), 'storefront_messages' => [
+            'en' => ['products' => ['title' => 'Our Breads']],
+            'fa' => ['products' => ['title' => 'نان‌های ما']],
+        ]],
+    );
+
+    expect($deployment->configuration['messages']['en']['products']['title'])->toBe('Our Breads')
+        ->and($deployment->configuration['messages']['fa']['products']['title'])->toBe('نان‌های ما');
+});
+
+it('omits messages entirely when none are supplied', function (): void {
+    Config::set('services.storefront.provisioner_url', '');
+    $tenant = Tenant::factory()->create();
+
+    $deployment = app(RequestStorefrontDeploymentAction::class)->execute($tenant, 'acme.test', storefrontRequestData());
+
+    expect($deployment->configuration)->not->toHaveKey('messages');
+});
+
+it('drops malformed message overrides rather than shipping a configuration the storefront rejects', function (): void {
+    Config::set('services.storefront.provisioner_url', '');
+    $tenant = Tenant::factory()->create();
+
+    $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
+        $tenant,
+        'acme.test',
+        [...storefrontRequestData(), 'storefront_messages' => [
+            'en'  => ['products' => ['title' => 'Kept']],
+            'bad' => 'not-an-array',
+            'fa'  => [],
+        ]],
+    );
+
+    expect($deployment->configuration['messages'])->toBe(['en' => ['products' => ['title' => 'Kept']]]);
+});
