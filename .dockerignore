@@ -28,6 +28,12 @@ pint.json
 /public/hot
 /public/storage
 /storage/*.key
+# Generated caches from the local checkout. Without this the build context
+# carries whatever the developer last compiled into the image, and Laravel then
+# serves it: a route cache built against older code unserializes into
+# __PHP_Incomplete_Class objects, which surface as 500s far from the cause. The
+# Dockerfile recreates this directory, and the entrypoint warms what it needs.
+/bootstrap/cache/*
 **/vendor
 _ide_helper.php
 Homestead.json
