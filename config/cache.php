@@ -9,6 +9,9 @@ use ApiPlatform\Metadata\ErrorResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\McpResource;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\NotExposed;
 use ApiPlatform\Metadata\Operations;
 use ApiPlatform\Metadata\Parameters;
@@ -16,7 +19,9 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Property\PropertyNameCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\In;
 use Misaf\VendraApi\State\EloquentResourceOptions;
 use Symfony\Component\TypeInfo\Type\ArrayShapeType;
 use Symfony\Component\TypeInfo\Type\BuiltinType;
@@ -25,6 +30,7 @@ use Symfony\Component\TypeInfo\Type\GenericType;
 use Symfony\Component\TypeInfo\Type\NullableType;
 use Symfony\Component\TypeInfo\Type\ObjectType;
 use Symfony\Component\TypeInfo\Type\UnionType;
+use Symfony\Component\TypeInfo\TypeIdentifier;
 use Symfony\Component\WebLink\Link as WebLinkLink;
 
 return [
@@ -144,6 +150,10 @@ return [
         NotExposed::class,
         Operations::class,
         Parameters::class,
+        McpResource::class,
+        McpTool::class,
+        McpToolCollection::class,
+        OpenApiParameter::class,
         Post::class,
         PropertyNameCollection::class,
         QueryParameter::class,
@@ -152,6 +162,14 @@ return [
         // Custom Eloquent state options carried on each resource's stateOptions.
         EloquentResourceOptions::class,
 
+        // Validation rules api-platform derives from a parameter's JSON schema.
+        // Every other assertion it builds is a string; an "enum" in the schema
+        // is the one that becomes an object (ParameterValidationResourceMetadataCollectionFactory
+        // calls Rule::in()). Any sort parameter has one, because OrderFilter's
+        // schema enumerates asc/desc — so leaving this out fails every
+        // collection endpoint that can be ordered, not an obscure few.
+        In::class,
+
         // Symfony type metadata nested inside ApiProperty/QueryParameter.
         ArrayShapeType::class,
         BuiltinType::class,
@@ -159,6 +177,7 @@ return [
         GenericType::class,
         NullableType::class,
         ObjectType::class,
+        TypeIdentifier::class,
         UnionType::class,
         WebLinkLink::class,
     ],
