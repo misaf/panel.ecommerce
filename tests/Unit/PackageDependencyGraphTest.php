@@ -51,10 +51,32 @@ function reachableVendraPackages(string $package, array $dependencyGraph): array
 }
 
 it('keeps the Vendra package dependency graph complete and acyclic', function (): void {
+    /*
+     | The property domain is deliberately coupled to the concrete
+     | `Misaf\VendraReseller\Models\Reseller` instead of a `PropertyOwner`
+     | abstraction, while the reseller panel builds its property screens on the
+     | property package. That mutual requirement is a settled decision (see
+     | `.ai/rules/vendra-property.md`), so it is the one cycle allowed here —
+     | every other one is still a failure.
+     */
+    $allowedCycle = ['misaf/vendra-property', 'misaf/vendra-reseller'];
+
     $dependencyGraph = vendraPackageDependencyGraph();
     $knownPackages = array_keys($dependencyGraph);
     $unknownDependencies = [];
     $cycles = [];
+
+    /*
+     | Cycle detection runs against the graph minus that single back edge, so a
+     | cycle reached through any other route — including one that passes through
+     | these two packages — is still reported.
+     */
+    [$cycleTail, $cycleHead] = $allowedCycle;
+    $acyclicGraph = $dependencyGraph;
+    $acyclicGraph[$cycleTail] = array_values(array_filter(
+        $acyclicGraph[$cycleTail] ?? [],
+        fn(string $dependency): bool => $cycleHead !== $dependency,
+    ));
 
     foreach ($dependencyGraph as $package => $dependencies) {
         foreach ($dependencies as $dependency) {
@@ -63,13 +85,16 @@ it('keeps the Vendra package dependency graph complete and acyclic', function ()
             }
         }
 
-        if (in_array($package, reachableVendraPackages($package, $dependencyGraph), true)) {
+        if (in_array($package, reachableVendraPackages($package, $acyclicGraph), true)) {
             $cycles[] = $package;
         }
     }
 
     expect($unknownDependencies)->toBe([])
-        ->and($cycles)->toBe([]);
+        ->and($cycles)->toBe([])
+        // Drop the allowance with the coupling, so it cannot outlive it.
+        ->and($dependencyGraph[$cycleTail])->toContain($cycleHead)
+        ->and($dependencyGraph[$cycleHead])->toContain($cycleTail);
 });
 
 it('imports only Vendra namespaces reachable through declared package dependencies', function (): void {
