@@ -29,11 +29,13 @@ jobs:
           - vendra-blog-api
           - vendra-cart
           - vendra-cart-api
+          - vendra-console
+          - vendra-container
           - vendra-currency
-          - vendra-developer-logins
-          - vendra-document
           - vendra-custom-page
           - vendra-custom-page-api
+          - vendra-developer-logins
+          - vendra-document
           - vendra-faq
           - vendra-faq-api
           - vendra-language
@@ -45,6 +47,8 @@ jobs:
           - vendra-phone
           - vendra-product
           - vendra-product-api
+          - vendra-property
+          - vendra-reseller
           - vendra-socialite
           - vendra-subscription
           - vendra-support
