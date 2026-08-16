@@ -8,11 +8,13 @@ use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
 use Filament\Auth\Notifications\ResetPassword;
 use Filament\Auth\Notifications\VerifyEmail;
+use Http\Discovery\Psr17Factory;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\DevCommands;
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Mcp\Server;
 use Misaf\VendraProperty\Contracts\StorefrontProvisioner;
 use Misaf\VendraProperty\Observers\TenantDomainObserver;
 use Misaf\VendraProperty\Services\ContainerStorefrontProvisioner;
@@ -37,6 +40,10 @@ use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
+use Symfony\AI\McpBundle\Controller\McpController;
+use Symfony\AI\McpBundle\Http\MiddlewareFactory;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -79,8 +86,38 @@ final class AppServiceProvider extends ServiceProvider
 
         TenantDomain::observe(TenantDomainObserver::class);
 
+        $this->registerMcpControllerCompatibility();
         $this->configureRateLimiting();
         $this->configureAuthLogging();
+    }
+
+    /**
+     * api-platform/laravel wires the Symfony MCP controller with the PSR-17
+     * factories of two more signatures ago, but symfony/mcp-bundle 0.12 added a
+     * required MiddlewareFactory argument to its constructor. Rebind the
+     * controller here so the streamable transport keeps its configurable
+     * DNS-rebinding middleware stack instead of failing to build.
+     */
+    private function registerMcpControllerCompatibility(): void
+    {
+        $this->app->booted(function (Application $app): void {
+            $psr17Factory = new Psr17Factory();
+            $psrHttpFactory = new PsrHttpFactory(
+                $psr17Factory,
+                $psr17Factory,
+                $psr17Factory,
+                $psr17Factory,
+            );
+
+            $app->singleton(McpController::class, static fn(Application $application): McpController => new McpController(
+                $application->make(Server::class),
+                $psrHttpFactory,
+                new HttpFoundationFactory(),
+                $psr17Factory,
+                $psr17Factory,
+                new MiddlewareFactory(),
+            ));
+        });
     }
 
     /**
