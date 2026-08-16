@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Jobs\CompleteTenantProvisioningJob;
-use App\Models\Reseller;
-use App\Support\Context\AppContextKeys;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Misaf\VendraProperty\Jobs\CompletePropertyProvisioningJob;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraSupport\Context\ContextKeys;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
@@ -27,7 +27,7 @@ it('completes provisioning checkpoints before activating the tenant', function (
         'provisioned_at'           => null,
     ]);
 
-    (new CompleteTenantProvisioningJob($tenant->id))->handle();
+    (new CompletePropertyProvisioningJob($tenant->id))->handle();
 
     $tenant->refresh();
 
@@ -44,7 +44,7 @@ it('completes provisioning checkpoints before activating the tenant', function (
         fn(TenantProvisioned $event): bool => $event->tenant->is($tenant) && $event->shouldSeed,
     );
 
-    (new CompleteTenantProvisioningJob($tenant->id))->handle();
+    (new CompletePropertyProvisioningJob($tenant->id))->handle();
 
     Queue::assertPushedTimes(CacheTenantRoutesJob::class, 1);
 });
@@ -57,7 +57,7 @@ it('records a failed checkpoint and safely retries unfinished work', function ()
         'provisioned_at'           => null,
     ]);
     Event::listen(TenantProvisioned::class, fn(): never => throw new RuntimeException('Seeder failed.'));
-    $job = new CompleteTenantProvisioningJob($tenant->id);
+    $job = new CompletePropertyProvisioningJob($tenant->id);
 
     expect(fn() => $job->handle())->toThrow(RuntimeException::class, 'Seeder failed.');
 
@@ -86,7 +86,7 @@ it('activates an unsubscribed reseller property under billing suspension', funct
         'provisioned_at'           => null,
     ]);
 
-    (new CompleteTenantProvisioningJob($tenant->id))->handle();
+    (new CompletePropertyProvisioningJob($tenant->id))->handle();
 
     expect($tenant->refresh()->active)->toBeTrue()
         ->and($tenant->billing_suspended_at)->not->toBeNull()
@@ -114,13 +114,13 @@ it('scopes provisioning identifiers without leaking them afterward', function ()
     });
     Context::add(RequestJobContext::OPERATION, 'outer');
 
-    (new CompleteTenantProvisioningJob($tenant->id))->handle();
+    (new CompletePropertyProvisioningJob($tenant->id))->handle();
 
     expect($captured)->not->toBeEmpty()
         ->and($captured[0]->traceId)->toBeUuid()
-        ->and($captured[0]->operation)->toBe('tenant_provisioning')
+        ->and($captured[0]->operation)->toBe('property_provisioning')
         ->and($captured[0]->tenantId)->toBe($tenant->getKey())
-        ->and($captured[0]->metadata[AppContextKeys::RESELLER_ID])->toBe($reseller->getKey())
+        ->and($captured[0]->metadata[ContextKeys::RESELLER_ID])->toBe($reseller->getKey())
         ->and(Context::get(RequestJobContext::OPERATION))->toBe('outer')
         ->and(Context::has(RequestJobContext::TENANT_ID))->toBeFalse();
 });

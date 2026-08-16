@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Jobs\CompleteTenantProvisioningJob;
-use App\Models\Reseller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Misaf\VendraProperty\Jobs\CompletePropertyProvisioningJob;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Models\Tenant;
@@ -47,7 +47,7 @@ it('provisions a tenant with a provided password without printing it', function 
         ->doesntExpectOutputToContain('secret-password')
         ->assertSuccessful();
 
-    Queue::assertPushed(CompleteTenantProvisioningJob::class);
+    Queue::assertPushed(CompletePropertyProvisioningJob::class);
 });
 
 it('provisions a property under a new reseller subscribed to the given plan', function (): void {
@@ -73,7 +73,7 @@ it('provisions a property under a new reseller subscribed to the given plan', fu
         ->and($reseller->tenants()->count())->toBe(1)
         ->and($reseller->activeSubscription()?->plan_id)->toBe($plan->getKey());
 
-    Queue::assertPushed(CompleteTenantProvisioningJob::class);
+    Queue::assertPushed(CompletePropertyProvisioningJob::class);
 });
 
 it('fails when the provided plan cannot be resolved', function (): void {

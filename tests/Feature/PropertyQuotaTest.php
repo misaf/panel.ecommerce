@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Actions\CreateResellerAction;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
-use App\Support\PropertyQuota;
+use Misaf\VendraProperty\Support\PropertyQuota;
+use Misaf\VendraReseller\Actions\CreateResellerAction;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;

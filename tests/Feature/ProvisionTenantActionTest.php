@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Actions\ProvisionTenantAction;
-use App\Jobs\CompleteTenantProvisioningJob;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Queue;
+use Misaf\VendraProperty\Actions\ProvisionPropertyAction;
+use Misaf\VendraProperty\Jobs\CompletePropertyProvisioningJob;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
 
@@ -17,7 +17,7 @@ beforeEach(function (): void {
 });
 
 it('hashes a provided owner password', function (): void {
-    $result = app(ProvisionTenantAction::class)->execute([
+    $result = app(ProvisionPropertyAction::class)->execute([
         'name'     => 'Acme',
         'domain'   => 'acme.test',
         'username' => 'admin_acme',
@@ -29,7 +29,7 @@ it('hashes a provided owner password', function (): void {
 });
 
 it('generates a random owner password when none is provided', function (): void {
-    $result = app(ProvisionTenantAction::class)->execute([
+    $result = app(ProvisionPropertyAction::class)->execute([
         'name'     => 'Acme',
         'domain'   => 'acme.test',
         'username' => 'admin_acme',
@@ -43,7 +43,7 @@ it('generates a random owner password when none is provided', function (): void 
 it('assigns the owner role for the user guard when another guard is active', function (): void {
     Config::set('auth.defaults.guard', 'console');
 
-    $result = app(ProvisionTenantAction::class)->execute([
+    $result = app(ProvisionPropertyAction::class)->execute([
         'name'     => 'Acme',
         'domain'   => 'acme.test',
         'username' => 'admin_acme',
@@ -55,7 +55,7 @@ it('assigns the owner role for the user guard when another guard is active', fun
 });
 
 it('stamps the domain with the newly provisioned tenant even when another tenant is current', function (): void {
-    $first = app(ProvisionTenantAction::class)->execute([
+    $first = app(ProvisionPropertyAction::class)->execute([
         'name'     => 'First',
         'domain'   => 'first.test',
         'username' => 'admin_first',
@@ -64,7 +64,7 @@ it('stamps the domain with the newly provisioned tenant even when another tenant
 
     switchToTestTenant($first['tenant']);
 
-    $second = app(ProvisionTenantAction::class)->execute([
+    $second = app(ProvisionPropertyAction::class)->execute([
         'name'     => 'Second',
         'domain'   => 'second.test',
         'username' => 'admin_second',
@@ -81,7 +81,7 @@ it('stamps the domain with the newly provisioned tenant even when another tenant
 });
 
 it('queues durable tenant provisioning after creating inactive records', function (): void {
-    $result = app(ProvisionTenantAction::class)->execute([
+    $result = app(ProvisionPropertyAction::class)->execute([
         'name'     => 'Acme',
         'domain'   => 'acme.test',
         'username' => 'admin_acme',
@@ -93,8 +93,8 @@ it('queues durable tenant provisioning after creating inactive records', functio
         ->and($result['tenant']->provisioning_should_seed)->toBeTrue();
 
     Queue::assertPushed(
-        CompleteTenantProvisioningJob::class,
-        fn(CompleteTenantProvisioningJob $job): bool => $job->tenantId === $result['tenant']->id,
+        CompletePropertyProvisioningJob::class,
+        fn(CompletePropertyProvisioningJob $job): bool => $job->tenantId === $result['tenant']->id,
     );
     Event::assertNotDispatched(TenantProvisioned::class);
 });

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
 use Illuminate\Database\QueryException;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;

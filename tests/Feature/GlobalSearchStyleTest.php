@@ -42,10 +42,10 @@ it('keeps the page-less product price resource out of global search', function (
 });
 
 dataset('searchable resources', [
-    'console plans'                => [App\Filament\Console\Resources\Plans\PlanResource::class, false],
-    'console properties'           => [App\Filament\Console\Resources\Properties\PropertyResource::class, false],
-    'console resellers'            => [App\Filament\Console\Resources\Resellers\ResellerResource::class, false],
-    'reseller properties'          => [App\Filament\Reseller\Resources\Properties\PropertyResource::class, true],
+    'console plans'                => [Misaf\VendraConsole\Filament\Resources\Plans\PlanResource::class, false],
+    'console properties'           => [Misaf\VendraConsole\Filament\Resources\Properties\PropertyResource::class, false],
+    'console resellers'            => [Misaf\VendraConsole\Filament\Resources\Resellers\ResellerResource::class, false],
+    'reseller properties'          => [Misaf\VendraReseller\Filament\Resources\Properties\PropertyResource::class, true],
     'activity logs'                => [Misaf\VendraActivityLog\Filament\Clusters\Resources\ActivityLogResource::class, false],
     'affiliate commissions'        => [Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliateCommissions\AffiliateCommissionResource::class, false],
     'affiliate payouts'            => [Misaf\VendraAffiliate\Filament\Clusters\Resources\AffiliatePayouts\AffiliatePayoutResource::class, false],

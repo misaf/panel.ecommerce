@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
 use Illuminate\Support\Carbon;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Exceptions\PlanInUseException;
 use Misaf\VendraSubscription\Models\Plan;

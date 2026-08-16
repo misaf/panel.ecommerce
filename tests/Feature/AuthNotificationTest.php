@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Models\ConsoleUser;
-use App\Models\ResellerUser;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Misaf\VendraAuthifyLog\Notifications\LoginNotification;
+use Misaf\VendraConsole\Models\ConsoleUser;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
 it('keeps authentication notifications independent of tenant context', function (): void {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
-use App\Notifications\PropertiesSuspendedNotification;
-use App\Notifications\SubscriptionActivatedNotification;
-use App\Notifications\SubscriptionExpiringNotification;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Support\Facades\Notification;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Notifications\PropertiesSuspendedNotification;
+use Misaf\VendraReseller\Notifications\SubscriptionActivatedNotification;
+use Misaf\VendraReseller\Notifications\SubscriptionExpiringNotification;
 use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;

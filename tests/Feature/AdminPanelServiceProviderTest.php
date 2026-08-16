@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use App\Providers\Filament\AdminPanelServiceProvider;
-use App\Providers\Filament\ConsolePanelServiceProvider;
-use App\Providers\Filament\ResellerPanelServiceProvider;
 use Filament\Panel;
 use Filament\Support\Enums\Width;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
+use Misaf\VendraConsole\Providers\ConsolePanelServiceProvider;
+use Misaf\VendraReseller\Providers\ResellerPanelServiceProvider;
 
 it('uses a compact sidebar width', function (): void {
     $panel = (new AdminPanelServiceProvider(app()))->panel(Panel::make());
@@ -74,7 +74,7 @@ it('keeps proxied central panel assets on https via X-Forwarded-Proto', function
 
 it('isolates reseller authentication configuration', function (): void {
     expect(config('auth.guards.reseller.provider'))->toBe('reseller_users')
-        ->and(config('auth.providers.reseller_users.model'))->toBe(App\Models\ResellerUser::class)
+        ->and(config('auth.providers.reseller_users.model'))->toBe(Misaf\VendraReseller\Models\ResellerUser::class)
         ->and(config('auth.passwords.reseller_users.table'))->toBe('reseller_password_reset_tokens');
 });
 

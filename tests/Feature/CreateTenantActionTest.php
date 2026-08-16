@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Actions\CreateTenantAction;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use Misaf\VendraProperty\Actions\CreatePropertyAction;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -29,7 +29,7 @@ function subscribedReseller(int $maxUnits): Reseller
 it('stamps the owning reseller on a property created under it', function (): void {
     $reseller = subscribedReseller(maxUnits: 2);
 
-    $result = app(CreateTenantAction::class)->execute(
+    $result = app(CreatePropertyAction::class)->execute(
         name: 'Acme Store',
         domain: 'acme.test',
         username: 'admin_acme',
@@ -45,7 +45,7 @@ it('stamps the owning reseller on a property created under it', function (): voi
 it('rejects creating a property once the reseller reaches its plan limit', function (): void {
     $reseller = subscribedReseller(maxUnits: 1);
 
-    app(CreateTenantAction::class)->execute(
+    app(CreatePropertyAction::class)->execute(
         name: 'First Store',
         domain: 'first.test',
         username: 'admin_first',
@@ -54,7 +54,7 @@ it('rejects creating a property once the reseller reaches its plan limit', funct
         reseller: $reseller,
     );
 
-    app(CreateTenantAction::class)->execute(
+    app(CreatePropertyAction::class)->execute(
         name: 'Second Store',
         domain: 'second.test',
         username: 'admin_second',
@@ -68,7 +68,7 @@ it('keeps property owners separate from the reseller owner account', function ()
     $reseller = subscribedReseller(maxUnits: 3);
     $owner = ResellerUser::factory()->forReseller($reseller)->create();
 
-    $first = app(CreateTenantAction::class)->execute(
+    $first = app(CreatePropertyAction::class)->execute(
         name: 'First Store',
         domain: 'first.test',
         username: 'admin_first',
@@ -77,7 +77,7 @@ it('keeps property owners separate from the reseller owner account', function ()
         reseller: $reseller,
     );
 
-    $second = app(CreateTenantAction::class)->execute(
+    $second = app(CreatePropertyAction::class)->execute(
         name: 'Second Store',
         domain: 'second.test',
         username: 'admin_second',
@@ -111,7 +111,7 @@ it('allows replacing a soft-deleted reseller owner', function (): void {
 });
 
 it('still creates a tenant with no reseller for the legacy path', function (): void {
-    $result = app(CreateTenantAction::class)->execute(
+    $result = app(CreatePropertyAction::class)->execute(
         name: 'Legacy Store',
         domain: 'legacy.test',
         username: 'admin_legacy',
@@ -127,7 +127,7 @@ it('rejects invalid and duplicate active domains outside Filament', function (st
     $existingProperty = Tenant::factory()->create();
     TenantDomain::factory()->for($existingProperty)->create(['name' => 'taken.test', 'active' => true]);
 
-    app(CreateTenantAction::class)->execute(
+    app(CreatePropertyAction::class)->execute(
         name: 'Rejected Store',
         domain: $domain,
         username: 'admin_rejected',

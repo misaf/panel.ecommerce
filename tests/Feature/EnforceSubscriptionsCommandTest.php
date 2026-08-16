@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;

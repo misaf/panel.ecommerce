@@ -2,22 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Filament\Console\Resources\Plans\Pages\CreatePlan;
-use App\Filament\Console\Resources\Plans\Pages\EditPlan;
-use App\Filament\Console\Resources\Plans\Pages\ListPlans;
-use App\Filament\Console\Resources\Plans\PlanResource;
-use App\Filament\Console\Resources\Properties\Pages\CreateProperty;
-use App\Filament\Console\Resources\Properties\Pages\EditProperty;
-use App\Filament\Console\Resources\Properties\Pages\ListProperties;
-use App\Filament\Console\Resources\Properties\PropertyResource as ConsolePropertyResource;
-use App\Filament\Console\Resources\Properties\RelationManagers\DomainsRelationManager;
-use App\Filament\Console\Resources\Resellers\Pages\CreateReseller;
-use App\Filament\Console\Resources\Resellers\Pages\ListResellers;
-use App\Filament\Console\Resources\Resellers\ResellerResource;
-use App\Models\ConsoleUser;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
-use App\Models\StorefrontDeployment;
 use Database\Seeders\ConsoleUserSeeder;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Testing\TestAction;
@@ -28,7 +12,22 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
+use Misaf\VendraConsole\Filament\Resources\Plans\Pages\CreatePlan;
+use Misaf\VendraConsole\Filament\Resources\Plans\Pages\EditPlan;
+use Misaf\VendraConsole\Filament\Resources\Plans\Pages\ListPlans;
+use Misaf\VendraConsole\Filament\Resources\Plans\PlanResource;
+use Misaf\VendraConsole\Filament\Resources\Properties\Pages\CreateProperty;
+use Misaf\VendraConsole\Filament\Resources\Properties\Pages\EditProperty;
+use Misaf\VendraConsole\Filament\Resources\Properties\Pages\ListProperties;
+use Misaf\VendraConsole\Filament\Resources\Properties\PropertyResource as ConsolePropertyResource;
+use Misaf\VendraConsole\Filament\Resources\Properties\RelationManagers\DomainsRelationManager;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\CreateReseller;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\ListResellers;
+use Misaf\VendraConsole\Filament\Resources\Resellers\ResellerResource;
+use Misaf\VendraConsole\Models\ConsoleUser;
+use Misaf\VendraProperty\Models\StorefrontDeployment;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
@@ -45,13 +44,8 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     Event::fake([TenantProvisioned::class]);
     Artisan::shouldReceive('call')->andReturn(0);
-    Http::fake([
-        'http://provisioner:8080/*' => Http::response([
-            'status'       => 'ready',
-            'reference'    => 'console-storefront',
-            'image_digest' => 'sha256:console-storefront',
-        ]),
-    ]);
+    Config::set('vendra-container.endpoint', 'http://provisioner:8080');
+    fakeDockerEngine();
 });
 
 function consoleAdmin(): ConsoleUser

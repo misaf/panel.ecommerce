@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
 use Misaf\VendraSubscription\Support\SubscriptionRegistry;
 

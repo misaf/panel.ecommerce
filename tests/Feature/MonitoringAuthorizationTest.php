@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Models\ConsoleUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Misaf\VendraConsole\Models\ConsoleUser;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraUser\Models\User;
 

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
-use App\Models\ResellerUser;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;

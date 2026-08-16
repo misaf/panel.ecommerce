@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Models\Reseller;
-use App\Models\ResellerUser;
-use App\Support\TransactionSubscriptionCharger;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
+use Misaf\VendraReseller\Support\TransactionSubscriptionCharger;
 use Misaf\VendraSubscription\Actions\ChargeSubscriptionAction;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Context\SubscriptionContextKeys;

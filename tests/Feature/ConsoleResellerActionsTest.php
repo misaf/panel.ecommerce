@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Filament\Console\Resources\Resellers\Pages\EditReseller;
-use App\Filament\Console\Widgets\ConsoleOverview;
-use App\Filament\Reseller\Pages\Auth\Login;
-use App\Models\ConsoleUser;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Hash;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\EditReseller;
+use Misaf\VendraConsole\Filament\Widgets\ConsoleOverview;
+use Misaf\VendraConsole\Models\ConsoleUser;
+use Misaf\VendraReseller\Filament\Pages\Auth\Login;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;

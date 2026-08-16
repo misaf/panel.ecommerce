@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Actions\CreateResellerAction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Misaf\VendraReseller\Actions\CreateResellerAction;
 use Misaf\VendraSubscription\Actions\ApplySubscriptionPaymentResultAction;
 use Misaf\VendraSubscription\Enums\SubscriptionPaymentStatus;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;

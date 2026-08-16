@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Actions\OffboardResellerAction;
-use App\Events\ResellerOffboarded;
-use App\Models\Reseller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Misaf\VendraReseller\Actions\OffboardResellerAction;
+use Misaf\VendraReseller\Events\ResellerOffboarded;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;

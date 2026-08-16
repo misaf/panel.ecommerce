@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Middleware\AddPanelToRequestJobContext;
 use App\Http\Middleware\AddRequestContext;
-use App\Http\Middleware\AddResellerToRequestJobContext;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
-use App\Support\Context\AppContextKeys;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Failed;
@@ -16,6 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Misaf\VendraReseller\Http\Middleware\AddResellerToRequestJobContext;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
+use Misaf\VendraSupport\Context\ContextKeys;
 use Misaf\VendraSupport\Context\RequestJobContext;
 
 use function Pest\Laravel\actingAs;
@@ -30,7 +30,7 @@ it('adds the authenticated reseller to the request and job context', function ()
     app(AddResellerToRequestJobContext::class)->handle(
         Request::create('https://reseller.vendra.test'),
         function (Request $request) use ($reseller): Response {
-            expect(RequestJobContext::current()->metadata[AppContextKeys::RESELLER_ID])->toBe($reseller->getKey());
+            expect(RequestJobContext::current()->metadata[ContextKeys::RESELLER_ID])->toBe($reseller->getKey());
 
             return new Response();
         },
@@ -76,7 +76,7 @@ it('adds the current panel id without storing personal data', function (): void 
     app(AddPanelToRequestJobContext::class)->handle(
         Request::create('https://reseller.vendra.test'),
         function (Request $request): Response {
-            expect(RequestJobContext::current()->metadata[AppContextKeys::PANEL_ID])->toBe('reseller')
+            expect(RequestJobContext::current()->metadata[ContextKeys::PANEL_ID])->toBe('reseller')
                 ->and(Context::all())
                 ->not->toHaveKeys(['email', 'username']);
 

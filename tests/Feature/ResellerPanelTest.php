@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-use App\Filament\Reseller\Pages\Auth\Login;
-use App\Filament\Reseller\Pages\Auth\Register;
-use App\Filament\Reseller\Resources\Properties\Pages\CreateProperty;
-use App\Filament\Reseller\Resources\Properties\Pages\ListProperties;
-use App\Filament\Reseller\Resources\Properties\PropertyResource;
-use App\Filament\Reseller\Widgets\LatestProperties;
-use App\Filament\Reseller\Widgets\ResellerOverview;
-use App\Filament\Reseller\Widgets\SubscriptionDetail;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
-use App\Models\StorefrontDeployment;
 use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
+use Misaf\VendraProperty\Models\StorefrontDeployment;
+use Misaf\VendraReseller\Filament\Pages\Auth\Login;
+use Misaf\VendraReseller\Filament\Pages\Auth\Register;
+use Misaf\VendraReseller\Filament\Resources\Properties\Pages\CreateProperty;
+use Misaf\VendraReseller\Filament\Resources\Properties\Pages\ListProperties;
+use Misaf\VendraReseller\Filament\Resources\Properties\PropertyResource;
+use Misaf\VendraReseller\Filament\Widgets\LatestProperties;
+use Misaf\VendraReseller\Filament\Widgets\ResellerOverview;
+use Misaf\VendraReseller\Filament\Widgets\SubscriptionDetail;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
@@ -37,6 +38,8 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     Event::fake([TenantProvisioned::class]);
     Artisan::shouldReceive('call')->andReturn(0);
+    Config::set('vendra-container.endpoint', 'http://provisioner:8080');
+    fakeDockerEngine();
 });
 
 function resellerOwner(Reseller $reseller): ResellerUser

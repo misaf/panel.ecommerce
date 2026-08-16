@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -40,3 +44,127 @@ pest()->extend(Tests\TestCase::class)->in(
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+
+/**
+ * Fake a Docker Engine where the storefront container already exists.
+ *
+ * The counterpart to `fakeDockerEngine()`, which starts with nothing placed.
+ * Reconciliation is about a runtime that already has something in it, so its
+ * tests need to describe that something — its state and the image it was created
+ * with — before any call is made.
+ *
+ * Every mutating call is recorded on the returned recorder, so a test can assert
+ * the *narrowest* verb was used rather than merely that the storefront ended up
+ * correct. It is an object rather than an array on purpose: the fake mutates it
+ * long after this function has returned, and a returned array would be a copy.
+ *
+ * @param  array<string, mixed>          $state
+ * @return object{calls: list<string>}
+ */
+function fakeExistingStorefront(
+    array $state = ['Status' => 'running', 'Health' => ['Status' => 'healthy']],
+    string $image = 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123',
+    bool $present = true,
+): object {
+    $recorder = new class {
+        /** @var list<string> */
+        public array $calls = [];
+    };
+
+    Http::fake(function (Request $request) use ($state, $image, &$present, $recorder) {
+        $path = (string) parse_url($request->url(), PHP_URL_PATH);
+
+        foreach (['/start', '/stop', '/restart', '/containers/create', '/images/create'] as $verb) {
+            if (Str::endsWith($path, $verb)) {
+                $recorder->calls[] = mb_ltrim($verb, '/');
+            }
+        }
+
+        if ('DELETE' === $request->method() && Str::contains($path, '/containers/')) {
+            $recorder->calls[] = 'remove';
+        }
+
+        // A created container exists from then on, so a deployment can inspect
+        // what it just placed the way it would against a real engine.
+        if (Str::endsWith($path, '/containers/create')) {
+            $present = true;
+        }
+
+        return match (true) {
+            Str::endsWith($path, '/_ping')                                        => Http::response('OK'),
+            Str::contains($path, '/networks/')                                    => Http::response(['Name' => 'traefik-public']),
+            Str::endsWith($path, '/images/create')                                => Http::response('{"status":"Pulled"}'),
+            Str::endsWith($path, '/containers/create')                            => Http::response(['Id' => 'container-abc'], 201),
+            Str::endsWith($path, '/start'), Str::endsWith($path, '/stop')         => Http::response('', 204),
+            Str::contains($path, '/containers/') && Str::endsWith($path, '/json') => $present
+                ? Http::response([
+                    'Id'     => 'container-abc',
+                    'Name'   => '/vendra-storefront-acme-flowers',
+                    'Config' => [
+                        'Image'  => $image,
+                        'Labels' => [
+                            'io.vendra.managed-by' => 'vendra',
+                            'io.vendra.slug'       => 'acme-flowers',
+                        ],
+                    ],
+                    'State' => $state,
+                ])
+                : Http::response(['message' => 'no such container'], 404),
+            'DELETE' === $request->method() => Http::response('', 204),
+            default                         => Http::response('', 404),
+        };
+    });
+
+    return $recorder;
+}
+
+/**
+ * Fake a Docker Engine that accepts every call and reports a healthy container.
+ *
+ * The container starts absent, so an inspect before the first create 404s the
+ * way a real engine would; once `/containers/create` is seen the runtime's
+ * inspects resolve to a placed, ownable container carrying the requested state.
+ *
+ * @param array<string, mixed> $state
+ */
+function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['Status' => 'healthy']], bool $networkExists = true, ?string $serverHeader = null): void
+{
+    $created = false;
+
+    Http::fake(function (Request $request) use ($state, $networkExists, $serverHeader, &$created) {
+        $path = (string) parse_url($request->url(), PHP_URL_PATH);
+        $method = $request->method();
+
+        if (Str::endsWith($path, '/containers/create')) {
+            $created = true;
+
+            return Http::response(['Id' => 'container-abc'], 201);
+        }
+
+        return match (true) {
+            Str::endsWith($path, '/_ping')     => Http::response('OK', headers: null === $serverHeader ? [] : ['Server' => $serverHeader]),
+            Str::contains($path, '/networks/') => Http::response(
+                $networkExists ? ['Name' => 'traefik-public'] : ['message' => 'network not found'],
+                $networkExists ? 200 : 404,
+            ),
+            Str::endsWith($path, '/images/create')                                => Http::response('{"status":"Pulled"}'),
+            Str::endsWith($path, '/start')                                        => Http::response('', 204),
+            Str::contains($path, '/containers/') && Str::endsWith($path, '/json') => $created
+                ? Http::response([
+                    'Id'     => 'container-abc',
+                    'Name'   => '/vendra-storefront-acme-flowers',
+                    'Config' => [
+                        'Image'  => 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123',
+                        'Labels' => [
+                            'io.vendra.managed-by' => 'vendra',
+                            'io.vendra.slug'       => 'acme-flowers',
+                        ],
+                    ],
+                    'State' => $state,
+                ])
+                : Http::response(['message' => 'no such container'], 404),
+            'DELETE' === $method => Http::response(['message' => 'no such container'], 404),
+            default              => Http::response('', 404),
+        };
+    });
+}

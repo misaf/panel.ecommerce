@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Support\StorefrontOrigins;
 use Illuminate\Support\Facades\Cache;
+use Misaf\VendraProperty\Support\StorefrontOrigins;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
 
