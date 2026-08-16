@@ -1,0 +1,83 @@
+{
+    "name": "misaf/vendra-container",
+    "description": "Runtime-agnostic container management for Docker and Podman",
+    "keywords": [
+        "laravel",
+        "misaf",
+        "vendra",
+        "container",
+        "docker",
+        "podman"
+    ],
+    "homepage": "https://github.com/misaf/vendra-container",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.3",
+        "illuminate/http": "^13.0",
+        "illuminate/support": "^13.0",
+        "spatie/laravel-package-tools": "^1.93.1"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.10.0",
+        "laravel/boost": "^2.4.12",
+        "laravel/pint": "^1.29.3",
+        "misaf/vendra-testing": "self.version",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.4",
+        "orchestra/testbench": "^11.1",
+        "pestphp/pest": "^5.0",
+        "pestphp/pest-plugin-arch": "^5.0",
+        "pestphp/pest-plugin-laravel": "^5.0",
+        "pestphp/pest-plugin-profanity": "^5.0",
+        "pestphp/pest-plugin-type-coverage": "^5.0",
+        "phpstan/extension-installer": "^1.4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraContainer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraContainer\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraContainer\\Providers\\ContainerServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest --parallel",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-container/issues",
+        "source": "https://github.com/misaf/vendra-container"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}
