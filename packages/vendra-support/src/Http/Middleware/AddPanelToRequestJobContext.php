@@ -2,19 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware;
+namespace Misaf\VendraSupport\Http\Middleware;
 
-use App\Support\Context\AppContextKeys;
 use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
+use Misaf\VendraSupport\Context\ContextKeys;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Adds the current Filament panel id to the request context. The actor identity
- * is attached once at the authentication boundary (the Authenticated listener in
- * {@see \App\Providers\AppServiceProvider}), which also covers non-panel guards.
+ * Adds the current Filament panel id to the request context.
+ *
+ * It lives beside {@see ContextKeys} because every panel package stamps the same
+ * key and none of them depend on each other. The actor identity is attached once
+ * at the authentication boundary instead, which also covers non-panel guards.
  */
 final class AddPanelToRequestJobContext
 {
@@ -29,7 +31,7 @@ final class AddPanelToRequestJobContext
 
         if (null !== $panel) {
             (new RequestJobContext(
-                metadata: [AppContextKeys::PANEL_ID => $panel->getId()],
+                metadata: [ContextKeys::PANEL_ID => $panel->getId()],
             ))->add();
         }
 
