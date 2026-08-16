@@ -1,0 +1,61 @@
+# Platform routers.
+#
+# CERT_RESOLVER decides how these are served, and the two modes are genuinely
+# different:
+#
+#   set   — each router names an explicit host, so Traefik requests an ACME
+#           certificate for it over the HTTP challenge and renews it. Nothing
+#           manual, nothing to supply.
+#   empty — no ACME. Traefik serves the default certificate from the store
+#           below, which is what `bin/vendra certs` writes with mkcert.
+#
+# A bare `tls: {}` would silently take the second path in both modes, which is
+# how the API and panels end up serving an untrusted certificate in production.
+http:
+  routers:
+    api:
+      rule: 'Host(`api.{{ env "BASE_DOMAIN" }}`)'
+      entryPoints: [websecure]
+      service: vendra-api@docker
+      middlewares: [security-headers-platform@file, rate-limit-api@file, compression@file]
+      tls:
+        {{- if env "CERT_RESOLVER" }}
+        certResolver: {{ env "CERT_RESOLVER" }}
+        {{- end }}
+
+    panels:
+      rule: 'Host(`admin.{{ env "BASE_DOMAIN" }}`) || Host(`console.{{ env "BASE_DOMAIN" }}`) || Host(`reseller.{{ env "BASE_DOMAIN" }}`)'
+      entryPoints: [websecure]
+      service: vendra-panels@docker
+      middlewares: [security-headers-platform@file, rate-limit@file, compression@file]
+      tls:
+        {{- if env "CERT_RESOLVER" }}
+        certResolver: {{ env "CERT_RESOLVER" }}
+        {{- end }}
+
+    # Per-tenant panels at <slug>.admin.<base>.
+    #
+    # Deliberately separate from `panels` and deliberately without a resolver:
+    # the rule is a pattern, not a host, so the HTTP challenge has no single
+    # domain to prove. Serving these over ACME needs a wildcard certificate for
+    # *.admin.<base>, which requires the DNS challenge and a provider
+    # credential — configure `tls.domains` plus a dnsChallenge resolver if you
+    # need it. Without that they fall back to the default certificate below.
+    tenant-panels:
+      rule: 'HostRegexp(`[a-z0-9-]+\.admin\.{{ env "BASE_DOMAIN" }}`)'
+      entryPoints: [websecure]
+      service: vendra-panels@docker
+      middlewares: [security-headers-platform@file, rate-limit@file, compression@file]
+      priority: 1
+      tls: {}
+
+{{- if env "VENDRA_DEFAULT_CERTIFICATE" }}
+# Local estates only. Written by `bin/vendra certs`; absent under ACME, where
+# naming files that do not exist makes Traefik log an error on every reload.
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/local.pem
+        keyFile: /certs/local-key.pem
+{{- end }}

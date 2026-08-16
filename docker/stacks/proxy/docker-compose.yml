@@ -1,0 +1,53 @@
+name: proxy
+services:
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy:v0.5.0
+    restart: unless-stopped
+    environment: {CONTAINERS: 1, NETWORKS: 1, SERVICES: 1, TASKS: 1, EVENTS: 1, POST: 0, EXEC: 0, IMAGES: 0, VOLUMES: 0}
+    volumes: ["${CONTAINER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock:ro"]
+    networks: [socket]
+  traefik:
+    image: traefik:v3.7.5
+    restart: unless-stopped
+    depends_on: [socket-proxy]
+    # The dashboard binds to loopback, like MySQL: reachable from the host
+    # directly, or over `ssh -N -L 8080:127.0.0.1:8080 user@host`, and from
+    # nowhere else. Widening the address puts an unauthenticated dashboard on
+    # that interface.
+    ports:
+      - "80:80"
+      - "443:443"
+      - "${TRAEFIK_DASHBOARD_BIND_ADDRESS:-127.0.0.1}:${TRAEFIK_DASHBOARD_PORT:-8080}:8080"
+    environment:
+      BASE_DOMAIN: "${BASE_DOMAIN:?required}"
+      # Empty means "no ACME": the platform routers fall back to the default
+      # certificate instead of requesting one. See dynamic/vendra.yml.
+      CERT_RESOLVER: "${CERT_RESOLVER:-}"
+      # Set only when a default certificate exists on disk. Naming files that
+      # are absent makes Traefik log an error on every reload.
+      VENDRA_DEFAULT_CERTIFICATE: "${VENDRA_DEFAULT_CERTIFICATE:-}"
+      # Renders into dynamic/middlewares.yml. 0 disables HSTS.
+      TRAEFIK_HSTS_SECONDS: "${TRAEFIK_HSTS_SECONDS:-0}"
+    command:
+      - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:-noreply@example.com}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/acme/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+    volumes:
+      - "./traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "./dynamic:/etc/traefik/dynamic:ro"
+      - "${VENDRA_STATE_DIR:-/var/lib/vendra}/certificates:/certs:ro"
+      - "${VENDRA_STATE_DIR:-/var/lib/vendra}/acme:/acme"
+    networks:
+      # Aliases so containers on traefik-public resolve the public hostnames to
+      # Traefik instead of following the operator's /etc/hosts entries, which
+      # point at 127.0.0.1 — loopback inside a container is the container
+      # itself, and the storefront's server-side calls to api.${BASE_DOMAIN}
+      # fail with ECONNREFUSED before they leave the process.
+      traefik-public:
+        aliases:
+          - "${BASE_DOMAIN:?required}"
+          - "api.${BASE_DOMAIN:?required}"
+      socket: {}
+networks:
+  traefik-public: {external: true}
+  socket: {internal: true}

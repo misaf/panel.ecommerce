@@ -1,0 +1,17 @@
+# insecure: true serves the API and dashboard on their own entrypoint (:8080)
+# without a router. It is not exposed by that alone — the compose file publishes
+# :8080 on loopback only, so reaching it means being on the host or forwarding it
+# over SSH. Do not add a public router for api@internal without authentication.
+api: {dashboard: true, insecure: true}
+ping: {}
+entryPoints:
+  web: {address: ":80"}
+  websecure: {address: ":443"}
+providers:
+  docker:
+    endpoint: "tcp://socket-proxy:2375"
+    exposedByDefault: false
+    network: traefik-public
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true

@@ -1,8 +1,8 @@
 # FrankenPHP behind a TLS-terminating reverse proxy (Traefik).
 #
 # Vendra is deployed only behind such a proxy, so this server does NO
-# certificate management: it speaks plain HTTP on :8080 for every host, and the
-# The vendra-controller proxy owns TLS and ports 80/443.
+# certificate management: it speaks plain HTTP on :8080 for every host. The
+# Traefik service in docker/stacks/proxy owns TLS and ports 80/443.
 {
 	frankenphp
 	auto_https off

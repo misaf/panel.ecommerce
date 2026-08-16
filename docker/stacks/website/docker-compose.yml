@@ -1,0 +1,19 @@
+name: vendra-website
+
+# Optional. With no image configured there is nothing to run, and `bin/vendra`
+# skips this stack — which also leaves the apex host free for the panels.
+services:
+  web:
+    image: "${VENDRA_WEBSITE_IMAGE:?required}"
+    restart: unless-stopped
+    networks: [traefik-public]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.services.vendra-website.loadbalancer.server.port=3000"
+      - "traefik.http.routers.vendra-website.rule=Host(`${BASE_DOMAIN}`) || Host(`www.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.vendra-website.entrypoints=websecure"
+      - "traefik.http.routers.vendra-website.tls=true"
+
+networks:
+  traefik-public: {external: true}

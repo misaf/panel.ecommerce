@@ -1,0 +1,80 @@
+# Reusable response-header middlewares, attached to routers by name.
+#
+# TRAEFIK_HSTS_SECONDS is set by the controller from certificate_mode: a real
+# duration under acme, and 0 (HSTS off) under self-signed. That matters — an
+# HSTS header served with an untrusted certificate pins the browser to HTTPS and
+# then removes the "proceed anyway" escape hatch, so a local .test host becomes
+# unreachable until the operator clears HSTS state by hand.
+#
+# stsPreload stays false everywhere. Preloading ships the domain inside browsers
+# and is slow and painful to undo; it is a deliberate, separate decision.
+http:
+  middlewares:
+    # For customer storefront domains. No stsIncludeSubdomains: those domains are
+    # not ours, and forcing HTTPS onto subdomains we do not serve could break a
+    # customer's unrelated hosts.
+    security-headers:
+      headers:
+        contentTypeNosniff: true
+        frameDeny: true
+        referrerPolicy: strict-origin-when-cross-origin
+        stsSeconds: {{ env "TRAEFIK_HSTS_SECONDS" }}
+        stsIncludeSubdomains: false
+        stsPreload: false
+
+    # For platform hosts under BASE_DOMAIN. Subdomain inclusion is safe here
+    # because every host under it is served by this stack, including the
+    # per-tenant <slug>.admin.<base> panels.
+    security-headers-platform:
+      headers:
+        contentTypeNosniff: true
+        frameDeny: true
+        referrerPolicy: strict-origin-when-cross-origin
+        stsSeconds: {{ env "TRAEFIK_HSTS_SECONDS" }}
+        stsIncludeSubdomains: true
+        stsPreload: false
+
+    # gzip/deflate for text responses. Traefik has no brotli; a CDN or the app
+    # can add it.
+    compression:
+      compress: {}
+
+    # www.<host> -> apex. Storefront routers match both hosts, so without this a
+    # property serves identical content on two URLs instead of redirecting.
+    www-redirect:
+      redirectRegex:
+        regex: "^https://www\\.(.*)"
+        replacement: "https://${1}"
+        permanent: true
+
+    # Coarse per-source shield for the panels. A blunt DoS guard, not a fairness
+    # mechanism — it knows a source address, never a caller.
+    #
+    # sourceCriterion decides what "per-source" means. The default keys on the
+    # real client IP, correct while Traefik is the edge. Behind a CDN every
+    # request arrives from a handful of egress IPs, so this would throttle whole
+    # regions together: set ipStrategy.depth to the number of proxies in front.
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 200
+        period: 1s
+        sourceCriterion:
+          ipStrategy:
+            depth: 0
+
+    # The API gets its own budget, so one busy storefront cannot consume the
+    # panels' allowance — separate backends should not share a bucket.
+    #
+    # Still per-IP, which is the wrong unit for a storefront fleet: many
+    # browsers, one tenant. A real per-tenant quota belongs in Laravel's
+    # RateLimiter keyed by the caller's credential, and cannot be built until
+    # there is a caller identity to key on.
+    rate-limit-api:
+      rateLimit:
+        average: 200
+        burst: 400
+        period: 1s
+        sourceCriterion:
+          ipStrategy:
+            depth: 0
