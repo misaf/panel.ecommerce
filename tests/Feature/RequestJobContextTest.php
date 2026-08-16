@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Middleware\AddPanelToRequestJobContext;
 use App\Http\Middleware\AddRequestContext;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Events\Authenticated;
@@ -17,6 +16,7 @@ use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSupport\Context\ContextKeys;
 use Misaf\VendraSupport\Context\RequestJobContext;
+use Misaf\VendraSupport\Http\Middleware\AddPanelToRequestJobContext;
 
 use function Pest\Laravel\actingAs;
 

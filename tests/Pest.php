@@ -168,3 +168,36 @@ function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['S
         };
     });
 }
+
+/**
+ * Build a complete storefront configuration payload for the storefront wizard.
+ *
+ * Lives here rather than in a single feature file because two feature files
+ * (provisioning and deployment lifecycle) build the same payload, and each test
+ * file runs in its own worker process under `--parallel`.
+ *
+ * @return array<string, string>
+ */
+function storefrontRequestData(string $slug = 'acme-flowers'): array
+{
+    return [
+        'storefront_slug'               => $slug,
+        'storefront_theme'              => 'default',
+        'storefront_name_en'            => 'Acme Flowers',
+        'storefront_name_fa'            => 'گل‌فروشی اکمی',
+        'storefront_business_type'      => 'Florist',
+        'storefront_price_currency'     => 'irr',
+        'storefront_og_image'           => '/images/og.webp',
+        'storefront_locality'           => 'Tehran',
+        'storefront_country'            => 'ir',
+        'storefront_mobile_phone'       => '09120000000',
+        'storefront_office_phone'       => '02100000000',
+        'storefront_contact_email'      => 'contact@acme.test',
+        'storefront_hours_open'         => '08:00',
+        'storefront_hours_close'        => '21:00',
+        'storefront_map_query'          => '35.7,51.4',
+        'storefront_whatsapp_phone'     => '+989120000000',
+        'storefront_telegram_username'  => 'acmeflowers',
+        'storefront_instagram_username' => 'acmeflowers',
+    ];
+}
