@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Auth\Login;
-use App\Http\Middleware\AddPanelToRequestJobContext;
-use App\Http\Middleware\AddResellerToRequestJobContext;
 use Filament\Contracts\Plugin;
 use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -26,6 +24,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\SpatieTranslatable\SpatieTranslatablePlugin;
 use Misaf\VendraLanguage\Support\Locales;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Misaf\VendraReseller\Http\Middleware\AddResellerToRequestJobContext;
+use Misaf\VendraSupport\Http\Middleware\AddPanelToRequestJobContext;
 use Misaf\VendraTenant\Http\Middleware\EnsureAdminDomain;
 use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
 use Spatie\Multitenancy\Http\Middleware\NeedsTenant;

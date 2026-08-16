@@ -84,12 +84,12 @@ return [
 
         'console_users' => [
             'driver' => 'eloquent',
-            'model'  => App\Models\ConsoleUser::class,
+            'model'  => Misaf\VendraConsole\Models\ConsoleUser::class,
         ],
 
         'reseller_users' => [
             'driver' => 'eloquent',
-            'model'  => App\Models\ResellerUser::class,
+            'model'  => Misaf\VendraReseller\Models\ResellerUser::class,
         ],
     ],
 

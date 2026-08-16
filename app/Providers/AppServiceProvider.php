@@ -4,21 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Contracts\StorefrontProvisioner;
-use App\Models\Reseller;
-use App\Models\ResellerUser;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
-use App\Services\HttpStorefrontProvisioner;
-use App\Support\StorefrontOrigins;
-use App\Support\TransactionSubscriptionCharger;
-use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Filament\Auth\Notifications\ResetPassword;
 use Filament\Auth\Notifications\VerifyEmail;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Tables\Table;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
@@ -36,6 +25,13 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Misaf\VendraProperty\Contracts\StorefrontProvisioner;
+use Misaf\VendraProperty\Observers\TenantDomainObserver;
+use Misaf\VendraProperty\Services\ContainerStorefrontProvisioner;
+use Misaf\VendraProperty\Support\StorefrontSettings;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
+use Misaf\VendraReseller\Support\TransactionSubscriptionCharger;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
@@ -55,12 +51,13 @@ final class AppServiceProvider extends ServiceProvider
         // composition root, the host app supplies the transaction-backed adapter
         // and binds it over the null charger.
         $this->app->singleton(SubscriptionCharger::class, TransactionSubscriptionCharger::class);
-        $this->app->bind(StorefrontProvisioner::class, HttpStorefrontProvisioner::class);
+
+        $this->registerStorefrontProvisioning();
     }
 
     public function boot(): void
     {
-        DevCommands::artisan('queue:listen --queue=default,transactional-email --tries=1 --timeout=0', 'queue');
+        DevCommands::artisan('queue:listen --queue=default,transactional-email,storefronts --tries=1 --timeout=0', 'queue');
         DevCommands::except('server', 'vite', 'horizon');
 
         Relation::morphMap([
@@ -74,11 +71,36 @@ final class AppServiceProvider extends ServiceProvider
             is_string($settingsTable) ? $settingsTable : 'settings',
             'storefront_deployments',
         );
+
         URL::forceScheme('https');
         Model::shouldBeStrict();
         DB::prohibitDestructiveCommands(app()->isProduction());
         Password::defaults(fn() => Password::min(8));
 
+        TenantDomain::observe(TenantDomainObserver::class);
+
+        $this->configureRateLimiting();
+        $this->configureAuthLogging();
+    }
+
+    /**
+     * The storefront provisioning adapter and the settings it reads.
+     *
+     * Bound rather than shared: the configuration is read on each resolve, so a
+     * changed endpoint or image takes effect without a rebuilt container.
+     */
+    private function registerStorefrontProvisioning(): void
+    {
+        $this->app->bind(StorefrontSettings::class, static fn(): StorefrontSettings => StorefrontSettings::fromConfig());
+
+        // The platform runs the storefront containers itself. The container
+        // runtime behind the provisioner is bound by vendra-container, which
+        // owns the engine endpoint and API version.
+        $this->app->bind(StorefrontProvisioner::class, ContainerStorefrontProvisioner::class);
+    }
+
+    private function configureRateLimiting(): void
+    {
         RateLimiter::for('mcp', static function (Request $request): Limit {
             $actor = $request->user()?->getAuthIdentifier();
 
@@ -86,7 +108,10 @@ final class AppServiceProvider extends ServiceProvider
                 is_int($actor) || is_string($actor) ? "user:{$actor}" : "ip:{$request->ip()}",
             );
         });
+    }
 
+    private function configureAuthLogging(): void
+    {
         Event::listen(Authenticated::class, static function (Authenticated $event): void {
             $actorId = $event->user->getAuthIdentifier();
 
@@ -106,58 +131,6 @@ final class AppServiceProvider extends ServiceProvider
         Event::listen(Lockout::class, static function (Lockout $event): void {
             (new RequestJobContext(operation: 'auth_lockout'))
                 ->scope(static fn() => Log::warning('Authentication lockout triggered.'));
-        });
-
-        // A domain going active/inactive changes who may call the API, so the
-        // allowlist must not outlive the change. Registered unconditionally:
-        // domains are edited from the panels, not through the API.
-        TenantDomain::saved(static function (): void {
-            StorefrontOrigins::forget();
-        });
-        TenantDomain::deleted(static function (): void {
-            StorefrontOrigins::forget();
-        });
-
-        $this->configureTableDefaults();
-        $this->configurePanelSwitch();
-    }
-
-    private function configureTableDefaults(): void
-    {
-        Table::configureUsing(function (Table $table) {
-            return $table
-                ->paginationPageOptions([10, 25, 50])
-                ->deferLoading()
-                ->defaultNumberLocale('en');
-        });
-
-        DateTimePicker::configureUsing(function (DateTimePicker $dateTimePicker) {
-            return $dateTimePicker
-                ->firstDayOfWeek(6)
-                ->when(
-                    app()->isLocale('fa'),
-                    fn(DateTimePicker $component): DateTimePicker => $component
-                        ->jalali()
-                        ->viewData(fn(DateTimePicker $component): array => [
-                            'defaultFocusedDate' => $component->getDefaultFocusedDate(),
-                        ]),
-                )
-                ->native(false);
-        });
-
-        DatePicker::configureUsing(function (DatePicker $datePicker) {
-            return $datePicker
-                ->closeOnDateSelection()
-                ->displayFormat('Y-m-d');
-        });
-    }
-
-    private function configurePanelSwitch(): void
-    {
-        PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
-            return $panelSwitch
-                ->simple()
-                ->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER);
         });
     }
 }

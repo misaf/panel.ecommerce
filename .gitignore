@@ -5,8 +5,9 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
-/.codex
+/.ai
 /.claude
+/.codex
 /.agents
 /.cursor
 /.idea
@@ -31,3 +32,7 @@ CLAUDE.md
 AGENTS.md
 .mcp.json
 opencode.json
+
+# Estate configuration and generated env, never committed.
+/docker/stacks/.env
+/docker/stacks/platform/platform.env

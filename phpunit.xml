@@ -43,6 +43,12 @@
         <testsuite name="vendra-cart-api">
             <directory>packages/vendra-cart-api/tests</directory>
         </testsuite>
+        <testsuite name="vendra-container">
+            <directory>packages/vendra-container/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-console">
+            <directory>packages/vendra-console/tests</directory>
+        </testsuite>
         <testsuite name="vendra-currency">
             <directory>packages/vendra-currency/tests</directory>
         </testsuite>
@@ -91,6 +97,12 @@
         <testsuite name="vendra-product-api">
             <directory>packages/vendra-product-api/tests</directory>
         </testsuite>
+        <testsuite name="vendra-property">
+            <directory>packages/vendra-property/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-reseller">
+            <directory>packages/vendra-reseller/tests</directory>
+        </testsuite>
         <testsuite name="vendra-socialite">
             <directory>packages/vendra-socialite/tests</directory>
         </testsuite>
@@ -137,6 +149,9 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
+        <!-- Pinned: the suite must not exercise whichever runtime a developer happens to have configured locally. -->
+        <env name="CONTAINER_RUNTIME" value="docker" force="true"/>
+        <env name="CONTAINER_ENDPOINT" value="unix:///var/run/docker.sock" force="true"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="MAIL_MAILER" value="array"/>

@@ -57,11 +57,4 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN'),
     ],
 
-    'storefront' => [
-        'provisioner_url'   => env('STOREFRONT_PROVISIONER_URL', 'http://provisioner:8080/v1/storefronts') ?: '',
-        'provisioner_token' => env('STOREFRONT_PROVISIONER_TOKEN') ?: '',
-        'image'             => env('STOREFRONT_IMAGE', 'ghcr.io/misaf/vendra-storefront-florist@sha256:REPLACE_WITH_DIGEST'),
-        'themes'            => array_values(array_filter(explode(',', (string) env('STOREFRONT_THEMES', 'default')))),
-    ],
-
 ];

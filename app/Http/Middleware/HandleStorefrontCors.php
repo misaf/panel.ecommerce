@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Support\StorefrontOrigins;
 use Closure;
 use Fruitcake\Cors\CorsService;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Misaf\VendraProperty\Support\StorefrontOrigins;
 
 /**
  * Supplies the canonical API's CORS allowlist at request time.

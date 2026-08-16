@@ -15,7 +15,7 @@ return [
     | `allowed_origins` is intentionally empty: the real allowlist is the set of
     | active storefront domains, which is data rather than configuration. It is
     | injected at request time by App\Http\Middleware\HandleStorefrontCors from
-    | App\Support\StorefrontOrigins. An empty list denies every cross-origin
+    | Misaf\VendraProperty\Support\StorefrontOrigins. An empty list denies every cross-origin
     | call, so a misconfiguration fails closed.
     |
     */

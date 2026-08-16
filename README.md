@@ -2,8 +2,8 @@
 
 > **Ecosystem documentation:** <https://misaf.github.io/vendra-ecosystem-docs>
 >
-> How this platform, the Go controller, and the storefront fit together —
-> architecture, tenancy, provisioning, and operations — is documented there.
+> How this platform, the estate, and the storefront fit together — architecture,
+> tenancy, provisioning, and operations — is documented there.
 > This README covers the host application and the package monorepo.
 
 Vendra is a modular Laravel 13 application for commerce, content, customer
@@ -63,15 +63,16 @@ Composer install from the committed lock file, Vite asset build). Pushing a
 `MAJOR.MINOR.PATCH` tag publishes `linux/amd64` and `linux/arm64` images to
 `ghcr.io/misaf/vendra` (`:1.0.0`, `:1.0`, `:latest`).
 
-Host lifecycle and storefront containers are owned by the standalone Go
-controller at [vendra-controller](https://github.com/misaf/vendra-controller).
-Operators need only Docker and its `vendra` binary; this Laravel repository
-contains no Compose stack or Docker-socket integration.
+The estate itself — Traefik, the platform services, and the optional marketing
+site — lives in `docker/stacks/` and is driven by the host-level
+`docker/stacks/bin/vendra` script. See [docker/stacks/README.md](docker/stacks/README.md).
 
-Laravel stores tenant and storefront business state. Its queued provisioning,
-retry, and reconciliation workflows call the controller's authenticated
-`POST /v1/storefronts` API. Configure that boundary with
-`STOREFRONT_PROVISIONER_URL` and `STOREFRONT_PROVISIONER_TOKEN`.
+Laravel stores tenant and storefront business state and owns the storefront
+containers: its queued provisioning, retry, and reconciliation workflows talk to
+a container runtime through `STOREFRONT_DOCKER_ENDPOINT` — Docker or a Podman
+compatibility socket, since only Engine-API calls are used — creating one container per
+storefront on the network named by `STOREFRONT_DOCKER_NETWORK`. It never creates
+the network, the proxy, or the TLS material — those belong to the estate.
 
 ## Module Development
 

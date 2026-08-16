@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\ConsoleUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Misaf\VendraConsole\Models\ConsoleUser;
 
 final class ConsoleUserSeeder extends Seeder
 {
