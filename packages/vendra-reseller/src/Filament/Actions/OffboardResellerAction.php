@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Actions;
 
-use Misaf\VendraReseller\Actions\OffboardResellerAction as DomainOffboardResellerAction;
-use Misaf\VendraReseller\Models\Reseller;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Textarea;
+use Misaf\VendraReseller\Actions\OffboardResellerAction as DomainOffboardResellerAction;
+use Misaf\VendraReseller\Models\Reseller;
 
 final class OffboardResellerAction extends DeleteAction
 {

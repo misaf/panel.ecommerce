@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Properties;
 
-use Misaf\VendraConsole\Filament\Resources\Properties\Pages\CreateProperty;
-use Misaf\VendraConsole\Filament\Resources\Properties\Pages\EditProperty;
-use Misaf\VendraConsole\Filament\Resources\Properties\Pages\ListProperties;
-use Misaf\VendraConsole\Filament\Resources\Properties\RelationManagers\DomainsRelationManager;
-use Misaf\VendraConsole\Filament\Resources\Properties\Schemas\PropertyForm;
-use Misaf\VendraConsole\Filament\Resources\Properties\Tables\PropertyTable;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -19,6 +13,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use InvalidArgumentException;
+use Misaf\VendraConsole\Filament\Resources\Properties\Pages\CreateProperty;
+use Misaf\VendraConsole\Filament\Resources\Properties\Pages\EditProperty;
+use Misaf\VendraConsole\Filament\Resources\Properties\Pages\ListProperties;
+use Misaf\VendraConsole\Filament\Resources\Properties\RelationManagers\DomainsRelationManager;
+use Misaf\VendraConsole\Filament\Resources\Properties\Schemas\PropertyForm;
+use Misaf\VendraConsole\Filament\Resources\Properties\Tables\PropertyTable;
 use Misaf\VendraTenant\Models\Tenant;
 
 final class PropertyResource extends Resource

@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Resellers\Pages;
 
-use Misaf\VendraReseller\Actions\CreateResellerOwnerAction;
-use Misaf\VendraReseller\Filament\Actions\OffboardResellerAction;
-use Misaf\VendraConsole\Filament\Resources\Resellers\ResellerResource;
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraReseller\Models\ResellerUser;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -19,6 +14,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Misaf\VendraConsole\Filament\Resources\Resellers\ResellerResource;
+use Misaf\VendraReseller\Actions\CreateResellerOwnerAction;
+use Misaf\VendraReseller\Filament\Actions\OffboardResellerAction;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;

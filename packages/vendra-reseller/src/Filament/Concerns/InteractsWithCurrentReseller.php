@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Concerns;
 
+use Filament\Facades\Filament;
 use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraReseller\Models\ResellerUser;
-use Filament\Facades\Filament;
 
 trait InteractsWithCurrentReseller
 {

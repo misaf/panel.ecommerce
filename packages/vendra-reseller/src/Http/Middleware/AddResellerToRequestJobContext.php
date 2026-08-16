@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Http\Middleware;
 
-use Misaf\VendraReseller\Models\ResellerUser;
-use Misaf\VendraSupport\Context\ContextKeys;
 use Closure;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Http\Request;
+use Misaf\VendraReseller\Models\ResellerUser;
+use Misaf\VendraSupport\Context\ContextKeys;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraTenant\Models\Tenant;
 use Symfony\Component\HttpFoundation\Response;

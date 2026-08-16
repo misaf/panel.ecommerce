@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Pages\Auth;
 
-use Misaf\VendraReseller\Actions\CreateResellerAction;
-use Misaf\VendraReseller\Models\ResellerUser;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
@@ -15,6 +13,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\Unique;
 use InvalidArgumentException;
+use Misaf\VendraReseller\Actions\CreateResellerAction;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Models\Plan;
 use SensitiveParameter;
 

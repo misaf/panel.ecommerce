@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Plans\Pages;
 
-use Misaf\VendraConsole\Filament\Resources\Plans\PlanResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Misaf\VendraConsole\Filament\Resources\Plans\PlanResource;
 use Misaf\VendraSubscription\Models\Plan;
 
 final class EditPlan extends EditRecord

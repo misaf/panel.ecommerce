@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Properties\Tables;
 
-use Misaf\VendraConsole\Filament\Resources\Properties\Actions\ReplaceDomainAction;
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraProperty\Models\StorefrontDeployment;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -27,6 +24,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Misaf\VendraConsole\Filament\Resources\Properties\Actions\ReplaceDomainAction;
+use Misaf\VendraProperty\Models\StorefrontDeployment;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraTenant\Models\Tenant;
 
 final class PropertyTable

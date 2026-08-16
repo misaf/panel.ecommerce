@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Models;
 
-use Misaf\VendraReseller\Database\Factories\ResellerUserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -19,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Misaf\VendraReseller\Database\Factories\ResellerUserFactory;
 
 #[Fillable(['reseller_id', 'username', 'email', 'email_verified_at', 'password'])]
 #[Hidden(['password', 'remember_token', 'active_reseller_guard', 'active_username_guard', 'active_email_guard'])]

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Widgets;
 
-use Misaf\VendraProperty\Filament\Concerns\BuildsDailyTrend;
-use Misaf\VendraReseller\Models\Reseller;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Misaf\VendraProperty\Filament\Concerns\BuildsDailyTrend;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraTenant\Models\Tenant;
 

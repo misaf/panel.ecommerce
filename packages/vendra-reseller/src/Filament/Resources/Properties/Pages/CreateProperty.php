@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Resources\Properties\Pages;
 
+use InvalidArgumentException;
 use Misaf\VendraProperty\Filament\Pages\CreatePropertyPage;
 use Misaf\VendraReseller\Filament\Resources\Properties\PropertyResource;
 use Misaf\VendraReseller\Models\Reseller;
-use InvalidArgumentException;
 
 final class CreateProperty extends CreatePropertyPage
 {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Models;
 
-use Misaf\VendraReseller\Database\Factories\ResellerFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use LogicException;
+use Misaf\VendraReseller\Database\Factories\ResellerFactory;
 use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
 use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;

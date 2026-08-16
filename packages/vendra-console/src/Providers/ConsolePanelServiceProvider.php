@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Providers;
 
-use Misaf\VendraSupport\Http\Middleware\AddPanelToRequestJobContext;
 use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -22,6 +21,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Uri;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Misaf\VendraSupport\Http\Middleware\AddPanelToRequestJobContext;
 
 /**
  * The console (platform admin) panel.

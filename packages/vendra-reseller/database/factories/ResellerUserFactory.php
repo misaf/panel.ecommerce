@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Database\Factories;
 
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraReseller\Models\ResellerUser;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 
 /**
  * @extends Factory<ResellerUser>

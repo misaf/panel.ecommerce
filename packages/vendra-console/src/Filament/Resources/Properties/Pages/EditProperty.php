@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Properties\Pages;
 
-use Misaf\VendraConsole\Filament\Resources\Properties\PropertyResource;
 use Filament\Resources\Pages\EditRecord;
+use Misaf\VendraConsole\Filament\Resources\Properties\PropertyResource;
 
 final class EditProperty extends EditRecord
 {

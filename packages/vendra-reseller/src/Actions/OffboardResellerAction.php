@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Actions;
 
-use Misaf\VendraReseller\Events\ResellerOffboarded;
-use Misaf\VendraReseller\Models\Reseller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Misaf\VendraReseller\Events\ResellerOffboarded;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Support\SubscriptionRegistry;
 
 final class OffboardResellerAction

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Actions;
 
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraReseller\Models\ResellerUser;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;

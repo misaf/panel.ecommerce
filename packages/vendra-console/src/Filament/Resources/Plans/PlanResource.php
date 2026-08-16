@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Plans;
 
-use Misaf\VendraConsole\Filament\Resources\Plans\Pages\CreatePlan;
-use Misaf\VendraConsole\Filament\Resources\Plans\Pages\EditPlan;
-use Misaf\VendraConsole\Filament\Resources\Plans\Pages\ListPlans;
-use Misaf\VendraConsole\Filament\Resources\Plans\Schemas\PlanForm;
-use Misaf\VendraConsole\Filament\Resources\Plans\Tables\PlanTable;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -16,6 +11,11 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use Misaf\VendraConsole\Filament\Resources\Plans\Pages\CreatePlan;
+use Misaf\VendraConsole\Filament\Resources\Plans\Pages\EditPlan;
+use Misaf\VendraConsole\Filament\Resources\Plans\Pages\ListPlans;
+use Misaf\VendraConsole\Filament\Resources\Plans\Schemas\PlanForm;
+use Misaf\VendraConsole\Filament\Resources\Plans\Tables\PlanTable;
 use Misaf\VendraSubscription\Models\Plan;
 
 final class PlanResource extends Resource

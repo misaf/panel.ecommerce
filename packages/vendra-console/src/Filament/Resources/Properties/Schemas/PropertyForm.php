@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Properties\Schemas;
 
-use Misaf\VendraProperty\Filament\Schemas\StorefrontConfigurationFields;
-use Misaf\VendraReseller\Models\Reseller;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -16,6 +14,8 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 use Livewire\Component as Livewire;
 use Misaf\LaravelEmailValidation\Rules\EmailValidation;
+use Misaf\VendraProperty\Filament\Schemas\StorefrontConfigurationFields;
+use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraTenant\Models\TenantDomain;
 
 final class PropertyForm

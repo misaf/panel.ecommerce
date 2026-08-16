@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Providers;
 
-use Misaf\VendraReseller\Filament\Pages\Auth\Login;
-use Misaf\VendraReseller\Filament\Pages\Auth\Register;
-use Misaf\VendraSupport\Http\Middleware\AddPanelToRequestJobContext;
-use Misaf\VendraReseller\Http\Middleware\AddResellerToRequestJobContext;
 use Filament\FontProviders\SpatieGoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -25,6 +21,10 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Uri;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Misaf\VendraLocalization\Http\Middleware\SetLocale;
+use Misaf\VendraReseller\Filament\Pages\Auth\Login;
+use Misaf\VendraReseller\Filament\Pages\Auth\Register;
+use Misaf\VendraReseller\Http\Middleware\AddResellerToRequestJobContext;
+use Misaf\VendraSupport\Http\Middleware\AddPanelToRequestJobContext;
 
 /**
  * The reseller (self-service) panel.

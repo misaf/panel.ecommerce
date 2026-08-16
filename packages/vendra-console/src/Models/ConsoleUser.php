@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Models;
 
-use Misaf\VendraConsole\Database\Factories\ConsoleUserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -18,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Misaf\VendraConsole\Database\Factories\ConsoleUserFactory;
 
 #[Fillable(['username', 'email', 'email_verified_at', 'password'])]
 #[Hidden(['password', 'remember_token'])]

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Actions;
 
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraReseller\Models\ResellerUser;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use LogicException;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 
 final class CreateResellerOwnerAction
 {

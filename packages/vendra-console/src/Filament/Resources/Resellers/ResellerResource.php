@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Resellers;
 
-use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\CreateReseller;
-use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\EditReseller;
-use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\ListResellers;
-use Misaf\VendraConsole\Filament\Resources\Resellers\Schemas\ResellerForm;
-use Misaf\VendraConsole\Filament\Resources\Resellers\Tables\ResellerTable;
-use Misaf\VendraReseller\Models\Reseller;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -17,6 +11,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\CreateReseller;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\EditReseller;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Pages\ListResellers;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Schemas\ResellerForm;
+use Misaf\VendraConsole\Filament\Resources\Resellers\Tables\ResellerTable;
+use Misaf\VendraReseller\Models\Reseller;
 
 final class ResellerResource extends Resource
 {

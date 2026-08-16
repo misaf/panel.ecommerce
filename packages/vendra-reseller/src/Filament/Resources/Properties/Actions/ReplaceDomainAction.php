@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Resources\Properties\Actions;
 
+use Closure;
 use Misaf\VendraProperty\Filament\Actions\ReplaceDomainAction as BaseReplaceDomainAction;
 use Misaf\VendraReseller\Filament\Resources\Properties\PropertyResource;
-use Closure;
 
 final class ReplaceDomainAction extends BaseReplaceDomainAction
 {

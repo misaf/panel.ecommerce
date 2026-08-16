@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Resources\Properties\Pages;
 
-use Misaf\VendraReseller\Filament\Resources\Properties\PropertyResource;
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraProperty\Support\PropertyQuota;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Misaf\VendraProperty\Support\PropertyQuota;
+use Misaf\VendraReseller\Filament\Resources\Properties\PropertyResource;
+use Misaf\VendraReseller\Models\Reseller;
 
 final class ListProperties extends ListRecords
 {

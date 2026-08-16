@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Database\Factories;
 
-use Misaf\VendraConsole\Models\ConsoleUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Misaf\VendraConsole\Models\ConsoleUser;
 
 /**
  * @extends Factory<ConsoleUser>

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Actions;
 
-use Misaf\VendraReseller\Actions\OffboardResellerAction;
-use Misaf\VendraReseller\Models\Reseller;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Misaf\VendraReseller\Actions\OffboardResellerAction;
+use Misaf\VendraReseller\Models\Reseller;
 
 final class OffboardResellerBulkAction extends DeleteBulkAction
 {

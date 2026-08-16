@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Resources\Properties\Schemas;
 
-use Misaf\VendraProperty\Filament\Schemas\StorefrontConfigurationFields;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Livewire\Component as Livewire;
 use Misaf\LaravelEmailValidation\Rules\EmailValidation;
+use Misaf\VendraProperty\Filament\Schemas\StorefrontConfigurationFields;
 use Misaf\VendraTenant\Models\TenantDomain;
 
 final class PropertyForm

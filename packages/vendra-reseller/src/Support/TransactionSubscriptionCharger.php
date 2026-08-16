@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Support;
 
+use LogicException;
 use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSupport\Context\ContextKeys;
-use LogicException;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Data\SubscriptionCharge;

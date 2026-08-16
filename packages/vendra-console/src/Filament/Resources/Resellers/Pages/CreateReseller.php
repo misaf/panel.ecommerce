@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Resellers\Pages;
 
-use Misaf\VendraReseller\Actions\CreateResellerAction;
-use Misaf\VendraConsole\Filament\Resources\Resellers\ResellerResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use Misaf\VendraConsole\Filament\Resources\Resellers\ResellerResource;
+use Misaf\VendraReseller\Actions\CreateResellerAction;
 use Misaf\VendraSubscription\Models\Plan;
 
 final class CreateReseller extends CreateRecord

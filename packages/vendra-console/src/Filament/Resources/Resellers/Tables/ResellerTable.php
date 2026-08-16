@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraConsole\Filament\Resources\Resellers\Tables;
 
-use Misaf\VendraReseller\Filament\Actions\OffboardResellerAction;
-use Misaf\VendraReseller\Filament\Actions\OffboardResellerBulkAction;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
@@ -17,6 +15,8 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Misaf\VendraReseller\Filament\Actions\OffboardResellerAction;
+use Misaf\VendraReseller\Filament\Actions\OffboardResellerBulkAction;
 
 final class ResellerTable
 {

@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraReseller\Filament\Resources\Properties;
 
-use Misaf\VendraReseller\Filament\Resources\Properties\Pages\CreateProperty;
-use Misaf\VendraReseller\Filament\Resources\Properties\Pages\ListProperties;
-use Misaf\VendraReseller\Filament\Resources\Properties\Schemas\PropertyForm;
-use Misaf\VendraReseller\Filament\Resources\Properties\Tables\PropertyTable;
-use Misaf\VendraReseller\Models\Reseller;
-use Misaf\VendraReseller\Models\ResellerUser;
 use BackedEnum;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
@@ -20,6 +14,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use InvalidArgumentException;
+use Misaf\VendraReseller\Filament\Resources\Properties\Pages\CreateProperty;
+use Misaf\VendraReseller\Filament\Resources\Properties\Pages\ListProperties;
+use Misaf\VendraReseller\Filament\Resources\Properties\Schemas\PropertyForm;
+use Misaf\VendraReseller\Filament\Resources\Properties\Tables\PropertyTable;
+use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraTenant\Models\Tenant;
 
 final class PropertyResource extends Resource
