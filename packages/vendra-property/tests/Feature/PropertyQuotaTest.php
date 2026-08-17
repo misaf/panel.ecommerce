@@ -11,7 +11,6 @@ use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 
 function resellerWithPlan(int $maxUnits, int $existingProperties = 0): Reseller
 {
@@ -22,7 +21,9 @@ function resellerWithPlan(int $maxUnits, int $existingProperties = 0): Reseller
         ->for(Plan::factory()->maxUnits($maxUnits))
         ->create();
 
-    Tenant::factory()->count($existingProperties)->create(['reseller_id' => $reseller->getKey()]);
+    for ($index = 0; $index < $existingProperties; $index++) {
+        createTestTenant(['reseller_id' => $reseller->getKey()]);
+    }
 
     return $reseller;
 }

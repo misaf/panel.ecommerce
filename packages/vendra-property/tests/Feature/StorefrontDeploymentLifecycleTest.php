@@ -11,7 +11,6 @@ use Misaf\VendraProperty\Exceptions\InvalidStorefrontTransitionException;
 use Misaf\VendraProperty\Filament\Schemas\StorefrontConfigurationFields;
 use Misaf\VendraProperty\Models\StorefrontDeployment;
 use Misaf\VendraProperty\Support\StorefrontConfigurationMap;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
     Queue::fake();
@@ -46,7 +45,7 @@ describe('the form-to-configuration map', function (): void {
 
 describe('requesting a deployment', function (): void {
     it('rejects an incomplete configuration at request time instead of on the queue', function (): void {
-        $tenant = Tenant::factory()->create();
+        $tenant = createTestTenant();
         $form = storefrontRequestData();
         unset($form['storefront_contact_email'], $form['storefront_locality']);
 

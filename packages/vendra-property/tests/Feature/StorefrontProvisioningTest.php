@@ -9,7 +9,6 @@ use Misaf\VendraProperty\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraProperty\Jobs\ProvisionStorefrontJob;
 use Misaf\VendraProperty\Jobs\ReconcileStorefrontJob;
 use Misaf\VendraProperty\Models\StorefrontDeployment;
-use Misaf\VendraTenant\Models\Tenant;
 
 beforeEach(function (): void {
     Queue::fake();
@@ -21,7 +20,7 @@ beforeEach(function (): void {
 
 it('keeps an unconfigured deployment pending instead of pretending it succeeded', function (): void {
     Config::set('vendra-container.endpoint', '');
-    $tenant = Tenant::factory()->create();
+    $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
         $tenant,
@@ -37,7 +36,7 @@ it('keeps an unconfigured deployment pending instead of pretending it succeeded'
 });
 
 it('queues provisioning when the provider is configured', function (): void {
-    $tenant = Tenant::factory()->create();
+    $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
         $tenant,
@@ -117,7 +116,7 @@ it('retries only failed storefront deployments', function (): void {
 });
 
 it('carries per-locale message overrides into the encoded configuration', function (): void {
-    $tenant = Tenant::factory()->create();
+    $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
         $tenant,
@@ -134,7 +133,7 @@ it('carries per-locale message overrides into the encoded configuration', functi
 
 it('omits messages entirely when none are supplied', function (): void {
     Config::set('vendra-container.endpoint', '');
-    $tenant = Tenant::factory()->create();
+    $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute($tenant, 'acme.test', storefrontRequestData());
 
@@ -143,7 +142,7 @@ it('omits messages entirely when none are supplied', function (): void {
 
 it('drops malformed message overrides rather than shipping a configuration the storefront rejects', function (): void {
     Config::set('vendra-container.endpoint', '');
-    $tenant = Tenant::factory()->create();
+    $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
         $tenant,
