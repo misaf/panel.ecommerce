@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace Misaf\VendraSubscription\Console\Commands;
 
 use Illuminate\Console\Command;
 use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
@@ -14,18 +14,13 @@ final class EnforceSubscriptionsCommand extends Command
 
     protected $description = 'Expire lapsed subscriptions and suspend properties past their grace period';
 
-    public function __construct(private readonly EnforceSubscriptionsAction $enforceSubscriptionsAction)
-    {
-        parent::__construct();
-    }
-
-    public function handle(): int
+    public function handle(EnforceSubscriptionsAction $enforceSubscriptionsAction): int
     {
         (new RequestJobContext(
             traceId: RequestJobContext::resolveTraceId(),
             operation: 'subscription_enforcement',
-        ))->scope(function (): void {
-            $result = $this->enforceSubscriptionsAction->execute();
+        ))->scope(function () use ($enforceSubscriptionsAction): void {
+            $result = $enforceSubscriptionsAction->execute();
 
             $this->info('Subscriptions enforced.');
             $this->table(['Metric', 'Count'], [

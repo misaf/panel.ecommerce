@@ -8,6 +8,7 @@ use Composer\InstalledVersions;
 
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Event;
+use Misaf\VendraSubscription\Console\Commands\EnforceSubscriptionsCommand;
 use Misaf\VendraSubscription\Console\Commands\RecoverSubscriptionPaymentsCommand;
 use Misaf\VendraSubscription\Console\Commands\ReportSubscriptionPaymentBacklogCommand;
 use Misaf\VendraSubscription\Events\SubscriptionPaymentPaid;
@@ -25,6 +26,7 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 'create_subscriptions_table',
             ])
+            ->hasCommand(EnforceSubscriptionsCommand::class)
             ->hasCommand(RecoverSubscriptionPaymentsCommand::class)
             ->hasCommand(ReportSubscriptionPaymentBacklogCommand::class)
             ->hasInstallCommand(function (InstallCommand $command): void {
