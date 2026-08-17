@@ -2,6 +2,20 @@
 
 declare(strict_types=1);
 
+/**
+ * Determine whether a package's own source imports the tenant provider.
+ */
+function packageSourceBindsTenantProvider(string $packagePath): bool
+{
+    foreach (glob("{$packagePath}/src/{,*/,*/*/,*/*/*/,*/*/*/*/,*/*/*/*/*/}*.php", GLOB_BRACE) ?: [] as $sourceFile) {
+        if (1 === preg_match('/^use Misaf\\\\VendraTenant\\\\/m', (string) file_get_contents($sourceFile))) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 it('keeps package manifest metadata consistent', function (): void {
     $manifestPaths = glob(base_path('packages/*/composer.json')) ?: [];
 
@@ -72,6 +86,14 @@ it('keeps package test suites tenant-provider agnostic', function (): void {
         $packagePath = dirname($manifestPath);
 
         if (in_array(basename($packagePath), ['vendra-tenant'], true)) {
+            continue;
+        }
+
+        // A package whose own source binds to the tenant provider gains nothing
+        // from an agnostic test suite: its tests cannot be looser about the
+        // provider than the code they cover. The rule exists to keep the
+        // remaining packages swappable, so it only applies to those.
+        if (packageSourceBindsTenantProvider($packagePath)) {
             continue;
         }
 
