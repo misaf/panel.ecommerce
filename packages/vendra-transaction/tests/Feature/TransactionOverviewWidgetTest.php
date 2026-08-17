@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Misaf\VendraTenant\Database\Factories\TenantFactory;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\Widgets\TransactionBonusOverviewWidget;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\Widgets\TransactionDepositOverviewWidget;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\Widgets\TransactionWithdrawalOverviewWidget;
 
 it('keeps transaction resource stats available', function (string $widget, string $label): void {
     app()->setLocale('en');
-    TenantFactory::new()->active()->createOne()->makeCurrent();
+    makeCurrentTestTenant();
 
     /** @var array<int, Stat> $stats */
     $stats = (new ReflectionMethod($widget, 'getStats'))->invoke(app($widget));

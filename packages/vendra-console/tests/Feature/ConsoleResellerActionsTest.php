@@ -12,7 +12,6 @@ use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
@@ -45,7 +44,8 @@ it('blocks a plan change that cannot hold the current properties', function (): 
     $reseller = Reseller::factory()->create();
     $currentPlan = Plan::factory()->maxUnits(2)->create();
     Subscription::factory()->forSubscriber($reseller)->for($currentPlan)->create();
-    Tenant::factory()->count(2)->create(['reseller_id' => $reseller->getKey()]);
+    createTestTenant(['reseller_id' => $reseller->getKey()]);
+    createTestTenant(['reseller_id' => $reseller->getKey()]);
 
     livewire(EditReseller::class, ['record' => $reseller->getKey()])
         ->callAction('changePlan', ['plan_id' => Plan::factory()->maxUnits(1)->create()->getKey()]);
@@ -71,7 +71,7 @@ it('offboards a reseller through the edit page action with an audit reason', fun
 
     $reseller = Reseller::factory()->create();
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory())->create();
-    Tenant::factory()->create(['reseller_id' => $reseller->getKey()]);
+    createTestTenant(['reseller_id' => $reseller->getKey()]);
 
     livewire(EditReseller::class, ['record' => $reseller->getKey()])
         ->callAction('delete', [

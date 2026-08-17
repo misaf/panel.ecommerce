@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Database\Seeders\ConsoleUserSeeder;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Misaf\VendraConsole\Database\Seeders\ConsoleUserSeeder;
 use Misaf\VendraConsole\Filament\Resources\Plans\Pages\CreatePlan;
 use Misaf\VendraConsole\Filament\Resources\Plans\Pages\EditPlan;
 use Misaf\VendraConsole\Filament\Resources\Plans\Pages\ListPlans;
