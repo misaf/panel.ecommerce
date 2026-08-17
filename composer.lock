@@ -384,26 +384,26 @@
         },
         {
             "name": "api-platform/json-schema",
-            "version": "v4.3.17",
+            "version": "v4.4.0-alpha.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/json-schema.git",
-                "reference": "d44aa7acae9e748b3ec55af19f2de4a9a7e79133"
+                "reference": "2ac8e07ef80877d5837023670ab03cb4439e9ee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/json-schema/zipball/d44aa7acae9e748b3ec55af19f2de4a9a7e79133",
-                "reference": "d44aa7acae9e748b3ec55af19f2de4a9a7e79133",
+                "url": "https://api.github.com/repos/api-platform/json-schema/zipball/2ac8e07ef80877d5837023670ab03cb4439e9ee8",
+                "reference": "2ac8e07ef80877d5837023670ab03cb4439e9ee8",
                 "shasum": ""
             },
             "require": {
-                "api-platform/metadata": "^4.3",
+                "api-platform/metadata": "^4.4@alpha",
                 "php": ">=8.2",
-                "symfony/console": "^6.4 || ^7.0 || ^8.0",
-                "symfony/property-info": "^6.4 || ^7.1 || ^8.0",
-                "symfony/serializer": "^6.4 || ^7.0 || ^8.0",
-                "symfony/type-info": "^7.3 || ^8.0",
-                "symfony/uid": "^6.4 || ^7.0 || ^8.0"
+                "symfony/console": "^7.4 || ^8.0",
+                "symfony/property-info": "^7.4 || ^8.0",
+                "symfony/serializer": "^7.4 || ^8.0",
+                "symfony/type-info": "^7.4 || ^8.0",
+                "symfony/uid": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "phpspec/prophecy-phpunit": "^2.2",
@@ -416,7 +416,7 @@
                     "name": "api-platform/api-platform"
                 },
                 "symfony": {
-                    "require": "^6.4 || ^7.0 || ^8.0"
+                    "require": "^7.4 || ^8.0"
                 },
                 "branch-alias": {
                     "dev-3.4": "3.4.x-dev",
@@ -459,9 +459,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/json-schema/tree/v4.3.17"
+                "source": "https://github.com/api-platform/json-schema/tree/v4.4.0-alpha.3"
             },
-            "time": "2026-06-29T14:45:14+00:00"
+            "time": "2026-07-12T07:36:01+00:00"
         },
         {
             "name": "api-platform/jsonld",
@@ -673,21 +673,21 @@
         },
         {
             "name": "api-platform/mcp",
-            "version": "4.3.x-dev",
+            "version": "4.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/mcp.git",
-                "reference": "44e74ff1ba78ced07a95d8e6d54e1555cbe2415a"
+                "reference": "dc6155683f72de26c777d44e5fea396be7e82ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/mcp/zipball/44e74ff1ba78ced07a95d8e6d54e1555cbe2415a",
-                "reference": "44e74ff1ba78ced07a95d8e6d54e1555cbe2415a",
+                "url": "https://api.github.com/repos/api-platform/mcp/zipball/dc6155683f72de26c777d44e5fea396be7e82ab5",
+                "reference": "dc6155683f72de26c777d44e5fea396be7e82ab5",
                 "shasum": ""
             },
             "require": {
-                "api-platform/json-schema": "^4.3",
-                "api-platform/metadata": "^4.3",
+                "api-platform/json-schema": "^4.4@alpha",
+                "api-platform/metadata": "^4.4@alpha",
                 "mcp/sdk": "^0.6 || ^0.7",
                 "php": ">=8.2",
                 "symfony/object-mapper": "^7.4 || ^8.0",
@@ -703,7 +703,7 @@
                     "name": "api-platform/api-platform"
                 },
                 "symfony": {
-                    "require": "^6.4 || ^7.0 || ^8.0"
+                    "require": "^7.4 || ^8.0"
                 },
                 "branch-alias": {
                     "dev-main": "4.4.x-dev"
@@ -744,22 +744,22 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/mcp/issues",
-                "source": "https://github.com/api-platform/mcp/tree/4.3"
+                "source": "https://github.com/api-platform/mcp/tree/4.4"
             },
-            "time": "2026-07-27T07:55:47+00:00"
+            "time": "2026-08-16T21:47:47+00:00"
         },
         {
             "name": "api-platform/metadata",
-            "version": "v4.3.17",
+            "version": "v4.4.0-alpha.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
-                "reference": "748f495474b4deedcba286631c2adf96d7bcba0a"
+                "reference": "60d176104f61e6dcdebaa0e2683113ff6f5091d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/metadata/zipball/748f495474b4deedcba286631c2adf96d7bcba0a",
-                "reference": "748f495474b4deedcba286631c2adf96d7bcba0a",
+                "url": "https://api.github.com/repos/api-platform/metadata/zipball/60d176104f61e6dcdebaa0e2683113ff6f5091d4",
+                "reference": "60d176104f61e6dcdebaa0e2683113ff6f5091d4",
                 "shasum": ""
             },
             "require": {
@@ -767,22 +767,22 @@
                 "php": ">=8.2",
                 "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
-                "symfony/property-info": "^6.4 || ^7.1 || ^8.0",
-                "symfony/string": "^6.4 || ^7.0 || ^8.0",
-                "symfony/type-info": "^7.3 || ^8.0"
+                "symfony/property-info": "^7.4 || ^8.0",
+                "symfony/string": "^7.4 || ^8.0",
+                "symfony/type-info": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "api-platform/json-schema": "^4.3",
-                "api-platform/openapi": "^4.3",
-                "api-platform/state": "^4.3",
+                "api-platform/json-schema": "^4.4@alpha",
+                "api-platform/openapi": "^4.4@alpha",
+                "api-platform/state": "^4.4@alpha",
                 "phpspec/prophecy-phpunit": "^2.2",
                 "phpstan/phpdoc-parser": "^1.29 || ^2.0",
                 "phpunit/phpunit": "^11.5 || ^12.2",
-                "symfony/config": "^6.4 || ^7.0 || ^8.0",
-                "symfony/routing": "^6.4 || ^7.0 || ^8.0",
-                "symfony/var-dumper": "^6.4 || ^7.0 || ^8.0",
-                "symfony/web-link": "^6.4 || ^7.1 || ^8.0",
-                "symfony/yaml": "^6.4 || ^7.0 || ^8.0"
+                "symfony/config": "^7.4 || ^8.0",
+                "symfony/routing": "^7.4 || ^8.0",
+                "symfony/var-dumper": "^7.4 || ^8.0",
+                "symfony/web-link": "^7.4 || ^8.0",
+                "symfony/yaml": "^7.4 || ^8.0"
             },
             "suggest": {
                 "phpstan/phpdoc-parser": "For PHP documentation support.",
@@ -796,7 +796,7 @@
                     "name": "api-platform/api-platform"
                 },
                 "symfony": {
-                    "require": "^6.4 || ^7.0 || ^8.0"
+                    "require": "^7.4 || ^8.0"
                 },
                 "branch-alias": {
                     "dev-3.4": "3.4.x-dev",
@@ -842,9 +842,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v4.3.17"
+                "source": "https://github.com/api-platform/metadata/tree/v4.4.0-alpha.3"
             },
-            "time": "2026-07-03T06:30:28+00:00"
+            "time": "2026-07-12T07:36:01+00:00"
         },
         {
             "name": "api-platform/openapi",
@@ -7646,7 +7646,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-console",
-                "reference": "067a8b897fd3f68a729d4a21fe4bc41d5ac582d4"
+                "reference": "fbd2cef3c9ab55f51979764d1dd198e1535b3a75"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7672,6 +7672,7 @@
                 "laravel/boost": "^2.4.12",
                 "laravel/pint": "^1.29.3",
                 "misaf/vendra-testing": "self.version",
+                "misaf/vendra-user": "self.version",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/collision": "^8.9.4",
                 "orchestra/testbench": "^11.1",
@@ -7693,7 +7694,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Misaf\\VendraConsole\\": "src/"
+                    "Misaf\\VendraConsole\\": "src/",
+                    "Misaf\\VendraConsole\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "autoload-dev": {
@@ -9568,7 +9570,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "aa8cbe004326048edf0dc7ba531569969535a822"
+                "reference": "c3bc0347242b9160271cc2e306a4a5750452b524"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
@@ -9601,7 +9603,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Misaf\\VendraSubscription\\": "src/"
+                    "Misaf\\VendraSubscription\\": "src/",
+                    "Misaf\\VendraSubscription\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "autoload-dev": {
@@ -21502,16 +21505,16 @@
         },
         {
             "name": "laravel/mcp",
-            "version": "v0.9.3",
+            "version": "v0.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/mcp.git",
-                "reference": "534b29f18418673033ec918c5a840b6ce9c08327"
+                "reference": "7ca5b923630118696602d14348cd0466a5e853ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/mcp/zipball/534b29f18418673033ec918c5a840b6ce9c08327",
-                "reference": "534b29f18418673033ec918c5a840b6ce9c08327",
+                "url": "https://api.github.com/repos/laravel/mcp/zipball/7ca5b923630118696602d14348cd0466a5e853ec",
+                "reference": "7ca5b923630118696602d14348cd0466a5e853ec",
                 "shasum": ""
             },
             "require": {
@@ -21572,7 +21575,7 @@
                 "issues": "https://github.com/laravel/mcp/issues",
                 "source": "https://github.com/laravel/mcp"
             },
-            "time": "2026-08-10T18:01:31+00:00"
+            "time": "2026-08-13T15:01:07+00:00"
         },
         {
             "name": "laravel/pail",
