@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders;
+namespace Misaf\VendraSubscription\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
