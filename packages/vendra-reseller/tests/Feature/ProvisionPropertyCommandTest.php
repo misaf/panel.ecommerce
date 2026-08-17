@@ -10,7 +10,6 @@ use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
-use Misaf\VendraUser\Models\User;
 
 it('skips provisioning an existing tenant domain when requested', function (): void {
     $tenant = Tenant::factory()->create();
@@ -28,7 +27,7 @@ it('skips provisioning an existing tenant domain when requested', function (): v
 
     expect(Tenant::query()->count())->toBe(1)
         ->and(TenantDomain::query()->count())->toBe(1)
-        ->and(User::query()->count())->toBe(0);
+        ->and(testUserModel()::query()->count())->toBe(0);
 });
 
 it('provisions a tenant with a provided password without printing it', function (): void {
@@ -104,7 +103,7 @@ it('rejects a provided password shorter than eight characters', function (): voi
         ->assertFailed();
 
     expect(Tenant::query()->count())->toBe(0)
-        ->and(User::query()->count())->toBe(0);
+        ->and(testUserModel()::query()->count())->toBe(0);
 });
 
 it('rejects an existing tenant domain without the option', function (): void {
@@ -121,5 +120,5 @@ it('rejects an existing tenant domain without the option', function (): void {
 
     expect(Tenant::query()->count())->toBe(1)
         ->and(TenantDomain::query()->count())->toBe(1)
-        ->and(User::query()->count())->toBe(0);
+        ->and(testUserModel()::query()->count())->toBe(0);
 });

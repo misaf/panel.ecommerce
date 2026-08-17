@@ -6,7 +6,6 @@ use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 
 it('expires subscriptions and suspends properties via the command', function (): void {
     $reseller = Reseller::factory()->create();
@@ -15,7 +14,7 @@ it('expires subscriptions and suspends properties via the command', function ():
         'starts_at' => now()->subMonths(2),
         'ends_at'   => now()->subDays(2),
     ]);
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    $property = createTestTenant(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     $this->artisan('vendra-subscription:enforce-subscriptions')->assertSuccessful();
 

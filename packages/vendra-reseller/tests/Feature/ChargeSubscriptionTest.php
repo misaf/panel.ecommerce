@@ -29,7 +29,6 @@ use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
 use Misaf\VendraTransaction\Facades\TransactionService;
 use Misaf\VendraTransaction\Models\Transaction;
 use Misaf\VendraTransaction\Services\TransactionService as TransactionServiceClass;
-use Misaf\VendraUser\Models\User;
 
 function fakeSubscriptionCharger(
     SubscriptionChargeStatus $status = SubscriptionChargeStatus::Paid,
@@ -143,7 +142,7 @@ it('persists and processes a paid subscription without holding a database transa
 it('collects an internal subscription payment only once and settles it before reporting paid', function (): void {
     makeCurrentTestTenant();
     TransactionGatewayFactory::new()->internal()->create();
-    $payer = User::factory()->create();
+    $payer = createTestUser();
     $wallet = TransactionService::walletFor($payer, 'USD');
     app(CreateTransactionAction::class)->execute(
         TransactionServiceClass::INTERNAL_GATEWAY_SLUG,

@@ -8,16 +8,17 @@ use Misaf\VendraSubscription\Enums\PeriodUnit;
 use Misaf\VendraSubscription\Exceptions\PlanInUseException;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 
 it('relates a reseller to its properties and subscriptions', function (): void {
     $reseller = Reseller::factory()
-        ->has(Tenant::factory()->count(2))
         ->has(Subscription::factory())
         ->create();
 
+    createTestTenant(['reseller_id' => $reseller->getKey()]);
+    createTestTenant(['reseller_id' => $reseller->getKey()]);
+
     expect($reseller->tenants)->toHaveCount(2)
-        ->and($reseller->tenants->first())->toBeInstanceOf(Tenant::class)
+        ->and($reseller->tenants->first())->toBeInstanceOf(testTenantModel())
         ->and($reseller->subscriptions)->toHaveCount(1);
 });
 

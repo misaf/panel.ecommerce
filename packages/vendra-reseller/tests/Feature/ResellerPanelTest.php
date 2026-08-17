@@ -28,7 +28,6 @@ use Misaf\VendraSubscription\Models\Subscription;
 use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraTenant\Models\Tenant;
 use Misaf\VendraTenant\Models\TenantDomain;
-use Misaf\VendraUser\Models\User;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
@@ -278,7 +277,7 @@ it('hides subscription and property widgets until the reseller has a property', 
 it('grants reseller panel access only to reseller owners', function (): void {
     $reseller = Reseller::factory()->create();
     $owner = resellerOwner($reseller);
-    $regular = User::factory()->forTenant(createTestTenant())->create();
+    $regular = vendraTestingModelFactory(testUserModel())->forTenant(createTestTenant())->create();
 
     $panel = Filament::getPanel('reseller');
 

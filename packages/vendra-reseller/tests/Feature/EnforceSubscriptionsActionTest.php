@@ -8,7 +8,6 @@ use Misaf\VendraSubscription\Actions\EnforceSubscriptionsAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 
 /**
  * Create a reseller whose only subscription is active but past its end date.
@@ -38,7 +37,7 @@ it('expires subscriptions whose period has lapsed', function (): void {
 
 it('suspends properties once the grace period has passed', function (): void {
     $reseller = lapsedReseller(graceDays: 0, endsAt: now()->subDays(2));
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    $property = createTestTenant(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     $result = app(EnforceSubscriptionsAction::class)->execute();
 
@@ -49,7 +48,7 @@ it('suspends properties once the grace period has passed', function (): void {
 
 it('keeps properties live while still within the grace period', function (): void {
     $reseller = lapsedReseller(graceDays: 10, endsAt: now()->subDay());
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    $property = createTestTenant(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     app(EnforceSubscriptionsAction::class)->execute();
 
@@ -60,7 +59,7 @@ it('keeps properties live while still within the grace period', function (): voi
 it('leaves properties of resellers with an active subscription untouched', function (): void {
     $reseller = Reseller::factory()->create();
     Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->graceDays(0))->create();
-    $property = Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    $property = createTestTenant(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     $result = app(EnforceSubscriptionsAction::class)->execute();
 
@@ -71,7 +70,7 @@ it('leaves properties of resellers with an active subscription untouched', funct
 
 it('does not convert manual disablement into billing suspension', function (): void {
     $reseller = lapsedReseller(graceDays: 0, endsAt: now()->subDays(2));
-    $property = Tenant::factory()->create([
+    $property = createTestTenant([
         'reseller_id' => $reseller->getKey(),
         'active'      => false,
     ]);

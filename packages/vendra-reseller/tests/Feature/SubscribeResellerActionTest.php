@@ -8,7 +8,6 @@ use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 
 it('cancels the previous active subscription when changing plans', function (): void {
     $reseller = Reseller::factory()->create();
@@ -37,7 +36,7 @@ it('renews by creating a fresh active subscription for the same plan', function 
 
 it('clears only billing suspension when the reseller resubscribes', function (): void {
     $reseller = Reseller::factory()->create();
-    $property = Tenant::factory()->create([
+    $property = createTestTenant([
         'reseller_id'          => $reseller->getKey(),
         'active'               => false,
         'billing_suspended_at' => now(),

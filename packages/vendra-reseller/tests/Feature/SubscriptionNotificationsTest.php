@@ -13,7 +13,6 @@ use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Enums\SubscriptionStatus;
 use Misaf\VendraSubscription\Models\Plan;
 use Misaf\VendraSubscription\Models\Subscription;
-use Misaf\VendraTenant\Models\Tenant;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
 it('notifies the owner when a subscription is activated', function (): void {
@@ -62,7 +61,7 @@ it('notifies the owner when properties are suspended', function (): void {
         'starts_at' => now()->subMonths(2),
         'ends_at'   => now()->subDays(2),
     ]);
-    Tenant::factory()->create(['reseller_id' => $reseller->getKey(), 'active' => true]);
+    createTestTenant(['reseller_id' => $reseller->getKey(), 'active' => true]);
 
     app(EnforceSubscriptionsAction::class)->execute();
     app(EnforceSubscriptionsAction::class)->execute();
