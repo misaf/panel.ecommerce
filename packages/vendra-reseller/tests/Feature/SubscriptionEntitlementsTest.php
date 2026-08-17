@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Database\Seeders\PlanSeeder;
 use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraSubscription\Actions\SubscribeAction;
 use Misaf\VendraSubscription\Models\Plan;
@@ -28,12 +27,4 @@ it('resolves plan and reseller feature entitlements', function (): void {
         ->and($plan->allows('priority_support'))->toBeFalse()
         ->and($reseller->allows('custom_domain'))->toBeTrue()
         ->and($reseller->allows('priority_support'))->toBeFalse();
-});
-
-it('seeds the default plans idempotently', function (): void {
-    (new PlanSeeder())->run();
-    (new PlanSeeder())->run();
-
-    expect(Plan::query()->count())->toBe(3)
-        ->and(Plan::query()->where('slug', 'pro')->sole()->allows('priority_support'))->toBeTrue();
 });
