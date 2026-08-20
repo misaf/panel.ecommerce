@@ -13,6 +13,7 @@ use Misaf\LaravelAuthifyLog\Jobs\AuthifyLogJob;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 class AuthifyLogChannelCommand extends Command
 {
@@ -93,7 +94,7 @@ class AuthifyLogChannelCommand extends Command
                 continue;
             }
 
-            $tenantId = $decodedEntry['tenant_id'] ?? 0;
+            $tenantId = $decodedEntry[TenantSchema::column()] ?? 0;
 
             if ( ! is_int($tenantId) && ! is_string($tenantId)) {
                 continue;

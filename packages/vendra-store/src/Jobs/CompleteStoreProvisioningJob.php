@@ -19,11 +19,11 @@ use Spatie\Multitenancy\Jobs\NotTenantAware;
 use Throwable;
 
 /**
- * Finishes provisioning one property off the request lifecycle: seeding, route
+ * Finishes provisioning one store off the request lifecycle: seeding, route
  * caching, and the switch to active.
  *
- * It is the application-orchestration half of property creation, so it lives
- * beside the domain rather than inside it — the action decides a property should
+ * It is the application-orchestration half of store creation, so it lives
+ * beside the domain rather than inside it — the action decides a store should
  * exist, this makes the slow parts happen and records whether they did.
  */
 final class CompleteStoreProvisioningJob implements NotTenantAware, ShouldBeUnique, ShouldQueue

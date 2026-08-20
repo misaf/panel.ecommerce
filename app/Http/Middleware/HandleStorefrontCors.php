@@ -16,7 +16,7 @@ use Misaf\VendraStore\Support\StorefrontOrigins;
  * Supplies the canonical API's CORS allowlist at request time.
  *
  * The allowed origins are the active storefront domains — data that changes
- * whenever a property is onboarded — so they cannot be a static config array.
+ * whenever a store is onboarded — so they cannot be a static config array.
  * They have to be injected here rather than into the CorsService binding
  * because the parent re-applies `config('cors')` over the service on every
  * request, discarding anything set earlier at resolve time.

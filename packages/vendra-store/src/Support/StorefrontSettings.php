@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Config;
  * array and a private accessor triplet each.
  *
  * Note what is *not* here: the runtime endpoint and its API version. Those are
- * `vendra-container` settings, and a property does not know what a socket is.
+ * `vendra-container` settings, and a store does not know what a socket is.
  */
 final class StorefrontSettings
 {

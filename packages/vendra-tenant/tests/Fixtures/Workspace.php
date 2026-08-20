@@ -18,9 +18,16 @@ use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
  * different foreign key, nothing ecommerce-specific has leaked back into
  * `misaf/vendra-tenant`.
  *
- * @property int $id
+ * Its columns are deliberately hostile to the engine's old assumptions: the
+ * primary key is `uuid` and the slug is `handle`. (The key still *holds* an
+ * integer — `TenantContract::getTenantKey()` returns `int` and the generic
+ * tenant foreign key is an integer column, both of which are settled
+ * architecture. Only the column *name* varies here, which is what the resolver
+ * had been hard-coding.)
+ *
+ * @property int $uuid
  * @property string $name
- * @property string $slug
+ * @property string $handle
  * @property bool $active
  */
 final class Workspace extends SpatieTenant implements TenantContract
@@ -29,9 +36,16 @@ final class Workspace extends SpatieTenant implements TenantContract
 
     protected $table = 'workspaces';
 
+    protected $primaryKey = 'uuid';
+
     protected $guarded = [];
 
     public $timestamps = false;
+
+    public function getTenantSlugName(): string
+    {
+        return 'handle';
+    }
 
     /**
      * @param  Builder<Workspace>  $query
@@ -48,7 +62,7 @@ final class Workspace extends SpatieTenant implements TenantContract
     protected function casts(): array
     {
         return [
-            'id'     => 'integer',
+            'uuid'   => 'integer',
             'active' => 'boolean',
         ];
     }

@@ -17,10 +17,10 @@ use Misaf\VendraStore\Support\StorefrontConfigurationMap;
 use Misaf\VendraStore\Support\StorefrontConfigurationValidator;
 
 /**
- * Records that a property should have a storefront, and asks for it to be built.
+ * Records that a store should have a storefront, and asks for it to be built.
  *
  * The row is written whether or not a container runtime is configured: a
- * deployment nobody can act on yet is still the property's intent, and
+ * deployment nobody can act on yet is still the store's intent, and
  * reconciliation picks it up once the estate is up. Dispatching a job certain to
  * fail would only fill the failed-jobs table instead.
  */

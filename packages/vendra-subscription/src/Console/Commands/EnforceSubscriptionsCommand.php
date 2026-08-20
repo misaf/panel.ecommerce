@@ -12,7 +12,7 @@ final class EnforceSubscriptionsCommand extends Command
 {
     protected $signature = 'vendra-subscription:enforce-subscriptions';
 
-    protected $description = 'Expire lapsed subscriptions and suspend properties past their grace period';
+    protected $description = 'Expire lapsed subscriptions and suspend units past their grace period';
 
     public function handle(EnforceSubscriptionsAction $enforceSubscriptionsAction): int
     {

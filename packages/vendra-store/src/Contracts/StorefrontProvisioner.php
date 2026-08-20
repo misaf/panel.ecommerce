@@ -10,13 +10,13 @@ use Misaf\VendraStore\Support\StorefrontProvisionResult;
 use Misaf\VendraStore\Support\StorefrontReference;
 
 /**
- * The port between the property layer and whatever actually runs a storefront.
+ * The port between the store layer and whatever actually runs a storefront.
  *
  * Every value crossing it is typed, so an adapter can be written against this
  * interface alone — the array-in/array-out shape it replaced documented nothing
  * and forced every caller to re-validate what it received.
  *
- * The property layer decides *when* a storefront should be deployed, stopped, or
+ * The store layer decides *when* a storefront should be deployed, stopped, or
  * destroyed and what it should contain; an implementation decides how a runtime
  * is made to agree. Nothing here mentions containers, because a future
  * implementation need not use them.

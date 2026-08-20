@@ -15,7 +15,7 @@ use Misaf\VendraSupport\Tenancy\Scopes\TenantScope;
  *
  * Storefronts are served on customer domains but fetch their data from
  * https://api.<base>, so every browser call is cross-origin. The allowlist
- * therefore has to be data, not config: it changes whenever a property is
+ * therefore has to be data, not config: it changes whenever a store is
  * onboarded. A wildcard is not an option — it cannot be combined with
  * credentials, and it would let any site on the internet read the API through a
  * visitor's browser.

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Redis;
 use Misaf\LaravelAuthifyLog\Enums\AuthifyLogActionEnum;
 use Misaf\VendraAuthifyLog\Notifications\LoginNotification;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 class AuthifyLogListener
 {
@@ -97,14 +98,14 @@ class AuthifyLogListener
 
         $timestamp = Carbon::now()->toDateTimeString();
         $logEntry = [
-            'tenant_id'  => TenantAwareness::currentId(),
-            'user_id'    => $userId,
-            'action'     => $action->value,
-            'ip_address' => request()->ip(),
-            'ip_country' => request()->header('CF-IPCountry') ?? 'XX',
-            'user_agent' => request()->userAgent(),
-            'created_at' => $timestamp,
-            'updated_at' => $timestamp,
+            TenantSchema::column() => TenantAwareness::currentId(),
+            'user_id'              => $userId,
+            'action'               => $action->value,
+            'ip_address'           => request()->ip(),
+            'ip_country'           => request()->header('CF-IPCountry') ?? 'XX',
+            'user_agent'           => request()->userAgent(),
+            'created_at'           => $timestamp,
+            'updated_at'           => $timestamp,
         ];
 
         $authifyTransaction = Redis::connection('authify_log')->rpush('entries', json_encode($logEntry));

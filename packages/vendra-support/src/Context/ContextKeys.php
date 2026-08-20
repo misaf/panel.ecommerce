@@ -9,7 +9,7 @@ namespace Misaf\VendraSupport\Context;
  *
  * They live beside the context itself rather than in the packages that set them
  * because a log line is only searchable if everybody writing it agrees on the
- * spelling: the panel middleware, the property provisioning job, and the reseller
+ * spelling: the panel middleware, the store provisioning job, and the reseller
  * panel all stamp the same two keys, and they sit in three different packages
  * with no dependency between them.
  *

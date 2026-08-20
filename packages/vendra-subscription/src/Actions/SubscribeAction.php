@@ -38,7 +38,7 @@ final class SubscribeAction
      *
      * @param  Model&SubscriptionSubscriber  $subscriber
      *
-     * @throws SubscriptionLimitException when the plan cannot hold the subscriber's current properties
+     * @throws SubscriptionLimitException when the plan cannot hold the subscriber's current units
      */
     public function execute(SubscriptionSubscriber $subscriber, Plan $plan, ?Carbon $startsAt = null): Subscription
     {

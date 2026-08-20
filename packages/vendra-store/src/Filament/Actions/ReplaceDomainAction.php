@@ -14,7 +14,7 @@ use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StoreDomain;
 
 /**
- * Shared "replace the property's active domain" table action. Panels subclass
+ * Shared "replace the store's active domain" table action. Panels subclass
  * this and override {@see authorizationCallback()} to apply their own access
  * rules; the form, validation, and replace behaviour stay identical.
  */

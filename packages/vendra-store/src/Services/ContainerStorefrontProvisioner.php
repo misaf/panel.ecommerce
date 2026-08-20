@@ -24,7 +24,7 @@ use RuntimeException;
 /**
  * Runs each storefront as one container, through whichever runtime is bound.
  *
- * This class is the whole of the property layer's knowledge about containers,
+ * This class is the whole of the store layer's knowledge about containers,
  * and even that is second-hand: it composes a {@see ContainerDefinition} and
  * hands it to {@see ContainerRuntime}. It has no idea whether Docker or Podman
  * answered, because the difference is a binding in `vendra-container` and not a

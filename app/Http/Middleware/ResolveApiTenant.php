@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * Every other surface is reached on a host that names its tenant, so the host
  * is the identifier. The canonical API is the exception: one host serves every
- * property, and the caller is a storefront on a customer domain. There the
+ * store, and the caller is a storefront on a customer domain. There the
  * request origin selects the tenant, matched against the same active tenant
- * domains that produce the CORS allowlist — so onboarding a property needs no
+ * domains that produce the CORS allowlist — so onboarding a store needs no
  * second registration.
  */
 final readonly class ResolveApiTenant

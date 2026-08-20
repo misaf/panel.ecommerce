@@ -63,7 +63,7 @@ final class StorefrontConfigurationMap
 
         // Per-locale copy overrides. One image serves the whole fleet and its
         // message catalogue is deliberately brand-neutral, so this is the only
-        // channel a property has for wording of its own — without it every
+        // channel a store has for wording of its own — without it every
         // storefront reads identically. Omitted when empty: the storefront
         // treats an absent key and an empty object the same way.
         $messages = self::messages($form);

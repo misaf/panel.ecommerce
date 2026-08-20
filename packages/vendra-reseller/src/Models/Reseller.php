@@ -110,7 +110,7 @@ final class Reseller extends Model implements ShouldLogActivity, SubscriptionSub
     }
 
     /**
-     * The properties (tenants) owned by this reseller.
+     * The stores owned by this reseller.
      *
      * @return HasMany<Store, $this>
      */

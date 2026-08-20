@@ -18,6 +18,12 @@ use RuntimeException;
  * It knows no concrete model: both the class and the foreign key come from
  * `config/vendra-tenant.php`, so the same engine drives `Store`/`tenant_id`
  * here and `Company`/`company_id` in another application.
+ *
+ * It knows no concrete *columns* either. Every query below asks the model how it
+ * names its own primary key (Eloquent's `getKeyName()`) and its slug
+ * ({@see TenantContract::getTenantSlugName()}), so a tenant keyed by
+ * `company_id`/`code` resolves through exactly the same code as Vendra's Store
+ * on `id`/`slug`.
  */
 final class ConfiguredTenantResolver implements TenantResolver
 {
@@ -57,7 +63,7 @@ final class ConfiguredTenantResolver implements TenantResolver
     {
         return $this->query()
             ->whereKey($tenant)
-            ->orWhere('slug', $tenant)
+            ->orWhere($this->tenantSlugName(), $tenant)
             ->first();
     }
 
@@ -107,7 +113,9 @@ final class ConfiguredTenantResolver implements TenantResolver
     {
         $search = mb_trim($value);
 
-        $query = $this->query()->select(['id', 'slug']);
+        $slugName = $this->tenantSlugName();
+
+        $query = $this->query()->select([$this->newTenantModel()->getKeyName(), $slugName]);
 
         /*
          | "May this tenant serve requests?" is the concrete model's business, so
@@ -119,7 +127,7 @@ final class ConfiguredTenantResolver implements TenantResolver
         }
 
         if ('' !== $search) {
-            $query->where('slug', 'like', "%{$search}%");
+            $query->where($slugName, 'like', "%{$search}%");
         }
 
         $options = [];
@@ -161,6 +169,27 @@ final class ConfiguredTenantResolver implements TenantResolver
     private function query(): Builder
     {
         return $this->tenantModelClass()::query();
+    }
+
+    /**
+     * A throwaway instance, used only to ask the model how it names its own
+     * columns. Both answers come from the model rather than from configuration,
+     * because the model is the source of truth for its own schema.
+     */
+    private function newTenantModel(): Model&TenantContract
+    {
+        $modelClass = $this->tenantModelClass();
+
+        return new $modelClass();
+    }
+
+    /**
+     * The column holding the tenant slug — `slug` for Vendra's Store, whatever
+     * the model says elsewhere.
+     */
+    private function tenantSlugName(): string
+    {
+        return $this->newTenantModel()->getTenantSlugName();
     }
 
     /**

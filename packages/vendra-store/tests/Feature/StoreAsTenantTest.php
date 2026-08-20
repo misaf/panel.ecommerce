@@ -85,3 +85,23 @@ it('has no billing owner until a reseller domain supplies one', function (): voi
 
     expect(app(StoreOwnerResolver::class)->find(1))->toBeNull();
 });
+
+it('keeps resolving through the generic resolver on id and slug', function (): void {
+    /*
+     | The resolver no longer hard-codes `id`/`slug`; it asks the model. Store
+     | answers with exactly those two, so every lookup below must behave the
+     | same as it always has.
+     */
+    $store = Store::factory()->active()->create(['name' => 'Acme Flowers', 'slug' => 'acme']);
+
+    $resolver = app(TenantResolver::class);
+
+    expect($store->getKeyName())->toBe('id')
+        ->and($store->getTenantSlugName())->toBe('slug')
+        ->and($resolver->findByKeyOrSlug($store->getKey())?->getKey())->toBe($store->getKey())
+        ->and($resolver->findByKeyOrSlug('acme')?->getKey())->toBe($store->getKey())
+        ->and($resolver->findByKeyOrSlug('no-such-store'))->toBeNull()
+        ->and($resolver->searchOptions(''))->toBe([$store->getKey() => 'acme'])
+        ->and($resolver->searchOptions('acm'))->toBe([$store->getKey() => 'acme'])
+        ->and($resolver->searchOptions('zzz'))->toBe([]);
+});

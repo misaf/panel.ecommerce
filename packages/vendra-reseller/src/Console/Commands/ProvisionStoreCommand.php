@@ -24,11 +24,11 @@ final class ProvisionStoreCommand extends Command implements PromptsForMissingIn
         {email : Email address for the tenant owner}
         {--if-missing : Skip provisioning when the tenant domain already exists}
         {--password= : Password for the tenant owner (random when omitted)}
-        {--reseller= : Attach the property to an existing reseller (id or slug)}
-        {--plan= : Create a reseller for this property subscribed to the given plan (id or slug)}
+        {--reseller= : Attach the store to an existing reseller (id or slug)}
+        {--plan= : Create a reseller for this store subscribed to the given plan (id or slug)}
         {--seed : Run default tenant seeders after provisioning}';
 
-    protected $description = 'Provision a property (tenant) with a domain, owner user, and role assignment';
+    protected $description = 'Provision a store (tenant) with a domain, owner user, and role assignment';
 
     public function __construct(
         private readonly ProvisionStoreAction $provisionTenantAction,
@@ -80,7 +80,7 @@ final class ProvisionStoreCommand extends Command implements PromptsForMissingIn
 
         $result = $this->provisionTenantAction->execute($data, $shouldSeed, $password, $reseller);
 
-        $this->info('Property provisioned.');
+        $this->info('Store provisioned.');
         $this->table(['Field', 'Value'], [
             ['Domain', $data['domain']],
             ['Reseller', null === $reseller ? '[none]' : $reseller->name],

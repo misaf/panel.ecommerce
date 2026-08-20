@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraSupport\Tenancy\RequiresCurrentTenant;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 use UnexpectedValueException;
 
 abstract class PermissionPolicySeeder extends Seeder
@@ -46,7 +47,7 @@ abstract class PermissionPolicySeeder extends Seeder
             ]);
 
             if (null !== $tenantKey) {
-                $permission->setAttribute('tenant_id', $tenantKey);
+                $permission->setAttribute(TenantSchema::column(), $tenantKey);
             }
 
             $permission->save();

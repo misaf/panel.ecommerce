@@ -17,7 +17,7 @@ use Throwable;
  * Takes one storefront down off the request lifecycle.
  *
  * Queued for the same reason deployment is: only the storefront worker holds a
- * runtime socket, and an operator closing a property should not wait on a
+ * runtime socket, and an operator closing a store should not wait on a
  * container to stop. It runs on the same queue for that reason.
  */
 final class DestroyStorefrontJob implements NotTenantAware, ShouldBeUnique, ShouldQueue

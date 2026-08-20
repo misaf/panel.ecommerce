@@ -11,8 +11,8 @@ use Misaf\VendraSubscription\Models\Subscription;
 
 /**
  * A subscriber's most recent subscription ended more than the plan's grace
- * window ago while it still holds active properties. Consumers react by
- * suspending those properties and notifying the owner. Carries the lapsed
+ * window ago while it still holds active units. Consumers react by
+ * suspending those units and notifying the owner. Carries the lapsed
  * subscription; resolve its subscriber to act.
  */
 final class SubscriptionGraceExpired implements ShouldDispatchAfterCommit

@@ -39,7 +39,7 @@ interface SubscriptionSubscriber
     public function hasSubscriptions(): bool;
 
     /**
-     * Whether the subscriber is active and able to create and hold properties.
+     * Whether the subscriber is active and able to create and hold units.
      */
     public function isSubscriptionActive(): bool;
 
@@ -59,26 +59,26 @@ interface SubscriptionSubscriber
     public function subscriptionPayer(): ?Model;
 
     /**
-     * Total number of billable properties the subscriber currently holds.
+     * Total number of billable units the subscriber currently holds.
      */
     public function subscribedUnitCount(): int;
 
     /**
-     * Number of the subscriber's properties that are currently active.
+     * Number of the subscriber's units that are currently active.
      */
     public function activeSubscribedUnitCount(): int;
 
     /**
-     * Suspend every active property after a lapse.
+     * Suspend every active unit after a lapse.
      *
-     * @return int the number of properties suspended
+     * @return int the number of units suspended
      */
     public function suspendActiveUnits(): int;
 
     /**
-     * Reactivate every suspended property after payment succeeds.
+     * Reactivate every suspended unit after payment succeeds.
      *
-     * @return int the number of properties reactivated
+     * @return int the number of units reactivated
      */
     public function reactivateSuspendedUnits(): int;
 }

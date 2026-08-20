@@ -23,9 +23,9 @@ beforeEach(function (): void {
     TenantSchema::flushTenantColumnCache();
 
     Schema::create('workspaces', function (Blueprint $table): void {
-        $table->id();
+        $table->id('uuid');
         $table->string('name');
-        $table->string('slug');
+        $table->string('handle');
         $table->boolean('active')->default(true);
     });
 
@@ -47,11 +47,11 @@ afterEach(function (): void {
     TenantSchema::flushTenantColumnCache();
 });
 
-function makeWorkspace(string $slug): Workspace
+function makeWorkspace(string $handle): Workspace
 {
     return Workspace::query()->create([
-        'name'   => ucfirst($slug),
-        'slug'   => $slug,
+        'name'   => ucfirst($handle),
+        'handle' => $handle,
         'active' => true,
     ]);
 }
@@ -75,7 +75,7 @@ it('works with a tenant model that is not named Tenant', function (): void {
     $workspace = makeWorkspace('acme');
 
     expect($workspace)->toBeInstanceOf(TenantContract::class)
-        ->and($workspace->getTenantKey())->toBe($workspace->id)
+        ->and($workspace->getTenantKey())->toBe($workspace->uuid)
         ->and($workspace->getTenantName())->toBe('Acme')
         ->and($workspace->getTenantSlug())->toBe('acme');
 });
@@ -168,7 +168,7 @@ it('runs a callback once inside every tenant', function (): void {
 
 it('offers only accessible tenants as search options', function (): void {
     $active = makeWorkspace('acme');
-    Workspace::query()->create(['name' => 'Archived', 'slug' => 'archived', 'active' => false]);
+    Workspace::query()->create(['name' => 'Archived', 'handle' => 'archived', 'active' => false]);
 
     expect(app(TenantResolver::class)->searchOptions(''))->toBe([$active->getKey() => 'acme'])
         ->and(app(TenantResolver::class)->searchOptions('arch'))->toBe([]);

@@ -38,4 +38,16 @@ interface TenantContract extends IsTenant
      * A URL-safe identifier, used for host resolution and per-tenant mailers.
      */
     public function getTenantSlug(): string;
+
+    /**
+     * The name of the column holding {@see getTenantSlug()}.
+     *
+     * The engine has to *query* the slug, not just read it off a loaded model —
+     * looking a tenant up by slug and offering search options both build SQL —
+     * so the model is asked for the column name rather than the engine assuming
+     * `slug`. Together with Eloquent's own `getKeyName()` this keeps the
+     * resolver free of column-name assumptions: `Store` keeps `id`/`slug`,
+     * while a `Company` on `company_id`/`code` works untouched.
+     */
+    public function getTenantSlugName(): string;
 }

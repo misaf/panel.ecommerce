@@ -12,7 +12,7 @@ use Misaf\VendraStore\Support\StorefrontProvisionRequest;
 use Misaf\VendraStore\Support\StorefrontSettings;
 
 /**
- * Deploys or redeploys one property's storefront, and records what happened.
+ * Deploys or redeploys one store's storefront, and records what happened.
  *
  * Deploy and redeploy are the same operation: the provisioner replaces whatever
  * is there, so a first deployment, a configuration change, and a moved image tag

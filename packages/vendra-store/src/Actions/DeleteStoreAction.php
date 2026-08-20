@@ -11,7 +11,7 @@ use Misaf\VendraStore\Models\StorefrontDeployment;
 use Throwable;
 
 /**
- * Deletes a property, taking its storefront down first.
+ * Deletes a store, taking its storefront down first.
  *
  * The lifecycle is explicit rather than left to Eloquent's cascade: the cascade
  * would remove the deployment row and leave the container running with nothing
@@ -21,7 +21,7 @@ use Throwable;
  * The two halves cannot be one transaction. A container removal is not
  * rollback-able, so it happens first and outside; only once the runtime is
  * settled do the business records go, inside a transaction of their own. A
- * failure in between leaves a property whose storefront is gone, which the
+ * failure in between leaves a store whose storefront is gone, which the
  * operator can retry — the reverse would leak infrastructure silently.
  */
 final class DeleteStoreAction
@@ -29,42 +29,42 @@ final class DeleteStoreAction
     public function __construct(private readonly DestroyStoreStorefrontAction $destroyStorefront) {}
 
     /**
-     * @param bool $force delete the property permanently rather than soft-deleting it
+     * @param bool $force delete the store permanently rather than soft-deleting it
      */
-    public function execute(Store $property, bool $force = false): void
+    public function execute(Store $store, bool $force = false): void
     {
         $deployment = StorefrontDeployment::query()
-            ->where('store_id', $property->getKey())
+            ->where('store_id', $store->getKey())
             ->first();
 
         if (null !== $deployment) {
             $this->destroyStorefront->execute($deployment);
         }
 
-        DB::transaction(function () use ($property, $force): void {
-            $force ? $property->forceDelete() : $property->delete();
+        DB::transaction(function () use ($store, $force): void {
+            $force ? $store->forceDelete() : $store->delete();
         });
     }
 
     /**
-     * Delete the property even when its storefront cannot be reached.
+     * Delete the store even when its storefront cannot be reached.
      *
      * Offboarding must not be blocked by a runtime that is down, so the failure
      * is recorded and the business records still go. The container is then a
      * known orphan named in the log rather than an unknown one.
      */
-    public function executeIgnoringStorefrontFailures(Store $property, bool $force = false): void
+    public function executeIgnoringStorefrontFailures(Store $store, bool $force = false): void
     {
         try {
-            $this->execute($property, $force);
+            $this->execute($store, $force);
         } catch (Throwable $exception) {
-            Log::warning('Deleting a property storefront failed; deleting the property anyway.', [
-                'property_id' => $property->getKey(),
+            Log::warning('Deleting a store storefront failed; deleting the store anyway.', [
+                'store_id'    => $store->getKey(),
                 'exception'   => $exception->getMessage(),
             ]);
 
-            DB::transaction(function () use ($property, $force): void {
-                $force ? $property->forceDelete() : $property->delete();
+            DB::transaction(function () use ($store, $force): void {
+                $force ? $store->forceDelete() : $store->delete();
             });
         }
     }

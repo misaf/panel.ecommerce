@@ -30,8 +30,8 @@ final class StoresSuspendedNotification extends Notification implements NotTenan
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Your properties have been suspended')
-            ->line("{$this->suspendedCount} property(s) were suspended because your subscription lapsed.")
+            ->subject('Your stores have been suspended')
+            ->line("{$this->suspendedCount} store(s) were suspended because your subscription lapsed.")
             ->line('Renew your subscription to bring them back online.');
     }
 }

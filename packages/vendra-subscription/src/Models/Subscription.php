@@ -145,7 +145,7 @@ final class Subscription extends Model implements ShouldLogActivity
     }
 
     /**
-     * The moment this subscription's properties should be suspended, taking the
+     * The moment this subscription's units should be suspended, taking the
      * plan's grace window into account. Null when it never expires.
      */
     public function suspendAt(): ?Carbon

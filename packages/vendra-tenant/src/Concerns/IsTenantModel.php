@@ -6,8 +6,12 @@ namespace Misaf\VendraTenant\Concerns;
 
 /**
  * Default {@see \Misaf\VendraTenant\Contracts\TenantContract} implementation for
- * a model that stores a `name` and a `slug`. A tenant model that names those
- * columns differently implements the three accessors itself instead.
+ * a model that stores a `name` and a `slug`.
+ *
+ * A tenant model that names its slug column differently overrides only
+ * {@see getTenantSlugName()} — the accessor and every query the engine builds
+ * follow from it. The primary key needs no override at all: Eloquent's own
+ * `getKeyName()` already reports it.
  */
 trait IsTenantModel
 {
@@ -25,7 +29,12 @@ trait IsTenantModel
 
     public function getTenantSlug(): string
     {
-        return $this->tenantStringAttribute('slug');
+        return $this->tenantStringAttribute($this->getTenantSlugName());
+    }
+
+    public function getTenantSlugName(): string
+    {
+        return 'slug';
     }
 
     private function tenantStringAttribute(string $attribute): string

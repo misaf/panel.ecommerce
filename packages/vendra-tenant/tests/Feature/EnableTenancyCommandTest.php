@@ -13,9 +13,9 @@ beforeEach(function (): void {
     config()->set('vendra-tenant.model', Workspace::class);
 
     Schema::create('workspaces', function (Blueprint $table): void {
-        $table->id();
+        $table->id('uuid');
         $table->string('name');
-        $table->string('slug');
+        $table->string('handle');
         $table->boolean('active')->default(true);
     });
 
@@ -34,9 +34,9 @@ afterEach(function (): void {
     Schema::dropIfExists('workspaces');
 });
 
-function legacyWorkspace(string $slug): Workspace
+function legacyWorkspace(string $handle): Workspace
 {
-    return Workspace::query()->create(['name' => ucfirst($slug), 'slug' => $slug, 'active' => true]);
+    return Workspace::query()->create(['name' => ucfirst($handle), 'handle' => $handle, 'active' => true]);
 }
 
 it('retrofits and backfills tables migrated before tenancy was installed', function (): void {

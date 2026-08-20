@@ -22,7 +22,7 @@ final class StorefrontLifecycleCommand extends Command
         {slug : The storefront slug}
         {--lines=200 : Log lines to show for the logs action}';
 
-    protected $description = 'Start, stop, restart, or inspect one property storefront';
+    protected $description = 'Start, stop, restart, or inspect one store storefront';
 
     public function handle(ControlStoreStorefrontAction $control): int
     {
