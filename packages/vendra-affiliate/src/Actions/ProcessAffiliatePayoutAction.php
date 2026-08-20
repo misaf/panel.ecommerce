@@ -13,7 +13,7 @@ use Misaf\VendraAffiliate\Models\AffiliateCommission;
 use Misaf\VendraAffiliate\Models\AffiliatePayout;
 use Misaf\VendraTransaction\Actions\CreateTransactionAction;
 use Misaf\VendraTransaction\Enums\TransactionTypeEnum;
-use Misaf\VendraTransaction\Facades\TransactionService;
+use Misaf\VendraTransaction\Facades\WalletResolver;
 use Misaf\VendraUser\Models\User;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -26,6 +26,8 @@ use Spatie\QueueableAction\QueueableAction;
 final class ProcessAffiliatePayoutAction
 {
     use QueueableAction;
+
+    public function __construct(private readonly CreateTransactionAction $createTransactionAction) {}
 
     public function execute(Affiliate $affiliate): ?AffiliatePayout
     {
@@ -65,9 +67,9 @@ final class ProcessAffiliatePayoutAction
                     'affiliate_payout_id' => $payout->id,
                 ]);
 
-            $transaction = app(CreateTransactionAction::class)->execute(
+            $transaction = $this->createTransactionAction->execute(
                 transactionGateway: Config::string('vendra-affiliate.payout.transaction_gateway', 'internal-transactions'),
-                wallet: TransactionService::defaultWalletFor($affiliate->user),
+                wallet: WalletResolver::defaultWalletFor($affiliate->user),
                 transactionType: TransactionTypeEnum::Commission,
                 amount: $payout->amount,
                 metadata: [

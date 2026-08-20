@@ -18,20 +18,24 @@ http:
       entryPoints: [websecure]
       service: vendra-api@docker
       middlewares: [security-headers-platform@file, rate-limit-api@file, compression@file]
+      {{- if env "CERT_RESOLVER" }}
       tls:
-        {{- if env "CERT_RESOLVER" }}
         certResolver: {{ env "CERT_RESOLVER" }}
-        {{- end }}
+      {{- else }}
+      tls: {}
+      {{- end }}
 
     panels:
       rule: 'Host(`admin.{{ env "BASE_DOMAIN" }}`) || Host(`console.{{ env "BASE_DOMAIN" }}`) || Host(`reseller.{{ env "BASE_DOMAIN" }}`)'
       entryPoints: [websecure]
       service: vendra-panels@docker
       middlewares: [security-headers-platform@file, rate-limit@file, compression@file]
+      {{- if env "CERT_RESOLVER" }}
       tls:
-        {{- if env "CERT_RESOLVER" }}
         certResolver: {{ env "CERT_RESOLVER" }}
-        {{- end }}
+      {{- else }}
+      tls: {}
+      {{- end }}
 
     # Per-tenant panels at <slug>.admin.<base>.
     #
@@ -42,7 +46,7 @@ http:
     # credential — configure `tls.domains` plus a dnsChallenge resolver if you
     # need it. Without that they fall back to the default certificate below.
     tenant-panels:
-      rule: 'HostRegexp(`[a-z0-9-]+\.admin\.{{ env "BASE_DOMAIN" }}`)'
+      rule: 'HostRegexp(`^[a-z0-9-]+\.admin\.{{ env "BASE_DOMAIN" }}$`)'
       entryPoints: [websecure]
       service: vendra-panels@docker
       middlewares: [security-headers-platform@file, rate-limit@file, compression@file]

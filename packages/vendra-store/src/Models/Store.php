@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraStore\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Misaf\VendraStore\Database\Factories\StoreFactory;
+use Misaf\VendraStore\Observers\StoreObserver;
 use Misaf\VendraStore\Scopes\StoreScope;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraTenant\Concerns\IsTenantModel;
@@ -59,6 +61,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property Carbon|null $deleted_at
  */
 #[Fillable(['reseller_id', 'name', 'description', 'slug', 'active', 'provisioning_status', 'provisioning_should_seed'])]
+#[ObservedBy([StoreObserver::class])]
 #[UseFactory(StoreFactory::class)]
 final class Store extends SpatieTenant implements ShouldLogActivity, TenantContract
 {
@@ -80,24 +83,6 @@ final class Store extends SpatieTenant implements ShouldLogActivity, TenantContr
      * domains resolves to this store, not whatever store is currently active in
      * the request.
      */
-    protected static function booted(): void
-    {
-        static::deleting(function (Store $store): void {
-            $store->execute(function () use ($store): void {
-                if ($store->isForceDeleting()) {
-                    $store->storeDomains()->withTrashed()->forceDelete();
-
-                    return;
-                }
-
-                $store->storeDomains()->where('active', true)->delete();
-            });
-        });
-
-        static::restored(function (Store $store): void {
-            $store->execute(fn() => $store->storeDomains()->onlyTrashed()->where('active', true)->restore());
-        });
-    }
 
     /**
      * @return array<string, string>

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Misaf\VendraStore\Actions;
 
+use InvalidArgumentException;
 use Misaf\VendraStore\Contracts\StorefrontProvisioner;
 use Misaf\VendraStore\Enums\StorefrontReconciliationOutcome;
 use Misaf\VendraStore\Enums\StorefrontRuntimeState;
 use Misaf\VendraStore\Models\StorefrontDeployment;
 use Misaf\VendraStore\Support\StorefrontObservation;
 use Misaf\VendraStore\Support\StorefrontReference;
-use Misaf\VendraStore\Support\StorefrontSettings;
 
 /**
  * Brings one storefront's runtime into line with what the platform intends.
@@ -32,7 +32,6 @@ final class ReconcileStoreStorefrontAction
     public function __construct(
         private readonly StorefrontProvisioner $provisioner,
         private readonly DeployStoreStorefrontAction $deploy,
-        private readonly StorefrontSettings $settings,
     ) {}
 
     public function execute(StorefrontDeployment $deployment): StorefrontReconciliationOutcome
@@ -68,7 +67,7 @@ final class ReconcileStoreStorefrontAction
             return StorefrontReconciliationOutcome::Started;
         }
 
-        if ($observed->state->isServing() && ! $observed->isServingOtherThan($this->settings->image)) {
+        if ($observed->state->isServing() && ! $observed->isServingOtherThan($this->desiredImage($deployment))) {
             return StorefrontReconciliationOutcome::InSync;
         }
 
@@ -107,5 +106,14 @@ final class ReconcileStoreStorefrontAction
     private function redeploy(StorefrontDeployment $deployment): void
     {
         $this->deploy->execute($deployment, force: true);
+    }
+
+    private function desiredImage(StorefrontDeployment $deployment): string
+    {
+        if ( ! $deployment->storefrontImage()->exists()) {
+            throw new InvalidArgumentException('Select a storefront image before reconciling this storefront.');
+        }
+
+        return $deployment->storefrontImage()->firstOrFail()->image;
     }
 }

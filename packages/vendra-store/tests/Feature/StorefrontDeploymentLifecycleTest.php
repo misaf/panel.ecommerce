@@ -36,7 +36,7 @@ describe('the form-to-configuration map', function (): void {
         ])->map(fn($component): string => $component->getName())
             // slug and theme identify the deployment row itself rather than
             // travelling inside the encoded configuration.
-            ->reject(fn(string $name): bool => in_array($name, ['storefront_slug', 'storefront_theme'], true))
+            ->reject(fn(string $name): bool => in_array($name, ['storefront_image_id', 'storefront_slug', 'storefront_theme'], true))
             ->all();
 
         expect($defined)->each->toBeIn(array_keys(StorefrontConfigurationMap::FIELDS));

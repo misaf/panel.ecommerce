@@ -7,7 +7,6 @@ for them; no external controller is involved.
 ```
 docker/stacks/
   bin/vendra              estate control (host-level)
-  .env.example            one file configures everything
   proxy/                  Traefik, its static config, and file-provider dynamic config
   platform/               mysql, redis, php, php-api, horizon, storefront-worker, scheduler, pulse
   website/                optional marketing site
@@ -16,18 +15,38 @@ docker/stacks/
 ## Quick start
 
 ```sh
+cp .env.example .env
 cp docker/stacks/.env.example docker/stacks/.env
-$EDITOR docker/stacks/.env          # BASE_DOMAIN, images, passwords, APP_KEY
+$EDITOR .env                        # Laravel and application settings
+$EDITOR docker/stacks/.env          # estate, images, socket, ports, TLS
 docker/stacks/bin/vendra up
 ```
 
-`up` creates the network, prepares the state directory, renders
-`platform/platform.env`, then starts proxy → platform → website, waiting for each
-to become healthy.
+Configuration is split by ownership, not duplicated. The root `.env` owns Laravel
+and application behavior. `docker/stacks/.env` owns host orchestration: domains,
+images, the host runtime socket, published ports, database administration, and
+estate TLS. Runtime selection and storefront network remain in the root `.env`
+because Laravel reads them directly. Compose reads both and explicitly replaces host-only addresses
+such as `DB_HOST=127.0.0.1` with service names such as `DB_HOST=mysql` inside
+containers. The CLI rejects any key present in both files, preserving exactly one
+source of truth per setting.
+
+Set `VENDRA_ENV_FILE` to select a non-default application environment and
+`VENDRA_DOCKER_ENV_FILE` to select a non-default estate environment.
+
+`vendra config` is a read-only preflight. It reports both active environment
+files, runtime, domain, enabled stacks, and network state without printing
+secrets. The CLI parses the few host-side values it needs as dotenv data; it
+never executes either file as a shell script. `vendra up` runs the same validation
+before changing anything.
+
+`up` creates the network, prepares the state directory, then starts proxy →
+platform → website, waiting for each to become healthy.
 
 | Command | |
 | --- | --- |
-| `vendra up` | render config, ensure the network, start every stack |
+| `vendra config` | validate required values, Compose files, runtime access, and network state |
+| `vendra up` | validate config, ensure the network, start every stack |
 | `vendra down` | stop every stack |
 | `vendra restart` | down then up |
 | `vendra ps` | stack services plus the storefront fleet |
@@ -36,6 +55,47 @@ to become healthy.
 | `vendra urls` | print the estate's URLs |
 | `vendra hosts` | print an `/etc/hosts` block for a local estate |
 | `vendra certs` | issue a local certificate with mkcert |
+
+## Local source development
+
+Use development mode when the platform should run from the current checkout
+instead of rebuilding an image after every source change:
+
+```sh
+docker/stacks/bin/vendra dev config
+docker/stacks/bin/vendra dev up
+```
+
+The local override builds the lightweight `development` Docker target as
+`vendra-platform:dev`. That target supplies only PHP, extensions, FrankenPHP,
+and system configuration; it does not copy, install, or build the application.
+The complete repository, including the host's `vendor/`, is bind-mounted at
+`/app`, so run `composer install` on the host before starting it. Only
+container-generated `bootstrap/cache/` remains in a named volume. The override
+sets `APP_ENV=local`, `APP_DEBUG=true`, and `LOG_LEVEL=debug`. Production cache
+warming is disabled and Laravel's caches are cleared when the web containers
+start. Development mode skips the explicit image-pull phase and reuses the local
+runtime image after its first build; application source changes never rebuild it.
+
+Normal PHP, Blade, configuration, route, and package source edits are visible
+without rebuilding the image. Restart the long-running processes after changing
+code they have already loaded:
+
+```sh
+docker/stacks/bin/vendra dev restart-workers
+```
+
+Run frontend development tooling on the host so Vite writes its hot file into
+the mounted checkout:
+
+```sh
+npm run dev
+```
+
+Use `vendra dev restart` when startup configuration or the container environment
+changes. After changing Composer dependencies, run `composer install` or
+`composer update` on the host; the containers see the resulting `vendor/` changes
+through the same bind mount without rebuilding the platform image.
 
 ## Why the CLI is a shell script
 
@@ -47,19 +107,23 @@ container and is reachable through `vendra artisan`.
 ## Docker or Podman
 
 Both serve the Engine API these stacks and the platform speak, so either runs the
-estate. Name the runtime and its socket in `.env`:
+estate. Name the runtime in the root `.env` and its host socket in
+`docker/stacks/.env`:
 
 ```sh
+# .env
 CONTAINER_RUNTIME=podman
-CONTAINER_SOCKET=/run/user/1000/podman/podman.sock   # rootless
 STOREFRONT_LOG_DRIVER=k8s-file
+
+# docker/stacks/.env
+CONTAINER_SOCKET=/run/user/1000/podman/podman.sock   # rootless
 ```
 
 `bin/vendra` drives `$CONTAINER_RUNTIME compose|network|ps|inspect|logs`, and the
 socket is mounted into `storefront-worker` at the Docker path either way, so the
-`CONTAINER_ENDPOINT` it writes into `platform.env` never changes. What does change
-is `CONTAINER_RUNTIME`, which is passed through to the platform so it selects the
-matching adapter and the Engine API version that runtime accepts.
+container's `CONTAINER_ENDPOINT` is always `unix:///var/run/docker.sock`. What does
+change is `CONTAINER_RUNTIME`, which is passed through to the platform so it
+selects the matching adapter and the Engine API version that runtime accepts.
 
 Rootless Podman is the safer choice, and it is the one thing that changes the
 security story of this estate: the socket that container holds stops being

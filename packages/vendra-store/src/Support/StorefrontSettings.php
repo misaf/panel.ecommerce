@@ -22,12 +22,9 @@ use Illuminate\Support\Facades\Config;
 final class StorefrontSettings
 {
     /**
-     * @param list<string>          $themes
      * @param array<string, string> $logOptions
      */
     public function __construct(
-        public readonly string $image,
-        public readonly array $themes,
         public readonly string $network,
         public readonly string $namePrefix,
         public readonly int $port,
@@ -58,8 +55,6 @@ final class StorefrontSettings
         $storefront = Config::array('vendra-store.storefront');
 
         return new self(
-            image: self::string($storefront, 'image'),
-            themes: self::themes($storefront),
             network: self::string($storefront, 'network', 'traefik-public'),
             namePrefix: self::string($storefront, 'name_prefix', 'vendra-storefront-'),
             port: self::integer($storefront, 'port', 3000),
@@ -109,24 +104,6 @@ final class StorefrontSettings
         }
 
         return str_starts_with($this->caFile, '/') ? $this->caFile : '/certs/' . $this->caFile;
-    }
-
-    /**
-     * @param  array<array-key, mixed> $storefront
-     * @return list<string>
-     */
-    private static function themes(array $storefront): array
-    {
-        $themes = [];
-        $configured = Arr::get($storefront, 'themes');
-
-        foreach (is_array($configured) ? $configured : [] as $theme) {
-            if (is_string($theme) && '' !== $theme) {
-                $themes[] = $theme;
-            }
-        }
-
-        return [] === $themes ? ['default'] : $themes;
     }
 
     /**

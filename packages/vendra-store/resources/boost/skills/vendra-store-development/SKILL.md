@@ -1,6 +1,6 @@
 ---
 name: vendra-store-development
-description: "Create, modify, review, or test the Vendra Store module in packages/vendra-store, changing the store domain and the storefront deployment lifecycle. Use for StorefrontProvisioner, ContainerStorefrontProvisioner, StorefrontDeployment, StorefrontDeploymentStatus, StorefrontDesiredState, StorefrontRuntimeState, StorefrontReconciliationOutcome, CreateStoreAction, ProvisionStoreAction, DeleteStoreAction, DeployStoreStorefrontAction, DestroyStoreStorefrontAction, ControlStoreStorefrontAction, ReconcileStoreStorefrontAction, RequestStorefrontDeploymentAction, ProvisionStorefrontJob, DestroyStorefrontJob, ReconcileStorefrontJob, CompleteStoreProvisioningJob, StorefrontSettings, StorefrontConfigurationMap, StorefrontConfigurationValidator, StorefrontContainerDefinitionFactory, StorefrontOrigins, StoreQuota, CreateStorePage, and the storefront console commands."
+description: "Create, modify, review, or test the Vendra Store module in packages/vendra-store, changing the store domain and the storefront deployment lifecycle. Use for StorefrontProvisioner, ContainerStorefrontProvisioner, StorefrontDeployment, StorefrontDeploymentStatus, StorefrontDesiredState, StorefrontRuntimeState, StorefrontReconciliationOutcome, CreateStoreAction, ProvisionStoreAction, DeleteStoreAction, DeployStoreStorefrontAction, DestroyStoreStorefrontAction, StartStoreStorefrontAction, StopStoreStorefrontAction, RestartStoreStorefrontAction, ReconcileStoreStorefrontAction, RequestStorefrontDeploymentAction, ProvisionStorefrontJob, DestroyStorefrontJob, ReconcileStorefrontJob, CompleteStoreProvisioningJob, StorefrontSettings, StorefrontConfigurationMap, StorefrontConfigurationValidator, StorefrontContainerDefinitionFactory, StorefrontOrigins, StoreQuota, CreateStorePage, and the storefront console commands."
 ---
 
 # Vendra Store
@@ -50,13 +50,14 @@ description: "Create, modify, review, or test the Vendra Store module in package
 ## Deployment Lifecycle
 
 - `RequestStorefrontDeploymentAction` → `ProvisionStorefrontJob` → `StorefrontDeployment`. Reconciliation and retry go through `StorefrontDeploymentDispatchCommand`; do not add a second dispatch path.
+- `StorefrontImage` records the operator-approved immutable image reference and its built-in themes. New deployments may select only active catalog entries; existing deployments keep using their selected entry after it is disabled. Never reintroduce global `STOREFRONT_IMAGE` or `STOREFRONT_THEMES` configuration.
 - Write status only via `markProcessing()`, `markReady()`, `markRequested()`, `markFailed()`. `Enums\StorefrontDeploymentStatus::transitions()` is the transition table and `InvalidStorefrontTransitionException` is the rejection.
 - A failing attempt with retries left stays `Processing`; only `ProvisionStorefrontJob::failed()` writes `Failed`.
 - `ProvisionStorefrontJob` runs on its own `storefronts` queue, served by the single worker that holds a runtime socket. Do not move it onto a shared queue.
 
 ## Configuration
 
-- Read `config/vendra-store.php` only through the injected `Support\StorefrontSettings`, including the "can we provision?" check. Keep it bound with `bind()` so config changes are picked up on the next resolve.
+- Read infrastructure values in `config/vendra-store.php` only through the injected `Support\StorefrontSettings`. Keep it bound with `bind()` so config changes are picked up on the next resolve.
 - Runtime differences (Docker vs. a Podman compatibility socket, log driver, health-check behaviour) are configuration, never a branch. Do not add runtime sniffing.
 
 ## Testing

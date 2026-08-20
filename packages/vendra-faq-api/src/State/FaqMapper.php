@@ -5,34 +5,24 @@ declare(strict_types=1);
 namespace Misaf\VendraFaqApi\State;
 
 use Illuminate\Database\Eloquent\Model;
-use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraApi\State\Concerns\MapsResourceReferences;
 use Misaf\VendraApi\State\Concerns\NormalizesResourceValues;
 use Misaf\VendraApi\State\ResourceMapper;
 use Misaf\VendraFaq\Models\Faq;
 use Misaf\VendraFaq\Models\FaqCategory;
 use Misaf\VendraFaqApi\ApiResource\FaqResource;
-use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
-use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
-use Misaf\VendraMultimediaApi\State\PublicMultimedia;
-use UnexpectedValueException;
+use Misaf\VendraMultimediaApi\State\Concerns\MapsPublicMultimedia;
 
 final class FaqMapper implements ResourceMapper
 {
+    use MapsPublicMultimedia;
+    use MapsResourceReferences;
     use NormalizesResourceValues;
 
     public function map(Model $model): FaqResource
     {
-        if ( ! $model instanceof Faq) {
-            throw new UnexpectedValueException('Expected an FAQ model.');
-        }
-
-        $category = $model->faqCategory;
-
-        if ( ! $category instanceof FaqCategory) {
-            throw new UnexpectedValueException('An FAQ must belong to a category.');
-        }
-
-        $categoryName = $category->getTranslation('name', app()->getLocale());
+        $this->expectModel($model, Faq::class, 'Expected an FAQ model.');
+        $this->expectModel($category = $model->faqCategory, FaqCategory::class, 'An FAQ must belong to a category.');
 
         return new FaqResource(
             id: $model->id,
@@ -41,16 +31,8 @@ final class FaqMapper implements ResourceMapper
             slug: $this->normalizeTranslations($model->getTranslations('slug')),
             position: $model->position,
             active: $model->active,
-            faqCategory: new ResourceReference(
-                $category->id,
-                'FaqCategory',
-                is_string($categoryName) ? $categoryName : null,
-            ),
-            multimedia: $model->multimedia
-                ->filter(fn(Model $media): bool => PublicMultimedia::isPublic($media))
-                ->map(fn(Model $media): MultimediaResource => MultimediaResourceFactory::make($media))
-                ->values()
-                ->all(),
+            faqCategory: $this->referenceTo($category, 'FaqCategory'),
+            multimedia: $this->publicMultimedia($model),
             createdAt: $model->created_at->toAtomString(),
             updatedAt: $model->updated_at->toAtomString(),
         );

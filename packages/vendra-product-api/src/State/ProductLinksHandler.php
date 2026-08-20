@@ -26,7 +26,8 @@ final class ProductLinksHandler implements LinksHandlerInterface
     {
         $builder
             ->with([
-                'productCategory:id,name,slug,description,position,active,created_at,updated_at',
+                // Rendered as a reference (id + localized name) by the mapper.
+                'productCategory:id,name',
                 'productPrices:id,product_id,currency_code,price',
                 'latestProductPrice:product_prices.id,product_prices.product_id,product_prices.currency_code,product_prices.price',
                 'multimedia',

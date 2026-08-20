@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Misaf\VendraStore\Models\StorefrontImage;
 
 /*
 |--------------------------------------------------------------------------
@@ -176,11 +177,12 @@ function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['S
  * (provisioning and deployment lifecycle) build the same payload, and each test
  * file runs in its own worker process under `--parallel`.
  *
- * @return array<string, string>
+ * @return array<string, mixed>
  */
 function storefrontRequestData(string $slug = 'acme-flowers'): array
 {
     return [
+        'storefront_image_id'           => StorefrontImage::factory()->create()->id,
         'storefront_slug'               => $slug,
         'storefront_theme'              => 'default',
         'storefront_name_en'            => 'Acme Flowers',

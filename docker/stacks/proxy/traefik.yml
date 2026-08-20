@@ -5,7 +5,14 @@
 api: {dashboard: true, insecure: true}
 ping: {}
 entryPoints:
-  web: {address: ":80"}
+  # Plain HTTP exists for two reasons: the ACME HTTP challenge (which Traefik
+  # answers on this entrypoint before any router runs) and redirecting everyone
+  # else. Without the redirection a bare http:// host is a 404, not an upgrade.
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint: {to: websecure, scheme: https, permanent: true}
   websecure: {address: ":443"}
 providers:
   docker:

@@ -6,6 +6,7 @@ namespace Misaf\VendraAttribute\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Misaf\VendraAttribute\Database\Factories\AttributeValueFactory;
+use Misaf\VendraAttribute\Observers\AttributeValueObserver;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Spatie\EloquentSortable\Sortable;
@@ -34,6 +36,7 @@ use Spatie\EloquentSortable\SortableTrait;
  */
 #[Fillable(['attribute_id', 'value', 'position'])]
 #[Hidden(['tenant_id', 'attributable_type', 'attributable_id', 'active_value_guard'])]
+#[ObservedBy([AttributeValueObserver::class])]
 #[UseFactory(AttributeValueFactory::class)]
 final class AttributeValue extends Model implements ShouldLogActivity, Sortable
 {
@@ -56,12 +59,6 @@ final class AttributeValue extends Model implements ShouldLogActivity, Sortable
      * deletes, so soft deletes must detach selections themselves; restoring
      * a value intentionally does not resurrect them.
      */
-    protected static function booted(): void
-    {
-        self::deleted(function (self $attributeValue): void {
-            $attributeValue->selections()->delete();
-        });
-    }
 
     /** @return BelongsTo<Attribute, $this> */
     public function attribute(): BelongsTo

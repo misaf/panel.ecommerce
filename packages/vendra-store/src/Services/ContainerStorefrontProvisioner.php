@@ -48,7 +48,7 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
 
     public function provision(StorefrontProvisionRequest $request): StorefrontProvisionResult
     {
-        $this->validator->validate($request, $this->settings->themes);
+        $this->validator->validate($request);
 
         $this->assertNetworkExists($this->assertRuntimeReachable());
 

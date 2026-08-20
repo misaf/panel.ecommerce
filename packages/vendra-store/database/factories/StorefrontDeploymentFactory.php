@@ -9,6 +9,7 @@ use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraStore\Enums\StorefrontDesiredState;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Models\StorefrontImage;
 
 /**
  * @extends Factory<StorefrontDeployment>
@@ -30,11 +31,12 @@ final class StorefrontDeploymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'store_id'      => Store::factory(),
-            'slug'          => fake()->unique()->slug(2),
-            'domain'        => fake()->unique()->domainName(),
-            'theme'         => 'default',
-            'configuration' => [
+            'store_id'            => Store::factory(),
+            'storefront_image_id' => StorefrontImage::factory(),
+            'slug'                => fake()->unique()->slug(2),
+            'domain'              => fake()->unique()->domainName(),
+            'theme'               => 'default',
+            'configuration'       => [
                 'name' => ['en' => fake()->company(), 'fa' => 'گل‌فروشی'],
             ],
             'status'        => StorefrontDeploymentStatus::Pending,

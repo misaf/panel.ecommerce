@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraLanguage\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
@@ -12,6 +13,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Misaf\VendraLanguage\Contracts\NamespacedLanguageLine;
 use Misaf\VendraLanguage\Database\Factories\LanguageLineFactory;
+use Misaf\VendraLanguage\Observers\LanguageLineObserver;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
@@ -28,6 +30,7 @@ use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
  * @property Carbon $updated_at
  */
 #[Hidden(['tenant_id', 'namespace_guard'])]
+#[ObservedBy([LanguageLineObserver::class])]
 #[UseFactory(LanguageLineFactory::class)]
 final class LanguageLine extends SpatieLanguageLine implements NamespacedLanguageLine, ShouldLogActivity
 {
@@ -90,13 +93,6 @@ final class LanguageLine extends SpatieLanguageLine implements NamespacedLanguag
         }
     }
 
-    protected static function booted(): void
-    {
-        static::updating(function (self $languageLine): void {
-            $languageLine->flushOriginalTranslationCache();
-        });
-    }
-
     protected function casts(): array
     {
         return [
@@ -106,7 +102,11 @@ final class LanguageLine extends SpatieLanguageLine implements NamespacedLanguag
         ];
     }
 
-    private function flushOriginalTranslationCache(): void
+    /**
+     * Public because LanguageLineObserver drives it; a private method was only
+     * reachable while this ran in a same-class `booted()` closure.
+     */
+    public function flushOriginalTranslationCache(): void
     {
         $group = $this->getRawOriginal('group');
         $namespace = $this->getRawOriginal('namespace');

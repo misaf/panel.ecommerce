@@ -3,6 +3,7 @@
 .env
 .env.backup
 .env.production
+docker/stacks/.env
 .phpactor.json
 .phpunit.result.cache
 /.ai
@@ -32,7 +33,3 @@ CLAUDE.md
 AGENTS.md
 .mcp.json
 opencode.json
-
-# Estate configuration and generated env, never committed.
-/docker/stacks/.env
-/docker/stacks/platform/platform.env

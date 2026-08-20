@@ -60,10 +60,11 @@ itself — `store_domains`, `storefront_deployments` — name it outright with
 
 `config/vendra-store.php` describes what a storefront *is*. The runtime
 endpoint and API version are not here — they belong to `misaf/vendra-container`.
+Storefront container images and their supported themes are records in
+`storefront_images`, managed by the console. Each deployment references the
+selected record, so different stores can run different approved builds.
 
 ```dotenv
-STOREFRONT_IMAGE=ghcr.io/misaf/vendra-storefront-florist@sha256:…
-STOREFRONT_THEMES=default
 STOREFRONT_NETWORK=traefik-public
 STOREFRONT_NAME_PREFIX=vendra-storefront-
 STOREFRONT_PORT=3000
@@ -80,8 +81,8 @@ the TLS material belong to whoever runs the estate; deployment fails with a
 pointed error when the network is absent rather than inventing one the proxy is
 not attached to.
 
-Every setting is read through the injected `Support\StorefrontSettings` value
-object, including the "can we provision at all?" check. It is bound with
+Every infrastructure setting is read through the injected
+`Support\StorefrontSettings` value object. It is bound with
 `bind()`, so a configuration change is picked up on the next resolve.
 
 ## Usage

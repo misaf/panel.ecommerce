@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace Misaf\VendraSubscription\Observers;
 
+use Misaf\VendraSubscription\Exceptions\PlanInUseException;
 use Misaf\VendraSubscription\Models\Plan;
 
 final class PlanObserver
 {
+    /**
+     * A plan that still backs a subscription cannot be removed. The throw has
+     * to abort the delete, so this observer stays synchronous.
+     */
+    public function deleting(Plan $plan): void
+    {
+        if ($plan->isInUse()) {
+            throw PlanInUseException::forPlan($plan);
+        }
+    }
+
     public function creating(Plan $plan): void
     {
         if ( ! $plan->active) {

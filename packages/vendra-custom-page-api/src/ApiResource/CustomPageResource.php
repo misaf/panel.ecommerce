@@ -68,5 +68,7 @@ final readonly class CustomPageResource
         public bool $active,
         public ResourceReference $customPageCategory,
         public array $multimedia,
+        public string $createdAt,
+        public string $updatedAt,
     ) {}
 }

@@ -18,7 +18,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
 use Misaf\VendraSubscription\Database\Factories\PlanFactory;
 use Misaf\VendraSubscription\Enums\PeriodUnit;
-use Misaf\VendraSubscription\Exceptions\PlanInUseException;
 use Misaf\VendraSubscription\Observers\PlanObserver;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Spatie\Sluggable\HasSlug;
@@ -60,15 +59,6 @@ final class Plan extends Model implements ShouldLogActivity
         'active'     => true,
         'is_default' => false,
     ];
-
-    protected static function booted(): void
-    {
-        static::deleting(function (Plan $plan): void {
-            if ($plan->isInUse()) {
-                throw PlanInUseException::forPlan($plan);
-            }
-        });
-    }
 
     /**
      * @return array<string, string>

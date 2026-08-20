@@ -1,0 +1,62 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraStore\Models;
+
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Misaf\VendraStore\Database\Factories\StorefrontImageFactory;
+
+/**
+ * An operator-approved storefront artifact and the themes built into it.
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $image
+ * @property list<string> $themes
+ * @property bool $active
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
+#[Fillable(['name', 'image', 'themes', 'active'])]
+#[UseFactory(StorefrontImageFactory::class)]
+final class StorefrontImage extends Model
+{
+    /** @use HasFactory<StorefrontImageFactory> */
+    use HasFactory;
+
+    /**
+     * @param  Builder<StorefrontImage>  $query
+     * @return Builder<StorefrontImage>
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('active', true);
+    }
+
+    /** @return HasMany<StorefrontDeployment, $this> */
+    public function deployments(): HasMany
+    {
+        return $this->hasMany(StorefrontDeployment::class);
+    }
+
+    public function isInUse(): bool
+    {
+        return $this->deployments()->exists();
+    }
+
+    /** @return array<string, string> */
+    protected function casts(): array
+    {
+        return [
+            'themes' => 'array',
+            'active' => 'boolean',
+        ];
+    }
+}

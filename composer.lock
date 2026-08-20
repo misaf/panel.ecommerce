@@ -13774,20 +13774,20 @@
         },
         {
             "name": "spatie/laravel-google-fonts",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-google-fonts.git",
-                "reference": "aaac1cedd48c4c8436b4eb51d9b5e30bd4bd914a"
+                "reference": "9a78b88154b72432a92444303896aec2df46072a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-google-fonts/zipball/aaac1cedd48c4c8436b4eb51d9b5e30bd4bd914a",
-                "reference": "aaac1cedd48c4c8436b4eb51d9b5e30bd4bd914a",
+                "url": "https://api.github.com/repos/spatie/laravel-google-fonts/zipball/9a78b88154b72432a92444303896aec2df46072a",
+                "reference": "9a78b88154b72432a92444303896aec2df46072a",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.3|^7.2",
+                "guzzlehttp/guzzle": "^7.2|^8.0",
                 "illuminate/contracts": "^8.37|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "php": "^8.0",
                 "spatie/laravel-package-tools": "^1.7.0"
@@ -13844,7 +13844,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-google-fonts/issues",
-                "source": "https://github.com/spatie/laravel-google-fonts/tree/1.6.0"
+                "source": "https://github.com/spatie/laravel-google-fonts/tree/1.7.0"
             },
             "funding": [
                 {
@@ -13852,7 +13852,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-27T16:38:35+00:00"
+            "time": "2026-08-20T09:32:39+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
@@ -20955,16 +20955,16 @@
         },
         {
             "name": "fruitcake/laravel-debugbar",
-            "version": "v4.4.1",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/laravel-debugbar.git",
-                "reference": "389157fb616e5c5d19d16a88fd9bfcf3e3248e9b"
+                "reference": "18d1c1c64cc5d7794a2c52a2165fe6121e28ed44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/389157fb616e5c5d19d16a88fd9bfcf3e3248e9b",
-                "reference": "389157fb616e5c5d19d16a88fd9bfcf3e3248e9b",
+                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/18d1c1c64cc5d7794a2c52a2165fe6121e28ed44",
+                "reference": "18d1c1c64cc5d7794a2c52a2165fe6121e28ed44",
                 "shasum": ""
             },
             "require": {
@@ -21042,7 +21042,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fruitcake/laravel-debugbar/issues",
-                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v4.4.1"
+                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v4.4.2"
             },
             "funding": [
                 {
@@ -21054,7 +21054,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-03T06:23:16+00:00"
+            "time": "2026-08-20T12:02:04+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",

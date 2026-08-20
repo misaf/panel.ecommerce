@@ -6,6 +6,7 @@ namespace Misaf\VendraProductApi\State\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraApi\ApiResource\ResourceReference;
+use Misaf\VendraApi\State\Concerns\MapsResourceReferences;
 use Misaf\VendraApi\State\Concerns\NormalizesResourceValues;
 use Misaf\VendraMultimediaApi\ApiResource\MultimediaResource;
 use Misaf\VendraMultimediaApi\State\MultimediaResourceFactory;
@@ -28,6 +29,7 @@ use UnexpectedValueException;
  */
 trait MapsCatalogResources
 {
+    use MapsResourceReferences;
     use NormalizesResourceValues;
 
     protected function toProductResource(Product $product): ProductResource
@@ -107,32 +109,16 @@ trait MapsCatalogResources
 
     protected function productReference(?Product $product): ResourceReference
     {
-        if ( ! $product instanceof Product) {
-            throw new UnexpectedValueException('A product price must belong to a product.');
-        }
+        $this->expectModel($product, Product::class, 'A product price must belong to a product.');
 
-        $productName = $product->getTranslation('name', app()->getLocale());
-
-        return new ResourceReference(
-            $product->id,
-            'Product',
-            is_string($productName) ? $productName : null,
-        );
+        return $this->referenceTo($product, 'Product');
     }
 
     protected function categoryReference(?ProductCategory $category): ResourceReference
     {
-        if ( ! $category instanceof ProductCategory) {
-            throw new UnexpectedValueException('A product must belong to a category.');
-        }
+        $this->expectModel($category, ProductCategory::class, 'A product must belong to a category.');
 
-        $categoryName = $category->getTranslation('name', app()->getLocale());
-
-        return new ResourceReference(
-            $category->id,
-            'ProductCategory',
-            is_string($categoryName) ? $categoryName : null,
-        );
+        return $this->referenceTo($category, 'ProductCategory');
     }
 
     /**

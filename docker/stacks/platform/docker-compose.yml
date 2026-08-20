@@ -11,6 +11,66 @@ x-after-app: &after-app
   mysql: {condition: service_healthy}
   redis: {condition: service_healthy}
   php: {condition: service_started}
+x-platform-environment: &platform-environment
+  APP_NAME: "${APP_NAME:-Vendra}"
+  APP_ENV: production
+  APP_KEY: "${APP_KEY:?required}"
+  APP_DEBUG: "false"
+  APP_URL: "https://${BASE_DOMAIN:?required}"
+  ASSET_URL: "https://${BASE_DOMAIN:?required}"
+  TIMEZONE: "${TIMEZONE:-UTC}"
+  DB_CONNECTION: mysql
+  DB_HOST: mysql
+  DB_DATABASE: "${DB_DATABASE:-vendra}"
+  DB_USERNAME: "${DB_USERNAME:-vendra}"
+  DB_PASSWORD: "${DB_PASSWORD:?required}"
+  REDIS_HOST: redis
+  REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+  CACHE_STORE: redis
+  QUEUE_CONNECTION: redis
+  SESSION_DRIVER: "${SESSION_DRIVER:-redis}"
+  SESSION_ENCRYPT: "${SESSION_ENCRYPT:-true}"
+  SESSION_SECURE_COOKIE: "${SESSION_SECURE_COOKIE:-true}"
+  SESSION_DOMAIN: "${SESSION_DOMAIN:-null}"
+  FILESYSTEM_DISK: "${FILESYSTEM_DISK:-public}"
+  LOG_CHANNEL: "${LOG_CHANNEL:-daily}"
+  LOG_LEVEL: "${LOG_LEVEL:-warning}"
+  PULSE_INGEST_DRIVER: redis
+  PULSE_REDIS_CONNECTION: cache
+  APP_MAINTENANCE_DRIVER: "${APP_MAINTENANCE_DRIVER:-cache}"
+  APP_MAINTENANCE_STORE: "${APP_MAINTENANCE_STORE:-redis}"
+  SETTINGS_CACHE_ENABLED: "${SETTINGS_CACHE_ENABLED:-true}"
+  CONTAINER_RUNTIME: "${CONTAINER_RUNTIME:-docker}"
+  CONTAINER_ENDPOINT: unix:///var/run/docker.sock
+  CONTAINER_API_VERSION: "${CONTAINER_API_VERSION:-}"
+  CONTAINER_TIMEOUT: "${CONTAINER_TIMEOUT:-60}"
+  CONTAINER_PULL_TIMEOUT: "${CONTAINER_PULL_TIMEOUT:-600}"
+  STOREFRONT_NETWORK: "${STOREFRONT_NETWORK:-traefik-public}"
+  STOREFRONT_PULL: "${STOREFRONT_PULL:-true}"
+  STOREFRONT_PORT: "${STOREFRONT_PORT:-3000}"
+  STOREFRONT_HEALTH_PATH: "${STOREFRONT_HEALTH_PATH:-/api/health}"
+  STOREFRONT_HEALTH_TIMEOUT: "${STOREFRONT_HEALTH_TIMEOUT:-120}"
+  STOREFRONT_LOG_DRIVER: "${STOREFRONT_LOG_DRIVER-json-file}"
+  STOREFRONT_LOG_MAX_SIZE: "${STOREFRONT_LOG_MAX_SIZE:-10m}"
+  STOREFRONT_LOG_MAX_FILE: "${STOREFRONT_LOG_MAX_FILE:-5}"
+  STOREFRONT_BASE_DOMAIN: "${BASE_DOMAIN:?required}"
+  STOREFRONT_API_URL: "${STOREFRONT_API_URL:-}"
+  STOREFRONT_CERT_RESOLVER: "${CERT_RESOLVER:-}"
+  STOREFRONT_CERTIFICATES_PATH: "${STOREFRONT_CERTIFICATES_PATH:-}"
+  STOREFRONT_CA_FILE: "${STOREFRONT_CA_FILE:-}"
+  STOREFRONT_STORAGE_BASE_URL: "${STOREFRONT_STORAGE_BASE_URL:-}"
+  MAIL_MAILER: "${MAIL_MAILER:-smtp}"
+  MAIL_HOST: "${MAIL_HOST:-}"
+  MAIL_PORT: "${MAIL_PORT:-587}"
+  MAIL_USERNAME: "${MAIL_USERNAME:-}"
+  MAIL_PASSWORD: "${MAIL_PASSWORD:-}"
+  MAIL_FROM_ADDRESS: "${MAIL_FROM_ADDRESS:-}"
+  MAIL_FROM_NAME: "${MAIL_FROM_NAME:-Vendra}"
+  HORIZON_NOTIFY_MAIL: "${HORIZON_NOTIFY_MAIL:-}"
+  CONSOLE_OPERATOR_USERNAME: "${CONSOLE_OPERATOR_USERNAME:-}"
+  CONSOLE_OPERATOR_EMAIL: "${CONSOLE_OPERATOR_EMAIL:-}"
+  CONSOLE_OPERATOR_PASSWORD: "${CONSOLE_OPERATOR_PASSWORD:-}"
+  NESHAN_SERVICE_KEY: "${NESHAN_SERVICE_KEY:-}"
 
 services:
   mysql:
@@ -44,7 +104,7 @@ services:
   php: &php
     image: "${VENDRA_PLATFORM_IMAGE:?required}"
     restart: unless-stopped
-    env_file: ["platform.env"]
+    environment: *platform-environment
     expose: ["8080"]
     volumes: ["storage-data:/app/storage/app"]
     networks: [internal, traefik-public]
@@ -85,8 +145,8 @@ services:
     volumes:
       - "storage-data:/app/storage/app"
       # Whatever the host socket is, it is always mounted at the Docker path, so
-      # the CONTAINER_ENDPOINT bin/vendra writes into platform.env is the same on
-      # either runtime. CONTAINER_RUNTIME there selects the adapter.
+      # the CONTAINER_ENDPOINT set above is the same on either runtime.
+      # CONTAINER_RUNTIME there selects the adapter.
       - "${CONTAINER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock"
     networks: [internal]
     labels: []

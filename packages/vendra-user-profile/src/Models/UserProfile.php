@@ -6,6 +6,7 @@ namespace Misaf\VendraUserProfile\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraUser\Traits\BelongsToUser;
 use Misaf\VendraUserProfile\Database\Factories\UserProfileFactory;
+use Misaf\VendraUserProfile\Observers\UserProfileObserver;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -34,6 +36,7 @@ use Spatie\Sluggable\SlugOptions;
  */
 #[Fillable(['tenant_id', 'user_id', 'name', 'description', 'slug', 'is_default', 'active'])]
 #[Hidden(['tenant_id', 'active_name_guard', 'active_slug_guard', 'default_user_guard'])]
+#[ObservedBy([UserProfileObserver::class])]
 #[UseFactory(UserProfileFactory::class)]
 final class UserProfile extends Model implements ShouldLogActivity
 {
@@ -81,18 +84,4 @@ final class UserProfile extends Model implements ShouldLogActivity
             ->preventOverwrite();
     }
 
-    protected static function booted(): void
-    {
-        self::saving(function (self $userProfile): void {
-            if ( ! $userProfile->is_default) {
-                return;
-            }
-
-            self::query()
-                ->where('user_id', $userProfile->user_id)
-                ->where('is_default', true)
-                ->whereKeyNot($userProfile->getKey())
-                ->update(['is_default' => false]);
-        });
-    }
 }

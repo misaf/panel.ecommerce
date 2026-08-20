@@ -6,6 +6,7 @@ namespace Misaf\VendraAffiliate\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Misaf\VendraAffiliate\Database\Factories\AffiliateFactory;
 use Misaf\VendraAffiliate\Enums\AffiliateStatusEnum;
 use Misaf\VendraAffiliate\Enums\CommissionStatusEnum;
-use Misaf\VendraAffiliate\Services\AffiliateCodeService;
+use Misaf\VendraAffiliate\Observers\AffiliateObserver;
 use Misaf\VendraSupport\Capabilities\HasOptionalTags;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraSupport\Tenancy\BelongsToTenant;
@@ -36,6 +37,7 @@ use Misaf\VendraUser\Traits\BelongsToUser;
  */
 #[Fillable(['user_id', 'code', 'commission_percent', 'signup_bounty', 'status'])]
 #[Hidden(['tenant_id'])]
+#[ObservedBy([AffiliateObserver::class])]
 #[UseFactory(AffiliateFactory::class)]
 final class Affiliate extends Model implements ShouldLogActivity
 {
@@ -62,15 +64,6 @@ final class Affiliate extends Model implements ShouldLogActivity
             'signup_bounty'      => 'integer',
             'status'             => AffiliateStatusEnum::class,
         ];
-    }
-
-    protected static function booted(): void
-    {
-        self::creating(function (self $affiliate): void {
-            if (blank($affiliate->getAttribute('code'))) {
-                $affiliate->code = app(AffiliateCodeService::class)->generate();
-            }
-        });
     }
 
     /**

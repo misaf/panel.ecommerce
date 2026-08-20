@@ -6,6 +6,7 @@ namespace Misaf\VendraStore\Actions;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Misaf\VendraContainer\Support\ContainerRuntimeConfiguration;
 use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
@@ -13,6 +14,7 @@ use Misaf\VendraStore\Enums\StorefrontDesiredState;
 use Misaf\VendraStore\Jobs\ProvisionStorefrontJob;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Models\StorefrontImage;
 use Misaf\VendraStore\Support\StorefrontConfigurationMap;
 use Misaf\VendraStore\Support\StorefrontConfigurationValidator;
 
@@ -45,14 +47,30 @@ final class RequestStorefrontDeploymentAction
          */
         Validator::make($configuration, StorefrontConfigurationValidator::deploymentRules())->validate();
 
+        $selection = Validator::make($form, [
+            'storefront_image_id' => [
+                'required',
+                'integer',
+                Rule::exists(StorefrontImage::class, 'id')->where('active', true),
+            ],
+        ])->validate();
+        $storefrontImage = StorefrontImage::query()->findOrFail(Arr::integer($selection, 'storefront_image_id'));
+        $theme = Arr::string($form, 'storefront_theme');
+
+        Validator::make(
+            ['theme' => $theme],
+            ['theme' => ['required', 'string', Rule::in($storefrontImage->themes)]],
+        )->validate();
+
         $deployment = StorefrontDeployment::query()->create([
-            'store_id'      => $store->id,
-            'slug'          => Arr::string($form, 'storefront_slug'),
-            'domain'        => $domain,
-            'theme'         => Arr::string($form, 'storefront_theme'),
-            'configuration' => $configuration,
-            'status'        => StorefrontDeploymentStatus::Pending,
-            'desired_state' => StorefrontDesiredState::Running,
+            'store_id'            => $store->id,
+            'storefront_image_id' => $storefrontImage->id,
+            'slug'                => Arr::string($form, 'storefront_slug'),
+            'domain'              => $domain,
+            'theme'               => $theme,
+            'configuration'       => $configuration,
+            'status'              => StorefrontDeploymentStatus::Pending,
+            'desired_state'       => StorefrontDesiredState::Running,
         ]);
 
         if ($this->runtime->isConfigured()) {

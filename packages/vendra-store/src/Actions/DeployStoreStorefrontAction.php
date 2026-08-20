@@ -9,7 +9,6 @@ use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraStore\Enums\StorefrontDesiredState;
 use Misaf\VendraStore\Models\StorefrontDeployment;
 use Misaf\VendraStore\Support\StorefrontProvisionRequest;
-use Misaf\VendraStore\Support\StorefrontSettings;
 
 /**
  * Deploys or redeploys one store's storefront, and records what happened.
@@ -28,7 +27,6 @@ final class DeployStoreStorefrontAction
 {
     public function __construct(
         private readonly StorefrontProvisioner $provisioner,
-        private readonly StorefrontSettings $settings,
     ) {}
 
     /**
@@ -42,7 +40,7 @@ final class DeployStoreStorefrontAction
 
         $deployment->markProcessing();
 
-        $request = StorefrontProvisionRequest::for($deployment, $this->settings);
+        $request = StorefrontProvisionRequest::for($deployment);
         $result = $this->provisioner->provision($request);
 
         if ($result->ready) {

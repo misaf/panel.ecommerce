@@ -11,9 +11,6 @@ return [
      | endpoint and API version are configured there.
      */
     'storefront' => [
-        'image'  => env('STOREFRONT_IMAGE', 'ghcr.io/misaf/vendra-storefront-florist@sha256:REPLACE_WITH_DIGEST'),
-        'themes' => array_values(array_filter(explode(',', (string) env('STOREFRONT_THEMES', 'default')))),
-
         /*
          | The container network the storefronts join. The platform does not
          | create it: the network, the reverse proxy, and the TLS material belong

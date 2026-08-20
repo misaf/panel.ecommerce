@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Misaf\VendraStore\Console\Commands;
 
 use Illuminate\Console\Command;
-use Misaf\VendraStore\Actions\ControlStoreStorefrontAction;
+use Misaf\VendraStore\Actions\RestartStoreStorefrontAction;
+use Misaf\VendraStore\Actions\StartStoreStorefrontAction;
+use Misaf\VendraStore\Actions\StopStoreStorefrontAction;
+use Misaf\VendraStore\Contracts\StorefrontProvisioner;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Support\StorefrontReference;
 
 /**
  * Operator access to a single storefront's lifecycle.
@@ -14,6 +18,10 @@ use Misaf\VendraStore\Models\StorefrontDeployment;
  * Deliberately separate from `storefront:reconcile`: these commands act on one
  * storefront, change no configuration, and record intent — stopping a storefront
  * here means it stays stopped through the next reconciliation pass.
+ *
+ * start/stop/restart record intent, so each is an action. status and logs
+ * record nothing and decide nothing — they are reads, and go straight to the
+ * provisioner port rather than through a pass-through wrapper.
  */
 final class StorefrontLifecycleCommand extends Command
 {
@@ -24,8 +32,12 @@ final class StorefrontLifecycleCommand extends Command
 
     protected $description = 'Start, stop, restart, or inspect one store storefront';
 
-    public function handle(ControlStoreStorefrontAction $control): int
-    {
+    public function handle(
+        StartStoreStorefrontAction $start,
+        StopStoreStorefrontAction $stop,
+        RestartStoreStorefrontAction $restart,
+        StorefrontProvisioner $provisioner,
+    ): int {
         $slug = (string) $this->argument('slug');
         $deployment = StorefrontDeployment::query()->where('slug', $slug)->first();
 
@@ -36,11 +48,11 @@ final class StorefrontLifecycleCommand extends Command
         }
 
         return match ((string) $this->argument('action')) {
-            'start'   => $this->perform(fn() => $control->start($deployment), "Storefront [{$slug}] started."),
-            'stop'    => $this->perform(fn() => $control->stop($deployment), "Storefront [{$slug}] stopped."),
-            'restart' => $this->perform(fn() => $control->restart($deployment), "Storefront [{$slug}] restarted."),
-            'status'  => $this->reportStatus($control, $deployment),
-            'logs'    => $this->reportLogs($control, $deployment),
+            'start'   => $this->perform(fn() => $start->execute($deployment), "Storefront [{$slug}] started."),
+            'stop'    => $this->perform(fn() => $stop->execute($deployment), "Storefront [{$slug}] stopped."),
+            'restart' => $this->perform(fn() => $restart->execute($deployment), "Storefront [{$slug}] restarted."),
+            'status'  => $this->reportStatus($provisioner, $deployment),
+            'logs'    => $this->reportLogs($provisioner, $deployment),
             default   => $this->unknownAction(),
         };
     }
@@ -57,9 +69,9 @@ final class StorefrontLifecycleCommand extends Command
         return self::SUCCESS;
     }
 
-    private function reportStatus(ControlStoreStorefrontAction $control, StorefrontDeployment $deployment): int
+    private function reportStatus(StorefrontProvisioner $provisioner, StorefrontDeployment $deployment): int
     {
-        $observed = $control->observe($deployment);
+        $observed = $provisioner->observe(StorefrontReference::for($deployment));
 
         $this->table(['Field', 'Value'], [
             ['Slug', $deployment->slug],
@@ -75,11 +87,11 @@ final class StorefrontLifecycleCommand extends Command
         return self::SUCCESS;
     }
 
-    private function reportLogs(ControlStoreStorefrontAction $control, StorefrontDeployment $deployment): int
+    private function reportLogs(StorefrontProvisioner $provisioner, StorefrontDeployment $deployment): int
     {
         $lines = (int) $this->option('lines');
 
-        $this->line($control->logs($deployment, $lines > 0 ? $lines : 200));
+        $this->line($provisioner->logs(StorefrontReference::for($deployment), $lines > 0 ? $lines : 200));
 
         return self::SUCCESS;
     }

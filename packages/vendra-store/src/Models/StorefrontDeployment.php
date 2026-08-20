@@ -28,6 +28,7 @@ use Misaf\VendraStore\Exceptions\InvalidStorefrontTransitionException;
  *
  * @property int $id
  * @property int $store_id
+ * @property int|null $storefront_image_id
  * @property string $slug
  * @property string $domain
  * @property string $theme
@@ -45,7 +46,7 @@ use Misaf\VendraStore\Exceptions\InvalidStorefrontTransitionException;
  * @property Carbon $updated_at
  */
 #[Fillable([
-    'store_id', 'slug', 'domain', 'theme', 'configuration', 'status', 'desired_state',
+    'store_id', 'storefront_image_id', 'slug', 'domain', 'theme', 'configuration', 'status', 'desired_state',
     'container_name', 'image', 'image_digest', 'requested_at', 'deployed_at',
     'failed_at', 'error',
 ])]
@@ -66,6 +67,12 @@ final class StorefrontDeployment extends Model
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
+    }
+
+    /** @return BelongsTo<StorefrontImage, $this> */
+    public function storefrontImage(): BelongsTo
+    {
+        return $this->belongsTo(StorefrontImage::class);
     }
 
     /**
@@ -148,13 +155,14 @@ final class StorefrontDeployment extends Model
     protected function casts(): array
     {
         return [
-            'store_id'      => 'integer',
-            'configuration' => 'array',
-            'status'        => StorefrontDeploymentStatus::class,
-            'desired_state' => StorefrontDesiredState::class,
-            'requested_at'  => 'datetime',
-            'deployed_at'   => 'datetime',
-            'failed_at'     => 'datetime',
+            'store_id'            => 'integer',
+            'storefront_image_id' => 'integer',
+            'configuration'       => 'array',
+            'status'              => StorefrontDeploymentStatus::class,
+            'desired_state'       => StorefrontDesiredState::class,
+            'requested_at'        => 'datetime',
+            'deployed_at'         => 'datetime',
+            'failed_at'           => 'datetime',
         ];
     }
 

@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Misaf\VendraStore\Filament\Schemas;
 
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Models\StorefrontImage;
 
 final class StorefrontConfigurationFields
 {
@@ -46,12 +49,44 @@ final class StorefrontConfigurationFields
     }
 
     /**
-     * @return list<TextInput|Hidden>
+     * @return list<TextInput|Hidden|Select>
      */
     public static function identityFields(bool $optional): array
     {
         $required = fn(Get $get): bool => ! $optional || true === $get('create_storefront');
         return [
+            Select::make('storefront_image_id')
+                ->label(__('console.storefront_image'))
+                ->helperText(__('console.storefront_image_hint'))
+                ->options(fn(): array => StorefrontImage::query()->active()->orderBy('name')->pluck('name', 'id')->all())
+                ->afterStateUpdated(fn(Set $set) => $set('storefront_theme', null))
+                ->required($required)
+                ->searchable()
+                ->preload()
+                ->native(false)
+                ->live(),
+            Select::make('storefront_theme')
+                ->label(__('console.storefront_theme'))
+                ->options(function (Get $get): array {
+                    $imageId = $get('storefront_image_id');
+
+                    if ( ! is_numeric($imageId)) {
+                        return [];
+                    }
+
+                    $image = StorefrontImage::query()->active()->whereKey((int) $imageId);
+
+                    if ( ! $image->exists()) {
+                        return [];
+                    }
+
+                    $themes = $image->firstOrFail()->themes;
+
+                    return array_combine($themes, $themes) ?: [];
+                })
+                ->required($required)
+                ->disabled(fn(Get $get): bool => ! is_numeric($get('storefront_image_id')))
+                ->native(false),
             TextInput::make('storefront_slug')
                 ->label(__('console.storefront_slug'))
                 ->helperText(__('console.storefront_slug_hint'))
@@ -61,10 +96,6 @@ final class StorefrontConfigurationFields
                 ->extraAttributes(['dir' => 'ltr'])
                 ->placeholder('rose-garden')
                 ->maxLength(100),
-            Hidden::make('storefront_theme')
-                ->default('default')
-                ->required($required)
-                ->dehydrated(),
             TextInput::make('storefront_name_en')
                 ->label(__('console.storefront_name_en'))
                 ->required($required)

@@ -7,8 +7,16 @@ ensure_app_key() {
     fi
 }
 
+# Seeders run once, on a first boot. `migrate:status` fails while the migrations
+# table is absent, which is the only reliable "this database is empty" signal
+# available before anything has run. Seeding on every boot instead would make
+# each restart of php and php-api replay every seeder against live data.
 run_migrations() {
-    php artisan migrate --force --isolated --seed
+    if php artisan migrate:status >/dev/null 2>&1; then
+        php artisan migrate --force --isolated
+    else
+        php artisan migrate --force --isolated --seed
+    fi
 }
 
 # A bare `route:clear` only deletes the single-tenant
@@ -32,16 +40,28 @@ warm_application_caches() {
     php artisan view:cache
 }
 
+prepare_local_application() {
+    if [ "${VENDRA_SKIP_STORAGE_LINK:-false}" != "true" ]; then
+        php artisan storage:link --force
+    fi
+
+    php artisan optimize:clear
+}
+
 cd /app
 
 ensure_app_key
 
 if [ "$1" = "frankenphp" ]; then
     run_migrations
-    # After the migrations: enumerating tenants needs the database, and on a
-    # first boot the table it reads does not exist until they have run.
-    clear_tenant_route_caches
-    warm_application_caches
+    if [ "${APP_ENV:-production}" = "local" ]; then
+        prepare_local_application
+    else
+        # After the migrations: enumerating tenants needs the database, and on a
+        # first boot the table it reads does not exist until they have run.
+        clear_tenant_route_caches
+        warm_application_caches
+    fi
 fi
 
 exec "$@"

@@ -11,13 +11,12 @@ use Misaf\VendraStore\Enums\StorefrontReconciliationOutcome;
 use Misaf\VendraStore\Jobs\ProvisionStorefrontJob;
 use Misaf\VendraStore\Jobs\ReconcileStorefrontJob;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Models\StorefrontImage;
 
 const RECONCILE_IMAGE = 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123';
 
 beforeEach(function (): void {
     Config::set('vendra-container.endpoint', 'unix:///var/run/docker.sock');
-    Config::set('vendra-store.storefront.image', RECONCILE_IMAGE);
-    Config::set('vendra-store.storefront.themes', ['default']);
     Config::set('vendra-store.storefront.network', 'traefik-public');
     // The redeploy paths run a real health gate; without a short budget an
     // unhealthy container is polled for the production default of two minutes.
@@ -71,14 +70,20 @@ function reconcilableConfiguration(): array
  */
 function reconcilable(array $attributes = []): StorefrontDeployment
 {
+    $storefrontImage = StorefrontImage::query()->firstOrCreate(
+        ['image' => RECONCILE_IMAGE],
+        ['name' => 'Florist storefront', 'themes' => ['default'], 'active' => true],
+    );
+
     return StorefrontDeployment::factory()->create([
-        'slug'          => 'acme-flowers',
-        'domain'        => 'acme.test',
-        'theme'         => 'default',
-        'status'        => StorefrontDeploymentStatus::Ready,
-        'desired_state' => StorefrontDesiredState::Running,
-        'image'         => RECONCILE_IMAGE,
-        'configuration' => reconcilableConfiguration(),
+        'storefront_image_id' => $storefrontImage->id,
+        'slug'                => 'acme-flowers',
+        'domain'              => 'acme.test',
+        'theme'               => 'default',
+        'status'              => StorefrontDeploymentStatus::Ready,
+        'desired_state'       => StorefrontDesiredState::Running,
+        'image'               => RECONCILE_IMAGE,
+        'configuration'       => reconcilableConfiguration(),
         ...$attributes,
     ]);
 }

@@ -12,6 +12,7 @@ return new class extends Migration {
         Schema::create('storefront_deployments', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('store_id')->unique()->constrained()->cascadeOnDelete();
+            $table->foreignId('storefront_image_id')->nullable()->constrained()->restrictOnDelete();
             $table->string('slug')->unique();
             $table->string('domain')->unique();
             $table->string('theme');

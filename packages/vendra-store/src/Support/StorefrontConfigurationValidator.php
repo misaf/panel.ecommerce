@@ -81,12 +81,8 @@ final class StorefrontConfigurationValidator
         return $rules;
     }
 
-    /**
-     * @param  list<string> $themes published themes, one per built image
-     *
-     * @throws InvalidArgumentException
-     */
-    public function validate(StorefrontProvisionRequest $request, array $themes): void
+    /** @throws InvalidArgumentException */
+    public function validate(StorefrontProvisionRequest $request): void
     {
         if (1 !== preg_match(self::SLUG, $request->slug)) {
             throw new InvalidArgumentException('The storefront slug must contain lowercase letters, digits, and hyphens.');
@@ -106,11 +102,11 @@ final class StorefrontConfigurationValidator
          | the theme and checks the configuration agrees, but cannot change it at
          | deploy time.
          */
-        if ( ! in_array($request->theme, $themes, true)) {
+        if ( ! in_array($request->theme, $request->themes, true)) {
             throw new InvalidArgumentException(sprintf(
                 'Unsupported storefront theme [%s]. Published themes: %s.',
                 '' === $request->theme ? 'null' : $request->theme,
-                implode(', ', $themes),
+                implode(', ', $request->themes),
             ));
         }
 

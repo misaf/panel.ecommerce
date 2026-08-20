@@ -8,6 +8,30 @@ RUN sed -i "s|https://dl-cdn.alpinelinux.org/alpine|${ALPINE_MIRROR}|g" /etc/apk
 
 # ---------------------------------------------------------------------------
 
+# Local development runtime only. Application source, Composer dependencies,
+# and built frontend assets come from the host bind mount, so this target does
+# not copy or build the application.
+FROM base AS development
+
+WORKDIR /app
+
+COPY docker/99-custom.ini /usr/local/etc/php/conf.d/99-custom.ini
+COPY docker/Caddyfile /etc/frankenphp/Caddyfile
+COPY docker/docker-entrypoint.sh /usr/local/bin/vendra-entrypoint
+
+RUN mv "${PHP_INI_DIR}/php.ini-development" "${PHP_INI_DIR}/php.ini" && \
+    chmod +x /usr/local/bin/vendra-entrypoint
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=180s --retries=5 \
+    CMD wget -q --spider http://127.0.0.1:8080/up || exit 1
+
+ENTRYPOINT ["vendra-entrypoint"]
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]
+
+# ---------------------------------------------------------------------------
+
 FROM base AS vendor
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
@@ -50,8 +74,6 @@ LABEL maintainer="Ehsan Mahmoodi <misaf.1990@gmail.com>"
 
 WORKDIR /app
 
-ENV SERVER_NAME="localhost"
-
 COPY --from=vendor /app /app
 COPY --from=assets /app/public/build /app/public/build
 
@@ -67,6 +89,13 @@ RUN mv "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini" && \
     chmod +x /usr/local/bin/vendra-entrypoint
 
 EXPOSE 80 443 443/udp
+
+# Caddy serves every host on :8080 (see Caddyfile) and Laravel's health endpoint
+# is /up, so this is the readiness signal `bin/vendra up --wait` blocks on. The
+# long start period covers the entrypoint's migrations on a first boot. The
+# services that run a worker instead of the server disable it in compose.
+HEALTHCHECK --interval=15s --timeout=5s --start-period=180s --retries=5 \
+    CMD wget -q --spider http://127.0.0.1:8080/up || exit 1
 
 ENTRYPOINT ["vendra-entrypoint"]
 CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]

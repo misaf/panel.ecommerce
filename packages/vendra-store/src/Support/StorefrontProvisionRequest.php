@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraStore\Support;
 
+use InvalidArgumentException;
 use JsonException;
 use Misaf\VendraStore\Models\StorefrontDeployment;
 
@@ -19,6 +20,7 @@ use Misaf\VendraStore\Models\StorefrontDeployment;
 final class StorefrontProvisionRequest
 {
     /**
+     * @param list<string> $themes themes built into the selected image
      * @param array<string, mixed> $configuration the configuration the storefront image boots on
      */
     public function __construct(
@@ -27,6 +29,7 @@ final class StorefrontProvisionRequest
         public readonly string $domain,
         public readonly string $theme,
         public readonly string $image,
+        public readonly array $themes,
         public readonly array $configuration,
     ) {}
 
@@ -37,14 +40,21 @@ final class StorefrontProvisionRequest
      * trusted from the stored configuration, so a container is never created for
      * a domain the deployment does not claim.
      */
-    public static function for(StorefrontDeployment $deployment, StorefrontSettings $settings): self
+    public static function for(StorefrontDeployment $deployment): self
     {
+        $storefrontImage = $deployment->storefrontImage;
+
+        if (null === $storefrontImage) {
+            throw new InvalidArgumentException('Select a storefront image before deploying this storefront.');
+        }
+
         return new self(
             tenantId: $deployment->store_id,
             slug: $deployment->slug,
             domain: $deployment->domain,
             theme: $deployment->theme,
-            image: $settings->image,
+            image: $storefrontImage->image,
+            themes: $storefrontImage->themes,
             configuration: [
                 'slug'    => $deployment->slug,
                 'theme'   => $deployment->theme,

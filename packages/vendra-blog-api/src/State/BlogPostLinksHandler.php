@@ -22,10 +22,10 @@ final class BlogPostLinksHandler implements LinksHandlerInterface
     public function handleLinks(Builder $builder, array $uriVariables, array $context): Builder
     {
         $builder
-            ->with([
-                'blogPostCategory:id,name,slug,description,position,active,created_at,updated_at',
-                'multimedia',
-            ])
+            // The mapper renders the category as a reference — its id and its
+            // localized name — so selecting the rest of the row was dead weight
+            // on every page of a collection response.
+            ->with(['blogPostCategory:id,name', 'multimedia'])
             ->whereHas('blogPostCategory', fn(Builder $query): Builder => $query->where('active', true))
             ->where('active', true);
 

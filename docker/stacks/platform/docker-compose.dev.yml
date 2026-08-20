@@ -1,0 +1,39 @@
+name: vendra
+
+# Local development keeps the released platform image as the PHP/runtime base,
+# then overlays the complete current checkout, including host-installed Composer
+# dependencies. Runtime-generated bootstrap caches stay isolated from the host.
+x-local-environment: &local-environment
+  APP_ENV: local
+  APP_DEBUG: "true"
+  LOG_LEVEL: debug
+
+x-local-app: &local-app
+  image: vendra-platform:dev
+  build:
+    context: ../../..
+    dockerfile: docker/Dockerfile
+    target: development
+  environment: *local-environment
+  volumes:
+    - "../../..:/app"
+    - "bootstrap-cache-data:/app/bootstrap/cache"
+    - "storage-data:/app/storage/app"
+
+services:
+  php: *local-app
+  php-api:
+    <<: *local-app
+    # Both web containers share the host's public directory in development.
+    # Let php own the storage link so concurrent --force calls cannot race.
+    environment:
+      <<: *local-environment
+      VENDRA_SKIP_STORAGE_LINK: "true"
+  horizon: *local-app
+  storefront-worker: *local-app
+  scheduler: *local-app
+  pulse: *local-app
+  pulse-worker: *local-app
+
+volumes:
+  bootstrap-cache-data: {}

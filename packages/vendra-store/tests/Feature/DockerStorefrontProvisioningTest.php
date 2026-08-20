@@ -57,6 +57,7 @@ function storefrontRequest(array $overrides = []): StorefrontProvisionRequest
         domain: $overrides['domain'] ?? 'acme.test',
         theme: $overrides['theme'] ?? 'default',
         image: $overrides['image'] ?? 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123',
+        themes: $overrides['themes'] ?? ['default'],
         configuration: $overrides['configuration'] ?? storefrontConfiguration(),
     );
 }
@@ -71,9 +72,8 @@ function runProvisionJob(StorefrontDeployment $deployment, bool $force = false):
 
 beforeEach(function (): void {
     Config::set('vendra-container.endpoint', 'http://provisioner:8080');
-    Config::set('vendra-store.storefront.image', 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123');
-    Config::set('vendra-store.storefront.themes', ['default']);
     Config::set('vendra-store.storefront.network', 'traefik-public');
+    Config::set('vendra-store.storefront.pull', true);
     Config::set('vendra-store.storefront.base_domain', 'vendra.test');
     Config::set('vendra-store.storefront.cert_resolver', 'letsencrypt');
     Config::set('vendra-store.storefront.certificates_path', '/var/lib/vendra/certificates');
