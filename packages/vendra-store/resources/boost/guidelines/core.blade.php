@@ -1,0 +1,33 @@
+## Vendra Store
+
+The `misaf/vendra-store` package owns the **ecommerce Store domain**: the concrete tenant model, its domains, and its storefront lifecycle. A Store *is* the tenant (`Models\Store implements Misaf\VendraTenant\Contracts\TenantContract`) — there is no separate tenant row and no `Store -> Tenant` hop. It decides when a store's storefront should be deployed, started, stopped, or destroyed, and what it should contain. It does not decide how a runtime is made to agree — that is an adapter's job.
+
+### Translatable Persistence
+
+- Making a persisted model field translatable is an explicit domain choice unless this package already requires it.
+- Every field listed in a model's `$translatable` array must definitely use a JSON database column. Keep its model traits/casts, factories, validation, Filament locale UI, API serialization, and tests translation-aware.
+- A field not listed in `$translatable` must use the appropriate scalar database type and must not use Spatie Translatable, translatable slug traits, locale switchers, translated callbacks, or translation-shaped array data.
+
+### Vendra Transitive API Policy
+
+- Treat a Vendra dependency intentionally exposed through the public API of a directly required Vendra platform package as part of the supported public contract of that package.
+- Do not add a redundant direct Composer requirement solely because source code imports a type from that exposed dependency.
+- Apply this only to Vendra platform packages listed under `require`; never extend it to `require-dev`, `suggest`, incidental implementation dependencies, or third-party packages. Removing or replacing an exposed dependency is a breaking change; keep `self.version` alignment across the Vendra package graph.
+
+- Keep store and storefront code inside `packages/vendra-store` using the `Misaf\VendraStore` namespace.
+- `Models\Store` is the application's tenant, wired through `config/vendra-tenant.php` (`model`, `relation`) and `config/multitenancy.php` (`tenant_model`, `tenant_finder`). `Store::accessible()` is the request-serving boundary — active, provisioning-ready, not billing-suspended — and both `StoreDomainFinder` and the resolver's search options go through it.
+- Two ownership columns, two mechanisms, and they must not be confused. Reusable domain packages own their rows through the **neutral `tenant_id`** and `Misaf\VendraSupport\Tenancy\BelongsToTenant`; records that describe the Store itself (`store_domains`, `storefront_deployments`) carry **`store_id`** and use this package's `Concerns\BelongsToStore` / `Scopes\StoreScope`. Never add `store_id` to a reusable package's table, and never register a `store_id` table in the support `TenantTableRegistry`.
+- `Services\StoreDomainFinder` is the adapter behind the engine's `Misaf\VendraTenant\Contracts\HostTenantFinder` port and the Spatie `tenant_finder`. Host-to-store mapping lives here, never in `misaf/vendra-tenant`.
+- `Actions\ReplaceStoreDomainAction` normalizes and validates a replacement, soft-deletes the previous active domain as history, and creates the new active domain inside the store's own tenant context.
+- `Contracts\StorefrontProvisioner` is the port to whatever actually runs a storefront. Every value crossing it is typed (`StorefrontProvisionRequest`, `StorefrontProvisionResult`, `StorefrontReference`, `StorefrontObservation`) — do not widen a method to an array parameter or return. Nothing on the interface mentions containers, because an implementation need not use them.
+- `Services\ContainerStorefrontProvisioner` is the one implementation today, bound in `StoreServiceProvider::packageRegistered()`. It reaches the runtime only through `misaf/vendra-container`'s `ContainerRuntime`; callers type-hint the contract and must never branch on which adapter answered.
+- Idempotence is contractual: `provision()` twice leaves one storefront, `start()` on a running one succeeds, `stop()` on a stopped one succeeds, `destroy()` on an absent one succeeds. Reconciliation and retry depend on this.
+- `observe()` must never report "absent" for a runtime it could not reach — a converge pass would read that as a missing storefront and rebuild a healthy one.
+- Status changes go through `StorefrontDeployment`'s `markProcessing()`/`markReady()`/`markRequested()`/`markFailed()`, which enforce the `Enums\StorefrontDeploymentStatus` transition table. Never `forceFill(['status' => ...])`. A job attempt that throws with retries left stays `Processing`; only `ProvisionStorefrontJob::failed()` writes `Failed`.
+- The flow is `RequestStorefrontDeploymentAction` → `ProvisionStorefrontJob` → `StorefrontDeployment`; reconciliation and retry share `StorefrontDeploymentDispatchCommand`. Add a new entry point by reusing that flow, not by dispatching provisioning from a new place.
+- Read every storefront setting through the injected `Support\StorefrontSettings` value object. It is bound with `bind()`, not `singleton()`, so a config change is picked up on the next resolve — keep it that way, and do not add `Config::get('vendra-store.*')` calls elsewhere.
+- **This package must not depend on `misaf/vendra-reseller`.** The reseller domain sits above the store, so ownership arrives through `Contracts\StoreOwnerResolver` (default `Support\NullStoreOwnerResolver`, rebound by the reseller package) and store creation takes an owner typed `(Model&SubscriptionSubscriber)|null` — `ProvisionStoreAction::execute(..., ?SubscriptionSubscriber $owner = null)`, `CreateStorePage::resolveOwner()`. `stores.reseller_id` is a plain nullable indexed column with no cross-package foreign key; `$store->reseller()` and `$reseller->stores()` are both registered by `misaf/vendra-reseller`. `tests/ArchTest.php` enforces this.
+- A null owner is not an error: it is a store the platform console owns directly. Quota checks go through `Support\StoreQuota`, which types its subscriber as `SubscriptionSubscriber` and is skipped entirely when there is no owner.
+- Quota enforcement re-reads the owner under a row lock before counting; two concurrent creates would otherwise both pass the plan limit.
+- This package ships shared Filament building blocks (`Filament\Pages\CreateStorePage`, `Filament\Schemas\StorefrontConfigurationFields`, `Filament\Actions\ReplaceDomainAction`, `Filament\Concerns\BuildsDailyTrend`), not panel resources — the console and reseller panels own those. If a resource is ever added here, one with a cluster lives in `src/Filament/Clusters/Resources/` and one without lives in `src/Filament/Resources/`.
+- Follow Laravel comment style: document with PHPDoc (array shapes, generics, `@see`) and reserve inline comments for genuinely complex logic.

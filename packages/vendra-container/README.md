@@ -5,7 +5,7 @@ Runtime-agnostic container management for Laravel. One typed contract,
 directly and Podman serves through its compatibility socket.
 
 This is the lowest layer of the Vendra platform. It has no Vendra dependencies
-and knows nothing about properties, resellers, storefronts, or tenants: callers
+and knows nothing about stores, resellers, storefronts, or tenants: callers
 describe *what* should run, and this package decides how the runtime is told to
 run it.
 
@@ -68,7 +68,7 @@ podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}'
 Networks, images, and containers are per-daemon and are **not** migrated by
 changing this setting. Anything already deployed stays on the previous daemon,
 still running and no longer managed; `storefront:status --runtime` in
-`vendra-property` reports storefronts the current daemon has nothing for.
+`vendra-store` reports storefronts the current daemon has nothing for.
 
 ## Usage
 
@@ -81,10 +81,10 @@ use Misaf\VendraContainer\ValueObjects\PortBinding;
 use Misaf\VendraContainer\ValueObjects\RestartPolicy;
 
 $definition = new ContainerDefinition(
-    name: 'property-101-storefront',
+    name: 'store-101-storefront',
     image: new ImageReference('ghcr.io/misaf/vendra-storefront-florist:1.0.0'),
     environment: EnvironmentVariable::collection([
-        'PROPERTY_ID' => '101',
+        'STORE_ID' => '101',
         'DOMAIN'      => 'flowers-a.com',
     ]),
     labels: ['traefik.enable' => 'true'],
@@ -144,7 +144,7 @@ $runtime = (new FakeContainerRuntime())->withNetwork('traefik-public');
 $this->app->instance(ContainerRuntime::class, $runtime);
 
 // … exercise your action, then assert what it asked for:
-expect($runtime->definitionFor('property-101-storefront')?->environment)->toHaveCount(2);
+expect($runtime->definitionFor('store-101-storefront')?->environment)->toHaveCount(2);
 ```
 
 Run the package suite from the project root:

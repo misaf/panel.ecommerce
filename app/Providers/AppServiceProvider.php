@@ -28,17 +28,17 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Mcp\Server;
-use Misaf\VendraProperty\Contracts\StorefrontProvisioner;
-use Misaf\VendraProperty\Observers\TenantDomainObserver;
-use Misaf\VendraProperty\Services\ContainerStorefrontProvisioner;
-use Misaf\VendraProperty\Support\StorefrontSettings;
 use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraReseller\Models\ResellerUser;
 use Misaf\VendraReseller\Support\TransactionSubscriptionCharger;
+use Misaf\VendraStore\Contracts\StorefrontProvisioner;
+use Misaf\VendraStore\Models\StoreDomain;
+use Misaf\VendraStore\Observers\StoreDomainObserver;
+use Misaf\VendraStore\Services\ContainerStorefrontProvisioner;
+use Misaf\VendraStore\Support\StorefrontSettings;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
 use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
-use Misaf\VendraTenant\Models\TenantDomain;
 use Misaf\VendraUser\Models\User;
 use Symfony\AI\McpBundle\Controller\McpController;
 use Symfony\AI\McpBundle\Http\MiddlewareFactory;
@@ -74,9 +74,13 @@ final class AppServiceProvider extends ServiceProvider
 
         $settingsTable = Config::get('settings.repositories.database.table');
 
+        /*
+         | Only tables owned through the generic `tenant_id` column belong here.
+         | `storefront_deployments` describes the store itself and is keyed by
+         | `store_id`, so it is deliberately absent.
+         */
         $this->app->make(TenantTableRegistry::class)->register(
             is_string($settingsTable) ? $settingsTable : 'settings',
-            'storefront_deployments',
         );
 
         URL::forceScheme('https');
@@ -84,7 +88,7 @@ final class AppServiceProvider extends ServiceProvider
         DB::prohibitDestructiveCommands(app()->isProduction());
         Password::defaults(fn() => Password::min(8));
 
-        TenantDomain::observe(TenantDomainObserver::class);
+        StoreDomain::observe(StoreDomainObserver::class);
 
         $this->registerMcpControllerCompatibility();
         $this->configureRateLimiting();

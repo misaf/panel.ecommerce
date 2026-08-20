@@ -26,7 +26,7 @@ class TenantScope implements Scope
         }
 
         if (app()->bound(TenantResolver::class) && $tenantId = app(TenantResolver::class)->currentId()) {
-            $builder->where($model->qualifyColumn('tenant_id'), $tenantId);
+            $builder->where($model->qualifyColumn(TenantSchema::column()), $tenantId);
         }
     }
 }

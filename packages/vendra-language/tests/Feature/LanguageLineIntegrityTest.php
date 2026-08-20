@@ -13,6 +13,7 @@ use Misaf\VendraLanguage\Tests\Fixtures\ArrayTranslationLoader;
 use Misaf\VendraLanguage\Tests\Fixtures\CustomLanguageLine;
 use Misaf\VendraLanguage\Tests\Fixtures\CustomNamespacedLanguageLine;
 use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 use function Pest\Laravel\mock;
 
@@ -27,6 +28,9 @@ beforeEach(function (): void {
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturnUsing(
         fn(): int => $this->currentTenantId,

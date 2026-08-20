@@ -54,7 +54,7 @@ final class ActivateSubscriptionAction
 
             $this->subscriptionRegistry->cancelActive($lockedSubscriber, $lockedSubscription->id);
             $lockedSubscription->activate();
-            $lockedSubscriber->reactivateSuspendedProperties();
+            $lockedSubscriber->reactivateSuspendedUnits();
 
             return $lockedSubscription;
         }, attempts: 5);

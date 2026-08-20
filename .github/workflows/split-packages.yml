@@ -47,7 +47,7 @@ jobs:
           - vendra-phone
           - vendra-product
           - vendra-product-api
-          - vendra-property
+          - vendra-store
           - vendra-reseller
           - vendra-socialite
           - vendra-subscription

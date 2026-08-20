@@ -9,8 +9,8 @@ use Misaf\VendraAffiliate\Models\AffiliateClick;
 use Misaf\VendraCart\Database\Factories\CartFactory;
 use Misaf\VendraProduct\Database\Factories\ProductCategoryFactory;
 use Misaf\VendraProduct\Database\Factories\ProductFactory;
-use Misaf\VendraTenant\Models\Tenant;
-use Misaf\VendraTenant\Models\TenantDomain;
+use Misaf\VendraStore\Models\Store;
+use Misaf\VendraStore\Models\StoreDomain;
 
 beforeEach(function (): void {
     config(['app.url' => 'http://localhost']);
@@ -211,8 +211,8 @@ it('resolves and isolates MCP calls by tenant domain', function (): void {
     forgetCurrentTestTenant();
     config()->set('vendra-tenant.central_host', 'vendra.test');
 
-    $tenant = Tenant::factory()->active()->create(['slug' => 'flowers']);
-    TenantDomain::factory()->for($tenant)->create([
+    $tenant = Store::factory()->active()->create(['slug' => 'flowers']);
+    StoreDomain::factory()->for($tenant)->create([
         'name'   => 'flowers.example.com',
         'active' => true,
     ]);
@@ -224,7 +224,7 @@ it('resolves and isolates MCP calls by tenant domain', function (): void {
         return createTestUser();
     });
 
-    $otherTenant = Tenant::factory()->active()->create(['slug' => 'other']);
+    $otherTenant = Store::factory()->active()->create(['slug' => 'other']);
     $otherTenant->execute(function (): void {
         $group = ProductCategoryFactory::new()->active()->create();
         ProductFactory::new()->forCategory($group)->create(['name' => ['en' => 'Hidden Tulip']]);

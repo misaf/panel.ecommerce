@@ -23,7 +23,7 @@ use Misaf\VendraProduct\Database\Factories\ProductFactory;
 use Misaf\VendraProduct\Database\Factories\ProductPriceFactory;
 use Misaf\VendraProduct\Filament\Clusters\Resources\ProductPrices\RelationManagers\ProductPriceRelationManager;
 use Misaf\VendraProduct\Filament\Clusters\Resources\Products\RelationManagers\ProductRelationManager;
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraStore\Models\Store;
 use Misaf\VendraTransaction\Database\Factories\TransactionFactory;
 use Misaf\VendraTransaction\Database\Factories\TransactionGatewayFactory;
 use Misaf\VendraTransaction\Database\Factories\TransactionLimitFactory;
@@ -39,7 +39,7 @@ use Misaf\VendraUser\Database\Factories\UserFactory;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    Tenant::factory()->active()->create()->makeCurrent();
+    Store::factory()->active()->create()->makeCurrent();
 });
 
 it('counts relation manager badges without preloaded relations', function (): void {

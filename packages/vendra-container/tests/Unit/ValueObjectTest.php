@@ -63,7 +63,7 @@ describe('ContainerId', function (): void {
 
 describe('EnvironmentVariable', function (): void {
     it('renders as a KEY=VALUE pair', function (): void {
-        expect((string) new EnvironmentVariable('PROPERTY_ID', '101'))->toBe('PROPERTY_ID=101');
+        expect((string) new EnvironmentVariable('STORE_ID', '101'))->toBe('STORE_ID=101');
     });
 
     it('keeps an equals sign inside the value', function (): void {
@@ -72,13 +72,13 @@ describe('EnvironmentVariable', function (): void {
 
     it('builds a collection from scalars', function (): void {
         $variables = EnvironmentVariable::collection([
-            'PROPERTY_ID' => 101,
+            'STORE_ID'    => 101,
             'DEBUG'       => false,
             'OPTIONAL'    => null,
         ]);
 
         expect(array_map(strval(...), $variables))->toBe([
-            'PROPERTY_ID=101',
+            'STORE_ID=101',
             'DEBUG=false',
             'OPTIONAL=',
         ]);

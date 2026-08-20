@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraLanguage\Support\TranslationLocales;
 use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 use function Pest\Laravel\mock;
 
@@ -12,6 +13,9 @@ beforeEach(function (): void {
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturn(1);
 

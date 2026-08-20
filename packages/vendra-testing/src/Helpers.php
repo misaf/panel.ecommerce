@@ -241,7 +241,14 @@ function bootFilamentAdminPanel(Model $user, ?Model $tenant = null, array $resou
         ->resources($resources);
 
     if ($tenant instanceof Model) {
-        $panel->tenant(testTenantModel());
+        /*
+         | Filament derives the ownership relationship from the tenant model's
+         | class name — `Store` would make it look for `$record->store()`. Vendra's
+         | tenant-scoped models expose the role, not the business model, so name
+         | the relationship explicitly and keep the panel working whichever model
+         | is configured as the tenant.
+         */
+        $panel->tenant(testTenantModel(), ownershipRelationship: 'tenant');
     }
 
     app(PanelRegistry::class)->register($panel);

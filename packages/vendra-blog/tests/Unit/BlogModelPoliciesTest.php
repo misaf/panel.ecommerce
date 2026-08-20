@@ -17,6 +17,7 @@ use Misaf\VendraSupport\Tenancy\BelongsToTenant;
 use Misaf\VendraSupport\Tenancy\Scopes\TeamScope;
 use Misaf\VendraSupport\Tenancy\Scopes\TenantScope;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 /**
  * Bind a tenant resolver reporting the given availability for the current test.
@@ -26,6 +27,7 @@ function fakeTenantResolver(bool $available, ?int $currentId = null): TenantReso
     $resolver = Mockery::mock(TenantResolver::class);
     $resolver->shouldReceive('available')->andReturn($available);
     $resolver->shouldReceive('currentId')->andReturn($currentId);
+    $resolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
 
     return $resolver;
 }

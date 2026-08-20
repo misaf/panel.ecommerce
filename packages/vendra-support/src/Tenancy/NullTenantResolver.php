@@ -30,6 +30,11 @@ final class NullTenantResolver implements TenantResolver
         return Model::class;
     }
 
+    public function foreignKey(): string
+    {
+        return TenantSchema::DEFAULT_FOREIGN_KEY;
+    }
+
     public function findByKeyOrSlug(int|string $tenant): ?Model
     {
         return null;

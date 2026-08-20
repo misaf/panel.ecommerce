@@ -7,8 +7,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Misaf\VendraStore\Services\StoreDomainFinder;
 use Misaf\VendraSupport\Contracts\TenantResolver;
-use Misaf\VendraTenant\Services\DomainTenantFinder;
 use Spatie\Multitenancy\Contracts\IsTenant;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 final readonly class ResolveApiTenant
 {
     public function __construct(
-        private DomainTenantFinder $tenantFinder,
+        private StoreDomainFinder $tenantFinder,
         private TenantResolver $tenantResolver,
     ) {}
 

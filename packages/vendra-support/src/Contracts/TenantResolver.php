@@ -20,6 +20,13 @@ interface TenantResolver
      */
     public function modelClass(): string;
 
+    /**
+     * The foreign key tenant-scoped tables carry. Vendra keeps the neutral
+     * `tenant_id`; an application may configure `company_id` or `workspace_id`
+     * instead, so read it from here rather than assuming.
+     */
+    public function foreignKey(): string;
+
     public function findByKeyOrSlug(int|string $tenant): ?Model;
 
     public function makeCurrent(Model|int|string $tenant): bool;

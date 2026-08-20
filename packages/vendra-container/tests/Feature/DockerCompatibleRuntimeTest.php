@@ -33,7 +33,7 @@ function containerRuntimeDefinition(?LogConfiguration $logConfiguration = null):
         name: 'vendra-storefront-flowers',
         image: new ImageReference('ghcr.io/misaf/storefront:1.0.0'),
         environment: EnvironmentVariable::collection([
-            'PROPERTY_ID' => '101',
+            'STORE_ID'    => '101',
             'DOMAIN'      => 'flowers-a.com',
         ]),
         labels: ['io.vendra.managed-by' => 'vendra'],
@@ -113,7 +113,7 @@ it('translates a definition into the engine create payload', function (): void {
 
         expect($request->url())->toContain('name=vendra-storefront-flowers')
             ->and($request['Image'])->toBe('ghcr.io/misaf/storefront:1.0.0')
-            ->and($request['Env'])->toBe(['PROPERTY_ID=101', 'DOMAIN=flowers-a.com'])
+            ->and($request['Env'])->toBe(['STORE_ID=101', 'DOMAIN=flowers-a.com'])
             ->and($request['Labels'])->toBe(['io.vendra.managed-by' => 'vendra'])
             ->and($request['ExposedPorts'])->toHaveKey('3000/tcp')
             ->and($request['Healthcheck']['Interval'])->toBe(10_000_000_000)

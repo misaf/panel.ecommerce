@@ -1,6 +1,6 @@
 ## Vendra Subscription
 
-The `misaf/vendra-subscription` package is a **generic, subscriber-agnostic subscription engine**: it owns **plans** and **subscriptions** and their lifecycle primitives, and nothing else. It does NOT know about resellers, tenants, properties, users, or provisioning — those live in the host app, which is the sole consumer.
+The `misaf/vendra-subscription` package is a **generic, subscriber-agnostic subscription engine**: it owns **plans** and **subscriptions** and their lifecycle primitives, and nothing else. It does NOT know about resellers, tenants, stores, users, or provisioning — those live in the host app, which is the sole consumer.
 
 ### Translatable Persistence
 

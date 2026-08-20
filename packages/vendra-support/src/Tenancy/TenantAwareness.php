@@ -36,6 +36,6 @@ final class TenantAwareness
             return $rule;
         }
 
-        return $rule->where('tenant_id', $tenantId);
+        return $rule->where(TenantSchema::column(), $tenantId);
     }
 }

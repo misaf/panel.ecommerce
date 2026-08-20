@@ -103,7 +103,7 @@ final class EnforceSubscriptionsAction
 
                     $processed[$key] = true;
 
-                    if (0 === $subscriber->activeSubscribedPropertyCount() || null !== $subscriber->activeSubscription()) {
+                    if (0 === $subscriber->activeSubscribedUnitCount() || null !== $subscriber->activeSubscription()) {
                         continue;
                     }
 

@@ -13,7 +13,7 @@ final class SubscriptionLimitException extends RuntimeException
     /**
      * @param  Model&SubscriptionSubscriber  $subscriber
      */
-    public static function resellerInactive(SubscriptionSubscriber $subscriber): self
+    public static function subscriberInactive(SubscriptionSubscriber $subscriber): self
     {
         return new self(sprintf(
             'Subscriber [%s] is inactive.',
@@ -35,10 +35,10 @@ final class SubscriptionLimitException extends RuntimeException
     /**
      * @param  Model&SubscriptionSubscriber  $subscriber
      */
-    public static function propertyQuotaReached(SubscriptionSubscriber $subscriber, int $maxUnits): self
+    public static function unitQuotaReached(SubscriptionSubscriber $subscriber, int $maxUnits): self
     {
         return new self(sprintf(
-            'Subscriber [%s] has reached its property limit of [%d].',
+            'Subscriber [%s] has reached its unit limit of [%d].',
             self::formatKey($subscriber->getKey()),
             $maxUnits,
         ));
@@ -47,12 +47,12 @@ final class SubscriptionLimitException extends RuntimeException
     /**
      * @param  Model&SubscriptionSubscriber  $subscriber
      */
-    public static function planBelowUsage(SubscriptionSubscriber $subscriber, int $maxUnits, int $currentProperties): self
+    public static function planBelowUsage(SubscriptionSubscriber $subscriber, int $maxUnits, int $currentUnits): self
     {
         return new self(sprintf(
-            'Subscriber [%s] has %d property(s), which exceeds the [%d] allowed by the selected plan.',
+            'Subscriber [%s] has %d unit(s), which exceeds the [%d] allowed by the selected plan.',
             self::formatKey($subscriber->getKey()),
-            $currentProperties,
+            $currentUnits,
             $maxUnits,
         ));
     }

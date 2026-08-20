@@ -6,6 +6,7 @@ use Misaf\VendraCurrency\Database\Factories\CurrencyFactory;
 use Misaf\VendraSupport\Capabilities\CurrencyIntegration;
 use Misaf\VendraSupport\Contracts\CurrencyResolver;
 use Misaf\VendraSupport\Contracts\TenantResolver;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 use function Pest\Laravel\mock;
 
@@ -13,6 +14,9 @@ beforeEach(function (): void {
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturn(1);
 

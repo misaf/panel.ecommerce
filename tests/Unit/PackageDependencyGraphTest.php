@@ -51,32 +51,10 @@ function reachableVendraPackages(string $package, array $dependencyGraph): array
 }
 
 it('keeps the Vendra package dependency graph complete and acyclic', function (): void {
-    /*
-     | The property domain is deliberately coupled to the concrete
-     | `Misaf\VendraReseller\Models\Reseller` instead of a `PropertyOwner`
-     | abstraction, while the reseller panel builds its property screens on the
-     | property package. That mutual requirement is a settled decision (see
-     | `.ai/rules/vendra-property.md`), so it is the one cycle allowed here —
-     | every other one is still a failure.
-     */
-    $allowedCycle = ['misaf/vendra-property', 'misaf/vendra-reseller'];
-
     $dependencyGraph = vendraPackageDependencyGraph();
     $knownPackages = array_keys($dependencyGraph);
     $unknownDependencies = [];
     $cycles = [];
-
-    /*
-     | Cycle detection runs against the graph minus that single back edge, so a
-     | cycle reached through any other route — including one that passes through
-     | these two packages — is still reported.
-     */
-    [$cycleTail, $cycleHead] = $allowedCycle;
-    $acyclicGraph = $dependencyGraph;
-    $acyclicGraph[$cycleTail] = array_values(array_filter(
-        $acyclicGraph[$cycleTail] ?? [],
-        fn(string $dependency): bool => $cycleHead !== $dependency,
-    ));
 
     foreach ($dependencyGraph as $package => $dependencies) {
         foreach ($dependencies as $dependency) {
@@ -85,16 +63,46 @@ it('keeps the Vendra package dependency graph complete and acyclic', function ()
             }
         }
 
-        if (in_array($package, reachableVendraPackages($package, $acyclicGraph), true)) {
+        if (in_array($package, reachableVendraPackages($package, $dependencyGraph), true)) {
             $cycles[] = $package;
         }
     }
 
-    expect($unknownDependencies)->toBe([])
-        ->and($cycles)->toBe([])
-        // Drop the allowance with the coupling, so it cannot outlive it.
-        ->and($dependencyGraph[$cycleTail])->toContain($cycleHead)
-        ->and($dependencyGraph[$cycleHead])->toContain($cycleTail);
+    expect($unknownDependencies)->toBe([])->and($cycles)->toBe([]);
+});
+
+it('points the tenancy, store, reseller and console layers one way', function (): void {
+    $dependencyGraph = vendraPackageDependencyGraph();
+
+    /*
+     | The layering the whole platform rests on. `vendra-tenant` is a generic
+     | tenancy engine, so it may not know the ecommerce Store; the Store is the
+     | concrete tenant and sits below reseller ownership, which is supplied
+     | through `Misaf\VendraStore\Contracts\StoreOwnerResolver` rather than a
+     | dependency; the console composes both.
+     */
+    expect(reachableVendraPackages('misaf/vendra-tenant', $dependencyGraph))
+        ->not->toContain('misaf/vendra-store')
+        ->not->toContain('misaf/vendra-reseller')
+        ->not->toContain('misaf/vendra-console')
+        ->and($dependencyGraph['misaf/vendra-store'])
+        ->toContain('misaf/vendra-tenant')
+        ->not->toContain('misaf/vendra-reseller')
+        ->and($dependencyGraph['misaf/vendra-reseller'])
+        ->toContain('misaf/vendra-store')
+        ->and($dependencyGraph['misaf/vendra-console'])
+        ->toContain('misaf/vendra-store')
+        ->toContain('misaf/vendra-reseller');
+});
+
+it('keeps reusable domain packages free of the tenant provider and the store', function (): void {
+    $dependencyGraph = vendraPackageDependencyGraph();
+
+    foreach (['misaf/vendra-product', 'misaf/vendra-blog', 'misaf/vendra-cart', 'misaf/vendra-attribute'] as $package) {
+        expect(reachableVendraPackages($package, $dependencyGraph))
+            ->not->toContain('misaf/vendra-tenant', "[{$package}] must stay tenant-provider agnostic.")
+            ->not->toContain('misaf/vendra-store', "[{$package}] must not depend on the Store.");
+    }
 });
 
 it('imports only Vendra namespaces reachable through declared package dependencies', function (): void {

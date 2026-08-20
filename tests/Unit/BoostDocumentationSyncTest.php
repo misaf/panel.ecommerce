@@ -41,9 +41,13 @@ it('keeps package guidelines and skills aligned with documented source contracts
         'vendra-support',
         ['RequestJobContext'],
     ],
-    'tenant accessibility and domains' => [
+    'tenancy engine boundaries' => [
         'vendra-tenant',
-        ['Tenant::accessible()', 'ReplaceTenantDomainAction', '/caddy/domain-check'],
+        ['TenantContract', 'HostTenantFinder', '/caddy/domain-check'],
+    ],
+    'store accessibility and domains' => [
+        'vendra-store',
+        ['Store::accessible()', 'ReplaceStoreDomainAction', 'StoreOwnerResolver'],
     ],
     'testing helpers' => [
         'vendra-testing',

@@ -27,8 +27,8 @@ description: "Create, modify, review, or test the Vendra Container module in pac
 
 ## Module Boundary
 
-- This is the lowest layer of the platform. It has **no Vendra dependencies** and must never gain one: no Property, Reseller, Storefront, tenant, or Vendra-specific concept may appear in this package.
-- The dependency arrow points one way — `vendra-console` → `vendra-reseller` → `vendra-property` → `vendra-container`. A change here that needs to know its caller is a change in the wrong package.
+- This is the lowest layer of the platform. It has **no Vendra dependencies** and must never gain one: no Store, Reseller, Storefront, tenant, or Vendra-specific concept may appear in this package.
+- The dependency arrow points one way — `vendra-console` → `vendra-reseller` → `vendra-store` → `vendra-container`. A change here that needs to know its caller is a change in the wrong package.
 - Anything Docker-shaped stops at `Runtimes\DockerCompatibleRuntime::toEnginePayload()`: nanosecond intervals, `KEY=VALUE` environment strings, `ExposedPorts` keys, the empty object that means "attach with defaults". Callers describe intent; this package encodes it.
 
 ## Contract

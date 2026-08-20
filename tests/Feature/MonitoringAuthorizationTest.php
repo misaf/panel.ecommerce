@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Misaf\VendraConsole\Models\ConsoleUser;
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraStore\Models\Store;
 use Misaf\VendraUser\Models\User;
 
 dataset('monitoring gates', ['viewPulse', 'viewHorizon']);
@@ -25,7 +25,7 @@ it('denies guests outside the local environment', function (string $gate): void 
 it('denies tenant users outside the local environment', function (string $gate): void {
     app()->detectEnvironment(fn(): string => 'production');
 
-    $tenant = Tenant::factory()->create();
+    $tenant = Store::factory()->create();
     $tenant->makeCurrent();
 
     $user = User::factory()->forTenant($tenant)->create();

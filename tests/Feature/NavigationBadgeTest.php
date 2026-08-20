@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use Misaf\VendraCart\Database\Factories\CartFactory;
 use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
-use Misaf\VendraTenant\Database\Factories\TenantFactory;
+use Misaf\VendraStore\Database\Factories\StoreFactory;
 use Misaf\VendraTransaction\Database\Factories\TransactionFactory;
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource;
 use Misaf\VendraUser\Database\Factories\UserFactory;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource;
 
 it('shows record counts on important navigation items', function (): void {
-    $tenant = TenantFactory::new()->active()->createOne();
+    $tenant = StoreFactory::new()->active()->createOne();
     $tenant->makeCurrent();
 
     $user = UserFactory::new()->createOne();
@@ -24,7 +24,7 @@ it('shows record counts on important navigation items', function (): void {
 
     CartFactory::new()->count(4)->create();
 
-    TenantFactory::new()->active()->createOne()->makeCurrent();
+    StoreFactory::new()->active()->createOne()->makeCurrent();
 
     UserFactory::new()->createOne();
     TransactionFactory::new()->createOne();

@@ -5,13 +5,14 @@ declare(strict_types=1);
 return [
     'navigation_group'       => 'کنسول',
 
-    'plan'                   => 'طرح',
-    'plans'                  => 'طرح‌ها',
-    'reseller'               => 'حساب',
-    'resellers'              => 'حساب‌ها',
-    'property'               => 'ملک',
-    'properties'             => 'املاک',
-    'remaining_properties'   => 'املاک باقی‌مانده',
+    'plan'                               => 'طرح',
+    'plans'                              => 'طرح‌ها',
+    'platform_owned_store'               => 'متعلق به پلتفرم (بدون نماینده)',
+    'reseller'                           => 'حساب',
+    'resellers'                          => 'حساب‌ها',
+    'store'                              => 'ملک',
+    'stores'                             => 'املاک',
+    'remaining_stores'                   => 'املاک باقی‌مانده',
 
     'name'                   => 'نام',
     'status'                 => 'فعال',
@@ -42,7 +43,7 @@ return [
     'trial'                  => 'دوره آزمایشی',
     'trial_until'            => 'تا :date',
     'no_trial'               => 'بدون دوره آزمایشی',
-    'properties_count'       => 'املاک',
+    'stores_count'           => 'املاک',
     'current_subscription'   => 'اشتراک فعلی',
     'ends_at'                => 'پایان در',
 
@@ -70,9 +71,9 @@ return [
     'offboard_resellers_description' => 'اشتراک‌های باز را لغو می‌کند و دسترسی همه املاک حساب‌های انتخاب‌شده را حذف می‌کند.',
     'offboarding_reason'             => 'دلیل خروج',
 
-    'property_created'                       => 'ملک ایجاد شد',
-    'property_details'                       => 'جزئیات ملک',
-    'property_details_description'           => 'نماینده را انتخاب و دامنه و مالک ملک را پیکربندی کنید.',
+    'store_created'                          => 'ملک ایجاد شد',
+    'store_details'                          => 'جزئیات ملک',
+    'store_details_description'              => 'نماینده را انتخاب و دامنه و مالک ملک را پیکربندی کنید.',
     'create_florist_storefront'              => 'ایجاد فروشگاه گل‌فروشی',
     'create_florist_storefront_description'  => 'ملک، هویت فروشگاه، اطلاعات تماس و کانال‌های مشتریان را تنظیم کنید.',
     'create_storefront_action'               => 'ایجاد فروشگاه',
@@ -108,7 +109,7 @@ return [
     'storefront_instagram_username'          => 'نام کاربری اینستاگرام',
     'storefront_status'                      => 'وضعیت فروشگاه',
     'storefront_not_requested'               => 'درخواست نشده',
-    'property_limit_reached'                 => 'محدودیت تعداد املاک',
+    'store_limit_reached'                    => 'محدودیت تعداد املاک',
     'owner_password'                         => 'رمز عبور مالک: :password',
     'owner_credentials'                      => 'نام کاربری مالک: :username · رمز عبور: :password',
 
@@ -137,18 +138,18 @@ return [
         'description' => [
             'plans'      => 'مدیریت طرح‌های اشتراک در دسترس حساب‌ها.',
             'resellers'  => 'مدیریت حساب‌ها و ظرفیت املاک آن‌ها.',
-            'properties' => 'مدیریت املاک، دامنه‌ها و وضعیت دسترسی.',
+            'stores'     => 'مدیریت املاک، دامنه‌ها و وضعیت دسترسی.',
         ],
         'empty_state' => [
             'heading' => [
                 'plans'      => 'طرحی وجود ندارد',
                 'resellers'  => 'حسابی وجود ندارد',
-                'properties' => 'ملکی وجود ندارد',
+                'stores'     => 'ملکی وجود ندارد',
             ],
             'description' => [
                 'plans'      => 'برای تعیین محدودیت‌ها و دوره‌های پرداخت، یک طرح ایجاد کنید.',
                 'resellers'  => 'برای تخصیص املاک، یک حساب ایجاد کنید.',
-                'properties' => 'برای پیکربندی دامنه و دسترسی، یک ملک ایجاد کنید.',
+                'stores'     => 'برای پیکربندی دامنه و دسترسی، یک ملک ایجاد کنید.',
             ],
         ],
     ],

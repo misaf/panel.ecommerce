@@ -1,0 +1,103 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraStore\Filament\Pages;
+
+use Filament\Notifications\Notification;
+use Filament\Resources\Pages\CreateRecord;
+use Filament\Support\Exceptions\Halt;
+use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
+use Misaf\VendraStore\Actions\ProvisionStoreAction;
+use Misaf\VendraStore\Actions\RequestStorefrontDeploymentAction;
+use Misaf\VendraSubscription\Contracts\SubscriptionSubscriber;
+use Misaf\VendraSubscription\Exceptions\SubscriptionLimitException;
+
+/**
+ * Creating a store is the same operation in every panel: provision the store,
+ * hand the owner their credentials, and request the storefront.
+ *
+ * Only the billing owner is resolved differently — the console picks one from
+ * the form, the reseller panel uses the authenticated reseller's own — so that
+ * is the single hook subclasses fill in. The two pages previously carried
+ * identical copies of everything below it, which is how they drift.
+ */
+abstract class CreateStorePage extends CreateRecord
+{
+    /**
+     * @param  array<string, mixed> $data
+     *
+     * @throws Halt
+     */
+    protected function handleRecordCreation(array $data): Model
+    {
+        $domain = $data['domain'] ?? null;
+        $email = $data['email'] ?? null;
+
+        if ( ! is_string($domain) || ! is_string($email)) {
+            throw new InvalidArgumentException('Invalid store details provided.');
+        }
+
+        try {
+            $result = app(ProvisionStoreAction::class)->execute(
+                data: [
+                    'domain' => $domain,
+                    'email'  => $email,
+                ],
+                owner: $this->resolveOwner($data),
+            );
+        } catch (SubscriptionLimitException $exception) {
+            Notification::make()
+                ->danger()
+                ->title(__('console.store_limit_reached'))
+                ->body($exception->getMessage())
+                ->send();
+
+            throw new Halt();
+        }
+
+        Notification::make()
+            ->success()
+            ->title(__('console.store_created'))
+            ->body(__('console.owner_credentials', [
+                'username' => $result['user']->username,
+                'password' => $result['password'],
+            ]))
+            ->persistent()
+            ->send();
+
+        if ($this->shouldRequestStorefront($data)) {
+            app(RequestStorefrontDeploymentAction::class)->execute(
+                store: $result['store'],
+                domain: $domain,
+                form: $data,
+            );
+        }
+
+        return $result['store'];
+    }
+
+    /**
+     * The owner this store is billed to, or null for a store the platform owns
+     * directly.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return (Model&SubscriptionSubscriber)|null
+     */
+    abstract protected function resolveOwner(array $data): ?SubscriptionSubscriber;
+
+    /**
+     * Whether a storefront was asked for.
+     *
+     * Forms that make the storefront mandatory omit the toggle entirely, so an
+     * absent key means yes; only an explicit "off" skips it.
+     *
+     * @param array<string, mixed> $data
+     */
+    protected function shouldRequestStorefront(array $data): bool
+    {
+        return false !== ($data['create_storefront'] ?? true);
+    }
+}

@@ -40,8 +40,8 @@ it('names boolean availability columns active', function (string $table): void {
     'plans',
     'product_categories',
     'resellers',
-    'tenant_domains',
-    'tenants',
+    'store_domains',
+    'stores',
     'transaction_gateways',
     'user_profiles',
 ]);
@@ -49,9 +49,9 @@ it('names boolean availability columns active', function (string $table): void {
 it('enforces required relational integrity', function (string $table, string $column): void {
     expect(Schema::hasForeignKey($table, [$column]))->toBeTrue();
 })->with([
-    ['tenant_domains', 'tenant_id'],
-    ['tenant_user', 'tenant_id'],
-    ['tenant_user', 'user_id'],
+    ['store_domains', 'store_id'],
+    ['store_user', 'store_id'],
+    ['store_user', 'user_id'],
     ['blog_posts', 'blog_post_category_id'],
     ['custom_pages', 'custom_page_category_id'],
     ['products', 'product_category_id'],
@@ -91,7 +91,7 @@ it('enforces required relational integrity', function (string $table, string $co
 ]);
 
 it('prevents duplicate tenant memberships', function (): void {
-    expect(Schema::hasIndex('tenant_user', ['tenant_id', 'user_id'], 'unique'))->toBeTrue();
+    expect(Schema::hasIndex('store_user', ['store_id', 'user_id'], 'unique'))->toBeTrue();
 });
 
 it('enforces transaction idempotency keys per tenant', function (): void {
@@ -124,7 +124,7 @@ it('stores durable subscription payment operations with provider identities', fu
 });
 
 it('stores independent tenant availability and durable provisioning state', function (): void {
-    expect(Schema::hasColumns('tenants', [
+    expect(Schema::hasColumns('stores', [
         'active',
         'billing_suspended_at',
         'provisioning_status',
@@ -135,8 +135,8 @@ it('stores independent tenant availability and durable provisioning state', func
         'provisioning_failed_at',
         'provisioning_error',
     ]))->toBeTrue()
-        ->and(Schema::hasIndex('tenants', ['billing_suspended_at']))->toBeTrue()
-        ->and(Schema::hasIndex('tenants', ['provisioning_status']))->toBeTrue();
+        ->and(Schema::hasIndex('stores', ['billing_suspended_at']))->toBeTrue()
+        ->and(Schema::hasIndex('stores', ['provisioning_status']))->toBeTrue();
 });
 
 it('enforces one active owner and subscription per reseller', function (): void {
@@ -186,7 +186,7 @@ it('registers every tenant-aware application table for legacy schema retrofits',
 
     $tenantAwareTables = collect(Schema::getTableListing(schemaQualified: false))
         ->filter(fn(string $table): bool => Schema::hasColumn($table, 'tenant_id'))
-        ->reject(fn(string $table): bool => in_array($table, ['tenant_domains', 'tenant_user'], true))
+        ->reject(fn(string $table): bool => in_array($table, ['store_domains', 'store_user'], true))
         ->values();
 
     expect($registeredTables->all())->toEqualCanonicalizing($tenantAwareTables->all());

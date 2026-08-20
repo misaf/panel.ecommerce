@@ -61,24 +61,24 @@ interface SubscriptionSubscriber
     /**
      * Total number of billable properties the subscriber currently holds.
      */
-    public function subscribedPropertyCount(): int;
+    public function subscribedUnitCount(): int;
 
     /**
      * Number of the subscriber's properties that are currently active.
      */
-    public function activeSubscribedPropertyCount(): int;
+    public function activeSubscribedUnitCount(): int;
 
     /**
      * Suspend every active property after a lapse.
      *
      * @return int the number of properties suspended
      */
-    public function suspendActiveProperties(): int;
+    public function suspendActiveUnits(): int;
 
     /**
      * Reactivate every suspended property after payment succeeds.
      *
      * @return int the number of properties reactivated
      */
-    public function reactivateSuspendedProperties(): int;
+    public function reactivateSuspendedUnits(): int;
 }

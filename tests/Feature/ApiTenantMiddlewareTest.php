@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Misaf\VendraProduct\Database\Factories\ProductCategoryFactory;
 use Misaf\VendraProduct\Database\Factories\ProductFactory;
-use Misaf\VendraTenant\Models\Tenant;
-use Misaf\VendraTenant\Models\TenantDomain;
+use Misaf\VendraStore\Models\Store;
+use Misaf\VendraStore\Models\StoreDomain;
 
 beforeEach(function (): void {
     config()->set('app.url', 'https://vendra.test');
@@ -19,8 +19,8 @@ it('rejects API resource requests that do not resolve a tenant', function (): vo
 });
 
 it('resolves the tenant on the canonical API host from the storefront origin', function (): void {
-    $tenant = Tenant::factory()->active()->create(['slug' => 'flowers']);
-    TenantDomain::factory()->for($tenant)->create([
+    $tenant = Store::factory()->active()->create(['slug' => 'flowers']);
+    StoreDomain::factory()->for($tenant)->create([
         'name'   => 'flowers.example.com',
         'active' => true,
     ]);
@@ -47,8 +47,8 @@ it('resolves the tenant on the canonical API host from the storefront origin', f
 });
 
 it('falls back to the referer when the canonical API host receives no origin', function (): void {
-    $tenant = Tenant::factory()->active()->create(['slug' => 'flowers']);
-    TenantDomain::factory()->for($tenant)->create([
+    $tenant = Store::factory()->active()->create(['slug' => 'flowers']);
+    StoreDomain::factory()->for($tenant)->create([
         'name'   => 'flowers.example.com',
         'active' => true,
     ]);
@@ -62,8 +62,8 @@ it('falls back to the referer when the canonical API host receives no origin', f
 });
 
 it('rejects a canonical API request whose origin is not an active tenant domain', function (): void {
-    $tenant = Tenant::factory()->active()->create(['slug' => 'flowers']);
-    TenantDomain::factory()->for($tenant)->create([
+    $tenant = Store::factory()->active()->create(['slug' => 'flowers']);
+    StoreDomain::factory()->for($tenant)->create([
         'name'   => 'flowers.example.com',
         'active' => false,
     ]);
@@ -82,8 +82,8 @@ it('rejects a canonical API request whose origin is not an active tenant domain'
 });
 
 it('does not accept an origin on host shapes other than the canonical API', function (): void {
-    $tenant = Tenant::factory()->active()->create(['slug' => 'flowers']);
-    TenantDomain::factory()->for($tenant)->create([
+    $tenant = Store::factory()->active()->create(['slug' => 'flowers']);
+    StoreDomain::factory()->for($tenant)->create([
         'name'   => 'flowers.example.com',
         'active' => true,
     ]);
@@ -97,8 +97,8 @@ it('does not accept an origin on host shapes other than the canonical API', func
 });
 
 it('resolves and isolates API resources by tenant domain', function (): void {
-    $firstTenant = Tenant::factory()->active()->create(['slug' => 'flowers']);
-    TenantDomain::factory()->for($firstTenant)->create([
+    $firstTenant = Store::factory()->active()->create(['slug' => 'flowers']);
+    StoreDomain::factory()->for($firstTenant)->create([
         'name'   => 'flowers.example.com',
         'active' => true,
     ]);
@@ -110,7 +110,7 @@ it('resolves and isolates API resources by tenant domain', function (): void {
         ]);
     });
 
-    $secondTenant = Tenant::factory()->active()->create(['slug' => 'other']);
+    $secondTenant = Store::factory()->active()->create(['slug' => 'other']);
     $secondTenant->execute(function (): void {
         $category = ProductCategoryFactory::new()->active()->create();
         ProductFactory::new()->forCategory($category)->create([

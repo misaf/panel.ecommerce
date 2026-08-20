@@ -83,7 +83,7 @@ root-equivalent on the host. Four things to know before switching:
 
 The platform creates, replaces, and health-gates storefront containers itself
 through the Engine API — see `App\Services\DockerStorefrontProvisioner`.
-There is no compose project per property. A storefront is one container carrying
+There is no compose project per store. A storefront is one container carrying
 the `traefik.*` labels Traefik discovers and `io.vendra.*` labels marking it as
 platform-owned, so the platform never touches a container it did not place.
 
@@ -132,7 +132,7 @@ that they fall back to the default certificate.
 
 **Local** — leave `CERT_RESOLVER` empty and run `vendra certs`, which issues a
 certificate with mkcert into `<state>/certificates`. Traefik serves it as the
-default certificate. Re-run it after adding a property so the new domain is
+default certificate. Re-run it after adding a store so the new domain is
 covered, then `vendra restart`.
 
 Storefronts also make server-side calls to the API. Under mkcert, Node rejects

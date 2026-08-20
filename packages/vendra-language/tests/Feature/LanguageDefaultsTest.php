@@ -10,6 +10,7 @@ use Misaf\VendraLanguage\Models\Language;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Tenancy\NullTenantResolver;
 use Misaf\VendraSupport\Tenancy\TenantAwareness;
+use Misaf\VendraSupport\Tenancy\TenantSchema;
 
 use function Pest\Laravel\mock;
 
@@ -17,6 +18,9 @@ beforeEach(function (): void {
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturn(1);
 
@@ -106,6 +110,9 @@ it('keeps only one default language for the current tenant', function (): void {
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturnUsing(function () use (&$currentTenantId): int {
         return $currentTenantId;
@@ -170,6 +177,9 @@ it('resolves language switch locales after the current tenant is available', fun
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturnUsing(function () use (&$currentTenantId): int {
         return $currentTenantId;
@@ -213,6 +223,9 @@ it('rejects bulk updates that would create multiple default languages', function
     $tenantResolver = mock(TenantResolver::class);
 
     $tenantResolver->shouldReceive('available')->andReturnTrue();
+
+    $tenantResolver->shouldReceive('foreignKey')->andReturn(TenantSchema::DEFAULT_FOREIGN_KEY);
+
     $tenantResolver->shouldReceive('current')->andReturnNull();
     $tenantResolver->shouldReceive('currentId')->andReturn(1);
 

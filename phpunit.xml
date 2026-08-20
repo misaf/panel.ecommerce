@@ -97,8 +97,8 @@
         <testsuite name="vendra-product-api">
             <directory>packages/vendra-product-api/tests</directory>
         </testsuite>
-        <testsuite name="vendra-property">
-            <directory>packages/vendra-property/tests</directory>
+        <testsuite name="vendra-store">
+            <directory>packages/vendra-store/tests</directory>
         </testsuite>
         <testsuite name="vendra-reseller">
             <directory>packages/vendra-reseller/tests</directory>

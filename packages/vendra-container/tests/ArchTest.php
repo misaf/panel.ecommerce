@@ -10,7 +10,7 @@ arch('the container layer knows nothing about the business domain')
     ->expect('Misaf\VendraContainer')
     ->not->toUse([
         'Misaf\VendraConsole',
-        'Misaf\VendraProperty',
+        'Misaf\VendraStore',
         'Misaf\VendraReseller',
         'Misaf\VendraSupport',
         'Misaf\VendraTenant',

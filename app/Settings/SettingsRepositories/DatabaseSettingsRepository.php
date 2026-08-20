@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Settings\SettingsRepositories;
 
-use Misaf\VendraTenant\Models\Tenant;
+use Misaf\VendraStore\Models\Store;
 use Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository as SpatieDatabaseSettingsRepository;
 
 final class DatabaseSettingsRepository extends SpatieDatabaseSettingsRepository
@@ -14,7 +14,7 @@ final class DatabaseSettingsRepository extends SpatieDatabaseSettingsRepository
      */
     public function updatePropertiesPayload(string $group, array $properties): void
     {
-        $tenantId = Tenant::current()?->id;
+        $tenantId = Store::current()?->id;
 
         $propertiesInBatch = collect($properties)->map(function (mixed $payload, string $name) use ($group, $tenantId) {
             return [

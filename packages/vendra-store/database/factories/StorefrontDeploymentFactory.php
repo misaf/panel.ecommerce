@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\VendraStore\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
+use Misaf\VendraStore\Enums\StorefrontDesiredState;
+use Misaf\VendraStore\Models\Store;
+use Misaf\VendraStore\Models\StorefrontDeployment;
+
+/**
+ * @extends Factory<StorefrontDeployment>
+ */
+final class StorefrontDeploymentFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<StorefrontDeployment>
+     */
+    protected $model = StorefrontDeployment::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'store_id'      => Store::factory(),
+            'slug'          => fake()->unique()->slug(2),
+            'domain'        => fake()->unique()->domainName(),
+            'theme'         => 'default',
+            'configuration' => [
+                'name' => ['en' => fake()->company(), 'fa' => 'گل‌فروشی'],
+            ],
+            'status'        => StorefrontDeploymentStatus::Pending,
+            'desired_state' => StorefrontDesiredState::Running,
+        ];
+    }
+}

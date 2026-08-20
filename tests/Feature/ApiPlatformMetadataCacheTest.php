@@ -118,18 +118,18 @@ it('restores every registered resource\'s metadata under the cache allow-list', 
 
 it('restores every registered resource\'s property metadata under the cache allow-list', function (): void {
     $resourceNames = app(ResourceNameCollectionFactoryInterface::class)->create();
-    $propertyNameFactory = app(PropertyNameCollectionFactoryInterface::class);
-    $propertyMetadataFactory = app(PropertyMetadataFactoryInterface::class);
+    $storeNameFactory = app(PropertyNameCollectionFactoryInterface::class);
+    $storeMetadataFactory = app(PropertyMetadataFactoryInterface::class);
 
     foreach ($resourceNames as $resourceClass) {
-        $propertyNames = $propertyNameFactory->create($resourceClass);
+        $storeNames = $storeNameFactory->create($resourceClass);
 
-        expect($propertyNames)->toBeInstanceOf(PropertyNameCollection::class);
+        expect($storeNames)->toBeInstanceOf(PropertyNameCollection::class);
 
-        foreach ($propertyNames as $property) {
-            $subject = "{$resourceClass}::{$property}";
+        foreach ($storeNames as $store) {
+            $subject = "{$resourceClass}::{$store}";
             $restored = throughSerializableClassesAllowList(
-                $propertyMetadataFactory->create($resourceClass, $property),
+                $storeMetadataFactory->create($resourceClass, $store),
             );
             $incomplete = incompleteClassesIn($restored, $subject);
 
