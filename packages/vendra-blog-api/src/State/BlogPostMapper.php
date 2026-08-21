@@ -27,7 +27,7 @@ final class BlogPostMapper implements ResourceMapper
         return new BlogPostResource(
             id: $model->id,
             name: $this->normalizeTranslations($model->getTranslations('name')),
-            description: $this->normalizeTranslations($model->getTranslations('description')),
+            description: $this->normalizeTranslationDocuments($model->getTranslations('description')),
             slug: $this->normalizeTranslations($model->getTranslations('slug')),
             active: $model->active,
             position: $model->position,

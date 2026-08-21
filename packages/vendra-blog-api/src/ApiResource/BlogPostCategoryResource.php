@@ -48,7 +48,7 @@ final readonly class BlogPostCategoryResource
     /**
      * @param array<string, string> $name
      * @param array<string, string> $slug
-     * @param array<string, string> $description
+     * @param array<string, array<array-key, mixed>|string> $description
      * @param array<int, ResourceReference> $blogPosts
      * @param array<int, MultimediaResource> $multimedia
      */

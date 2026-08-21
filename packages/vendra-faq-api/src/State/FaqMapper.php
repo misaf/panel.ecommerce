@@ -27,7 +27,7 @@ final class FaqMapper implements ResourceMapper
         return new FaqResource(
             id: $model->id,
             name: $this->normalizeTranslations($model->getTranslations('name')),
-            description: $this->normalizeTranslations($model->getTranslations('description')),
+            description: $this->normalizeTranslationDocuments($model->getTranslations('description')),
             slug: $this->normalizeTranslations($model->getTranslations('slug')),
             position: $model->position,
             active: $model->active,

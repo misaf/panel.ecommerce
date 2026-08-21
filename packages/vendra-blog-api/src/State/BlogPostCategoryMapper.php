@@ -26,7 +26,7 @@ final class BlogPostCategoryMapper implements ResourceMapper
             id: $model->id,
             name: $this->normalizeTranslations($model->getTranslations('name')),
             slug: $this->normalizeTranslations($model->getTranslations('slug')),
-            description: $this->normalizeTranslations($model->getTranslations('description')),
+            description: $this->normalizeTranslationDocuments($model->getTranslations('description')),
             position: $model->position,
             active: $model->active,
             blogPosts: $this->referencesTo($model->blogPosts, 'BlogPost'),

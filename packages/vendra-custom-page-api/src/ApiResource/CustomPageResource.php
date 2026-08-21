@@ -54,7 +54,7 @@ final readonly class CustomPageResource
 {
     /**
      * @param array<string, string> $name
-     * @param array<string, string> $description
+     * @param array<string, array<array-key, mixed>|string> $description
      * @param array<string, string> $slug
      * @param array<int, MultimediaResource> $multimedia
      */

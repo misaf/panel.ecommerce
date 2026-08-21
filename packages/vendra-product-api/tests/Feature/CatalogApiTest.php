@@ -160,3 +160,29 @@ it('validates and applies the random order filter', function (): void {
     $this->getJson('/api/catalog/products?random=invalid', ['Accept' => 'application/vnd.api+json'])
         ->assertUnprocessable();
 });
+
+it('exposes localized tiptap description documents on products and categories', function (): void {
+    $document = [
+        'type'    => 'doc',
+        'content' => [[
+            'type'    => 'paragraph',
+            'content' => [['type' => 'text', 'text' => 'Hello']],
+        ]],
+    ];
+
+    $category = ProductCategoryFactory::new()->active()->create();
+    $category->setTranslations('description', ['en' => $document, 'fa' => $document])->save();
+
+    $product = ProductFactory::new()->forCategory($category)->create();
+    $product->setTranslations('description', ['en' => $document, 'fa' => $document])->save();
+
+    $this->getJson("/api/catalog/products/{$product->id}", ['Accept' => 'application/ld+json'])
+        ->assertOk()
+        ->assertJsonPath('description.en', $document)
+        ->assertJsonPath('description.fa.content.0.content.0.text', 'Hello');
+
+    $this->getJson("/api/catalog/product-categories/{$category->id}", ['Accept' => 'application/ld+json'])
+        ->assertOk()
+        ->assertJsonPath('description.en', $document)
+        ->assertJsonPath('description.fa', $document);
+});

@@ -48,7 +48,7 @@ final readonly class FaqCategoryResource
     /**
      * @param array<string, string> $name
      * @param array<string, string> $slug
-     * @param array<string, string> $description
+     * @param array<string, array<array-key, mixed>|string> $description
      * @param array<int, ResourceReference> $faqs
      * @param array<int, MultimediaResource> $multimedia
      */

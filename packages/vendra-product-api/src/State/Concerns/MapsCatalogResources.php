@@ -38,7 +38,7 @@ trait MapsCatalogResources
             id: $product->id,
             name: $this->normalizeTranslations($product->getTranslations('name')),
             slug: $this->normalizeTranslations($product->getTranslations('slug')),
-            description: $this->normalizeTranslations($product->getTranslations('description')),
+            description: $this->normalizeTranslationDocuments($product->getTranslations('description')),
             token: $product->token,
             quantity: $product->quantity,
             inStock: $product->in_stock,
@@ -70,7 +70,7 @@ trait MapsCatalogResources
             id: $category->id,
             name: $this->normalizeTranslations($category->getTranslations('name')),
             slug: $this->normalizeTranslations($category->getTranslations('slug')),
-            description: $this->normalizeTranslations($category->getTranslations('description')),
+            description: $this->normalizeTranslationDocuments($category->getTranslations('description')),
             position: $category->position,
             active: $category->active,
             products: $category->products
