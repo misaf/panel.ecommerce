@@ -7,10 +7,19 @@ name: vendra
 x-datastores: &datastores
   mysql: {condition: service_healthy}
   redis: {condition: service_healthy}
+
+# Healthy, not merely started. Migrations run in the entrypoint, and only for
+# the container whose command is frankenphp — so php migrates and every service
+# below skips it. Waiting on php having *started* let them begin against a
+# half-applied schema: php-api serving requests, five workers consuming jobs.
+# `migrate --isolated` does not close that either, because a second caller skips
+# the migration rather than waiting for it. php's healthcheck already gates on
+# /up after the entrypoint has finished, and carries a start period sized for a
+# first boot's migrations, so it is the signal that was wanted all along.
 x-after-app: &after-app
   mysql: {condition: service_healthy}
   redis: {condition: service_healthy}
-  php: {condition: service_started}
+  php: {condition: service_healthy}
 x-platform-environment: &platform-environment
   APP_NAME: "${APP_NAME:-Vendra}"
   APP_ENV: production
@@ -33,7 +42,12 @@ x-platform-environment: &platform-environment
   SESSION_SECURE_COOKIE: "${SESSION_SECURE_COOKIE:-true}"
   SESSION_DOMAIN: "${SESSION_DOMAIN:-null}"
   FILESYSTEM_DISK: "${FILESYSTEM_DISK:-public}"
-  LOG_CHANNEL: "${LOG_CHANNEL:-daily}"
+  # stderr, not a file. Only /app/storage/app is a volume, so a file channel
+  # writes into each container's own writable layer: seven partial logs, none
+  # visible to `vendra logs`, all destroyed when a container is replaced — which
+  # is on every deploy, exactly when they are wanted. The runtime collects
+  # stderr, so this is what makes `vendra logs <service>` show the application.
+  LOG_CHANNEL: "${LOG_CHANNEL:-stderr}"
   LOG_LEVEL: "${LOG_LEVEL:-warning}"
   PULSE_INGEST_DRIVER: redis
   PULSE_REDIS_CONNECTION: cache

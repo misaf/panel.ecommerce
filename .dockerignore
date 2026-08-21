@@ -7,10 +7,16 @@
 .github
 .gitignore
 pint.json
-.env
-.env.example
-.env.backup
-.env.production
+# No environment file enters the image, at any depth. A pattern is matched
+# against the path relative to the context root, so a bare ".env" excluded this
+# directory's file and nothing else — leaving docker/stacks/.env, which holds
+# the estate's DB_ROOT_PASSWORD, inside the context for the vendor stage's
+# `COPY . .` to pick up. Releases are built by CI from a clean checkout, where
+# neither file exists, so no published image carried one; a local `docker build`
+# would have. Configuration reaches a container through its environment, never
+# through a file baked into a layer.
+**/.env
+**/.env.*
 .phpactor.json
 .phpunit.result.cache
 /.codex
