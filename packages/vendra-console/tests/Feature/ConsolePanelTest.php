@@ -339,7 +339,7 @@ it('uses a wizard when creating a store and florist storefront', function (): vo
         ->assertWizardStepExists(2)
         ->assertWizardStepExists(3)
         ->assertWizardStepExists(4)
-        ->assertFormFieldDoesNotExist('create_storefront')
+        ->assertFormFieldExists('create_storefront')
         ->assertSee(__('console.storefront_map_query'))
         // The billing reseller is optional; leaving it empty makes a
         // platform-owned store, so it must not appear among the errors.
@@ -360,6 +360,23 @@ it('uses a wizard when creating a store and florist storefront', function (): vo
             'storefront_map_query'      => 'required',
         ])
         ->assertHasNoFormErrors(['reseller_id']);
+});
+
+it('lets a console admin create a store without a managed storefront', function (): void {
+    actAsConsoleAdmin();
+
+    livewire(CreateStore::class)
+        ->fillForm([
+            'domain'            => 'local-source.test',
+            'email'             => 'local-source@gmail.com',
+            'active'            => true,
+            'create_storefront' => false,
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    assertDatabaseHas('store_domains', ['name' => 'local-source.test']);
+    assertDatabaseMissing('storefront_deployments', ['domain' => 'local-source.test']);
 });
 
 it('suggests storefront identity from the store domain', function (): void {
