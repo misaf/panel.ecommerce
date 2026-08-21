@@ -46,6 +46,15 @@ final class StorefrontContainerDefinitionFactory
 
     public const string MANAGED_BY = 'vendra';
 
+    /**
+     * The domain a placed storefront is routed on.
+     *
+     * Read back by reconciliation: a container's labels cannot be edited, so
+     * this is what a running storefront still believes its host is, and the only
+     * way a converge pass can tell that a store's domain has moved on without it.
+     */
+    public const string DOMAIN_LABEL = 'io.vendra.domain';
+
     public function __construct(private readonly StorefrontSettings $settings) {}
 
     /**
@@ -126,7 +135,7 @@ final class StorefrontContainerDefinitionFactory
             // from one it did not and never replaces or removes somebody else's.
             self::MANAGED_BY_LABEL => self::MANAGED_BY,
             'io.vendra.slug'       => $slug,
-            'io.vendra.domain'     => $domain,
+            self::DOMAIN_LABEL     => $domain,
         ];
 
         if ('' !== $this->settings->certResolver) {

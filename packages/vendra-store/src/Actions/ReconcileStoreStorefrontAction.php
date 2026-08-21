@@ -67,14 +67,18 @@ final class ReconcileStoreStorefrontAction
             return StorefrontReconciliationOutcome::Started;
         }
 
-        if ($observed->state->isServing() && ! $observed->isServingOtherThan($this->desiredImage($deployment))) {
+        if ($observed->state->isServing()
+            && ! $observed->isServingOtherThan($this->desiredImage($deployment))
+            && ! $observed->isServingDomainOtherThan($deployment->domain)) {
             return StorefrontReconciliationOutcome::InSync;
         }
 
         /*
-         | Serving the wrong image, failing its health check, or in a state this
-         | layer has no vocabulary for. Replacing it is the only verb that reaches
-         | a known-good storefront from any of them.
+         | Serving the wrong image, routed on a domain the store has moved off,
+         | failing its health check, or in a state this layer has no vocabulary
+         | for. Replacing it is the only verb that reaches a known-good storefront
+         | from any of them — and for the domain it is the only one available at
+         | all, since a container's routing labels are fixed when it is created.
          */
         $this->redeploy($deployment);
 

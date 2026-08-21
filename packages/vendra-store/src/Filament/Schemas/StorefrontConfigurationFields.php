@@ -27,12 +27,7 @@ final class StorefrontConfigurationFields
                 ->description(__('console.storefront_configuration_description'))
                 ->schema([
                     ...($optional ? [
-                        Toggle::make('create_storefront')
-                            ->label(__('console.create_storefront'))
-                            ->helperText(__('console.create_storefront_hint'))
-                            ->default(false)
-                            ->live()
-                            ->columnSpanFull(),
+                        self::creationToggle(),
                     ] : []),
                     Grid::make(2)
                         ->schema([
@@ -46,6 +41,16 @@ final class StorefrontConfigurationFields
                 ->visibleOn('create')
                 ->columnSpanFull(),
         ];
+    }
+
+    public static function creationToggle(bool $default = false): Toggle
+    {
+        return Toggle::make('create_storefront')
+            ->label(__('console.create_storefront'))
+            ->helperText(__('console.create_storefront_hint'))
+            ->default($default)
+            ->live()
+            ->columnSpanFull();
     }
 
     /**

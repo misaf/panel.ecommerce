@@ -5,67 +5,32 @@ declare(strict_types=1);
 namespace Misaf\VendraStore\Actions;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Misaf\VendraStore\Models\Store;
-use Misaf\VendraStore\Models\StorefrontDeployment;
-use Throwable;
+use Misaf\VendraStore\Observers\StoreObserver;
 
 /**
- * Deletes a store, taking its storefront down first.
+ * Deletes a store, with its storefront settled by the same delete.
  *
- * The lifecycle is explicit rather than left to Eloquent's cascade: the cascade
- * would remove the deployment row and leave the container running with nothing
- * left that knows its name — an orphan serving a domain the platform no longer
- * believes it owns.
+ * The storefront half is not here. It used to be, and that was the bug: a store
+ * deleted through any other path — the console table, the reseller table,
+ * `OffboardResellerAction` — left its container running and serving the
+ * customer's domain. The cascade now lives in {@see StoreObserver}, which every
+ * delete passes through whether it came from an action or not, so a soft delete
+ * stops the storefront and a force delete destroys it no matter who asked.
  *
- * The two halves cannot be one transaction. A container removal is not
- * rollback-able, so it happens first and outside; only once the runtime is
- * settled do the business records go, inside a transaction of their own. A
- * failure in between leaves a store whose storefront is gone, which the
- * operator can retry — the reverse would leak infrastructure silently.
+ * What survives here is the transaction: deleting a store writes to `stores`,
+ * `store_domains`, and `storefront_deployments`, and a half-applied delete is a
+ * store with no domains still answering as though it had them.
  */
 final class DeleteStoreAction
 {
-    public function __construct(private readonly DestroyStoreStorefrontAction $destroyStorefront) {}
-
     /**
      * @param bool $force delete the store permanently rather than soft-deleting it
      */
     public function execute(Store $store, bool $force = false): void
     {
-        $deployment = StorefrontDeployment::query()
-            ->where('store_id', $store->getKey())
-            ->first();
-
-        if (null !== $deployment) {
-            $this->destroyStorefront->execute($deployment);
-        }
-
         DB::transaction(function () use ($store, $force): void {
             $force ? $store->forceDelete() : $store->delete();
         });
-    }
-
-    /**
-     * Delete the store even when its storefront cannot be reached.
-     *
-     * Offboarding must not be blocked by a runtime that is down, so the failure
-     * is recorded and the business records still go. The container is then a
-     * known orphan named in the log rather than an unknown one.
-     */
-    public function executeIgnoringStorefrontFailures(Store $store, bool $force = false): void
-    {
-        try {
-            $this->execute($store, $force);
-        } catch (Throwable $exception) {
-            Log::warning('Deleting a store storefront failed; deleting the store anyway.', [
-                'store_id'    => $store->getKey(),
-                'exception'   => $exception->getMessage(),
-            ]);
-
-            DB::transaction(function () use ($store, $force): void {
-                $force ? $store->forceDelete() : $store->delete();
-            });
-        }
     }
 }

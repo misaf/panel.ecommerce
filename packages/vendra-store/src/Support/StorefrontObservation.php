@@ -22,6 +22,7 @@ final class StorefrontObservation
         public readonly StorefrontRuntimeState $state,
         public readonly ?string $image = null,
         public readonly ?string $containerName = null,
+        public readonly ?string $domain = null,
     ) {}
 
     /**
@@ -34,6 +35,7 @@ final class StorefrontObservation
             state: StorefrontRuntimeState::fromContainer($container),
             image: $container?->image,
             containerName: $container?->name,
+            domain: $container?->labels[StorefrontContainerDefinitionFactory::DOMAIN_LABEL] ?? null,
         );
     }
 
@@ -57,5 +59,23 @@ final class StorefrontObservation
     public function isServingOtherThan(string $image): bool
     {
         return null !== $this->image && $this->image !== $image;
+    }
+
+    /**
+     * Whether the runtime is routing this storefront on some other domain.
+     *
+     * The same shape as the image check, and for the same reason: a container's
+     * labels are fixed at creation, so a store that changed domain leaves one
+     * still carrying a `Host()` rule for the old one — serving the previous
+     * address and nothing at the new one. Without this, a converge pass sees a
+     * healthy container running the right image and calls it in sync.
+     *
+     * An unobserved domain is not drift: a container placed before this label
+     * existed reports nothing, and rebuilding the estate over a missing label is
+     * a worse answer than leaving it alone.
+     */
+    public function isServingDomainOtherThan(string $domain): bool
+    {
+        return null !== $this->domain && $this->domain !== $domain;
     }
 }

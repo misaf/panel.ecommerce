@@ -8,17 +8,27 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
-use Misaf\VendraStore\Actions\DestroyStoreStorefrontAction;
-use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Contracts\StorefrontProvisioner;
+use Misaf\VendraStore\Support\StorefrontReference;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 use Throwable;
 
 /**
- * Takes one storefront down off the request lifecycle.
+ * Removes one storefront's container, off the request lifecycle.
  *
  * Queued for the same reason deployment is: only the storefront worker holds a
- * runtime socket, and an operator closing a store should not wait on a
- * container to stop. It runs on the same queue for that reason.
+ * runtime socket, and an operator closing a store should not wait on a container
+ * to stop. It runs on the same queue for that reason.
+ *
+ * Addressed by slug, not by deployment id, and that is the point of it. This job
+ * is dispatched while a store is being force-deleted, so the deployment row it
+ * would otherwise look up is removed by the cascade before the worker ever picks
+ * the job up. Carrying the slug — the platform's stable handle, and what the
+ * container name derives from — is what lets it outlive the record.
+ *
+ * There is nothing to record afterwards: the row is already gone, so this
+ * reaches the provisioner port directly rather than through an action that would
+ * have no state left to write.
  */
 final class DestroyStorefrontJob implements NotTenantAware, ShouldBeUnique, ShouldQueue
 {
@@ -30,17 +40,19 @@ final class DestroyStorefrontJob implements NotTenantAware, ShouldBeUnique, Shou
 
     public int $uniqueFor = 3600;
 
-    public function __construct(public readonly int $deploymentId)
+    public function __construct(public readonly string $slug)
     {
         $this->onQueue(ProvisionStorefrontJob::QUEUE);
     }
 
-    public function handle(DestroyStoreStorefrontAction $destroy): void
+    /**
+     * Removing an absent container is a success: the provisioner treats a 404 as
+     * the outcome that was asked for, so a retry after a partial failure — and a
+     * second dispatch for a storefront already gone — both settle quietly.
+     */
+    public function handle(StorefrontProvisioner $provisioner): void
     {
-        $deployment = StorefrontDeployment::query()->find($this->deploymentId);
-
-        // Already gone is the outcome this job exists to produce.
-        $deployment instanceof StorefrontDeployment ? $destroy->execute($deployment) : null;
+        $provisioner->destroy(new StorefrontReference($this->slug));
     }
 
     /** @return list<int> */
@@ -51,18 +63,19 @@ final class DestroyStorefrontJob implements NotTenantAware, ShouldBeUnique, Shou
 
     public function uniqueId(): string
     {
-        return (string) $this->deploymentId;
+        return $this->slug;
     }
 
     /**
-     * A storefront that could not be removed is a leaked container, so it is
-     * named in the log rather than failing quietly with the row still present.
+     * A storefront that could not be removed is a leaked container, and by now
+     * there is no row left to record that against — so it is named in the log,
+     * with the slug an operator needs to finish the job by hand.
      */
     public function failed(?Throwable $exception): void
     {
         Log::error('Destroying a storefront failed; its container may still be running.', [
-            'deployment_id' => $this->deploymentId,
-            'exception'     => $exception?->getMessage(),
+            'slug'      => $this->slug,
+            'exception' => $exception?->getMessage(),
         ]);
     }
 }
