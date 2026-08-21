@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use Misaf\VendraApi\ApiResource\McpCollectionInput;
 use Misaf\VendraApi\ApiResource\McpResourceIdentifierInput;
 use Misaf\VendraApi\ApiResource\ResourceReference;
@@ -48,10 +49,14 @@ use Misaf\VendraProductApi\State\ProductMapper;
         ),
     ],
 )]
-#[Get(uriTemplate: '/catalog/products/{id}')]
+#[Get(
+    uriTemplate: '/catalog/products/{id}',
+    openapi: new OpenApiOperation(tags: ['Product']),
+)]
 #[GetCollection(
     uriTemplate: '/catalog/products',
     order: ['position' => 'ASC'],
+    openapi: new OpenApiOperation(tags: ['Product']),
     parameters: [
         'inStock'         => new QueryParameter(key: 'inStock', property: 'in_stock', filter: BooleanFilter::class, constraints: ['boolean']),
         'categoryId'      => new QueryParameter(key: 'categoryId', property: 'product_category_id', filter: EqualsFilter::class, constraints: ['integer', 'min:1']),
@@ -79,7 +84,7 @@ final readonly class ProductResource
     /**
      * @param array<string, string> $name
      * @param array<string, string> $slug
-     * @param array<string, string> $description
+     * @param array<string, array<array-key, mixed>|string> $description
      * @param array<int, ProductPriceResource> $productPrices
      * @param array<int, MultimediaResource> $multimedia
      * @param array<int, ResourceReference> $options
