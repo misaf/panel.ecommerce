@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Developer Logins packag
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-developer-logins test` and `composer --working-dir=packages/vendra-developer-logins analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-developer-logins` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -39,4 +39,4 @@ description: "Create, modify, review, or test the Vendra Developer Logins packag
 
 - Add focused Pest tests for local/non-local behavior, disabled configuration, missing roles/users, role and guard filtering, configured columns, switching, and panel registration.
 - Preserve the architecture expectation that `Misaf\VendraDeveloperLogins` does not use `Misaf\VendraTenant`.
-- Run `composer --working-dir=packages/vendra-developer-logins test` and `composer --working-dir=packages/vendra-developer-logins analyse`; run Pint when PHP changes.
+- Run `php artisan test --compact --testsuite=vendra-developer-logins` and `composer stan`; run Pint when PHP changes.

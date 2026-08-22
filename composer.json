@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "api-platform/laravel": "^4.3",
         "api-platform/mcp": "^4.3.14",
         "awcodes/filament-badgeable-column": "^4.0",
@@ -48,7 +48,6 @@
         "mcp/sdk": "^0.7",
         "misaf/filament-jalali": "^5.1.4",
         "misaf/laravel-authify-log": "^1.0.2",
-        "misaf/laravel-email-validation": "^1.0",
         "misaf/laravel-email-validation-emailable": "^1.0",
         "misaf/laravel-email-webhooks": "^1.0.1",
         "misaf/vendra-activity-log": "self.version",
@@ -268,7 +267,7 @@
         ],
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",
-            "@php artisan test --parallel"
+            "@php artisan test --compact --parallel --tia"
         ],
         "stan": [
             "@php vendor/bin/phpstan analyse --memory-limit=1G"

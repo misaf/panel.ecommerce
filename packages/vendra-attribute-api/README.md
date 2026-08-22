@@ -11,7 +11,7 @@ Read-only API Platform resources for the `misaf/vendra-attribute` domain module.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - `misaf/vendra-attribute`
 - `misaf/vendra-api`
@@ -59,11 +59,11 @@ Tenancy is inherited from `misaf/vendra-attribute` domain models, which derive t
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-attribute-api
+composer stan
 ```
 
 ## License

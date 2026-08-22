@@ -15,7 +15,7 @@ Reusable, tenant-agnostic attributes and polymorphic values for Vendra applicati
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - `misaf/vendra-support`
@@ -135,11 +135,11 @@ php artisan vendra-attribute:seed tenant-slug
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-attribute
+composer stan
 ```
 
 ## License

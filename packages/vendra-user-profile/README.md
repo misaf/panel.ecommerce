@@ -11,7 +11,7 @@ Tenant-aware user profiles and Filament profile management for Vendra applicatio
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - Laravel Pennant 1
@@ -57,11 +57,11 @@ class included in `Feature::all()` before it has been checked.
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-user-profile
+composer stan
 ```
 
 ## License

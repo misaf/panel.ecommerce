@@ -16,7 +16,7 @@ never mentions containers — the shipped implementation happens to use them.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - `misaf/vendra-container` for the shipped provisioner, plus `misaf/vendra-tenant`,

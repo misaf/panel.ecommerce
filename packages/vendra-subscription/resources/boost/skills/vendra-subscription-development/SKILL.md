@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Subscription module in 
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-subscription test` and `composer --working-dir=packages/vendra-subscription analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-subscription` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -53,5 +53,5 @@ Treat `packages/vendra-subscription` as a **generic subscription + durable-payme
 
 - Keep tests purposeful: cover plan pricing/entitlements, `PlanInUseException`, subscription scopes/state transitions, and the payment-engine lifecycle (apply-result state machine, events raised) — not framework internals or the host's concrete-subscriber reactions (which the host app tests).
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `not->toUse` for every domain provider including `Misaf\VendraTenant`, `Misaf\VendraUser`, and `Misaf\VendraPermission` — the engine must stay subscriber-agnostic.
-- Run module checks: `composer --working-dir=packages/vendra-subscription test` and `composer --working-dir=packages/vendra-subscription analyse`.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-subscription` and `composer stan`.
 - If PHP files changed, run `vendor/bin/pint --dirty --format agent`.

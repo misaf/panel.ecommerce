@@ -15,7 +15,7 @@ Shared Pest utilities for Vendra package test suites.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Pest 4
 - `misaf/vendra-support`
@@ -50,11 +50,11 @@ expect($listPage)->toSortByEverySortableColumn($recordsInAscendingOrder);
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-testing
+composer stan
 ```
 
 ## License

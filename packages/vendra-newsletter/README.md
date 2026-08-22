@@ -10,7 +10,7 @@ Tenant-aware newsletter management for Vendra applications.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - Livewire 4
@@ -79,11 +79,11 @@ Resources are available in the shared `Marketing` cluster on the `admin` panel:
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-newsletter
+composer stan
 ```
 
 ## License

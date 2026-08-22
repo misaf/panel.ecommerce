@@ -14,7 +14,7 @@ Filament administration, permissions, and demo-content seeding.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - `misaf/vendra-support`
@@ -44,11 +44,11 @@ manually.
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-cart
+composer stan
 ```
 
 ## License

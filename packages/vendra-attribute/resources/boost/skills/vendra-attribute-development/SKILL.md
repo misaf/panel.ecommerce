@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Attribute package in pa
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-attribute test` and `composer --working-dir=packages/vendra-attribute analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-attribute` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -47,4 +47,4 @@ description: "Create, modify, review, or test the Vendra Attribute package in pa
 - Update migrations, factories, policies, permission seeders, configuration, and translation parity when their contracts change.
 - Cover polymorphic values, resolver wiring, units, optional tags, policies, and user-visible Filament behavior with focused Pest tests.
 - Preserve architecture expectations against Product, Tenant, Vendra Tagger, and Spatie Tags.
-- Run `composer --working-dir=packages/vendra-attribute test` and `composer --working-dir=packages/vendra-attribute analyse`; run Pint when PHP changes.
+- Run `php artisan test --compact --testsuite=vendra-attribute` and `composer stan`; run Pint when PHP changes.

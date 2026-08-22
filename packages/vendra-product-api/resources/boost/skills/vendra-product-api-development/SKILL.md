@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Product API module in p
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-product-api test` and `composer --working-dir=packages/vendra-product-api analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-product-api` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -82,5 +82,5 @@ Use Pest tests to protect API contracts.
 - Add tests when resource shape, `shortName`, or URI paths change.
 - Add tests when query parameters, filters, or pagination change.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraProductApi')->not->toUse('Misaf\VendraTenant')`. The API module may depend on `Misaf\VendraProduct`, but not on any concrete tenant provider.
-- Run module checks from the package when possible: `composer --working-dir=packages/vendra-product-api test` and `composer --working-dir=packages/vendra-product-api analyse`.
-- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-product-api` and `composer stan`.
+- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app.

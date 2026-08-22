@@ -17,7 +17,7 @@ The engine is subscriber-agnostic: subscribe, activate, charge, and enforce all 
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - `misaf/vendra-support`
 
@@ -48,11 +48,11 @@ php artisan vendra-subscription:report-payment-backlog --stale-minutes=60
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-subscription
+composer stan
 ```
 
 ## License

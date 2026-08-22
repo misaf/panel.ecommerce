@@ -12,7 +12,7 @@ Tenant-aware language catalogs and database-backed translation lines for Vendra 
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - `misaf/vendra-support`
@@ -117,11 +117,11 @@ The global language switcher uses the current tenant's enabled languages in disp
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-language
+composer stan
 ```
 
 ## License

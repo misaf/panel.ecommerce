@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Support module in packa
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-support test` and `composer --working-dir=packages/vendra-support analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-support` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -94,5 +94,5 @@ Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single sour
 - Keep tests purposeful: cover the resolver-derived tenant contract, scopes, schema helpers, table registration, and base seeder/command behavior with tenancy both on and off.
 - Keep the root fresh-schema registry test aligned so every application table containing `tenant_id`, except tenant-provider-owned relationship tables, is registered for legacy schema retrofits.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraSupport')->not->toUse('Misaf\VendraTenant')` — support must never couple to a concrete provider.
-- Run module checks: `composer --working-dir=packages/vendra-support test` and `composer --working-dir=packages/vendra-support analyse`.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-support` and `composer stan`.
 - If PHP files changed, run `vendor/bin/pint --dirty --format agent`.

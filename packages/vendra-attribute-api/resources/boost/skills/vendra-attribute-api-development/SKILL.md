@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Attribute API package i
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-attribute-api test` and `composer --working-dir=packages/vendra-attribute-api analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-attribute-api` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -42,4 +42,4 @@ Use `vendra-api-development` for shared API Platform infrastructure, `laravel-be
 - Update both `ApiResource` DTOs, State providers, query parameters, service-provider registration, and tests together.
 - Add focused Pest coverage for both resource types, active-resource filtering, fields, filters, pagination, read-only behavior, and resource registration.
 - Preserve the architecture expectation that `Misaf\VendraAttributeApi` does not use `Misaf\VendraTenant`.
-- Run `composer --working-dir=packages/vendra-attribute-api test` and `composer --working-dir=packages/vendra-attribute-api analyse`; run Pint when PHP changes.
+- Run `php artisan test --compact --testsuite=vendra-attribute-api` and `composer stan`; run Pint when PHP changes.

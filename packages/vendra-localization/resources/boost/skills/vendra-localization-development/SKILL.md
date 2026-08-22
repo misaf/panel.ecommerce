@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Localization module in 
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-localization test` and `composer --working-dir=packages/vendra-localization analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-localization` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -44,5 +44,5 @@ Treat `packages/vendra-localization` as framework-level request locale resolutio
 
 - Keep tests purposeful: cover each resolver, the chain precedence, middleware application, and `Vary`-header output.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraLocalization')->not->toUse('Misaf\VendraTenant')`.
-- Run module checks: `composer --working-dir=packages/vendra-localization test` and `composer --working-dir=packages/vendra-localization analyse`.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-localization` and `composer stan`.
 - If PHP files changed, run `vendor/bin/pint --dirty --format agent`.

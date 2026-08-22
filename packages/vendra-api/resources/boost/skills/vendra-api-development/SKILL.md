@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra API infrastructure modu
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-api test` and `composer --working-dir=packages/vendra-api analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-api` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -46,5 +46,5 @@ Treat `packages/vendra-api` as shared API Platform infrastructure, not a domain 
 
 - Keep tests purposeful: cover filter/sorter behavior and edge cases, not framework internals.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraApi')->not->toUse('Misaf\VendraTenant')`.
-- Run module checks: `composer --working-dir=packages/vendra-api test` and `composer --working-dir=packages/vendra-api analyse`.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-api` and `composer stan`.
 - If PHP files changed, run `vendor/bin/pint --dirty --format agent`.

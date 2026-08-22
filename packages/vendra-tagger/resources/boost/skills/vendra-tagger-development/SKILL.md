@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Tagger module in packag
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-tagger test` and `composer --working-dir=packages/vendra-tagger analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-tagger` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -102,6 +102,6 @@ Prefer focused Pest tests in the module.
 - Add or update unit tests for the model/factory contract, sortable column, custom slug preservation, permission coverage, navigation/config behavior, and translation parity.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraTagger')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
-- Run `composer --working-dir=packages/vendra-tagger test` and `composer --working-dir=packages/vendra-tagger analyse` when the package has its own installed dependencies. In the monorepo, use the root `vendor/bin/pest packages/vendra-tagger/tests` and targeted root PHPStan command.
+- Run the suite from the host app: `php artisan test --compact --testsuite=vendra-tagger`. Use the host-level PHPStan command for analysis.
 - Validate package configuration with the root `tests/Unit/PackageConfigurationTest.php` and confirm `php artisan config:cache` succeeds after config changes.
 - If PHP files changed, run Pint for only the touched files when the worktree contains unrelated changes.

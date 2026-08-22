@@ -13,7 +13,7 @@ Other API modules use stable resource references and do not depend on this packa
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - `misaf/vendra-api`
 - `misaf/vendra-multimedia`
@@ -28,11 +28,11 @@ The service provider registers the resource and provider automatically.
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-multimedia-api
+composer stan
 ```
 
 ## License

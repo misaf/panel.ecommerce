@@ -13,7 +13,7 @@ Dedicated DTO resources expose translated catalog data and stable references for
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - `misaf/vendra-api`
 - `misaf/vendra-multimedia-api`
@@ -30,11 +30,11 @@ The service provider registers the resources and provider automatically.
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-product-api
+composer stan
 ```
 
 ## License

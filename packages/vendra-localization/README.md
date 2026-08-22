@@ -14,7 +14,7 @@ Request locale resolution for Laravel applications.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Pest 4
 
@@ -136,11 +136,11 @@ Laravel dispatches `Illuminate\Foundation\Events\LocaleUpdated` whenever `App::s
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-localization
+composer stan
 ```
 
 ## License

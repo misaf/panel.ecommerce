@@ -12,7 +12,7 @@ host application and every first-party Vendra package in one Composer monorepo.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Composer
 - Node.js and npm

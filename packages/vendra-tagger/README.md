@@ -13,7 +13,7 @@ Translated, sortable, and tenant-compatible tag management for Vendra applicatio
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - `misaf/vendra-support`
@@ -124,11 +124,11 @@ By default, tag management is available on the `admin` panel in the shared Conte
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-tagger
+composer stan
 ```
 
 From the Vendra monorepo:

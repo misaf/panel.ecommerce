@@ -18,7 +18,7 @@ For example, `Product` is exposed at `/api/catalog/products`.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - API Platform for Laravel 4.3
 
@@ -32,11 +32,11 @@ The service provider is auto-registered.
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-api
+composer stan
 ```
 
 ## License

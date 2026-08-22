@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Affiliate API package i
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-affiliate-api test` and `composer --working-dir=packages/vendra-affiliate-api analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-affiliate-api` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -42,4 +42,4 @@ Use `vendra-api-development` for shared API Platform infrastructure, `laravel-be
 - Update the `#[ApiResource]` DTOs, State providers/processors, query-parameter and `FormRequest` validation, and operation routes together when the contract changes.
 - Add focused Pest coverage for public fields, active/suspended visibility, filtering, pagination, the referral-visit write, and operation routes.
 - Preserve the architecture expectation that `Misaf\VendraAffiliateApi` does not use `Misaf\VendraTenant`.
-- Run `composer --working-dir=packages/vendra-affiliate-api test` and `composer --working-dir=packages/vendra-affiliate-api analyse`; run Pint when PHP changes.
+- Run `php artisan test --compact --testsuite=vendra-affiliate-api` and `composer stan`; run Pint when PHP changes.

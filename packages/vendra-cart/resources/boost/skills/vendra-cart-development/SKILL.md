@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Cart module in packages
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-cart test` and `composer --working-dir=packages/vendra-cart analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-cart` and `composer stan`.
 
 ## Translatable Persistence
 

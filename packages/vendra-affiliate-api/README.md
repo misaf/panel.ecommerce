@@ -15,7 +15,7 @@ no user, commission, or payout data is ever serialized.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - `misaf/vendra-affiliate`
 - `misaf/vendra-api`
@@ -38,11 +38,11 @@ The service provider registers its resources, provider, and processor automatica
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-affiliate-api
+composer stan
 ```
 
 ## License

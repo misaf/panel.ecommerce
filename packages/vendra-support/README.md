@@ -17,7 +17,7 @@ The package binds null capability resolvers by default. Concrete providers can r
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 
@@ -37,11 +37,11 @@ php artisan vendor:publish --tag=vendra-support-config
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-support
+composer stan
 ```
 
 ## License

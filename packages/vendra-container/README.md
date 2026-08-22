@@ -11,7 +11,7 @@ run it.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - A reachable Docker or Podman endpoint (unix socket, `tcp://`, or `http(s)://`)
 

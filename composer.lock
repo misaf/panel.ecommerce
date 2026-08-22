@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56ca9e83781d9a5c86122bf0ccec589c",
+    "content-hash": "76c09a9a901403b8d1923812af5539b9",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5403,16 +5403,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.35.2",
+            "version": "3.35.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "b277b5dc3d56650b68904117124e79c851e12376"
+                "reference": "5fc8404762179ae514678487b23494fd69b2309c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/b277b5dc3d56650b68904117124e79c851e12376",
-                "reference": "b277b5dc3d56650b68904117124e79c851e12376",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5fc8404762179ae514678487b23494fd69b2309c",
+                "reference": "5fc8404762179ae514678487b23494fd69b2309c",
                 "shasum": ""
             },
             "require": {
@@ -5480,22 +5480,22 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.35.2"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.35.3"
             },
-            "time": "2026-07-06T14:42:07+00:00"
+            "time": "2026-08-22T12:55:54+00:00"
         },
         {
             "name": "league/flysystem-local",
-            "version": "3.31.0",
+            "version": "3.35.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079"
+                "reference": "a099b24dce160f3b2239043d13d47c4a1a214ea4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/2f669db18a4c20c755c2bb7d3a7b0b2340488079",
-                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/a099b24dce160f3b2239043d13d47c4a1a214ea4",
+                "reference": "a099b24dce160f3b2239043d13d47c4a1a214ea4",
                 "shasum": ""
             },
             "require": {
@@ -5529,9 +5529,9 @@
                 "local"
             ],
             "support": {
-                "source": "https://github.com/thephpleague/flysystem-local/tree/3.31.0"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.35.3"
             },
-            "time": "2026-01-23T15:30:45+00:00"
+            "time": "2026-08-12T13:29:21+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -6314,37 +6314,44 @@
         },
         {
             "name": "misaf/laravel-email-validation",
-            "version": "v1.0.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/misaf/laravel-email-validation.git",
-                "reference": "0017dd3dcf532af488dbd2c235bf65ae94faafc6"
+                "reference": "388111b7baa544f607c95aea4f713d479401f278"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/misaf/laravel-email-validation/zipball/0017dd3dcf532af488dbd2c235bf65ae94faafc6",
-                "reference": "0017dd3dcf532af488dbd2c235bf65ae94faafc6",
+                "url": "https://api.github.com/repos/misaf/laravel-email-validation/zipball/388111b7baa544f607c95aea4f713d479401f278",
+                "reference": "388111b7baa544f607c95aea4f713d479401f278",
                 "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "^13.0",
                 "illuminate/support": "^13.0",
-                "php": "^8.3",
-                "spatie/laravel-package-tools": "^1.93.1"
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/http-kernel": "^8.1"
             },
             "require-dev": {
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
+                "larastan/larastan": "^3.10",
+                "laravel/boost": "^2.5",
+                "laravel/pint": "^1.3",
+                "mockery/mockery": "^1.6",
+                "monorepo-php/monorepo": "^12.7",
+                "nunomaduro/collision": "^8.9",
                 "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-arch": "^4.0.2",
-                "pestphp/pest-plugin-laravel": "^4.1",
-                "pestphp/pest-plugin-profanity": "^4.2.1",
-                "pestphp/pest-plugin-type-coverage": "^4.0.4",
-                "phpstan/extension-installer": "^1.4.3"
+                "pestphp/pest": "^5.1",
+                "pestphp/pest-plugin-arch": "^5.0",
+                "pestphp/pest-plugin-laravel": "^5.0",
+                "pestphp/pest-plugin-profanity": "^5.0",
+                "pestphp/pest-plugin-type-coverage": "^5.0",
+                "phpstan/extension-installer": "^1.4"
+            },
+            "suggest": {
+                "misaf/laravel-email-validation-bouncer": "Adds the \"bouncer\" deliverability driver, backed by the Bouncer API (https://usebouncer.com)",
+                "misaf/laravel-email-validation-emailable": "Adds the \"emailable\" deliverability driver, backed by the Emailable API (https://emailable.com)"
             },
             "type": "library",
             "extra": {
@@ -6383,42 +6390,28 @@
                 "issues": "https://github.com/misaf/laravel-email-validation/issues",
                 "source": "https://github.com/misaf/laravel-email-validation"
             },
-            "time": "2026-07-26T00:38:12+00:00"
+            "time": "2026-08-22T02:33:58+00:00"
         },
         {
             "name": "misaf/laravel-email-validation-emailable",
-            "version": "v1.0.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/misaf/laravel-email-validation-emailable.git",
-                "reference": "9150c56a7c758848e15d8df74da37652de856650"
+                "reference": "099024b9a47cfb780bd6f4fb647e2a8c327ea009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/misaf/laravel-email-validation-emailable/zipball/9150c56a7c758848e15d8df74da37652de856650",
-                "reference": "9150c56a7c758848e15d8df74da37652de856650",
+                "url": "https://api.github.com/repos/misaf/laravel-email-validation-emailable/zipball/099024b9a47cfb780bd6f4fb647e2a8c327ea009",
+                "reference": "099024b9a47cfb780bd6f4fb647e2a8c327ea009",
                 "shasum": ""
             },
             "require": {
                 "illuminate/http": "^13.0",
                 "illuminate/support": "^13.0",
                 "misaf/laravel-email-validation": "^1.0",
-                "php": "^8.3",
-                "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^4.7.5",
-                "pestphp/pest-plugin-arch": "^4.0.2",
-                "pestphp/pest-plugin-laravel": "^4.1",
-                "pestphp/pest-plugin-profanity": "^4.2.1",
-                "pestphp/pest-plugin-type-coverage": "^4.0.4",
-                "phpstan/extension-installer": "^1.4.3"
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93"
             },
             "type": "library",
             "extra": {
@@ -6457,7 +6450,7 @@
                 "issues": "https://github.com/misaf/laravel-email-validation-emailable/issues",
                 "source": "https://github.com/misaf/laravel-email-validation-emailable"
             },
-            "time": "2026-07-26T00:38:53+00:00"
+            "time": "2026-08-22T02:33:05+00:00"
         },
         {
             "name": "misaf/laravel-email-webhooks",
@@ -6532,30 +6525,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "391257d516262ccbe2309049d391bf526f19c4b9"
+                "reference": "f6b3d125442af11e4fa4e1b7999a07e804ce4ddb"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-activitylog": "^5.0",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -6576,20 +6554,6 @@
                     "Misaf\\VendraActivityLog\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraActivityLog\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -6626,27 +6590,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
-                "reference": "4fa77a99c31432b751affb2646b51dab04053518"
+                "reference": "c4f1bae04931ce0e4d06d02828a7b2dc3a2aa33f"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-user-profile": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -6667,20 +6617,6 @@
                     "Misaf\\VendraAddress\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraAddress\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -6716,31 +6652,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "56f3874f1397eaa1a572bcfb30e6f704982bc4d3"
+                "reference": "05645778c6a2584824ebd7ab50d3b2ba7ca399aa"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-transaction": "self.version",
                 "misaf/vendra-user": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-queueable-action": "^2.17"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-tagger": "Install this in the host application to assign typed tags to affiliates."
@@ -6764,20 +6684,6 @@
                     "Misaf\\VendraAffiliate\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraAffiliate\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -6811,30 +6717,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate-api",
-                "reference": "54039b6ada9c71516bafa437259cec1bd77840da"
+                "reference": "12c2e62cb8838c50ad64f1c6b022822323fc92f9"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-affiliate": "self.version",
                 "misaf/vendra-api": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -6853,20 +6743,6 @@
                 "psr-4": {
                     "Misaf\\VendraAffiliateApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -6902,30 +6778,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-api",
-                "reference": "277bb6abf15dc1bec908838d9a6b182e033adbbb"
+                "reference": "96fc568af0900a71f36720348ce5adacdfad94a3"
             },
             "require": {
                 "api-platform/laravel": "^4.3",
                 "illuminate/database": "^13.0",
                 "illuminate/support": "^13.0",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -6944,20 +6804,6 @@
                 "psr-4": {
                     "Misaf\\VendraApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -6993,29 +6839,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "a86ce5c69728ea1259f65700586a64751a002c28"
+                "reference": "20530b8e45e4767bb435c38d53e8c5773f1c519e"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-tagger": "Install this in the host application to assign typed tags to attributes."
@@ -7039,20 +6869,6 @@
                     "Misaf\\VendraAttribute\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraAttribute\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7088,31 +6904,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "67365085c8b83d405bcbd8484793dc73e7291654"
+                "reference": "b3b63f94628872d036c8c8aa279fc8257f08e666"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "self.version",
                 "misaf/vendra-attribute": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-product": "self.version",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7131,20 +6930,6 @@
                 "psr-4": {
                     "Misaf\\VendraAttributeApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7180,30 +6965,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "afae240442b8d3473dd86e6b90f1827d923e9dda"
+                "reference": "335b344b20afb68ac4bb2e7311b5ed2048d82354"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/laravel-authify-log": "^1.0.2",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7224,20 +6993,6 @@
                     "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraAuthifyLog\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7272,7 +7027,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "f1eb46113390aa3838672fa3c44d74a60c71035e"
+                "reference": "d1b0493e56c5c5eaedc8a9b3a4d03e3873b26aad"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7280,26 +7035,10 @@
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-tagger": "Install this in the host application to assign typed tags to blog posts."
@@ -7323,20 +7062,6 @@
                     "Misaf\\VendraBlog\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraBlog\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7372,31 +7097,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
-                "reference": "bf7aac210f5695cfa3cc6f26c958bad9f0a78f23"
+                "reference": "f3b086e397fc30ecbcdb6d219f7f979424dc7e9b"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "self.version",
                 "misaf/vendra-blog": "self.version",
                 "misaf/vendra-multimedia-api": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7415,20 +7124,6 @@
                 "psr-4": {
                     "Misaf\\VendraBlogApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7464,28 +7159,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart",
-                "reference": "d4c1bec6e3dbdaa3b5edbb67f5165dce86060a93"
+                "reference": "8c8541f2e75c35f77ffbe9623e67b44a77a10e03"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7506,20 +7185,6 @@
                     "Misaf\\VendraCart\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraCart\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7555,30 +7220,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "6f9332bb445113a32df1568cf3156a3746a21af6"
+                "reference": "b5253b162fd0f43c1212abd59eb60b30a3fd1640"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "self.version",
                 "misaf/vendra-cart": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7597,20 +7246,6 @@
                 "psr-4": {
                     "Misaf\\VendraCartApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7646,7 +7281,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-console",
-                "reference": "7e8aab8078cee72f7126d2c33bf918e9b2372c54"
+                "reference": "56150d3aeccef16e2e9d201b20b01fbb93e75cf3"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7663,26 +7298,8 @@
                 "misaf/vendra-subscription": "self.version",
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-tenant": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "misaf/vendra-user": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-livewire": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7703,20 +7320,6 @@
                     "Misaf\\VendraConsole\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraConsole\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7752,28 +7355,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-container",
-                "reference": "e8abe6e8ea6714a3f4a8cb4efb3614d5422adff2"
+                "reference": "83416918aacc27a1718e8501990bb913cca24899"
             },
             "require": {
                 "illuminate/http": "^13.0",
                 "illuminate/support": "^13.0",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7792,20 +7380,6 @@
                 "psr-4": {
                     "Misaf\\VendraContainer\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7842,32 +7416,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
-                "reference": "3c75013a2ac555db4f613ed0b2a15c2dfa10caa2"
+                "reference": "21a78cbca5600c8a5fd74ccd63fbb09186346262"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
                 "moneyphp/crypto-currencies": "^1.1.0",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7888,20 +7446,6 @@
                     "Misaf\\VendraCurrency\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraCurrency\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -7939,7 +7483,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page",
-                "reference": "b329950f402089a73e3478b09476dd5f1c5b7d9a"
+                "reference": "c2737905352785b1e12cd001909fc0b717b13876"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7947,26 +7491,10 @@
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -7987,20 +7515,6 @@
                     "Misaf\\VendraCustomPage\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraCustomPage\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8038,31 +7552,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page-api",
-                "reference": "31465fd79a0609d55ede674dad25478729bcba9a"
+                "reference": "e28865926b2963009139dadec91c957db7176eae"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "self.version",
                 "misaf/vendra-custom-page": "self.version",
                 "misaf/vendra-multimedia-api": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8081,20 +7579,6 @@
                 "psr-4": {
                     "Misaf\\VendraCustomPageApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8130,28 +7614,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "8ded13c0d158fac0a6409b57420a7feb2191b20f"
+                "reference": "de02f54116888ab4d063876f7e0a9cb64492f16d"
             },
             "require": {
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-user-profile": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8172,20 +7642,6 @@
                     "Misaf\\VendraDocument\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraDocument\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8221,7 +7677,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
-                "reference": "ec151dcf9d6296e9fc2e93aaada607dbbe7d0883"
+                "reference": "1e4b39d23479c241299038229aeacafbea5e5c2b"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8229,26 +7685,10 @@
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-tagger": "Install this in the host application to assign typed tags to FAQs."
@@ -8272,20 +7712,6 @@
                     "Misaf\\VendraFaq\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraFaq\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8321,31 +7747,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
-                "reference": "9780af76b9ed4b6012ad56e1a699e348c88cf62d"
+                "reference": "4eaa1ce4cec21f1425e47240dadfd40eedbd5a1a"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "self.version",
                 "misaf/vendra-faq": "self.version",
                 "misaf/vendra-multimedia-api": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8364,20 +7774,6 @@
                 "psr-4": {
                     "Misaf\\VendraFaqApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8413,32 +7809,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
-                "reference": "ddeb03783310266e805d2a340353f7fc3aea1008"
+                "reference": "533a2ad99ce098976613bed6a362594de164d65d"
             },
             "require": {
                 "bezhansalleh/filament-language-switch": "^5.0",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-translation-loader": "^2.8.3"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-localization": "self.version",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-localization": "Bridges the tenant's enabled languages into request locale resolution (adds a tenant-default resolver and feeds the supported locales)."
@@ -8462,20 +7841,6 @@
                     "Misaf\\VendraLanguage\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraLanguage\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8511,28 +7876,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "169a10e5a86df9e03d6923409cbf19864efbaf44"
+                "reference": "c60fc98577daf8e6c7c65ddbb7b2e8db1ac5e7c9"
             },
             "require": {
                 "illuminate/contracts": "^13.0",
                 "illuminate/http": "^13.0",
                 "illuminate/support": "^13.0",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.10.0",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8551,20 +7902,6 @@
                 "psr-4": {
                     "Misaf\\VendraLocalization\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8600,31 +7937,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
-                "reference": "2de17d95c2b1d7428279b16314beb22825c1268e"
+                "reference": "ee15ff2f1f64468fbb5909e38c5214c281a32713"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "filament/spatie-laravel-media-library-plugin": "^5.6.8",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-medialibrary": "^11.23.2",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8643,20 +7965,6 @@
                 "psr-4": {
                     "Misaf\\VendraMultimedia\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8692,30 +8000,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
-                "reference": "428a4a943eac4f60808f63004c2882864f6fa916"
+                "reference": "ac2bb41934b7034d02bd186dbbd5fd7f4ee76493"
             },
             "require": {
                 "illuminate/support": "^13.0",
                 "misaf/vendra-api": "self.version",
                 "misaf/vendra-multimedia": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8734,20 +8026,6 @@
                 "psr-4": {
                     "Misaf\\VendraMultimediaApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8783,29 +8061,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
-                "reference": "a3c9230bf825ba2c9329cbe05cb870695635c49c"
+                "reference": "bf5d222c7ce2fd990f3961e51b319addd2735d5d"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8826,20 +8088,6 @@
                     "Misaf\\VendraNewsletter\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraNewsletter\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8875,34 +8123,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
-                "reference": "5838294f392b7143d1e7ebfebad7631d2884c533"
+                "reference": "9c7a58767e02a92d893fcdb2357ee998c7a04304"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "laravel/pennant": "^1.24",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-permission": "^8.0"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "misaf/vendra-user": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-livewire": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -8923,20 +8153,6 @@
                     "Misaf\\VendraPermission\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraPermission\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -8972,28 +8188,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
-                "reference": "6475bad45cf90d835355fe6fdeb84eb45dcb9d56"
+                "reference": "ffbefc948f6ec78d0242a30fcf71b80821d09756"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-user-profile": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "ysfkaya/filament-phone-input": "^4.2.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9014,20 +8216,6 @@
                     "Misaf\\VendraPhone\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraPhone\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9063,7 +8251,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
-                "reference": "cc871eba77fec65592a70e00e39f20571a5ac2ef"
+                "reference": "fec4e42c78ffe1beaafec665dd397cfc9046bd0e"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -9072,28 +8260,11 @@
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2",
                 "staudenmeir/laravel-adjacency-list": "^1.26.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-currency": "self.version",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-attribute": "Install this in the host application to manage reusable attributes and product attribute values.",
@@ -9119,20 +8290,6 @@
                     "Misaf\\VendraProduct\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraProduct\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9168,7 +8325,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "975e71957b5cdde239097fcff0191ce29a07e04a"
+                "reference": "8670bd3e245b625d8566d4e2bbb8213c8edf2d6d"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -9176,27 +8333,8 @@
                 "misaf/vendra-multimedia-api": "self.version",
                 "misaf/vendra-product": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-attribute": "self.version",
-                "misaf/vendra-attribute-api": "self.version",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3",
-                "staudenmeir/belongs-to-through": "^2.18"
             },
             "suggest": {
                 "misaf/vendra-attribute-api": "Install this in the host application to expose product attribute-value schemas, relationships, and filters."
@@ -9218,20 +8356,6 @@
                 "psr-4": {
                     "Misaf\\VendraProductApi\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9267,7 +8391,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-reseller",
-                "reference": "6e9a603e8f2d50294eedc266e5d0259fbfc0e5b4"
+                "reference": "26ef19584ca64d238bb84cd77321977fa84b9f5e"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -9283,27 +8407,10 @@
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-tenant": "self.version",
                 "misaf/vendra-transaction": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-multitenancy": "^4.1.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-livewire": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9324,20 +8431,6 @@
                     "Misaf\\VendraReseller\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraReseller\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9373,30 +8466,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-socialite",
-                "reference": "3ddcdca6d677546ec6b7e8a3bffaa7d7a4500d8b"
+                "reference": "917e56bc03185a9677c9fef5b52e627ecfbaad52"
             },
             "require": {
                 "dutchcodingcompany/filament-socialite": "^3.2",
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-user": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9415,20 +8492,6 @@
                 "psr-4": {
                     "Misaf\\VendraSocialite\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9465,7 +8528,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-store",
-                "reference": "2152396721367ed6b452a1243bcd51c72eb44520"
+                "reference": "8c4e2ea1a76c3a2c709b208536b3fc3d4390d9aa"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -9480,30 +8543,12 @@
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-tenant": "self.version",
                 "misaf/vendra-user": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-activitylog": "^5.0",
                 "spatie/laravel-multitenancy": "^4.1.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-permission": "^8.0",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-reseller": "self.version",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-livewire": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9523,20 +8568,6 @@
                     "Misaf\\VendraStore\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraStore\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9573,28 +8604,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "c3bc0347242b9160271cc2e306a4a5750452b524"
+                "reference": "2ccdd10f44325e643c996a93cfa20011fa344989"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9615,20 +8631,6 @@
                     "Misaf\\VendraSubscription\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraSubscription\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9666,7 +8668,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
-                "reference": "92fe13273122274d26c736405983fccd6421ca4e"
+                "reference": "555fc1a4365696cd7a37ee1764a640cebc613f7d"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -9674,24 +8676,8 @@
                 "illuminate/database": "^13.0",
                 "illuminate/support": "^13.0",
                 "laravel/prompts": "^0.3.21",
-                "php": "^8.3",
+                "php": "^8.4",
                 "symfony/intl": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9710,20 +8696,6 @@
                 "psr-4": {
                     "Misaf\\VendraSupport\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9759,33 +8731,17 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "60a339c4fac9cf852105a62c92ac5b58a1a28366"
+                "reference": "d9a27448604a7f28d8f8edd14c8956d902ae1c9c"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/filament-jalali": "^5.1.4",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-tags": "^4.0"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9806,20 +8762,6 @@
                     "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraTagger\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9855,7 +8797,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "5610dbc08aa7bb8ccecdfd7970cc1ba57f889658"
+                "reference": "8d228b7e617ac6ebd4f4b11ebd76f6b4e6d8a08a"
             },
             "require": {
                 "illuminate/console": "^13.0",
@@ -9863,25 +8805,9 @@
                 "illuminate/database": "^13.0",
                 "illuminate/support": "^13.0",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-multitenancy": "^4.1.3",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -9901,20 +8827,6 @@
                 "psr-4": {
                     "Misaf\\VendraTenant\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -9948,30 +8860,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
-                "reference": "5815360e6f772c8359a88568e4603d759c497631"
+                "reference": "e3d56d5e8b777d1a2fb1e9a8ea44de9588c6b2b1"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "symfony/finder": "^8.1.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "filament/tables": "^5.0",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "livewire/livewire": "^4.0",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-livewire": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "autoload": {
@@ -9987,20 +8881,6 @@
                 "psr-4": {
                     "Misaf\\VendraTesting\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -10036,37 +8916,20 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "692b45067f62e735e16ff5c8dad25370878bb6a4"
+                "reference": "ce339e563f0df40c47d7aace1e0c8463063cb711"
             },
             "require": {
                 "flowframe/laravel-trend": "^0.5.0",
                 "lara-zeus/spatie-translatable": "^2.0.1",
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/eloquent-sortable": "^5.0.1",
                 "spatie/laravel-activitylog": "^5.0",
                 "spatie/laravel-model-states": "^2.11",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-queueable-action": "^2.17",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-currency": "self.version",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-currency": "Install this in the host application to manage active currencies used by wallet provisioning and transaction forms."
@@ -10090,20 +8953,6 @@
                     "Misaf\\VendraTransaction\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraTransaction\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -10139,7 +8988,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "6125da938d68fa6c467818f795003e971c67f051"
+                "reference": "ecdf183757417ef47174a1a7ece185cc54401fd4"
             },
             "require": {
                 "laravel/pennant": "^1.24",
@@ -10148,25 +8997,9 @@
                 "misaf/vendra-multimedia": "self.version",
                 "misaf/vendra-permission": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "staudenmeir/belongs-to-through": "^2.18"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "suggest": {
                 "misaf/vendra-tagger": "Install this in the host application to assign typed tags to users."
@@ -10190,20 +9023,6 @@
                     "Misaf\\VendraUser\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraUser\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -10237,7 +9056,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
-                "reference": "dc978a2e86d067c977c9c0bc09dbba4545482807"
+                "reference": "554f7e4028d38fc4d7cf31d602d3ad34f9f02ecd"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -10246,26 +9065,9 @@
                 "misaf/vendra-permission": "self.version",
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-user": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-sluggable": "^4.0.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-livewire": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -10286,20 +9088,6 @@
                     "Misaf\\VendraUserProfile\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraUserProfile\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -10336,27 +9124,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
-                "reference": "444df9fea6c0a4122e7e209f66a18be691498f47"
+                "reference": "47b7be3d74fbe04986fc8ce1d9a436ad04c7753a"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
                 "misaf/vendra-user-profile": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -10377,20 +9151,6 @@
                     "Misaf\\VendraVerification\\Database\\Factories\\": "database/factories/",
                     "Misaf\\VendraVerification\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -15445,16 +14205,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "77aaed12441eff519d7028cb851f893d7969f768"
+                "reference": "c12be586c0e4798e649e7501aa9181ddc9d93310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/77aaed12441eff519d7028cb851f893d7969f768",
-                "reference": "77aaed12441eff519d7028cb851f893d7969f768",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/c12be586c0e4798e649e7501aa9181ddc9d93310",
+                "reference": "c12be586c0e4798e649e7501aa9181ddc9d93310",
                 "shasum": ""
             },
             "require": {
@@ -15475,7 +14235,7 @@
                 "symfony/cache-implementation": "1.1|2.0|3.0"
             },
             "require-dev": {
-                "cache/integration-tests": "dev-master",
+                "cache/integration-tests": "^1.0.3",
                 "doctrine/dbal": "^4.3",
                 "predis/predis": "^1.1|^2.0",
                 "psr/simple-cache": "^1.0|^2.0|^3.0",
@@ -15520,7 +14280,7 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v8.1.4"
+                "source": "https://github.com/symfony/cache/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -15540,7 +14300,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-01T16:22:31+00:00"
+            "time": "2026-08-19T08:32:28+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -15701,16 +14461,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "cb84364d9b47030c6979422d6911f9ea6603f5a2"
+                "reference": "ec711a6c14ae287d9618fbd2c9de4e223a1a4b02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/cb84364d9b47030c6979422d6911f9ea6603f5a2",
-                "reference": "cb84364d9b47030c6979422d6911f9ea6603f5a2",
+                "url": "https://api.github.com/repos/symfony/config/zipball/ec711a6c14ae287d9618fbd2c9de4e223a1a4b02",
+                "reference": "ec711a6c14ae287d9618fbd2c9de4e223a1a4b02",
                 "shasum": ""
             },
             "require": {
@@ -15755,7 +14515,7 @@
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/config/tree/v8.1.4"
+                "source": "https://github.com/symfony/config/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -15775,20 +14535,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-31T12:43:13+00:00"
+            "time": "2026-08-20T09:59:12+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "68efa2ebfd9a362951eb5a8b09fd177c66ddec24"
+                "reference": "d07c06839e33047e2c894a6793248f3fb66c8129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/68efa2ebfd9a362951eb5a8b09fd177c66ddec24",
-                "reference": "68efa2ebfd9a362951eb5a8b09fd177c66ddec24",
+                "url": "https://api.github.com/repos/symfony/console/zipball/d07c06839e33047e2c894a6793248f3fb66c8129",
+                "reference": "d07c06839e33047e2c894a6793248f3fb66c8129",
                 "shasum": ""
             },
             "require": {
@@ -15855,7 +14615,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v8.1.4"
+                "source": "https://github.com/symfony/console/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -15875,20 +14635,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-31T12:43:13+00:00"
+            "time": "2026-08-21T14:29:57+00:00"
         },
         {
             "name": "symfony/css-selector",
-            "version": "v8.1.0",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "dc0e2be45c9b5588c82414f02ac574b4b986abcd"
+                "reference": "a291fb5adb65f52a4bb315db2d803698315dc64d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/dc0e2be45c9b5588c82414f02ac574b4b986abcd",
-                "reference": "dc0e2be45c9b5588c82414f02ac574b4b986abcd",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/a291fb5adb65f52a4bb315db2d803698315dc64d",
+                "reference": "a291fb5adb65f52a4bb315db2d803698315dc64d",
                 "shasum": ""
             },
             "require": {
@@ -15924,7 +14684,7 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/css-selector/tree/v8.1.0"
+                "source": "https://github.com/symfony/css-selector/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -15944,20 +14704,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "c06539a770773c73695f687a30bd93b555860c1c"
+                "reference": "e79d512848b75f92374e473f8e9ead4202c965c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c06539a770773c73695f687a30bd93b555860c1c",
-                "reference": "c06539a770773c73695f687a30bd93b555860c1c",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/e79d512848b75f92374e473f8e9ead4202c965c5",
+                "reference": "e79d512848b75f92374e473f8e9ead4202c965c5",
                 "shasum": ""
             },
             "require": {
@@ -16005,7 +14765,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v8.1.4"
+                "source": "https://github.com/symfony/dependency-injection/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16025,7 +14785,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T15:02:39+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -16100,16 +14860,16 @@
         },
         {
             "name": "symfony/error-handler",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "dc98404be5e8c949815e23fee1928f5de4f3f5d3"
+                "reference": "8b2a4289ffe5e2dc8fcf645b8e7870e1fa0325ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/dc98404be5e8c949815e23fee1928f5de4f3f5d3",
-                "reference": "dc98404be5e8c949815e23fee1928f5de4f3f5d3",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/8b2a4289ffe5e2dc8fcf645b8e7870e1fa0325ce",
+                "reference": "8b2a4289ffe5e2dc8fcf645b8e7870e1fa0325ce",
                 "shasum": ""
             },
             "require": {
@@ -16157,7 +14917,7 @@
             "description": "Provides tools to manage errors and ease debugging PHP code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/error-handler/tree/v8.1.2"
+                "source": "https://github.com/symfony/error-handler/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16177,20 +14937,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "c14c05a9e6da7f5e375e6efc28952c7e7dbddffb"
+                "reference": "7458da64220376b2e0dc2d8451bf43382c1ad297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/c14c05a9e6da7f5e375e6efc28952c7e7dbddffb",
-                "reference": "c14c05a9e6da7f5e375e6efc28952c7e7dbddffb",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/7458da64220376b2e0dc2d8451bf43382c1ad297",
+                "reference": "7458da64220376b2e0dc2d8451bf43382c1ad297",
                 "shasum": ""
             },
             "require": {
@@ -16243,7 +15003,7 @@
             "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher/tree/v8.1.2"
+                "source": "https://github.com/symfony/event-dispatcher/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16263,7 +15023,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -16347,16 +15107,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "17856b7a222664a26a5ea1cb06ee0721c2438217"
+                "reference": "6b2f4a0eeb28b5d74f90862592923a654bc629b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/17856b7a222664a26a5ea1cb06ee0721c2438217",
-                "reference": "17856b7a222664a26a5ea1cb06ee0721c2438217",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/6b2f4a0eeb28b5d74f90862592923a654bc629b3",
+                "reference": "6b2f4a0eeb28b5d74f90862592923a654bc629b3",
                 "shasum": ""
             },
             "require": {
@@ -16394,7 +15154,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v8.1.2"
+                "source": "https://github.com/symfony/filesystem/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16414,20 +15174,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-21T12:16:08+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v8.1.1",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531"
+                "reference": "8d7acede2b2ae07605783d1c43e49b5767036474"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
-                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8d7acede2b2ae07605783d1c43e49b5767036474",
+                "reference": "8d7acede2b2ae07605783d1c43e49b5767036474",
                 "shasum": ""
             },
             "require": {
@@ -16462,7 +15222,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.1.1"
+                "source": "https://github.com/symfony/finder/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16482,20 +15242,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-27T09:05:56+00:00"
+            "time": "2026-08-21T12:16:08+00:00"
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "780a46666c5138f3f064e953e9287f9f560fe8d5"
+                "reference": "1c7b41364312c67376a560e35c7f7f0be0c1b4ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/780a46666c5138f3f064e953e9287f9f560fe8d5",
-                "reference": "780a46666c5138f3f064e953e9287f9f560fe8d5",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/1c7b41364312c67376a560e35c7f7f0be0c1b4ea",
+                "reference": "1c7b41364312c67376a560e35c7f7f0be0c1b4ea",
                 "shasum": ""
             },
             "require": {
@@ -16525,6 +15285,7 @@
                 "symfony/console": "<8.1.2",
                 "symfony/form": "<7.4",
                 "symfony/json-streamer": "<7.4",
+                "symfony/mailer": "<7.4.17|>=8.0,<8.1.5",
                 "symfony/messenger": "<7.4.10|>=8.0,<8.0.10",
                 "symfony/mime": "<7.4.9|>=8.0,<8.0.9",
                 "symfony/security-csrf": "<7.4",
@@ -16605,7 +15366,7 @@
             "description": "Provides a tight integration between Symfony components and the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/framework-bundle/tree/v8.1.4"
+                "source": "https://github.com/symfony/framework-bundle/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16625,7 +15386,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-06T09:53:08+00:00"
+            "time": "2026-08-21T19:39:55+00:00"
         },
         {
             "name": "symfony/html-sanitizer",
@@ -16701,16 +15462,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "57e712b75f2d0bc8844edbdb18a81dab6f9d55c2"
+                "reference": "ee16f97e95cfa011a742714d7c8c8f70fe7423f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/57e712b75f2d0bc8844edbdb18a81dab6f9d55c2",
-                "reference": "57e712b75f2d0bc8844edbdb18a81dab6f9d55c2",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/ee16f97e95cfa011a742714d7c8c8f70fe7423f4",
+                "reference": "ee16f97e95cfa011a742714d7c8c8f70fe7423f4",
                 "shasum": ""
             },
             "require": {
@@ -16758,7 +15519,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v8.1.4"
+                "source": "https://github.com/symfony/http-foundation/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16778,20 +15539,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T15:02:39+00:00"
+            "time": "2026-08-20T09:59:12+00:00"
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "69d81d8a5dac32a5d94e4eb063b7d97dc42c792a"
+                "reference": "0306e1e65b90023fe40de6c6be95d06396bcb2e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/69d81d8a5dac32a5d94e4eb063b7d97dc42c792a",
-                "reference": "69d81d8a5dac32a5d94e4eb063b7d97dc42c792a",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/0306e1e65b90023fe40de6c6be95d06396bcb2e6",
+                "reference": "0306e1e65b90023fe40de6c6be95d06396bcb2e6",
                 "shasum": ""
             },
             "require": {
@@ -16868,7 +15629,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v8.1.4"
+                "source": "https://github.com/symfony/http-kernel/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16888,20 +15649,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T18:04:54+00:00"
+            "time": "2026-08-22T13:45:00+00:00"
         },
         {
             "name": "symfony/intl",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "85c3b3d8c48a95dc09ac1154b855957290254a09"
+                "reference": "9a8ba3a0af4db32bf228ca841c319d5dc97f7d02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/85c3b3d8c48a95dc09ac1154b855957290254a09",
-                "reference": "85c3b3d8c48a95dc09ac1154b855957290254a09",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/9a8ba3a0af4db32bf228ca841c319d5dc97f7d02",
+                "reference": "9a8ba3a0af4db32bf228ca841c319d5dc97f7d02",
                 "shasum": ""
             },
             "require": {
@@ -16957,7 +15718,7 @@
                 "localization"
             ],
             "support": {
-                "source": "https://github.com/symfony/intl/tree/v8.1.4"
+                "source": "https://github.com/symfony/intl/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -16977,20 +15738,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T15:02:39+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/mailer",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "221c7f326ace1ac2baee8331d829d5b7f04f4d53"
+                "reference": "89f43137da74b8f1aab37c99926482b7084f51b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/221c7f326ace1ac2baee8331d829d5b7f04f4d53",
-                "reference": "221c7f326ace1ac2baee8331d829d5b7f04f4d53",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/89f43137da74b8f1aab37c99926482b7084f51b9",
+                "reference": "89f43137da74b8f1aab37c99926482b7084f51b9",
                 "shasum": ""
             },
             "require": {
@@ -17037,7 +15798,7 @@
             "description": "Helps sending emails",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/mailer/tree/v8.1.2"
+                "source": "https://github.com/symfony/mailer/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -17057,7 +15818,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-28T07:35:25+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/mcp-bundle",
@@ -17148,16 +15909,16 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "8f8ac859d369fe3d18e3837998b1c992bbee92c9"
+                "reference": "1b36ccfd7ccb9ad1d6eafb9024b3dd3d9606b15f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/8f8ac859d369fe3d18e3837998b1c992bbee92c9",
-                "reference": "8f8ac859d369fe3d18e3837998b1c992bbee92c9",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/1b36ccfd7ccb9ad1d6eafb9024b3dd3d9606b15f",
+                "reference": "1b36ccfd7ccb9ad1d6eafb9024b3dd3d9606b15f",
                 "shasum": ""
             },
             "require": {
@@ -17178,7 +15939,7 @@
                 "symfony/process": "^7.4|^8.0",
                 "symfony/property-access": "^7.4|^8.0",
                 "symfony/property-info": "^7.4|^8.0",
-                "symfony/serializer": "^7.4|^8.0"
+                "symfony/serializer": "^7.4.17|^8.1.5"
             },
             "type": "library",
             "autoload": {
@@ -17210,7 +15971,7 @@
                 "mime-type"
             ],
             "support": {
-                "source": "https://github.com/symfony/mime/tree/v8.1.4"
+                "source": "https://github.com/symfony/mime/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -17230,20 +15991,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T15:02:39+00:00"
+            "time": "2026-08-22T09:06:25+00:00"
         },
         {
             "name": "symfony/object-mapper",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/object-mapper.git",
-                "reference": "3889e6416f3ce667a5a8f4aa01b2fbb284faef8d"
+                "reference": "b4f1d36839d00e69fe0b099321c250fb53d053dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/object-mapper/zipball/3889e6416f3ce667a5a8f4aa01b2fbb284faef8d",
-                "reference": "3889e6416f3ce667a5a8f4aa01b2fbb284faef8d",
+                "url": "https://api.github.com/repos/symfony/object-mapper/zipball/b4f1d36839d00e69fe0b099321c250fb53d053dc",
+                "reference": "b4f1d36839d00e69fe0b099321c250fb53d053dc",
                 "shasum": ""
             },
             "require": {
@@ -17283,7 +16044,7 @@
             "description": "Provides a way to map an object to another object",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/object-mapper/tree/v8.1.4"
+                "source": "https://github.com/symfony/object-mapper/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -17303,7 +16064,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-06T09:53:08+00:00"
+            "time": "2026-08-19T08:20:53+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -18303,16 +17064,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v8.1.0",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5"
+                "reference": "d863f5e70d7c87abb906ac11b61f83036093000b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
-                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
+                "url": "https://api.github.com/repos/symfony/process/zipball/d863f5e70d7c87abb906ac11b61f83036093000b",
+                "reference": "d863f5e70d7c87abb906ac11b61f83036093000b",
                 "shasum": ""
             },
             "require": {
@@ -18344,7 +17105,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v8.1.0"
+                "source": "https://github.com/symfony/process/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -18364,7 +17125,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/property-access",
@@ -18449,16 +17210,16 @@
         },
         {
             "name": "symfony/property-info",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "d3b1ba3e69dd9fbfff3e00416d2fc60c600c599d"
+                "reference": "b335f8e7fb1440ed3448fb33340efc6127678e53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/d3b1ba3e69dd9fbfff3e00416d2fc60c600c599d",
-                "reference": "d3b1ba3e69dd9fbfff3e00416d2fc60c600c599d",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/b335f8e7fb1440ed3448fb33340efc6127678e53",
+                "reference": "b335f8e7fb1440ed3448fb33340efc6127678e53",
                 "shasum": ""
             },
             "require": {
@@ -18511,7 +17272,7 @@
                 "validator"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-info/tree/v8.1.4"
+                "source": "https://github.com/symfony/property-info/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -18531,7 +17292,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T15:02:39+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -18622,16 +17383,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "1058d4e13bb81dd9a6f7565686df7e13b880cdbd"
+                "reference": "3c188091b6b4fa2e4bc83a135caede12deb8576c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/1058d4e13bb81dd9a6f7565686df7e13b880cdbd",
-                "reference": "1058d4e13bb81dd9a6f7565686df7e13b880cdbd",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/3c188091b6b4fa2e4bc83a135caede12deb8576c",
+                "reference": "3c188091b6b4fa2e4bc83a135caede12deb8576c",
                 "shasum": ""
             },
             "require": {
@@ -18678,7 +17439,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v8.1.2"
+                "source": "https://github.com/symfony/routing/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -18698,20 +17459,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-17T13:18:34+00:00"
         },
         {
             "name": "symfony/serializer",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "ec3ae778e49a4cee5b937a779056fa23c3e834fb"
+                "reference": "9c064d505c661e3e17aa8999870f4fb0ed05e024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/ec3ae778e49a4cee5b937a779056fa23c3e834fb",
-                "reference": "ec3ae778e49a4cee5b937a779056fa23c3e834fb",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/9c064d505c661e3e17aa8999870f4fb0ed05e024",
+                "reference": "9c064d505c661e3e17aa8999870f4fb0ed05e024",
                 "shasum": ""
             },
             "require": {
@@ -18777,7 +17538,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/v8.1.4"
+                "source": "https://github.com/symfony/serializer/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -18797,7 +17558,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-06T09:53:08+00:00"
+            "time": "2026-08-22T09:06:25+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -18978,16 +17739,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "c0955eb4aa417a110e65c8162237b8a5c7d910bf"
+                "reference": "d9e1caba0d6b6f9a26710af8a2f88d37f001215a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/c0955eb4aa417a110e65c8162237b8a5c7d910bf",
-                "reference": "c0955eb4aa417a110e65c8162237b8a5c7d910bf",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/d9e1caba0d6b6f9a26710af8a2f88d37f001215a",
+                "reference": "d9e1caba0d6b6f9a26710af8a2f88d37f001215a",
                 "shasum": ""
             },
             "require": {
@@ -19047,7 +17808,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v8.1.4"
+                "source": "https://github.com/symfony/translation/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -19067,7 +17828,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-30T12:40:56+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -19153,16 +17914,16 @@
         },
         {
             "name": "symfony/type-info",
-            "version": "v8.1.0",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/type-info.git",
-                "reference": "9f24df8a79781b9b9f030fea7dfd2f3bd1e7e7e7"
+                "reference": "ceb48db5b38d6a48640c414be0c69d53980ae5c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/type-info/zipball/9f24df8a79781b9b9f030fea7dfd2f3bd1e7e7e7",
-                "reference": "9f24df8a79781b9b9f030fea7dfd2f3bd1e7e7e7",
+                "url": "https://api.github.com/repos/symfony/type-info/zipball/ceb48db5b38d6a48640c414be0c69d53980ae5c5",
+                "reference": "ceb48db5b38d6a48640c414be0c69d53980ae5c5",
                 "shasum": ""
             },
             "require": {
@@ -19211,7 +17972,7 @@
                 "type"
             ],
             "support": {
-                "source": "https://github.com/symfony/type-info/tree/v8.1.0"
+                "source": "https://github.com/symfony/type-info/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -19231,20 +17992,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/uid",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/uid.git",
-                "reference": "50e98f8bc4c3fcdaf925545a65150fb42cf0caf2"
+                "reference": "a08aef47989093f32fe50fd11859be1b427df389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/uid/zipball/50e98f8bc4c3fcdaf925545a65150fb42cf0caf2",
-                "reference": "50e98f8bc4c3fcdaf925545a65150fb42cf0caf2",
+                "url": "https://api.github.com/repos/symfony/uid/zipball/a08aef47989093f32fe50fd11859be1b427df389",
+                "reference": "a08aef47989093f32fe50fd11859be1b427df389",
                 "shasum": ""
             },
             "require": {
@@ -19289,7 +18050,7 @@
                 "uuid"
             ],
             "support": {
-                "source": "https://github.com/symfony/uid/tree/v8.1.4"
+                "source": "https://github.com/symfony/uid/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -19309,20 +18070,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-02T11:29:46+00:00"
+            "time": "2026-08-11T13:39:01+00:00"
         },
         {
             "name": "symfony/validator",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "1642533ef70c41781b8696163fcf0050c9fc68fe"
+                "reference": "88b48d885df545a0fb1ffc25c8ebe215982168d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/1642533ef70c41781b8696163fcf0050c9fc68fe",
-                "reference": "1642533ef70c41781b8696163fcf0050c9fc68fe",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/88b48d885df545a0fb1ffc25c8ebe215982168d8",
+                "reference": "88b48d885df545a0fb1ffc25c8ebe215982168d8",
                 "shasum": ""
             },
             "require": {
@@ -19386,7 +18147,7 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/validator/tree/v8.1.4"
+                "source": "https://github.com/symfony/validator/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -19406,20 +18167,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-06T09:53:08+00:00"
+            "time": "2026-08-22T09:06:25+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "865103cf742a039f34645b971fc3ace308d6c167"
+                "reference": "61743d9bc7ab23b194527ca1be2fafd7dc93b74a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/865103cf742a039f34645b971fc3ace308d6c167",
-                "reference": "865103cf742a039f34645b971fc3ace308d6c167",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/61743d9bc7ab23b194527ca1be2fafd7dc93b74a",
+                "reference": "61743d9bc7ab23b194527ca1be2fafd7dc93b74a",
                 "shasum": ""
             },
             "require": {
@@ -19473,7 +18234,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v8.1.2"
+                "source": "https://github.com/symfony/var-dumper/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -19493,20 +18254,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-21T12:16:08+00:00"
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "6efa89335ab6d336643a807fcc89ae4f8a7a17e9"
+                "reference": "b8f7dd85493e8372c7c81a1547caaaf86b9c16d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/6efa89335ab6d336643a807fcc89ae4f8a7a17e9",
-                "reference": "6efa89335ab6d336643a807fcc89ae4f8a7a17e9",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/b8f7dd85493e8372c7c81a1547caaaf86b9c16d1",
+                "reference": "b8f7dd85493e8372c7c81a1547caaaf86b9c16d1",
                 "shasum": ""
             },
             "require": {
@@ -19556,7 +18317,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v8.1.4"
+                "source": "https://github.com/symfony/var-exporter/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -19576,7 +18337,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-30T12:40:56+00:00"
+            "time": "2026-08-13T16:11:28+00:00"
         },
         {
             "name": "symfony/web-link",
@@ -21214,19 +19975,20 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.10.0",
+            "version": "6.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "8b1308a9d7bdbdb20ce87ef920f82b4564bb2d33"
+                "reference": "7e420a943a6fbc95e60e3cf67acfbee85b3b4da7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/8b1308a9d7bdbdb20ce87ef920f82b4564bb2d33",
-                "reference": "8b1308a9d7bdbdb20ce87ef920f82b4564bb2d33",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/7e420a943a6fbc95e60e3cf67acfbee85b3b4da7",
+                "reference": "7e420a943a6fbc95e60e3cf67acfbee85b3b4da7",
                 "shasum": ""
             },
             "require": {
+                "ext-filter": "*",
                 "ext-json": "*",
                 "marc-mabe/php-enum": "^4.4",
                 "php": "^7.2 || ^8.0"
@@ -21259,20 +20021,9 @@
             ],
             "authors": [
                 {
-                    "name": "Bruno Prieto Reis",
-                    "email": "bruno.p.reis@gmail.com"
-                },
-                {
-                    "name": "Justin Rainbow",
-                    "email": "justin.rainbow@gmail.com"
-                },
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch"
-                },
-                {
-                    "name": "Robert Schönthal",
-                    "email": "seroscho@googlemail.com"
+                    "name": "Danny van der Sluijs",
+                    "email": "danny.vandersluijs@icloud.com",
+                    "role": "Maintainer"
                 }
             ],
             "description": "A library to validate a json schema.",
@@ -21283,9 +20034,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.10.0"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.11.0"
             },
-            "time": "2026-06-16T20:50:26+00:00"
+            "time": "2026-08-21T10:30:42+00:00"
         },
         {
             "name": "larastan/larastan",
@@ -22010,31 +20761,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-developer-logins",
-                "reference": "794a617d73c47fad0ac0fef994b2512925290817"
+                "reference": "55ed1256dffed81aafbbdb8c3bb0eab04bb6d07e"
             },
             "require": {
                 "dutchcodingcompany/filament-developer-logins": "^2.1",
                 "misaf/vendra-permission": "self.version",
                 "misaf/vendra-support": "self.version",
-                "php": "^8.3",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.93.1"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.24.1",
-                "larastan/larastan": "^3.10.0",
-                "laravel/boost": "^2.4.12",
-                "laravel/pint": "^1.29.3",
-                "misaf/vendra-testing": "self.version",
-                "misaf/vendra-user": "self.version",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/collision": "^8.9.4",
-                "orchestra/testbench": "^11.1",
-                "pestphp/pest": "^5.0",
-                "pestphp/pest-plugin-arch": "^5.0",
-                "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-profanity": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
-                "phpstan/extension-installer": "^1.4.3"
             },
             "type": "vendra-module",
             "extra": {
@@ -22053,20 +20787,6 @@
                 "psr-4": {
                     "Misaf\\VendraDeveloperLogins\\Tests\\": "tests/"
                 }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "test": [
-                    "vendor/bin/pest --parallel"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
             },
             "license": [
                 "MIT"
@@ -23780,11 +22500,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.2.8",
+            "version": "2.2.9",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e285254e60f33c21902efef4a926ca0987c06804",
-                "reference": "e285254e60f33c21902efef4a926ca0987c06804",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/13d6b4f347bad222da436580c8304fa6f83e6bd0",
+                "reference": "13d6b4f347bad222da436580c8304fa6f83e6bd0",
                 "shasum": ""
             },
             "require": {
@@ -23840,7 +22560,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-04T22:21:45+00:00"
+            "time": "2026-08-22T07:38:16+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -25477,16 +24197,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "faabdbe998e8c5c599dceffa27aa265b185c0736"
+                "reference": "b3fc9e8888eeb9daddc33bfbd15d282a61f543cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/faabdbe998e8c5c599dceffa27aa265b185c0736",
-                "reference": "faabdbe998e8c5c599dceffa27aa265b185c0736",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/b3fc9e8888eeb9daddc33bfbd15d282a61f543cd",
+                "reference": "b3fc9e8888eeb9daddc33bfbd15d282a61f543cd",
                 "shasum": ""
             },
             "require": {
@@ -25529,7 +24249,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v8.1.2"
+                "source": "https://github.com/symfony/yaml/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -25549,7 +24269,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-21T12:16:08+00:00"
         },
         {
             "name": "symplify/monorepo-builder",
@@ -25862,7 +24582,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3"
+        "php": "^8.4"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"

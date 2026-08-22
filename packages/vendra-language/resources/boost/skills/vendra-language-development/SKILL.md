@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Language package in pac
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-language test` and `composer --working-dir=packages/vendra-language analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-language` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -100,5 +100,5 @@ Prefer focused Pest tests in the module.
 - Test translation synchronization for nested keys, all package-provided locales, preservation of customized and blank database values, missing-locale merging, idempotency, and Filament action availability.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraLanguage')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
-- Run module checks from the package when possible: `composer --working-dir=packages/vendra-language test` and `composer --working-dir=packages/vendra-language analyse`.
-- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-language` and `composer stan`.
+- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app.

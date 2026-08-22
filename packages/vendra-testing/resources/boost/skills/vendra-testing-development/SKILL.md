@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Testing utilities modul
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-testing test` and `composer --working-dir=packages/vendra-testing analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-testing` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -49,5 +49,5 @@ Treat `packages/vendra-testing` as shared, module-agnostic test utilities.
 
 - Cover the utilities themselves with focused tests where behavior is non-trivial (e.g. key-sorting comparison logic).
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus `arch()->expect('Misaf\VendraTesting')->not->toUse('Misaf\VendraTenant')`.
-- Run module checks: `composer --working-dir=packages/vendra-testing test` and `composer --working-dir=packages/vendra-testing analyse`.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-testing` and `composer stan`.
 - If PHP files changed, run `vendor/bin/pint --dirty --format agent`.

@@ -18,8 +18,14 @@ function packageSourceBindsTenantProvider(string $packagePath): bool
 
 it('keeps package manifest metadata consistent', function (): void {
     $manifestPaths = glob(base_path('packages/*/composer.json')) ?: [];
+    $rootManifest = json_decode(
+        file_get_contents(base_path('composer.json')),
+        true,
+        flags: JSON_THROW_ON_ERROR,
+    );
 
-    expect($manifestPaths)->not->toBeEmpty();
+    expect($manifestPaths)->not->toBeEmpty()
+        ->and($rootManifest['require']['php'] ?? null)->toBe('^8.4');
 
     foreach ($manifestPaths as $manifestPath) {
         $package = basename(dirname($manifestPath));
@@ -44,7 +50,12 @@ it('keeps package manifest metadata consistent', function (): void {
             ->support->toBe([
                 'issues' => "{$repository}/issues",
                 'source' => $repository,
-            ]);
+            ])
+            ->and($manifest)
+            ->not->toHaveKey('require-dev')
+            ->not->toHaveKey('scripts')
+            ->and($manifest['require']['php'] ?? null)
+            ->toBe('^8.4');
     }
 });
 
@@ -112,9 +123,15 @@ it('keeps package test suites tenant-provider agnostic', function (): void {
     expect($offending)->toBe([]);
 });
 
-it('declares every Vendra module whose namespace its tests import', function (): void {
+it('provides every Vendra module imported by package tests through the host', function (): void {
     $manifestPaths = glob(base_path('packages/*/composer.json')) ?: [];
     $namespacesByPackage = [];
+    $rootManifest = json_decode(
+        file_get_contents(base_path('composer.json')),
+        true,
+        flags: JSON_THROW_ON_ERROR,
+    );
+    $hostDependencies = ($rootManifest['require'] ?? []) + ($rootManifest['require-dev'] ?? []);
 
     foreach ($manifestPaths as $manifestPath) {
         $manifest = json_decode(
@@ -128,22 +145,17 @@ it('declares every Vendra module whose namespace its tests import', function ():
         }
     }
 
-    $undeclared = [];
+    $missingFromHost = [];
 
     foreach ($manifestPaths as $manifestPath) {
         $packagePath = dirname($manifestPath);
-        $manifest = json_decode(
-            file_get_contents($manifestPath),
-            true,
-            flags: JSON_THROW_ON_ERROR,
-        );
-        $declared = ($manifest['require'] ?? []) + ($manifest['require-dev'] ?? []);
+        $manifest = json_decode(file_get_contents($manifestPath), true, flags: JSON_THROW_ON_ERROR);
 
         foreach (glob("{$packagePath}/tests/{,*/,*/*/}*.php", GLOB_BRACE) ?: [] as $testFile) {
             $contents = (string) file_get_contents($testFile);
 
             foreach ($namespacesByPackage as $package => $namespaces) {
-                if ($package === $manifest['name'] || array_key_exists($package, $declared)) {
+                if ($package === $manifest['name'] || array_key_exists($package, $hostDependencies)) {
                     continue;
                 }
 
@@ -154,14 +166,14 @@ it('declares every Vendra module whose namespace its tests import', function ():
                     );
 
                     if ($importsNamespace) {
-                        $undeclared[basename($packagePath) . ' → ' . $package] = true;
+                        $missingFromHost[basename($packagePath) . ' → ' . $package] = true;
                     }
                 }
             }
         }
     }
 
-    expect(array_keys($undeclared))->toBe([]);
+    expect(array_keys($missingFromHost))->toBe([]);
 });
 
 it('mirrors every package test and factory namespace in root autoload-dev', function (): void {

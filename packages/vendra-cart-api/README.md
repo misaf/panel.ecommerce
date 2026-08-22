@@ -10,7 +10,7 @@ Authenticated API Platform resources for tenant-scoped Vendra carts.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - `misaf/vendra-api`
 - `misaf/vendra-cart`
@@ -27,11 +27,11 @@ query constraints, and the domain model's tenant scope protect every operation.
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-cart-api
+composer stan
 ```
 
 ## License

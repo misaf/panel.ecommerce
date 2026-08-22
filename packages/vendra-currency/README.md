@@ -11,7 +11,7 @@ Tenant-aware currency management for Vendra applications.
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.4+
 - Laravel 13
 - Filament 5
 - Livewire 4
@@ -83,11 +83,11 @@ The `Currencies` resource lives in the Sales cluster on the `admin` panel. Insta
 
 ## Testing
 
-Run the package checks from the package directory:
+Run the package checks from the project root:
 
 ```bash
-composer test
-composer analyse
+php artisan test --compact --testsuite=vendra-currency
+composer stan
 ```
 
 ## License

@@ -12,7 +12,7 @@ description: "Create, modify, review, or test the Vendra Authify Log package in 
 - Apply `laravel-best-practices` to Laravel PHP and `pest-testing` whenever tests change.
 - Apply `tailwindcss-development` only when changing Blade markup or Tailwind classes.
 - Keep changes inside this package's boundary and preserve its public contracts.
-- Add or update focused Pest coverage, then run `composer --working-dir=packages/vendra-authify-log test` and `composer --working-dir=packages/vendra-authify-log analyse`.
+- Add or update focused Pest coverage, then run `php artisan test --compact --testsuite=vendra-authify-log` and `composer stan`.
 
 ## Translatable Persistence
 
@@ -89,5 +89,5 @@ Prefer focused Pest tests in the module.
 - Add or update unit tests for model contracts, policy permission coverage, resolver-derived tenant awareness, navigation/config behavior, and translation parity.
 - Keep Pest architecture tests in `tests/ArchTest.php`: the `php`, `security`, and `laravel` presets, plus an expectation that the module stays tenant-agnostic, e.g. `arch()->expect('Misaf\VendraAuthifyLog')->not->toUse('Misaf\VendraTenant')`.
 - Add feature or Livewire tests when changing Filament behavior with meaningful user-visible effects.
-- Run module checks from the package when possible: `composer --working-dir=packages/vendra-authify-log test` and `composer --working-dir=packages/vendra-authify-log analyse`.
-- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app, or the module formatter if working only inside the package.
+- Run checks from the host app: `php artisan test --compact --testsuite=vendra-authify-log` and `composer stan`.
+- If PHP files changed, run Pint for the touched code: `vendor/bin/pint --dirty --format agent` from the host app.
