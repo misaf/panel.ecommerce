@@ -19,6 +19,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Property\PropertyNameCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\In;
@@ -153,6 +154,7 @@ return [
         McpResource::class,
         McpTool::class,
         McpToolCollection::class,
+        OpenApiOperation::class,
         OpenApiParameter::class,
         Post::class,
         PropertyNameCollection::class,
