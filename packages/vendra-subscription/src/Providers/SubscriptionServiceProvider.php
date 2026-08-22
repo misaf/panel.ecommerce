@@ -23,6 +23,7 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('vendra-subscription')
+            ->hasRoute('console')
             ->hasMigrations([
                 'create_subscriptions_table',
             ])
