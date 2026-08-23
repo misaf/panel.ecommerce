@@ -29,7 +29,22 @@ run_migrations() {
 # leaves every tenant serving a cache built against the previous release; it
 # unserializes into __PHP_Incomplete_Class objects and 500s far from the cause.
 clear_tenant_route_caches() {
-    php artisan tenants:artisan "route:clear"
+    if output="$(php artisan tenants:artisan "route:clear" 2>&1)"; then
+        [ -z "$output" ] || printf '%s\n' "$output"
+        return
+    else
+        status="$?"
+    fi
+
+    [ -z "$output" ] || printf '%s\n' "$output" >&2
+
+    # Spatie returns -1 (255 at the shell boundary) when the tenant query is
+    # empty. That is expected before the first store has been provisioned.
+    if [ "$status" -eq 255 ] && printf '%s' "$output" | grep -Fq 'No tenant(s) found.'; then
+        return 0
+    fi
+
+    return "$status"
 }
 
 warm_application_caches() {
