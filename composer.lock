@@ -6314,16 +6314,16 @@
         },
         {
             "name": "misaf/laravel-email-validation",
-            "version": "v1.4.1",
+            "version": "v1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/misaf/laravel-email-validation.git",
-                "reference": "388111b7baa544f607c95aea4f713d479401f278"
+                "reference": "32fd3f5bf0e05099ccb98fda63cdd3e766f02052"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/misaf/laravel-email-validation/zipball/388111b7baa544f607c95aea4f713d479401f278",
-                "reference": "388111b7baa544f607c95aea4f713d479401f278",
+                "url": "https://api.github.com/repos/misaf/laravel-email-validation/zipball/32fd3f5bf0e05099ccb98fda63cdd3e766f02052",
+                "reference": "32fd3f5bf0e05099ccb98fda63cdd3e766f02052",
                 "shasum": ""
             },
             "require": {
@@ -6390,20 +6390,20 @@
                 "issues": "https://github.com/misaf/laravel-email-validation/issues",
                 "source": "https://github.com/misaf/laravel-email-validation"
             },
-            "time": "2026-08-22T02:33:58+00:00"
+            "time": "2026-08-23T06:06:47+00:00"
         },
         {
             "name": "misaf/laravel-email-validation-emailable",
-            "version": "v1.4.1",
+            "version": "v1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/misaf/laravel-email-validation-emailable.git",
-                "reference": "099024b9a47cfb780bd6f4fb647e2a8c327ea009"
+                "reference": "07f154f5afce2133612d6e51486b81296b5841f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/misaf/laravel-email-validation-emailable/zipball/099024b9a47cfb780bd6f4fb647e2a8c327ea009",
-                "reference": "099024b9a47cfb780bd6f4fb647e2a8c327ea009",
+                "url": "https://api.github.com/repos/misaf/laravel-email-validation-emailable/zipball/07f154f5afce2133612d6e51486b81296b5841f7",
+                "reference": "07f154f5afce2133612d6e51486b81296b5841f7",
                 "shasum": ""
             },
             "require": {
@@ -6450,7 +6450,7 @@
                 "issues": "https://github.com/misaf/laravel-email-validation-emailable/issues",
                 "source": "https://github.com/misaf/laravel-email-validation-emailable"
             },
-            "time": "2026-08-22T02:33:05+00:00"
+            "time": "2026-08-23T06:04:57+00:00"
         },
         {
             "name": "misaf/laravel-email-webhooks",
