@@ -31,11 +31,6 @@
             "Misaf\\VendraCustomPageApi\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraCustomPageApi\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

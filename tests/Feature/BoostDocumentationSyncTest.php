@@ -80,7 +80,7 @@ it('only configures Vendra package skills that have a canonical definition', fun
     // boost.json curates which package skills are generated; the set may be a
     // subset, but every configured skill must resolve to a real SKILL.md so a
     // renamed or misspelled reference is still caught.
-    expect($canonicalSkills)->toContain(...$configuredSkills);
+    expect(array_values(array_diff($configuredSkills, $canonicalSkills)))->toBe([]);
 })->skip(
     fn(): bool => ! File::exists(base_path('boost.json')),
     'boost.json is a local-only Laravel Boost artifact and is not present in CI.',

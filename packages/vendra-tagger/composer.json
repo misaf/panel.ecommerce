@@ -36,8 +36,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/",
-            "Misaf\\VendraTagger\\Tests\\": "tests/"
+            "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

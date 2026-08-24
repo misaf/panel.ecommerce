@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraTagger\Tests\Unit;
+namespace Misaf\VendraTagger\Tests\Feature;
 
 use Misaf\VendraSupport\Capabilities\TagIntegration;
 use Misaf\VendraTagger\Models\Tagger;

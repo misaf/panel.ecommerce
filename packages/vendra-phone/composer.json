@@ -33,8 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Misaf\\VendraPhone\\Database\\Factories\\": "database/factories/",
-            "Misaf\\VendraPhone\\Tests\\": "tests/"
+            "Misaf\\VendraPhone\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

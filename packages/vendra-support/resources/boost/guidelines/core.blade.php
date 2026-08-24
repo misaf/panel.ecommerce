@@ -30,7 +30,7 @@ The `misaf/vendra-support` package owns the shared support layer for every Vendr
 - Keep group priority in this order: Catalog, Sales, Customers, Content, Marketing, Localization, System. Register panel group labels with closures so the request locale is resolved after locale middleware runs.
 - Use domain clusters as top-level sidebar items and render their resources as ungrouped, top-positioned sub-navigation tabs so `NavigationPriority` controls the visible order without Filament's grouped-item bucket taking precedence.
 - Give every resource one distinct outlined `Heroicon`; navigation group headers remain icon-free.
-- Assign every resource a case in `NavigationPriority` and use that case for `$navigationSort`. Keep values globally unique, grouped by domain cluster, and leave gaps for future resources. Update `tests/Unit/AdminNavigationTest.php` whenever adding or moving navigation.
+- Assign every resource a case in `NavigationPriority` and use that case for `$navigationSort`. Keep values globally unique, grouped by domain cluster, and leave gaps for future resources. Update `tests/Feature/AdminNavigationTest.php` whenever adding or moving navigation.
 - Give every resource separate singular and plural translation keys in `en`, `de`, and `fa`. Use the singular key for model labels and the plural key for navigation and plural model labels; keep navigation labels at 24 characters or fewer.
 - Keep package plugin navigation-group overrides working, but default them to a `vendra-support::navigation.groups.*` key. Resolve breadcrumbs to the package label, not the broad group label.
 - Browser-check the sidebar in a non-default locale after navigation changes. Do not register a navigation entry until its destination renders successfully.

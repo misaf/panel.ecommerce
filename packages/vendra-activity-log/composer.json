@@ -33,12 +33,6 @@
             "Misaf\\VendraActivityLog\\Database\\Seeders\\": "database/seeders/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraActivityLog\\Database\\Factories\\": "database/factories/",
-            "Misaf\\VendraActivityLog\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

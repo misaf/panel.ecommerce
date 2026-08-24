@@ -32,11 +32,6 @@
             "Misaf\\VendraMultimedia\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraMultimedia\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

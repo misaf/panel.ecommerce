@@ -30,11 +30,6 @@
             "Misaf\\VendraLocalization\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraLocalization\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

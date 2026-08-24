@@ -25,3 +25,13 @@ it('runs the host test script in parallel without changing diagnostic scripts', 
         expect(implode(' ', (array) $commands))->not->toContain('--parallel');
     }
 });
+
+it('boots Laravel only for feature tests', function (): void {
+    $configuration = file_get_contents(base_path('tests/Pest.php'));
+
+    expect($configuration)
+        ->toContain("'Feature'")
+        ->toContain("'../packages/*/tests/Feature'")
+        ->not->toContain("'Unit'")
+        ->not->toContain("'../packages/*/tests',");
+});

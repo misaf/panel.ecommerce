@@ -86,7 +86,7 @@ Use `Misaf\VendraSupport\Filament\Navigation\NavigationGroup` as the single sour
 - Set one distinct outlined `Heroicon` on every top-level cluster and resource. Keep navigation group headers icon-free.
 - Preserve package plugin `navigationGroup(...)` overrides and default them to `vendra-support::navigation.groups.*`.
 - Use the package label for its cluster breadcrumb. Never use the broad group label as the breadcrumb.
-- Update `tests/Unit/AdminNavigationTest.php` for group order, locale-safe labels, item sort, icons, and top sub-navigation.
+- Update `tests/Feature/AdminNavigationTest.php` for group order, locale-safe labels, item sort, icons, and top sub-navigation.
 - Verify the rendered sidebar in at least one non-default locale and open each new destination. Do not expose incomplete or failing package UI.
 
 ## Testing And Verification

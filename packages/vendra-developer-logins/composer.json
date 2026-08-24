@@ -30,11 +30,6 @@
             "Misaf\\VendraDeveloperLogins\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraDeveloperLogins\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

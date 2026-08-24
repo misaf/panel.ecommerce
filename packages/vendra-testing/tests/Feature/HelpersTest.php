@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Eloquent\Model;
 use Misaf\VendraSupport\Contracts\TenantResolver;
 use Misaf\VendraSupport\Tenancy\NullTenantResolver;
-use Misaf\VendraTesting\Tests\Unit\HelpersTestUser;
+use Misaf\VendraTesting\Tests\Feature\HelpersTestUser;
 
 beforeEach(function (): void {
     $this->app->instance(TenantResolver::class, new NullTenantResolver());

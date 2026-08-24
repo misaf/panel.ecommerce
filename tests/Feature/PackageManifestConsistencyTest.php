@@ -82,10 +82,12 @@ it('keeps package-only namespaces out of production autoloading', function (): v
             ->not->toContain('database/factories/')
             ->not->toContain('tests/')
             ->and($developmentPaths)
-            ->toContain('tests/');
+            ->not->toContain('tests/');
 
         if (is_dir(dirname($manifestPath) . '/database/factories')) {
             expect($developmentPaths)->toContain('database/factories/');
+        } else {
+            expect($manifest)->not->toHaveKey('autoload-dev');
         }
     }
 });
@@ -176,7 +178,7 @@ it('provides every Vendra module imported by package tests through the host', fu
     expect(array_keys($missingFromHost))->toBe([]);
 });
 
-it('mirrors every package test and factory namespace in root autoload-dev', function (): void {
+it('centralizes package test namespaces and mirrors factory namespaces in root autoload-dev', function (): void {
     $rootManifest = json_decode(
         file_get_contents(base_path('composer.json')),
         true,
@@ -192,6 +194,20 @@ it('mirrors every package test and factory namespace in root autoload-dev', func
             true,
             flags: JSON_THROW_ON_ERROR,
         );
+        $packageNamespace = array_search('src/', $manifest['autoload']['psr-4'] ?? [], true);
+
+        if ( ! is_string($packageNamespace)) {
+            $missing[] = "{$package} source namespace";
+
+            continue;
+        }
+
+        $testNamespace = $packageNamespace . 'Tests\\';
+        $expectedTestPath = "packages/{$package}/tests/";
+
+        if (($rootAutoloadDev[$testNamespace] ?? null) !== $expectedTestPath) {
+            $missing[] = "{$testNamespace} => {$expectedTestPath}";
+        }
 
         foreach ($manifest['autoload-dev']['psr-4'] ?? [] as $namespace => $path) {
             $expectedPath = "packages/{$package}/{$path}";
@@ -199,6 +215,12 @@ it('mirrors every package test and factory namespace in root autoload-dev', func
             if (($rootAutoloadDev[$namespace] ?? null) !== $expectedPath) {
                 $missing[] = "{$namespace} => {$expectedPath}";
             }
+        }
+    }
+
+    foreach ($rootAutoloadDev as $namespace => $path) {
+        if (str_starts_with($path, 'packages/') && ! is_dir(base_path($path))) {
+            $missing[] = "{$namespace} => missing {$path}";
         }
     }
 

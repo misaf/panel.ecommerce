@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraFaq\Tests\Unit;
+namespace Misaf\VendraUser\Tests\Feature;
 
 use Illuminate\Database\Eloquent\Model;
 
-final class FaqTestTag extends Model
+final class UserTestTag extends Model
 {
     protected $table = 'tags';
 }

@@ -32,11 +32,6 @@
             "src/Helpers.php"
         ]
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraTesting\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true,

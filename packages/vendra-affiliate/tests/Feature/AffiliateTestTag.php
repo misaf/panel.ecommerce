@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraAttribute\Tests\Unit;
+namespace Misaf\VendraAffiliate\Tests\Feature;
 
 use Illuminate\Database\Eloquent\Model;
 
-final class AttributeTestTag extends Model
+final class AffiliateTestTag extends Model
 {
     protected $table = 'tags';
 }

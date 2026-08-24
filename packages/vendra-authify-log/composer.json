@@ -32,8 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "database/factories/",
-            "Misaf\\VendraAuthifyLog\\Tests\\": "tests/"
+            "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

@@ -31,11 +31,6 @@
             "Misaf\\VendraSocialite\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraSocialite\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

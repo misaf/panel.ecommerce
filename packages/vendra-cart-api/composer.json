@@ -30,11 +30,6 @@
             "Misaf\\VendraCartApi\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraCartApi\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

@@ -31,11 +31,6 @@
             "Misaf\\VendraBlogApi\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraBlogApi\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

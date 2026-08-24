@@ -152,7 +152,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Misaf\\VendraActivityLog\\Database\\Factories\\": "packages/vendra-activity-log/database/factories/",
             "Misaf\\VendraActivityLog\\Tests\\": "packages/vendra-activity-log/tests/",
             "Misaf\\VendraAddress\\Database\\Factories\\": "packages/vendra-address/database/factories/",
             "Misaf\\VendraAddress\\Tests\\": "packages/vendra-address/tests/",

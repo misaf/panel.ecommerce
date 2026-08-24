@@ -37,8 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Misaf\\VendraCurrency\\Database\\Factories\\": "database/factories/",
-            "Misaf\\VendraCurrency\\Tests\\": "tests/"
+            "Misaf\\VendraCurrency\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

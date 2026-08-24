@@ -46,8 +46,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Misaf\\VendraStore\\Database\\Factories\\": "database/factories/",
-            "Misaf\\VendraStore\\Tests\\": "tests/"
+            "Misaf\\VendraStore\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

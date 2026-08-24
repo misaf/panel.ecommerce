@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraSupport\Tests\Unit;
+namespace Misaf\VendraSupport\Tests\Feature;
 
 it('resolves the translation for the livewire active locale', function (): void {
     $record = new SupportTestTranslatedRecord();

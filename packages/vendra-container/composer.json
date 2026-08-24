@@ -30,11 +30,6 @@
             "Misaf\\VendraContainer\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Misaf\\VendraContainer\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
