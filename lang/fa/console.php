@@ -5,14 +5,36 @@ declare(strict_types=1);
 return [
     'navigation_group'       => 'کنسول',
 
-    'plan'                               => 'طرح',
-    'plans'                              => 'طرح‌ها',
-    'platform_owned_store'               => 'متعلق به پلتفرم (بدون نماینده)',
-    'reseller'                           => 'حساب',
-    'resellers'                          => 'حساب‌ها',
-    'store'                              => 'ملک',
-    'stores'                             => 'املاک',
-    'remaining_stores'                   => 'املاک باقی‌مانده',
+    'plan'                                    => 'طرح',
+    'plans'                                   => 'طرح‌ها',
+    'assign_reseller'                         => 'تخصیص حساب',
+    'assign_reseller_description'             => 'این فروشگاه را به حساب دیگری منتقل کنید، یا خالی بگذارید تا مستقیماً در اختیار پلتفرم بماند.',
+    'assign_reseller_failed'                  => 'فروشگاه دوباره تخصیص داده نشد',
+    'reseller_assigned'                       => 'حساب تخصیص یافت',
+    'active_resellers'                        => 'فعال',
+    'stores_active_suspended'                 => ':active فعال · :suspended معلق',
+    'provisioning'                            => 'در حال راه‌اندازی',
+    'failed_stores'                           => 'ناموفق',
+    'storefronts_live'                        => 'ویترین‌های فعال',
+    'failed_deployments'                      => 'استقرارهای ناموفق',
+    'activity_log'                            => 'فعالیت',
+    'activity_logs'                           => 'فعالیت',
+    'event'                                   => 'رویداد',
+    'subject'                                 => 'موضوع',
+    'platform_activity'                       => 'فقط فعالیت پلتفرم',
+    'platform_owned_store'                    => 'متعلق به پلتفرم (بدون نماینده)',
+    'reseller'                                => 'حساب',
+    'resellers'                               => 'حساب‌ها',
+    'store'                                   => 'ملک',
+    'stores'                                  => 'املاک',
+    'remaining_stores'                        => 'املاک باقی‌مانده',
+
+    'platform_settings'            => 'تنظیمات پلتفرم',
+    'store_creation'               => 'ایجاد ملک',
+    'store_creation_description'   => 'اینکه آیا پلتفرم ایجاد ملک جدید از کنسول و توسط نمایندگان را می‌پذیرد یا خیر.',
+    'store_creation_open'          => 'باز برای املاک جدید',
+    'store_creation_open_hint'     => 'برای توقف ایجاد ملک در کل پلتفرم این گزینه را خاموش کنید. املاک موجود تغییری نمی‌کنند.',
+    'store_creation_closed'        => 'ایجاد ملک بسته است',
 
     'name'                   => 'نام',
     'status'                 => 'فعال',
@@ -143,6 +165,7 @@ return [
 
     'tables'                 => [
         'description' => [
+            'activity_logs'     => 'آنچه در همهٔ فروشگاه‌های پلتفرم رخ داده است را بخوانید.',
             'plans'             => 'مدیریت طرح‌های اشتراک در دسترس حساب‌ها.',
             'resellers'         => 'مدیریت حساب‌ها و ظرفیت املاک آن‌ها.',
             'stores'            => 'مدیریت املاک، دامنه‌ها و وضعیت دسترسی.',
@@ -150,12 +173,14 @@ return [
         ],
         'empty_state' => [
             'heading' => [
+                'activity_logs'     => 'بدون فعالیت',
                 'plans'             => 'طرحی وجود ندارد',
                 'resellers'         => 'حسابی وجود ندارد',
                 'stores'            => 'ملکی وجود ندارد',
                 'storefront_images' => 'تصویر فروشگاهی وجود ندارد',
             ],
             'description' => [
+                'activity_logs'     => 'با ایجاد تغییر توسط اپراتورها و فروشگاه‌ها، فعالیت‌ها اینجا نمایش داده می‌شود.',
                 'plans'             => 'برای تعیین محدودیت‌ها و دوره‌های پرداخت، یک طرح ایجاد کنید.',
                 'resellers'         => 'برای تخصیص املاک، یک حساب ایجاد کنید.',
                 'stores'            => 'برای پیکربندی دامنه و دسترسی، یک ملک ایجاد کنید.',

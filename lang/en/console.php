@@ -5,14 +5,36 @@ declare(strict_types=1);
 return [
     'navigation_group'       => 'Console',
 
-    'plan'                               => 'Plan',
-    'plans'                              => 'Plans',
-    'platform_owned_store'               => 'Platform-owned (no reseller)',
-    'reseller'                           => 'Reseller',
-    'resellers'                          => 'Resellers',
-    'store'                              => 'Store',
-    'stores'                             => 'Stores',
-    'remaining_stores'                   => 'Remaining stores',
+    'plan'                                    => 'Plan',
+    'plans'                                   => 'Plans',
+    'assign_reseller'                         => 'Assign reseller',
+    'assign_reseller_description'             => 'Move this store to another reseller, or leave it empty to have the platform own it directly.',
+    'assign_reseller_failed'                  => 'The store could not be reassigned',
+    'reseller_assigned'                       => 'Reseller assigned',
+    'active_resellers'                        => 'Active',
+    'stores_active_suspended'                 => ':active active · :suspended suspended',
+    'provisioning'                            => 'Provisioning',
+    'failed_stores'                           => 'Failed',
+    'storefronts_live'                        => 'Storefronts live',
+    'failed_deployments'                      => 'Failed deployments',
+    'activity_log'                            => 'Activity',
+    'activity_logs'                           => 'Activity',
+    'event'                                   => 'Event',
+    'subject'                                 => 'Subject',
+    'platform_activity'                       => 'Platform activity only',
+    'platform_owned_store'                    => 'Platform-owned (no reseller)',
+    'reseller'                                => 'Reseller',
+    'resellers'                               => 'Resellers',
+    'store'                                   => 'Store',
+    'stores'                                  => 'Stores',
+    'remaining_stores'                        => 'Remaining stores',
+
+    'platform_settings'            => 'Platform settings',
+    'store_creation'               => 'Store creation',
+    'store_creation_description'   => 'Whether the platform is accepting new stores from the console and from resellers.',
+    'store_creation_open'          => 'Open for new stores',
+    'store_creation_open_hint'     => 'Turn this off to freeze store creation across the platform. Existing stores are unaffected.',
+    'store_creation_closed'        => 'Store creation is closed',
 
     'name'                   => 'Name',
     'status'                 => 'Active',
@@ -143,6 +165,7 @@ return [
 
     'tables'                 => [
         'description' => [
+            'activity_logs'     => 'Read what happened across every store on the platform.',
             'plans'             => 'Manage the subscription plans available to resellers.',
             'resellers'         => 'Manage reseller accounts and their store capacity.',
             'stores'            => 'Manage stores, domains, and access status.',
@@ -150,12 +173,14 @@ return [
         ],
         'empty_state' => [
             'heading' => [
+                'activity_logs'     => 'No activity',
                 'plans'             => 'No plans',
                 'resellers'         => 'No resellers',
                 'stores'            => 'No stores',
                 'storefront_images' => 'No storefront images',
             ],
             'description' => [
+                'activity_logs'     => 'Activity appears here as operators and stores make changes.',
                 'plans'             => 'Create a plan to define subscription limits and billing periods.',
                 'resellers'         => 'Create a reseller account to start assigning stores.',
                 'stores'            => 'Create a store to configure its domain and access.',

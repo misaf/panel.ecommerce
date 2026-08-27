@@ -5,14 +5,36 @@ declare(strict_types=1);
 return [
     'navigation_group'       => 'Konsole',
 
-    'plan'                               => 'Tarif',
-    'plans'                              => 'Tarife',
-    'platform_owned_store'               => 'Plattformeigen (kein Konto)',
-    'reseller'                           => 'Konto',
-    'resellers'                          => 'Konten',
-    'store'                              => 'Store',
-    'stores'                             => 'Stores',
-    'remaining_stores'                   => 'Verbleibende Stores',
+    'plan'                                    => 'Tarif',
+    'plans'                                   => 'Tarife',
+    'assign_reseller'                         => 'Konto zuweisen',
+    'assign_reseller_description'             => 'Diesen Shop einem anderen Konto zuweisen, oder leer lassen, damit die Plattform ihn direkt besitzt.',
+    'assign_reseller_failed'                  => 'Der Shop konnte nicht neu zugewiesen werden',
+    'reseller_assigned'                       => 'Konto zugewiesen',
+    'active_resellers'                        => 'Aktiv',
+    'stores_active_suspended'                 => ':active aktiv · :suspended gesperrt',
+    'provisioning'                            => 'Bereitstellung',
+    'failed_stores'                           => 'Fehlgeschlagen',
+    'storefronts_live'                        => 'Storefronts live',
+    'failed_deployments'                      => 'Fehlgeschlagene Deployments',
+    'activity_log'                            => 'Aktivität',
+    'activity_logs'                           => 'Aktivität',
+    'event'                                   => 'Ereignis',
+    'subject'                                 => 'Objekt',
+    'platform_activity'                       => 'Nur Plattformaktivität',
+    'platform_owned_store'                    => 'Plattformeigen (kein Konto)',
+    'reseller'                                => 'Konto',
+    'resellers'                               => 'Konten',
+    'store'                                   => 'Store',
+    'stores'                                  => 'Stores',
+    'remaining_stores'                        => 'Verbleibende Stores',
+
+    'platform_settings'            => 'Plattformeinstellungen',
+    'store_creation'               => 'Store-Erstellung',
+    'store_creation_description'   => 'Ob die Plattform neue Stores aus der Konsole und von Resellern annimmt.',
+    'store_creation_open'          => 'Offen für neue Stores',
+    'store_creation_open_hint'     => 'Deaktivieren Sie dies, um die Store-Erstellung plattformweit einzufrieren. Bestehende Stores bleiben unberührt.',
+    'store_creation_closed'        => 'Die Store-Erstellung ist geschlossen',
 
     'name'                   => 'Name',
     'status'                 => 'Aktiv',
@@ -143,6 +165,7 @@ return [
 
     'tables'                 => [
         'description' => [
+            'activity_logs'     => 'Nachvollziehen, was in allen Shops der Plattform passiert ist.',
             'plans'             => 'Verwalten Sie die verfügbaren Abonnement-Tarife.',
             'resellers'         => 'Verwalten Sie Konten und deren Store-Kapazität.',
             'stores'            => 'Verwalten Sie Stores, Domains und Zugriffsstatus.',
@@ -150,12 +173,14 @@ return [
         ],
         'empty_state' => [
             'heading' => [
+                'activity_logs'     => 'Keine Aktivität',
                 'plans'             => 'Keine Tarife',
                 'resellers'         => 'Keine Konten',
                 'stores'            => 'Keine Stores',
                 'storefront_images' => 'Keine Storefront-Images',
             ],
             'description' => [
+                'activity_logs'     => 'Aktivität erscheint hier, sobald Betreiber und Shops Änderungen vornehmen.',
                 'plans'             => 'Erstellen Sie einen Tarif, um Limits und Abrechnungszeiträume festzulegen.',
                 'resellers'         => 'Erstellen Sie ein Konto, um Stores zuzuweisen.',
                 'stores'            => 'Erstellen Sie einen Store, um Domain und Zugriff einzurichten.',
