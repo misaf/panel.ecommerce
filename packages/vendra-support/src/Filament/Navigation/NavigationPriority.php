@@ -23,6 +23,7 @@ enum NavigationPriority: int
 
     case Users = 3100;
     case UserProfiles = 3110;
+    case Wishlists = 3120;
     case Roles = 3200;
     case Permissions = 3210;
 

@@ -1,0 +1,62 @@
+{
+    "name": "misaf/vendra-wishlist",
+    "description": "Saved product selections for Vendra applications",
+    "keywords": [
+        "laravel",
+        "filamentphp",
+        "misaf",
+        "vendra",
+        "wishlist"
+    ],
+    "homepage": "https://github.com/misaf/vendra-wishlist",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.4",
+        "misaf/filament-jalali": "^5.1.4",
+        "misaf/vendra-support": "self.version",
+        "spatie/laravel-package-tools": "^1.93.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraWishlist\\": "src/",
+            "Misaf\\VendraWishlist\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraWishlist\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraWishlist\\Providers\\WishlistServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-wishlist/issues",
+        "source": "https://github.com/misaf/vendra-wishlist"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}

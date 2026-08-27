@@ -147,7 +147,11 @@
         <testsuite name="vendra-verification">
             <directory>packages/vendra-verification/tests</directory>
         </testsuite>
+        <testsuite name="vendra-wishlist">
+            <directory>packages/vendra-wishlist/tests</directory>
         </testsuite>
+        <testsuite name="vendra-wishlist-api">
+            <directory>packages/vendra-wishlist-api/tests</directory>
         </testsuite>
     </testsuites>
     <source>

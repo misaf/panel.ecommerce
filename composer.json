@@ -95,6 +95,8 @@
         "misaf/vendra-user": "self.version",
         "misaf/vendra-user-profile": "self.version",
         "misaf/vendra-verification": "self.version",
+        "misaf/vendra-wishlist": "self.version",
+        "misaf/vendra-wishlist-api": "self.version",
         "owenvoke/blade-fontawesome": "^3.3",
         "spatie/eloquent-sortable": "^5.0.1",
         "spatie/laravel-activitylog": "^5.0",
@@ -228,6 +230,9 @@
             "Misaf\\VendraUser\\Tests\\": "packages/vendra-user/tests/",
             "Misaf\\VendraVerification\\Database\\Factories\\": "packages/vendra-verification/database/factories/",
             "Misaf\\VendraVerification\\Tests\\": "packages/vendra-verification/tests/",
+            "Misaf\\VendraWishlistApi\\Tests\\": "packages/vendra-wishlist-api/tests/",
+            "Misaf\\VendraWishlist\\Database\\Factories\\": "packages/vendra-wishlist/database/factories/",
+            "Misaf\\VendraWishlist\\Tests\\": "packages/vendra-wishlist/tests/",
             "Tests\\": "tests/"
         }
     },
