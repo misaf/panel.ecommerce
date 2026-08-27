@@ -127,6 +127,7 @@ final class StorefrontSettings
             cpus: $cpus,
             memoryMegabytes: self::optionalPositiveInteger($storefront, 'memory_megabytes'),
             memoryReservationMegabytes: self::optionalPositiveInteger($storefront, 'memory_reservation_megabytes'),
+            pidsLimit: self::optionalPositiveInteger($storefront, 'pids_limit'),
         );
     }
 

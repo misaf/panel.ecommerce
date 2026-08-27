@@ -96,6 +96,7 @@ STOREFRONT_PULL=true
 STOREFRONT_CPUS=0.5
 STOREFRONT_MEMORY_MB=512
 STOREFRONT_MEMORY_RESERVATION_MB=0
+STOREFRONT_PIDS_LIMIT=512
 STOREFRONT_BASE_DOMAIN
 STOREFRONT_API_URL=
 STOREFRONT_CERT_RESOLVER=
@@ -103,7 +104,15 @@ STOREFRONT_CERT_RESOLVER=
 
 Every storefront in the fleet is capped, because one busy storefront on a shared
 host is how the rest of them get slow. `0` or an empty value lifts that cap,
-which is what a single-store box wants.
+which is what a single-store box wants. The caps are applied through the Engine's
+own `HostConfig` keys — `NanoCpus`, `Memory`, `MemoryReservation`, `PidsLimit` —
+so Docker and Podman's compatibility socket read them identically, and a redeploy
+or a reconciliation pass picks up a changed cap when it recreates the container.
+
+`STOREFRONT_PIDS_LIMIT` bounds processes *and* threads. Memory and CPU caps do
+nothing against a runaway that keeps forking, so this is the one that keeps the
+host's `pid_max` out of reach; 512 leaves a Next.js server, which holds a few
+dozen, plenty of room.
 
 The platform does not create the network. The network, the reverse proxy, and
 the TLS material belong to whoever runs the estate; deployment fails with a

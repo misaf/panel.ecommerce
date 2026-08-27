@@ -322,6 +322,7 @@ describe('resource caps', function (): void {
     it('caps a storefront container from the fleet configuration', function (): void {
         Config::set('vendra-store.storefront.cpus', 0.5);
         Config::set('vendra-store.storefront.memory_megabytes', 512);
+        Config::set('vendra-store.storefront.pids_limit', 512);
         fakeDockerEngine();
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
@@ -334,7 +335,8 @@ describe('resource caps', function (): void {
             $hostConfig = $request->data()['HostConfig'];
 
             return 500_000_000 === $hostConfig['NanoCpus']
-                && 536_870_912 === $hostConfig['Memory'];
+                && 536_870_912 === $hostConfig['Memory']
+                && 512 === $hostConfig['PidsLimit'];
         });
     });
 
@@ -342,6 +344,7 @@ describe('resource caps', function (): void {
         Config::set('vendra-store.storefront.cpus', 0);
         Config::set('vendra-store.storefront.memory_megabytes', 0);
         Config::set('vendra-store.storefront.memory_reservation_megabytes', 0);
+        Config::set('vendra-store.storefront.pids_limit', 0);
         fakeDockerEngine();
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
@@ -354,7 +357,37 @@ describe('resource caps', function (): void {
             $hostConfig = $request->data()['HostConfig'];
 
             return ! array_key_exists('NanoCpus', $hostConfig)
-                && ! array_key_exists('Memory', $hostConfig);
+                && ! array_key_exists('Memory', $hostConfig)
+                && ! array_key_exists('PidsLimit', $hostConfig);
+        });
+    });
+
+    it('caps the PID count from the shipped default when nothing overrides it', function (): void {
+        fakeDockerEngine();
+
+        app(StorefrontProvisioner::class)->provision(storefrontRequest());
+
+        Http::assertSent(function (Request $request): bool {
+            if ( ! Str::contains($request->url(), '/containers/create')) {
+                return false;
+            }
+
+            return 512 === $request->data()['HostConfig']['PidsLimit'];
+        });
+    });
+
+    it('honours a PID cap the operator overrides', function (): void {
+        Config::set('vendra-store.storefront.pids_limit', 128);
+        fakeDockerEngine();
+
+        app(StorefrontProvisioner::class)->provision(storefrontRequest());
+
+        Http::assertSent(function (Request $request): bool {
+            if ( ! Str::contains($request->url(), '/containers/create')) {
+                return false;
+            }
+
+            return 128 === $request->data()['HostConfig']['PidsLimit'];
         });
     });
 });

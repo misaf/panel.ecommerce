@@ -53,10 +53,16 @@ return [
          | is how every other storefront on it gets slow, so the fleet is capped
          | by default. Empty or zero lifts a cap, which is what a single-store
          | box wants.
+         |
+         | The PID cap bounds processes *and* threads. A Next.js server holds a
+         | few dozen of both, so 512 is headroom rather than a ceiling — what it
+         | stops is a runaway spawning until the host's own pid_max is gone,
+         | which no other cap here prevents.
          */
         'cpus'                         => (float) env('STOREFRONT_CPUS', 0.5),
         'memory_megabytes'             => (int) env('STOREFRONT_MEMORY_MB', 512),
         'memory_reservation_megabytes' => (int) env('STOREFRONT_MEMORY_RESERVATION_MB', 0),
+        'pids_limit'                   => (int) env('STOREFRONT_PIDS_LIMIT', 512),
 
         'base_domain'   => env('STOREFRONT_BASE_DOMAIN', '') ?: '',
         'api_url'       => env('STOREFRONT_API_URL', '') ?: '',
