@@ -56,6 +56,15 @@ $reseller = app(CreateResellerAction::class)->execute(
 This creates the reseller, its first panel user (`CreateResellerOwnerAction`),
 and the subscription to the given plan.
 
+### Owner accounts
+
+Credential and lifecycle changes go through
+`UpdateResellerOwnerPasswordAction`, `UpdateResellerOwnerEmailAction`,
+`SetResellerOwnerAccountEnabledAction`, and `ReplaceResellerOwnerAction`.
+Replacement soft-deletes the previous login as account history and creates the
+new owner through `CreateResellerOwnerAction`; email changes also keep the
+reseller contact email synchronized.
+
 ### Offboarding
 
 ```php
@@ -96,6 +105,7 @@ them into reseller behaviour, wired in `Providers\ResellerServiceProvider`:
 | Event | Listener |
 | --- | --- |
 | `SubscriptionActivated` | `NotifyActivatedSubscriber` |
+| `SubscriptionCancelled` | `SuspendSubscriberStores` |
 | `SubscriptionExpiringSoon` | `RemindExpiringSubscriber` |
 | `SubscriptionGraceExpired` | `SuspendSubscriberStores` |
 
