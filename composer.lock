@@ -7560,6 +7560,128 @@
             }
         },
         {
+            "name": "misaf/vendra-delivery",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-delivery",
+                "reference": "0dd656bdb5b3b3c8417f692ac385b261880fa394"
+            },
+            "require": {
+                "cknow/laravel-money": "^8.5",
+                "lara-zeus/spatie-translatable": "^2.0.1",
+                "misaf/filament-jalali": "^5.1.4",
+                "misaf/vendra-address": "self.version",
+                "misaf/vendra-order": "self.version",
+                "misaf/vendra-support": "self.version",
+                "php": "^8.4",
+                "spatie/eloquent-sortable": "^5.0.1",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraDelivery\\Providers\\DeliveryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraDelivery\\": "src/",
+                    "Misaf\\VendraDelivery\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraDelivery\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Delivery zones, schedules, and fee rules for Vendra applications",
+            "homepage": "https://github.com/misaf/vendra-delivery",
+            "keywords": [
+                "delivery",
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-delivery/issues",
+                "source": "https://github.com/misaf/vendra-delivery"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-delivery-api",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-delivery-api",
+                "reference": "f434d4882da6f5fd7eb5c7462faf479ea56b3cbe"
+            },
+            "require": {
+                "illuminate/support": "^13.0",
+                "misaf/vendra-api": "self.version",
+                "misaf/vendra-delivery": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraDeliveryApi\\Providers\\DeliveryApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraDeliveryApi\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API Platform services for the Vendra Delivery module",
+            "homepage": "https://github.com/misaf/vendra-delivery-api",
+            "keywords": [
+                "delivery-api",
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-delivery-api/issues",
+                "source": "https://github.com/misaf/vendra-delivery-api"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "misaf/vendra-document",
             "version": "1.x-dev",
             "dist": {
@@ -7741,6 +7863,123 @@
             "support": {
                 "issues": "https://github.com/misaf/vendra-faq-api/issues",
                 "source": "https://github.com/misaf/vendra-faq-api"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-inquiry",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-inquiry",
+                "reference": "61318a25af46eaf279af43c098aff408c07b7a95"
+            },
+            "require": {
+                "misaf/filament-jalali": "^5.1.4",
+                "misaf/vendra-support": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraInquiry\\Providers\\InquiryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraInquiry\\": "src/",
+                    "Misaf\\VendraInquiry\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraInquiry\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Storefront contact enquiries for Vendra applications",
+            "homepage": "https://github.com/misaf/vendra-inquiry",
+            "keywords": [
+                "filamentphp",
+                "inquiry",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-inquiry/issues",
+                "source": "https://github.com/misaf/vendra-inquiry"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-inquiry-api",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-inquiry-api",
+                "reference": "f9effbe2e2782c2b927996d529b5073ef32bbfd8"
+            },
+            "require": {
+                "illuminate/support": "^13.0",
+                "misaf/vendra-api": "self.version",
+                "misaf/vendra-inquiry": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraInquiryApi\\Providers\\InquiryApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraInquiryApi\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API Platform services for the Vendra Inquiry module",
+            "homepage": "https://github.com/misaf/vendra-inquiry-api",
+            "keywords": [
+                "filamentphp",
+                "inquiry-api",
+                "laravel",
+                "misaf",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-inquiry-api/issues",
+                "source": "https://github.com/misaf/vendra-inquiry-api"
             },
             "transport-options": {
                 "symlink": true,
@@ -8038,6 +8277,130 @@
             "support": {
                 "issues": "https://github.com/misaf/vendra-newsletter/issues",
                 "source": "https://github.com/misaf/vendra-newsletter"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-order",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-order",
+                "reference": "281266a5c680bdfefbce72ba160f45bd1a01cbe6"
+            },
+            "require": {
+                "cknow/laravel-money": "^8.5",
+                "lara-zeus/spatie-translatable": "^2.0.1",
+                "misaf/filament-jalali": "^5.1.4",
+                "misaf/vendra-cart": "self.version",
+                "misaf/vendra-support": "self.version",
+                "misaf/vendra-transaction": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-model-states": "^2.11",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraOrder\\Providers\\OrderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraOrder\\": "src/",
+                    "Misaf\\VendraOrder\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraOrder\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Orders, order lines, and checkout for Vendra applications",
+            "homepage": "https://github.com/misaf/vendra-order",
+            "keywords": [
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "order",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-order/issues",
+                "source": "https://github.com/misaf/vendra-order"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-order-api",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-order-api",
+                "reference": "4abe4e7896bd6129761e145df9859875a04ac0d4"
+            },
+            "require": {
+                "illuminate/support": "^13.0",
+                "misaf/vendra-api": "self.version",
+                "misaf/vendra-delivery": "self.version",
+                "misaf/vendra-order": "self.version",
+                "misaf/vendra-product": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraOrderApi\\Providers\\OrderApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraOrderApi\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API Platform services for the Vendra Order module",
+            "homepage": "https://github.com/misaf/vendra-order-api",
+            "keywords": [
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "order-api",
+                "vendra"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-order-api/issues",
+                "source": "https://github.com/misaf/vendra-order-api"
             },
             "transport-options": {
                 "symlink": true,
@@ -9066,6 +9429,124 @@
             "support": {
                 "issues": "https://github.com/misaf/vendra-verification/issues",
                 "source": "https://github.com/misaf/vendra-verification"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-wishlist",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-wishlist",
+                "reference": "4e2765fdee6594e497176689015ff4c55c7fe2cc"
+            },
+            "require": {
+                "misaf/filament-jalali": "^5.1.4",
+                "misaf/vendra-support": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraWishlist\\Providers\\WishlistServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraWishlist\\": "src/",
+                    "Misaf\\VendraWishlist\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Misaf\\VendraWishlist\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Saved product selections for Vendra applications",
+            "homepage": "https://github.com/misaf/vendra-wishlist",
+            "keywords": [
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra",
+                "wishlist"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-wishlist/issues",
+                "source": "https://github.com/misaf/vendra-wishlist"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "misaf/vendra-wishlist-api",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendra-wishlist-api",
+                "reference": "8f2e02e4a7e5b9dee13facd75a9f610367c2f6ea"
+            },
+            "require": {
+                "illuminate/support": "^13.0",
+                "misaf/vendra-api": "self.version",
+                "misaf/vendra-product": "self.version",
+                "misaf/vendra-wishlist": "self.version",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.93.1"
+            },
+            "type": "vendra-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Misaf\\VendraWishlistApi\\Providers\\WishlistApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misaf\\VendraWishlistApi\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ehsan Mahmoodi",
+                    "email": "misaf.1990@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API Platform services for the Vendra Wishlist module",
+            "homepage": "https://github.com/misaf/vendra-wishlist-api",
+            "keywords": [
+                "filamentphp",
+                "laravel",
+                "misaf",
+                "vendra",
+                "wishlist-api"
+            ],
+            "support": {
+                "issues": "https://github.com/misaf/vendra-wishlist-api/issues",
+                "source": "https://github.com/misaf/vendra-wishlist-api"
             },
             "transport-options": {
                 "symlink": true,
