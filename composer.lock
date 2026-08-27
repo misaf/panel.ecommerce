@@ -3670,21 +3670,21 @@
         },
         {
             "name": "graham-campbell/result-type",
-            "version": "v1.1.5",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
-                "reference": "ef5e784ad5cf6c86fb262e3231aa11d84552fa12"
+                "reference": "adccca3324eece92ca35463648c12b9e6293c05b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/ef5e784ad5cf6c86fb262e3231aa11d84552fa12",
-                "reference": "ef5e784ad5cf6c86fb262e3231aa11d84552fa12",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/adccca3324eece92ca35463648c12b9e6293c05b",
+                "reference": "adccca3324eece92ca35463648c12b9e6293c05b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
-                "phpoption/phpoption": "^1.9.6"
+                "phpoption/phpoption": "^1.10"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.5.52 || ^9.6.34 || ^10.5.63 || ^11.5.55 || ^12.5.14"
@@ -3716,7 +3716,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Result-Type/issues",
-                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.1.5"
+                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.2.0"
             },
             "funding": [
                 {
@@ -3728,26 +3728,26 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-23T22:27:24+00:00"
+            "time": "2026-08-24T09:06:52+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.15.3",
+            "version": "7.15.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ae311b8f045ea93ce7b1c9cdb7cec06c53f944bc"
+                "reference": "ee80339fd9177ba44c49cdb653ff02a4d1106b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ae311b8f045ea93ce7b1c9cdb7cec06c53f944bc",
-                "reference": "ae311b8f045ea93ce7b1c9cdb7cec06c53f944bc",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ee80339fd9177ba44c49cdb653ff02a4d1106b9a",
+                "reference": "ee80339fd9177ba44c49cdb653ff02a4d1106b9a",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/promises": "^2.5.2",
-                "guzzlehttp/psr7": "^2.13",
+                "guzzlehttp/promises": "^2.5.3",
+                "guzzlehttp/psr7": "^2.13.1",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0",
                 "symfony/deprecation-contracts": "^2.5 || ^3.0",
@@ -3840,7 +3840,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.15.3"
+                "source": "https://github.com/guzzle/guzzle/tree/7.15.5"
             },
             "funding": [
                 {
@@ -3856,20 +3856,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-05T19:48:21+00:00"
+            "time": "2026-08-24T09:21:06+00:00"
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.5.2",
+            "version": "2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "2823687acff28b2dbe67b2508a6b300e2c3fa4ce"
+                "reference": "cde49999552d185d64715fe9c1f77a2aadd2f9f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/2823687acff28b2dbe67b2508a6b300e2c3fa4ce",
-                "reference": "2823687acff28b2dbe67b2508a6b300e2c3fa4ce",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/cde49999552d185d64715fe9c1f77a2aadd2f9f1",
+                "reference": "cde49999552d185d64715fe9c1f77a2aadd2f9f1",
                 "shasum": ""
             },
             "require": {
@@ -3924,7 +3924,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.5.2"
+                "source": "https://github.com/guzzle/promises/tree/2.5.3"
             },
             "funding": [
                 {
@@ -3940,20 +3940,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-05T19:30:54+00:00"
+            "time": "2026-08-24T09:11:28+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "dad89620b7a6edb60c15858442eb2e408b45d8f4"
+                "reference": "95e7828100de18b4e269fb1703be530082d5166d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dad89620b7a6edb60c15858442eb2e408b45d8f4",
-                "reference": "dad89620b7a6edb60c15858442eb2e408b45d8f4",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/95e7828100de18b4e269fb1703be530082d5166d",
+                "reference": "95e7828100de18b4e269fb1703be530082d5166d",
                 "shasum": ""
             },
             "require": {
@@ -4043,7 +4043,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.13.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.13.1"
             },
             "funding": [
                 {
@@ -4059,20 +4059,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-16T22:23:49+00:00"
+            "time": "2026-08-24T09:13:11+00:00"
         },
         {
             "name": "guzzlehttp/uri-template",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/uri-template.git",
-                "reference": "516c3bf2af176c532d5b59b3430292f7e9ecccb1"
+                "reference": "7a466ad606491eb6528c717482f7cca77f1851f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/516c3bf2af176c532d5b59b3430292f7e9ecccb1",
-                "reference": "516c3bf2af176c532d5b59b3430292f7e9ecccb1",
+                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/7a466ad606491eb6528c717482f7cca77f1851f3",
+                "reference": "7a466ad606491eb6528c717482f7cca77f1851f3",
                 "shasum": ""
             },
             "require": {
@@ -4129,7 +4129,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/uri-template/issues",
-                "source": "https://github.com/guzzle/uri-template/tree/v2.0.0"
+                "source": "https://github.com/guzzle/uri-template/tree/v2.0.1"
             },
             "funding": [
                 {
@@ -4145,7 +4145,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-20T13:40:43+00:00"
+            "time": "2026-08-24T17:13:02+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
@@ -4270,16 +4270,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v13.26.1",
+            "version": "v13.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e4a1bc52ef551d52e60244bb004256d6861da7ab"
+                "reference": "6e2c363716964d8238cee7097b258119a984f0cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e4a1bc52ef551d52e60244bb004256d6861da7ab",
-                "reference": "e4a1bc52ef551d52e60244bb004256d6861da7ab",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6e2c363716964d8238cee7097b258119a984f0cf",
+                "reference": "6e2c363716964d8238cee7097b258119a984f0cf",
                 "shasum": ""
             },
             "require": {
@@ -4401,7 +4401,7 @@
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^11.5.50 || ^12.5.8 || ^13.0.3",
                 "predis/predis": "^2.3 || ^3.0",
-                "rector/rector": "^2.3",
+                "rector/rector": "2.6.3",
                 "resend/resend-php": "^1.0",
                 "symfony/cache": "^7.4.0 || ^8.0.0",
                 "symfony/http-client": "^7.4.0 || ^8.0.0",
@@ -4493,7 +4493,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-08-18T20:31:28+00:00"
+            "time": "2026-08-25T20:57:16+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -4654,16 +4654,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.23",
+            "version": "v0.3.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "b7b4c35e5bc47450f6b6238c6cc9c47ba19b2221"
+                "reference": "5d3cdef29e93ca3b62b1871359db3078cd99908b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/b7b4c35e5bc47450f6b6238c6cc9c47ba19b2221",
-                "reference": "b7b4c35e5bc47450f6b6238c6cc9c47ba19b2221",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/5d3cdef29e93ca3b62b1871359db3078cd99908b",
+                "reference": "5d3cdef29e93ca3b62b1871359db3078cd99908b",
                 "shasum": ""
             },
             "require": {
@@ -4707,27 +4707,27 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.23"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.24"
             },
-            "time": "2026-08-11T18:58:24+00:00"
+            "time": "2026-08-20T12:55:36+00:00"
         },
         {
             "name": "laravel/pulse",
-            "version": "v1.8.0",
+            "version": "v1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pulse.git",
-                "reference": "4425bf155c6b515b5bb671b1b75826332d0c049f"
+                "reference": "0f828f61f92656de7f0d0bc83bacbf6908ed8460"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pulse/zipball/4425bf155c6b515b5bb671b1b75826332d0c049f",
-                "reference": "4425bf155c6b515b5bb671b1b75826332d0c049f",
+                "url": "https://api.github.com/repos/laravel/pulse/zipball/0f828f61f92656de7f0d0bc83bacbf6908ed8460",
+                "reference": "0f828f61f92656de7f0d0bc83bacbf6908ed8460",
                 "shasum": ""
             },
             "require": {
                 "doctrine/sql-formatter": "^1.4.1",
-                "guzzlehttp/promises": "^1.0|^2.0",
+                "guzzlehttp/promises": "^1.0|^2.0|^3.0",
                 "illuminate/auth": "^10.48.4|^11.0.8|^12.0|^13.0",
                 "illuminate/cache": "^10.48.4|^11.0.8|^12.0|^13.0",
                 "illuminate/config": "^10.48.4|^11.0.8|^12.0|^13.0",
@@ -4752,7 +4752,7 @@
                 "nunomaduro/collision": "<7.7.0"
             },
             "require-dev": {
-                "guzzlehttp/guzzle": "^7.7",
+                "guzzlehttp/guzzle": "^7.7|^8.0",
                 "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^8.36|^9.15|^10.8|^11.0",
                 "pestphp/pest": "^2.0|^3.0|^4.0",
@@ -4798,7 +4798,7 @@
                 "issues": "https://github.com/laravel/pulse/issues",
                 "source": "https://github.com/laravel/pulse"
             },
-            "time": "2026-07-29T14:49:37+00:00"
+            "time": "2026-08-20T10:00:14+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -4921,16 +4921,16 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v2.0.15",
+            "version": "v2.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "dccd8bcb851bb03fcc005df650b708b57cc52661"
+                "reference": "7cfc24e4fa2cca045fb8dd2a797a2b2b13b655ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/dccd8bcb851bb03fcc005df650b708b57cc52661",
-                "reference": "dccd8bcb851bb03fcc005df650b708b57cc52661",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/7cfc24e4fa2cca045fb8dd2a797a2b2b13b655ed",
+                "reference": "7cfc24e4fa2cca045fb8dd2a797a2b2b13b655ed",
                 "shasum": ""
             },
             "require": {
@@ -4978,20 +4978,20 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2026-07-21T16:49:22+00:00"
+            "time": "2026-08-18T20:28:54+00:00"
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.30.0",
+            "version": "v5.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "caf714f55d51ab0d914b40033d8b0f489d6219cc"
+                "reference": "5c79f43e48d518f0e82dff0a03009c4cbe794c4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/caf714f55d51ab0d914b40033d8b0f489d6219cc",
-                "reference": "caf714f55d51ab0d914b40033d8b0f489d6219cc",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/5c79f43e48d518f0e82dff0a03009c4cbe794c4e",
+                "reference": "5c79f43e48d518f0e82dff0a03009c4cbe794c4e",
                 "shasum": ""
             },
             "require": {
@@ -5002,8 +5002,8 @@
                 "illuminate/http": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "league/oauth1-client": "^1.11",
-                "php": "^7.2|^8.0",
-                "phpseclib/phpseclib": "^3.0"
+                "php": "^8.1",
+                "phpseclib/phpseclib": "^4.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
@@ -5050,7 +5050,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2026-08-13T23:01:33+00:00"
+            "time": "2026-08-24T13:31:12+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -5933,16 +5933,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v4.4.1",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "0c925c55b4a5c134f2fb147efa4b9f53a837d866"
+                "reference": "4a030935e6c255c89a114b00ece66326f78157c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/0c925c55b4a5c134f2fb147efa4b9f53a837d866",
-                "reference": "0c925c55b4a5c134f2fb147efa4b9f53a837d866",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/4a030935e6c255c89a114b00ece66326f78157c0",
+                "reference": "4a030935e6c255c89a114b00ece66326f78157c0",
                 "shasum": ""
             },
             "require": {
@@ -5997,7 +5997,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v4.4.1"
+                "source": "https://github.com/livewire/livewire/tree/v4.4.2"
             },
             "funding": [
                 {
@@ -6005,7 +6005,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-18T11:39:06+00:00"
+            "time": "2026-08-24T15:02:06+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -6525,7 +6525,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-activity-log",
-                "reference": "f6b3d125442af11e4fa4e1b7999a07e804ce4ddb"
+                "reference": "6b023dc32415751baa0d45e59b4e8cf9d29d05a8"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -6547,12 +6547,6 @@
                 "psr-4": {
                     "Misaf\\VendraActivityLog\\": "src/",
                     "Misaf\\VendraActivityLog\\Database\\Seeders\\": "database/seeders/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraActivityLog\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraActivityLog\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -6590,7 +6584,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-address",
-                "reference": "c4f1bae04931ce0e4d06d02828a7b2dc3a2aa33f"
+                "reference": "25a46dabef543925299502cdaa1e6a4b47eac615"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -6614,8 +6608,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraAddress\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraAddress\\Tests\\": "tests/"
+                    "Misaf\\VendraAddress\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -6652,7 +6645,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate",
-                "reference": "05645778c6a2584824ebd7ab50d3b2ba7ca399aa"
+                "reference": "8345e3702c8afc088a5ca192ec741186372a5f5b"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -6681,8 +6674,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraAffiliate\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraAffiliate\\Tests\\": "tests/"
+                    "Misaf\\VendraAffiliate\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -6717,7 +6709,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-affiliate-api",
-                "reference": "12c2e62cb8838c50ad64f1c6b022822323fc92f9"
+                "reference": "7cef21f938f011bc4d48db411f994f60008f74fb"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6737,11 +6729,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraAffiliateApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraAffiliateApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -6778,7 +6765,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-api",
-                "reference": "96fc568af0900a71f36720348ce5adacdfad94a3"
+                "reference": "07c44390e87b4d5d559e3e063cf3710b04103c3b"
             },
             "require": {
                 "api-platform/laravel": "^4.3",
@@ -6798,11 +6785,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -6839,7 +6821,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute",
-                "reference": "20530b8e45e4767bb435c38d53e8c5773f1c519e"
+                "reference": "6775f42d7c50d892a89b0f382a1707c149bc6394"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -6866,8 +6848,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraAttribute\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraAttribute\\Tests\\": "tests/"
+                    "Misaf\\VendraAttribute\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -6904,7 +6885,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-attribute-api",
-                "reference": "b3b63f94628872d036c8c8aa279fc8257f08e666"
+                "reference": "bcd491765f2ef47330948818dcb38d1ef6de4883"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -6924,11 +6905,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraAttributeApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraAttributeApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -6965,7 +6941,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-authify-log",
-                "reference": "335b344b20afb68ac4bb2e7311b5ed2048d82354"
+                "reference": "9d0c1c345a204d8eaf5fee6367c6202e6af7d598"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
@@ -6990,8 +6966,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraAuthifyLog\\Tests\\": "tests/"
+                    "Misaf\\VendraAuthifyLog\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7027,7 +7002,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog",
-                "reference": "d1b0493e56c5c5eaedc8a9b3a4d03e3873b26aad"
+                "reference": "45cc3eaddd572d20cf6b2fe622d19c1540630dbd"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7059,8 +7034,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraBlog\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraBlog\\Tests\\": "tests/"
+                    "Misaf\\VendraBlog\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7097,7 +7071,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-blog-api",
-                "reference": "f3b086e397fc30ecbcdb6d219f7f979424dc7e9b"
+                "reference": "049b43c9bd2d14e1553da31f4c54ecefba4344f6"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7118,11 +7092,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraBlogApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraBlogApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -7159,7 +7128,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart",
-                "reference": "8c8541f2e75c35f77ffbe9623e67b44a77a10e03"
+                "reference": "81d2bf9027e3c40b2dc04a8b2ada01494fdcb4b1"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -7182,8 +7151,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraCart\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraCart\\Tests\\": "tests/"
+                    "Misaf\\VendraCart\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7220,7 +7188,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-cart-api",
-                "reference": "b5253b162fd0f43c1212abd59eb60b30a3fd1640"
+                "reference": "5765930e45cfc7772eb3e25ab5765a61d15cf28e"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7240,11 +7208,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraCartApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraCartApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -7281,7 +7244,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-console",
-                "reference": "56150d3aeccef16e2e9d201b20b01fbb93e75cf3"
+                "reference": "22ec51f5d8c95da4faab8683d30c97b6a51ebb24"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7292,6 +7255,7 @@
                 "illuminate/http": "^13.0",
                 "illuminate/support": "^13.0",
                 "misaf/laravel-email-validation": "^1.0",
+                "misaf/vendra-activity-log": "self.version",
                 "misaf/vendra-localization": "self.version",
                 "misaf/vendra-reseller": "self.version",
                 "misaf/vendra-store": "self.version",
@@ -7317,8 +7281,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraConsole\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraConsole\\Tests\\": "tests/"
+                    "Misaf\\VendraConsole\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7355,7 +7318,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-container",
-                "reference": "83416918aacc27a1718e8501990bb913cca24899"
+                "reference": "c2bec14819a9cfef9be464b52d0135586c29f22c"
             },
             "require": {
                 "illuminate/http": "^13.0",
@@ -7374,11 +7337,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraContainer\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraContainer\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -7416,7 +7374,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-currency",
-                "reference": "21a78cbca5600c8a5fd74ccd63fbb09186346262"
+                "reference": "8f516f06071334ec47e187ab3affaba0adaafd00"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
@@ -7443,8 +7401,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraCurrency\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraCurrency\\Tests\\": "tests/"
+                    "Misaf\\VendraCurrency\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7483,7 +7440,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page",
-                "reference": "c2737905352785b1e12cd001909fc0b717b13876"
+                "reference": "bfbdf7b53e23313972360f3da97f18ad10a42c31"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7512,8 +7469,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraCustomPage\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraCustomPage\\Tests\\": "tests/"
+                    "Misaf\\VendraCustomPage\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7552,7 +7508,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-custom-page-api",
-                "reference": "e28865926b2963009139dadec91c957db7176eae"
+                "reference": "a387317acacce27d47725de17431a48eefa933be"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7573,11 +7529,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraCustomPageApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraCustomPageApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -7614,7 +7565,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-document",
-                "reference": "de02f54116888ab4d063876f7e0a9cb64492f16d"
+                "reference": "fac33096191940e9930c53d7b3403fcdc42881c6"
             },
             "require": {
                 "misaf/vendra-multimedia": "self.version",
@@ -7639,8 +7590,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraDocument\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraDocument\\Tests\\": "tests/"
+                    "Misaf\\VendraDocument\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7677,7 +7627,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq",
-                "reference": "1e4b39d23479c241299038229aeacafbea5e5c2b"
+                "reference": "30eb921953d0a3c4dfa9ea3c87264433c0317ec9"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7709,8 +7659,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraFaq\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraFaq\\Tests\\": "tests/"
+                    "Misaf\\VendraFaq\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7747,7 +7696,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-faq-api",
-                "reference": "4eaa1ce4cec21f1425e47240dadfd40eedbd5a1a"
+                "reference": "5301e5961d03cd9ab092abfc468c2ec8e10bc57b"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -7768,11 +7717,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraFaqApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraFaqApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -7809,7 +7753,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-language",
-                "reference": "533a2ad99ce098976613bed6a362594de164d65d"
+                "reference": "4dba0c8ab104effb4c03f7a78a06e54cb9b0bf67"
             },
             "require": {
                 "bezhansalleh/filament-language-switch": "^5.0",
@@ -7838,8 +7782,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraLanguage\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraLanguage\\Tests\\": "tests/"
+                    "Misaf\\VendraLanguage\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -7876,7 +7819,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-localization",
-                "reference": "c60fc98577daf8e6c7c65ddbb7b2e8db1ac5e7c9"
+                "reference": "e27ad3b505cd97aeeccafbabafb8b51769109c5e"
             },
             "require": {
                 "illuminate/contracts": "^13.0",
@@ -7896,11 +7839,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraLocalization\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraLocalization\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -7937,7 +7875,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia",
-                "reference": "ee15ff2f1f64468fbb5909e38c5214c281a32713"
+                "reference": "ed63a24dffaa25bf5b1271a373a930f8cb5ae825"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -7959,11 +7897,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraMultimedia\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraMultimedia\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -8000,7 +7933,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-multimedia-api",
-                "reference": "ac2bb41934b7034d02bd186dbbd5fd7f4ee76493"
+                "reference": "f2593a0d3f3263dca8be7571b31d44cfb9010ce4"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8020,11 +7953,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraMultimediaApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraMultimediaApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -8061,7 +7989,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-newsletter",
-                "reference": "bf5d222c7ce2fd990f3961e51b319addd2735d5d"
+                "reference": "65a388cf7f9da439a4baaf57c4e3f79fed27ed67"
             },
             "require": {
                 "misaf/filament-jalali": "^5.1.4",
@@ -8085,8 +8013,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraNewsletter\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraNewsletter\\Tests\\": "tests/"
+                    "Misaf\\VendraNewsletter\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8123,7 +8050,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-permission",
-                "reference": "9c7a58767e02a92d893fcdb2357ee998c7a04304"
+                "reference": "b0de6409b66c0edc5259e943da9bf78be6886a10"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8150,8 +8077,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraPermission\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraPermission\\Tests\\": "tests/"
+                    "Misaf\\VendraPermission\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8188,7 +8114,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-phone",
-                "reference": "ffbefc948f6ec78d0242a30fcf71b80821d09756"
+                "reference": "98a1ff45c861c555e97ce58b0f9c81a31c4261e4"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -8213,8 +8139,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraPhone\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraPhone\\Tests\\": "tests/"
+                    "Misaf\\VendraPhone\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8251,7 +8176,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product",
-                "reference": "fec4e42c78ffe1beaafec665dd397cfc9046bd0e"
+                "reference": "be4e17ac818a76f17c77c005f59daaadfd007194"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8287,8 +8212,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraProduct\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraProduct\\Tests\\": "tests/"
+                    "Misaf\\VendraProduct\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8325,7 +8249,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-product-api",
-                "reference": "8670bd3e245b625d8566d4e2bbb8213c8edf2d6d"
+                "reference": "3ac05bbacbdc6224921ebd2976b089c5da4a443a"
             },
             "require": {
                 "illuminate/support": "^13.0",
@@ -8350,11 +8274,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraProductApi\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraProductApi\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -8391,7 +8310,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-reseller",
-                "reference": "26ef19584ca64d238bb84cd77321977fa84b9f5e"
+                "reference": "6eaccb291a03d2ff15b0af54d3730a6684a08fe7"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8428,8 +8347,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraReseller\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraReseller\\Tests\\": "tests/"
+                    "Misaf\\VendraReseller\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8466,7 +8384,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-socialite",
-                "reference": "917e56bc03185a9677c9fef5b52e627ecfbaad52"
+                "reference": "a9aa5a6bece538c54a26b81403e4fa4743c28f9c"
             },
             "require": {
                 "dutchcodingcompany/filament-socialite": "^3.2",
@@ -8486,11 +8404,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraSocialite\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraSocialite\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -8528,7 +8441,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-store",
-                "reference": "8c4e2ea1a76c3a2c709b208536b3fc3d4390d9aa"
+                "reference": "988e6ff6021b7ac12a5ddae4c9e05b25741451de"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8548,6 +8461,7 @@
                 "spatie/laravel-multitenancy": "^4.1.3",
                 "spatie/laravel-package-tools": "^1.93.1",
                 "spatie/laravel-permission": "^8.0",
+                "spatie/laravel-settings": "^3.9",
                 "spatie/laravel-sluggable": "^4.0.2"
             },
             "type": "vendra-module",
@@ -8565,8 +8479,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraStore\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraStore\\Tests\\": "tests/"
+                    "Misaf\\VendraStore\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8604,7 +8517,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-subscription",
-                "reference": "2ccdd10f44325e643c996a93cfa20011fa344989"
+                "reference": "ba3cd802ccb650599b547bb9b878ddbd5dbe65ab"
             },
             "require": {
                 "cknow/laravel-money": "^8.5",
@@ -8628,8 +8541,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraSubscription\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraSubscription\\Tests\\": "tests/"
+                    "Misaf\\VendraSubscription\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8668,7 +8580,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-support",
-                "reference": "555fc1a4365696cd7a37ee1764a640cebc613f7d"
+                "reference": "c36cd03cfaaf694e54758e537359f6095b97083e"
             },
             "require": {
                 "filament/filament": "^5.6.8",
@@ -8690,11 +8602,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraSupport\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraSupport\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -8731,7 +8638,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tagger",
-                "reference": "d9a27448604a7f28d8f8edd14c8956d902ae1c9c"
+                "reference": "d51fb20fa0abafe520a45c61bc9ce2bb3fe82763"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -8759,8 +8666,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraTagger\\Tests\\": "tests/"
+                    "Misaf\\VendraTagger\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8797,7 +8703,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-tenant",
-                "reference": "8d228b7e617ac6ebd4f4b11ebd76f6b4e6d8a08a"
+                "reference": "f24499425aebd8d4bc24419f57f8edd91fbf5aa4"
             },
             "require": {
                 "illuminate/console": "^13.0",
@@ -8821,11 +8727,6 @@
                 "psr-4": {
                     "Misaf\\VendraTenant\\": "src/",
                     "Misaf\\VendraTenant\\Database\\Seeders\\": "database/seeders/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraTenant\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -8860,7 +8761,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-testing",
-                "reference": "e3d56d5e8b777d1a2fb1e9a8ea44de9588c6b2b1"
+                "reference": "14e3551aadf4d58a62922c96a41c88ba86a401c8"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -8876,11 +8777,6 @@
                     "src/Expectations.php",
                     "src/Helpers.php"
                 ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraTesting\\Tests\\": "tests/"
-                }
             },
             "license": [
                 "MIT"
@@ -8916,7 +8812,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-transaction",
-                "reference": "ce339e563f0df40c47d7aace1e0c8463063cb711"
+                "reference": "11ca634025b3b4075a0abf61711ccae5569d2ffa"
             },
             "require": {
                 "flowframe/laravel-trend": "^0.5.0",
@@ -8950,8 +8846,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraTransaction\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraTransaction\\Tests\\": "tests/"
+                    "Misaf\\VendraTransaction\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -8988,7 +8883,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user",
-                "reference": "ecdf183757417ef47174a1a7ece185cc54401fd4"
+                "reference": "478d60cfb774d17b23b794669089f89bd466e708"
             },
             "require": {
                 "laravel/pennant": "^1.24",
@@ -9020,8 +8915,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraUser\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraUser\\Tests\\": "tests/"
+                    "Misaf\\VendraUser\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -9056,7 +8950,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-user-profile",
-                "reference": "554f7e4028d38fc4d7cf31d602d3ad34f9f02ecd"
+                "reference": "44c8b0862384df4a336c9392fde6cd968c276b73"
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^4.0",
@@ -9085,8 +8979,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraUserProfile\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraUserProfile\\Tests\\": "tests/"
+                    "Misaf\\VendraUserProfile\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -9124,7 +9017,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-verification",
-                "reference": "47b7be3d74fbe04986fc8ce1d9a436ad04c7753a"
+                "reference": "8238dd30bc5c0917f9055d335b652492627b90ac"
             },
             "require": {
                 "misaf/vendra-support": "self.version",
@@ -9148,8 +9041,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Misaf\\VendraVerification\\Database\\Factories\\": "database/factories/",
-                    "Misaf\\VendraVerification\\Tests\\": "tests/"
+                    "Misaf\\VendraVerification\\Database\\Factories\\": "database/factories/"
                 }
             },
             "license": [
@@ -10373,56 +10265,6 @@
             "time": "2025-09-24T15:06:41+00:00"
         },
         {
-            "name": "paragonie/random_compat",
-            "version": "v9.99.100",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
-                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*|5.*",
-                "vimeo/psalm": "^1"
-            },
-            "suggest": {
-                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paragon Initiative Enterprises",
-                    "email": "security@paragonie.com",
-                    "homepage": "https://paragonie.com"
-                }
-            ],
-            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
-            "keywords": [
-                "csprng",
-                "polyfill",
-                "pseudorandom",
-                "random"
-            ],
-            "support": {
-                "email": "info@paragonie.com",
-                "issues": "https://github.com/paragonie/random_compat/issues",
-                "source": "https://github.com/paragonie/random_compat"
-            },
-            "time": "2020-10-15T08:29:30+00:00"
-        },
-        {
             "name": "php-http/discovery",
             "version": "1.20.0",
             "source": {
@@ -10754,31 +10596,35 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.56",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "7adbbe38cde25e2df2116dbf2673c407e24fa305"
+                "reference": "bb7b959c8159957edae6f5084ebbac765d310e16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/7adbbe38cde25e2df2116dbf2673c407e24fa305",
-                "reference": "7adbbe38cde25e2df2116dbf2673c407e24fa305",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/bb7b959c8159957edae6f5084ebbac765d310e16",
+                "reference": "bb7b959c8159957edae6f5084ebbac765d310e16",
                 "shasum": ""
             },
             "require": {
-                "paragonie/constant_time_encoding": "^1|^2|^3",
-                "paragonie/random_compat": "^1.4|^2.0|^9.99.99",
-                "php": ">=5.6.1"
+                "paragonie/constant_time_encoding": "^2|^3",
+                "php": ">=8.1",
+                "symfony/polyfill-php82": "^1.26"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "brianium/paratest": "^7.22",
+                "ext-xml": "*",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpunit/phpunit": "^13",
+                "squizlabs/php_codesniffer": "^3.7",
+                "vimeo/psalm": "*"
             },
             "suggest": {
                 "ext-dom": "Install the DOM extension to load XML formatted public keys.",
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
                 "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
-                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
                 "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
             "type": "library",
@@ -10787,7 +10633,7 @@
                     "phpseclib/bootstrap.php"
                 ],
                 "psr-4": {
-                    "phpseclib3\\": "phpseclib/"
+                    "phpseclib4\\": "phpseclib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -10819,10 +10665,16 @@
                     "name": "Graham Campbell",
                     "email": "graham@alt-three.com",
                     "role": "Developer"
+                },
+                {
+                    "name": "Jack Worman",
+                    "email": "jack.worman@gmail.com",
+                    "homepage": "https://jackworman.com",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
-            "homepage": "http://phpseclib.sourceforge.net",
+            "homepage": "https://phpseclib.com/",
             "keywords": [
                 "BigInteger",
                 "aes",
@@ -10844,7 +10696,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.56"
+                "source": "https://github.com/phpseclib/phpseclib/tree/4.0.1"
             },
             "funding": [
                 {
@@ -10860,7 +10712,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-03T04:36:50+00:00"
+            "time": "2026-08-26T12:15:13+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -12382,16 +12234,16 @@
         },
         {
             "name": "spatie/invade",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/invade.git",
-                "reference": "b920f6411d21df4e8610a138e2e87ae4957d7f63"
+                "reference": "f929c7b6e75fceeefa7b41a491e91274bafb17af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/invade/zipball/b920f6411d21df4e8610a138e2e87ae4957d7f63",
-                "reference": "b920f6411d21df4e8610a138e2e87ae4957d7f63",
+                "url": "https://api.github.com/repos/spatie/invade/zipball/f929c7b6e75fceeefa7b41a491e91274bafb17af",
+                "reference": "f929c7b6e75fceeefa7b41a491e91274bafb17af",
                 "shasum": ""
             },
             "require": {
@@ -12429,7 +12281,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/invade/tree/2.1.0"
+                "source": "https://github.com/spatie/invade/tree/2.1.1"
             },
             "funding": [
                 {
@@ -12437,7 +12289,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-17T09:06:10+00:00"
+            "time": "2026-08-24T12:39:05+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",
@@ -12886,16 +12738,16 @@
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.93.1",
+            "version": "1.93.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "d5552849801f2642aea710557463234b59ef65eb"
+                "reference": "e927d5b5b05e9fecae098e559e51918aa608ad02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/d5552849801f2642aea710557463234b59ef65eb",
-                "reference": "d5552849801f2642aea710557463234b59ef65eb",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/e927d5b5b05e9fecae098e559e51918aa608ad02",
+                "reference": "e927d5b5b05e9fecae098e559e51918aa608ad02",
                 "shasum": ""
             },
             "require": {
@@ -12935,7 +12787,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.93.1"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.93.2"
             },
             "funding": [
                 {
@@ -12943,7 +12795,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-19T14:06:37+00:00"
+            "time": "2026-08-26T09:13:25+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -16151,16 +16003,16 @@
         },
         {
             "name": "symfony/polyfill-deepclone",
-            "version": "v1.40.0",
+            "version": "v1.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-deepclone.git",
-                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa"
+                "reference": "70ba0627efc68e97ea392843458a2dd9d6dbd156"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-deepclone/zipball/dca4ccba5f360070b574414dce4c1e7a559844fa",
-                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa",
+                "url": "https://api.github.com/repos/symfony/polyfill-deepclone/zipball/70ba0627efc68e97ea392843458a2dd9d6dbd156",
+                "reference": "70ba0627efc68e97ea392843458a2dd9d6dbd156",
                 "shasum": ""
             },
             "require": {
@@ -16214,7 +16066,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-deepclone/tree/v1.40.0"
+                "source": "https://github.com/symfony/polyfill-deepclone/tree/v1.42.0"
             },
             "funding": [
                 {
@@ -16234,7 +16086,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-12T07:27:17+00:00"
+            "time": "2026-08-07T06:33:24+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -16320,16 +16172,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.38.1",
+            "version": "v1.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "dc21118016c039a66235cf93d96b435ffb282412"
+                "reference": "51b5ff5ba85452b31ec6f55490b08148612339d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/dc21118016c039a66235cf93d96b435ffb282412",
-                "reference": "dc21118016c039a66235cf93d96b435ffb282412",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/51b5ff5ba85452b31ec6f55490b08148612339d9",
+                "reference": "51b5ff5ba85452b31ec6f55490b08148612339d9",
                 "shasum": ""
             },
             "require": {
@@ -16383,7 +16235,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.42.0"
             },
             "funding": [
                 {
@@ -16403,20 +16255,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T15:22:23+00:00"
+            "time": "2026-08-24T10:51:20+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.38.0",
+            "version": "v1.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b"
+                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/2d446c214bdbe5b71bde5011b060a05fece3ae6b",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/aa20edea75bd9c48cfecc8360922e5a6e5c44502",
+                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502",
                 "shasum": ""
             },
             "require": {
@@ -16468,7 +16320,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.38.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.42.0"
             },
             "funding": [
                 {
@@ -16488,7 +16340,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T13:48:31+00:00"
+            "time": "2026-08-07T06:33:24+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -16658,6 +16510,86 @@
                 }
             ],
             "time": "2026-04-10T16:19:22+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php82",
+            "version": "v1.38.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php82.git",
+                "reference": "002dc0cfe5fd4ed6033d48f27d4f19a486c4b04b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php82/zipball/002dc0cfe5fd4ed6033d48f27d4f19a486c4b04b",
+                "reference": "002dc0cfe5fd4ed6033d48f27d4f19a486c4b04b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php82\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 8.2+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php82/tree/v1.38.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-05-26T12:45:58+00:00"
         },
         {
             "name": "symfony/polyfill-php83",
@@ -18480,16 +18412,16 @@
         },
         {
             "name": "ueberdosis/tiptap-php",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ueberdosis/tiptap-php.git",
-                "reference": "74bfb7be1c8c6102b240f3879b7f984a6ab87b97"
+                "reference": "0561e2146edbcdc622b5d4008d0ee02582f8642b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ueberdosis/tiptap-php/zipball/74bfb7be1c8c6102b240f3879b7f984a6ab87b97",
-                "reference": "74bfb7be1c8c6102b240f3879b7f984a6ab87b97",
+                "url": "https://api.github.com/repos/ueberdosis/tiptap-php/zipball/0561e2146edbcdc622b5d4008d0ee02582f8642b",
+                "reference": "0561e2146edbcdc622b5d4008d0ee02582f8642b",
                 "shasum": ""
             },
             "require": {
@@ -18529,7 +18461,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ueberdosis/tiptap-php/issues",
-                "source": "https://github.com/ueberdosis/tiptap-php/tree/2.1.1"
+                "source": "https://github.com/ueberdosis/tiptap-php/tree/2.1.2"
             },
             "funding": [
                 {
@@ -18545,27 +18477,27 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-06-12T18:19:46+00:00"
+            "time": "2026-08-11T08:47:45+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v5.6.4",
+            "version": "v5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "416df702837983f8d5ff48c9c3fee4f5f57b980b"
+                "reference": "301c07936b16d88628b126b01d082ba153cf4c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/416df702837983f8d5ff48c9c3fee4f5f57b980b",
-                "reference": "416df702837983f8d5ff48c9c3fee4f5f57b980b",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/301c07936b16d88628b126b01d082ba153cf4c40",
+                "reference": "301c07936b16d88628b126b01d082ba153cf4c40",
                 "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
-                "graham-campbell/result-type": "^1.1.4",
+                "graham-campbell/result-type": "^1.2",
                 "php": "^7.2.5 || ^8.0",
-                "phpoption/phpoption": "^1.9.5",
+                "phpoption/phpoption": "^1.10",
                 "symfony/polyfill-ctype": "^1.26",
                 "symfony/polyfill-mbstring": "^1.26",
                 "symfony/polyfill-php80": "^1.26"
@@ -18609,7 +18541,7 @@
                     "homepage": "https://github.com/vlucas"
                 }
             ],
-            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "description": "Loads environment variables from `.env` to `$_ENV` and `$_SERVER` automagically, and optionally to `getenv()`.",
             "keywords": [
                 "dotenv",
                 "env",
@@ -18617,7 +18549,7 @@
             ],
             "support": {
                 "issues": "https://github.com/vlucas/phpdotenv/issues",
-                "source": "https://github.com/vlucas/phpdotenv/tree/v5.6.4"
+                "source": "https://github.com/vlucas/phpdotenv/tree/v5.7.0"
             },
             "funding": [
                 {
@@ -18629,7 +18561,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-06T19:11:50+00:00"
+            "time": "2026-08-24T18:07:49+00:00"
         },
         {
             "name": "voku/portable-ascii",
@@ -18829,16 +18761,16 @@
         },
         {
             "name": "ysfkaya/filament-phone-input",
-            "version": "v4.2.2",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ysfkaya/filament-phone-input.git",
-                "reference": "ea69cf5a6a8259b48b9bc192bd204cecbcaec008"
+                "reference": "539d9d4d1d81cd6e8f4cf15689457dabf2b94f6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ysfkaya/filament-phone-input/zipball/ea69cf5a6a8259b48b9bc192bd204cecbcaec008",
-                "reference": "ea69cf5a6a8259b48b9bc192bd204cecbcaec008",
+                "url": "https://api.github.com/repos/ysfkaya/filament-phone-input/zipball/539d9d4d1d81cd6e8f4cf15689457dabf2b94f6f",
+                "reference": "539d9d4d1d81cd6e8f4cf15689457dabf2b94f6f",
                 "shasum": ""
             },
             "require": {
@@ -18887,24 +18819,24 @@
             ],
             "support": {
                 "issues": "https://github.com/ysfkaya/filament-phone-input/issues",
-                "source": "https://github.com/ysfkaya/filament-phone-input/tree/v4.2.2"
+                "source": "https://github.com/ysfkaya/filament-phone-input/tree/v4.2.3"
             },
-            "time": "2026-08-08T10:59:04+00:00"
+            "time": "2026-08-24T10:11:57+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "brianium/paratest",
-            "version": "v7.24.0",
+            "version": "v7.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "c63bfd148355e6aeb9e22697bae6c0fee2dfe96c"
+                "reference": "c29bc43a5cdd0124b7eff959064ae83ea902b49a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/c63bfd148355e6aeb9e22697bae6c0fee2dfe96c",
-                "reference": "c63bfd148355e6aeb9e22697bae6c0fee2dfe96c",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/c29bc43a5cdd0124b7eff959064ae83ea902b49a",
+                "reference": "c29bc43a5cdd0124b7eff959064ae83ea902b49a",
                 "shasum": ""
             },
             "require": {
@@ -18915,10 +18847,10 @@
                 "fidry/cpu-core-counter": "^1.3.0",
                 "jean85/pretty-package-versions": "^2.1.1",
                 "php": "~8.4.0 || ~8.5.0",
-                "phpunit/php-code-coverage": "^14.3.0",
+                "phpunit/php-code-coverage": "^14.3.1",
                 "phpunit/php-file-iterator": "^7",
                 "phpunit/php-timer": "^9",
-                "phpunit/phpunit": "^13.3.0",
+                "phpunit/phpunit": "^13.3.1",
                 "sebastian/environment": "^9.3.2",
                 "symfony/console": "^7.4.8 || ^8.1.2",
                 "symfony/process": "^7.4.8 || ^8.1.0"
@@ -18972,7 +18904,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.24.0"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.24.1"
             },
             "funding": [
                 {
@@ -18984,7 +18916,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2026-08-07T13:03:48+00:00"
+            "time": "2026-08-17T06:31:26+00:00"
         },
         {
             "name": "dutchcodingcompany/filament-developer-logins",
@@ -20192,16 +20124,16 @@
         },
         {
             "name": "laravel/boost",
-            "version": "v2.5.5",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/boost.git",
-                "reference": "a6c798975a893d3c0a609ebc6ed37a007ecbedec"
+                "reference": "b19e98a8637cb69b2aab7b5b6c5fe9e2c79d182f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/boost/zipball/a6c798975a893d3c0a609ebc6ed37a007ecbedec",
-                "reference": "a6c798975a893d3c0a609ebc6ed37a007ecbedec",
+                "url": "https://api.github.com/repos/laravel/boost/zipball/b19e98a8637cb69b2aab7b5b6c5fe9e2c79d182f",
+                "reference": "b19e98a8637cb69b2aab7b5b6c5fe9e2c79d182f",
                 "shasum": ""
             },
             "require": {
@@ -20254,7 +20186,7 @@
                 "issues": "https://github.com/laravel/boost/issues",
                 "source": "https://github.com/laravel/boost"
             },
-            "time": "2026-08-19T02:26:00+00:00"
+            "time": "2026-08-26T21:39:22+00:00"
         },
         {
             "name": "laravel/mcp",
@@ -20761,7 +20693,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/vendra-developer-logins",
-                "reference": "55ed1256dffed81aafbbdb8c3bb0eab04bb6d07e"
+                "reference": "15c4f9bd3ae720631c2b2c0eef026b3d8b2d8209"
             },
             "require": {
                 "dutchcodingcompany/filament-developer-logins": "^2.1",
@@ -20781,11 +20713,6 @@
             "autoload": {
                 "psr-4": {
                     "Misaf\\VendraDeveloperLogins\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Misaf\\VendraDeveloperLogins\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -21546,20 +21473,20 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v5.1.1",
+            "version": "v5.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "208f447a10fc416397edf00a5fc6380aa284d393"
+                "reference": "20a5aacaca4fce9116922f42d2942b3f9f5bbfc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/208f447a10fc416397edf00a5fc6380aa284d393",
-                "reference": "208f447a10fc416397edf00a5fc6380aa284d393",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/20a5aacaca4fce9116922f42d2942b3f9f5bbfc6",
+                "reference": "20a5aacaca4fce9116922f42d2942b3f9f5bbfc6",
                 "shasum": ""
             },
             "require": {
-                "brianium/paratest": "^7.24.0",
+                "brianium/paratest": "^7.24.1",
                 "nunomaduro/collision": "^8.9.5",
                 "nunomaduro/termwind": "^2.4.0",
                 "pestphp/pest-plugin": "^5.0.0",
@@ -21567,20 +21494,21 @@
                 "pestphp/pest-plugin-mutate": "^5.0.2",
                 "pestphp/pest-plugin-profanity": "^5.0.0",
                 "php": "^8.4",
-                "phpunit/phpunit": "^13.3.0",
-                "symfony/process": "^8.1.0"
+                "phpunit/phpunit": "^13.3.1",
+                "symfony/process": "^8.1.5"
             },
             "conflict": {
                 "filp/whoops": "<2.18.3",
-                "phpunit/phpunit": ">13.3.0",
+                "laravel/boost": "<2.6.0",
+                "phpunit/phpunit": ">13.3.1",
                 "sebastian/exporter": "<7.0.0",
                 "webmozart/assert": "<1.11.0"
             },
             "require-dev": {
                 "pestphp/pest-dev-tools": "^5.0.0",
                 "pestphp/pest-plugin-browser": "^5.0.1",
-                "pestphp/pest-plugin-phpstan": "^5.0.2",
-                "pestphp/pest-plugin-rector": "^5.0.3",
+                "pestphp/pest-plugin-phpstan": "^5.2.0",
+                "pestphp/pest-plugin-rector": "^5.0.4",
                 "pestphp/pest-plugin-type-coverage": "^5.0.2",
                 "psy/psysh": "^0.12.24"
             },
@@ -21649,7 +21577,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v5.1.1"
+                "source": "https://github.com/pestphp/pest/tree/v5.1.3"
             },
             "funding": [
                 {
@@ -21661,7 +21589,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-12T14:29:21+00:00"
+            "time": "2026-08-25T18:15:02+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -22654,23 +22582,23 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "7.0.1",
+            "version": "7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "3ccaa29123548190af12fee7af078dcd7f3ddfab"
+                "reference": "9bb4e6c58b62c1e043be995c66abec7c97307aae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/3ccaa29123548190af12fee7af078dcd7f3ddfab",
-                "reference": "3ccaa29123548190af12fee7af078dcd7f3ddfab",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/9bb4e6c58b62c1e043be995c66abec7c97307aae",
+                "reference": "9bb4e6c58b62c1e043be995c66abec7c97307aae",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^13.3.0"
+                "phpunit/phpunit": "^13.3.1"
             },
             "type": "library",
             "extra": {
@@ -22703,7 +22631,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
                 "security": "https://github.com/sebastianbergmann/php-file-iterator/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/7.0.1"
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/7.0.2"
             },
             "funding": [
                 {
@@ -22723,7 +22651,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-10T06:43:12+00:00"
+            "time": "2026-08-25T14:47:43+00:00"
         },
         {
             "name": "phpunit/php-invoker",
@@ -22947,16 +22875,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "13.3.0",
+            "version": "13.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "346fcba6ce7ab89bb1b0675feac6bc29c0f7711b"
+                "reference": "fc024931d6ad047404e9d86536735923fe63a06b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/346fcba6ce7ab89bb1b0675feac6bc29c0f7711b",
-                "reference": "346fcba6ce7ab89bb1b0675feac6bc29c0f7711b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fc024931d6ad047404e9d86536735923fe63a06b",
+                "reference": "fc024931d6ad047404e9d86536735923fe63a06b",
                 "shasum": ""
             },
             "require": {
@@ -22966,12 +22894,12 @@
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-xmlwriter": "*",
-                "myclabs/deep-copy": "^1.13.4",
+                "myclabs/deep-copy": "^1.14.0",
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.4.1",
                 "phpunit/php-code-coverage": "^14.3",
-                "phpunit/php-file-iterator": "^7.0.0",
+                "phpunit/php-file-iterator": "^7.0.1",
                 "phpunit/php-invoker": "^7.0.0",
                 "phpunit/php-text-template": "^6.0.0",
                 "phpunit/php-timer": "^9.0.0",
@@ -22983,9 +22911,9 @@
                 "sebastian/file-filter": "^1.0",
                 "sebastian/git-state": "^1.0",
                 "sebastian/global-state": "^9.0.1",
-                "sebastian/object-enumerator": "^8.0.0",
+                "sebastian/object-enumerator": "^8.1.0",
                 "sebastian/recursion-context": "^8.0.1",
-                "sebastian/type": "^7.0.1",
+                "sebastian/type": "^7.0.2",
                 "sebastian/version": "^7.0.0",
                 "staabm/side-effects-detector": "^1.0.5"
             },
@@ -23027,7 +22955,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.3.0"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.3.1"
             },
             "funding": [
                 {
@@ -23035,7 +22963,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-08-07T07:37:01+00:00"
+            "time": "2026-08-13T13:14:23+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -23270,24 +23198,24 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "9.0.0",
+            "version": "9.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "a3fb6a298a265ff487a91bbea46e03cd01dbb226"
+                "reference": "a2df6626c1baf31d5a88674882a3072f151b5a26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/a3fb6a298a265ff487a91bbea46e03cd01dbb226",
-                "reference": "a3fb6a298a265ff487a91bbea46e03cd01dbb226",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/a2df6626c1baf31d5a88674882a3072f151b5a26",
+                "reference": "a2df6626c1baf31d5a88674882a3072f151b5a26",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^13.2",
-                "symfony/process": "^7.4.13"
+                "phpunit/phpunit": "^13.3.1",
+                "symfony/process": "^7.4.17"
             },
             "type": "library",
             "extra": {
@@ -23325,7 +23253,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/diff/issues",
                 "security": "https://github.com/sebastianbergmann/diff/security/policy",
-                "source": "https://github.com/sebastianbergmann/diff/tree/9.0.0"
+                "source": "https://github.com/sebastianbergmann/diff/tree/9.0.1"
             },
             "funding": [
                 {
@@ -23345,7 +23273,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T03:04:51+00:00"
+            "time": "2026-08-25T15:38:55+00:00"
         },
         {
             "name": "sebastian/environment",
