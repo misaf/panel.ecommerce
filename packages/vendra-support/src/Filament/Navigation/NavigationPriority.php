@@ -17,6 +17,9 @@ enum NavigationPriority: int
     case Currencies = 2200;
     case Carts = 2300;
     case Orders = 2400;
+    case DeliveryZones = 2500;
+    case DeliverySlots = 2510;
+    case Deliveries = 2520;
 
     case Users = 3100;
     case UserProfiles = 3110;

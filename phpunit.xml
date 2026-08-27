@@ -61,7 +61,11 @@
         <testsuite name="vendra-developer-logins">
             <directory>packages/vendra-developer-logins/tests</directory>
         </testsuite>
+        <testsuite name="vendra-delivery">
+            <directory>packages/vendra-delivery/tests</directory>
         </testsuite>
+        <testsuite name="vendra-delivery-api">
+            <directory>packages/vendra-delivery-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-document">
             <directory>packages/vendra-document/tests</directory>
