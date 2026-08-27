@@ -23,6 +23,8 @@ use Misaf\VendraReseller\Filament\Widgets\ResellerOverview;
 use Misaf\VendraReseller\Filament\Widgets\SubscriptionDetail;
 use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraReseller\Models\ResellerUser;
+use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
+use Misaf\VendraStore\Enums\StoreStatus;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StoreDomain;
 use Misaf\VendraStore\Models\StorefrontDeployment;
@@ -273,6 +275,47 @@ it('renders the reseller dashboard with its widgets for an owner', function (): 
         ->call('loadTable')
         ->assertOk()
         ->assertCanSeeTableRecords([$store]);
+});
+
+it('scopes operational store and deployment filters to the authenticated reseller', function (): void {
+    $reseller = Reseller::factory()->create();
+    $otherReseller = Reseller::factory()->create();
+    $failedStore = Store::factory()->provisioningFailed()->create(['reseller_id' => $reseller->getKey()]);
+    $readyStore = Store::factory()->active()->create(['reseller_id' => $reseller->getKey()]);
+    $otherFailedStore = Store::factory()->provisioningFailed()->create(['reseller_id' => $otherReseller->getKey()]);
+    StorefrontDeployment::factory()->for($failedStore)->create(['status' => StorefrontDeploymentStatus::Failed]);
+    StorefrontDeployment::factory()->for($readyStore)->create(['status' => StorefrontDeploymentStatus::Ready]);
+    StorefrontDeployment::factory()->for($otherFailedStore)->create(['status' => StorefrontDeploymentStatus::Failed]);
+
+    actAsResellerOwner($reseller);
+
+    livewire(ListStores::class)
+        ->call('loadTable')
+        ->filterTable('status', StoreStatus::Failed->value)
+        ->assertCanSeeTableRecords([$failedStore])
+        ->assertCanNotSeeTableRecords([$readyStore, $otherFailedStore])
+        ->resetTableFilters()
+        ->filterTable('storefront_status', StorefrontDeploymentStatus::Ready->value)
+        ->assertCanSeeTableRecords([$readyStore])
+        ->assertCanNotSeeTableRecords([$failedStore, $otherFailedStore]);
+});
+
+it('shows reseller quota and operational counts without platform-wide data', function (): void {
+    $reseller = Reseller::factory()->create();
+    $otherReseller = Reseller::factory()->create();
+    Subscription::factory()->forSubscriber($reseller)->for(Plan::factory()->maxUnits(3))->create();
+    Store::factory()->active()->create(['reseller_id' => $reseller->getKey()]);
+    Store::factory()->provisioningFailed()->create(['reseller_id' => $reseller->getKey()]);
+    Store::factory()->active()->count(2)->create(['reseller_id' => $otherReseller->getKey()]);
+
+    actAsResellerOwner($reseller);
+
+    livewire(ResellerOverview::class)
+        ->assertOk()
+        ->assertSee('2 / 3')
+        ->assertSee(__('console.remaining_stores') . ': 1')
+        ->assertSee(__('console.active_stores'))
+        ->assertSee(__('console.failed_stores'));
 });
 
 it('hides subscription and store widgets until the reseller has a store', function (): void {

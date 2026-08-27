@@ -20,6 +20,7 @@ use Misaf\VendraConsole\Filament\Resources\Stores\Actions\AssignResellerAction;
 use Misaf\VendraConsole\Filament\Resources\Stores\Actions\ReplaceDomainAction;
 use Misaf\VendraConsole\Filament\Resources\Stores\Actions\StoreOperatorActions;
 use Misaf\VendraReseller\Models\Reseller;
+use Misaf\VendraStore\Enums\StoreStatus;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StorefrontDeployment;
 
@@ -50,21 +51,23 @@ final class StoreTable
                 TextColumn::make('domain')
                     ->label(__('console.domain'))
                     ->icon(Heroicon::GlobeAlt)
-                    ->state(fn(Store $record): ?string => $record->activeDomainName())
+                    ->state(fn(Store $record): ?string => $record->domains->first()?->name)
                     ->placeholder('—'),
 
                 TextColumn::make('storefront_status')
                     ->label(__('console.storefront_status'))
                     ->badge()
-                    ->state(fn(Store $record): ?string => self::storefrontStatuses()->get($record->id))
+                    ->state(fn(Store $record): ?string => self::deployment($record)?->status->value)
                     ->placeholder(__('console.storefront_not_requested')),
 
                 TextColumn::make('admin_access')
                     ->label(__('console.admin_url'))
                     ->state(fn(Store $record): string => 'https://' . $record->slug . '.' . Config::string('vendra-tenant.central_host'))
-                    ->description(fn(Store $record): ?string => $record->activeDomainName()
-                        ? 'https://admin.' . $record->activeDomainName()
-                        : null)
+                    ->description(function (Store $record): ?string {
+                        $domain = $record->domains->first()?->name;
+
+                        return null === $domain ? null : 'https://admin.' . $domain;
+                    })
                     ->url(fn(Store $record): string => 'https://' . $record->slug . '.' . Config::string('vendra-tenant.central_host'))
                     ->openUrlInNewTab()
                     ->copyable()
@@ -117,6 +120,30 @@ final class StoreTable
                         ->label(__('console.reseller'))
                         ->options(fn(): array => self::resellerNames()->all()),
 
+                    SelectFilter::make('status')
+                        ->label(__('console.operational_status'))
+                        ->multiple()
+                        ->options(self::statusOptions())
+                        ->query(function (Builder $query, array $data): Builder {
+                            $statuses = [];
+
+                            foreach ((array) ($data['values'] ?? []) as $value) {
+                                if (is_string($value) && ($status = StoreStatus::tryFrom($value)) instanceof StoreStatus) {
+                                    $statuses[] = $status;
+                                }
+                            }
+
+                            if ([] === $statuses) {
+                                return $query;
+                            }
+
+                            return $query->where(function (Builder $query) use ($statuses): void {
+                                foreach ($statuses as $status) {
+                                    $query->orWhere(fn(Builder $query): Builder => $query->withStatus($status));
+                                }
+                            });
+                        }),
+
                     TrashedFilter::make(),
                 ],
                 layout: FiltersLayout::AboveContentCollapsible,
@@ -148,14 +175,20 @@ final class StoreTable
             ->mapWithKeys(fn(Reseller $reseller): array => [$reseller->id => $reseller->name]));
     }
 
-    /** @return Collection<int, 'failed'|'pending'|'processing'|'ready'|'requested'> */
-    private static function storefrontStatuses(): Collection
+    private static function deployment(Store $store): ?StorefrontDeployment
     {
-        return once(fn(): Collection => StorefrontDeployment::query()
-            ->orderBy('id')
-            ->get(['store_id', 'status'])
-            ->mapWithKeys(fn(StorefrontDeployment $deployment): array => [
-                $deployment->store_id => $deployment->status->value,
-            ]));
+        $deployment = $store->storefrontDeployments->first();
+
+        return $deployment instanceof StorefrontDeployment ? $deployment : null;
+    }
+
+    /** @return array<string, string> */
+    private static function statusOptions(): array
+    {
+        return collect(StoreStatus::cases())
+            ->mapWithKeys(fn(StoreStatus $status): array => [
+                $status->value => __("console.store_status_{$status->value}"),
+            ])
+            ->all();
     }
 }

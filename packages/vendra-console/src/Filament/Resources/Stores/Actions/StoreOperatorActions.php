@@ -8,8 +8,10 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
+use Misaf\VendraConsole\Filament\Resources\StorefrontDeployments\StorefrontDeploymentResource;
 use Misaf\VendraStore\Actions\OffboardStoreAction;
 use Misaf\VendraStore\Actions\ReactivateStoreAction;
+use Misaf\VendraStore\Actions\ReconcileStoreStorefrontAction;
 use Misaf\VendraStore\Actions\RedeployStoreStorefrontAction;
 use Misaf\VendraStore\Actions\RestartStoreStorefrontAction;
 use Misaf\VendraStore\Actions\RestoreOffboardedStoreAction;
@@ -18,11 +20,14 @@ use Misaf\VendraStore\Actions\RetryStoreProvisioningAction;
 use Misaf\VendraStore\Actions\StartStoreStorefrontAction;
 use Misaf\VendraStore\Actions\StopStoreStorefrontAction;
 use Misaf\VendraStore\Actions\SuspendStoreAction;
+use Misaf\VendraStore\Contracts\StorefrontProvisioner;
 use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraStore\Enums\StorefrontDesiredState;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Support\StorefrontReference;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
+use Throwable;
 
 final class StoreOperatorActions
 {
@@ -30,17 +35,59 @@ final class StoreOperatorActions
     public static function make(): array
     {
         return [
+            self::viewDeployment(),
+            self::viewLogs(),
             self::suspend(),
             self::reactivate(),
             self::retryProvisioning(),
             self::startStorefront(),
             self::stopStorefront(),
             self::restartStorefront(),
+            self::reconcileStorefront(),
             self::redeployStorefront(),
             self::retryStorefront(),
             self::offboard(),
             self::restore(),
         ];
+    }
+
+    private static function viewDeployment(): Action
+    {
+        return Action::make('viewDeployment')
+            ->label(__('console.view_deployment'))
+            ->icon(Heroicon::OutlinedEye)
+            ->visible(fn(Store $record): bool => self::deployment($record) instanceof StorefrontDeployment)
+            ->url(function (Store $record): ?string {
+                $deployment = self::deployment($record);
+
+                return $deployment instanceof StorefrontDeployment
+                    ? StorefrontDeploymentResource::getUrl('view', ['record' => $deployment])
+                    : null;
+            });
+    }
+
+    private static function viewLogs(): Action
+    {
+        return Action::make('viewStorefrontLogs')
+            ->label(__('console.view_logs'))
+            ->icon(Heroicon::OutlinedDocumentText)
+            ->visible(fn(Store $record): bool => self::deployment($record) instanceof StorefrontDeployment)
+            ->fillForm(fn(Store $record, StorefrontProvisioner $provisioner): array => [
+                'logs' => self::logsFor($record, $provisioner),
+            ])
+            ->schema([
+                Textarea::make('logs')
+                    ->hiddenLabel()
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->rows(20)
+                    ->placeholder(__('console.no_recent_logs'))
+                    ->columnSpanFull(),
+            ])
+            ->modalHeading(__('console.recent_storefront_logs'))
+            ->action(static fn(): null => null)
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel(__('console.close'));
     }
 
     private static function suspend(): Action
@@ -94,8 +141,10 @@ final class StoreOperatorActions
                 $deployment = self::deployment($record);
 
                 if ($deployment instanceof StorefrontDeployment) {
-                    $startStorefront->execute($deployment);
-                    self::notify(__('console.storefront_started'));
+                    self::run(
+                        fn(): mixed => $startStorefront->execute($deployment),
+                        __('console.storefront_started'),
+                    );
                 }
             });
     }
@@ -112,8 +161,10 @@ final class StoreOperatorActions
                 $deployment = self::deployment($record);
 
                 if ($deployment instanceof StorefrontDeployment) {
-                    $stopStorefront->execute($deployment);
-                    self::notify(__('console.storefront_stopped'));
+                    self::run(
+                        fn(): mixed => $stopStorefront->execute($deployment),
+                        __('console.storefront_stopped'),
+                    );
                 }
             });
     }
@@ -129,8 +180,29 @@ final class StoreOperatorActions
                 $deployment = self::deployment($record);
 
                 if ($deployment instanceof StorefrontDeployment) {
-                    $restartStorefront->execute($deployment);
-                    self::notify(__('console.storefront_restarted'));
+                    self::run(
+                        fn(): mixed => $restartStorefront->execute($deployment),
+                        __('console.storefront_restarted'),
+                    );
+                }
+            });
+    }
+
+    private static function reconcileStorefront(): Action
+    {
+        return Action::make('reconcileStorefront')
+            ->label(__('console.reconcile_storefront'))
+            ->icon(Heroicon::OutlinedArrowsRightLeft)
+            ->requiresConfirmation()
+            ->visible(fn(Store $record): bool => self::deployment($record) instanceof StorefrontDeployment)
+            ->action(function (Store $record, ReconcileStoreStorefrontAction $reconcileStorefront): void {
+                $deployment = self::deployment($record);
+
+                if ($deployment instanceof StorefrontDeployment) {
+                    self::run(
+                        fn(): mixed => $reconcileStorefront->execute($deployment),
+                        __('console.storefront_reconciled'),
+                    );
                 }
             });
     }
@@ -204,6 +276,42 @@ final class StoreOperatorActions
         $deployment = $store->storefrontDeployments->first();
 
         return $deployment instanceof StorefrontDeployment ? $deployment : null;
+    }
+
+    private static function logsFor(Store $store, StorefrontProvisioner $provisioner): string
+    {
+        $deployment = self::deployment($store);
+
+        if ( ! $deployment instanceof StorefrontDeployment) {
+            return __('console.no_recent_logs');
+        }
+
+        try {
+            $logs = $provisioner->logs(StorefrontReference::for($deployment));
+
+            return '' === mb_trim($logs) ? __('console.no_recent_logs') : $logs;
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return __('console.runtime_unavailable_message', ['message' => $exception->getMessage()]);
+        }
+    }
+
+    /** @param callable(): mixed $operation */
+    private static function run(callable $operation, string $successTitle): void
+    {
+        try {
+            $operation();
+            self::notify($successTitle);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Notification::make()
+                ->danger()
+                ->title(__('console.operational_action_failed'))
+                ->body($exception->getMessage())
+                ->send();
+        }
     }
 
     private static function notify(string $title): void

@@ -47,6 +47,8 @@ description: "Create, modify, review, or test the Vendra Reseller module in pack
 
 - `Providers\ResellerPanelServiceProvider` registers the panel; `Providers\ResellerServiceProvider` registers the command and listeners. Keep the split.
 - Resolve the acting reseller with `Filament\Concerns\InteractsWithCurrentReseller`; `Http\Middleware\AddResellerToRequestJobContext` carries it into queued work.
+- Dashboard usage and operational counts reuse `StoreQuota`, subscriber methods, and `Store::status()`. Store and deployment-status filters must remain rooted in `StoreResource::getEloquentQuery()` so they cannot cross reseller boundaries.
+- Do not expose container-runtime administration, logs, or platform recovery actions in the reseller panel.
 
 ## Testing
 

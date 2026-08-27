@@ -92,7 +92,12 @@ final class StoreResource extends Resource
             return parent::getEloquentQuery()->whereRaw('1 = 0');
         }
 
-        return parent::getEloquentQuery()->where('reseller_id', $resellerId);
+        return parent::getEloquentQuery()
+            ->where('reseller_id', $resellerId)
+            ->with([
+                'storefrontDeployments' => fn(Relation $relation): Relation => $relation->orderByDesc('id'),
+                'domains'               => fn(Relation $relation): Relation => $relation->where('active', true),
+            ]);
     }
 
     /**

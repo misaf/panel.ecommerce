@@ -137,6 +137,13 @@ and `ReplaceDomainAction`, supplying the authenticated owner as the reseller.
 Resolve the acting reseller with `Filament\Concerns\InteractsWithCurrentReseller`;
 `Http\Middleware\AddResellerToRequestJobContext` carries it into queued work.
 
+The reseller dashboard shows subscribed store usage against the plan allowance,
+remaining capacity, subscription state, and counts for active, provisioning,
+and failed stores. Store listings expose derived store and storefront-deployment
+statuses and filters, with all queries still rooted in
+`StoreResource::getEloquentQuery()`. Runtime administration and container details
+remain platform-owner concerns and are not exposed here.
+
 ## Testing
 
 Build resellers, owners, and subscriptions from the package factories and assert
