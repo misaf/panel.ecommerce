@@ -1,0 +1,62 @@
+{
+    "name": "misaf/vendra-inquiry",
+    "description": "Storefront contact enquiries for Vendra applications",
+    "keywords": [
+        "laravel",
+        "filamentphp",
+        "misaf",
+        "vendra",
+        "inquiry"
+    ],
+    "homepage": "https://github.com/misaf/vendra-inquiry",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.4",
+        "misaf/filament-jalali": "^5.1.4",
+        "misaf/vendra-support": "self.version",
+        "spatie/laravel-package-tools": "^1.93.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraInquiry\\": "src/",
+            "Misaf\\VendraInquiry\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraInquiry\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraInquiry\\Providers\\InquiryServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-inquiry/issues",
+        "source": "https://github.com/misaf/vendra-inquiry"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}
