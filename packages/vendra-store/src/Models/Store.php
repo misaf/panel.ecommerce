@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -23,6 +24,7 @@ use Misaf\VendraSupport\Contracts\ShouldLogActivity;
 use Misaf\VendraTenant\Concerns\IsTenantModel;
 use Misaf\VendraTenant\Contracts\TenantContract;
 use Misaf\VendraTenant\Enums\TenantProvisioningStatus;
+use Misaf\VendraUser\Models\User;
 use Spatie\Multitenancy\Models\Tenant as SpatieTenant;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -246,6 +248,16 @@ final class Store extends SpatieTenant implements ShouldLogActivity, TenantContr
     {
         return $this->hasMany(StorefrontDeployment::class)
             ->withoutGlobalScope(StoreScope::class);
+    }
+
+    /**
+     * Users who may access this store through the tenant membership pivot.
+     *
+     * @return BelongsToMany<User, $this>
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     /**

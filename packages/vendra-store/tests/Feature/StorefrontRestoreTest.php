@@ -11,7 +11,7 @@ use Misaf\VendraStore\Models\StorefrontDeployment;
 it('brings the storefront back up when a soft-deleted store is restored', function (): void {
     Queue::fake();
 
-    $store = Store::factory()->create();
+    $store = Store::factory()->active()->create();
     $deployment = StorefrontDeployment::factory()->for($store)->create([
         'desired_state' => StorefrontDesiredState::Running,
     ]);

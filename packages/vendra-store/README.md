@@ -159,6 +159,22 @@ than a quota failure. The action names no reseller — the owner is a
 `SubscriptionSubscriber` — which is what keeps this package installable without
 `misaf/vendra-reseller`.
 
+### Operating and offboarding a store
+
+`SuspendStoreAction` and `ReactivateStoreAction` own operator availability;
+reactivation is allowed only after tenant provisioning is ready.
+`RetryStoreProvisioningAction` resets a failed provisioning attempt and queues
+the existing completion job. Storefront operations use the existing
+start/stop/restart actions, while `RedeployStoreStorefrontAction` and
+`RetryFailedStorefrontDeploymentAction` queue the established deployment job.
+
+`OffboardStoreAction` is the supported removal path. It records a required
+reason and prior active state in metadata, inactivates and soft-deletes the
+store, and lets `StoreObserver` stop its storefront. Historical domains,
+subscriptions, ownership, and tenant data are retained. Restore through
+`RestoreOffboardedStoreAction`, which rechecks owner/quota constraints and only
+restores active service when provisioning is ready.
+
 ### Deploying a storefront
 
 ```php

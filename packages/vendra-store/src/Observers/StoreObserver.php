@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraStore\Observers;
 
 use Misaf\VendraStore\Enums\StorefrontDesiredState;
+use Misaf\VendraStore\Enums\StoreStatus;
 use Misaf\VendraStore\Jobs\DestroyStorefrontJob;
 use Misaf\VendraStore\Jobs\ReconcileStorefrontJob;
 use Misaf\VendraStore\Models\Store;
@@ -65,7 +66,15 @@ final class StoreObserver
          | the intent is what makes that happen — convergence reads it and will
          | otherwise keep the storefront down for the same reason it took it down.
          */
-        $deployment->markDesiredState(StorefrontDesiredState::Running);
+        $desiredState = StoreStatus::Active === $store->status()
+            ? StorefrontDesiredState::Running
+            : StorefrontDesiredState::Stopped;
+
+        $deployment->markDesiredState($desiredState);
+
+        if (StorefrontDesiredState::Stopped === $desiredState) {
+            return;
+        }
 
         ReconcileStorefrontJob::dispatch($deployment->id)->afterCommit();
     }
