@@ -138,3 +138,19 @@ it('rejects invalid and duplicate active domains outside Filament', function (st
     'invalid format'   => 'not a domain',
     'duplicate domain' => 'taken.test',
 ])->throws(ValidationException::class);
+
+it('slugifies the store name so its admin host resolves', function (): void {
+    $reseller = subscribedReseller(maxUnits: 2);
+
+    $result = app(CreateStoreAction::class)->execute(
+        name: 'Houshang Flowers',
+        domain: 'houshang.test',
+        username: 'admin_houshang',
+        email: 'admin@houshang.test',
+        password: 'secret-password',
+        owner: $reseller,
+    );
+
+    expect($result['store']->slug)->toBe('houshang-flowers')
+        ->and(StoreDomain::query()->where('name', 'houshang.test')->value('slug'))->toBe('houshangtest');
+});

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
@@ -16,6 +17,20 @@ use Misaf\VendraTenant\Jobs\CacheTenantRoutesJob;
 
 beforeEach(function (): void {
     Queue::fake([CacheTenantRoutesJob::class]);
+});
+
+it('queues replacement provisioning attempts while preventing concurrent processing', function (): void {
+    Queue::fake();
+    $job = new CompleteStoreProvisioningJob(123);
+
+    CompleteStoreProvisioningJob::dispatch(123);
+    CompleteStoreProvisioningJob::dispatch(123);
+
+    Queue::assertPushedTimes(CompleteStoreProvisioningJob::class, 2);
+
+    expect($job->middleware())
+        ->toHaveCount(1)
+        ->and($job->middleware()[0])->toBeInstanceOf(WithoutOverlapping::class);
 });
 
 it('completes provisioning checkpoints before activating the tenant', function (): void {

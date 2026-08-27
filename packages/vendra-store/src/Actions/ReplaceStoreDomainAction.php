@@ -80,7 +80,6 @@ final class ReplaceStoreDomainAction
 
             $created = $store->storeDomains()->create([
                 'name'   => $domain,
-                'slug'   => $domain,
                 'active' => true,
             ]);
 

@@ -86,7 +86,6 @@ final class CreateStoreAction
             $createdStore = Store::query()->create([
                 'reseller_id'              => $ownerId,
                 'name'                     => $name,
-                'slug'                     => $name,
                 'active'                   => false,
                 'provisioning_status'      => TenantProvisioningStatus::Pending,
                 'provisioning_should_seed' => $shouldSeed,
@@ -94,7 +93,6 @@ final class CreateStoreAction
 
             $createdStore->execute(fn() => $createdStore->storeDomains()->create([
                 'name'   => $domain,
-                'slug'   => $domain,
                 'active' => true,
             ]));
 

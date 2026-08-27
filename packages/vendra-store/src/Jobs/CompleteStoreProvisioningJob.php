@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\VendraStore\Jobs;
 
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Str;
 use Misaf\VendraStore\Contracts\StoreOwnerResolver;
 use Misaf\VendraStore\Models\Store;
@@ -26,7 +26,7 @@ use Throwable;
  * beside the domain rather than inside it — the action decides a store should
  * exist, this makes the slow parts happen and records whether they did.
  */
-final class CompleteStoreProvisioningJob implements NotTenantAware, ShouldBeUnique, ShouldQueue
+final class CompleteStoreProvisioningJob implements NotTenantAware, ShouldQueue
 {
     use Queueable;
 
@@ -34,9 +34,19 @@ final class CompleteStoreProvisioningJob implements NotTenantAware, ShouldBeUniq
 
     public int $timeout = 60;
 
-    public int $uniqueFor = 3600;
-
     public function __construct(public readonly int $tenantId) {}
+
+    /**
+     * @return list<WithoutOverlapping>
+     */
+    public function middleware(): array
+    {
+        return [
+            (new WithoutOverlapping("store-provisioning:{$this->tenantId}"))
+                ->releaseAfter(5)
+                ->expireAfter(120),
+        ];
+    }
 
     public function handle(): void
     {
@@ -96,11 +106,6 @@ final class CompleteStoreProvisioningJob implements NotTenantAware, ShouldBeUniq
     public function backoff(): array
     {
         return [5, 30, 120, 300];
-    }
-
-    public function uniqueId(): string
-    {
-        return (string) $this->tenantId;
     }
 
     public function failed(?Throwable $exception): void
