@@ -16,13 +16,18 @@ use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\CustomPageCategoryResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\CustomPageResource;
+use Misaf\VendraDelivery\Filament\Clusters\Resources\Deliveries\DeliveryResource;
+use Misaf\VendraDelivery\Filament\Clusters\Resources\DeliverySlots\DeliverySlotResource;
+use Misaf\VendraDelivery\Filament\Clusters\Resources\DeliveryZones\DeliveryZoneResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\FaqCategoryResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\FaqResource;
+use Misaf\VendraInquiry\Filament\Clusters\Resources\Inquiries\InquiryResource;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\LanguageResource;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\MultimediaResource;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\NewsletterResource;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
+use Misaf\VendraOrder\Filament\Clusters\Resources\Orders\OrderResource;
 use Misaf\VendraPermission\Filament\Clusters\Resources\Permissions\PermissionResource;
 use Misaf\VendraPermission\Filament\Clusters\Resources\Roles\RoleResource;
 use Misaf\VendraProduct\Filament\Clusters\Resources\ProductCategories\ProductCategoryResource;
@@ -33,6 +38,7 @@ use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\Transaction
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Wallets\WalletResource;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
+use Misaf\VendraWishlist\Filament\Clusters\Resources\Wishlists\WishlistResource;
 
 it('uses an infolist for every resource view page', function (string $resource): void {
     if ( ! is_subclass_of($resource, Resource::class)) {
@@ -57,15 +63,20 @@ it('uses an infolist for every resource view page', function (string $resource):
     BlogPostResource::class,
     CartResource::class,
     CurrencyResource::class,
+    DeliveryResource::class,
+    DeliverySlotResource::class,
+    DeliveryZoneResource::class,
     CustomPageCategoryResource::class,
     CustomPageResource::class,
     FaqCategoryResource::class,
     FaqResource::class,
+    InquiryResource::class,
     LanguageLineResource::class,
     LanguageResource::class,
     MultimediaResource::class,
     NewsletterSubscriberResource::class,
     NewsletterResource::class,
+    OrderResource::class,
     PermissionResource::class,
     RoleResource::class,
     ProductCategoryResource::class,
@@ -76,6 +87,7 @@ it('uses an infolist for every resource view page', function (string $resource):
     WalletResource::class,
     UserProfileResource::class,
     UserResource::class,
+    WishlistResource::class,
 ]);
 
 /** @param class-string<Resource> $resource */

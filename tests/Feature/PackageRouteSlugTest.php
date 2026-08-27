@@ -18,13 +18,18 @@ use Misaf\VendraCart\Filament\Clusters\Resources\Carts\CartResource;
 use Misaf\VendraCurrency\Filament\Clusters\Resources\Currencies\CurrencyResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPageCategories\CustomPageCategoryResource;
 use Misaf\VendraCustomPage\Filament\Clusters\Resources\CustomPages\CustomPageResource;
+use Misaf\VendraDelivery\Filament\Clusters\Resources\Deliveries\DeliveryResource;
+use Misaf\VendraDelivery\Filament\Clusters\Resources\DeliverySlots\DeliverySlotResource;
+use Misaf\VendraDelivery\Filament\Clusters\Resources\DeliveryZones\DeliveryZoneResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\FaqCategories\FaqCategoryResource;
 use Misaf\VendraFaq\Filament\Clusters\Resources\Faqs\FaqResource;
+use Misaf\VendraInquiry\Filament\Clusters\Resources\Inquiries\InquiryResource;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\LanguageLines\LanguageLineResource;
 use Misaf\VendraLanguage\Filament\Clusters\Resources\Languages\LanguageResource;
 use Misaf\VendraMultimedia\Filament\Clusters\Resources\MultimediaResource;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\Newsletters\NewsletterResource;
 use Misaf\VendraNewsletter\Filament\Clusters\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
+use Misaf\VendraOrder\Filament\Clusters\Resources\Orders\OrderResource;
 use Misaf\VendraPermission\Filament\Clusters\Resources\Permissions\PermissionResource;
 use Misaf\VendraPermission\Filament\Clusters\Resources\Roles\RoleResource;
 use Misaf\VendraProduct\Filament\Clusters\Resources\ProductCategories\ProductCategoryResource;
@@ -42,6 +47,7 @@ use Misaf\VendraTransaction\Filament\Clusters\Resources\TransactionGateways\Tran
 use Misaf\VendraTransaction\Filament\Clusters\Resources\Transactions\TransactionResource;
 use Misaf\VendraUser\Filament\Clusters\Resources\Users\UserResource;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\UserProfileResource;
+use Misaf\VendraWishlist\Filament\Clusters\Resources\Wishlists\WishlistResource;
 
 it('uses unique domain slugs for cluster routes and active navigation', function (string $cluster, string $slug): void {
     expect($cluster::getSlug())->toBe($slug)
@@ -108,15 +114,20 @@ it('uses the full resource name as the resource slug', function (string $resourc
     BlogPostResource::class,
     CartResource::class,
     CurrencyResource::class,
+    DeliveryResource::class,
+    DeliverySlotResource::class,
+    DeliveryZoneResource::class,
     CustomPageCategoryResource::class,
     CustomPageResource::class,
     FaqCategoryResource::class,
     FaqResource::class,
+    InquiryResource::class,
     LanguageLineResource::class,
     LanguageResource::class,
     MultimediaResource::class,
     NewsletterResource::class,
     NewsletterSubscriberResource::class,
+    OrderResource::class,
     PermissionResource::class,
     ProductCategoryResource::class,
     ProductPriceResource::class,
@@ -127,6 +138,7 @@ it('uses the full resource name as the resource slug', function (string $resourc
     TransactionResource::class,
     UserProfileResource::class,
     UserResource::class,
+    WishlistResource::class,
 ]);
 
 it('assigns each admin resource to its domain cluster', function (string $resource, string $cluster): void {
@@ -140,6 +152,10 @@ it('assigns each admin resource to its domain cluster', function (string $resour
     'catalog / product prices'         => [ProductPriceResource::class, CatalogCluster::class],
     'catalog / attributes'             => [AttributeResource::class, CatalogCluster::class],
     'sales / carts'                    => [CartResource::class, SalesCluster::class],
+    'sales / orders'                   => [OrderResource::class, SalesCluster::class],
+    'sales / delivery zones'           => [DeliveryZoneResource::class, SalesCluster::class],
+    'sales / delivery windows'         => [DeliverySlotResource::class, SalesCluster::class],
+    'sales / deliveries'               => [DeliveryResource::class, SalesCluster::class],
     'sales / transactions'             => [TransactionResource::class, SalesCluster::class],
     'sales / transaction gateways'     => [TransactionGatewayResource::class, SalesCluster::class],
     'sales / currencies'               => [CurrencyResource::class, SalesCluster::class],
@@ -147,6 +163,8 @@ it('assigns each admin resource to its domain cluster', function (string $resour
     'customers / profiles'             => [UserProfileResource::class, CustomersCluster::class],
     'customers / roles'                => [RoleResource::class, CustomersCluster::class],
     'customers / permissions'          => [PermissionResource::class, CustomersCluster::class],
+    'customers / wishlists'            => [WishlistResource::class, CustomersCluster::class],
+    'customers / enquiries'            => [InquiryResource::class, CustomersCluster::class],
     'content / blog posts'             => [BlogPostResource::class, ContentCluster::class],
     'content / blog post categories'   => [BlogPostCategoryResource::class, ContentCluster::class],
     'content / custom pages'           => [CustomPageResource::class, ContentCluster::class],

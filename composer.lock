@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76c09a9a901403b8d1923812af5539b9",
+    "content-hash": "f191a1de8ac31e0c96746bf1a0cd9b5b",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -24481,15 +24481,21 @@
         "misaf/vendra-currency": 20,
         "misaf/vendra-custom-page": 20,
         "misaf/vendra-custom-page-api": 20,
+        "misaf/vendra-delivery": 20,
+        "misaf/vendra-delivery-api": 20,
         "misaf/vendra-developer-logins": 20,
         "misaf/vendra-document": 20,
         "misaf/vendra-faq": 20,
         "misaf/vendra-faq-api": 20,
+        "misaf/vendra-inquiry": 20,
+        "misaf/vendra-inquiry-api": 20,
         "misaf/vendra-language": 20,
         "misaf/vendra-localization": 20,
         "misaf/vendra-multimedia": 20,
         "misaf/vendra-multimedia-api": 20,
         "misaf/vendra-newsletter": 20,
+        "misaf/vendra-order": 20,
+        "misaf/vendra-order-api": 20,
         "misaf/vendra-permission": 20,
         "misaf/vendra-phone": 20,
         "misaf/vendra-product": 20,
@@ -24505,7 +24511,9 @@
         "misaf/vendra-transaction": 20,
         "misaf/vendra-user": 20,
         "misaf/vendra-user-profile": 20,
-        "misaf/vendra-verification": 20
+        "misaf/vendra-verification": 20,
+        "misaf/vendra-wishlist": 20,
+        "misaf/vendra-wishlist-api": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
