@@ -1,0 +1,67 @@
+{
+    "name": "misaf/vendra-order",
+    "description": "Orders, order lines, and checkout for Vendra applications",
+    "keywords": [
+        "laravel",
+        "filamentphp",
+        "misaf",
+        "vendra",
+        "order"
+    ],
+    "homepage": "https://github.com/misaf/vendra-order",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "type": "vendra-module",
+    "require": {
+        "php": "^8.4",
+        "cknow/laravel-money": "^8.5",
+        "lara-zeus/spatie-translatable": "^2.0.1",
+        "misaf/filament-jalali": "^5.1.4",
+        "misaf/vendra-cart": "self.version",
+        "misaf/vendra-support": "self.version",
+        "misaf/vendra-transaction": "self.version",
+        "spatie/laravel-model-states": "^2.11",
+        "spatie/laravel-package-tools": "^1.93.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\VendraOrder\\": "src/",
+            "Misaf\\VendraOrder\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\VendraOrder\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Misaf\\VendraOrder\\Providers\\OrderServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/misaf/vendra-order/issues",
+        "source": "https://github.com/misaf/vendra-order"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "$schema": "https://getcomposer.org/schema.json"
+}

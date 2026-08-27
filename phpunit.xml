@@ -61,6 +61,8 @@
         <testsuite name="vendra-developer-logins">
             <directory>packages/vendra-developer-logins/tests</directory>
         </testsuite>
+        </testsuite>
+        </testsuite>
         <testsuite name="vendra-document">
             <directory>packages/vendra-document/tests</directory>
         </testsuite>
@@ -69,6 +71,8 @@
         </testsuite>
         <testsuite name="vendra-faq-api">
             <directory>packages/vendra-faq-api/tests</directory>
+        </testsuite>
+        </testsuite>
         </testsuite>
         <testsuite name="vendra-language">
             <directory>packages/vendra-language/tests</directory>
@@ -84,6 +88,12 @@
         </testsuite>
         <testsuite name="vendra-newsletter">
             <directory>packages/vendra-newsletter/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-order">
+            <directory>packages/vendra-order/tests</directory>
+        </testsuite>
+        <testsuite name="vendra-order-api">
+            <directory>packages/vendra-order-api/tests</directory>
         </testsuite>
         <testsuite name="vendra-permission">
             <directory>packages/vendra-permission/tests</directory>
@@ -132,6 +142,8 @@
         </testsuite>
         <testsuite name="vendra-verification">
             <directory>packages/vendra-verification/tests</directory>
+        </testsuite>
+        </testsuite>
         </testsuite>
     </testsuites>
     <source>
