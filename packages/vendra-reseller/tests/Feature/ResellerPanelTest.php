@@ -120,12 +120,18 @@ it('globally searches only the authenticated reseller stores', function (): void
     ]);
 
     $result = StoreResource::getGlobalSearchResults('owned-global-search.test')->sole();
+    $action = $result->actions[0];
 
     expect($result->title)->toBe($store->name)
         ->and($result->url)->toBe(StoreResource::getUrl('index', ['search' => $store->name]))
         ->and($result->details)->toBe([
             __('console.domain') => 'owned-global-search.test',
         ])
+        ->and($action->getLabel())->toBe(__('console.admin_url'))
+        ->and($action->getUrl())->toBe(
+            'https://' . $store->slug . '.' . Config::string('vendra-tenant.central_host'),
+        )
+        ->and($action->shouldOpenUrlInNewTab())->toBeTrue()
         ->and(StoreResource::getGlobalSearchResults($otherStore->name))->toBeEmpty()
         ->and(Filament::getCurrentPanel()?->getGlobalSearchKeyBindings())->toBe([
             'command+k',

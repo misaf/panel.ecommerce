@@ -137,6 +137,7 @@ it('globally searches console resources', function (): void {
     $planResult = PlanResource::getGlobalSearchResults('enterprise')->sole();
     $resellerResult = ResellerResource::getGlobalSearchResults('partner-search@example.com')->sole();
     $storeResult = ConsoleStoreResource::getGlobalSearchResults('global-search-store.test')->sole();
+    $storeAction = $storeResult->actions[0];
 
     expect($planResult->title)->toBe($plan->name)
         ->and($planResult->url)->toBe(PlanResource::getUrl('edit', ['record' => $plan]))
@@ -146,7 +147,12 @@ it('globally searches console resources', function (): void {
         ->and($storeResult->url)->toBe(ConsoleStoreResource::getUrl('edit', ['record' => $store]))
         ->and($storeResult->details)->toBe([
             __('console.domain') => 'global-search-store.test',
-        ]);
+        ])
+        ->and($storeAction->getLabel())->toBe(__('console.admin_url'))
+        ->and($storeAction->getUrl())->toBe(
+            'https://' . $store->slug . '.' . Config::string('vendra-tenant.central_host'),
+        )
+        ->and($storeAction->shouldOpenUrlInNewTab())->toBeTrue();
 });
 
 it('isolates console operators from application users', function (): void {
