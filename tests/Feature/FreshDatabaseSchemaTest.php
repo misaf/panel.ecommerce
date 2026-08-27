@@ -178,6 +178,12 @@ it('keeps package migration stubs identical to application baselines', function 
     }
 });
 
+/*
+ | The registry drives `vendra-tenant:enable`, which backfills every null tenant
+ | id and then forces the column NOT NULL. `settings` is excluded because its
+ | null `tenant_id` is the platform scope and must stay null; `store_domains` and
+ | `store_user` are keyed by `store_id` instead.
+ */
 it('registers every tenant-aware application table for legacy schema retrofits', function (): void {
     $registeredTables = collect(app(TenantTableRegistry::class)->all())
         ->where('connection', null)
@@ -186,7 +192,7 @@ it('registers every tenant-aware application table for legacy schema retrofits',
 
     $tenantAwareTables = collect(Schema::getTableListing(schemaQualified: false))
         ->filter(fn(string $table): bool => Schema::hasColumn($table, 'tenant_id'))
-        ->reject(fn(string $table): bool => in_array($table, ['store_domains', 'store_user'], true))
+        ->reject(fn(string $table): bool => in_array($table, ['settings', 'store_domains', 'store_user'], true))
         ->values();
 
     expect($registeredTables->all())->toEqualCanonicalizing($tenantAwareTables->all());

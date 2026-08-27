@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\DevCommands;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
@@ -38,7 +37,6 @@ use Misaf\VendraStore\Services\ContainerStorefrontProvisioner;
 use Misaf\VendraStore\Support\StorefrontSettings;
 use Misaf\VendraSupport\Context\RequestJobContext;
 use Misaf\VendraSupport\Contracts\SubscriptionCharger;
-use Misaf\VendraSupport\Tenancy\TenantTableRegistry;
 use Misaf\VendraUser\Models\User;
 use Symfony\AI\McpBundle\Controller\McpController;
 use Symfony\AI\McpBundle\Http\MiddlewareFactory;
@@ -72,16 +70,14 @@ final class AppServiceProvider extends ServiceProvider
             'reseller_user' => ResellerUser::class,
         ]);
 
-        $settingsTable = Config::get('settings.repositories.database.table');
-
         /*
-         | Only tables owned through the generic `tenant_id` column belong here.
-         | `storefront_deployments` describes the store itself and is keyed by
-         | `store_id`, so it is deliberately absent.
+         | The registry drives the `vendra-tenant:enable` retrofit, which
+         | backfills every null tenant id and then forces the column NOT NULL.
+         | Nothing the host owns wants that: `storefront_deployments` describes
+         | the store itself and is keyed by `store_id`, and `settings` keeps a
+         | null `tenant_id` on purpose for its platform-wide rows. Register a
+         | table here only when a non-null `tenant_id` is the right end state.
          */
-        $this->app->make(TenantTableRegistry::class)->register(
-            is_string($settingsTable) ? $settingsTable : 'settings',
-        );
 
         URL::forceScheme('https');
         Model::shouldBeStrict();

@@ -43,6 +43,7 @@ return [
         Spatie\Multitenancy\Tasks\SwitchRouteCacheTask::class,
         Misaf\VendraTenant\Tasks\SwitchAppTask::class,
         Misaf\VendraTenant\Tasks\SwitchMailTask::class,
+        App\Settings\Tasks\SwitchSettingsTask::class,
     ],
 
     /*

@@ -9,14 +9,18 @@ use Filament\Clusters\Cluster;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Misaf\Tenant\Models\Tenant;
 use Misaf\VendraSupport\Filament\Clusters\SystemCluster;
 use Misaf\VendraSupport\Filament\Navigation\NavigationPriority;
 
+/**
+ * The store's own general settings.
+ *
+ * The admin panel runs inside the tenant middleware stack, so saving here
+ * writes rows in the current store's scope; until it does, the values shown are
+ * the platform defaults the settings migration created.
+ */
 final class ManageGeneralSettings extends SettingsPage
 {
     /**
@@ -29,13 +33,6 @@ final class ManageGeneralSettings extends SettingsPage
     protected static string $settings = GeneralSettings::class;
 
     protected static ?string $slug = 'configurations';
-
-    // protected function mutateFormDataBeforeSave(array $data): array
-    // {
-    //     $data['tenant_id'] = Tenant::current()->id;
-
-    //     return $data;
-    // }
 
     public static function getModelLabel(): string
     {
@@ -56,31 +53,19 @@ final class ManageGeneralSettings extends SettingsPage
     {
         return $schema
             ->components([
-                Tabs::make('Tabs')
-                    ->tabs([
-                        Tab::make('general_settings')
-                            ->label(__('setting.general'))
-                            ->schema([
-                                TextInput::make('site_title')
-                                    ->columnSpanFull()
-                                    ->label(__('form.title'))
-                                    ->required(),
+                Section::make(__('setting.general'))
+                    ->schema([
+                        TextInput::make('site_title')
+                            ->columnSpanFull()
+                            ->label(__('form.title'))
+                            ->maxLength(255)
+                            ->required(),
 
-                                Textarea::make('site_description')
-                                    ->columnSpanFull()
-                                    ->label(__('form.description'))
-                                    ->rows(5),
-                            ]),
-
-                        Tab::make('global_authentication')
-                            ->label(__('setting.authentication'))
-                            ->schema([
-                                // Toggle::make('user_email_verification')
-                                //     ->columnSpanFull()
-                                //     ->label(__('auth.email_verification'))
-                                //     ->onIcon(Heroicon::Bolt)
-                                //     ->rules('required'),
-                            ]),
+                        Textarea::make('site_description')
+                            ->columnSpanFull()
+                            ->label(__('form.description'))
+                            ->maxLength(1000)
+                            ->rows(5),
                     ])
                     ->columnSpanFull(),
             ]);
