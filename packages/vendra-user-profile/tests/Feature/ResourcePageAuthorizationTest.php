@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Filament\Facades\Filament;
+use Illuminate\Foundation\Auth\User as AuthenticatableUser;
+use Illuminate\Support\Facades\Gate;
 use Misaf\VendraUserProfile\Database\Factories\UserProfileFactory;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\CreateUserProfile;
 use Misaf\VendraUserProfile\Filament\Clusters\Resources\Pages\EditUserProfile;
@@ -38,4 +40,10 @@ it('renders the view user profile page under strict authorization', function ():
 
     livewire(ViewUserProfile::class, ['record' => $userProfile->getKey()])
         ->assertOk();
+});
+
+it('lets authorization for another guard principal fall through safely', function (): void {
+    Gate::define('foreign-principal-check', fn(): bool => false);
+
+    expect(Gate::forUser(new class extends AuthenticatableUser {})->allows('foreign-principal-check'))->toBeFalse();
 });

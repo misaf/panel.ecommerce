@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Misaf\VendraUserProfile\Providers;
 
 use Composer\InstalledVersions;
-
 use Filament\Panel;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
@@ -62,7 +62,11 @@ final class UserProfileServiceProvider extends PackageServiceProvider
 
         AboutCommand::add('Vendra User Profile', fn(): array => ['Version' => InstalledVersions::getPrettyVersion('misaf/vendra-user-profile')]);
 
-        Gate::after(function (User $user): ?true {
+        Gate::after(function (Authenticatable $user): ?true {
+            if ( ! $user instanceof User) {
+                return null;
+            }
+
             return $user->hasRole(Config::string('vendra-permission.admin_role')) ? true : null;
         });
 
