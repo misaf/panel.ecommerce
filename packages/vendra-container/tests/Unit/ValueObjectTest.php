@@ -11,6 +11,7 @@ use Misaf\VendraContainer\ValueObjects\EnvironmentVariable;
 use Misaf\VendraContainer\ValueObjects\ImageInfo;
 use Misaf\VendraContainer\ValueObjects\ImageReference;
 use Misaf\VendraContainer\ValueObjects\PortBinding;
+use Misaf\VendraContainer\ValueObjects\ResourceLimits;
 use Misaf\VendraContainer\ValueObjects\VolumeMount;
 
 describe('ImageReference', function (): void {
@@ -204,5 +205,40 @@ describe('ContainerLogs', function (): void {
         expect($logs->lines())->toBe(['first', 'second'])
             ->and($logs->isEmpty())->toBeFalse()
             ->and((new ContainerLogs(new ContainerId('x'), ''))->isEmpty())->toBeTrue();
+    });
+});
+
+describe('ResourceLimits', function (): void {
+    it('translates operator units into the engine\'s', function (): void {
+        $limits = new ResourceLimits(cpus: 0.5, memoryMegabytes: 512, memoryReservationMegabytes: 256);
+
+        expect($limits->nanoCpus())->toBe(500_000_000)
+            ->and($limits->memoryBytes())->toBe(536_870_912)
+            ->and($limits->memoryReservationBytes())->toBe(268_435_456)
+            ->and($limits->isConfigured())->toBeTrue();
+    });
+
+    it('leaves an unset limit uncapped', function (): void {
+        $limits = new ResourceLimits(memoryMegabytes: 256);
+
+        expect($limits->nanoCpus())->toBeNull()
+            ->and($limits->memoryReservationBytes())->toBeNull()
+            ->and($limits->memoryBytes())->toBe(268_435_456);
+    });
+
+    it('reports an entirely empty set as unconfigured', function (): void {
+        expect((new ResourceLimits())->isConfigured())->toBeFalse();
+    });
+
+    it('rejects limits that cannot mean anything', function (): void {
+        expect(fn(): ResourceLimits => new ResourceLimits(cpus: 0))
+            ->toThrow(InvalidArgumentException::class)
+            ->and(fn(): ResourceLimits => new ResourceLimits(memoryMegabytes: -1))
+            ->toThrow(InvalidArgumentException::class);
+    });
+
+    it('rejects a reservation above the limit it reserves within', function (): void {
+        expect(fn(): ResourceLimits => new ResourceLimits(memoryMegabytes: 256, memoryReservationMegabytes: 512))
+            ->toThrow(InvalidArgumentException::class);
     });
 });

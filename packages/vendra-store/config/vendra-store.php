@@ -48,6 +48,16 @@ return [
             'max-file' => env('STOREFRONT_LOG_MAX_FILE', '5'),
         ],
 
+        /*
+         | Per-storefront resource caps. One noisy storefront on a shared host
+         | is how every other storefront on it gets slow, so the fleet is capped
+         | by default. Empty or zero lifts a cap, which is what a single-store
+         | box wants.
+         */
+        'cpus'                         => (float) env('STOREFRONT_CPUS', 0.5),
+        'memory_megabytes'             => (int) env('STOREFRONT_MEMORY_MB', 512),
+        'memory_reservation_megabytes' => (int) env('STOREFRONT_MEMORY_RESERVATION_MB', 0),
+
         'base_domain'   => env('STOREFRONT_BASE_DOMAIN', '') ?: '',
         'api_url'       => env('STOREFRONT_API_URL', '') ?: '',
         'cert_resolver' => env('STOREFRONT_CERT_RESOLVER', '') ?: '',

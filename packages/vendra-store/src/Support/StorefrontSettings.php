@@ -6,6 +6,7 @@ namespace Misaf\VendraStore\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Misaf\VendraContainer\ValueObjects\ResourceLimits;
 
 /**
  * The `vendra-store.storefront` block as an immutable, typed value.
@@ -33,6 +34,7 @@ final class StorefrontSettings
         public readonly bool $pull,
         public readonly string $logDriver,
         public readonly array $logOptions,
+        public readonly ResourceLimits $resources,
         public readonly string $baseDomain,
         public readonly string $apiUrl,
         public readonly string $certResolver,
@@ -63,6 +65,7 @@ final class StorefrontSettings
             pull: filter_var(Arr::get($storefront, 'pull'), FILTER_VALIDATE_BOOL),
             logDriver: self::string($storefront, 'log_driver'),
             logOptions: self::logOptions($storefront),
+            resources: self::resources($storefront),
             baseDomain: self::string($storefront, 'base_domain'),
             apiUrl: self::string($storefront, 'api_url'),
             certResolver: self::string($storefront, 'cert_resolver'),
@@ -104,6 +107,37 @@ final class StorefrontSettings
         }
 
         return str_starts_with($this->caFile, '/') ? $this->caFile : '/certs/' . $this->caFile;
+    }
+
+    /**
+     * The fleet's per-storefront caps.
+     *
+     * A zero, a blank, or a missing key lifts that cap rather than setting it
+     * to nothing: the operator-facing way to say "uncapped" is to empty the
+     * environment variable.
+     *
+     * @param array<array-key, mixed> $storefront
+     */
+    private static function resources(array $storefront): ResourceLimits
+    {
+        $cpus = Arr::get($storefront, 'cpus');
+        $cpus = is_numeric($cpus) && (float) $cpus > 0 ? (float) $cpus : null;
+
+        return new ResourceLimits(
+            cpus: $cpus,
+            memoryMegabytes: self::optionalPositiveInteger($storefront, 'memory_megabytes'),
+            memoryReservationMegabytes: self::optionalPositiveInteger($storefront, 'memory_reservation_megabytes'),
+        );
+    }
+
+    /**
+     * @param array<array-key, mixed> $storefront
+     */
+    private static function optionalPositiveInteger(array $storefront, string $key): ?int
+    {
+        $value = Arr::get($storefront, $key);
+
+        return is_numeric($value) && (int) $value > 0 ? (int) $value : null;
     }
 
     /**

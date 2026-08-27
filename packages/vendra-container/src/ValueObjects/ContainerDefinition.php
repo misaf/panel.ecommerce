@@ -37,6 +37,7 @@ final class ContainerDefinition
         public readonly ?HealthCheck $healthCheck = null,
         public readonly ?RestartPolicy $restartPolicy = null,
         public readonly ?LogConfiguration $logConfiguration = null,
+        public readonly ?ResourceLimits $resources = null,
         public readonly array $securityOptions = [],
         public readonly ?array $command = null,
     ) {
@@ -60,6 +61,14 @@ final class ContainerDefinition
     public function primaryNetwork(): ?string
     {
         return $this->networks[0] ?? null;
+    }
+
+    /**
+     * Whether the container is capped, as opposed to sharing the host freely.
+     */
+    public function isCapped(): bool
+    {
+        return $this->resources?->isConfigured() ?? false;
     }
 
     public function expectsHealthChecks(): bool

@@ -316,6 +316,7 @@ abstract class DockerCompatibleRuntime implements ContainerRuntime
             'PortBindings' => $this->portBindings($definition),
             'LogConfig'    => $this->logConfig($definition),
             'NetworkMode'  => $definition->primaryNetwork() ?? '',
+            ...$this->resourceLimits($definition),
         ], static fn(mixed $value): bool => [] !== $value && '' !== $value);
 
         $endpoints = [];
@@ -329,6 +330,30 @@ abstract class DockerCompatibleRuntime implements ContainerRuntime
         }
 
         return $payload;
+    }
+
+    /**
+     * The Engine's own names for the caps a definition asks for.
+     *
+     * Only the limits actually set are emitted: a zero in any of these keys is
+     * how the Engine spells "unlimited", so sending one for an unset limit
+     * would work by accident rather than by intent.
+     *
+     * @return array<string, int>
+     */
+    private function resourceLimits(ContainerDefinition $definition): array
+    {
+        if ( ! $definition->isCapped()) {
+            return [];
+        }
+
+        $limits = $definition->resources;
+
+        return array_filter([
+            'NanoCpus'          => $limits?->nanoCpus(),
+            'Memory'            => $limits?->memoryBytes(),
+            'MemoryReservation' => $limits?->memoryReservationBytes(),
+        ], static fn(?int $value): bool => null !== $value);
     }
 
     /**

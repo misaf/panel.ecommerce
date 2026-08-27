@@ -318,6 +318,47 @@ it('surfaces a pull failure reported inside the progress stream', function (): v
         ->toThrow(RuntimeException::class, 'manifest unknown');
 });
 
+describe('resource caps', function (): void {
+    it('caps a storefront container from the fleet configuration', function (): void {
+        Config::set('vendra-store.storefront.cpus', 0.5);
+        Config::set('vendra-store.storefront.memory_megabytes', 512);
+        fakeDockerEngine();
+
+        app(StorefrontProvisioner::class)->provision(storefrontRequest());
+
+        Http::assertSent(function (Request $request): bool {
+            if ( ! Str::contains($request->url(), '/containers/create')) {
+                return false;
+            }
+
+            $hostConfig = $request->data()['HostConfig'];
+
+            return 500_000_000 === $hostConfig['NanoCpus']
+                && 536_870_912 === $hostConfig['Memory'];
+        });
+    });
+
+    it('leaves a storefront uncapped when the fleet configures no limits', function (): void {
+        Config::set('vendra-store.storefront.cpus', 0);
+        Config::set('vendra-store.storefront.memory_megabytes', 0);
+        Config::set('vendra-store.storefront.memory_reservation_megabytes', 0);
+        fakeDockerEngine();
+
+        app(StorefrontProvisioner::class)->provision(storefrontRequest());
+
+        Http::assertSent(function (Request $request): bool {
+            if ( ! Str::contains($request->url(), '/containers/create')) {
+                return false;
+            }
+
+            $hostConfig = $request->data()['HostConfig'];
+
+            return ! array_key_exists('NanoCpus', $hostConfig)
+                && ! array_key_exists('Memory', $hostConfig);
+        });
+    });
+});
+
 describe('podman compatibility', function (): void {
     it('applies the docker log driver and its rotation limits by default', function (): void {
         fakeDockerEngine();

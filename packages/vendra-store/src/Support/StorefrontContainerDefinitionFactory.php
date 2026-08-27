@@ -75,6 +75,7 @@ final class StorefrontContainerDefinitionFactory
             healthCheck: $this->healthCheck($port),
             restartPolicy: RestartPolicy::unlessStopped(),
             logConfiguration: new LogConfiguration($this->settings->logDriver, $this->settings->logOptions),
+            resources: $this->settings->resources,
             securityOptions: ['no-new-privileges:true'],
         );
     }

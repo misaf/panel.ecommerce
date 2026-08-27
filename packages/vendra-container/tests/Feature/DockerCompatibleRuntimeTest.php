@@ -19,6 +19,7 @@ use Misaf\VendraContainer\ValueObjects\ImageReference;
 use Misaf\VendraContainer\ValueObjects\LogConfiguration;
 use Misaf\VendraContainer\ValueObjects\NetworkDefinition;
 use Misaf\VendraContainer\ValueObjects\PortBinding;
+use Misaf\VendraContainer\ValueObjects\ResourceLimits;
 use Misaf\VendraContainer\ValueObjects\RestartPolicy;
 use Misaf\VendraContainer\ValueObjects\VolumeMount;
 
@@ -148,6 +149,50 @@ it('publishes only the ports asked for', function (): void {
 
         expect($request['ExposedPorts'])->toHaveKeys(['80/tcp', '443/tcp'])
             ->and($request['HostConfig']['PortBindings'])->toBe(['80/tcp' => [['HostPort' => '8080']]]);
+
+        return true;
+    });
+});
+
+it('caps a container with the engine\'s own resource keys', function (): void {
+    Http::fake([
+        '*/containers/create*'           => Http::response(['Id' => 'container-id']),
+        '*/containers/*/json'            => Http::response(['Id' => 'container-id', 'Name' => '/vendra-storefront-flowers', 'State' => ['Status' => 'created']]),
+    ]);
+
+    new DockerRuntime(containerRuntimeEngine())->create(new ContainerDefinition(
+        name: 'vendra-storefront-capped',
+        image: new ImageReference('ghcr.io/misaf/storefront:1.0.0'),
+        resources: new ResourceLimits(cpus: 0.5, memoryMegabytes: 512),
+    ));
+
+    Http::assertSent(function (Request $request): bool {
+        if ( ! str_contains($request->url(), '/containers/create')) {
+            return false;
+        }
+
+        expect($request['HostConfig']['NanoCpus'])->toBe(500_000_000)
+            ->and($request['HostConfig']['Memory'])->toBe(536_870_912)
+            ->and($request['HostConfig'])->not->toHaveKey('MemoryReservation');
+
+        return true;
+    });
+});
+
+it('leaves the resource keys out entirely when nothing is capped', function (): void {
+    Http::fake([
+        '*/containers/create*'           => Http::response(['Id' => 'container-id']),
+        '*/containers/*/json'            => Http::response(['Id' => 'container-id', 'Name' => '/vendra-storefront-flowers', 'State' => ['Status' => 'created']]),
+    ]);
+
+    new DockerRuntime(containerRuntimeEngine())->create(containerRuntimeDefinition());
+
+    Http::assertSent(function (Request $request): bool {
+        if ( ! str_contains($request->url(), '/containers/create')) {
+            return false;
+        }
+
+        expect($request['HostConfig'])->not->toHaveKeys(['NanoCpus', 'Memory', 'MemoryReservation']);
 
         return true;
     });

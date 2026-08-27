@@ -78,6 +78,7 @@ use Misaf\VendraContainer\ValueObjects\ContainerDefinition;
 use Misaf\VendraContainer\ValueObjects\EnvironmentVariable;
 use Misaf\VendraContainer\ValueObjects\ImageReference;
 use Misaf\VendraContainer\ValueObjects\PortBinding;
+use Misaf\VendraContainer\ValueObjects\ResourceLimits;
 use Misaf\VendraContainer\ValueObjects\RestartPolicy;
 
 $definition = new ContainerDefinition(
@@ -91,6 +92,7 @@ $definition = new ContainerDefinition(
     ports: [new PortBinding(3000)],
     networks: ['traefik-public'],
     restartPolicy: RestartPolicy::unlessStopped(),
+    resources: new ResourceLimits(cpus: 0.5, memoryMegabytes: 512),
 );
 
 $runtime = app(ContainerRuntime::class);
@@ -113,6 +115,16 @@ $runtime->start($info->id);
 | `find(ContainerId)` | Returns `null` when absent. |
 | `logs(ContainerId)` | Captured output, stream headers stripped. |
 | `findNetwork` / `createNetwork` | Generic network operations. |
+
+### Resource limits
+
+`ResourceLimits` caps one container in the units an operator thinks in — cores
+and megabytes — and the adapter converts them to the Engine's nano-CPUs and
+bytes. Every limit is optional, and an unset one means uncapped, so capping
+memory while leaving CPU to the scheduler is a configuration rather than a
+half-filled value. A definition with no configured limit sends no resource keys
+at all: the Engine spells "unlimited" as a zero, and sending one by default
+would cap by accident.
 
 Idempotence is part of the contract: removing an absent container, starting a
 running one, and stopping a stopped one all succeed. Every failure arrives as a
