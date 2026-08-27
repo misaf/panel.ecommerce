@@ -11,9 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Misaf\VendraStore\Database\Factories\StoreFactory;
+use Misaf\VendraStore\Enums\StoreStatus;
 use Misaf\VendraStore\Observers\StoreObserver;
 use Misaf\VendraStore\Scopes\StoreScope;
 use Misaf\VendraSupport\Contracts\ShouldLogActivity;
@@ -48,6 +51,10 @@ use Spatie\Sluggable\SlugOptions;
  * @property string $description
  * @property string $slug
  * @property bool $active
+ * @property string|null $locale
+ * @property string|null $currency
+ * @property string|null $timezone
+ * @property array<string, mixed>|null $metadata
  * @property Carbon|null $billing_suspended_at
  * @property TenantProvisioningStatus $provisioning_status
  * @property bool $provisioning_should_seed
@@ -60,7 +67,10 @@ use Spatie\Sluggable\SlugOptions;
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['reseller_id', 'name', 'description', 'slug', 'active', 'provisioning_status', 'provisioning_should_seed'])]
+#[Fillable([
+    'reseller_id', 'name', 'description', 'slug', 'active', 'locale', 'currency', 'timezone',
+    'metadata', 'provisioning_status', 'provisioning_should_seed',
+])]
 #[ObservedBy([StoreObserver::class])]
 #[UseFactory(StoreFactory::class)]
 final class Store extends SpatieTenant implements ShouldLogActivity, TenantContract
@@ -96,6 +106,10 @@ final class Store extends SpatieTenant implements ShouldLogActivity, TenantContr
             'description'              => 'string',
             'slug'                     => 'string',
             'active'                   => 'boolean',
+            'locale'                   => 'string',
+            'currency'                 => 'string',
+            'timezone'                 => 'string',
+            'metadata'                 => 'array',
             'billing_suspended_at'     => 'datetime',
             'provisioning_status'      => TenantProvisioningStatus::class,
             'provisioning_should_seed' => 'boolean',
@@ -140,6 +154,69 @@ final class Store extends SpatieTenant implements ShouldLogActivity, TenantContr
     }
 
     /**
+     * The currency the store prices in, falling back to the platform default.
+     *
+     * Its siblings `locale` and `timezone` need no accessor here: the tenancy
+     * engine reads them through {@see IsTenantModel}, which already treats a
+     * blank column as "no opinion, keep the platform's".
+     */
+    public function resolvedCurrency(): string
+    {
+        return $this->stringSetting('currency') ?? Config::string('money.defaultCurrency');
+    }
+
+    /**
+     * One platform annotation off {@see $metadata}, or the given default.
+     */
+    public function metadata(string $key, mixed $default = null): mixed
+    {
+        return Arr::get($this->metadata ?? [], $key, $default);
+    }
+
+    /**
+     * The store's condition as one value.
+     *
+     * Derived from the three columns that own it rather than stored, so the
+     * reading can never disagree with them. Suspension outranks readiness: a
+     * store an operator disabled, or one billing suspended, is suspended even
+     * though it provisioned cleanly.
+     */
+    public function status(): StoreStatus
+    {
+        return match (true) {
+            TenantProvisioningStatus::Pending === $this->provisioning_status    => StoreStatus::Pending,
+            TenantProvisioningStatus::Processing === $this->provisioning_status => StoreStatus::Provisioning,
+            TenantProvisioningStatus::Failed === $this->provisioning_status     => StoreStatus::Failed,
+            ! $this->active, null !== $this->billing_suspended_at               => StoreStatus::Suspended,
+            default                                                             => StoreStatus::Active,
+        };
+    }
+
+    /**
+     * Limit the query to stores whose derived {@see status()} is the given one.
+     *
+     * The match arms above expressed as SQL, so a console filter and a status
+     * badge cannot disagree about what "suspended" means.
+     *
+     * @param  Builder<Store>  $query
+     * @return Builder<Store>
+     */
+    public function scopeWithStatus(Builder $query, StoreStatus $status): Builder
+    {
+        return match ($status) {
+            StoreStatus::Pending      => $query->where('provisioning_status', TenantProvisioningStatus::Pending),
+            StoreStatus::Provisioning => $query->where('provisioning_status', TenantProvisioningStatus::Processing),
+            StoreStatus::Failed       => $query->where('provisioning_status', TenantProvisioningStatus::Failed),
+            StoreStatus::Suspended    => $query
+                ->where('provisioning_status', TenantProvisioningStatus::Ready)
+                ->where(fn(Builder $suspended): Builder => $suspended
+                    ->where('active', false)
+                    ->orWhereNotNull('billing_suspended_at')),
+            StoreStatus::Active       => $query->accessible(),
+        };
+    }
+
+    /**
      * @return HasMany<StoreDomain, $this>
      */
     public function storeDomains(): HasMany
@@ -179,6 +256,19 @@ final class Store extends SpatieTenant implements ShouldLogActivity, TenantContr
         $name = $this->domains()->where('active', true)->value('name');
 
         return is_string($name) ? $name : null;
+    }
+
+    /**
+     * A configured string attribute, or null when the store leaves it unset.
+     *
+     * Blank is treated as unset: a form that submits an empty select should
+     * mean "follow the platform", not "this store speaks nothing".
+     */
+    private function stringSetting(string $attribute): ?string
+    {
+        $value = $this->getAttribute($attribute);
+
+        return is_string($value) && '' !== mb_trim($value) ? mb_trim($value) : null;
     }
 
     public function getSlugOptions(): SlugOptions

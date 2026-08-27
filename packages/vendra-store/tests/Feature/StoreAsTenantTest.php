@@ -105,3 +105,65 @@ it('keeps resolving through the generic resolver on id and slug', function (): v
         ->and($resolver->searchOptions('acm'))->toBe([$store->getKey() => 'acme'])
         ->and($resolver->searchOptions('zzz'))->toBe([]);
 });
+
+/*
+ | A store's own locale and timezone reach the tenancy engine through the
+ | contract, never by the engine naming a Store. Left unset they mean "keep the
+ | platform's", which is what most stores want.
+ */
+it('presents its own locale and timezone to the tenancy engine', function (): void {
+    $store = Store::factory()->active()->create([
+        'locale'   => 'en',
+        'timezone' => 'Europe/Berlin',
+    ]);
+
+    expect($store->getTenantLocale())->toBe('en')
+        ->and($store->getTenantTimezone())->toBe('Europe/Berlin');
+});
+
+it('states no locale or timezone preference when its columns are blank', function (): void {
+    $store = Store::factory()->active()->create(['locale' => '', 'timezone' => null]);
+
+    expect($store->getTenantLocale())->toBeNull()
+        ->and($store->getTenantTimezone())->toBeNull();
+});
+
+it('applies the store locale and timezone while it is the current tenant', function (): void {
+    $store = Store::factory()->active()->create([
+        'locale'   => 'en',
+        'timezone' => 'Europe/Berlin',
+    ]);
+
+    $applied = app(TenantResolver::class)->execute(
+        $store->getKey(),
+        fn(): array => [Config::string('app.locale'), Config::string('app.timezone')],
+    );
+
+    expect($applied)->toBe(['en', 'Europe/Berlin']);
+});
+
+it('falls back to the fleet defaults for a store with no preference', function (): void {
+    $store = Store::factory()->active()->create(['locale' => null, 'timezone' => null]);
+
+    $applied = app(TenantResolver::class)->execute(
+        $store->getKey(),
+        fn(): array => [Config::string('app.locale'), Config::string('app.timezone')],
+    );
+
+    expect($applied)->toBe(['fa', 'Asia/Tehran']);
+});
+
+it('falls back to the platform currency and reads platform metadata', function (): void {
+    Config::set('money.defaultCurrency', 'USD');
+
+    $store = Store::factory()->active()->create([
+        'currency' => null,
+        'metadata' => ['onboarded_by' => 'console'],
+    ]);
+    $priced = Store::factory()->active()->create(['currency' => 'IRR']);
+
+    expect($store->resolvedCurrency())->toBe('USD')
+        ->and($priced->resolvedCurrency())->toBe('IRR')
+        ->and($store->metadata('onboarded_by'))->toBe('console')
+        ->and($store->metadata('missing', 'fallback'))->toBe('fallback');
+});

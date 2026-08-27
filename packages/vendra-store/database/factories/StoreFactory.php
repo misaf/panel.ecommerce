@@ -26,6 +26,10 @@ final class StoreFactory extends Factory
             'description'              => fake()->text(),
             'slug'                     => fn(array $attributes) => Str::slug($attributes['name']),
             'active'                   => fake()->boolean(),
+            'locale'                   => null,
+            'currency'                 => null,
+            'timezone'                 => null,
+            'metadata'                 => null,
             'billing_suspended_at'     => null,
             'provisioning_status'      => TenantProvisioningStatus::Ready,
             'provisioning_should_seed' => false,
@@ -41,5 +45,34 @@ final class StoreFactory extends Factory
     public function inactive(): static
     {
         return $this->state(fn(): array => ['active' => false]);
+    }
+
+    public function suspended(): static
+    {
+        return $this->state(fn(): array => ['billing_suspended_at' => now()]);
+    }
+
+    /**
+     * A store whose provisioning has not started yet.
+     */
+    public function provisioningPending(): static
+    {
+        return $this->state(fn(): array => ['provisioning_status' => TenantProvisioningStatus::Pending]);
+    }
+
+    /**
+     * A store provisioning is currently working on.
+     */
+    public function provisioning(): static
+    {
+        return $this->state(fn(): array => ['provisioning_status' => TenantProvisioningStatus::Processing]);
+    }
+
+    /**
+     * A store provisioning gave up on.
+     */
+    public function provisioningFailed(): static
+    {
+        return $this->state(fn(): array => ['provisioning_status' => TenantProvisioningStatus::Failed]);
     }
 }

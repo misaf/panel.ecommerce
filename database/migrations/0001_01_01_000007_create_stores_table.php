@@ -31,6 +31,27 @@ return new class extends Migration {
                 ->index();
             $table->boolean('active')
                 ->index();
+
+            /*
+             | The store's own business defaults. Nullable throughout: an
+             | unset value means "follow the platform default" rather than a
+             | store that was configured wrong.
+             */
+            $table->string('locale', 16)
+                ->nullable();
+            $table->string('currency', 3)
+                ->nullable();
+            $table->string('timezone', 64)
+                ->nullable();
+
+            /*
+             | Platform-owned annotations about the store — where it came from,
+             | what an operator noted. Free-form on purpose; anything the
+             | platform queries earns a column instead.
+             */
+            $table->json('metadata')
+                ->nullable();
+
             $table->timestampTz('billing_suspended_at')
                 ->nullable()
                 ->index();
