@@ -8,8 +8,8 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -40,9 +40,10 @@ final class ResellerTable
                     ->label(__('console.stores_count'))
                     ->alignCenter(),
 
-                ToggleColumn::make('active')
+                IconColumn::make('active')
                     ->label(__('console.active'))
-                    ->onIcon(Heroicon::Bolt),
+                    ->boolean()
+                    ->trueIcon(Heroicon::Bolt),
 
                 TextColumn::make('created_at')
                     ->extraCellAttributes(['dir' => 'ltr'])

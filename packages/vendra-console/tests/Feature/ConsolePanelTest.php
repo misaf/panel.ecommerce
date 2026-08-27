@@ -24,6 +24,7 @@ use Misaf\VendraConsole\Filament\Resources\StorefrontImages\Pages\ListStorefront
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\CreateStore;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\EditStore;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\ListStores;
+use Misaf\VendraConsole\Filament\Resources\Stores\RelationManagers\AdministratorsRelationManager;
 use Misaf\VendraConsole\Filament\Resources\Stores\RelationManagers\DomainsRelationManager;
 use Misaf\VendraConsole\Filament\Resources\Stores\StoreResource as ConsoleStoreResource;
 use Misaf\VendraConsole\Models\ConsoleUser;
@@ -40,9 +41,12 @@ use Misaf\VendraSupport\Tenancy\Events\TenantProvisioned;
 use Misaf\VendraUser\Models\User;
 
 use function Pest\Laravel\actingAs;
+
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Livewire\livewire;
+
+use Spatie\Permission\PermissionRegistrar;
 
 beforeEach(function (): void {
     Event::fake([TenantProvisioned::class]);
@@ -492,13 +496,43 @@ it('lets a console admin replace a domain and shows the old one in trashed histo
         ->assertCanSeeTableRecords([$original]);
 });
 
-it('lets a console admin soft-delete then restore a store', function (): void {
+it('adds a store administrator through the tenant membership action', function (): void {
+    actAsConsoleAdmin();
+
+    $store = Store::factory()->create();
+    $roleClass = app(PermissionRegistrar::class)->getRoleClass();
+    $store->execute(fn(): mixed => $roleClass::query()->firstOrCreate([
+        'name'       => Config::string('vendra-permission.admin_role'),
+        'guard_name' => 'web',
+    ]));
+
+    livewire(AdministratorsRelationManager::class, [
+        'ownerRecord' => $store,
+        'pageClass'   => EditStore::class,
+    ])
+        ->callAction(TestAction::make('addAdministrator')->table(), [
+            'username'              => 'second_admin',
+            'email'                 => 'second-admin@example.com',
+            'password'              => 'SecurePassword123',
+            'password_confirmation' => 'SecurePassword123',
+        ])
+        ->assertHasNoActionErrors();
+
+    $administrator = $store->execute(fn(): User => User::query()->where('email', 'second-admin@example.com')->sole());
+
+    expect($administrator->tenants()->whereKey($store->getKey())->exists())->toBeTrue()
+        ->and($store->execute(fn(): bool => $administrator->hasRole(Config::string('vendra-permission.admin_role'))))->toBeTrue();
+});
+
+it('lets a console admin offboard then restore a store', function (): void {
     actAsConsoleAdmin();
 
     $store = Store::factory()->create(['active' => true]);
 
     livewire(ListStores::class)
-        ->callAction(TestAction::make('delete')->table($store))
+        ->callAction(TestAction::make('offboardStore')->table($store), [
+            'reason' => 'Customer requested account closure.',
+        ])
         ->assertHasNoErrors();
 
     expect($store->fresh()?->trashed())->toBeTrue();
@@ -506,13 +540,13 @@ it('lets a console admin soft-delete then restore a store', function (): void {
     livewire(ListStores::class)
         ->loadTable()
         ->filterTable('trashed', ['value' => 'trashed'])
-        ->callAction(TestAction::make('restore')->table($store))
+        ->callAction(TestAction::make('restoreOffboardedStore')->table($store))
         ->assertHasNoErrors();
 
     expect($store->fresh()?->trashed())->toBeFalse();
 });
 
-it('lets a console admin permanently delete a trashed store', function (): void {
+it('does not expose permanent deletion for an offboarded store', function (): void {
     actAsConsoleAdmin();
 
     $store = Store::factory()->trashed()->create();
@@ -520,10 +554,9 @@ it('lets a console admin permanently delete a trashed store', function (): void 
     livewire(ListStores::class)
         ->loadTable()
         ->filterTable('trashed', ['value' => 'trashed'])
-        ->callAction(TestAction::make('forceDelete')->table($store))
-        ->assertHasNoErrors();
+        ->assertActionDoesNotExist(TestAction::make('forceDelete')->table($store));
 
-    assertDatabaseMissing('stores', ['id' => $store->getKey()]);
+    expect($store->fresh()?->trashed())->toBeTrue();
 });
 
 it('filters stores by active', function (): void {

@@ -5,17 +5,9 @@ declare(strict_types=1);
 namespace Misaf\VendraConsole\Filament\Resources\Stores\Tables;
 
 use Filament\Actions\ActionGroup;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -26,6 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Misaf\VendraConsole\Filament\Resources\Stores\Actions\AssignResellerAction;
 use Misaf\VendraConsole\Filament\Resources\Stores\Actions\ReplaceDomainAction;
+use Misaf\VendraConsole\Filament\Resources\Stores\Actions\StoreOperatorActions;
 use Misaf\VendraReseller\Models\Reseller;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StorefrontDeployment;
@@ -78,9 +71,10 @@ final class StoreTable
                     ->copyMessage(__('console.url_copied'))
                     ->placeholder('—'),
 
-                ToggleColumn::make('active')
-                    ->label(__('console.active'))
-                    ->onIcon(Heroicon::Bolt),
+                TextColumn::make('status')
+                    ->label(__('console.status'))
+                    ->badge()
+                    ->state(fn(Store $record): string => $record->status()->value),
 
                 TextColumn::make('created_at')
                     ->extraCellAttributes(['dir' => 'ltr'])
@@ -133,20 +127,9 @@ final class StoreTable
 
                     ReplaceDomainAction::make(),
 
+                    ...StoreOperatorActions::make(),
+
                     EditAction::make(),
-
-                    DeleteAction::make(),
-
-                    RestoreAction::make(),
-
-                    ForceDeleteAction::make(),
-                ]),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort(column: 'id', direction: 'desc');

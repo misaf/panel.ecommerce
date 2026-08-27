@@ -28,7 +28,7 @@ description: "Create, modify, review, or test the Vendra Console module in packa
 ## Module Boundary
 
 - This is the topmost layer: `vendra-console` → `vendra-reseller` → `vendra-store` → `vendra-container`. Nothing depends on this package, so anything another panel also needs belongs one layer down.
-- The panel is presentation. Business operations live in the domain packages' actions — `ProvisionStoreAction`, `CreateStoreAction`, `DeleteStoreAction`, `OffboardResellerAction`. A page or table action that mutates state directly is in the wrong place.
+- The panel is presentation. Business operations live in the domain packages' actions — including store/storefront lifecycle and offboarding, administrator membership, reseller-owner accounts, and subscriptions. A page or table action that mutates state directly is in the wrong place.
 
 ## Tenancy
 
@@ -44,6 +44,7 @@ description: "Create, modify, review, or test the Vendra Console module in packa
 ## Resources
 
 - `StoreResource`, `ResellerResource`, and `PlanResource` render and delegate. Store creation extends `Misaf\VendraStore\Filament\Pages\CreateStorePage` and reuses `StorefrontConfigurationFields`; domain replacement reuses that package's `ReplaceDomainAction`; reseller offboarding calls `Misaf\VendraReseller\Actions\OffboardResellerAction`.
+- Never expose direct active/domain toggle columns or raw store delete/force-delete actions. Invoke `vendra-store` lifecycle/offboarding actions, `vendra-user` administrator actions, `vendra-reseller` owner actions, and `vendra-subscription` lifecycle actions.
 - The console store wizard picks the optional billing reseller and exposes a `create_storefront` toggle that defaults on. Pass `optional: true` to its shared storefront field groups so an explicit off can create only the store and domain; the reseller panel keeps storefront creation mandatory.
 
 ## Platform Settings

@@ -45,8 +45,8 @@ tenant-aware helpers, and join explicitly where a listing must be per-tenant.
 
 | Resource | Delegates to |
 | --- | --- |
-| `StoreResource` | `Misaf\VendraStore`'s `CreateStorePage` (which runs `ProvisionStoreAction`), `StorefrontConfigurationFields` and `ReplaceDomainAction` |
-| `ResellerResource` | `Misaf\VendraReseller`'s `CreateResellerAction`, `CreateResellerOwnerAction` and `OffboardResellerAction`, plus `misaf/vendra-subscription`'s `SubscribeAction` |
+| `StoreResource` | `Misaf\VendraStore`'s provisioning, lifecycle, storefront, domain, ownership, and offboarding actions; administrator membership delegates to `misaf/vendra-user` |
+| `ResellerResource` | `Misaf\VendraReseller`'s reseller/owner account actions and `misaf/vendra-subscription`'s lifecycle actions |
 | `PlanResource` | `misaf/vendra-subscription`'s plan model |
 | `ActivityLogResource` | `misaf/vendra-activity-log`'s model, read-only and across every tenant |
 
@@ -55,6 +55,14 @@ gives the operator the platform-wide counts: resellers and how many are active,
 stores split into active and suspended, how many are provisioning against how
 many failed, live storefronts against failed deployments, and the subscription
 position.
+
+Store rows expose suspend/reactivate, provisioning recovery, managed storefront
+start/stop/restart/redeploy/retry, safe offboarding, and restoration. The edit
+page manages store administrators without permitting the final enabled
+administrator to be removed, demoted, or disabled. Reseller edit pages manage
+owner credentials/account replacement and subscription change, renewal,
+extension, cancellation, and reactivation. Each control invokes the owning
+domain package; no meaningful transition is an Eloquent column toggle.
 
 ### Assigning a store to a reseller
 

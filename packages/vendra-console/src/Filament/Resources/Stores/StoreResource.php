@@ -18,6 +18,7 @@ use InvalidArgumentException;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\CreateStore;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\EditStore;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\ListStores;
+use Misaf\VendraConsole\Filament\Resources\Stores\RelationManagers\AdministratorsRelationManager;
 use Misaf\VendraConsole\Filament\Resources\Stores\RelationManagers\DomainsRelationManager;
 use Misaf\VendraConsole\Filament\Resources\Stores\Schemas\StoreForm;
 use Misaf\VendraConsole\Filament\Resources\Stores\Tables\StoreTable;
@@ -62,6 +63,11 @@ final class StoreResource extends Resource
     public static function table(Table $table): Table
     {
         return StoreTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('storefrontDeployments');
     }
 
     /**
@@ -112,6 +118,7 @@ final class StoreResource extends Resource
     public static function getRelations(): array
     {
         return [
+            AdministratorsRelationManager::class,
             DomainsRelationManager::class,
         ];
     }

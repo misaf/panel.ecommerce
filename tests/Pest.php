@@ -115,7 +115,9 @@ function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['S
                 $networkExists ? 200 : 404,
             ),
             Str::endsWith($path, '/images/create')                                => Http::response('{"status":"Pulled"}'),
-            Str::endsWith($path, '/start')                                        => Http::response('', 204),
+            Str::endsWith($path, '/start'),
+            Str::endsWith($path, '/stop'),
+            Str::endsWith($path, '/restart')                                      => Http::response('', 204),
             Str::contains($path, '/containers/') && Str::endsWith($path, '/json') => $created
                 ? Http::response([
                     'Id'     => 'container-abc',
