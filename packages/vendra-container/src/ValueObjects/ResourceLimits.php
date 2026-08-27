@@ -29,11 +29,13 @@ final class ResourceLimits
      * @param float|null $cpus            CPU cores, fractional (0.5 = half a core)
      * @param int|null   $memoryMegabytes hard memory cap
      * @param int|null   $memoryReservationMegabytes soft cap the runtime reclaims down to
+     * @param int|null   $pidsLimit       processes and threads the container may hold open at once
      */
     public function __construct(
         public readonly ?float $cpus = null,
         public readonly ?int $memoryMegabytes = null,
         public readonly ?int $memoryReservationMegabytes = null,
+        public readonly ?int $pidsLimit = null,
     ) {
         if (null !== $cpus && $cpus <= 0) {
             throw new InvalidArgumentException('A CPU limit must be greater than zero.');
@@ -45,6 +47,10 @@ final class ResourceLimits
 
         if (null !== $memoryReservationMegabytes && $memoryReservationMegabytes <= 0) {
             throw new InvalidArgumentException('A memory reservation must be greater than zero.');
+        }
+
+        if (null !== $pidsLimit && $pidsLimit <= 0) {
+            throw new InvalidArgumentException('A PID limit must be greater than zero.');
         }
 
         if (null !== $memoryMegabytes && null !== $memoryReservationMegabytes && $memoryReservationMegabytes > $memoryMegabytes) {
@@ -62,7 +68,8 @@ final class ResourceLimits
     {
         return null !== $this->cpus
             || null !== $this->memoryMegabytes
-            || null !== $this->memoryReservationMegabytes;
+            || null !== $this->memoryReservationMegabytes
+            || null !== $this->pidsLimit;
     }
 
     public function nanoCpus(): ?int

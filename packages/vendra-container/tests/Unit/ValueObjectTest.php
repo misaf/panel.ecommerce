@@ -210,11 +210,12 @@ describe('ContainerLogs', function (): void {
 
 describe('ResourceLimits', function (): void {
     it('translates operator units into the engine\'s', function (): void {
-        $limits = new ResourceLimits(cpus: 0.5, memoryMegabytes: 512, memoryReservationMegabytes: 256);
+        $limits = new ResourceLimits(cpus: 0.5, memoryMegabytes: 512, memoryReservationMegabytes: 256, pidsLimit: 512);
 
         expect($limits->nanoCpus())->toBe(500_000_000)
             ->and($limits->memoryBytes())->toBe(536_870_912)
             ->and($limits->memoryReservationBytes())->toBe(268_435_456)
+            ->and($limits->pidsLimit)->toBe(512)
             ->and($limits->isConfigured())->toBeTrue();
     });
 
@@ -223,6 +224,7 @@ describe('ResourceLimits', function (): void {
 
         expect($limits->nanoCpus())->toBeNull()
             ->and($limits->memoryReservationBytes())->toBeNull()
+            ->and($limits->pidsLimit)->toBeNull()
             ->and($limits->memoryBytes())->toBe(268_435_456);
     });
 
@@ -230,10 +232,16 @@ describe('ResourceLimits', function (): void {
         expect((new ResourceLimits())->isConfigured())->toBeFalse();
     });
 
+    it('counts a lone PID cap as configured', function (): void {
+        expect((new ResourceLimits(pidsLimit: 512))->isConfigured())->toBeTrue();
+    });
+
     it('rejects limits that cannot mean anything', function (): void {
         expect(fn(): ResourceLimits => new ResourceLimits(cpus: 0))
             ->toThrow(InvalidArgumentException::class)
             ->and(fn(): ResourceLimits => new ResourceLimits(memoryMegabytes: -1))
+            ->toThrow(InvalidArgumentException::class)
+            ->and(fn(): ResourceLimits => new ResourceLimits(pidsLimit: 0))
             ->toThrow(InvalidArgumentException::class);
     });
 

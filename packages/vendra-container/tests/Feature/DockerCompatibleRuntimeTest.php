@@ -163,7 +163,7 @@ it('caps a container with the engine\'s own resource keys', function (): void {
     new DockerRuntime(containerRuntimeEngine())->create(new ContainerDefinition(
         name: 'vendra-storefront-capped',
         image: new ImageReference('ghcr.io/misaf/storefront:1.0.0'),
-        resources: new ResourceLimits(cpus: 0.5, memoryMegabytes: 512),
+        resources: new ResourceLimits(cpus: 0.5, memoryMegabytes: 512, pidsLimit: 512),
     ));
 
     Http::assertSent(function (Request $request): bool {
@@ -173,6 +173,7 @@ it('caps a container with the engine\'s own resource keys', function (): void {
 
         expect($request['HostConfig']['NanoCpus'])->toBe(500_000_000)
             ->and($request['HostConfig']['Memory'])->toBe(536_870_912)
+            ->and($request['HostConfig']['PidsLimit'])->toBe(512)
             ->and($request['HostConfig'])->not->toHaveKey('MemoryReservation');
 
         return true;
@@ -192,7 +193,7 @@ it('leaves the resource keys out entirely when nothing is capped', function (): 
             return false;
         }
 
-        expect($request['HostConfig'])->not->toHaveKeys(['NanoCpus', 'Memory', 'MemoryReservation']);
+        expect($request['HostConfig'])->not->toHaveKeys(['NanoCpus', 'Memory', 'MemoryReservation', 'PidsLimit']);
 
         return true;
     });

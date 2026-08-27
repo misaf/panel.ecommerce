@@ -353,6 +353,7 @@ abstract class DockerCompatibleRuntime implements ContainerRuntime
             'NanoCpus'          => $limits?->nanoCpus(),
             'Memory'            => $limits?->memoryBytes(),
             'MemoryReservation' => $limits?->memoryReservationBytes(),
+            'PidsLimit'         => $limits?->pidsLimit,
         ], static fn(?int $value): bool => null !== $value);
     }
 
