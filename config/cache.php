@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Error;
 use ApiPlatform\Metadata\ErrorResource;
 use ApiPlatform\Metadata\Get;
@@ -143,6 +144,7 @@ return [
         // API Platform resource/property metadata (see comment above).
         ApiProperty::class,
         ApiResource::class,
+        Delete::class,
         Error::class,
         ErrorResource::class,
         Get::class,
