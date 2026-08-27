@@ -9,7 +9,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Number;
+use InvalidArgumentException;
 use Misaf\VendraOrder\Filament\Clusters\Resources\Orders\Pages\ListOrders;
 use Misaf\VendraOrder\Filament\Clusters\Resources\Orders\Pages\ViewOrder;
 use Misaf\VendraOrder\Filament\Clusters\Resources\Orders\RelationManagers\OrderLinesRelationManager;
@@ -72,6 +75,24 @@ final class OrderResource extends Resource
         return ['number', 'payment_reference'];
     }
 
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with('customer');
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $order = self::order($record);
+
+        return [
+            __('vendra-order::attributes.customer') => $order->customer_label ?? '—',
+            __('vendra-order::attributes.status')   => $order->status->getLabel(),
+        ];
+    }
+
     public static function form(Schema $schema): Schema
     {
         return OrderForm::configure($schema);
@@ -100,5 +121,14 @@ final class OrderResource extends Resource
             'index' => ListOrders::route('/'),
             'view'  => ViewOrder::route('/{record}'),
         ];
+    }
+
+    private static function order(Model $record): Order
+    {
+        if ( ! $record instanceof Order) {
+            throw new InvalidArgumentException('Order resources require an Order record.');
+        }
+
+        return $record;
     }
 }

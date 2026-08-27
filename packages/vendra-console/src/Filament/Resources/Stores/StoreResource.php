@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\VendraConsole\Filament\Resources\Stores;
 
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -12,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\CreateStore;
 use Misaf\VendraConsole\Filament\Resources\Stores\Pages\EditStore;
@@ -87,6 +89,23 @@ final class StoreResource extends Resource
 
         return [
             __('console.domain') => is_string($domainName) ? $domainName : '—',
+        ];
+    }
+
+    /**
+     * @return array<Action>
+     */
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        $store = self::store($record);
+
+        return [
+            Action::make('openAdmin')
+                ->label(__('console.admin_url'))
+                ->url(
+                    'https://' . $store->slug . '.' . Config::string('vendra-tenant.central_host'),
+                    shouldOpenInNewTab: true,
+                ),
         ];
     }
 
