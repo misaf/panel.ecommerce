@@ -56,6 +56,28 @@ because a Store is what plays the tenant role. Only records describing the Store
 itself — `store_domains`, `storefront_deployments` — name it outright with
 `store_id`, and those are owned here.
 
+### Store status
+
+A store's condition is spread over three columns, each written by a different
+concern: `provisioning_status` by the provisioner, `active` by an operator, and
+`billing_suspended_at` by subscription enforcement. `Store::status()` derives the
+one reading an operator wants — `StoreStatus::Pending`, `Provisioning`, `Active`,
+`Suspended` or `Failed` — and `Store::query()->withStatus(...)` is that same rule
+expressed as SQL. It is derived rather than stored, so no fourth column can drift
+out of step with the three that own it.
+
+A store also carries its own `locale`, `currency`, `timezone`, and a free-form
+`metadata` bag. Locale and timezone reach the tenancy engine through
+`TenantContract`, so a store keeps its own language and clock while it is
+current; leaving them null means "follow the platform". Store *settings* are the
+tenant-scoped `spatie/laravel-settings` rows, not a column here.
+
+Not every setting belongs to a store. `Settings\StoreCreationSettings` (group
+`store_creation`, `global` repository) says whether the platform is creating
+stores at all, and `Support\StoreCreationPolicy` is what both store-creating
+panels read. It lives here rather than in the console because
+`misaf/vendra-reseller` must honour the same rule and sits below the console.
+
 ## Configuration
 
 `config/vendra-store.php` describes what a storefront *is*. The runtime
@@ -71,10 +93,17 @@ STOREFRONT_PORT=3000
 STOREFRONT_HEALTH_PATH=/api/health
 STOREFRONT_HEALTH_TIMEOUT=120
 STOREFRONT_PULL=true
-STOREFRONT_BASE_DOMAIN=
+STOREFRONT_CPUS=0.5
+STOREFRONT_MEMORY_MB=512
+STOREFRONT_MEMORY_RESERVATION_MB=0
+STOREFRONT_BASE_DOMAIN
 STOREFRONT_API_URL=
 STOREFRONT_CERT_RESOLVER=
 ```
+
+Every storefront in the fleet is capped, because one busy storefront on a shared
+host is how the rest of them get slow. `0` or an empty value lifts that cap,
+which is what a single-store box wants.
 
 The platform does not create the network. The network, the reverse proxy, and
 the TLS material belong to whoever runs the estate; deployment fails with a
@@ -104,6 +133,22 @@ The console and the reseller panel both call this and differ only in which
 reseller they resolve, so the flow exists once. It creates the tenant, the owner
 user, and the administrator role, then queues the work that finishes
 provisioning.
+
+### Reassigning a store's owner
+
+```php
+use Misaf\VendraStore\Actions\AssignStoreOwnerAction;
+
+app(AssignStoreOwnerAction::class)->execute($store, $reseller);  // hand it over
+app(AssignStoreOwnerAction::class)->execute($store, null);       // take it back
+```
+
+The receiving owner gains a store, so this runs the same row lock and
+`StoreQuota` check as creating one, and throws `SubscriptionLimitException` when
+their plan is full. Re-selecting the owner a store already has is a no-op rather
+than a quota failure. The action names no reseller — the owner is a
+`SubscriptionSubscriber` — which is what keeps this package installable without
+`misaf/vendra-reseller`.
 
 ### Deploying a storefront
 
