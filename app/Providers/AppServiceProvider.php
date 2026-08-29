@@ -130,9 +130,8 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(StorefrontSettings::class, static fn(): StorefrontSettings => StorefrontSettings::fromConfig());
 
-        // The platform runs the storefront containers itself. The container
-        // runtime behind the provisioner is bound by vendra-container, which
-        // owns the engine endpoint and API version.
+        // The platform runs the storefront containers itself through the
+        // default driver managed by misaf/laravel-docker-engine.
         $this->app->bind(StorefrontProvisioner::class, ContainerStorefrontProvisioner::class);
     }
 

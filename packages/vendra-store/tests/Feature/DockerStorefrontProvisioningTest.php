@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Misaf\DockerEngine\Transport\Request;
 use Misaf\VendraStore\Contracts\StorefrontProvisioner;
 use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraStore\Jobs\ProvisionStorefrontJob;
@@ -71,7 +69,7 @@ function runProvisionJob(StorefrontDeployment $deployment, bool $force = false):
 }
 
 beforeEach(function (): void {
-    Config::set('vendra-container.endpoint', 'http://provisioner:8080');
+    Config::set('container.drivers.docker.host', 'http://provisioner:8080');
     Config::set('vendra-store.storefront.network', 'traefik-public');
     Config::set('vendra-store.storefront.pull', true);
     Config::set('vendra-store.storefront.base_domain', 'vendra.test');
@@ -93,12 +91,12 @@ it('creates and starts a storefront container and reports it ready', function ()
         ->and($result->reference)->toBe('vendra-storefront-acme-flowers')
         ->and($result->imageDigest)->toBe('sha256:abc123');
 
-    Http::assertSent(fn(Request $request): bool => 'POST' === $request->method()
-        && Str::contains($request->url(), '/containers/create')
-        && Str::contains($request->url(), 'name=vendra-storefront-acme-flowers'));
+    assertDockerRequestSent(fn(Request $request): bool => 'POST' === $request->method
+        && Str::contains($request->target(), '/containers/create')
+        && Str::contains($request->target(), 'name=vendra-storefront-acme-flowers'));
 
-    Http::assertSent(fn(Request $request): bool => 'POST' === $request->method()
-        && Str::contains($request->url(), '/containers/vendra-storefront-acme-flowers/start'));
+    assertDockerRequestSent(fn(Request $request): bool => 'POST' === $request->method
+        && Str::contains($request->target(), '/containers/vendra-storefront-acme-flowers/start'));
 });
 
 it('replaces the existing container so a redeploy is idempotent', function (): void {
@@ -106,9 +104,9 @@ it('replaces the existing container so a redeploy is idempotent', function (): v
 
     app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-    Http::assertSent(fn(Request $request): bool => 'DELETE' === $request->method()
-        && Str::contains($request->url(), '/containers/vendra-storefront-acme-flowers')
-        && Str::contains($request->url(), 'force=true'));
+    assertDockerRequestSent(fn(Request $request): bool => 'DELETE' === $request->method
+        && Str::contains($request->target(), '/containers/vendra-storefront-acme-flowers')
+        && Str::contains($request->target(), 'force=true'));
 });
 
 it('routes the container with traefik labels the proxy already understands', function (): void {
@@ -116,12 +114,12 @@ it('routes the container with traefik labels the proxy already understands', fun
 
     app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-    Http::assertSent(function (Request $request): bool {
-        if ( ! Str::contains($request->url(), '/containers/create')) {
+    assertDockerRequestSent(function (Request $request): bool {
+        if ( ! Str::contains($request->target(), '/containers/create')) {
             return false;
         }
 
-        $labels = $request->data()['Labels'];
+        $labels = $request->body['Labels'];
 
         return 'true' === $labels['traefik.enable']
             && 'traefik-public' === $labels['traefik.docker.network']
@@ -142,12 +140,12 @@ it('passes the encoded configuration and estate settings as container environmen
 
     app(StorefrontProvisioner::class)->provision($request);
 
-    Http::assertSent(function (Request $sent) use ($request): bool {
-        if ( ! Str::contains($sent->url(), '/containers/create')) {
+    assertDockerRequestSent(function (Request $sent) use ($request): bool {
+        if ( ! Str::contains($sent->target(), '/containers/create')) {
             return false;
         }
 
-        $data = $sent->data();
+        $data = $sent->body;
 
         return in_array('STOREFRONT_CONFIG_BASE64=' . $request->encodedConfiguration(), $data['Env'], true)
             && in_array('VENDRA_API_URL=https://api.vendra.test', $data['Env'], true)
@@ -208,7 +206,7 @@ it('refuses to invent a network the estate owns', function (): void {
     expect(fn() => app(StorefrontProvisioner::class)->provision(storefrontRequest()))
         ->toThrow(RuntimeException::class, 'does not exist');
 
-    Http::assertNotSent(fn(Request $request): bool => Str::contains($request->url(), '/containers/create'));
+    assertDockerRequestNotSent(fn(Request $request): bool => Str::contains($request->target(), '/containers/create'));
 });
 
 it('names the daemon it asked when a network is missing', function (): void {
@@ -227,14 +225,14 @@ it('blames the daemon rather than the network when the endpoint is serving the o
     fakeDockerEngine(networkExists: false, serverHeader: 'Libpod/5.8.6 (linux)');
 
     expect(fn() => app(StorefrontProvisioner::class)->provision(storefrontRequest()))
-        ->toThrow(RuntimeException::class, 'serving podman while CONTAINER_RUNTIME is set to docker');
+        ->toThrow(RuntimeException::class, 'serving podman while CONTAINER_DRIVER is set to docker');
 });
 
 it('does not blame the daemon when the engine is the configured one', function (): void {
     fakeDockerEngine(networkExists: false, serverHeader: 'Docker/29.7.2 (linux)');
 
     expect(fn() => app(StorefrontProvisioner::class)->provision(storefrontRequest()))
-        ->toThrow(fn(RuntimeException $exception) => expect($exception->getMessage())->not->toContain('CONTAINER_RUNTIME'));
+        ->toThrow(fn(RuntimeException $exception) => expect($exception->getMessage())->not->toContain('CONTAINER_DRIVER'));
 });
 
 it('rejects a configuration the storefront image would refuse to boot on', function (): void {
@@ -246,7 +244,7 @@ it('rejects a configuration the storefront image would refuse to boot on', funct
         'configuration' => $configuration,
     ])))->toThrow(InvalidArgumentException::class, 'businessType, contact.email');
 
-    Http::assertNothingSent();
+    assertNoDockerRequestsSent();
 });
 
 it('rejects a theme no published image carries', function (): void {
@@ -269,29 +267,30 @@ it('rejects a configuration whose identity drifted from the deployment', functio
 it('resolves the digest from the pulled image when the reference is only a tag', function (): void {
     $created = false;
 
-    Http::fake(function (Request $request) use (&$created) {
-        $path = (string) parse_url($request->url(), PHP_URL_PATH);
+    bindFakeDockerEngine(function (Request $request, bool $stream) use (&$created) {
+        $path = $request->path;
 
         if (Str::endsWith($path, '/containers/create')) {
             $created = true;
 
-            return Http::response(['Id' => 'container-abc'], 201);
+            return dockerResponse(['Id' => 'container-abc'], 201);
         }
 
         return match (true) {
-            Str::endsWith($path, '/_ping')                                        => Http::response('OK'),
-            Str::contains($path, '/networks/')                                    => Http::response(['Name' => 'traefik-public']),
-            Str::endsWith($path, '/images/create')                                => Http::response('{"status":"Pulled"}'),
-            Str::contains($path, '/images/')                                      => Http::response(['RepoDigests' => ['ghcr.io/misaf/vendra-storefront-florist@sha256:resolved']]),
-            Str::endsWith($path, '/start')                                        => Http::response('', 204),
+            Str::endsWith($path, '/_ping')                                        => dockerResponse('OK'),
+            Str::contains($path, '/networks/')                                    => dockerResponse(['Name' => 'traefik-public']),
+            Str::endsWith($path, '/images/create') && $stream                     => dockerStreamResponse("{\"status\":\"Pulled\"}\n"),
+            Str::contains($path, '/images/')                                      => dockerResponse(['RepoDigests' => ['ghcr.io/misaf/vendra-storefront-florist@sha256:resolved']]),
+            Str::endsWith($path, '/start')                                        => dockerResponse('', 204),
             Str::contains($path, '/containers/') && Str::endsWith($path, '/json') => $created
-                ? Http::response([
+                ? dockerResponse([
                     'Id'    => 'container-abc',
                     'Name'  => '/vendra-storefront-acme-flowers',
                     'State' => ['Status' => 'running', 'Health' => ['Status' => 'healthy']],
                 ])
-                : Http::response(['message' => 'no such container'], 404),
-            default => Http::response('', 404),
+                : dockerResponse(['message' => 'no such container'], 404),
+            'DELETE' === $request->method => dockerResponse(['message' => 'no such container'], 404),
+            default                       => $stream ? dockerStreamResponse('', 404) : dockerResponse('', 404),
         };
     });
 
@@ -303,14 +302,14 @@ it('resolves the digest from the pulled image when the reference is only a tag',
 });
 
 it('surfaces a pull failure reported inside the progress stream', function (): void {
-    Http::fake(function (Request $request) {
-        $path = (string) parse_url($request->url(), PHP_URL_PATH);
+    bindFakeDockerEngine(function (Request $request, bool $stream) {
+        $path = $request->path;
 
         return match (true) {
-            Str::endsWith($path, '/_ping')         => Http::response('OK'),
-            Str::contains($path, '/networks/')     => Http::response(['Name' => 'traefik-public']),
-            Str::endsWith($path, '/images/create') => Http::response("{\"status\":\"Pulling\"}\n{\"error\":\"manifest unknown\"}"),
-            default                                => Http::response('', 404),
+            Str::endsWith($path, '/_ping')                         => dockerResponse('OK'),
+            Str::contains($path, '/networks/')                     => dockerResponse(['Name' => 'traefik-public']),
+            Str::endsWith($path, '/images/create') && $stream      => dockerStreamResponse("{\"status\":\"Pulling\"}\n{\"error\":\"manifest unknown\"}\n"),
+            default                                                => $stream ? dockerStreamResponse('', 404) : dockerResponse('', 404),
         };
     });
 
@@ -327,12 +326,12 @@ describe('resource caps', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
-            $hostConfig = $request->data()['HostConfig'];
+            $hostConfig = $request->body['HostConfig'];
 
             return 500_000_000 === $hostConfig['NanoCpus']
                 && 536_870_912 === $hostConfig['Memory']
@@ -349,12 +348,12 @@ describe('resource caps', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
-            $hostConfig = $request->data()['HostConfig'];
+            $hostConfig = $request->body['HostConfig'];
 
             return ! array_key_exists('NanoCpus', $hostConfig)
                 && ! array_key_exists('Memory', $hostConfig)
@@ -367,12 +366,12 @@ describe('resource caps', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
-            return 512 === $request->data()['HostConfig']['PidsLimit'];
+            return 512 === $request->body['HostConfig']['PidsLimit'];
         });
     });
 
@@ -382,12 +381,12 @@ describe('resource caps', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
-            return 128 === $request->data()['HostConfig']['PidsLimit'];
+            return 128 === $request->body['HostConfig']['PidsLimit'];
         });
     });
 });
@@ -398,15 +397,15 @@ describe('podman compatibility', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
             return [
                 'Type'   => 'json-file',
                 'Config' => ['max-size' => '10m', 'max-file' => '5'],
-            ] === $request->data()['HostConfig']['LogConfig'];
+            ] === $request->body['HostConfig']['LogConfig'];
         });
     });
 
@@ -418,12 +417,12 @@ describe('podman compatibility', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
-            return ! array_key_exists('LogConfig', $request->data()['HostConfig']);
+            return ! array_key_exists('LogConfig', $request->body['HostConfig']);
         });
     });
 
@@ -434,30 +433,30 @@ describe('podman compatibility', function (): void {
 
         app(StorefrontProvisioner::class)->provision(storefrontRequest());
 
-        Http::assertSent(function (Request $request): bool {
-            if ( ! Str::contains($request->url(), '/containers/create')) {
+        assertDockerRequestSent(function (Request $request): bool {
+            if ( ! Str::contains($request->target(), '/containers/create')) {
                 return false;
             }
 
-            return ['Type' => 'k8s-file'] === $request->data()['HostConfig']['LogConfig'];
+            return ['Type' => 'k8s-file'] === $request->body['HostConfig']['LogConfig'];
         });
     });
 
-    it('separates an unsupported api version from an unreachable socket', function (): void {
-        Http::fake(function (Request $request) {
-            $path = (string) parse_url($request->url(), PHP_URL_PATH);
-
-            return Str::startsWith($path, '/v1.43')
-                ? Http::response(['message' => 'client version 1.43 is too new'], 400)
-                : Http::response('OK');
+    it('surfaces an API version rejected by the configured driver', function (): void {
+        bindFakeDockerEngine(function (Request $request, bool $stream) {
+            return $stream
+                ? dockerStreamResponse('', 500)
+                : dockerResponse(['message' => 'client version 1.55 is too new'], 400);
         });
 
         expect(fn() => app(StorefrontProvisioner::class)->provision(storefrontRequest()))
-            ->toThrow(RuntimeException::class, 'CONTAINER_API_VERSION');
+            ->toThrow(RuntimeException::class, 'client version 1.55 is too new');
     });
 
     it('reports an unreachable socket as unreachable', function (): void {
-        Http::fake(fn(): PromiseInterface => Http::response('', 500));
+        bindFakeDockerEngine(fn(Request $request, bool $stream) => $stream
+            ? dockerStreamResponse('', 500)
+            : dockerResponse(['message' => 'The container runtime is not reachable.'], 500));
 
         expect(fn() => app(StorefrontProvisioner::class)->provision(storefrontRequest()))
             ->toThrow(RuntimeException::class, 'is not reachable');

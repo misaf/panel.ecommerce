@@ -15,11 +15,11 @@ beforeEach(function (): void {
 
     // Container provisioning itself has its own file; this one covers the
     // configuration the platform builds and the commands that queue it.
-    Config::set('vendra-container.endpoint', 'unix:///var/run/docker.sock');
+    Config::set('container.drivers.docker.host', 'unix:///var/run/docker.sock');
 });
 
 it('keeps an unconfigured deployment pending instead of pretending it succeeded', function (): void {
-    Config::set('vendra-container.endpoint', '');
+    Config::set('container.drivers.docker.host', '');
     $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(
@@ -132,7 +132,7 @@ it('carries per-locale message overrides into the encoded configuration', functi
 });
 
 it('omits messages entirely when none are supplied', function (): void {
-    Config::set('vendra-container.endpoint', '');
+    Config::set('container.drivers.docker.host', '');
     $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute($tenant, 'acme.test', storefrontRequestData());
@@ -141,7 +141,7 @@ it('omits messages entirely when none are supplied', function (): void {
 });
 
 it('drops malformed message overrides rather than shipping a configuration the storefront rejects', function (): void {
-    Config::set('vendra-container.endpoint', '');
+    Config::set('container.drivers.docker.host', '');
     $tenant = createTestTenant();
 
     $deployment = app(RequestStorefrontDeploymentAction::class)->execute(

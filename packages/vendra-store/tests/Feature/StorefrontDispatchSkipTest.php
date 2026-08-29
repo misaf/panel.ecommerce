@@ -11,7 +11,7 @@ use Misaf\VendraStore\Jobs\ProvisionStorefrontJob;
 use Misaf\VendraStore\Models\StorefrontDeployment;
 
 beforeEach(function (): void {
-    Config::set('vendra-container.endpoint', 'unix:///var/run/docker.sock');
+    Config::set('container.drivers.docker.host', 'unix:///var/run/docker.sock');
 });
 
 /**

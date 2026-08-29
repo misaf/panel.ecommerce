@@ -2,10 +2,16 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Misaf\DockerEngine\ApiVersion;
+use Misaf\DockerEngine\DockerClient;
+use Misaf\DockerEngine\Transport\Request;
+use Misaf\DockerEngine\Transport\Response;
+use Misaf\DockerEngine\Transport\StreamResponse;
+use Misaf\LaravelDockerEngine\ContainerManager;
 use Misaf\VendraStore\Models\StorefrontImage;
+use Tests\Support\FakeDockerTransport;
+use Tests\Support\StringDockerStream;
 
 pest()->extend(Tests\TestCase::class)->in(
     'Feature',
@@ -26,20 +32,23 @@ pest()->extend(Tests\TestCase::class)->in(
  * long after this function has returned, and a returned array would be a copy.
  *
  * @param  array<string, mixed>          $state
- * @return object{calls: list<string>}
+ * @return object{calls: list<string>, transport: FakeDockerTransport}
  */
 function fakeExistingStorefront(
     array $state = ['Status' => 'running', 'Health' => ['Status' => 'healthy']],
     string $image = 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123',
     bool $present = true,
+    string $logs = '',
 ): object {
     $recorder = new class {
         /** @var list<string> */
         public array $calls = [];
+
+        public FakeDockerTransport $transport;
     };
 
-    Http::fake(function (Request $request) use ($state, $image, &$present, $recorder) {
-        $path = (string) parse_url($request->url(), PHP_URL_PATH);
+    $transport = bindFakeDockerEngine(function (Request $request, bool $stream) use ($state, $image, &$present, $logs, $recorder): Response|StreamResponse {
+        $path = $request->path;
 
         foreach (['/start', '/stop', '/restart', '/containers/create', '/images/create'] as $verb) {
             if (Str::endsWith($path, $verb)) {
@@ -47,8 +56,12 @@ function fakeExistingStorefront(
             }
         }
 
-        if ('DELETE' === $request->method() && Str::contains($path, '/containers/')) {
+        if ('DELETE' === $request->method && Str::contains($path, '/containers/')) {
             $recorder->calls[] = 'remove';
+        }
+
+        if (Str::endsWith($path, '/logs')) {
+            $recorder->calls[] = 'logs:' . rawurldecode((string) Str::of($path)->between('/containers/', '/logs'));
         }
 
         // A created container exists from then on, so a deployment can inspect
@@ -58,13 +71,15 @@ function fakeExistingStorefront(
         }
 
         return match (true) {
-            Str::endsWith($path, '/_ping')                                        => Http::response('OK'),
-            Str::contains($path, '/networks/')                                    => Http::response(['Name' => 'traefik-public']),
-            Str::endsWith($path, '/images/create')                                => Http::response('{"status":"Pulled"}'),
-            Str::endsWith($path, '/containers/create')                            => Http::response(['Id' => 'container-abc'], 201),
-            Str::endsWith($path, '/start'), Str::endsWith($path, '/stop')         => Http::response('', 204),
+            Str::endsWith($path, '/_ping')                                        => dockerResponse('OK'),
+            Str::contains($path, '/networks/')                                    => dockerResponse(['Name' => 'traefik-public', 'Driver' => 'bridge']),
+            Str::endsWith($path, '/images/create') && $stream                     => dockerStreamResponse("{\"status\":\"Pulled\"}\n"),
+            Str::endsWith($path, '/logs') && $stream                              => dockerStreamResponse(dockerLogFrames($logs)),
+            Str::endsWith($path, '/containers/create')                            => dockerResponse(['Id' => 'container-abc'], 201),
+            Str::endsWith($path, '/start'), Str::endsWith($path, '/stop'),
+            Str::endsWith($path, '/restart')                                      => dockerResponse('', 204),
             Str::contains($path, '/containers/') && Str::endsWith($path, '/json') => $present
-                ? Http::response([
+                ? dockerResponse([
                     'Id'     => 'container-abc',
                     'Name'   => '/vendra-storefront-acme-flowers',
                     'Config' => [
@@ -76,11 +91,13 @@ function fakeExistingStorefront(
                     ],
                     'State' => $state,
                 ])
-                : Http::response(['message' => 'no such container'], 404),
-            'DELETE' === $request->method() => Http::response('', 204),
-            default                         => Http::response('', 404),
+                : dockerResponse(['message' => 'no such container'], 404),
+            'DELETE' === $request->method  => dockerResponse('', 204),
+            default                        => $stream ? dockerStreamResponse('', 404) : dockerResponse('', 404),
         };
     });
+
+    $recorder->transport = $transport;
 
     return $recorder;
 }
@@ -94,32 +111,32 @@ function fakeExistingStorefront(
  *
  * @param array<string, mixed> $state
  */
-function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['Status' => 'healthy']], bool $networkExists = true, ?string $serverHeader = null): void
+function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['Status' => 'healthy']], bool $networkExists = true, ?string $serverHeader = null): FakeDockerTransport
 {
     $created = false;
 
-    Http::fake(function (Request $request) use ($state, $networkExists, $serverHeader, &$created) {
-        $path = (string) parse_url($request->url(), PHP_URL_PATH);
-        $method = $request->method();
+    return bindFakeDockerEngine(function (Request $request, bool $stream) use ($state, $networkExists, $serverHeader, &$created): Response|StreamResponse {
+        $path = $request->path;
+        $method = $request->method;
 
         if (Str::endsWith($path, '/containers/create')) {
             $created = true;
 
-            return Http::response(['Id' => 'container-abc'], 201);
+            return dockerResponse(['Id' => 'container-abc'], 201);
         }
 
         return match (true) {
-            Str::endsWith($path, '/_ping')     => Http::response('OK', headers: null === $serverHeader ? [] : ['Server' => $serverHeader]),
-            Str::contains($path, '/networks/') => Http::response(
-                $networkExists ? ['Name' => 'traefik-public'] : ['message' => 'network not found'],
+            Str::endsWith($path, '/_ping')     => dockerResponse('OK', headers: null === $serverHeader ? [] : ['Server' => [$serverHeader]]),
+            Str::contains($path, '/networks/') => dockerResponse(
+                $networkExists ? ['Name' => 'traefik-public', 'Driver' => 'bridge'] : ['message' => 'network not found'],
                 $networkExists ? 200 : 404,
             ),
-            Str::endsWith($path, '/images/create')                                => Http::response('{"status":"Pulled"}'),
+            Str::endsWith($path, '/images/create') && $stream                     => dockerStreamResponse("{\"status\":\"Pulled\"}\n"),
             Str::endsWith($path, '/start'),
             Str::endsWith($path, '/stop'),
-            Str::endsWith($path, '/restart')                                      => Http::response('', 204),
+            Str::endsWith($path, '/restart')                                      => dockerResponse('', 204),
             Str::contains($path, '/containers/') && Str::endsWith($path, '/json') => $created
-                ? Http::response([
+                ? dockerResponse([
                     'Id'     => 'container-abc',
                     'Name'   => '/vendra-storefront-acme-flowers',
                     'Config' => [
@@ -131,11 +148,76 @@ function fakeDockerEngine(array $state = ['Status' => 'running', 'Health' => ['S
                     ],
                     'State' => $state,
                 ])
-                : Http::response(['message' => 'no such container'], 404),
-            'DELETE' === $method => Http::response(['message' => 'no such container'], 404),
-            default              => Http::response('', 404),
+                : dockerResponse(['message' => 'no such container'], 404),
+            'DELETE' === $method => dockerResponse(['message' => 'no such container'], 404),
+            default              => $stream ? dockerStreamResponse('', 404) : dockerResponse('', 404),
         };
     });
+}
+
+/** @param Closure(Request, bool): (Response|StreamResponse) $handler */
+function bindFakeDockerEngine(Closure $handler): FakeDockerTransport
+{
+    $transport = new FakeDockerTransport($handler);
+    $manager = app(ContainerManager::class);
+
+    $manager->forgetDrivers();
+    $manager->extend('docker', static fn(): DockerClient => new DockerClient($transport, ApiVersion::V1_55));
+    currentFakeDockerEngine($transport);
+
+    return $transport;
+}
+
+function currentFakeDockerEngine(?FakeDockerTransport $transport = null): FakeDockerTransport
+{
+    static $current;
+
+    if ($transport instanceof FakeDockerTransport) {
+        $current = $transport;
+    }
+
+    return $current ?? throw new LogicException('No fake Docker Engine is currently bound.');
+}
+
+/** @param Closure(Request): bool $callback */
+function assertDockerRequestSent(Closure $callback): void
+{
+    expect(collect(currentFakeDockerEngine()->requests)->contains($callback))->toBeTrue();
+}
+
+/** @param Closure(Request): bool $callback */
+function assertDockerRequestNotSent(Closure $callback): void
+{
+    expect(collect(currentFakeDockerEngine()->requests)->contains($callback))->toBeFalse();
+}
+
+function assertNoDockerRequestsSent(): void
+{
+    expect(currentFakeDockerEngine()->requests)->toBe([]);
+}
+
+/**
+ * @param array<array-key, mixed>|string $body
+ * @param array<string, list<string>>    $headers
+ */
+function dockerResponse(array|string $body, int $status = 200, array $headers = []): Response
+{
+    return new Response(
+        $status,
+        $headers,
+        is_array($body) ? json_encode($body, JSON_THROW_ON_ERROR) : $body,
+    );
+}
+
+/** @param array<string, list<string>> $headers */
+function dockerStreamResponse(string $body, int $status = 200, array $headers = []): StreamResponse
+{
+    return new StreamResponse($status, $headers, new StringDockerStream($body));
+}
+
+function dockerLogFrames(string $output): string
+{
+    return '' === $output ? '' : chr(1) . "\0\0\0" . pack('N', mb_strlen($output, '8bit')) . $output;
 }
 
 /**

@@ -40,7 +40,7 @@ description: "Create, modify, review, or test the Vendra Store module in package
 - Deleting a store settles its storefront in `Observers\StoreObserver`, not in the caller: soft delete records `StorefrontDesiredState::Stopped` and queues `ReconcileStorefrontJob`; force delete queues `DestroyStorefrontJob`, addressed by slug because the deployment row is cascaded away first. `Actions\DeleteStoreAction` is the transactional entry point for a programmatic delete and no longer touches the runtime itself.
 - Two ownership columns, two mechanisms. Reusable domain packages own their rows through the **neutral `tenant_id`** and `Misaf\VendraSupport\Tenancy\BelongsToTenant`. Records describing the Store itself — `store_domains`, `storefront_deployments` — carry **`store_id`** and use `Concerns\BelongsToStore` / `Scopes\StoreScope`. Never add `store_id` to a reusable package's table, and never register a `store_id` table in the support `TenantTableRegistry`.
 - Ownership is optional and inverted: `stores.reseller_id` is a plain nullable indexed column, the owner is fetched through `Contracts\StoreOwnerResolver`, and `ProvisionStoreAction` / `CreateStorePage::resolveOwner()` take `(Model&SubscriptionSubscriber)|null`. A null owner is a store the console owns directly, not an error.
-- It depends on `misaf/vendra-container` for the runtime and on `misaf/vendra-tenant` for the tenancy engine it plugs its `Store` into. It must **not** depend on `misaf/vendra-reseller`: a store's billing owner is reached through `Contracts\StoreOwnerResolver`, which the reseller package binds. Keep the arrow pointing reseller → store.
+- It depends on `misaf/laravel-docker-engine` for driver-managed Engine access and on `misaf/vendra-tenant` for the tenancy engine it plugs its `Store` into. It must **not** depend on `misaf/vendra-reseller`: a store's billing owner is reached through `Contracts\StoreOwnerResolver`, which the reseller package binds. Keep the arrow pointing reseller → store.
 - Panels belong to their own packages. Put shared schemas, page bases, actions, and concerns here; put the panel-specific resource in `vendra-console` or `vendra-reseller`.
 
 ## Provisioner Contract
@@ -48,7 +48,7 @@ description: "Create, modify, review, or test the Vendra Store module in package
 - `provision`, `start`, `stop`, `restart`, `destroy`, `observe`, `logs` — typed value objects on both sides, never arrays.
 - Idempotence is part of the contract: provisioning twice leaves one storefront; starting a running one, stopping a stopped one, and destroying an absent one all succeed.
 - `observe()` returns a `StorefrontObservation` rich enough to tell "stopped" from "running the wrong image", and must never answer "absent" for an unreachable runtime.
-- `ContainerStorefrontProvisioner` builds its container through `Support\StorefrontContainerDefinitionFactory` after `Support\StorefrontConfigurationValidator` accepts the configuration. Anything Docker-shaped stops inside `misaf/vendra-container`.
+- `ContainerStorefrontProvisioner` builds its container through `Support\StorefrontContainerDefinitionFactory` after `Support\StorefrontConfigurationValidator` accepts the configuration. `Services\StorefrontContainerRuntime` resolves the selected Engine client through `ContainerManager`; no Docker or Podman CLI calls are allowed.
 
 ## Deployment Lifecycle
 
@@ -67,7 +67,7 @@ description: "Create, modify, review, or test the Vendra Store module in package
 
 ## Testing
 
-- Use `Misaf\VendraContainer\Testing\FakeContainerRuntime` rather than a real daemon; domain tests must not require Docker or Podman.
+- Use the shared `fakeDockerEngine()` transport helper, which registers a test driver through `ContainerManager`; domain tests must not require Docker or Podman.
 - Cover each lifecycle transition, including the illegal ones the enum rejects, and the retry path that must not mark a deployment `Failed` early.
 - Cover the tenancy side too: Store acting as the current tenant, host resolution, `store_id` scoping of store domains, and the ownership port defaulting to `Support\NullStoreOwnerResolver`.
 - Keep the architecture rules in `tests/ArchTest.php` asserting this package does not use `Misaf\VendraReseller` or `Misaf\VendraConsole`, and that actions, jobs and models stay behind the provisioning port.

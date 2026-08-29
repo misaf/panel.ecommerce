@@ -43,9 +43,6 @@
         <testsuite name="vendra-cart-api">
             <directory>packages/vendra-cart-api/tests</directory>
         </testsuite>
-        <testsuite name="vendra-container">
-            <directory>packages/vendra-container/tests</directory>
-        </testsuite>
         <testsuite name="vendra-console">
             <directory>packages/vendra-console/tests</directory>
         </testsuite>
@@ -174,8 +171,9 @@
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
         <!-- Pinned: the suite must not exercise whichever runtime a developer happens to have configured locally. -->
-        <env name="CONTAINER_RUNTIME" value="docker" force="true"/>
-        <env name="CONTAINER_ENDPOINT" value="unix:///var/run/docker.sock" force="true"/>
+        <env name="CONTAINER_DRIVER" value="docker" force="true"/>
+        <env name="DOCKER_HOST" value="http://provisioner:8080" force="true"/>
+        <env name="DOCKER_API_VERSION" value="1.55" force="true"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="MAIL_MAILER" value="array"/>

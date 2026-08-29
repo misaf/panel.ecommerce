@@ -7,8 +7,8 @@ return [
      | One store owns one storefront: a single container built from a
      | storefront image, carrying the labels the estate's reverse proxy
      | discovers. Everything here describes *what* should be deployed — how a
-     | container runtime is told to do it belongs to `vendra-container`, and the
-     | endpoint and API version are configured there.
+     | the runtime is told to do it belongs to `misaf/laravel-docker-engine`,
+     | whose selected driver owns the endpoint and API negotiation.
      */
     'storefront' => [
         /*

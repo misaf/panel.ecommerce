@@ -16,7 +16,7 @@ use Misaf\VendraStore\Models\StorefrontImage;
 const RECONCILE_IMAGE = 'ghcr.io/misaf/vendra-storefront-florist@sha256:abc123';
 
 beforeEach(function (): void {
-    Config::set('vendra-container.endpoint', 'unix:///var/run/docker.sock');
+    Config::set('container.drivers.docker.host', 'unix:///var/run/docker.sock');
     Config::set('vendra-store.storefront.network', 'traefik-public');
     // The redeploy paths run a real health gate; without a short budget an
     // unhealthy container is polled for the production default of two minutes.
@@ -167,7 +167,9 @@ it('never rewrites the intent it is converging towards', function (): void {
 });
 
 it('refuses to read an unreachable runtime as an absent storefront', function (): void {
-    Illuminate\Support\Facades\Http::fake(fn() => Illuminate\Support\Facades\Http::response('boom', 500));
+    bindFakeDockerEngine(fn($request, bool $stream) => $stream
+        ? dockerStreamResponse('', 500)
+        : dockerResponse(['message' => 'boom'], 500));
 
     expect(fn() => reconcile(reconcilable()))->toThrow(RuntimeException::class);
 });

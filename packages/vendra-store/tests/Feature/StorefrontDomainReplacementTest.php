@@ -68,7 +68,7 @@ it('rejects a domain another store already runs its storefront on', function ():
 
 it('still records the new domain when no container runtime is configured', function (): void {
     Queue::fake();
-    config()->set('vendra-container.endpoint', '');
+    config()->set('container.drivers.docker.host', '');
 
     $store = Store::factory()->create();
     StoreDomain::factory()->for($store)->create(['name' => 'old.test', 'active' => true]);

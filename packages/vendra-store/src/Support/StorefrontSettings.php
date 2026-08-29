@@ -6,7 +6,6 @@ namespace Misaf\VendraStore\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraContainer\ValueObjects\ResourceLimits;
 
 /**
  * The `vendra-store.storefront` block as an immutable, typed value.
@@ -18,7 +17,8 @@ use Misaf\VendraContainer\ValueObjects\ResourceLimits;
  * array and a private accessor triplet each.
  *
  * Note what is *not* here: the runtime endpoint and its API version. Those are
- * `vendra-container` settings, and a store does not know what a socket is.
+ * Laravel Docker Engine driver settings, and a storefront setting does not know
+ * what a socket is.
  */
 final class StorefrontSettings
 {
@@ -34,7 +34,7 @@ final class StorefrontSettings
         public readonly bool $pull,
         public readonly string $logDriver,
         public readonly array $logOptions,
-        public readonly ResourceLimits $resources,
+        public readonly StorefrontContainerResources $resources,
         public readonly string $baseDomain,
         public readonly string $apiUrl,
         public readonly string $certResolver,
@@ -118,12 +118,12 @@ final class StorefrontSettings
      *
      * @param array<array-key, mixed> $storefront
      */
-    private static function resources(array $storefront): ResourceLimits
+    private static function resources(array $storefront): StorefrontContainerResources
     {
         $cpus = Arr::get($storefront, 'cpus');
         $cpus = is_numeric($cpus) && (float) $cpus > 0 ? (float) $cpus : null;
 
-        return new ResourceLimits(
+        return new StorefrontContainerResources(
             cpus: $cpus,
             memoryMegabytes: self::optionalPositiveInteger($storefront, 'memory_megabytes'),
             memoryReservationMegabytes: self::optionalPositiveInteger($storefront, 'memory_reservation_megabytes'),

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\VendraStore\Enums;
 
-use Misaf\VendraContainer\Enums\ContainerHealth;
-use Misaf\VendraContainer\ValueObjects\ContainerInfo;
+use Misaf\VendraStore\Support\StorefrontContainer;
 
 /**
  * What is actually running for a storefront right now.
@@ -31,24 +30,24 @@ enum StorefrontRuntimeState: string
      * is a legitimate answer to a status question and the common one before a
      * first deployment.
      */
-    public static function fromContainer(?ContainerInfo $container): self
+    public static function fromContainer(?StorefrontContainer $container): self
     {
         if (null === $container) {
             return self::Absent;
         }
 
-        if ($container->state->hasStopped()) {
+        if ($container->hasStopped()) {
             return self::Stopped;
         }
 
         if ( ! $container->isRunning()) {
-            return match ($container->state->value) {
+            return match ($container->state) {
                 'created' => self::Created,
                 default   => self::Unknown,
             };
         }
 
-        return ContainerHealth::Unhealthy === $container->health
+        return 'unhealthy' === $container->health
             ? self::Unhealthy
             : self::Running;
     }

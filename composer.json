@@ -48,7 +48,8 @@
         "mcp/sdk": "^0.7",
         "misaf/filament-jalali": "^5.1.4",
         "misaf/laravel-authify-log": "^1.0.2",
-        "misaf/laravel-email-validation-emailable": "^1.0",
+        "misaf/laravel-docker-engine": "^1.0@dev",
+        "misaf/laravel-email-verification-emailable": "^1.0",
         "misaf/laravel-email-webhooks": "^1.0.1",
         "misaf/vendra-activity-log": "self.version",
         "misaf/vendra-address": "self.version",
@@ -63,7 +64,6 @@
         "misaf/vendra-cart": "self.version",
         "misaf/vendra-cart-api": "self.version",
         "misaf/vendra-console": "self.version",
-        "misaf/vendra-container": "self.version",
         "misaf/vendra-currency": "self.version",
         "misaf/vendra-custom-page": "self.version",
         "misaf/vendra-custom-page-api": "self.version",
@@ -142,6 +142,14 @@
     },
     "repositories": [
         {
+            "type": "git",
+            "url": "https://github.com/misaf/laravel-docker-engine.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/misaf/docker-engine-php.git"
+        },
+        {
             "type": "path",
             "url": "packages/*",
             "options": {
@@ -180,7 +188,6 @@
             "Misaf\\VendraCart\\Tests\\": "packages/vendra-cart/tests/",
             "Misaf\\VendraConsole\\Database\\Factories\\": "packages/vendra-console/database/factories/",
             "Misaf\\VendraConsole\\Tests\\": "packages/vendra-console/tests/",
-            "Misaf\\VendraContainer\\Tests\\": "packages/vendra-container/tests/",
             "Misaf\\VendraCurrency\\Database\\Factories\\": "packages/vendra-currency/database/factories/",
             "Misaf\\VendraCurrency\\Tests\\": "packages/vendra-currency/tests/",
             "Misaf\\VendraCustomPageApi\\Tests\\": "packages/vendra-custom-page-api/tests/",

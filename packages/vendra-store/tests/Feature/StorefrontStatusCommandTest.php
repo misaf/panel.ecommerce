@@ -3,23 +3,17 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Config;
-use Misaf\VendraContainer\Contracts\ContainerRuntime;
-use Misaf\VendraContainer\Testing\FakeContainerRuntime;
 use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraStore\Enums\StorefrontDesiredState;
 use Misaf\VendraStore\Models\StorefrontDeployment;
 
 beforeEach(function (): void {
-    Config::set('vendra-container.endpoint', 'unix:///var/run/docker.sock');
+    Config::set('container.drivers.docker.host', 'unix:///var/run/docker.sock');
 });
 
-function storefrontStatusRuntime(): FakeContainerRuntime
+function storefrontStatusRuntime(bool $present = false): object
 {
-    $runtime = new FakeContainerRuntime();
-
-    app()->instance(ContainerRuntime::class, $runtime);
-
-    return $runtime;
+    return fakeExistingStorefront(present: $present);
 }
 
 it('reports only what the database recorded by default', function (): void {
@@ -29,7 +23,7 @@ it('reports only what the database recorded by default', function (): void {
 
     $this->artisan('storefront:status')->assertSuccessful();
 
-    expect($runtime->calls)->toBeEmpty();
+    expect($runtime->transport->requests)->toBeEmpty();
 });
 
 it('asks the runtime what it actually has when told to', function (): void {
@@ -40,7 +34,7 @@ it('asks the runtime what it actually has when told to', function (): void {
         'container_name' => 'vendra-storefront-acme-flowers',
     ]);
 
-    storefrontStatusRuntime()->withRunningContainer('vendra-storefront-acme-flowers');
+    storefrontStatusRuntime(present: true);
 
     $this->artisan('storefront:status --runtime')
         ->doesntExpectOutputToContain('The runtime has no container for')
@@ -48,7 +42,7 @@ it('asks the runtime what it actually has when told to', function (): void {
 });
 
 /*
- | Changing CONTAINER_RUNTIME or CONTAINER_ENDPOINT leaves the previous daemon's
+ | Changing CONTAINER_DRIVER or DOCKER_HOST leaves the previous daemon's
  | containers running, unmanaged and invisible, while every deployment row still
  | reads as ready. Absent-but-wanted is the only symptom available, so it is
  | reported as a failure rather than printed in a column and left to be noticed.
@@ -85,7 +79,9 @@ it('does not report a storefront that is absent because it is meant to be', func
 it('still prints the recorded state when the runtime will not answer', function (): void {
     StorefrontDeployment::factory()->create(['slug' => 'acme-flowers']);
 
-    storefrontStatusRuntime()->unreachable();
+    bindFakeDockerEngine(fn($request, bool $stream) => $stream
+        ? dockerStreamResponse('', 500)
+        : dockerResponse(['message' => 'The fake runtime is configured as unreachable.'], 500));
 
     $this->artisan('storefront:status --runtime')
         ->expectsOutputToContain('acme-flowers')

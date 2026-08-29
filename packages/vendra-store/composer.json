@@ -27,7 +27,7 @@
         "illuminate/database": "^13.0",
         "illuminate/support": "^13.0",
         "laravel/pennant": "^1.24",
-        "misaf/vendra-container": "self.version",
+        "misaf/laravel-docker-engine": "^1.0@dev",
         "misaf/vendra-permission": "self.version",
         "misaf/vendra-subscription": "self.version",
         "misaf/vendra-support": "self.version",

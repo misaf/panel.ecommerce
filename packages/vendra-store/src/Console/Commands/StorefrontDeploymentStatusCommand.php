@@ -107,7 +107,7 @@ final class StorefrontDeploymentStatusCommand extends Command
      * Say plainly when the runtime has nothing for a storefront it should have.
      *
      * The common cause is not a container that died but a daemon that changed:
-     * switching CONTAINER_RUNTIME or CONTAINER_ENDPOINT leaves the old
+     * switching CONTAINER_DRIVER or its configured host leaves the old
      * containers running on the old daemon, invisible and unmanaged, while every
      * deployment row reads as though it were fine.
      *

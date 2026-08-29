@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
-use Misaf\VendraContainer\Support\ContainerRuntimeConfiguration;
 use Misaf\VendraStore\Enums\StorefrontDeploymentStatus;
 use Misaf\VendraStore\Enums\StorefrontDesiredState;
 use Misaf\VendraStore\Jobs\ProvisionStorefrontJob;
@@ -17,6 +16,7 @@ use Misaf\VendraStore\Models\StorefrontDeployment;
 use Misaf\VendraStore\Models\StorefrontImage;
 use Misaf\VendraStore\Support\StorefrontConfigurationMap;
 use Misaf\VendraStore\Support\StorefrontConfigurationValidator;
+use Misaf\VendraStore\Support\StorefrontRuntimeConfiguration;
 
 /**
  * Records that a store should have a storefront, and asks for it to be built.
@@ -28,7 +28,7 @@ use Misaf\VendraStore\Support\StorefrontConfigurationValidator;
  */
 final class RequestStorefrontDeploymentAction
 {
-    public function __construct(private readonly ContainerRuntimeConfiguration $runtime) {}
+    public function __construct(private readonly StorefrontRuntimeConfiguration $runtime) {}
 
     /**
      * @param array<string, mixed> $form

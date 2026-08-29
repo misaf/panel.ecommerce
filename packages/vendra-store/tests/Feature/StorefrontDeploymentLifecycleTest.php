@@ -14,7 +14,7 @@ use Misaf\VendraStore\Support\StorefrontConfigurationMap;
 
 beforeEach(function (): void {
     Queue::fake();
-    Config::set('vendra-container.endpoint', 'unix:///var/run/docker.sock');
+    Config::set('container.drivers.docker.host', 'unix:///var/run/docker.sock');
 });
 
 describe('the form-to-configuration map', function (): void {

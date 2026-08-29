@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\Events\UniqueJobSkipped;
 use Illuminate\Support\Facades\Event;
-use Misaf\VendraContainer\Support\ContainerRuntimeConfiguration;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Support\StorefrontRuntimeConfiguration;
 
 /**
  * Shared body of the commands that push storefront deployments back through
@@ -26,7 +26,7 @@ use Misaf\VendraStore\Models\StorefrontDeployment;
  */
 abstract class StorefrontDeploymentDispatchCommand extends Command
 {
-    public function handle(ContainerRuntimeConfiguration $runtime): int
+    public function handle(StorefrontRuntimeConfiguration $runtime): int
     {
         if ( ! $runtime->isConfigured()) {
             $this->error($runtime->misconfigurationMessage());

@@ -54,11 +54,9 @@ x-platform-environment: &platform-environment
   APP_MAINTENANCE_DRIVER: "${APP_MAINTENANCE_DRIVER:-cache}"
   APP_MAINTENANCE_STORE: "${APP_MAINTENANCE_STORE:-redis}"
   SETTINGS_CACHE_ENABLED: "${SETTINGS_CACHE_ENABLED:-true}"
-  CONTAINER_RUNTIME: "${CONTAINER_RUNTIME:-docker}"
-  CONTAINER_ENDPOINT: unix:///var/run/docker.sock
-  CONTAINER_API_VERSION: "${CONTAINER_API_VERSION:-}"
-  CONTAINER_TIMEOUT: "${CONTAINER_TIMEOUT:-60}"
-  CONTAINER_PULL_TIMEOUT: "${CONTAINER_PULL_TIMEOUT:-600}"
+  CONTAINER_DRIVER: "${CONTAINER_RUNTIME:-docker}"
+  DOCKER_HOST: unix:///var/run/docker.sock
+  PODMAN_HOST: unix:///var/run/docker.sock
   STOREFRONT_NETWORK: "${STOREFRONT_NETWORK:-traefik-public}"
   STOREFRONT_PULL: "${STOREFRONT_PULL:-true}"
   STOREFRONT_PORT: "${STOREFRONT_PORT:-3000}"
@@ -159,8 +157,8 @@ services:
     volumes:
       - "storage-data:/app/storage/app"
       # Whatever the host socket is, it is always mounted at the Docker path, so
-      # the CONTAINER_ENDPOINT set above is the same on either runtime.
-      # CONTAINER_RUNTIME there selects the adapter.
+      # DOCKER_HOST and PODMAN_HOST above both point at this mounted socket;
+      # CONTAINER_DRIVER selects the Laravel Docker Engine driver.
       - "${CONTAINER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock"
     networks: [internal]
     labels: []

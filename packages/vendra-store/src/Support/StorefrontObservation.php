@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Misaf\VendraStore\Support;
 
-use Misaf\VendraContainer\ValueObjects\ContainerInfo;
 use Misaf\VendraStore\Enums\StorefrontRuntimeState;
 
 /**
@@ -29,7 +28,7 @@ final class StorefrontObservation
      * A null container is Absent rather than an error: "there is nothing there"
      * is the honest answer before a first deployment.
      */
-    public static function fromContainer(?ContainerInfo $container): self
+    public static function fromContainer(?StorefrontContainer $container): self
     {
         return new self(
             state: StorefrontRuntimeState::fromContainer($container),

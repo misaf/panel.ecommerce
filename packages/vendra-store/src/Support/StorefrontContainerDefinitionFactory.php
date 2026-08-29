@@ -5,14 +5,6 @@ declare(strict_types=1);
 namespace Misaf\VendraStore\Support;
 
 use JsonException;
-use Misaf\VendraContainer\ValueObjects\ContainerDefinition;
-use Misaf\VendraContainer\ValueObjects\EnvironmentVariable;
-use Misaf\VendraContainer\ValueObjects\HealthCheck;
-use Misaf\VendraContainer\ValueObjects\ImageReference;
-use Misaf\VendraContainer\ValueObjects\LogConfiguration;
-use Misaf\VendraContainer\ValueObjects\PortBinding;
-use Misaf\VendraContainer\ValueObjects\RestartPolicy;
-use Misaf\VendraContainer\ValueObjects\VolumeMount;
 
 /**
  * Turns a storefront deployment request plus the estate's settings into the
@@ -25,8 +17,8 @@ use Misaf\VendraContainer\ValueObjects\VolumeMount;
  * constructed with.
  *
  * What it deliberately does not do is speak Docker. Nanoseconds, `KEY=VALUE`
- * environment strings, and the Engine's port keys live in `vendra-container`;
- * this names a health check, an environment map, and a port.
+ * the Engine's payload shape is kept inside the storefront runtime adapter;
+ * callers above this factory still name only storefront concerns.
  */
 final class StorefrontContainerDefinitionFactory
 {
@@ -60,21 +52,21 @@ final class StorefrontContainerDefinitionFactory
     /**
      * @throws JsonException
      */
-    public function build(StorefrontProvisionRequest $request): ContainerDefinition
+    public function build(StorefrontProvisionRequest $request): StorefrontContainerDefinition
     {
         $port = $this->settings->port;
 
-        return new ContainerDefinition(
+        return new StorefrontContainerDefinition(
             name: $this->settings->containerName($request->slug),
-            image: new ImageReference($request->image),
-            environment: EnvironmentVariable::collection($this->environment($request)),
+            image: $request->image,
+            environment: $this->environment($request),
             labels: $this->labels($request->slug, $request->domain, $port),
-            ports: [new PortBinding($port)],
-            volumes: $this->volumes(),
-            networks: [$this->settings->network],
+            port: $port,
+            binds: $this->volumes(),
+            network: $this->settings->network,
             healthCheck: $this->healthCheck($port),
-            restartPolicy: RestartPolicy::unlessStopped(),
-            logConfiguration: new LogConfiguration($this->settings->logDriver, $this->settings->logOptions),
+            logDriver: $this->settings->logDriver,
+            logOptions: $this->settings->logOptions,
             resources: $this->settings->resources,
             securityOptions: ['no-new-privileges:true'],
         );
@@ -150,7 +142,8 @@ final class StorefrontContainerDefinitionFactory
         return $labels;
     }
 
-    private function healthCheck(int $port): HealthCheck
+    /** @return list<string> */
+    private function healthCheck(int $port): array
     {
         $probe = sprintf(
             "fetch('http://127.0.0.1:%d%s').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
@@ -158,22 +151,16 @@ final class StorefrontContainerDefinitionFactory
             $this->settings->healthPath,
         );
 
-        return new HealthCheck(
-            test: ['CMD', 'node', '-e', $probe],
-            intervalSeconds: 10,
-            timeoutSeconds: 3,
-            retries: 12,
-            startPeriodSeconds: 15,
-        );
+        return ['CMD', 'node', '-e', $probe];
     }
 
     /**
-     * @return list<VolumeMount>
+     * @return list<string>
      */
     private function volumes(): array
     {
         $certificates = $this->settings->certificatesPath;
 
-        return '' === $certificates ? [] : [VolumeMount::readOnly($certificates, '/certs')];
+        return '' === $certificates ? [] : [sprintf('%s:/certs:ro', $certificates)];
     }
 }

@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace Misaf\VendraStore\Services;
 
-use Misaf\VendraContainer\Contracts\ContainerRuntime;
-use Misaf\VendraContainer\Exceptions\ContainerRuntimeException;
-use Misaf\VendraContainer\Support\ContainerHealthGate;
-use Misaf\VendraContainer\ValueObjects\ContainerId;
-use Misaf\VendraContainer\ValueObjects\ContainerInfo;
-use Misaf\VendraContainer\ValueObjects\ImageReference;
-use Misaf\VendraContainer\ValueObjects\RuntimeStatus;
 use Misaf\VendraStore\Contracts\StorefrontProvisioner;
 use Misaf\VendraStore\Support\StorefrontConfigurationValidator;
+use Misaf\VendraStore\Support\StorefrontContainer;
 use Misaf\VendraStore\Support\StorefrontContainerDefinitionFactory;
 use Misaf\VendraStore\Support\StorefrontObservation;
 use Misaf\VendraStore\Support\StorefrontProvisionRequest;
 use Misaf\VendraStore\Support\StorefrontProvisionResult;
 use Misaf\VendraStore\Support\StorefrontReference;
+use Misaf\VendraStore\Support\StorefrontRuntimeStatus;
 use Misaf\VendraStore\Support\StorefrontSettings;
 use RuntimeException;
 
@@ -25,10 +20,9 @@ use RuntimeException;
  * Runs each storefront as one container, through whichever runtime is bound.
  *
  * This class is the whole of the store layer's knowledge about containers,
- * and even that is second-hand: it composes a {@see ContainerDefinition} and
- * hands it to {@see ContainerRuntime}. It has no idea whether Docker or Podman
- * answered, because the difference is a binding in `vendra-container` and not a
- * branch anywhere.
+ * It composes a storefront-specific definition and hands it to the runtime
+ * adapter backed by `misaf/laravel-docker-engine`. Docker and Podman selection
+ * stays in that package's Laravel Manager configuration.
  *
  * The platform owns the storefront containers and nothing around them. The
  * network, the reverse proxy, and the TLS material belong to whoever runs the
@@ -39,8 +33,8 @@ use RuntimeException;
 final class ContainerStorefrontProvisioner implements StorefrontProvisioner
 {
     public function __construct(
-        private readonly ContainerRuntime $runtime,
-        private readonly ContainerHealthGate $healthGate,
+        private readonly StorefrontContainerRuntime $runtime,
+        private readonly StorefrontContainerHealthGate $healthGate,
         private readonly StorefrontConfigurationValidator $validator,
         private readonly StorefrontContainerDefinitionFactory $definitions,
         private readonly StorefrontSettings $settings,
@@ -64,38 +58,38 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
          | at least the encoded configuration. Removing first is also what makes
          | this idempotent, which reconciliation and retry both depend on.
          */
-        $this->assertPlatformOwned($definition->id());
-        $this->runtime->remove($definition->id());
+        $this->assertPlatformOwned($definition->name);
+        $this->runtime->remove($definition->name);
         $this->runtime->create($definition);
-        $this->runtime->start($definition->id());
+        $this->runtime->start($definition->name);
 
-        $ready = $this->healthGate->awaitDefinition($this->runtime, $definition, $this->settings->healthTimeout);
+        $ready = $this->healthGate->await($definition, $this->settings->healthTimeout);
 
         return StorefrontProvisionResult::make(
             ready: $ready,
             reference: $definition->name,
-            imageDigest: $this->digest($definition->image),
+            imageDigest: $this->runtime->imageDigest($definition->image),
         );
     }
 
     public function start(StorefrontReference $storefront): void
     {
-        $this->runtime->start($this->containerId($storefront));
+        $this->runtime->start($this->containerName($storefront));
     }
 
     public function stop(StorefrontReference $storefront): void
     {
-        $this->runtime->stop($this->containerId($storefront));
+        $this->runtime->stop($this->containerName($storefront));
     }
 
     public function restart(StorefrontReference $storefront): void
     {
-        $this->runtime->restart($this->containerId($storefront));
+        $this->runtime->restart($this->containerName($storefront));
     }
 
     public function destroy(StorefrontReference $storefront): void
     {
-        $container = $this->containerId($storefront);
+        $container = $this->containerName($storefront);
 
         $this->assertPlatformOwned($container);
         $this->runtime->remove($container);
@@ -115,18 +109,18 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
         $this->assertRuntimeReachable();
 
         return StorefrontObservation::fromContainer(
-            $this->runtime->find($this->containerId($storefront)),
+            $this->runtime->find($this->containerName($storefront)),
         );
     }
 
     public function logs(StorefrontReference $storefront, int $lines = 200): string
     {
-        return $this->runtime->logs($this->containerId($storefront), $lines)->output;
+        return $this->runtime->logs($this->containerName($storefront), $lines);
     }
 
-    private function containerId(StorefrontReference $storefront): ContainerId
+    private function containerName(StorefrontReference $storefront): string
     {
-        return new ContainerId($this->settings->containerName($storefront->slug));
+        return $this->settings->containerName($storefront->slug);
     }
 
     /**
@@ -135,9 +129,9 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
      * `ping()` reports rather than throws, so the message an operator sees names
      * the endpoint and whether it was the API version that was refused.
      */
-    private function assertRuntimeReachable(): RuntimeStatus
+    private function assertRuntimeReachable(): StorefrontRuntimeStatus
     {
-        $status = $this->runtime->ping();
+        $status = $this->runtime->status();
 
         if ( ! $status->reachable) {
             throw new RuntimeException($status->message ?? 'The container runtime is not reachable.');
@@ -156,7 +150,7 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
      * out because it is the likeliest way to arrive here with the network sitting
      * in front of you on the other runtime.
      */
-    private function assertNetworkExists(RuntimeStatus $status): void
+    private function assertNetworkExists(StorefrontRuntimeStatus $status): void
     {
         if (null !== $this->runtime->findNetwork($this->settings->network)) {
             return;
@@ -171,10 +165,10 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
 
         if ($status->engineMismatch()) {
             $message .= sprintf(
-                ' That endpoint is serving %s while CONTAINER_RUNTIME is set to %s, so this may be the wrong daemon '
+                ' That endpoint is serving %s while CONTAINER_DRIVER is set to %s, so this may be the wrong daemon '
                 . 'rather than a missing network.',
-                $status->reportedEngine()?->value,
-                $status->runtime,
+                $status->reportedEngine(),
+                $status->driver,
             );
         }
 
@@ -189,7 +183,7 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
      * somebody else's container because it happened to answer to the name we
      * wanted is not a recoverable mistake, so ownership is checked first.
      */
-    private function assertPlatformOwned(ContainerId $container): void
+    private function assertPlatformOwned(string $container): void
     {
         $existing = $this->runtime->find($container);
 
@@ -204,33 +198,11 @@ final class ContainerStorefrontProvisioner implements StorefrontProvisioner
         ));
     }
 
-    private function isPlatformOwned(ContainerInfo $container): bool
+    private function isPlatformOwned(StorefrontContainer $container): bool
     {
         return $container->hasLabel(
             StorefrontContainerDefinitionFactory::MANAGED_BY_LABEL,
             StorefrontContainerDefinitionFactory::MANAGED_BY,
         );
-    }
-
-    /**
-     * Resolve the digest actually deployed.
-     *
-     * A pinned reference already carries it. Otherwise the pulled image is
-     * inspected, so a tag-based deployment still records exactly what ran — which
-     * a reference alone cannot tell you once the tag moves.
-     */
-    private function digest(ImageReference $image): ?string
-    {
-        if ($image->isPinned()) {
-            return $image->digest;
-        }
-
-        try {
-            return $this->runtime->inspectImage($image)?->digest;
-        } catch (ContainerRuntimeException) {
-            // A missing digest is not worth failing a deployment that is already
-            // running; the reference is still recorded.
-            return null;
-        }
     }
 }

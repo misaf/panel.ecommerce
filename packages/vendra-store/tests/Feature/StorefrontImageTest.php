@@ -11,7 +11,7 @@ use Misaf\VendraStore\Support\StorefrontProvisionRequest;
 
 beforeEach(function (): void {
     Queue::fake();
-    Config::set('vendra-container.endpoint', '');
+    Config::set('container.drivers.docker.host', '');
 });
 
 it('stores the selected image and derives provisioning data from its catalog entry', function (): void {

@@ -19,7 +19,7 @@ never mentions containers — the shipped implementation happens to use them.
 - PHP 8.4+
 - Laravel 13
 - Filament 5
-- `misaf/vendra-container` for the shipped provisioner, plus `misaf/vendra-tenant`,
+- `misaf/laravel-docker-engine` for the shipped provisioner, plus `misaf/vendra-tenant`,
   `misaf/vendra-subscription`, `misaf/vendra-permission`, `misaf/vendra-user`
   and `misaf/vendra-support`
 
@@ -80,8 +80,9 @@ panels read. It lives here rather than in the console because
 
 ## Configuration
 
-`config/vendra-store.php` describes what a storefront *is*. The runtime
-endpoint and API version are not here — they belong to `misaf/vendra-container`.
+`config/vendra-store.php` describes what a storefront *is*. Runtime drivers,
+endpoints, API negotiation, TLS, and timeouts belong to
+`misaf/laravel-docker-engine` and its `config/container.php`.
 Storefront container images and their supported themes are records in
 `storefront_images`, managed by the console. Each deployment references the
 selected record, so different stores can run different approved builds.
@@ -247,8 +248,9 @@ the store's billing owner.
 
 ## Testing
 
-Use `Misaf\VendraContainer\Testing\FakeContainerRuntime`; no test here should
-need a real daemon.
+Use the shared `fakeDockerEngine()` transport helper; it registers an SDK-backed
+test driver through `Misaf\LaravelDockerEngine\ContainerManager`, so no test here
+needs a real daemon.
 
 ```bash
 php artisan test --compact --testsuite=vendra-store

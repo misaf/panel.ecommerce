@@ -7,16 +7,16 @@ namespace Misaf\VendraStore\Actions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Misaf\VendraContainer\Support\ContainerRuntimeConfiguration;
 use Misaf\VendraStore\Jobs\ProvisionStorefrontJob;
 use Misaf\VendraStore\Models\Store;
 use Misaf\VendraStore\Models\StoreDomain;
 use Misaf\VendraStore\Models\StorefrontDeployment;
+use Misaf\VendraStore\Support\StorefrontRuntimeConfiguration;
 use UnexpectedValueException;
 
 final class ReplaceStoreDomainAction
 {
-    public function __construct(private readonly ContainerRuntimeConfiguration $runtime) {}
+    public function __construct(private readonly StorefrontRuntimeConfiguration $runtime) {}
 
     /**
      * Replace a store's active domain, retaining the previous one as history.

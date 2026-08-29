@@ -18,6 +18,7 @@ use Misaf\VendraStore\Observers\StoreDomainObserver;
 use Misaf\VendraStore\Services\ContainerStorefrontProvisioner;
 use Misaf\VendraStore\Services\StoreDomainFinder;
 use Misaf\VendraStore\Support\NullStoreOwnerResolver;
+use Misaf\VendraStore\Support\StorefrontRuntimeConfiguration;
 use Misaf\VendraStore\Support\StorefrontSettings;
 use Misaf\VendraTenant\Contracts\HostTenantFinder;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -57,8 +58,9 @@ final class StoreServiceProvider extends PackageServiceProvider
          | resolve rather than frozen at first use.
          */
         $this->app->bind(StorefrontSettings::class, static fn(): StorefrontSettings => StorefrontSettings::fromConfig());
+        $this->app->bind(StorefrontRuntimeConfiguration::class, static fn(): StorefrontRuntimeConfiguration => StorefrontRuntimeConfiguration::fromConfig());
 
-        // One container per storefront, through whichever runtime vendra-container binds.
+        // One container per storefront, through the configured Laravel Docker Engine driver.
         $this->app->bind(StorefrontProvisioner::class, ContainerStorefrontProvisioner::class);
 
         /*

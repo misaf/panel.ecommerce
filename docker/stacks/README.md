@@ -121,9 +121,9 @@ CONTAINER_SOCKET=/run/user/1000/podman/podman.sock   # rootless
 
 `bin/vendra` drives `$CONTAINER_RUNTIME compose|network|ps|inspect|logs`, and the
 socket is mounted into `storefront-worker` at the Docker path either way, so the
-container's `CONTAINER_ENDPOINT` is always `unix:///var/run/docker.sock`. What does
-change is `CONTAINER_RUNTIME`, which is passed through to the platform so it
-selects the matching adapter and the Engine API version that runtime accepts.
+container's `DOCKER_HOST` and `PODMAN_HOST` are both
+`unix:///var/run/docker.sock`. Compose maps `CONTAINER_RUNTIME` to the platform's
+`CONTAINER_DRIVER`, which selects the matching Laravel Docker Engine driver.
 
 Rootless Podman is the safer choice, and it is the one thing that changes the
 security story of this estate: the socket that container holds stops being
