@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Misaf\VendraConsole\Filament\Resources\Stores\Pages;
+namespace Misaf\VendraReseller\Filament\Resources\Stores\Pages;
 
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
-use Misaf\VendraConsole\Filament\Resources\Stores\StoreResource;
+use Misaf\VendraReseller\Filament\Resources\Stores\StoreResource;
 
 final class EditStore extends EditRecord
 {
